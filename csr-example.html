@@ -1,0 +1,79 @@
+<!DOCTYPE html> <!-- // Khai báo loại tài liệu HTML5 -->
+<html lang="vi"> <!-- // Đặt ngôn ngữ cho trang là tiếng Việt -->
+<head>
+    <meta charset="UTF-8"> <!-- // Đặt bảng mã là UTF-8 để hỗ trợ ký tự tiếng Việt -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- // Tối ưu hiển thị trên thiết bị di động -->
+    <title>CSR Example - Client Side Rendering</title> <!-- // Tiêu đề trang -->
+
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* // Font chữ chính */
+            margin: 20px; /* // Lề xung quanh */
+        }
+        .loading {
+            color: #666;           /* // Màu chữ xám nhạt */
+            font-style: italic;    /* // Chữ nghiêng */
+        }
+        .user-card {
+            border: 1px solid #ddd;     /* // Viền mỏng màu xám */
+            padding: 15px;              /* // Khoảng cách bên trong */
+            margin: 10px 0;             /* // Khoảng cách giữa các thẻ */
+            border-radius: 5px;         /* // Bo góc */
+        }
+    </style>
+</head>
+<body>
+    <h1>CSR Example - Danh sách người dùng</h1>
+
+    <!-- // Đây là khối chứa nội dung sẽ được thay đổi bằng JavaScript -->
+    <div id="app">
+        <div class="loading">Đang tải dữ liệu...</div> <!-- // Hiển thị khi chưa có dữ liệu -->
+    </div>
+
+    <script>
+        // Hàm bất đồng bộ để gọi dữ liệu từ API
+        async function fetchUsers() {
+            try {
+                // Gọi đến API JSON giả lập để lấy danh sách người dùng
+                const response = await fetch('https://jsonplaceholder.typicode.com/users');
+                
+                // Chuyển dữ liệu từ JSON thành object JavaScript
+                const users = await response.json();
+                
+                // Gọi hàm hiển thị dữ liệu ra màn hình
+                renderUsers(users);
+            } catch (error) {
+                // Nếu có lỗi khi gọi API, hiển thị thông báo lỗi lên trang
+                document.getElementById('app').innerHTML = '<p>Lỗi khi tải dữ liệu</p>';
+            }
+        }
+
+        // Hàm để render danh sách người dùng ra HTML
+        function renderUsers(users) {
+            const appDiv = document.getElementById('app'); // // Lấy thẻ div có id là 'app'
+
+            // Tạo chuỗi HTML chứa danh sách người dùng
+            let html = '<h2>Danh sách người dùng (Rendered bởi JavaScript):</h2>';
+
+            // Duyệt qua từng user trong mảng và thêm vào chuỗi HTML
+            users.forEach(user => {
+                html += `
+                    <div class="user-card"> <!-- // Thẻ hiển thị từng người dùng -->
+                        <h3>${user.name}</h3> <!-- // Tên người dùng -->
+                        <p><strong>Email:</strong> ${user.email}</p> <!-- // Email -->
+                        <p><strong>Công ty:</strong> ${user.company.name}</p> <!-- // Tên công ty -->
+                        <p><strong>Website:</strong> ${user.website}</p> <!-- // Website -->
+                    </div>
+                `;
+            });
+
+            // Gắn chuỗi HTML đã tạo vào trong phần tử app
+            appDiv.innerHTML = html;
+        }
+
+        // Khi trang web tải xong thì gọi hàm fetchUsers để bắt đầu quá trình render
+        window.addEventListener('DOMContentLoaded', fetchUsers);
+        // DOMContentLoaded: sự kiện báo hiệu HTML đã được tải và phân tích xong
+    </script>
+</body>
+</html>
