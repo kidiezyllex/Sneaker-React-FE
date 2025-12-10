@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
- 
+
 import { useNavigate, useParams } from 'react-router-dom';
-import { useProductDetail, useUpdateProduct, useUpdateProductStatus, useUpdateProductStock, useUpdateProductImages } from '@/hooks/product';
+import { useProductDetail, useUpdateProduct, useUpdateProductStatus, useUpdateProductStock, useUpdateProductImages, useBrands, useCategories, useMaterials } from '@/hooks/product';
 import { useUploadImage } from '@/hooks/upload';
 import { IProductUpdate, IProductVariant, IProductStockUpdate, IProductStatusUpdate, IProductImageUpdate } from '@/interface/request/product';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
@@ -31,6 +31,9 @@ export default function EditProductPage() {
   const [uploading, setUploading] = useState(false);
 
   const { data: productData, isLoading, isError } = useProductDetail(id);
+  const { data: brandsData } = useBrands();
+  const { data: categoriesData } = useCategories();
+  const { data: materialsData } = useMaterials();
   const updateProduct = useUpdateProduct();
   const updateProductStatus = useUpdateProductStatus();
   const updateProductStock = useUpdateProductStock();
@@ -45,9 +48,15 @@ export default function EditProductPage() {
 
       setProductUpdate({
         name: product.name,
-        brand: typeof product.brand === 'string' ? product.brand : product.brand.name,
-        category: typeof product.category === 'string' ? product.category : product.category.name,
-        material: typeof product.material === 'string' ? product.material : product.material.name,
+        brand: typeof product.brand === 'string'
+          ? product.brand
+          : (product.brand?.id ? String(product.brand.id) : ''),
+        category: typeof product.category === 'string'
+          ? product.category
+          : (product.category?.id ? String(product.category.id) : ''),
+        material: typeof product.material === 'string'
+          ? product.material
+          : (product.material?.id ? String(product.material.id) : ''),
         description: product.description,
         weight: product.weight,
         status: product.status
@@ -112,13 +121,14 @@ export default function EditProductPage() {
       setUploading(true);
       const formData = createFormData(file);
       const result = await uploadImage.mutateAsync(formData);
-      const variant = productData?.data.variants.find(v => v.id === variantId);
+      const variant = productData?.data.variants.find(v => String(v.id) === variantId);
       if (!variant) {
         toast.error('Không tìm thấy biến thể');
         return;
       }
 
-      const newImages = [...variant.images, result?.data?.imageUrl];
+      const existingImageUrls = variant.images.map(img => img.imageUrl);
+      const newImages = [...existingImageUrls, result?.data?.imageUrl];
 
       const payload: IProductImageUpdate = {
         variantId,
@@ -143,17 +153,18 @@ export default function EditProductPage() {
   const handleRemoveImage = async (variantId: string, imageIndex: number) => {
     try {
       // Xác định biến thể cần cập nhật ảnh
-      const variant = productData?.data.variants.find(v => v.id === variantId);
+      const variant = productData?.data.variants.find(v => String(v.id) === variantId);
       if (!variant) {
         toast.error('Không tìm thấy biến thể');
         return;
       }
 
-      const newImages = variant.images.filter((_, i) => i !== imageIndex);
+      const imageUrls = variant.images.map(img => img.imageUrl);
+      const newImages = imageUrls.filter((_, i) => i !== imageIndex);
 
       const payload: IProductImageUpdate = {
         variantId,
-        images: newImages as any
+        images: newImages
       };
 
       await updateProductImages.mutateAsync(
@@ -333,11 +344,14 @@ export default function EditProductPage() {
                         <SelectValue placeholder="Chọn thương hiệu" />
                       </SelectTrigger>
                       <SelectContent>
-                        {['Prada', 'Uniqlo', 'Balenciaga', 'Chanel', 'Louis Vuitton'].map(brand => (
-                          <SelectItem key={brand} value={brand}>
-                            {brand}
-                          </SelectItem>
-                        ))}
+                        {brandsData?.data?.brands ? brandsData.data.brands.map(brand => {
+                          const brandId = typeof brand.id === 'number' ? String(brand.id) : brand.id;
+                          return (
+                            <SelectItem key={brandId} value={brandId}>
+                              {brand.name}
+                            </SelectItem>
+                          );
+                        }) : null}
                       </SelectContent>
                     </Select>
                   </div>
@@ -352,11 +366,14 @@ export default function EditProductPage() {
                         <SelectValue placeholder="Chọn danh mục" />
                       </SelectTrigger>
                       <SelectContent>
-                        {['Giày thể thao', 'Giày chạy bộ', 'Giày đá bóng', 'Giày thời trang'].map(category => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))}
+                        {categoriesData?.data?.categories ? categoriesData.data.categories.map(category => {
+                          const categoryId = typeof category.id === 'number' ? String(category.id) : category.id;
+                          return (
+                            <SelectItem key={categoryId} value={categoryId}>
+                              {category.name}
+                            </SelectItem>
+                          );
+                        }) : null}
                       </SelectContent>
                     </Select>
                   </div>
@@ -371,11 +388,14 @@ export default function EditProductPage() {
                         <SelectValue placeholder="Chọn chất liệu" />
                       </SelectTrigger>
                       <SelectContent>
-                        {['Canvas', 'Da', 'Vải', 'Nhựa', 'Cao su'].map(material => (
-                          <SelectItem key={material} value={material}>
-                            {material}
-                          </SelectItem>
-                        ))}
+                        {materialsData?.data?.materials ? materialsData.data.materials.map(material => {
+                          const materialId = typeof material.id === 'number' ? String(material.id) : material.id;
+                          return (
+                            <SelectItem key={materialId} value={materialId}>
+                              {material.name}
+                            </SelectItem>
+                          );
+                        }) : null}
                       </SelectContent>
                     </Select>
                   </div>
@@ -444,7 +464,7 @@ export default function EditProductPage() {
                     <div className="flex justify-between items-center mb-4">
                       <div>
                         <h3 className="text-lg font-medium">
-                          {variant.colorId.name} - {variant.sizeId.name}
+                          {variant.color?.name || 'N/A'} - Size {variant.size?.value || 'N/A'}
                         </h3>
                         <p className="text-sm text-maintext">
                           Giá: {new Intl.NumberFormat('vi-VN', {
@@ -471,7 +491,7 @@ export default function EditProductPage() {
                             type="button"
                             onClick={(e) => {
                               const input = e.currentTarget.previousElementSibling as HTMLInputElement;
-                              handleUpdateStock(variant.id, parseInt(input.value) || 0);
+                              handleUpdateStock(String(variant.id), parseInt(input.value) || 0);
                             }}
                             disabled={updateProductStock.isPending}
                           >
@@ -495,7 +515,7 @@ export default function EditProductPage() {
                             onChange={(e) => {
                               const files = e.target.files;
                               if (files && files.length > 0) {
-                                handleImageUpload(files[0], variant.id);
+                                handleImageUpload(files[0], String(variant.id));
                                 e.target.value = '';
                               }
                             }}
@@ -532,7 +552,7 @@ export default function EditProductPage() {
                                 style={{ aspectRatio: '1/1' }}
                               >
                                 <img
-                                  src={image.imageUrl as any}
+                                  src={image.imageUrl}
                                   alt={`Variant image ${index + 1}`}
                                   className="object-cover w-full h-full"
                                 />
@@ -542,7 +562,7 @@ export default function EditProductPage() {
                                     variant="destructive"
                                     size="icon"
                                     className="opacity-0 group-hover:opacity-100 transition-opacity"
-                                    onClick={() => handleRemoveImage(variant.id, index)}
+                                    onClick={() => handleRemoveImage(String(variant.id), index)}
                                     disabled={updateProductImages.isPending}
                                   >
                                     {updateProductImages.isPending ? (
