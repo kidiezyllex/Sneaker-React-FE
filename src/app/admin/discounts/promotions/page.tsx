@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
- 
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icon } from '@mdi/react';
@@ -99,10 +99,10 @@ export default function PromotionsPage() {
       now.getMinutes(),
       now.getSeconds()
     );
-    
+
     const startUTC = new Date(promotion.startDate).getTime();
     const endUTC = new Date(promotion.endDate).getTime();
-    
+
     if (promotion.status === 'UNACTIVE') {
       return <Badge variant="destructive">Không hoạt động</Badge>;
     }
@@ -111,11 +111,11 @@ export default function PromotionsPage() {
       if (nowUTC < startUTC) {
         return <Badge variant="secondary">Chưa bắt đầu</Badge>;
       }
-      
+
       if (nowUTC > endUTC) {
         return <Badge variant="outline">Đã kết thúc</Badge>;
       }
-      
+
       return <Badge variant="default">Đang hoạt động</Badge>;
     }
 
@@ -332,7 +332,7 @@ export default function PromotionsPage() {
                               size="icon"
                               title="Sửa"
                             >
-                              <Icon path={mdiPencilCircle} size={0.7} />
+                              <Icon path={mdiPencilCircle} size={0.8} />
                             </Button>
                           </a>
                           <Button
@@ -344,7 +344,7 @@ export default function PromotionsPage() {
                             }}
                             title="Xóa"
                           >
-                            <Icon path={mdiDeleteCircle} size={0.7} />
+                            <Icon path={mdiDeleteCircle} size={0.8} />
                           </Button>
                         </div>
                       </TableCell>

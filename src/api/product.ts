@@ -53,6 +53,12 @@ export const getProductById = async (productId: string): Promise<IProductRespons
   return res as IProductResponse;
 };
 
+// Lấy danh sách hình ảnh của sản phẩm theo ID
+export const getProductImages = async (productId: string): Promise<any> => {
+  const res = await sendGet(`/products/${productId}/images`); // Gửi GET đến /products/:id/images
+  return res;
+};
+
 // Tạo sản phẩm mới
 export const createProduct = async (payload: IProductCreate): Promise<IProductResponse> => {
   const res = await sendPost("/products", payload); // Gửi POST để tạo mới sản phẩm

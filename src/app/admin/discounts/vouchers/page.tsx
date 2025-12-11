@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
- 
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icon } from '@mdi/react';
@@ -365,7 +365,7 @@ export default function VouchersPage() {
                             size="icon"
                             title="Sửa"
                           >
-                            <Icon path={mdiPencilCircle} size={0.7} />
+                            <Icon path={mdiPencilCircle} size={0.8} />
                           </Button>
                         </a>
                         <Button
@@ -377,7 +377,7 @@ export default function VouchersPage() {
                           }}
                           title="Xóa"
                         >
-                          <Icon path={mdiDeleteCircle} size={0.7} />
+                          <Icon path={mdiDeleteCircle} size={0.8} />
                         </Button>
                       </div>
                     </TableCell>
@@ -546,7 +546,7 @@ export default function VouchersPage() {
                 placeholder="Nhập giá trị đơn hàng"
               />
             </div>
-            
+
             {validationResult && (
               <div className="border rounded-[6px] p-4 mt-2">
                 <h4 className="text-md font-semibold mb-2">Kết quả kiểm tra:</h4>

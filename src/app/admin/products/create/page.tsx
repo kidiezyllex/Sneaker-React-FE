@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
- 
+
 import { useNavigate } from 'react-router-dom';
 import { useCreateProduct } from '@/hooks/product';
 import { useUploadImage } from '@/hooks/upload';
@@ -30,7 +30,6 @@ const initialProduct: IProductCreate = {
   category: '',
   material: '',
   description: '',
-  weight: 0,
   variants: [
     {
       colorId: '',
@@ -52,11 +51,7 @@ export default function CreateProductPage() {
   const uploadImage = useUploadImage();
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === 'weight') {
-      setProduct({ ...product, [name]: parseFloat(value) || 0 });
-    } else {
-      setProduct({ ...product, [name]: value });
-    }
+    setProduct({ ...product, [name]: value });
   };
   const { data: brandsData } = useBrands();
   const { data: categoriesData } = useCategories();
@@ -255,7 +250,7 @@ export default function CreateProductPage() {
                       onValueChange={value => setProduct({ ...product, brand: value })}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn thương hiệu">
-                          {product.brand 
+                          {product.brand
                             ? (brandsData?.data || []).find(brand => brand.id.toString() === product.brand?.toString())?.name || 'Chọn thương hiệu'
                             : 'Chọn thương hiệu'
                           }
@@ -278,7 +273,7 @@ export default function CreateProductPage() {
                       onValueChange={value => setProduct({ ...product, category: value })}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn danh mục">
-                          {product.category 
+                          {product.category
                             ? (categoriesData?.data || []).find(category => category.id.toString() === product.category?.toString())?.name || 'Chọn danh mục'
                             : 'Chọn danh mục'
                           }
@@ -301,7 +296,7 @@ export default function CreateProductPage() {
                       onValueChange={value => setProduct({ ...product, material: value })}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn chất liệu">
-                          {product.material 
+                          {product.material
                             ? (materialsData?.data || []).find(material => material.id.toString() === product.material?.toString())?.name || 'Chọn chất liệu'
                             : 'Chọn chất liệu'
                           }
@@ -317,18 +312,6 @@ export default function CreateProductPage() {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="weight">Trọng lượng (gram)</Label>
-                    <Input
-                      id="weight"
-                      name="weight"
-                      type="number"
-                      min="0"
-                      value={product.weight || ''}
-                      onChange={handleInputChange}
-                      placeholder="Nhập trọng lượng"
-                    />
-                  </div>
                 </div>
 
                 <div className="space-y-2">

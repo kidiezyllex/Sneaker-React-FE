@@ -39,13 +39,13 @@ export default function SizesPage() {
     }, [data?.data, searchQuery]);
 
     const handleDeleteSize = async (sizeId: string) => {
-        
+
         if (!sizeId) {
             console.error('sizeId is undefined, null or empty:', sizeId);
             toast.error('Lỗi: Không tìm thấy ID kích cỡ');
             return;
         }
-        
+
         try {
             await deleteSizeMutation.mutateAsync(sizeId, {
                 onSuccess: () => {
@@ -206,7 +206,7 @@ export default function SizesPage() {
                                             </TableCell>
                                             <TableCell className="px-4 py-4 whitespace-nowrap text-right">
                                                 <div className="flex items-center justify-end space-x-2">
-                                                    <DeleteSizeDialog 
+                                                    <DeleteSizeDialog
                                                         size={size}
                                                         onDelete={() => {
                                                             handleDeleteSize((size as any)?.id);
@@ -256,7 +256,7 @@ function DeleteSizeDialog({ size, onDelete, isDeleting }: DeleteSizeDialogProps)
                     disabled={isDeleting}
                     title="Xóa"
                 >
-                    <Icon path={mdiDeleteCircle} size={0.7} />
+                    <Icon path={mdiDeleteCircle} size={0.8} />
                 </Button>
             </DialogTrigger>
             <DialogContent>
@@ -268,8 +268,8 @@ function DeleteSizeDialog({ size, onDelete, isDeleting }: DeleteSizeDialogProps)
                     <DialogClose asChild>
                         <Button variant="outline" disabled={isDeleting}>Hủy</Button>
                     </DialogClose>
-                    <Button 
-                        variant="destructive" 
+                    <Button
+                        variant="destructive"
                         onClick={handleDelete}
                         disabled={isDeleting}
                     >

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
- 
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icon } from '@mdi/react';
@@ -9,7 +9,7 @@ import { mdiMagnify, mdiPlus, mdiPencilCircle, mdiDeleteCircle, mdiRefresh } fro
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useColors, useDeleteColor, useColorDetail, useUpdateColor, useCreateColor } from '@/hooks/attributes';
-import { IColorFilter} from '@/interface/request/attributes';
+import { IColorFilter } from '@/interface/request/attributes';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
@@ -57,7 +57,7 @@ export default function ColorsPage() {
             toast.error('Lỗi: ID màu sắc không hợp lệ');
             return;
         }
-        
+
         try {
             await deleteColor.mutateAsync(id, {
                 onSuccess: () => {
@@ -224,105 +224,105 @@ export default function ColorsPage() {
                                 {filteredColors?.length ? (
                                     filteredColors.map((color, index) => {
                                         return (
-                                        <TableRow key={(color as any)?.id || `color-${index}`} className="hover:bg-gray-50">
-                                            <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                                                {(color as any)?.id}
-                                            </TableCell>
-                                            <TableCell className="px-4 py-4 whitespace-nowrap">
-                                                <div className="flex items-center">
-                                                    <div
-                                                        className="w-6 h-6 rounded-full mr-2 border border-gray-200"
-                                                        style={{ backgroundColor: color.code }}
-                                                    />
-                                                    <div className="text-sm font-medium text-maintext">{color.name}</div>
-                                                </div>
-                                            </TableCell>
-                                            <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                                                {color.code}
-                                            </TableCell>
-                                            <TableCell className="px-4 py-4 whitespace-nowrap">
-                                                <span className={`px-2 py-1 text-xs rounded-full ${color.status === 'ACTIVE'
-                                                    ? 'bg-green-100 text-green-800'
-                                                    : 'bg-red-100 text-red-800'
-                                                    }`}>
-                                                    {color.status === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}
-                                                </span>
-                                            </TableCell>
-                                            <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                                                {formatDate(color.updatedAt)}
-                                            </TableCell>
-                                            <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                                                <div className="flex items-center justify-end space-x-2">
-                                                    <Dialog open={isEditDialogOpen && colorToEdit === (color as any)?.id} onOpenChange={(open) => {
-                                                        setIsEditDialogOpen(open);
-                                                        if (!open) setColorToEdit(null);
-                                                    }}>
-                                                        <DialogTrigger asChild>
-                                                            <Button
-                                                                variant="outline"
-                                                                size="icon"
-                                                                title="Sửa"
-                                                                onClick={() => {
-                                                                    setColorToEdit((color as any)?.id);
-                                                                    setIsEditDialogOpen(true);
-                                                                }}
-                                                            >
-                                                                <Icon path={mdiPencilCircle} size={0.7} />
-                                                            </Button>
-                                                        </DialogTrigger>
-                                                        {colorToEdit === (color as any)?.id && (
-                                                            <EditColorDialog
-                                                                colorId={(color as any)?.id}
-                                                                isOpen={isEditDialogOpen}
-                                                                onClose={() => {
-                                                                    setIsEditDialogOpen(false);
-                                                                    setColorToEdit(null);
-                                                                }}
-                                                            />
-                                                        )}
-                                                    </Dialog>
-                                                    <Dialog open={isDeleteDialogOpen && colorToDelete === (color as any)?.id} onOpenChange={(open) => {
-                                                        setIsDeleteDialogOpen(open);
-                                                        if (!open) setColorToDelete(null);
-                                                    }}>
-                                                        <DialogTrigger asChild>
-                                                            <Button
-                                                                variant="outline"
-                                                                size="icon"
-                                                                onClick={() => {
-                                                                    setColorToDelete((color as any)?.id);
-                                                                    setIsDeleteDialogOpen(true);
-                                                                }}
-                                                                title="Xóa"
-                                                            >
-                                                                <Icon path={mdiDeleteCircle} size={0.7} />
-                                                            </Button>
-                                                        </DialogTrigger>
-                                                        {colorToDelete === (color as any)?.id && (
-                                                            <DialogContent>
-                                                                <DialogHeader>
-                                                                    <DialogTitle>Xác nhận xóa màu sắc</DialogTitle>
-                                                                </DialogHeader>
-                                                                <p>Bạn có chắc chắn muốn xóa màu sắc này không?</p>
-                                                                <DialogFooter>
-                                                                    <DialogClose asChild>
-                                                                        <Button variant="outline" onClick={() => {
+                                            <TableRow key={(color as any)?.id || `color-${index}`} className="hover:bg-gray-50">
+                                                <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                                                    {(color as any)?.id}
+                                                </TableCell>
+                                                <TableCell className="px-4 py-4 whitespace-nowrap">
+                                                    <div className="flex items-center">
+                                                        <div
+                                                            className="w-6 h-6 rounded-full mr-2 border border-gray-200"
+                                                            style={{ backgroundColor: color.code }}
+                                                        />
+                                                        <div className="text-sm font-medium text-maintext">{color.name}</div>
+                                                    </div>
+                                                </TableCell>
+                                                <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                                                    {color.code}
+                                                </TableCell>
+                                                <TableCell className="px-4 py-4 whitespace-nowrap">
+                                                    <span className={`px-2 py-1 text-xs rounded-full ${color.status === 'ACTIVE'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-red-100 text-red-800'
+                                                        }`}>
+                                                        {color.status === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}
+                                                    </span>
+                                                </TableCell>
+                                                <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                                                    {formatDate(color.updatedAt)}
+                                                </TableCell>
+                                                <TableCell className="px-4 py-4 whitespace-nowrap text-right">
+                                                    <div className="flex items-center justify-end space-x-2">
+                                                        <Dialog open={isEditDialogOpen && colorToEdit === (color as any)?.id} onOpenChange={(open) => {
+                                                            setIsEditDialogOpen(open);
+                                                            if (!open) setColorToEdit(null);
+                                                        }}>
+                                                            <DialogTrigger asChild>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="icon"
+                                                                    title="Sửa"
+                                                                    onClick={() => {
+                                                                        setColorToEdit((color as any)?.id);
+                                                                        setIsEditDialogOpen(true);
+                                                                    }}
+                                                                >
+                                                                    <Icon path={mdiPencilCircle} size={0.8} />
+                                                                </Button>
+                                                            </DialogTrigger>
+                                                            {colorToEdit === (color as any)?.id && (
+                                                                <EditColorDialog
+                                                                    colorId={(color as any)?.id}
+                                                                    isOpen={isEditDialogOpen}
+                                                                    onClose={() => {
+                                                                        setIsEditDialogOpen(false);
+                                                                        setColorToEdit(null);
+                                                                    }}
+                                                                />
+                                                            )}
+                                                        </Dialog>
+                                                        <Dialog open={isDeleteDialogOpen && colorToDelete === (color as any)?.id} onOpenChange={(open) => {
+                                                            setIsDeleteDialogOpen(open);
+                                                            if (!open) setColorToDelete(null);
+                                                        }}>
+                                                            <DialogTrigger asChild>
+                                                                <Button
+                                                                    variant="outline"
+                                                                    size="icon"
+                                                                    onClick={() => {
+                                                                        setColorToDelete((color as any)?.id);
+                                                                        setIsDeleteDialogOpen(true);
+                                                                    }}
+                                                                    title="Xóa"
+                                                                >
+                                                                    <Icon path={mdiDeleteCircle} size={0.8} />
+                                                                </Button>
+                                                            </DialogTrigger>
+                                                            {colorToDelete === (color as any)?.id && (
+                                                                <DialogContent>
+                                                                    <DialogHeader>
+                                                                        <DialogTitle>Xác nhận xóa màu sắc</DialogTitle>
+                                                                    </DialogHeader>
+                                                                    <p>Bạn có chắc chắn muốn xóa màu sắc này không?</p>
+                                                                    <DialogFooter>
+                                                                        <DialogClose asChild>
+                                                                            <Button variant="outline" onClick={() => {
+                                                                                setIsDeleteDialogOpen(false);
+                                                                                setColorToDelete(null);
+                                                                            }}>Hủy</Button>
+                                                                        </DialogClose>
+                                                                        <Button variant="destructive" onClick={() => {
+                                                                            handleDeleteColor((color as any)?.id);
                                                                             setIsDeleteDialogOpen(false);
                                                                             setColorToDelete(null);
-                                                                        }}>Hủy</Button>
-                                                                    </DialogClose>
-                                                                    <Button variant="destructive" onClick={() => {
-                                                                        handleDeleteColor((color as any)?.id);
-                                                                        setIsDeleteDialogOpen(false);
-                                                                        setColorToDelete(null);
-                                                                    }}>Xóa</Button>
-                                                                </DialogFooter>
-                                                            </DialogContent>
-                                                                                                )}
-                                    </Dialog>
-                                                </div>
-                                            </TableCell>
-                                        </TableRow>
+                                                                        }}>Xóa</Button>
+                                                                    </DialogFooter>
+                                                                </DialogContent>
+                                                            )}
+                                                        </Dialog>
+                                                    </div>
+                                                </TableCell>
+                                            </TableRow>
                                         );
                                     })
                                 ) : (

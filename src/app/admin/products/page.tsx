@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
- 
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icon } from '@mdi/react';
@@ -45,16 +45,16 @@ export default function ProductsPage() {
 
   const { data: brandsData } = useBrands();
   const { data: categoriesData } = useCategories();
-  
+
   const data = useMemo(() => {
     if (!rawData || !rawData.data || !rawData.data.products) return rawData;
-    
+
     let products = [...rawData.data.products];
-    
+
     if (promotionsData?.data?.promotions) {
       products = applyPromotionsToProducts(products, promotionsData.data.promotions);
-    } 
-    
+    }
+
     return {
       ...rawData,
       data: {
@@ -165,7 +165,7 @@ export default function ProductsPage() {
             <Icon path={mdiPlus} size={0.7} />
             Thêm sản phẩm mới
           </Button>
-          
+
         </a>
       </div>
 
@@ -186,94 +186,77 @@ export default function ProductsPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Button
-              variant="outline"
-              className="flex items-center"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Icon path={mdiFilterOutline} size={0.7} className="mr-2" />
-              {showFilters ? 'Ẩn bộ lọc' : 'Hiện bộ lọc'}
-            </Button>
           </div>
 
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-4 pt-4 border-t"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Thương hiệu
-                    </label>
-                    <Select value={filters.brand || 'all'} onValueChange={(value) => handleFilterChange('brand', value === 'all' ? undefined : value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Tất cả thương hiệu">
-                          {filters.brand 
-                            ? (brandsData?.data || []).find(brand => brand.id.toString() === filters.brand?.toString())?.name || 'Tất cả thương hiệu'
-                            : 'Tất cả thương hiệu'
-                          }
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Tất cả thương hiệu</SelectItem>
-                        {(brandsData?.data || []).map((brand) => (
-                          <SelectItem key={brand.id} value={brand.id.toString()}>{brand.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Danh mục
-                    </label>
-                    <Select value={filters.category || 'all'} onValueChange={(value) => handleFilterChange('category', value === 'all' ? undefined : value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Tất cả danh mục">
-                          {filters.category 
-                            ? (categoriesData?.data || []).find(category => category.id.toString() === filters.category?.toString())?.name || 'Tất cả danh mục'
-                            : 'Tất cả danh mục'
-                          }
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Tất cả danh mục</SelectItem>
-                        {(categoriesData?.data || []).map((category) => (
-                          <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Trạng thái
-                    </label>
-                    <Select value={filters.status || 'all'} onValueChange={(value) => handleFilterChange('status', value === 'all' ? undefined : value)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Tất cả trạng thái">
-                          {filters.status === 'ACTIVE' 
-                            ? 'Hoạt động' 
-                            : filters.status === 'INACTIVE' 
-                            ? 'Không hoạt động' 
-                            : 'Tất cả trạng thái'
-                          }
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                        <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                        <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="mt-4 pt-4 border-t"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div>
+                <label className="block text-sm text-maintext mb-2 font-semibold">
+                  Thương hiệu
+                </label>
+                <Select value={filters.brand || 'all'} onValueChange={(value) => handleFilterChange('brand', value === 'all' ? undefined : value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tất cả thương hiệu">
+                      {filters.brand
+                        ? (brandsData?.data || []).find(brand => brand.id.toString() === filters.brand?.toString())?.name || 'Tất cả thương hiệu'
+                        : 'Tất cả thương hiệu'
+                      }
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tất cả thương hiệu</SelectItem>
+                    {(brandsData?.data || []).map((brand) => (
+                      <SelectItem key={brand.id} value={brand.id.toString()}>{brand.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm text-maintext mb-2 font-semibold">
+                  Danh mục
+                </label>
+                <Select value={filters.category || 'all'} onValueChange={(value) => handleFilterChange('category', value === 'all' ? undefined : value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tất cả danh mục">
+                      {filters.category
+                        ? (categoriesData?.data || []).find(category => category.id.toString() === filters.category?.toString())?.name || 'Tất cả danh mục'
+                        : 'Tất cả danh mục'
+                      }
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tất cả danh mục</SelectItem>
+                    {(categoriesData?.data || []).map((category) => (
+                      <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <label className="block text-sm text-maintext mb-2 font-semibold">
+                  Trạng thái
+                </label>
+                <Select value={filters.status || 'all'} onValueChange={(value) => handleFilterChange('status', value === 'all' ? undefined : value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Tất cả trạng thái">
+                      {filters.status === 'ACTIVE'
+                        ? 'Hoạt động'
+                        : filters.status === 'INACTIVE'
+                          ? 'Không hoạt động'
+                          : 'Tất cả trạng thái'
+                      }
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                    <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                    <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -302,8 +285,8 @@ export default function ProductsPage() {
         </div>
       ) : (
         <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
-          <div className="overflow-x-auto" style={{ 
-            width: '100%', 
+          <div className="overflow-x-auto" style={{
+            width: '100%',
             display: 'block',
             overflowX: 'auto',
             whiteSpace: 'nowrap',
@@ -356,10 +339,10 @@ export default function ProductsPage() {
                       <TableCell className="px-4 py-4 whitespace-nowrap text-sm">
                         {(() => {
                           const basePrice = product.variants[0]?.price || 0;
-                          const discount = promotionsData?.data?.promotions 
+                          const discount = promotionsData?.data?.promotions
                             ? calculateProductDiscount(product.id, basePrice, promotionsData.data.promotions)
                             : { originalPrice: basePrice, discountedPrice: basePrice, discountPercent: 0 };
-                          
+
                           return (
                             <div className="space-y-1">
                               <div className={`font-medium ${discount.discountPercent > 0 ? 'text-primary' : 'text-maintext'}`}>
@@ -392,15 +375,16 @@ export default function ProductsPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap text-right">
                         <div className="flex items-center justify-end space-x-2">
-                          <a href={`/admin/products/edit/${product.id}`}>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              title="Sửa"
-                            >
-                              <Icon path={mdiPencilCircle} size={0.7} />
-                            </Button>
-                          </a>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            title="Sửa"
+                            onClick={() => {
+                              window.open(`/admin/products/edit/${product.id}`, '_blank');
+                            }}
+                          >
+                            <Icon path={mdiPencilCircle} size={0.8} />
+                          </Button>
                           <Dialog>
                             <DialogTrigger asChild>
                               <Button
@@ -412,7 +396,7 @@ export default function ProductsPage() {
                                 }}
                                 title="Xóa"
                               >
-                                <Icon path={mdiDeleteCircle} size={0.7} />
+                                <Icon path={mdiDeleteCircle} size={0.8} />
                               </Button>
                             </DialogTrigger>
                             {isDeleteDialogOpen && productToDelete === product.id && (

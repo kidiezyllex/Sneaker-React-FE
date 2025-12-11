@@ -7,6 +7,7 @@ import {
 import {
   getAllProducts,
   getProductById,
+  getProductImages,
   createProduct,
   updateProduct,
   updateProductStatus,
@@ -47,7 +48,15 @@ export const useProducts = (params: IProductFilter = {}): UseQueryResult<IProduc
 export const useProductDetail = (productId: string): UseQueryResult<IProductResponse, Error> => {
   return useQuery<IProductResponse, Error>({
     queryKey: ["product", productId],
-    queryFn: () => getProductById(productId),
+    queryFn: async () => {
+      const productData = await getProductById(productId);
+      if (productData && productData.data) {
+        getProductImages(productId).catch(err => {
+          console.warn('Failed to fetch product images:', err);
+        });
+      }
+      return productData;
+    },
     enabled: !!productId, 
     staleTime: 30000, // 30 seconds
     gcTime: 300000, // 5 minutes

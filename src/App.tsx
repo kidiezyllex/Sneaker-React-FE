@@ -72,12 +72,11 @@ const AdminReturnsPage = React.lazy(() => import('@/pages/admin/AdminReturnsPage
 const AdminReturnCreatePage = React.lazy(() => import('@/pages/admin/AdminReturnCreatePage'))
 const AdminReturnEditPage = React.lazy(() => import('@/pages/admin/AdminReturnEditPage'))
 
-// Optimized loading component with better UX
 const PageLoader = () => (
   <div className="flex items-center justify-center min-h-[400px]">
     <div className="flex flex-col items-center space-y-4">
       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      <p className="text-sm text-muted-foreground animate-pulse">Đang tải trang...</p>
+      <p className="text-sm text-muted-foreground animate-pulse font-semibold">Đang tải trang...</p>
     </div>
   </div>
 )
@@ -87,17 +86,17 @@ function App() {
     <ReactQueryClientProvider>
       <Router>
         <UserProvider>
-          <ToastContainer 
-            position="top-right" 
-            autoClose={4000} 
-            hideProgressBar={false} 
-            newestOnTop 
-            closeOnClick 
-            rtl={false} 
-            pauseOnFocusLoss 
-            draggable 
-            pauseOnHover 
-            theme="light" 
+          <ToastContainer
+            position="top-right"
+            autoClose={4000}
+            hideProgressBar={false}
+            newestOnTop
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
             limit={3}
           />
           <Routes>
@@ -189,7 +188,7 @@ function App() {
                   <AdminStatisticsPage />
                 </LazyComponentLoader>
               } />
-              
+
               {/* Accounts */}
               <Route path="accounts" element={
                 <LazyComponentLoader fallback={<PageLoader />}>
@@ -206,7 +205,7 @@ function App() {
                   <AdminAccountEditPage />
                 </LazyComponentLoader>
               } />
-              
+
               {/* Discounts */}
               <Route path="discounts" element={
                 <LazyComponentLoader fallback={<PageLoader />}>
@@ -243,7 +242,7 @@ function App() {
                   <AdminVoucherEditPage />
                 </LazyComponentLoader>
               } />
-              
+
               {/* Orders */}
               <Route path="orders" element={
                 <LazyComponentLoader fallback={<PageLoader />}>
@@ -265,14 +264,14 @@ function App() {
                   <AdminOrderEditPage />
                 </LazyComponentLoader>
               } />
-              
+
               {/* POS */}
               <Route path="pos" element={
                 <LazyComponentLoader fallback={<PageLoader />}>
                   <AdminPosPage />
                 </LazyComponentLoader>
               } />
-              
+
               {/* Products */}
               <Route path="products" element={
                 <LazyComponentLoader fallback={<PageLoader />}>
@@ -314,7 +313,7 @@ function App() {
                   <AdminProductSizesPage />
                 </LazyComponentLoader>
               } />
-              
+
               {/* Returns */}
               <Route path="returns" element={
                 <LazyComponentLoader fallback={<PageLoader />}>

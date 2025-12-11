@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import { useNavigate, useParams } from 'react-router-dom';
 import { useProductDetail, useUpdateProduct, useUpdateProductStatus, useUpdateProductStock, useUpdateProductImages, useBrands, useCategories, useMaterials } from '@/hooks/product';
 import { useUploadImage } from '@/hooks/upload';
+import { getProductImages } from '@/api/product';
 import { IProductUpdate, IProductVariant, IProductStockUpdate, IProductStatusUpdate, IProductImageUpdate } from '@/interface/request/product';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
@@ -29,6 +30,8 @@ export default function EditProductPage() {
   const { id } = params;
   const [activeTab, setActiveTab] = useState('info');
   const [uploading, setUploading] = useState(false);
+  const [variantImageTexts, setVariantImageTexts] = useState<Record<string, string>>({});
+  const imagesApiCalledRef = useRef(false);
 
   // Early return if id is missing
   if (!id) {
@@ -98,19 +101,34 @@ export default function EditProductPage() {
           ? product.material
           : (product.material?.id ? String(product.material.id) : ''),
         description: product.description,
-        weight: product.weight,
         status: product.status
       });
+
+      // Khởi tạo textarea values cho các variants
+      const imageTexts: Record<string, string> = {};
+      product.variants.forEach((variant) => {
+        const variantId = String(variant.id);
+        imageTexts[variantId] = variant.images.map(img => img.imageUrl).join('\n');
+      });
+      setVariantImageTexts(imageTexts);
+
+      // Trigger API images khi product data được load thành công (chỉ gọi một lần)
+      if (id && !imagesApiCalledRef.current) {
+        imagesApiCalledRef.current = true;
+        getProductImages(id)
+          .then((response) => {
+            console.log('Product images API called successfully:', response);
+          })
+          .catch((error) => {
+            console.warn('Failed to fetch product images:', error);
+          });
+      }
     }
-  }, [productData]);
+  }, [productData, id]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    if (name === 'weight') {
-      setProductUpdate({ ...productUpdate, [name]: parseFloat(value) || 0 });
-    } else {
-      setProductUpdate({ ...productUpdate, [name]: value });
-    }
+    setProductUpdate({ ...productUpdate, [name]: value });
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -180,6 +198,11 @@ export default function EditProductPage() {
         {
           onSuccess: () => {
             toast.success('Cập nhật hình ảnh thành công');
+            // Cập nhật lại textarea
+            setVariantImageTexts(prev => ({
+              ...prev,
+              [variantId]: newImages.join('\n')
+            }));
           }
         }
       );
@@ -205,6 +228,50 @@ export default function EditProductPage() {
       const payload: IProductImageUpdate = {
         variantId,
         images: newImages
+      };
+
+      await updateProductImages.mutateAsync(
+        { productId: id, payload },
+        {
+          onSuccess: () => {
+            toast.success('Cập nhật hình ảnh thành công');
+            // Cập nhật lại textarea
+            setVariantImageTexts(prev => ({
+              ...prev,
+              [variantId]: newImages.join('\n')
+            }));
+          }
+        }
+      );
+    } catch (error) {
+      toast.error('Cập nhật hình ảnh thất bại');
+    }
+  };
+
+  const handleImageTextChange = (variantId: string, value: string) => {
+    setVariantImageTexts(prev => ({
+      ...prev,
+      [variantId]: value
+    }));
+  };
+
+  const handleUpdateImagesFromText = async (variantId: string) => {
+    try {
+      const textValue = variantImageTexts[variantId] || '';
+      // Parse URLs từ textarea (mỗi dòng là một URL)
+      const imageUrls = textValue
+        .split('\n')
+        .map(url => url.trim())
+        .filter(url => url.length > 0 && (url.startsWith('http://') || url.startsWith('https://')));
+
+      if (imageUrls.length === 0) {
+        toast.error('Vui lòng nhập ít nhất một URL hợp lệ');
+        return;
+      }
+
+      const payload: IProductImageUpdate = {
+        variantId,
+        images: imageUrls
       };
 
       await updateProductImages.mutateAsync(
@@ -455,18 +522,6 @@ export default function EditProductPage() {
                     </Select>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="weight">Trọng lượng (gram)</Label>
-                    <Input
-                      id="weight"
-                      name="weight"
-                      type="number"
-                      min="0"
-                      value={productUpdate.weight || ''}
-                      onChange={handleInputChange}
-                      placeholder="Nhập trọng lượng"
-                    />
-                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -563,6 +618,33 @@ export default function EditProductPage() {
                     <div className="space-y-2">
                       <Label className="text-maintext">Hình ảnh sản phẩm</Label>
                       <div className="flex flex-col gap-4">
+                        <div className="space-y-2">
+                          <div className="flex gap-2">
+                            <Input
+                              id={`image-textarea-${variant.id}`}
+                              value={variantImageTexts[String(variant.id)] || ''}
+                              onChange={(e) => handleImageTextChange(String(variant.id), e.target.value)}
+                              placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
+                              className="font-mono text-sm flex-1"
+                            />
+                            <Button
+                              type="button"
+                              variant="default"
+                              onClick={() => handleUpdateImagesFromText(String(variant.id))}
+                              disabled={updateProductImages.isPending}
+                              className="flex items-center gap-2 h-fit"
+                            >
+                              {updateProductImages.isPending ? (
+                                <>
+                                  <Icon path={mdiLoading} size={0.7} className="animate-spin" />
+                                  Đang cập nhật...
+                                </>
+                              ) : (
+                                'Cập nhật'
+                              )}
+                            </Button>
+                          </div>
+                        </div>
                         <div className="flex items-center gap-2">
                           <Input
                             type="file"

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
- 
+
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Icon } from '@mdi/react';
@@ -240,7 +240,7 @@ export default function BrandsPage() {
                                                                     setIsEditDialogOpen(true);
                                                                 }}
                                                             >
-                                                                <Icon path={mdiPencilCircle} size={0.7} />
+                                                                <Icon path={mdiPencilCircle} size={0.8} />
                                                             </Button>
                                                         </DialogTrigger>
                                                         {brandToEdit === (brand as any)?.id && (
@@ -265,7 +265,7 @@ export default function BrandsPage() {
                                                                 }}
                                                                 title="Xóa"
                                                             >
-                                                                <Icon path={mdiDeleteCircle} size={0.7} />
+                                                                <Icon path={mdiDeleteCircle} size={0.8} />
                                                             </Button>
                                                         </DialogTrigger>
                                                         <DialogContent>

@@ -30,7 +30,7 @@ export interface IProductCreate {
   category: string;
   material: string;
   description: string;
-  weight: number;
+  weight?: number;
   variants: IProductVariant[];
 }
 
