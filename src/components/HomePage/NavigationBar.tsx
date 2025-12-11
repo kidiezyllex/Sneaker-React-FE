@@ -57,18 +57,18 @@ export const NavigationBar = () => {
     }, []);
 
     return (
-        <header className="sticky top-0 z-50 bg-white shadow-sm py-4">
+        <header className="sticky top-0 z-50 bg-white shadow-sm py-3">
             <div className="container mx-auto flex items-center justify-between">
                 {/* Logo */}
                 <a href="/" className="flex items-center">
-                <img
-                draggable="false"
-                src="/images/logo.svg" 
-                alt="logo" 
-                width={100} 
-                height={100} 
-                className="w-auto mx-auto h-10 select-none cursor-pointer" 
-              />
+                    <img
+                        draggable="false"
+                        src="/images/logo.png"
+                        alt="logo"
+                        width={500}
+                        height={500}
+                        className="w-auto mx-auto h-14 select-none cursor-pointer"
+                    />
                 </a>
 
                 {/* Navigation */}

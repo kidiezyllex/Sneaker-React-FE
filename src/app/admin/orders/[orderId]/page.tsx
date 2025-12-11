@@ -254,7 +254,7 @@ const getProductInfo = (item: OrderItem): ProductInfo => {
             images: item.productVariant.images || []
         };
     }
-    
+
     // Fallback for older data structure
     return {
         name: item.product?.name || "Tên sản phẩm chưa cập nhật",
@@ -270,7 +270,7 @@ const getProductInfo = (item: OrderItem): ProductInfo => {
 // Helper function to get variant image for both online and POS orders  
 const getVariantImage = (item: OrderItem): string => {
     const productInfo = getProductInfo(item);
-    
+
     // If we have images from the product variant, use the first one
     if (productInfo.images && productInfo.images.length > 0) {
         const firstImage = productInfo.images[0];
@@ -282,21 +282,21 @@ const getVariantImage = (item: OrderItem): string => {
             return firstImage.url;
         }
     }
-    
+
     // For POS orders: item has variant field with colorId and sizeId
     if (item.variant && item.variant.colorId && item.variant.sizeId) {
-        const matchingVariant = item.product?.variants?.find((v: any) => 
+        const matchingVariant = item.product?.variants?.find((v: any) =>
             v.colorId === item.variant.colorId && v.sizeId === item.variant.sizeId
         );
         return matchingVariant?.images?.[0] || '/images/white-image.png';
     }
-    
+
     // For online orders: item doesn't have variant field, use first variant with image
     if (item.product?.variants) {
         const variantWithImage = item.product.variants.find((v: any) => v.images && v.images.length > 0);
         return variantWithImage?.images?.[0] || '/images/white-image.png';
     }
-    
+
     return '/images/white-image.png';
 };
 
@@ -428,7 +428,7 @@ export default function OrderDetailPage() {
 
             pdf.addImage(canvas, 'PNG', 0, 0, pageWidth, imgHeight);
             pdf.save(`HoaDon_${generateInvoiceCode((orderDetail.data as any).code).replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
-            
+
             toast.success("Đã lưu hoá đơn PDF thành công!");
         } catch (error) {
             toast.error("Lỗi khi in hoá đơn PDF.");
@@ -830,7 +830,7 @@ export default function OrderDetailPage() {
                                     {order.items.map((item: any, index: number) => {
                                         const variantImage = getVariantImage(item);
                                         const productInfo = getProductInfo(item);
-                                        
+
                                         return (
                                             <TableRow key={index}>
                                                 <TableCell>
@@ -985,7 +985,7 @@ export default function OrderDetailPage() {
                                         <div className='w-full justify-center mb-4'>
                                             <img
                                                 draggable="false"
-                                                src="/images/logo.svg"
+                                                src="/images/logo.png"
                                                 alt="logo"
                                                 width={100}
                                                 height={100}
@@ -1046,7 +1046,7 @@ export default function OrderDetailPage() {
                                     {order.items.map((item: any, index: number) => {
                                         const variantImage = getVariantImage(item);
                                         const productInfo = getProductInfo(item);
-                                        
+
                                         return (
                                             <TableRow key={index}>
                                                 <TableCell>

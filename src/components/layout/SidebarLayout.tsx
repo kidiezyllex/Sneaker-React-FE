@@ -80,7 +80,7 @@ const SidebarLayout = memo(function SidebarLayout({ children }: SidebarLayoutPro
               <a href="/" className="flex items-center">
                 <img
                   draggable="false"
-                  src="/images/logo.svg"
+                  src="/images/logo.png"
                   alt="logo"
                   width={100}
                   height={100}

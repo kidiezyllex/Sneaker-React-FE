@@ -109,7 +109,7 @@ export const Footer = () => {
                 <div className="relative inline-block mb-6">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-blue-400/30 rounded-full blur-xl" />
                   <img
-                    src="/images/logo.svg"
+                    src="/images/logo.png"
                     alt="Logo"
                     width={200}
                     height={134}
@@ -159,7 +159,7 @@ export const Footer = () => {
                   <div className="relative inline-block mb-6">
                     <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-blue-400/30 rounded-full blur-xl" />
                     <img
-                      src="/images/logo.svg"
+                      src="/images/logo.png"
                       alt="Logo"
                       width={200}
                       height={134}

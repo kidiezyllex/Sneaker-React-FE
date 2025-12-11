@@ -5,15 +5,15 @@ import { Icon } from '@mdi/react';
 import { mdiCartOutline, mdiHeartOutline, mdiStar, mdiEye, mdiArrowRight } from '@mdi/js';
 import { InteractiveHoverButton } from '../Common/InteractiveHoverButton';
 
-//                                                                                                                     Dữ liệu sản phẩm mới
+
 const newArrivalsData = [
   {
     id: 1,
-    name: "Áo Thun Nam Form Rộng Premium",
+    name: "Gucci x Off-White Air Jordan 1",
     price: 299000,
     originalPrice: 399000,
     discount: 25,
-    image: "https://bizweb.dktcdn.net/thumb/large/100/287/440/products/ao-thun-nam-nu-form-rong-davies-hoa-tiet-phoi-chu-mau-tuong-phan-phong-cach-hiphop-mau-den-1-f31adeaa-9e80-4c3f-a483-0b0b0719dc6d.jpg?v=1748593325673",
+    image: "https://image.goat.com/750/attachments/product_template_pictures/images/078/460/445/original/264438_00.png.png",
     rating: 5,
     slug: "ao-thun-nam-form-rong-premium",
     brand: "Davies",
@@ -23,7 +23,7 @@ const newArrivalsData = [
   },
   {
     id: 2,
-    name: "Áo Khoác Bomber Có Mũ Phối Lông",
+    name: "Addison Jordan 1 Retro High OG",
     price: 549000,
     originalPrice: 699000,
     discount: 21,
@@ -37,7 +37,7 @@ const newArrivalsData = [
   },
   {
     id: 3,
-    name: "Áo Thun Unisex Họa Tiết Camo",
+    name: "Balenciaga x Off-White Air Jordan 1",
     price: 259000,
     originalPrice: 319000,
     discount: 19,
@@ -51,7 +51,7 @@ const newArrivalsData = [
   },
   {
     id: 4,
-    name: "Áo Khoác Bomber Chống Nước",
+    name: "Nike x Off-White Air Jordan 1",
     price: 449000,
     originalPrice: 559000,
     discount: 20,
@@ -65,12 +65,11 @@ const newArrivalsData = [
   }
 ];
 
-//                                                                                                                     Fallback images nếu không tải được từ path
 const fallbackImages = [
-  "https://bizweb.dktcdn.net/thumb/large/100/287/440/products/ao-thun-nam-nu-form-rong-davies-hoa-tiet-phoi-chu-mau-tuong-phan-phong-cach-hiphop-mau-den-1-f31adeaa-9e80-4c3f-a483-0b0b0719dc6d.jpg?v=1748593325673",
-  "https://bizweb.dktcdn.net/thumb/large/100/287/440/products/ao-khoac-bomber-co-mu-phoi-long-vu-local-brand-davies-6.jpg?v=1748075564577",
-  "https://bizweb.dktcdn.net/thumb/large/100/287/440/products/ao-thun-local-brand-form-rong-in-hoa-tiet-camo-mau-den-trang-tay-lo-nam-nu-7.jpg?v=1734765485657",
-  "https://bizweb.dktcdn.net/thumb/large/100/287/440/products/ao-khoac-bomber-nu-nam-local-brand-mau-den-vai-du-khang-nuoc-1.jpg?v=1717745742377"
+  "https://image.goat.com/750/attachments/product_template_pictures/images/078/460/445/original/264438_00.png.png",
+  "https://image.goat.com/750/attachments/product_template_pictures/images/000/083/840/original/F33022.png.png",
+  "https://image.goat.com/750/attachments/product_template_pictures/images/094/896/132/original/741107_W3CZ1_9010.png.png",
+  "https://image.goat.com/750/attachments/product_template_pictures/images/000/029/227/original/316077_221.png.png"
 
 ];
 
@@ -101,7 +100,6 @@ const DiscountBadge = ({ discount }: { discount: number }) => {
   );
 };
 
-//                                                                                                                     Component thẻ best seller
 const BestSellerBadge = ({ isBestSeller }: { isBestSeller: boolean }) => {
   if (!isBestSeller) return null;
 
@@ -112,7 +110,6 @@ const BestSellerBadge = ({ isBestSeller }: { isBestSeller: boolean }) => {
   );
 };
 
-//                                                                                                                     Component hiển thị màu sắc
 const ColorOptions = ({ colors }: { colors: string[] }) => {
   return (
     <div className="flex gap-1 items-center">
@@ -139,12 +136,12 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
   );
 };
 
-//                                                                                                                     Component card sản phẩm
+
 const ProductCard = ({ product, index }: { product: typeof newArrivalsData[0], index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  //                                                                                                                     Format giá tiền sang VND
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',

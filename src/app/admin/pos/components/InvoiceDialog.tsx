@@ -100,7 +100,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
 
       pdf.addImage(canvas, 'PNG', 0, 0, pageWidth, imgHeight);
       pdf.save(`HoaDon_${invoiceData.orderId.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`);
-      
+
       toast.success("Đã lưu hoá đơn PDF thành công!");
     } catch (error) {
       toast.error("Lỗi khi in hoá đơn PDF.");
@@ -120,11 +120,11 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
             <div className='w-full justify-center mb-4'>
               <img
                 draggable="false"
-                src="/images/logo.svg" 
-                alt="logo" 
-                width={100} 
-                height={100} 
-                className="w-auto mx-auto h-20" 
+                src="/images/logo.png"
+                alt="logo"
+                width={100}
+                height={100}
+                className="w-auto mx-auto h-20"
               />
             </div>
             <div className="text-center mb-4">
