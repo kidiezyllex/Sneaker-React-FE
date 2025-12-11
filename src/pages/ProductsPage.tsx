@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useMemo } from "react"
- 
+
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Slider } from "@/components/ui/slider"
@@ -44,6 +44,7 @@ import {
 
 interface ProductCardProps {
   product: any
+  promotionsData?: any
   onAddToCart: () => void
   onQuickView: () => void
   onAddToWishlist: () => void
@@ -93,14 +94,13 @@ export default function ProductsPage() {
   const productsQuery = useProducts(paginationParams)
   const searchQuery2 = useSearchProducts(isSearching ? { keyword: searchQuery, status: "ACTIVE" } : { keyword: "" })
   const { data: rawData, isLoading, isError } = isSearching ? searchQuery2 : productsQuery
-  const { data: promotionsData } = usePromotions({status: "ACTIVE"});
-  console.log(promotionsData)
+  const { data: promotionsData } = usePromotions({ status: "ACTIVE" });
   const data = useMemo(() => {
     if (!rawData || !rawData.data || !rawData.data.products) return rawData
     let filteredProducts = [...rawData.data.products]
     if (promotionsData?.data?.promotions) {
       filteredProducts = applyPromotionsToProducts(filteredProducts, promotionsData.data.promotions)
-    } 
+    }
 
     // Apply filters after promotions
     if (filters.brands && filters.brands.length > 0) {
@@ -144,19 +144,19 @@ export default function ProductsPage() {
       filteredProducts = filteredProducts.filter((product: any) => {
         // Calculate discount from promotions data if available
         let price = product.variants[0]?.price || 0;
-        
+
         if (promotionsData?.data?.promotions) {
           const discount = calculateProductDiscount(
             product.id,
             price,
             promotionsData.data.promotions
           );
-          
+
           if (discount.discountPercent > 0) {
             price = discount.discountedPrice;
           }
         }
-        
+
         return price >= minPrice && price <= maxPrice
       })
     }
@@ -167,11 +167,11 @@ export default function ProductsPage() {
         // Calculate discount prices from promotions data if available
         let priceA = a.variants[0]?.price || 0;
         let priceB = b.variants[0]?.price || 0;
-        
+
         if (promotionsData?.data?.promotions) {
           const discountA = calculateProductDiscount(a.id, priceA, promotionsData.data.promotions);
           const discountB = calculateProductDiscount(b.id, priceB, promotionsData.data.promotions);
-          
+
           if (discountA.discountPercent > 0) {
             priceA = discountA.discountedPrice;
           }
@@ -179,7 +179,7 @@ export default function ProductsPage() {
             priceB = discountB.discountedPrice;
           }
         }
-        
+
         const dateA = new Date(a.createdAt).getTime()
         const dateB = new Date(b.createdAt).getTime()
 
@@ -236,12 +236,12 @@ export default function ProductsPage() {
     if (!product.variants?.[0]) return;
 
     const firstVariant = product.variants[0];
-    
+
     if (firstVariant.stock === 0) {
       toast.error('Sản phẩm đã hết hàng');
       return;
     }
-    
+
     // Calculate discount from promotions data if available
     let finalPrice = firstVariant.price;
     let originalPrice = undefined;
@@ -255,7 +255,7 @@ export default function ProductsPage() {
         firstVariant.price,
         promotionsData.data.promotions
       );
-      
+
       if (discount.discountPercent > 0) {
         finalPrice = discount.discountedPrice;
         originalPrice = discount.originalPrice;
@@ -588,7 +588,7 @@ export default function ProductsPage() {
   )
 }
 
-const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddToWishlist }: ProductCardProps & { promotionsData?: any }) => {
+const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddToWishlist }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false)
   return (
     <motion.div
@@ -619,13 +619,13 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
           {/* Enhanced badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
             {(() => {
-              if (promotionsData?.data?.promotions && product.variants?.[0]) {
+              if (promotionsData?.data?.promotions && product.variants?.[0]?.price) {
                 const discount = calculateProductDiscount(
                   product.id,
-                  product.variants[0].price,
+                  product.variants[0]?.price || 0,
                   promotionsData.data.promotions
                 );
-                
+
                 if (discount.discountPercent > 0) {
                   return (
                     <motion.div
@@ -644,7 +644,7 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
             })()}
             {/* Stock badge */}
             {(() => {
-              const totalStock = product.variants.reduce((sum: number, variant: any) => sum + (variant.stock || 0), 0);
+              const totalStock = (product.variants || []).reduce((sum: number, variant: any) => sum + (variant.stock || 0), 0);
               if (totalStock === 0) {
                 return (
                   <motion.div
@@ -755,29 +755,29 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
               >
                 {(() => {
                   // Calculate discount from promotions data if available
-                  if (promotionsData?.data?.promotions) {
+                  if (promotionsData?.data?.promotions && product.variants?.[0]?.price) {
                     const discount = calculateProductDiscount(
                       product.id,
-                      product.variants[0].price,
+                      product.variants[0]?.price || 0,
                       promotionsData.data.promotions
                     );
-                    
+
                     if (discount.discountPercent > 0) {
                       return formatPrice(discount.discountedPrice);
                     }
                   }
-                  
-                  return formatPrice(product.variants[0]?.price || 0);
+
+                  return formatPrice(product.variants?.[0]?.price || 0);
                 })()}
               </motion.div>
               {(() => {
-                if (promotionsData?.data?.promotions) {
+                if (promotionsData?.data?.promotions && product.variants?.[0]?.price) {
                   const discount = calculateProductDiscount(
                     product.id,
-                    product.variants[0].price,
+                    product.variants[0]?.price || 0,
                     promotionsData.data.promotions
                   );
-                  
+
                   if (discount.discountPercent > 0) {
                     return (
                       <div className="text-xs text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
@@ -790,19 +790,19 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
               })()}
             </div>
 
-            {product.variants.length > 0 && (
+            {product.variants && product.variants.length > 0 && (
               <div className="flex flex-col gap-1 items-start justify-start mt-2">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-maintext/70 font-semibold">Màu sắc:</span>
                   <div className="flex gap-1 text-sm items-center">
                     {Array.from(
                       new Set(
-                        product.variants.map((v: any) => v.color?.id || v.colorId),
+                        (product.variants || []).map((v: any) => v.color?.id || v.colorId),
                       ),
                     )
                       .slice(0, 4)
                       .map((colorId, index: number) => {
-                        const variant = product.variants.find(
+                        const variant = (product.variants || []).find(
                           (v: any) => (v.color?.id || v.colorId) === colorId,
                         )
                         const color = variant?.color || { code: "#000000", name: "Unknown" }
@@ -821,7 +821,7 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
 
                     {Array.from(
                       new Set(
-                        product.variants.map((v: any) => v.color?.id || v.colorId),
+                        (product.variants || []).map((v: any) => v.color?.id || v.colorId),
                       ),
                     ).length > 4 && (
                         <motion.span
@@ -831,7 +831,7 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                           +
                           {Array.from(
                             new Set(
-                              product.variants.map((v: any) => v.color?.id || v.colorId),
+                              (product.variants || []).map((v: any) => v.color?.id || v.colorId),
                             ),
                           ).length - 4}
                         </motion.span>
@@ -843,7 +843,7 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                   <div className="flex gap-1 text-maintext text-sm">
                     {Array.from(
                       new Set(
-                        product.variants.map((v: any) =>
+                        (product.variants || []).map((v: any) =>
                           v.size?.value ? getSizeLabel(v.size.value) : (v.size?.code || v.size?.name || "Unknown")
                         )
                       )
