@@ -15,7 +15,7 @@ function getLocalAccessToken() {
 
 // ===== Khởi tạo instance axios mặc định ===== //
 const instance = axios.create({
-  timeout: 3 * 60 * 1000, // Timeout 3 phút
+  timeout: 30000,
   baseURL: `${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/api/`, // Base URL từ biến môi trường hoặc fallback localhost
   headers: {
     'Content-Type': 'application/json',

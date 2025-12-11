@@ -30,10 +30,50 @@ export default function EditProductPage() {
   const [activeTab, setActiveTab] = useState('info');
   const [uploading, setUploading] = useState(false);
 
-  const { data: productData, isLoading, isError } = useProductDetail(id);
+  // Early return if id is missing
+  if (!id) {
+    return (
+      <div className="space-y-4">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold">Chi tiết sản phẩm</h1>
+          <Button
+            variant="outline"
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2"
+          >
+            <Icon path={mdiArrowLeft} size={0.7} />
+            Quay lại
+          </Button>
+        </div>
+        <Card className="text-center p-4">
+          <p className="text-red-500 mb-4">ID sản phẩm không hợp lệ.</p>
+          <Button
+            variant="outline"
+            onClick={() => navigate(-1)}
+          >
+            Quay lại
+          </Button>
+        </Card>
+      </div>
+    );
+  }
+
+  const { data: productData, isLoading, isError, error, isFetching } = useProductDetail(id);
   const { data: brandsData } = useBrands();
   const { data: categoriesData } = useCategories();
   const { data: materialsData } = useMaterials();
+
+  // Debug logging
+  useEffect(() => {
+    console.log('EditProductPage Debug:', {
+      id,
+      isLoading,
+      isFetching,
+      isError,
+      error,
+      hasData: !!productData,
+    });
+  }, [id, isLoading, isFetching, isError, error, productData]);
   const updateProduct = useUpdateProduct();
   const updateProductStatus = useUpdateProductStatus();
   const updateProductStock = useUpdateProductStock();
@@ -197,7 +237,7 @@ export default function EditProductPage() {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || (isFetching && !productData)) {
     return (
       <div className="space-y-4">
         <Breadcrumb>
@@ -267,13 +307,28 @@ export default function EditProductPage() {
         </div>
 
         <Card className="text-center p-4">
-          <p className="text-red-500 mb-4">Đã xảy ra lỗi khi tải thông tin sản phẩm.</p>
-          <Button
-            variant="outline"
-            onClick={() => navigate(-1)}
-          >
-            Quay lại
-          </Button>
+          <p className="text-red-500 mb-4">
+            Đã xảy ra lỗi khi tải thông tin sản phẩm.
+            {error && (
+              <span className="block text-sm mt-2">
+                {error instanceof Error ? error.message : 'Lỗi không xác định'}
+              </span>
+            )}
+          </p>
+          <div className="flex gap-2 justify-center">
+            <Button
+              variant="outline"
+              onClick={() => navigate(-1)}
+            >
+              Quay lại
+            </Button>
+            <Button
+              variant="default"
+              onClick={() => window.location.reload()}
+            >
+              Thử lại
+            </Button>
+          </div>
         </Card>
       </div>
     );

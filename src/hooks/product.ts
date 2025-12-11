@@ -51,8 +51,9 @@ export const useProductDetail = (productId: string): UseQueryResult<IProductResp
     enabled: !!productId, 
     staleTime: 30000, // 30 seconds
     gcTime: 300000, // 5 minutes
-    refetchInterval: 4000,
-    refetchIntervalInBackground: true,
+    retry: false, // Không retry để tránh infinite loading
+    refetchOnMount: false, // Không refetch khi mount lại
+    refetchOnWindowFocus: false, // Không refetch khi focus window
   });
 };
 
