@@ -31,24 +31,33 @@ const UserContext = createContext<UserContextType | null>(null);
 
 export function UserProvider({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
+  const hasToken =
+    typeof window !== "undefined" && localStorage.getItem("accessToken");
+
   const {
     data: profileData,
     refetch: refetchProfile,
     isLoading: isProfileLoading,
   } = useUserProfile();
-  const [user, setUser] = useState<null | Record<string, any>>(null);
-  const [profile, setProfile] = useState<IAccountResponse | null>(null);
-  const [isLoadingProfile, setIsLoadingProfile] = useState<boolean>(false);
-  const lastProfileDataStringRef = useRef<string | null>(null);
 
-  useEffect(() => {
+  const [user, setUser] = useState<null | Record<string, any>>(() => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
+      return storedUser ? JSON.parse(storedUser) : null;
     }
-  }, []);
+    return null;
+  });
+
+  const [profile, setProfile] = useState<IAccountResponse | null>(() => {
+    if (typeof window !== "undefined") {
+      const storedProfile = localStorage.getItem("userProfile");
+      return storedProfile ? JSON.parse(storedProfile) : null;
+    }
+    return null;
+  });
+
+  const [isLoadingProfile, setIsLoadingProfile] = useState<boolean>(false);
+  const lastProfileDataStringRef = useRef<string | null>(null);
 
   const setCookie = useCallback((name: string, value: string, days = 30) => {
     if (typeof window === "undefined") return;
@@ -105,15 +114,6 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
       setIsLoadingProfile(false);
     }
   }, [refetchProfile]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedProfile = localStorage.getItem("userProfile");
-      if (storedProfile) {
-        setProfile(JSON.parse(storedProfile));
-      }
-    }
-  }, []);
 
   useEffect(() => {
     const currentProfileDataString = profileData

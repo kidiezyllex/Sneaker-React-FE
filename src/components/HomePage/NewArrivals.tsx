@@ -78,7 +78,7 @@ const fallbackImages = [
   "https://image.goat.com/750/attachments/product_template_pictures/images/000/029/227/original/316077_221.png.png",
 ];
 
-const RatingStars = ({ rating }: { rating: number }) => {
+const RatingStars = React.memo(({ rating }: { rating: number }) => {
   return (
     <div className="flex gap-1 items-center">
       {[...Array(5)].map((_, i) => (
@@ -92,9 +92,9 @@ const RatingStars = ({ rating }: { rating: number }) => {
       <span className="text-sm text-maintext ml-1">({rating}.0)</span>
     </div>
   );
-};
+});
 
-const DiscountBadge = ({ discount }: { discount: number }) => {
+const DiscountBadge = React.memo(({ discount }: { discount: number }) => {
   if (!discount) return null;
 
   return (
@@ -102,19 +102,21 @@ const DiscountBadge = ({ discount }: { discount: number }) => {
       -{discount}%
     </div>
   );
-};
+});
 
-const BestSellerBadge = ({ isBestSeller }: { isBestSeller: boolean }) => {
-  if (!isBestSeller) return null;
+const BestSellerBadge = React.memo(
+  ({ isBestSeller }: { isBestSeller: boolean }) => {
+    if (!isBestSeller) return null;
 
-  return (
-    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-none font-medium text-sm text-white bg-gradient-to-r from-[#2C8B3D] to-[#88C140]">
-      Best Seller
-    </div>
-  );
-};
+    return (
+      <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-none font-medium text-sm text-white bg-gradient-to-r from-[#2C8B3D] to-[#88C140]">
+        Best Seller
+      </div>
+    );
+  }
+);
 
-const ColorOptions = ({ colors }: { colors: string[] }) => {
+const ColorOptions = React.memo(({ colors }: { colors: string[] }) => {
   return (
     <div className="flex gap-1 items-center">
       {colors.map((color, i) => (
@@ -150,128 +152,142 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
       ))}
     </div>
   );
-};
+});
 
-const ProductCard = ({
-  product,
-  index,
-}: {
-  product: (typeof newArrivalsData)[0];
-  index: number;
-}) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
+const ProductCard = React.memo(
+  ({
+    product,
+    index,
+  }: {
+    product: (typeof newArrivalsData)[0];
+    index: number;
+  }) => {
+    const ref = useRef(null);
+    const isInView = useInView(ref, {
+      once: true,
+      margin: "0px 0px -100px 0px",
+    });
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
+    const formatPrice = (price: number) => {
+      return new Intl.NumberFormat("vi-VN", {
+        style: "currency",
+        currency: "VND",
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      }).format(price);
+    };
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="group relative bg-white dark:bg-gray-800 rounded-[6px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 pb-4 flex flex-col border border-gray-100"
-    >
-      <a
-        href={`/products/${product.slug}`}
-        className="block relative overflow-hidden"
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 50 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+        transition={{ duration: 0.5, delay: index * 0.1 }}
+        className="group relative bg-white dark:bg-gray-800 rounded-[6px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 pb-4 flex flex-col border border-gray-100"
       >
-        <div className="relative aspect-square w-full overflow-hidden">
-          {product.discount > 0 && (
-            <DiscountBadge discount={product.discount} />
-          )}
-          {product.isBestSeller && (
-            <BestSellerBadge isBestSeller={product.isBestSeller} />
-          )}
+        <a
+          href={`/products/${product.slug}`}
+          className="block relative overflow-hidden"
+        >
+          <div className="relative aspect-square w-full overflow-hidden">
+            {product.discount > 0 && (
+              <DiscountBadge discount={product.discount} />
+            )}
+            {product.isBestSeller && (
+              <BestSellerBadge isBestSeller={product.isBestSeller} />
+            )}
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
 
-          <img
-            src={fallbackImages[index % fallbackImages.length]}
-            alt={product.name}
-            className="object-cover transition-transform duration-700 group-hover:scale-110"
-            draggable="false"
-          />
-        </div>
-        {/* Quick action buttons */}
-        <div className="absolute bottom-0 left-0 right-0 p-3 flex justify-center items-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-20">
-          <Button
-            size="sm"
-            variant="secondary"
-            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
-            title="Xem nhanh"
-          >
-            <Icon path={mdiEye} size={0.7} className="text-maintext" />
-          </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
-            title="Yêu thích"
-          >
-            <Icon path={mdiHeartOutline} size={0.7} className="text-maintext" />
-          </Button>
-          <Button
-            size="sm"
-            variant="secondary"
-            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
-            title="Thêm vào giỏ hàng"
-          >
-            <Icon path={mdiCartOutline} size={0.7} className="text-maintext" />
-          </Button>
-        </div>
-      </a>
+            <img
+              src={fallbackImages[index % fallbackImages.length]}
+              alt={product.name}
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              draggable="false"
+              loading="lazy"
+            />
+          </div>
+          {/* Quick action buttons */}
+          <div className="absolute bottom-0 left-0 right-0 p-3 flex justify-center items-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out z-20">
+            <Button
+              size="sm"
+              variant="secondary"
+              className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
+              title="Xem nhanh"
+            >
+              <Icon path={mdiEye} size={0.7} className="text-maintext" />
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
+              title="Yêu thích"
+            >
+              <Icon
+                path={mdiHeartOutline}
+                size={0.7}
+                className="text-maintext"
+              />
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
+              title="Thêm vào giỏ hàng"
+            >
+              <Icon
+                path={mdiCartOutline}
+                size={0.7}
+                className="text-maintext"
+              />
+            </Button>
+          </div>
+        </a>
 
-      <div className="p-4 pb-0 flex flex-col gap-1">
-        <div className="text-sm font-medium text-[#2C8B3D] uppercase tracking-wider">
-          {product.brand}
-        </div>
-        <h3 className="text-maintext dark:text-white font-semibold text-lg truncate group-hover:text-[#2C8B3D] transition-colors duration-200">
-          <a href={`/products/${product.slug}`}>{product.name}</a>
-        </h3>
-        <div className="">
-          <RatingStars rating={product.rating} />
-        </div>
-        <div className="flex items-baseline gap-2 mb-1">
-          <span className="font-bold text-lg bg-gradient-to-r from-[#2C8B3D] to-[#88C140] bg-clip-text text-transparent">
-            {formatPrice(product.price)}
-          </span>
-          {product.discount > 0 && (
-            <span className="text-sm text-maintext line-through">
-              {formatPrice(product.originalPrice)}
+        <div className="p-4 pb-0 flex flex-col gap-1">
+          <div className="text-sm font-medium text-[#2C8B3D] uppercase tracking-wider">
+            {product.brand}
+          </div>
+          <h3 className="text-maintext dark:text-white font-semibold text-lg truncate group-hover:text-[#2C8B3D] transition-colors duration-200">
+            <a href={`/products/${product.slug}`}>{product.name}</a>
+          </h3>
+          <div className="">
+            <RatingStars rating={product.rating} />
+          </div>
+          <div className="flex items-baseline gap-2 mb-1">
+            <span className="font-bold text-lg bg-gradient-to-r from-[#2C8B3D] to-[#88C140] bg-clip-text text-transparent">
+              {formatPrice(product.price)}
             </span>
-          )}
-        </div>
-        <div className="flex gap-1 items-center justify-between mb-4">
-          <ColorOptions colors={product.colors} />
+            {product.discount > 0 && (
+              <span className="text-sm text-maintext line-through">
+                {formatPrice(product.originalPrice)}
+              </span>
+            )}
+          </div>
+          <div className="flex gap-1 items-center justify-between mb-4">
+            <ColorOptions colors={product.colors} />
 
-          {product.stock <= 10 && (
-            <div className="text-sm text-orange-600 font-medium">
-              (Chỉ còn {product.stock} sản phẩm)
-            </div>
-          )}
+            {product.stock <= 10 && (
+              <div className="text-sm text-orange-600 font-medium">
+                (Chỉ còn {product.stock} sản phẩm)
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="flex w-full flex-col items-center justify-end flex-1">
-        <InteractiveHoverButton className="rounded-none uppercase font-normal w-fit">
-          Xem chi tiết
-          <Icon
-            path={mdiArrowRight}
-            size={0.7}
-            className="ml-2 group-hover:translate-x-1 transition-transform"
-          />
-        </InteractiveHoverButton>
-      </div>
-    </motion.div>
-  );
-};
+        <div className="flex w-full flex-col items-center justify-end flex-1">
+          <InteractiveHoverButton className="rounded-none uppercase font-normal w-fit">
+            Xem chi tiết
+            <Icon
+              path={mdiArrowRight}
+              size={0.7}
+              className="ml-2 group-hover:translate-x-1 transition-transform"
+            />
+          </InteractiveHoverButton>
+        </div>
+      </motion.div>
+    );
+  }
+);
 
 export const NewArrivals = () => {
   const headerRef = useRef(null);

@@ -4,7 +4,6 @@ import React, { useState, useEffect, useMemo } from "react";
 import CartIcon from "@/components/ui/CartIcon";
 import { useNavigate } from "react-router-dom";
 
-// Add custom styles for zoom cursor
 const zoomStyles = `
   .cursor-zoom-in {
     cursor: zoom-in;
@@ -36,7 +35,6 @@ const zoomStyles = `
   }
 `;
 
-// Inject styles
 if (typeof document !== "undefined") {
   const styleSheet = document.createElement("style");
   styleSheet.type = "text/css";
@@ -141,14 +139,12 @@ const ImageZoom = ({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
-    // Calculate percentage position
     const xPercent = (x / rect.width) * 100;
     const yPercent = (y / rect.height) * 100;
 
     setMousePosition({ x: xPercent, y: yPercent });
 
-    // Calculate lens position (centered on cursor)
-    const lensSize = 150; // Size of the lens
+    const lensSize = 150;
     const lensX = Math.max(
       lensSize / 2,
       Math.min(rect.width - lensSize / 2, x)
@@ -169,7 +165,6 @@ const ImageZoom = ({
 
   return (
     <div className="relative overflow-visible group zoom-container">
-      {/* Main Image Container */}
       <div
         className={`relative ${className} transition-all duration-300 ${
           !isMobile && !isZooming ? "cursor-zoom-in" : ""
@@ -186,7 +181,6 @@ const ImageZoom = ({
           className="object-contain p-4 transition-transform duration-300"
         />
 
-        {/* Zoom Lens - Desktop only */}
         {isZooming && !isMobile && (
           <motion.div
             className="absolute pointer-events-none border-4 border-white rounded-full shadow-2xl z-30 overflow-hidden zoom-lens"
@@ -202,7 +196,6 @@ const ImageZoom = ({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.2 }}
           >
-            {/* Zoomed image inside the lens */}
             <div
               className="w-full h-full relative bg-white"
               style={{
@@ -212,12 +205,10 @@ const ImageZoom = ({
                 backgroundRepeat: "no-repeat",
               }}
             />
-            {/* Lens border effect */}
             <div className="absolute inset-2 border border-white/30 rounded-full pointer-events-none"></div>
           </motion.div>
         )}
       </div>
-      {/* Mobile Zoom Overlay */}
       {isZooming && isMobile && (
         <motion.div
           className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
@@ -253,7 +244,6 @@ const ImageZoom = ({
         </motion.div>
       )}
 
-      {/* Zoom hint for mobile */}
       {isMobile && (
         <motion.div
           className="absolute bottom-2 right-2 bg-primary/90 text-white px-2 py-1 rounded text-sm font-medium opacity-70"
@@ -266,7 +256,6 @@ const ImageZoom = ({
         </motion.div>
       )}
 
-      {/* Zoom hint for desktop */}
       {!isMobile && !isZooming && (
         <motion.div
           className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm font-medium opacity-0 group-hover:opacity-70 transition-opacity duration-300"
@@ -282,7 +271,6 @@ const ImageZoom = ({
   );
 };
 
-// Similar Products Component
 const SimilarProductCard = ({
   product,
   promotionsData,
@@ -310,13 +298,11 @@ const SimilarProductCard = ({
       return;
     }
 
-    // Calculate discount from promotions data if available
     let finalPrice = firstVariant.price;
     let originalPrice = undefined;
     let discountPercent = 0;
     let hasDiscount = false;
 
-    // Check if promotions data is available and calculate discount
     if (promotionsData?.data?.promotions) {
       const activePromotions = filterActivePromotions(
         promotionsData.data.promotions
@@ -351,7 +337,6 @@ const SimilarProductCard = ({
       size: firstVariant.sizeId?.code,
       colors: [firstVariant.colorId?.name || "Default"],
       stock: firstVariant.stock,
-      // New variant information
       colorId: firstVariant.colorId?.id || "",
       sizeId: firstVariant.sizeId?.id || "",
       colorName: firstVariant.colorId?.name || "Default",
@@ -424,7 +409,6 @@ const SimilarProductCard = ({
               </motion.div>
             )}
             {(() => {
-              // Calculate discount from promotions data if available
               if (promotionsData?.data?.promotions && product.variants?.[0]) {
                 const activePromotions = filterActivePromotions(
                   promotionsData.data.promotions
@@ -554,7 +538,6 @@ const SimilarProductCard = ({
                 transition={{ duration: 0.2 }}
               >
                 {(() => {
-                  // Calculate discount from promotions data if available
                   if (
                     promotionsData?.data?.promotions &&
                     product.variants?.[0]
@@ -577,7 +560,6 @@ const SimilarProductCard = ({
                 })()}
               </motion.div>
               {(() => {
-                // Show original price if there's a discount
                 if (promotionsData?.data?.promotions && product.variants?.[0]) {
                   const discount = calculateProductDiscount(
                     product.id,
@@ -720,7 +702,6 @@ export default function ProductDetail() {
     }
   }, [slug]);
 
-  // Cập nhật variant được chọn khi có dữ liệu sản phẩm
   useEffect(() => {
     if (
       productData?.data?.variants?.length &&
@@ -738,7 +719,6 @@ export default function ProductDetail() {
     }
   }, [productData]);
 
-  // Calculate product discount when promotions data is available
   useEffect(() => {
     if (
       productData?.data &&
@@ -755,16 +735,13 @@ export default function ProductDetail() {
       );
       setProductDiscount(discount);
     } else {
-      // Reset discount if no promotions or variant
       setProductDiscount(null);
     }
   }, [productData, selectedVariant, promotionsData]);
 
-  // Xử lý chọn màu sắc
   const handleColorSelect = (colorId: string) => {
     setSelectedColor(colorId);
 
-    // Try to find a variant with the selected color and current size
     const matchingVariant = productData?.data?.variants.find(
       (v) =>
         String(v.color?.id || v.colorId) === String(colorId) &&
@@ -775,7 +752,6 @@ export default function ProductDetail() {
       setSelectedVariant(matchingVariant);
       setCurrentImageIndex(0);
     } else {
-      // If no exact match, find first variant with the selected color
       const firstVariantWithColor = productData?.data?.variants.find(
         (v) => String(v.color?.id || v.colorId) === String(colorId)
       );
@@ -791,7 +767,6 @@ export default function ProductDetail() {
     }
   };
 
-  // Xử lý chọn kích thước
   const handleSizeSelect = (sizeId: string) => {
     setSelectedSize(sizeId);
 
@@ -806,11 +781,9 @@ export default function ProductDetail() {
     }
   };
 
-  // Xử lý thêm vào giỏ hàng
   const handleAddToCart = () => {
     if (!selectedVariant || !productData?.data) return;
 
-    // Check stock availability
     if (selectedVariant.stock === 0) {
       toast.error("Sản phẩm đã hết hàng");
       return;
@@ -854,7 +827,6 @@ export default function ProductDetail() {
       size: String(selectedVariant.size?.value || selectedVariant.sizeId || ""),
       colors: [selectedVariant.color?.name || "Default"],
       stock: selectedVariant.stock,
-      // New variant information
       colorId: String(
         selectedVariant.color?.id || selectedVariant.colorId || ""
       ),
@@ -873,7 +845,6 @@ export default function ProductDetail() {
     );
   };
 
-  // Xử lý chuyển ảnh
   const handleImageChange = (index: number) => {
     setCurrentImageIndex(index);
   };
@@ -908,7 +879,6 @@ export default function ProductDetail() {
     setQuantity(Math.max(1, Math.min(newQuantity, maxQuantity)));
   };
 
-  // Get similar products (exclude current product) and apply promotions
   const similarProducts = useMemo(() => {
     if (!allProductsData?.data?.products || !productData?.data) return [];
 
@@ -916,7 +886,6 @@ export default function ProductDetail() {
       .filter((p: IProduct) => p.id !== productData.data.id)
       .slice(0, 4);
 
-    // Apply promotions to similar products - but only active promotions
     if (promotionsData?.data?.promotions) {
       const activePromotions = filterActivePromotions(
         promotionsData.data.promotions

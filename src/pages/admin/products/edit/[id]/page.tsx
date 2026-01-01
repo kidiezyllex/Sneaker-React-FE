@@ -76,7 +76,6 @@ export default function EditProductPage() {
   >({});
   const imagesApiCalledRef = useRef(false);
 
-  // Early return if id is missing
   if (!id) {
     return (
       <div className="space-y-4">
@@ -112,17 +111,6 @@ export default function EditProductPage() {
   const { data: categoriesData } = useCategories();
   const { data: materialsData } = useMaterials();
 
-  // Debug logging
-  useEffect(() => {
-    console.log("EditProductPage Debug:", {
-      id,
-      isLoading,
-      isFetching,
-      isError,
-      error,
-      hasData: !!productData,
-    });
-  }, [id, isLoading, isFetching, isError, error, productData]);
   const updateProduct = useUpdateProduct();
   const updateProductStatus = useUpdateProductStatus();
   const updateProductStock = useUpdateProductStock();
@@ -159,7 +147,6 @@ export default function EditProductPage() {
         status: product.status,
       });
 
-      // Khởi tạo textarea values cho các variants
       const imageTexts: Record<string, string> = {};
       product.variants.forEach((variant) => {
         const variantId = String(variant.id);
@@ -169,7 +156,6 @@ export default function EditProductPage() {
       });
       setVariantImageTexts(imageTexts);
 
-      // Trigger API images khi product data được load thành công (chỉ gọi một lần)
       if (id && !imagesApiCalledRef.current) {
         imagesApiCalledRef.current = true;
         getProductImages(id)
@@ -245,10 +231,8 @@ export default function EditProductPage() {
         toast.error("Không tìm thấy biến thể");
         return;
       }
-
       const existingImageUrls = variant.images.map((img) => img.imageUrl);
       const newImages = [...existingImageUrls, result?.data?.imageUrl];
-
       const payload: IProductImageUpdate = {
         variantId,
         images: newImages,
@@ -259,7 +243,6 @@ export default function EditProductPage() {
         {
           onSuccess: () => {
             toast.success("Cập nhật hình ảnh thành công");
-            // Cập nhật lại textarea
             setVariantImageTexts((prev) => ({
               ...prev,
               [variantId]: newImages.join("\n"),
@@ -276,7 +259,6 @@ export default function EditProductPage() {
 
   const handleRemoveImage = async (variantId: string, imageIndex: number) => {
     try {
-      // Xác định biến thể cần cập nhật ảnh
       const variant = productData?.data.variants.find(
         (v) => String(v.id) === variantId
       );
@@ -298,7 +280,6 @@ export default function EditProductPage() {
         {
           onSuccess: () => {
             toast.success("Cập nhật hình ảnh thành công");
-            // Cập nhật lại textarea
             setVariantImageTexts((prev) => ({
               ...prev,
               [variantId]: newImages.join("\n"),
@@ -321,7 +302,6 @@ export default function EditProductPage() {
   const handleUpdateImagesFromText = async (variantId: string) => {
     try {
       const textValue = variantImageTexts[variantId] || "";
-      // Parse URLs từ textarea (mỗi dòng là một URL)
       const imageUrls = textValue
         .split("\n")
         .map((url) => url.trim())

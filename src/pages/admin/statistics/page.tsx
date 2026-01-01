@@ -133,7 +133,6 @@ export default function StatisticsPage() {
 
   const queryClient = useQueryClient();
 
-  // Filter riêng cho overview (lấy dữ liệu tháng hiện tại)
   const overviewFilters: IStatisticsFilter = {
     type: "MONTHLY",
     startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
@@ -143,7 +142,6 @@ export default function StatisticsPage() {
     limit: 1,
   };
 
-  // Sử dụng các hooks thực
   const {
     data: statisticsData,
     isLoading: statisticsLoading,
@@ -244,7 +242,6 @@ export default function StatisticsPage() {
     change: number;
   }
 
-  // Overview dashboard stats
   const StatCard = ({
     title,
     value,
@@ -286,14 +283,12 @@ export default function StatisticsPage() {
     );
   };
 
-  // Sử dụng statisticsData thay vì overviewStatistics để hiển thị đúng dữ liệu
   const currentMonthData = statisticsData?.data?.statistics?.[0] || {
     totalOrders: 0,
     totalRevenue: 0,
     totalProfit: 0,
   };
 
-  // Tính tổng doanh thu từ revenue data hoặc từ statistics data
   const totalRevenue =
     revenueData?.data?.reduce(
       (sum: number, item: any) => sum + item.totalRevenue,
@@ -302,7 +297,6 @@ export default function StatisticsPage() {
     currentMonthData.totalRevenue ||
     0;
 
-  // Tính số khách hàng mới trong tháng hiện tại
   const newCustomersCount =
     accountsData?.data?.accounts?.filter((account) => {
       const accountDate = new Date(account.createdAt);
@@ -315,7 +309,6 @@ export default function StatisticsPage() {
       );
     }).length || 0;
 
-  // Tạo mock data cho revenue chart nếu không có dữ liệu thực
   const mockRevenueData = revenueData?.data?.length
     ? revenueData.data
     : [
@@ -328,7 +321,6 @@ export default function StatisticsPage() {
         { date: "2024-03", totalRevenue: 0, totalOrders: 0 },
       ];
 
-  // Tạo mock data cho top products nếu không có dữ liệu thực
   const mockTopProductsData = topProductsData?.data?.length
     ? topProductsData.data
     : [

@@ -20,7 +20,7 @@ interface TabProps {
   setSelected: (text: string) => void;
 }
 
-const Tab = ({ text, selected, setSelected }: TabProps) => {
+const Tab = React.memo(({ text, selected, setSelected }: TabProps) => {
   return (
     <button
       onClick={() => setSelected(text)}
@@ -40,22 +40,18 @@ const Tab = ({ text, selected, setSelected }: TabProps) => {
       )}
     </button>
   );
-};
+});
 export const NavigationBar = () => {
-  const [selected, setSelected] = useState<string>(tabs[0].text);
+  const currentPath = window.location.pathname;
+  const initialTab = React.useMemo(() => {
+    const activeTab = tabs.find((tab) => tab.href === currentPath);
+    return activeTab ? activeTab.text : tabs[0].text;
+  }, []);
+
+  const [selected, setSelected] = useState<string>(initialTab);
   const { isAuthenticated, user } = useUser();
   const { totalItems } = useCartStore();
-  const checkPath = () => {
-    const currentPath = window.location.pathname;
-    const activeTab = tabs.find((tab) => tab.href === currentPath);
-    if (activeTab) {
-      setSelected(activeTab.text);
-    }
-  };
   const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    checkPath();
-  }, []);
 
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm py-3">

@@ -133,7 +133,6 @@ export default function ProductsPage() {
       );
     }
 
-    // Apply filters after promotions
     if (filters.brands && filters.brands.length > 0) {
       const brandsArray = Array.isArray(filters.brands)
         ? filters.brands
@@ -186,7 +185,6 @@ export default function ProductsPage() {
           : Number.POSITIVE_INFINITY;
 
       filteredProducts = filteredProducts.filter((product: any) => {
-        // Calculate discount from promotions data if available
         let price = product.variants[0]?.price || 0;
 
         if (promotionsData?.data?.promotions) {
@@ -205,10 +203,8 @@ export default function ProductsPage() {
       });
     }
 
-    // Sắp xếp sản phẩm
     if (sortOption !== "default") {
       filteredProducts.sort((a: any, b: any) => {
-        // Calculate discount prices from promotions data if available
         let priceA = a.variants[0]?.price || 0;
         let priceB = b.variants[0]?.price || 0;
 
@@ -258,7 +254,6 @@ export default function ProductsPage() {
       });
     }
 
-    // Giữ nguyên thông tin phân trang từ API
     return {
       ...rawData,
       data: {
@@ -300,13 +295,11 @@ export default function ProductsPage() {
       return;
     }
 
-    // Calculate discount from promotions data if available
     let finalPrice = firstVariant.price;
     let originalPrice = undefined;
     let discountPercent = 0;
     let hasDiscount = false;
 
-    // Check if promotions data is available and calculate discount
     if (promotionsData?.data?.promotions) {
       const discount = calculateProductDiscount(
         product.id,
@@ -339,7 +332,6 @@ export default function ProductsPage() {
       size: firstVariant.size?.code || firstVariant.size?.name,
       colors: [firstVariant.color?.name || "Default"],
       stock: firstVariant.stock,
-      // New variant information
       colorId: firstVariant.color?.id || firstVariant.colorId || "",
       sizeId: firstVariant.size?.id || firstVariant.sizeId || "",
       colorName: firstVariant.color?.name || "Default",
@@ -561,7 +553,6 @@ export default function ProductsPage() {
                       const currentPage =
                         (data?.data?.pagination as any)?.currentPage || 1;
 
-                      // Hiển thị trang đầu
                       if (totalPages > 0) {
                         pages.push(
                           <PaginationItem key={1}>
@@ -579,7 +570,6 @@ export default function ProductsPage() {
                         );
                       }
 
-                      // Hiển thị dấu ... nếu cần
                       if (currentPage > 3) {
                         pages.push(
                           <PaginationItem key="start-ellipsis">
@@ -588,7 +578,6 @@ export default function ProductsPage() {
                         );
                       }
 
-                      // Hiển thị các trang gần currentPage
                       for (
                         let i = Math.max(2, currentPage - 1);
                         i <= Math.min(totalPages - 1, currentPage + 1);
@@ -900,7 +889,6 @@ const ProductCard = ({
                 transition={{ duration: 0.2 }}
               >
                 {(() => {
-                  // Calculate discount from promotions data if available
                   if (
                     promotionsData?.data?.promotions &&
                     product.variants?.[0]?.price
@@ -1170,7 +1158,7 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
       new Set(allSizes.map((size) => JSON.stringify(size)))
     )
       .map((sizeStr) => JSON.parse(sizeStr))
-      .sort((a, b) => (a.value || 0) - (b.value || 0)); // Sắp xếp theo kích thước tăng dần
+      .sort((a, b) => (a.value || 0) - (b.value || 0));
 
     return uniqueSizes;
   }, [products]);
@@ -1197,7 +1185,6 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
   const handlePriceChange = (values: number[]) => {
     setSelectedPriceRange(values as [number, number]);
 
-    // Áp dụng thay đổi giá vào bộ lọc sau một khoảng thời gian ngắn
     const timerId = setTimeout(() => {
       onChange({
         minPrice: values[0],

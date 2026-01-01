@@ -364,9 +364,7 @@ const PaymentStatusBadge = ({ status }: { status: string }) => {
   return <Badge className={config.className}>{config.label}</Badge>;
 };
 
-// Helper function to get product info from the new data structure
 const getProductInfo = (item: OrderItem): ProductInfo => {
-  // Handle the new data structure from the API response
   if (item.productVariant?.product) {
     return {
       name: item.productVariant.product.name || "Tên sản phẩm chưa cập nhật",
@@ -381,7 +379,6 @@ const getProductInfo = (item: OrderItem): ProductInfo => {
     };
   }
 
-  // Fallback for older data structure
   return {
     name: item.product?.name || "Tên sản phẩm chưa cập nhật",
     code: item.product?.code || "N/A",
@@ -396,11 +393,9 @@ const getProductInfo = (item: OrderItem): ProductInfo => {
   };
 };
 
-// Helper function to get variant image for both online and POS orders
 const getVariantImage = (item: OrderItem): string => {
   const productInfo = getProductInfo(item);
 
-  // If we have images from the product variant, use the first one
   if (productInfo.images && productInfo.images.length > 0) {
     const firstImage = productInfo.images[0];
     if (typeof firstImage === "string") {
@@ -412,7 +407,6 @@ const getVariantImage = (item: OrderItem): string => {
     }
   }
 
-  // For POS orders: item has variant field with colorId and sizeId
   if (item.variant && item.variant.colorId && item.variant.sizeId) {
     const matchingVariant = item.product?.variants?.find(
       (v: any) =>
@@ -421,7 +415,6 @@ const getVariantImage = (item: OrderItem): string => {
     return matchingVariant?.images?.[0] || "/images/white-image.png";
   }
 
-  // For online orders: item doesn't have variant field, use first variant with image
   if (item.product?.variants) {
     const variantWithImage = item.product.variants.find(
       (v: any) => v.images && v.images.length > 0
@@ -432,7 +425,6 @@ const getVariantImage = (item: OrderItem): string => {
   return "/images/white-image.png";
 };
 
-// Helper function to format phone number display
 const formatPhoneDisplay = (phone: string | undefined | null): string => {
   if (!phone || phone === "0000000000") {
     return "Chưa có SĐT";
@@ -440,7 +432,6 @@ const formatPhoneDisplay = (phone: string | undefined | null): string => {
   return phone;
 };
 
-// Helper function to format email display
 const formatEmailDisplay = (email: string | undefined | null): string => {
   if (!email || email === "guest@pos.local") {
     return "Chưa có email";
@@ -448,7 +439,6 @@ const formatEmailDisplay = (email: string | undefined | null): string => {
   return email;
 };
 
-// Helper function to generate invoice code
 const generateInvoiceCode = (orderCode: string) => {
   return `HD-${orderCode}`;
 };
@@ -471,7 +461,6 @@ export default function OrderDetailPage() {
   const queryClient = useQueryClient();
   const invoiceRef = useRef<HTMLDivElement>(null);
 
-  // Helper function to get available order statuses based on current status
   const getAvailableOrderStatuses = (currentStatus: string) => {
     const statusOrder = [
       "CHO_XAC_NHAN",
@@ -484,14 +473,12 @@ export default function OrderDetailPage() {
 
     if (currentIndex === -1) return statusOrder; // If status not found, show all
 
-    // Return statuses from current position onwards
     return statusOrder.slice(currentIndex);
   };
 
   const handleStatusUpdate = async () => {
     if (!statusToUpdate) return;
 
-    // Validation: Check if trying to complete order with pending payment
     if (
       statusToUpdate === "HOAN_THANH" &&
       paymentStatusToUpdate === "PENDING"
@@ -538,7 +525,6 @@ export default function OrderDetailPage() {
     }
   };
 
-  // Print invoice functionality
   const handlePrintInvoice = async () => {
     if (!orderDetail?.data) {
       toast.error("Không có dữ liệu đơn hàng để in");

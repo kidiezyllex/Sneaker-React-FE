@@ -4,6 +4,7 @@ import { ReactQueryClientProvider } from "@/provider/ReactQueryClientProvider";
 import { UserProvider } from "@/context/useUserContext";
 import { ToastContainer } from "react-toastify";
 import { LazyComponentLoader } from "@/components/Common/LazyComponentLoader";
+import { usePerformanceMonitor } from "@/hooks/usePerformanceMonitor";
 
 import RootLayout from "@/layouts/RootLayout";
 import AdminLayout from "@/layouts/AdminLayout";
@@ -137,6 +138,8 @@ const PageLoader = () => (
 );
 
 function App() {
+  usePerformanceMonitor(import.meta.env.DEV);
+
   return (
     <ReactQueryClientProvider>
       <Router>

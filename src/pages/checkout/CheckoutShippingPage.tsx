@@ -1,14 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
- 
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useCartStore } from '@/stores/useCartStore';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useCartStore } from "@/stores/useCartStore";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import {
   Card,
   CardContent,
@@ -33,18 +40,18 @@ import {
   SelectTrigger,
   SelectValue,
   SelectContent,
-  SelectItem
-} from '@/components/ui/select';
-import { checkImageUrl } from '@/lib/utils';
-import { formatPrice } from '@/utils/formatters';
-import { useCreateOrder } from '@/hooks/order';
-import { useUser } from '@/context/useUserContext';
-import { useCreateNotification } from '@/hooks/notification';
-import { useUserProfile } from '@/hooks/account';
-import VNPayModal from '@/components/VNPayPayment/VNPayModal';
-import SuccessModal from '@/components/OrderSuccess/SuccessModal';
-import React from 'react';
-import { getSizeLabel } from '@/utils/sizeMapping';
+  SelectItem,
+} from "@/components/ui/select";
+import { checkImageUrl } from "@/lib/utils";
+import { formatPrice } from "@/utils/formatters";
+import { useCreateOrder } from "@/hooks/order";
+import { useUser } from "@/context/useUserContext";
+import { useCreateNotification } from "@/hooks/notification";
+import { useUserProfile } from "@/hooks/account";
+import VNPayModal from "@/components/VNPayPayment/VNPayModal";
+import SuccessModal from "@/components/OrderSuccess/SuccessModal";
+import React from "react";
+import { getSizeLabel } from "@/utils/sizeMapping";
 
 const shippingFormSchema = z.object({
   fullName: z.string().min(1, "Vui lòng nhập họ tên"),
@@ -54,7 +61,7 @@ const shippingFormSchema = z.object({
   province: z.string().min(1, "Vui lòng chọn tỉnh/thành"),
   district: z.string().min(1, "Vui lòng chọn quận/huyện"),
   ward: z.string().min(1, "Vui lòng chọn phường/xã"),
-  paymentMethod: z.enum(["COD", "BANK_TRANSFER"])
+  paymentMethod: z.enum(["COD", "BANK_TRANSFER"]),
 });
 
 type ShippingFormValues = z.infer<typeof shippingFormSchema>;
@@ -80,17 +87,17 @@ interface Ward {
 
 export default function ShippingPage() {
   const navigate = useNavigate();
-  const { user } = useUser()
-  const { 
-    items, 
-    clearCart, 
-    appliedVoucher, 
-    voucherDiscount, 
+  const { user } = useUser();
+  const {
+    items,
+    clearCart,
+    appliedVoucher,
+    voucherDiscount,
     removeVoucher,
     subtotal: storeSubtotal,
     tax: storeTax,
     shipping: storeShipping,
-    total: storeTotal
+    total: storeTotal,
   } = useCartStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -98,23 +105,22 @@ export default function ShippingPage() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [orderResult, setOrderResult] = useState<any>(null);
   const [vnpayOrderData, setVnpayOrderData] = useState<any>(null);
-  
-  // Location data states
+
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
   const [wards, setWards] = useState<Ward[]>([]);
   const [loadingProvinces, setLoadingProvinces] = useState(false);
   const [loadingDistricts, setLoadingDistricts] = useState(false);
   const [loadingWards, setLoadingWards] = useState(false);
-  
-  const [selectedProvinceName, setSelectedProvinceName] = useState('');
-  const [selectedDistrictName, setSelectedDistrictName] = useState('');
-  const [selectedWardName, setSelectedWardName] = useState('');
-  
+
+  const [selectedProvinceName, setSelectedProvinceName] = useState("");
+  const [selectedDistrictName, setSelectedDistrictName] = useState("");
+  const [selectedWardName, setSelectedWardName] = useState("");
+
   const createOrderMutation = useCreateOrder();
   const createNotificationMutation = useCreateNotification();
   const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
-  
+
   const form = useForm<ShippingFormValues>({
     resolver: zodResolver(shippingFormSchema),
     defaultValues: {
@@ -129,28 +135,25 @@ export default function ShippingPage() {
     },
   });
 
-  // Use values from store (which already include voucher calculations)
   const subtotal = storeSubtotal;
   const tax = storeTax;
   const shipping = storeShipping;
   const total = storeTotal;
 
-  // Watch province and district changes to load dependent data
   const selectedProvince = form.watch("province");
   const selectedDistrict = form.watch("district");
   const selectedPaymentMethod = form.watch("paymentMethod");
   const selectedWard = form.watch("ward");
 
-  // Fetch provinces on component mount
   useEffect(() => {
     const fetchProvinces = async () => {
       try {
         setLoadingProvinces(true);
-        const response = await fetch('https://provinces.open-api.vn/api/');
+        const response = await fetch("https://provinces.open-api.vn/api/");
         const data = await response.json();
         setProvinces(data);
       } catch (error) {
-        toast.error('Không thể tải danh sách tỉnh/thành');
+        toast.error("Không thể tải danh sách tỉnh/thành");
       } finally {
         setLoadingProvinces(false);
       }
@@ -159,21 +162,21 @@ export default function ShippingPage() {
     fetchProvinces();
   }, []);
 
-  // Fetch districts when province changes
   useEffect(() => {
     if (selectedProvince) {
       const fetchDistricts = async () => {
         try {
           setLoadingDistricts(true);
-          const response = await fetch(`https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`);
+          const response = await fetch(
+            `https://provinces.open-api.vn/api/p/${selectedProvince}?depth=2`
+          );
           const data = await response.json();
           setDistricts(data.districts || []);
-          // Reset district and ward when province changes
           form.setValue("district", "");
           form.setValue("ward", "");
           setWards([]);
         } catch (error) {
-          toast.error('Không thể tải danh sách quận/huyện');
+          toast.error("Không thể tải danh sách quận/huyện");
         } finally {
           setLoadingDistricts(false);
         }
@@ -188,19 +191,19 @@ export default function ShippingPage() {
     }
   }, [selectedProvince, form]);
 
-  // Fetch wards when district changes
   useEffect(() => {
     if (selectedDistrict) {
       const fetchWards = async () => {
         try {
           setLoadingWards(true);
-          const response = await fetch(`https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`);
+          const response = await fetch(
+            `https://provinces.open-api.vn/api/d/${selectedDistrict}?depth=2`
+          );
           const data = await response.json();
           setWards(data.wards || []);
-          // Reset ward when district changes
           form.setValue("ward", "");
         } catch (error) {
-          toast.error('Không thể tải danh sách phường/xã');
+          toast.error("Không thể tải danh sách phường/xã");
         } finally {
           setLoadingWards(false);
         }
@@ -213,7 +216,6 @@ export default function ShippingPage() {
     }
   }, [selectedDistrict, form]);
 
-  // Update form with user profile data when available
   useEffect(() => {
     if (userProfile?.data) {
       const profile = userProfile.data;
@@ -236,13 +238,13 @@ export default function ShippingPage() {
         setIsLoading(true);
 
         if (items.length === 0) {
-          navigate('/');
+          navigate("/");
           return;
         }
 
         setIsLoading(false);
       } catch (error) {
-        console.error('Error checking cart:', error);
+        console.error("Error checking cart:", error);
       }
     };
 
@@ -255,52 +257,65 @@ export default function ShippingPage() {
         orderId: `DEMO_${Date.now()}`,
         amount: total,
         orderInfo: `Thanh toán đơn hàng`,
-        orderCode: `ORD${Date.now()}`
+        orderCode: `ORD${Date.now()}`,
       };
       setVnpayOrderData(demoOrderData);
       setShowVNPayModal(true);
     }
   }, [selectedPaymentMethod]);
 
-  // Cập nhật selectedProvinceName khi selectedProvince thay đổi
   useEffect(() => {
     if (selectedProvince) {
-      const found = provinces.find(p => p.code.toString() === selectedProvince);
-      setSelectedProvinceName(found ? found.name : '');
+      const found = provinces.find(
+        (p) => p.code.toString() === selectedProvince
+      );
+      setSelectedProvinceName(found ? found.name : "");
     } else {
-      setSelectedProvinceName('');
+      setSelectedProvinceName("");
     }
   }, [selectedProvince, provinces]);
 
-  // Cập nhật selectedDistrictName khi selectedDistrict thay đổi
   useEffect(() => {
     if (selectedDistrict) {
-      const found = districts.find(d => d.code.toString() === selectedDistrict);
-      setSelectedDistrictName(found ? found.name : '');
+      const found = districts.find(
+        (d) => d.code.toString() === selectedDistrict
+      );
+      setSelectedDistrictName(found ? found.name : "");
     } else {
-      setSelectedDistrictName('');
+      setSelectedDistrictName("");
     }
   }, [selectedDistrict, districts]);
-
-  // Cập nhật selectedWardName khi selectedWard thay đổi
   useEffect(() => {
     if (selectedWard) {
-      const found = wards.find(w => w.code.toString() === selectedWard);
-      setSelectedWardName(found ? found.name : '');
+      const found = wards.find((w) => w.code.toString() === selectedWard);
+      setSelectedWardName(found ? found.name : "");
     } else {
-      setSelectedWardName('');
+      setSelectedWardName("");
     }
   }, [selectedWard, wards]);
 
-  const sendOrderConfirmationEmail = async (orderId: string, orderData: any, userEmail: string) => {
+  const sendOrderConfirmationEmail = async (
+    orderId: string,
+    orderData: any,
+    userEmail: string
+  ) => {
     try {
-      const itemsList = items.map(item => 
-        `<tr>
-          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.name} (${item.size || 'N/A'})</td>
-          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.quantity}</td>
-          <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${formatPrice(item.price)}</td>
+      const itemsList = items
+        .map(
+          (item) =>
+            `<tr>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${
+            item.name
+          } (${item.size || "N/A"})</td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${
+            item.quantity
+          }</td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${formatPrice(
+            item.price
+          )}</td>
         </tr>`
-      ).join('');
+        )
+        .join("");
 
       const emailContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; padding: 20px;">
@@ -310,8 +325,14 @@ export default function ShippingPage() {
           
           <div style="background-color: #f9f9f9; padding: 15px; margin: 20px 0;">
             <p><strong>Mã đơn hàng:</strong> ${orderData.code || orderId}</p>
-            <p><strong>Ngày đặt hàng:</strong> ${new Date().toLocaleDateString('vi-VN')}</p>
-            <p><strong>Phương thức thanh toán:</strong> ${orderData.paymentMethod === 'COD' ? 'Thanh toán khi nhận hàng' : 'Thanh toán qua VNPay'}</p>
+            <p><strong>Ngày đặt hàng:</strong> ${new Date().toLocaleDateString(
+              "vi-VN"
+            )}</p>
+            <p><strong>Phương thức thanh toán:</strong> ${
+              orderData.paymentMethod === "COD"
+                ? "Thanh toán khi nhận hàng"
+                : "Thanh toán qua VNPay"
+            }</p>
           </div>
           
           <h3 style="color: #333;">Chi tiết sản phẩm</h3>
@@ -329,34 +350,56 @@ export default function ShippingPage() {
             <tfoot>
               <tr>
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Tạm tính:</td>
-                <td style="padding: 10px; text-align: right;">${formatPrice(subtotal + voucherDiscount)}</td>
+                <td style="padding: 10px; text-align: right;">${formatPrice(
+                  subtotal + voucherDiscount
+                )}</td>
               </tr>
-              ${appliedVoucher && voucherDiscount > 0 ? `
+              ${
+                appliedVoucher && voucherDiscount > 0
+                  ? `
               <tr>
-                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold; color: #16a34a;">Giảm giá voucher (${appliedVoucher.code}):</td>
-                <td style="padding: 10px; text-align: right; color: #16a34a;">-${formatPrice(voucherDiscount)}</td>
+                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold; color: #16a34a;">Giảm giá voucher (${
+                  appliedVoucher.code
+                }):</td>
+                <td style="padding: 10px; text-align: right; color: #16a34a;">-${formatPrice(
+                  voucherDiscount
+                )}</td>
               </tr>
-              ` : ''}
+              `
+                  : ""
+              }
               <tr>
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Thuế:</td>
-                <td style="padding: 10px; text-align: right;">${formatPrice(tax)}</td>
+                <td style="padding: 10px; text-align: right;">${formatPrice(
+                  tax
+                )}</td>
               </tr>
               <tr>
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Phí vận chuyển:</td>
-                <td style="padding: 10px; text-align: right;">${formatPrice(shipping)}</td>
+                <td style="padding: 10px; text-align: right;">${formatPrice(
+                  shipping
+                )}</td>
               </tr>
               <tr style="background-color: #f9f9f9;">
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Tổng cộng:</td>
-                <td style="padding: 10px; text-align: right; font-weight: bold;">${formatPrice(total)}</td>
+                <td style="padding: 10px; text-align: right; font-weight: bold;">${formatPrice(
+                  total
+                )}</td>
               </tr>
             </tfoot>
           </table>
           
           <div style="margin-top: 20px;">
             <h3 style="color: #333;">Thông tin giao hàng</h3>
-            <p><strong>Người nhận:</strong> ${orderData.shippingAddress.name}</p>
-            <p><strong>Số điện thoại:</strong> ${orderData.shippingAddress.phoneNumber}</p>
-            <p><strong>Địa chỉ:</strong> ${orderData.shippingAddress.specificAddress}</p>
+            <p><strong>Người nhận:</strong> ${
+              orderData.shippingAddress.name
+            }</p>
+            <p><strong>Số điện thoại:</strong> ${
+              orderData.shippingAddress.phoneNumber
+            }</p>
+            <p><strong>Địa chỉ:</strong> ${
+              orderData.shippingAddress.specificAddress
+            }</p>
           </div>
           
           <div style="margin-top: 30px; text-align: center; color: #777;">
@@ -366,49 +409,49 @@ export default function ShippingPage() {
         </div>
       `;
 
-      // Tạo thông báo email
       await createNotificationMutation.mutateAsync({
-        type: 'EMAIL',
+        type: "EMAIL",
         title: `Xác nhận đơn hàng ${orderData.code || orderId}`,
         content: emailContent,
-        recipients: [userEmail, 'buitranthienan1111@gmail.com'], // Email của người dùng và email test
-        relatedTo: 'ORDER',
-        relatedId: orderId
+        recipients: [userEmail, "buitranthienan1111@gmail.com"],
+        relatedTo: "ORDER",
+        relatedId: orderId,
       });
-
     } catch (error) {
-      console.error('Error sending confirmation email:', error);
+      console.error("Error sending confirmation email:", error);
     }
   };
 
   const onSubmit = async (values: ShippingFormValues) => {
     try {
       setIsProcessing(true);
-      if (values.paymentMethod === 'BANK_TRANSFER') {
+      if (values.paymentMethod === "BANK_TRANSFER") {
         const demoOrderData = {
           orderId: `DEMO_${Date.now()}`,
           amount: total,
           orderInfo: `Thanh toán đơn hàng`,
-          orderCode: `ORD${Date.now()}`
+          orderCode: `ORD${Date.now()}`,
         };
-        
+
         setVnpayOrderData(demoOrderData);
         setShowVNPayModal(true);
         setIsProcessing(false);
         return;
       }
-      
+
       const orderData = {
-        orderId: `DH${new Date().getFullYear()}${Date.now().toString().slice(-6)}`,
-        customerId: user?.id || '000000000000000000000000',
-        items: items.map(item => ({
-          product: item.productId +"" || item.id +"",
+        orderId: `DH${new Date().getFullYear()}${Date.now()
+          .toString()
+          .slice(-6)}`,
+        customerId: user?.id || "000000000000000000000000",
+        items: items.map((item) => ({
+          product: item.productId + "" || item.id + "",
           variant: {
             colorId: item.colorId,
-            sizeId: item.sizeId
+            sizeId: item.sizeId,
           },
           quantity: item.quantity,
-          price: item.price
+          price: item.price,
         })),
         voucher: appliedVoucher?.voucherId,
         subTotal: Number(subtotal.toFixed(2)),
@@ -420,25 +463,31 @@ export default function ShippingPage() {
           provinceId: selectedProvince,
           districtId: selectedDistrict,
           wardId: selectedWard,
-          specificAddress: `${values.address}, ${selectedWardName}, ${selectedDistrictName}, ${selectedProvinceName}, Việt Nam`
+          specificAddress: `${values.address}, ${selectedWardName}, ${selectedDistrictName}, ${selectedProvinceName}, Việt Nam`,
         },
-        paymentMethod: values.paymentMethod
+        paymentMethod: values.paymentMethod,
       };
-      
+
       const response = await createOrderMutation.mutateAsync(orderData as any);
       if (response && response.success && response.data) {
         clearCart();
         if (appliedVoucher) {
           removeVoucher();
         }
-        toast.success('Đặt hàng thành công!');
-        
-        await sendOrderConfirmationEmail(response.data.id, response.data, values.email);
-        
+        toast.success("Đặt hàng thành công!");
+
+        await sendOrderConfirmationEmail(
+          response.data.id,
+          response.data,
+          values.email
+        );
+
         setOrderResult(response.data);
         setShowSuccessModal(true);
       } else {
-        throw new Error((response as any)?.message || 'Đã xảy ra lỗi khi tạo đơn hàng');
+        throw new Error(
+          (response as any)?.message || "Đã xảy ra lỗi khi tạo đơn hàng"
+        );
       }
     } catch (error: any) {
       toast.error(error.message || "Đã có lỗi xảy ra khi tạo đơn hàng");
@@ -451,20 +500,22 @@ export default function ShippingPage() {
     try {
       setShowVNPayModal(false);
       setIsProcessing(true);
-      
+
       const formValues = form.getValues();
-      
+
       const orderData = {
-        orderId: `DH${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`,
-        customerId: user?.id || '000000000000000000000000',
-        items: items.map(item => ({
-          product: item.productId || item.id, // Use productId if available, fallback to id
+        orderId: `DH${new Date().getFullYear()}-${Date.now()
+          .toString()
+          .slice(-6)}`,
+        customerId: user?.id || "000000000000000000000000",
+        items: items.map((item) => ({
+          product: item.productId || item.id,
           variant: {
             colorId: item.colorId,
-            sizeId: item.sizeId
+            sizeId: item.sizeId,
           },
           quantity: item.quantity,
-          price: item.price
+          price: item.price,
         })),
         voucher: appliedVoucher?.voucherId,
         subTotal: Number(subtotal.toFixed(2)),
@@ -476,24 +527,30 @@ export default function ShippingPage() {
           provinceId: selectedProvince,
           districtId: selectedDistrict,
           wardId: selectedWard,
-          specificAddress: `${formValues.address}, ${selectedWardName}, ${selectedDistrictName}, ${selectedProvinceName}, Việt Nam`
+          specificAddress: `${formValues.address}, ${selectedWardName}, ${selectedDistrictName}, ${selectedProvinceName}, Việt Nam`,
         },
-        paymentMethod: 'BANK_TRANSFER',
-        paymentInfo: paymentData
+        paymentMethod: "BANK_TRANSFER",
+        paymentInfo: paymentData,
       };
-      
+
       const response = await createOrderMutation.mutateAsync(orderData as any);
       if (response && response.success && response.data) {
         clearCart();
         if (appliedVoucher) {
           removeVoucher();
         }
-        toast.success('Thanh toán và đặt hàng thành công!');
-        await sendOrderConfirmationEmail(response.data.id, response.data, formValues.email);
+        toast.success("Thanh toán và đặt hàng thành công!");
+        await sendOrderConfirmationEmail(
+          response.data.id,
+          response.data,
+          formValues.email
+        );
         setOrderResult(response.data);
         setShowSuccessModal(true);
       } else {
-        throw new Error((response as any)?.message || 'Đã xảy ra lỗi khi tạo đơn hàng');
+        throw new Error(
+          (response as any)?.message || "Đã xảy ra lỗi khi tạo đơn hàng"
+        );
       }
     } catch (error: any) {
       toast.error(error.message || "Đã có lỗi xảy ra sau khi thanh toán");
@@ -508,28 +565,27 @@ export default function ShippingPage() {
   };
 
   const handleContinueShopping = () => {
-    navigate('/products');
+    navigate("/products");
   };
 
-  // Helper function to check if field should be disabled
   const isFieldDisabled = (fieldName: keyof ShippingFormValues) => {
     if (!userProfile?.data) return false;
     const profile = userProfile.data;
-    
+
     switch (fieldName) {
-      case 'fullName':
+      case "fullName":
         return !!profile.fullName;
-      case 'email':
+      case "email":
         return !!profile.email;
-      case 'phoneNumber':
+      case "phoneNumber":
         return !!profile.phoneNumber;
-      case 'address':
+      case "address":
         return !!profile.addresses?.[0]?.specificAddress;
-      case 'province':
+      case "province":
         return !!profile.addresses?.[0]?.provinceName;
-      case 'district':
+      case "district":
         return !!profile.addresses?.[0]?.districtName;
-      case 'ward':
+      case "ward":
         return !!profile.addresses?.[0]?.wardName;
       default:
         return false;
@@ -549,15 +605,27 @@ export default function ShippingPage() {
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/" className="!text-maintext hover:!text-maintext">Trang chủ</BreadcrumbLink>
+            <BreadcrumbLink
+              href="/"
+              className="!text-maintext hover:!text-maintext"
+            >
+              Trang chủ
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/products" className="!text-maintext hover:!text-maintext">Sản phẩm</BreadcrumbLink>
+            <BreadcrumbLink
+              href="/products"
+              className="!text-maintext hover:!text-maintext"
+            >
+              Sản phẩm
+            </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
           <BreadcrumbItem>
-            <BreadcrumbPage className="!text-maintext hover:!text-maintext">Thanh toán đơn hàng</BreadcrumbPage>
+            <BreadcrumbPage className="!text-maintext hover:!text-maintext">
+              Thanh toán đơn hàng
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -569,18 +637,23 @@ export default function ShippingPage() {
             </CardHeader>
             <CardContent>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
                   <FormField
                     control={form.control}
                     name="fullName"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Họ tên</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Họ tên
+                        </FormLabel>
                         <FormControl>
-                          <Input 
-                            placeholder="Nguyễn Văn A" 
-                            {...field} 
-                            disabled={isFieldDisabled('fullName')}
+                          <Input
+                            placeholder="Nguyễn Văn A"
+                            {...field}
+                            disabled={isFieldDisabled("fullName")}
                           />
                         </FormControl>
                         <FormMessage />
@@ -593,11 +666,13 @@ export default function ShippingPage() {
                     name="phoneNumber"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Số điện thoại</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Số điện thoại
+                        </FormLabel>
                         <FormControl>
-                          <Input 
-                            {...field} 
-                            disabled={isFieldDisabled('phoneNumber')}
+                          <Input
+                            {...field}
+                            disabled={isFieldDisabled("phoneNumber")}
                           />
                         </FormControl>
                         <FormMessage />
@@ -610,12 +685,14 @@ export default function ShippingPage() {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Email</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Email
+                        </FormLabel>
                         <FormControl>
-                          <Input 
-                            placeholder="Ví dụ: example@gmail.com" 
-                            {...field} 
-                            disabled={isFieldDisabled('email')}
+                          <Input
+                            placeholder="Ví dụ: example@gmail.com"
+                            {...field}
+                            disabled={isFieldDisabled("email")}
                           />
                         </FormControl>
                         <FormMessage />
@@ -628,19 +705,32 @@ export default function ShippingPage() {
                     name="province"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Tỉnh/Thành phố</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Tỉnh/Thành phố
+                        </FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
-                            disabled={isFieldDisabled('province') || loadingProvinces}
+                            disabled={
+                              isFieldDisabled("province") || loadingProvinces
+                            }
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder={loadingProvinces ? "Đang tải..." : "Chọn tỉnh/thành phố"} />
+                              <SelectValue
+                                placeholder={
+                                  loadingProvinces
+                                    ? "Đang tải..."
+                                    : "Chọn tỉnh/thành phố"
+                                }
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {provinces.map((province) => (
-                                <SelectItem key={province.code} value={province.code.toString()}>
+                                <SelectItem
+                                  key={province.code}
+                                  value={province.code.toString()}
+                                >
                                   {province.name}
                                 </SelectItem>
                               ))}
@@ -657,25 +747,36 @@ export default function ShippingPage() {
                     name="district"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Quận/Huyện</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Quận/Huyện
+                        </FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
-                            disabled={isFieldDisabled('district') || !selectedProvince || loadingDistricts}
+                            disabled={
+                              isFieldDisabled("district") ||
+                              !selectedProvince ||
+                              loadingDistricts
+                            }
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder={
-                                !selectedProvince 
-                                  ? "Vui lòng chọn tỉnh/thành phố trước" 
-                                  : loadingDistricts 
-                                    ? "Đang tải..." 
+                              <SelectValue
+                                placeholder={
+                                  !selectedProvince
+                                    ? "Vui lòng chọn tỉnh/thành phố trước"
+                                    : loadingDistricts
+                                    ? "Đang tải..."
                                     : "Chọn quận/huyện"
-                              } />
+                                }
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {districts.map((district) => (
-                                <SelectItem key={district.code} value={district.code.toString()}>
+                                <SelectItem
+                                  key={district.code}
+                                  value={district.code.toString()}
+                                >
                                   {district.name}
                                 </SelectItem>
                               ))}
@@ -692,25 +793,36 @@ export default function ShippingPage() {
                     name="ward"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Phường/Xã</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Phường/Xã
+                        </FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
                             onValueChange={field.onChange}
-                            disabled={isFieldDisabled('ward') || !selectedDistrict || loadingWards}
+                            disabled={
+                              isFieldDisabled("ward") ||
+                              !selectedDistrict ||
+                              loadingWards
+                            }
                           >
                             <SelectTrigger className="w-full">
-                              <SelectValue placeholder={
-                                !selectedDistrict 
-                                  ? "Vui lòng chọn quận/huyện trước" 
-                                  : loadingWards 
-                                    ? "Đang tải..." 
+                              <SelectValue
+                                placeholder={
+                                  !selectedDistrict
+                                    ? "Vui lòng chọn quận/huyện trước"
+                                    : loadingWards
+                                    ? "Đang tải..."
                                     : "Chọn phường/xã"
-                              } />
+                                }
+                              />
                             </SelectTrigger>
                             <SelectContent>
                               {wards.map((ward) => (
-                                <SelectItem key={ward.code} value={ward.code.toString()}>
+                                <SelectItem
+                                  key={ward.code}
+                                  value={ward.code.toString()}
+                                >
                                   {ward.name}
                                 </SelectItem>
                               ))}
@@ -727,12 +839,14 @@ export default function ShippingPage() {
                     name="address"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Địa chỉ cụ thể</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Địa chỉ cụ thể
+                        </FormLabel>
                         <FormControl>
-                          <Input 
-                            placeholder="Số nhà, tên đường..." 
-                            {...field} 
-                            disabled={isFieldDisabled('address')}
+                          <Input
+                            placeholder="Số nhà, tên đường..."
+                            {...field}
+                            disabled={isFieldDisabled("address")}
                           />
                         </FormControl>
                         <FormMessage />
@@ -745,7 +859,9 @@ export default function ShippingPage() {
                     name="paymentMethod"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-maintext font-semibold">Phương thức thanh toán</FormLabel>
+                        <FormLabel className="text-maintext font-semibold">
+                          Phương thức thanh toán
+                        </FormLabel>
                         <FormControl>
                           <Select
                             value={field.value}
@@ -756,8 +872,12 @@ export default function ShippingPage() {
                               <SelectValue placeholder="Chọn phương thức thanh toán" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="COD">Thanh toán khi nhận hàng (COD)</SelectItem>
-                              <SelectItem value="BANK_TRANSFER">Thanh toán qua VNPay</SelectItem>
+                              <SelectItem value="COD">
+                                Thanh toán khi nhận hàng (COD)
+                              </SelectItem>
+                              <SelectItem value="BANK_TRANSFER">
+                                Thanh toán qua VNPay
+                              </SelectItem>
                             </SelectContent>
                           </Select>
                         </FormControl>
@@ -767,16 +887,20 @@ export default function ShippingPage() {
                   />
 
                   <div className="flex gap-4">
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      className="flex-1" 
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-1"
                       onClick={handleContinueShopping}
                       disabled={isProcessing}
                     >
                       Tiếp tục mua hàng
                     </Button>
-                    <Button type="submit" className="flex-1" disabled={isProcessing}>
+                    <Button
+                      type="submit"
+                      className="flex-1"
+                      disabled={isProcessing}
+                    >
                       {isProcessing ? "Đang xử lý..." : "Hoàn tất đặt hàng"}
                     </Button>
                   </div>
@@ -806,11 +930,14 @@ export default function ShippingPage() {
                       <h4 className="font-medium text-maintext">{item.name}</h4>
                       <p className="text-sm text-muted-foreground">
                         {item.brand}
-                        {item.size && ` • Size ${getSizeLabel(Number(item.size))}`}
+                        {item.size &&
+                          ` • Size ${getSizeLabel(Number(item.size))}`}
                       </p>
                       <div className="flex justify-between mt-2 text-maintext">
                         <span>x{item.quantity}</span>
-                        <span className='text-maintext'>{formatPrice(item.price)}</span>
+                        <span className="text-maintext">
+                          {formatPrice(item.price)}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -819,29 +946,41 @@ export default function ShippingPage() {
             </CardContent>
             <CardFooter className="flex flex-col space-y-2">
               <div className="flex justify-between w-full">
-                <span className="text-muted-foreground font-semibold text-sm">Tạm tính</span>
-                <span className='text-maintext'>{formatPrice(subtotal + voucherDiscount)}</span>
+                <span className="text-muted-foreground font-semibold text-sm">
+                  Tạm tính
+                </span>
+                <span className="text-maintext">
+                  {formatPrice(subtotal + voucherDiscount)}
+                </span>
               </div>
-              
+
               {/* Hiển thị giảm giá từ voucher */}
               {appliedVoucher && voucherDiscount > 0 && (
                 <div className="flex justify-between w-full text-green-600">
-                  <span className="text-sm font-semibold">Giảm giá voucher ({appliedVoucher.code})</span>
+                  <span className="text-sm font-semibold">
+                    Giảm giá voucher ({appliedVoucher.code})
+                  </span>
                   <span>-{formatPrice(voucherDiscount)}</span>
                 </div>
               )}
-              
+
               <div className="flex justify-between w-full">
-                <span className="text-muted-foreground font-semibold text-sm">Thuế</span>
-                <span className='text-maintext'>{formatPrice(tax)}</span>
+                <span className="text-muted-foreground font-semibold text-sm">
+                  Thuế
+                </span>
+                <span className="text-maintext">{formatPrice(tax)}</span>
               </div>
               <div className="flex justify-between w-full">
-                <span className="text-muted-foreground font-semibold text-sm">Phí vận chuyển</span>
-                <span className='text-maintext'>{formatPrice(shipping)}</span>
+                <span className="text-muted-foreground font-semibold text-sm">
+                  Phí vận chuyển
+                </span>
+                <span className="text-maintext">{formatPrice(shipping)}</span>
               </div>
               <div className="flex justify-between w-full text-base font-semibold text-maintext pt-2 border-t">
                 <span>Tổng cộng</span>
-                <span className='text-lg text-primary font-semibold'>{formatPrice(total)}</span>
+                <span className="text-lg text-primary font-semibold">
+                  {formatPrice(total)}
+                </span>
               </div>
             </CardFooter>
           </Card>
@@ -852,12 +991,14 @@ export default function ShippingPage() {
       <VNPayModal
         isOpen={showVNPayModal}
         onClose={() => setShowVNPayModal(false)}
-        orderData={vnpayOrderData || {
-          orderId: `TEMP_${Date.now()}`,
-          amount: total,
-          orderInfo: `Thanh toán đơn hàng`,
-          orderCode: `ORD${Date.now()}`
-        }}
+        orderData={
+          vnpayOrderData || {
+            orderId: `TEMP_${Date.now()}`,
+            amount: total,
+            orderInfo: `Thanh toán đơn hàng`,
+            orderCode: `ORD${Date.now()}`,
+          }
+        }
         onPaymentSuccess={handleVNPaySuccess}
         onPaymentError={handleVNPayError}
       />
@@ -873,4 +1014,4 @@ export default function ShippingPage() {
       )}
     </div>
   );
-} 
+}

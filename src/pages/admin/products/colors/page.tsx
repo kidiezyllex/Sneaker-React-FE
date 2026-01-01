@@ -765,7 +765,6 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
       code: randomColor,
     }));
 
-    // Clear any errors
     setErrors({
       name: "",
       code: "",
@@ -782,7 +781,6 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
         onSuccess: () => {
           toast.success("Thêm màu sắc thành công");
           queryClient.invalidateQueries({ queryKey: ["colors"] });
-          // Reset form
           setFormData({
             name: "",
             code: "",

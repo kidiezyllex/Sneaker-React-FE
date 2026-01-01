@@ -36,6 +36,7 @@ export const HeroBanner = () => {
             width={1000}
             height={1000}
             draggable={false}
+            loading="eager"
             className="w-full h-auto object-cover select-none absolute top-0 left-0 bottom-0 z-0"
           />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center relative z-10">
@@ -107,16 +108,19 @@ export const HeroBanner = () => {
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format"
                       alt="Customer 1"
                       className="w-10 h-10 rounded-full border-2 border-white object-cover"
+                      loading="lazy"
                     />
                     <img
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face&auto=format"
                       alt="Customer 2"
                       className="w-10 h-10 rounded-full border-2 border-white object-cover"
+                      loading="lazy"
                     />
                     <img
                       src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face&auto=format"
                       alt="Customer 3"
                       className="w-10 h-10 rounded-full border-2 border-white object-cover"
+                      loading="lazy"
                     />
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm border-2 border-white">
                       +

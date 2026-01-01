@@ -93,10 +93,6 @@ export default function CreatePromotionPage() {
     const now = new Date();
     const startDate = new Date(formData.startDate);
     const endDate = new Date(formData.endDate);
-    console.log("now", now);
-    console.log("startDate", startDate);
-    console.log("endDate", endDate);
-
     if (startDate <= now) {
       toast.error("Thời gian bắt đầu phải sau thời điểm hiện tại");
       return;
