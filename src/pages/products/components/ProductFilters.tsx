@@ -325,7 +325,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
       </div>
 
       <Button variant="outline" className="w-full" onClick={handleResetFilters}>
-        Đặt lại
+        Đặt lại bộ lọc
       </Button>
     </div>
   );

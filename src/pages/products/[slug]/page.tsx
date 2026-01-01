@@ -41,6 +41,8 @@ if (typeof document !== "undefined") {
   document.head.appendChild(styleSheet);
 }
 import { useProductDetail, useProducts } from "@/hooks/product";
+import { SimilarProducts } from "./components/SimilarProducts";
+import { ImageZoom } from "./components/ImageZoom";
 import { usePromotions } from "@/hooks/promotion";
 import {
   calculateProductDiscount,
@@ -55,7 +57,6 @@ import { Icon } from "@mdi/react";
 import {
   mdiCartOutline,
   mdiHeartOutline,
-  mdiShareVariant,
   mdiCheck,
   mdiChevronLeft,
   mdiChevronRight,
@@ -66,12 +67,9 @@ import {
   mdiCreditCard,
   mdiRefresh,
   mdiRuler,
-  mdiWeight,
   mdiPalette,
   mdiInformation,
   mdiCartPlus,
-  mdiMagnify,
-  mdiEye,
 } from "@mdi/js";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -86,578 +84,15 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { checkImageUrl } from "@/lib/utils";
 import { useCartStore } from "@/stores/useCartStore";
 import {
   IProduct,
-  IBrand,
-  ICategory,
   IPopulatedProductVariant,
   IProductImage,
 } from "@/interface/response/product";
-import { motion, AnimatePresence } from "framer-motion";
-const ImageZoom = ({
-  src,
-  alt,
-  className,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-}) => {
-  const [isZooming, setIsZooming] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (!isMobile) {
-      setIsZooming(true);
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setIsZooming(false);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isMobile) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    const xPercent = (x / rect.width) * 100;
-    const yPercent = (y / rect.height) * 100;
-
-    setMousePosition({ x: xPercent, y: yPercent });
-
-    const lensSize = 150;
-    const lensX = Math.max(
-      lensSize / 2,
-      Math.min(rect.width - lensSize / 2, x)
-    );
-    const lensY = Math.max(
-      lensSize / 2,
-      Math.min(rect.height - lensSize / 2, y)
-    );
-
-    setLensPosition({ x: lensX, y: lensY });
-  };
-
-  const handleTouchStart = () => {
-    if (isMobile) {
-      setIsZooming(!isZooming);
-    }
-  };
-
-  return (
-    <div className="relative overflow-visible group zoom-container">
-      <div
-        className={`relative ${className} transition-all duration-300 ${
-          !isMobile && !isZooming ? "cursor-zoom-in" : ""
-        } ${!isMobile && isZooming ? "cursor-none" : ""}`}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onMouseMove={handleMouseMove}
-        onTouchStart={handleTouchStart}
-      >
-        <img
-          src={src}
-          alt={alt}
-          draggable="false"
-          className="object-contain p-4 transition-transform duration-300"
-        />
-
-        {isZooming && !isMobile && (
-          <motion.div
-            className="absolute pointer-events-none border-4 border-white rounded-full shadow-2xl z-30 overflow-hidden zoom-lens"
-            style={{
-              width: "150px",
-              height: "150px",
-              left: `${lensPosition.x - 75}px`,
-              top: `${lensPosition.y - 75}px`,
-              boxShadow:
-                "0 0 0 2px rgba(59, 130, 246, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.25)",
-            }}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div
-              className="w-full h-full relative bg-white"
-              style={{
-                backgroundImage: `url(${src})`,
-                backgroundSize: "400%",
-                backgroundPosition: `${mousePosition.x}% ${mousePosition.y}%`,
-                backgroundRepeat: "no-repeat",
-              }}
-            />
-            <div className="absolute inset-2 border border-white/30 rounded-full pointer-events-none"></div>
-          </motion.div>
-        )}
-      </div>
-      {isZooming && isMobile && (
-        <motion.div
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          onClick={() => setIsZooming(false)}
-        >
-          <motion.div
-            className="relative w-full max-w-lg aspect-square bg-white rounded-xl overflow-hidden"
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            <img
-              src={src}
-              alt={alt}
-              className="object-contain p-4"
-              draggable="false"
-            />
-            <Button
-              variant="secondary"
-              size="icon"
-              className="absolute top-4 right-4 rounded-full bg-white/90 hover:bg-white"
-              onClick={() => setIsZooming(false)}
-            >
-              ✕
-            </Button>
-            <div className="absolute bottom-4 left-4 bg-primary/90 text-white px-3 py-1 rounded-full text-sm font-medium">
-              Nhấn để đóng
-            </div>
-          </motion.div>
-        </motion.div>
-      )}
-
-      {isMobile && (
-        <motion.div
-          className="absolute bottom-2 right-2 bg-primary/90 text-white px-2 py-1 rounded text-sm font-medium opacity-70"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.7, y: 0 }}
-          transition={{ delay: 1, duration: 0.5 }}
-        >
-          <Icon path={mdiMagnify} size={0.8} className="inline mr-1" />
-          Nhấn để phóng to
-        </motion.div>
-      )}
-
-      {!isMobile && !isZooming && (
-        <motion.div
-          className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm font-medium opacity-0 group-hover:opacity-70 transition-opacity duration-300"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0, y: 0 }}
-          whileHover={{ opacity: 0.7 }}
-        >
-          <Icon path={mdiMagnify} size={0.8} className="inline mr-1" />
-          Hover để phóng to
-        </motion.div>
-      )}
-    </div>
-  );
-};
-
-const SimilarProductCard = ({
-  product,
-  promotionsData,
-}: {
-  product: any;
-  promotionsData?: any;
-}) => {
-  const { addToCart } = useCartStore();
-  const [isHovered, setIsHovered] = useState(false);
-
-  const handleAddToCart = () => {
-    if (!product.variants?.[0]) return;
-
-    const firstVariant = product.variants[0];
-
-    if (firstVariant.stock === 0) {
-      toast.error("Sản phẩm đã hết hàng");
-      return;
-    }
-
-    let finalPrice = firstVariant.price;
-    let originalPrice = undefined;
-    let discountPercent = 0;
-    let hasDiscount = false;
-
-    if (promotionsData?.data?.promotions) {
-      const activePromotions = filterActivePromotions(
-        promotionsData.data.promotions
-      );
-      const discount = calculateProductDiscount(
-        product.id,
-        firstVariant.price,
-        activePromotions
-      );
-
-      if (discount.discountPercent > 0) {
-        finalPrice = discount.discountedPrice;
-        originalPrice = discount.originalPrice;
-        discountPercent = discount.discountPercent;
-        hasDiscount = true;
-      }
-    }
-
-    const cartItem = {
-      id: firstVariant.id, // Use variant ID as main ID
-      productId: product.id, // Separate product ID
-      name: product.name,
-      price: finalPrice,
-      originalPrice: originalPrice,
-      discountPercent: discountPercent,
-      hasDiscount: hasDiscount,
-      image: firstVariant.images?.[0] || "",
-      quantity: 1,
-      slug: product.code,
-      brand:
-        typeof product.brand === "string" ? product.brand : product.brand.name,
-      size: firstVariant.sizeId?.code,
-      colors: [firstVariant.colorId?.name || "Default"],
-      stock: firstVariant.stock,
-      colorId: firstVariant.colorId?.id || "",
-      sizeId: firstVariant.sizeId?.id || "",
-      colorName: firstVariant.colorId?.name || "Default",
-      sizeName: firstVariant.sizeId?.value
-        ? getSizeLabel(firstVariant.sizeId.value)
-        : firstVariant.sizeId?.name || firstVariant.sizeId?.code || "",
-    };
-
-    addToCart(cartItem, 1);
-    toast.success("Đã thêm sản phẩm vào giỏ hàng");
-  };
-
-  const handleQuickView = () => {
-    window.location.href = `/products/${product.name
-      .toLowerCase()
-      .replace(/\s+/g, "-")}-${product.id}`;
-  };
-
-  const handleAddToWishlist = () => {
-    toast.success("Đã thêm vào danh sách yêu thích");
-  };
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-    >
-      <Card className="group overflow-hidden border rounded-lg hover:shadow-2xl shadow-lg transition-all duration-500 h-full flex flex-col transform hover:-translate-y-3 bg-white relative backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg z-10 pointer-events-none" />
-        <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-t-2xl">
-          <a
-            href={`/products/${product.name
-              .toLowerCase()
-              .replace(/\s+/g, "-")}-${product.id}`}
-            className="block"
-          >
-            <div className="aspect-square overflow-hidden relative flex items-center justify-center">
-              <motion.div
-                className="w-full h-full relative"
-                whileHover={{ scale: 1.1 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-              >
-                <img
-                  src={
-                    checkImageUrl(product.variants?.[0]?.images?.[0]) ||
-                    "/placeholder.svg"
-                  }
-                  alt={product.name}
-                  className="object-contain w-full h-full drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500"
-                  sizes="(max-width: 768px) 50vw, 25vw"
-                  draggable="false"
-                />
-              </motion.div>
-            </div>
-          </a>
-
-          {/* Enhanced badges */}
-          <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
-            {product.isNew && (
-              <motion.div
-                initial={{ scale: 0, rotate: -180 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-gradient-to-r from-emerald-500 to-teal-400 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
-              >
-                ✨ Mới
-              </motion.div>
-            )}
-            {(() => {
-              if (promotionsData?.data?.promotions && product.variants?.[0]) {
-                const activePromotions = filterActivePromotions(
-                  promotionsData.data.promotions
-                );
-                const discount = calculateProductDiscount(
-                  product.id,
-                  product.variants[0].price,
-                  activePromotions
-                );
-
-                if (discount.discountPercent > 0) {
-                  return (
-                    <motion.div
-                      initial={{ scale: 0, rotate: 180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                      className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
-                    >
-                      💥
-                      <span className="text-base">
-                        -{discount.discountPercent}%
-                      </span>
-                    </motion.div>
-                  );
-                }
-              }
-              return null;
-            })()}
-          </div>
-
-          {/* Enhanced quick action buttons */}
-          <motion.div
-            className="absolute right-2 top-2 transform -translate-y-1/2 flex flex-col gap-4 z-30"
-            initial={{ x: 60, opacity: 0 }}
-            animate={{
-              x: isHovered ? 0 : 60,
-              opacity: isHovered ? 1 : 0,
-            }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-primary hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleAddToCart();
-                }}
-                aria-label="Thêm vào giỏ hàng"
-              >
-                <Icon
-                  path={mdiCartOutline}
-                  size={0.8}
-                  className="group-hover/btn:animate-bounce"
-                />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-pink-500 hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleAddToWishlist();
-                }}
-                aria-label="Yêu thích"
-              >
-                <Icon
-                  path={mdiHeartOutline}
-                  size={0.8}
-                  className="group-hover/btn:animate-pulse"
-                />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-primary hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleQuickView();
-                }}
-                aria-label="Xem nhanh"
-              >
-                <Icon
-                  path={mdiEye}
-                  size={0.8}
-                  className="group-hover/btn:animate-ping"
-                />
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        <div className="p-4 flex flex-col flex-grow bg-gradient-to-b from-white via-gray-50/30 to-white border-t border-gray-100/50 rounded-b-2xl relative">
-          <div className="text-sm text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-pink-400 animate-pulse"></div>
-            <span className="bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">
-              {typeof product.brand === "string"
-                ? product.brand
-                : product.brand?.name}
-            </span>
-          </div>
-
-          <a
-            href={`/products/${product.name
-              .toLowerCase()
-              .replace(/\s+/g, "-")}-${product.id}`}
-            className="hover:text-primary transition-colors group/a"
-          >
-            <h3 className="font-bold text-base mb-3 line-clamp-2 leading-tight group-hover:text-primary/90 transition-colors duration-300 text-maintext group-hover/link:underline decoration-primary/50 underline-offset-2">
-              {product.name}
-            </h3>
-          </a>
-
-          <div className="mt-auto">
-            {/* Enhanced pricing */}
-            <div className="flex items-center justify-between">
-              <motion.div
-                className="font-extrabold text-lg text-active"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-              >
-                {(() => {
-                  if (
-                    promotionsData?.data?.promotions &&
-                    product.variants?.[0]
-                  ) {
-                    const discount = calculateProductDiscount(
-                      product.id,
-                      product.variants[0].price,
-                      promotionsData.data.promotions
-                    );
-
-                    if (discount.discountPercent > 0) {
-                      return formatPrice(discount.discountedPrice);
-                    }
-                  }
-
-                  return (
-                    product.variants?.[0] &&
-                    formatPrice(product.variants[0].price)
-                  );
-                })()}
-              </motion.div>
-              {(() => {
-                if (promotionsData?.data?.promotions && product.variants?.[0]) {
-                  const discount = calculateProductDiscount(
-                    product.id,
-                    product.variants[0].price,
-                    promotionsData.data.promotions
-                  );
-
-                  if (discount.discountPercent > 0) {
-                    return (
-                      <div className="text-sm text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-md italic">
-                        {formatPrice(discount.originalPrice)}
-                      </div>
-                    );
-                  }
-                }
-                return null;
-              })()}
-            </div>
-
-            {/* Enhanced color variants */}
-            {product.variants && product.variants.length > 0 && (
-              <div className="flex flex-col gap-1 items-start justify-start">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">
-                    Màu sắc:
-                  </span>
-                  <div className="flex gap-1 text-sm">
-                    {Array.from(
-                      new Set(
-                        product.variants
-                          .map((v: any) => v.colorId?.id)
-                          .filter(Boolean)
-                      )
-                    )
-                      .slice(0, 4)
-                      .map((colorId: unknown, index: number) => {
-                        const variant = product.variants.find(
-                          (v: any) => v.colorId?.id === colorId
-                        );
-                        const color = variant?.colorId || {
-                          code: "#000000",
-                          name: "Default",
-                        };
-
-                        return (
-                          <motion.div
-                            key={index}
-                            className="w-4 h-4 rounded-full border-2 border-white shadow-lg ring-2 ring-gray-200 cursor-pointer"
-                            style={{ backgroundColor: color.code }}
-                            title={color.name}
-                            whileHover={{ scale: 1.3, rotate: 360 }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        );
-                      })}
-
-                    {Array.from(
-                      new Set(
-                        product.variants
-                          .map((v: any) => v.colorId?.id)
-                          .filter(Boolean)
-                      )
-                    ).length > 4 && (
-                      <motion.span
-                        className="text-sm text-maintext ml-1 bg-gray-100 px-2 py-1 rounded-full font-medium"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        +
-                        {Array.from(
-                          new Set(
-                            product.variants
-                              .map((v: any) => v.colorId?.id)
-                              .filter(Boolean)
-                          )
-                        ).length - 4}
-                      </motion.span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">
-                    Kích thước:
-                  </span>
-                  <div className="flex gap-1 text-maintext text-sm">
-                    {Array.from(
-                      new Set(
-                        product.variants.map((v: any) =>
-                          typeof v.sizeId === "object"
-                            ? getSizeLabel(v.sizeId.value)
-                            : getSizeLabel(v.sizeId)
-                        )
-                      )
-                    ).join(", ")}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Decorative bottom border */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/20 via-pink-400/20 to-orange-400/20 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        </div>
-      </Card>
-    </motion.div>
-  );
-};
+import { motion } from "framer-motion";
 
 import { useParams } from "react-router-dom";
 
@@ -678,6 +113,79 @@ export default function ProductDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [productDiscount, setProductDiscount] = useState<any>(null);
 
+  const handleAddToCartSimilar = (similarProduct: any) => {
+    if (!similarProduct.variants?.[0]) return;
+
+    const firstVariant = similarProduct.variants[0];
+
+    if (firstVariant.stock === 0) {
+      toast.error("Sản phẩm đã hết hàng");
+      return;
+    }
+
+    let finalPrice = firstVariant.price;
+    let originalPrice = undefined;
+    let discountPercent = 0;
+    let hasDiscount = false;
+
+    if (promotionsData?.data?.promotions) {
+      const activePromotions = filterActivePromotions(
+        promotionsData.data.promotions
+      );
+      const discount = calculateProductDiscount(
+        similarProduct.id,
+        firstVariant.price,
+        activePromotions
+      );
+
+      if (discount.discountPercent > 0) {
+        finalPrice = discount.discountedPrice;
+        originalPrice = discount.originalPrice;
+        discountPercent = discount.discountPercent;
+        hasDiscount = true;
+      }
+    }
+
+    const cartItem = {
+      id: firstVariant.id, // Use variant ID as main ID
+      productId: similarProduct.id, // Separate product ID
+      name: similarProduct.name,
+      price: finalPrice,
+      originalPrice: originalPrice,
+      discountPercent: discountPercent,
+      hasDiscount: hasDiscount,
+      image: firstVariant.images?.[0]?.imageUrl || "",
+      quantity: 1,
+      slug: similarProduct.code,
+      brand:
+        typeof similarProduct.brand === "string"
+          ? similarProduct.brand
+          : similarProduct.brand.name,
+      size: firstVariant.sizeId?.code,
+      colors: [firstVariant.colorId?.name || "Default"],
+      stock: firstVariant.stock,
+      colorId: firstVariant.colorId?.id || "",
+      sizeId: firstVariant.sizeId?.id || "",
+      colorName: firstVariant.colorId?.name || "Default",
+      sizeName: firstVariant.sizeId?.value
+        ? getSizeLabel(firstVariant.sizeId.value)
+        : firstVariant.sizeId?.name || firstVariant.sizeId?.code || "",
+    };
+
+    addToCart(cartItem, 1);
+    toast.success("Đã thêm sản phẩm vào giỏ hàng");
+  };
+
+  const handleQuickViewSimilar = (similarProduct: any) => {
+    window.location.href = `/products/${similarProduct.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")}-${similarProduct.id}`;
+  };
+
+  const handleAddToWishlistSimilar = () => {
+    toast.success("Đã thêm vào danh sách yêu thích");
+  };
+
   useEffect(() => {
     if (typeof slug === "string") {
       const id = slug.split("-").pop();
@@ -694,12 +202,8 @@ export default function ProductDetail() {
     ) {
       const firstVariant = productData.data.variants[0];
       setSelectedVariant(firstVariant);
-      setSelectedColor(
-        String(firstVariant.color?.id || firstVariant.colorId || "")
-      );
-      setSelectedSize(
-        String(firstVariant.size?.id || firstVariant.sizeId || "")
-      );
+      setSelectedColor(String(firstVariant.color.id));
+      setSelectedSize(String(firstVariant.size.id));
       setCurrentImageIndex(0);
     }
   }, [productData]);
@@ -729,8 +233,8 @@ export default function ProductDetail() {
 
     const matchingVariant = productData?.data?.variants.find(
       (v) =>
-        String(v.color?.id || v.colorId) === String(colorId) &&
-        String(v.size?.id || v.sizeId) === String(selectedSize)
+        String(v.color.id) === String(colorId) &&
+        String(v.size.id) === String(selectedSize)
     );
 
     if (matchingVariant) {
@@ -738,15 +242,11 @@ export default function ProductDetail() {
       setCurrentImageIndex(0);
     } else {
       const firstVariantWithColor = productData?.data?.variants.find(
-        (v) => String(v.color?.id || v.colorId) === String(colorId)
+        (v) => String(v.color.id) === String(colorId)
       );
       if (firstVariantWithColor) {
         setSelectedVariant(firstVariantWithColor);
-        setSelectedSize(
-          String(
-            firstVariantWithColor.size?.id || firstVariantWithColor.sizeId || ""
-          )
-        );
+        setSelectedSize(String(firstVariantWithColor.size.id));
         setCurrentImageIndex(0);
       }
     }
@@ -757,8 +257,8 @@ export default function ProductDetail() {
 
     const matchingVariant = productData?.data?.variants.find(
       (v) =>
-        String(v.color?.id || v.colorId) === String(selectedColor) &&
-        String(v.size?.id || v.sizeId) === String(sizeId)
+        String(v.color.id) === String(selectedColor) &&
+        String(v.size.id) === String(sizeId)
     );
 
     if (matchingVariant) {
@@ -799,27 +299,22 @@ export default function ProductDetail() {
       hasDiscount: Boolean(
         productDiscount && productDiscount.discountPercent > 0
       ),
-      image:
-        selectedVariant.images?.[0]?.imageUrl ||
-        selectedVariant.images?.[0] ||
-        "",
+      image: selectedVariant.images?.[0]?.imageUrl || "",
       quantity: quantity,
       slug: productData.data.code,
       brand:
         typeof productData.data.brand === "string"
           ? productData.data.brand
           : productData.data.brand.name,
-      size: String(selectedVariant.size?.value || selectedVariant.sizeId || ""),
-      colors: [selectedVariant.color?.name || "Default"],
+      size: String(selectedVariant.size.value),
+      colors: [selectedVariant.color.name],
       stock: selectedVariant.stock,
-      colorId: String(
-        selectedVariant.color?.id || selectedVariant.colorId || ""
-      ),
-      sizeId: String(selectedVariant.size?.id || selectedVariant.sizeId || ""),
+      colorId: String(selectedVariant.color.id),
+      sizeId: String(selectedVariant.size.id),
       colorName: selectedVariant.color?.name || "Default",
-      sizeName: selectedVariant.size?.value
+      sizeName: selectedVariant.size.value
         ? getSizeLabel(selectedVariant.size.value)
-        : String(selectedVariant.sizeId || ""),
+        : selectedVariant.size.name || selectedVariant.size.code || "",
     };
 
     addToCart(cartItem, quantity);
@@ -886,7 +381,7 @@ export default function ProductDetail() {
 
   if (isLoading) {
     return (
-      <div className="container mx-auto py-8">
+      <div className="p-8">
         <div className="flex flex-col lg:flex-row gap-8">
           <div className="w-full lg:w-3/5">
             <Skeleton className="aspect-square w-full rounded-xl" />
@@ -931,10 +426,6 @@ export default function ProductDetail() {
 
   const brandName =
     typeof product.brand === "string" ? product.brand : product.brand.name;
-  const brandSlug =
-    typeof product.brand === "string"
-      ? product.brand
-      : product.brand.name.toLowerCase().replace(/\s+/g, "-");
   const categoryName =
     typeof product.category === "string"
       ? product.category
@@ -946,7 +437,7 @@ export default function ProductDetail() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50/50 to-white">
-      <div className="container mx-auto py-8">
+      <div className="p-8">
         {/* Enhanced Breadcrumb */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -998,8 +489,7 @@ export default function ProductDetail() {
                 <>
                   <ImageZoom
                     src={checkImageUrl(
-                      selectedVariant.images[currentImageIndex]?.imageUrl ||
-                        selectedVariant.images[currentImageIndex]
+                      selectedVariant.images[currentImageIndex]?.imageUrl
                     )}
                     alt={product.name}
                     className="aspect-square"
@@ -1035,7 +525,7 @@ export default function ProductDetail() {
             {/* Thumbnail Images */}
             {selectedVariant &&
               selectedVariant.images &&
-              selectedVariant.images.length > 1 && (
+              selectedVariant.images.length > 0 && (
                 <div className="grid grid-cols-5 gap-4 mt-4">
                   {selectedVariant.images.map(
                     (image: IProductImage, index: number) => (
@@ -1078,45 +568,36 @@ export default function ProductDetail() {
           >
             {/* Product Header */}
             <div className="space-y-3">
-              <div className="flex items-center gap-4">
-                <div className="font-mono border h-[22px] bg-gray-100 px-3 flex items-center justify-center text-primary text-sm font-medium rounded-full">
-                  {product.code}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <Badge variant="success">{brandName}</Badge>
+                  <Badge variant="warning">{categoryName}</Badge>
                 </div>
-                <Badge
-                  variant="secondary"
-                  className="bg-primary/10 text-primary border-primary/20"
-                >
-                  {brandName}
-                </Badge>
-                <Badge variant="outline" className="!text-maintext">
-                  {categoryName}
-                </Badge>
+                {/* Rating placeholder */}
+                <div className="flex items-center gap-2">
+                  <span className="text-base !text-maintext">
+                    128 đánh giá •
+                  </span>
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Icon
+                        key={i}
+                        path={i < 4 ? mdiStar : mdiStarOutline}
+                        size={0.8}
+                        className={i < 4 ? "text-yellow-400" : "text-gray-300"}
+                      />
+                    ))}
+                    (4.0)
+                  </div>
+                </div>
               </div>
-
               <h1 className="text-3xl lg:text-4xl font-bold text-maintext leading-tight">
                 {product.name}
               </h1>
-
-              {/* Rating placeholder */}
-              <div className="flex items-center gap-2">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Icon
-                      key={i}
-                      path={i < 4 ? mdiStar : mdiStarOutline}
-                      size={0.8}
-                      className={i < 4 ? "text-yellow-400" : "text-gray-300"}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm !text-maintext">
-                  (4.0) • 128 đánh giá
-                </span>
-              </div>
             </div>
 
             {/* Enhanced Pricing */}
-            <Card className="p-4 bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
+            <Card className="p-4 bg-green-50 border-green-300">
               <div className="space-y-4">
                 {/* Discount Badge */}
                 {productDiscount && productDiscount.discountPercent > 0 && (
@@ -1174,159 +655,153 @@ export default function ProductDetail() {
                   </div>
                 )}
 
-                {/* Show original price info when no discount */}
                 {(!productDiscount || productDiscount.discountPercent === 0) &&
                   selectedVariant && (
-                    <div className="text-sm text-maintext">
-                      Giá bán: {formatPrice(selectedVariant.price)}
+                    <div className="text-base text-maintext">
+                      <strong>Giá bán:</strong>{" "}
+                      {formatPrice(selectedVariant.price)}
                     </div>
                   )}
               </div>
             </Card>
-
-            {/* Enhanced Color Selection */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Icon
-                    path={mdiPalette}
-                    size={0.9}
-                    className="!text-maintext"
-                  />
-                  <span className="font-semibold text-maintext">Màu sắc</span>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Enhanced Color Selection */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      path={mdiPalette}
+                      size={0.9}
+                      className="!text-maintext"
+                    />
+                    <span className="font-semibold text-maintext">Màu sắc</span>
+                  </div>
+                  {selectedColor && (
+                    <Badge variant="success">
+                      {(() => {
+                        const colorVariant = product.variants.find(
+                          (v) => String(v.color.id) === String(selectedColor)
+                        );
+                        return colorVariant?.color?.name || "Màu sắc đã chọn";
+                      })()}
+                    </Badge>
+                  )}
                 </div>
-                {selectedColor && (
-                  <span className="text-sm !text-maintext bg-gray-100 px-3 py-1 rounded-full">
-                    {(() => {
-                      const colorVariant = product.variants.find(
-                        (v) =>
-                          String(v.color?.id || v.colorId) ===
-                          String(selectedColor)
+                <div className="flex flex-wrap gap-4">
+                  {product.variants
+                    .filter((variant, index, self) => {
+                      const colorId = variant.color.id;
+                      return (
+                        colorId &&
+                        index === self.findIndex((v) => v.color.id === colorId)
                       );
-                      return colorVariant?.color?.name || "Màu sắc đã chọn";
-                    })()}
-                  </span>
-                )}
-              </div>
-              <div className="flex flex-wrap gap-4">
-                {product.variants
-                  .filter((variant, index, self) => {
-                    const colorId = variant.color?.id || variant.colorId;
-                    return (
-                      colorId &&
-                      index ===
-                        self.findIndex(
-                          (v) => (v.color?.id || v.colorId) === colorId
-                        )
-                    );
-                  })
-                  .map((variant) => (
-                    <motion.button
-                      key={variant.color?.id || variant.colorId}
-                      onClick={() =>
-                        handleColorSelect(
-                          String(variant.color?.id || variant.colorId)
-                        )
-                      }
-                      className={`
+                    })
+                    .map((variant) => (
+                      <motion.button
+                        key={variant.color?.id}
+                        onClick={() =>
+                          handleColorSelect(String(variant.color.id))
+                        }
+                        className={`
                         relative group flex items-center justify-center w-10 h-10 rounded-full
                         transition-all duration-300 border-2
                         ${
-                          String(selectedColor) ===
-                          String(variant.color?.id || variant.colorId)
+                          String(selectedColor) === String(variant.color.id)
                             ? "border-primary ring-4 ring-primary/20 scale-110"
                             : "border-gray-200 hover:border-gray-300 hover:scale-105"
                         }
                       `}
-                      style={{ backgroundColor: variant.color?.code }}
-                      title={variant.color?.name}
-                      whileHover={{
-                        scale:
-                          String(selectedColor) ===
-                          String(variant.color?.id || variant.colorId)
-                            ? 1.1
-                            : 1.05,
-                      }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      {String(selectedColor) ===
-                        String(variant.color?.id || variant.colorId) && (
-                        <Icon
-                          path={mdiCheck}
-                          size={0.9}
-                          className="text-white drop-shadow-lg"
-                        />
-                      )}
-                    </motion.button>
-                  ))}
-              </div>
-            </div>
-
-            {/* Enhanced Size Selection */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Icon path={mdiRuler} size={0.9} className="!text-maintext" />
-                  <span className="font-semibold text-maintext">
-                    Kích thước
-                  </span>
+                        style={{ backgroundColor: variant.color?.code }}
+                        title={variant.color?.name}
+                        whileHover={{
+                          scale:
+                            String(selectedColor) === String(variant.color?.id)
+                              ? 1.1
+                              : 1.05,
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {String(selectedColor) ===
+                          String(variant.color?.id) && (
+                          <Icon
+                            path={mdiCheck}
+                            size={0.9}
+                            className="text-white drop-shadow-lg"
+                          />
+                        )}
+                      </motion.button>
+                    ))}
                 </div>
-                {selectedSize && (
-                  <span className="text-sm !text-maintext bg-gray-100 px-3 py-1 rounded-full">
-                    {(() => {
-                      const sizeVariant = product.variants.find(
-                        (v) =>
-                          String(v.size?.id || v.sizeId) ===
-                          String(selectedSize)
-                      );
-                      return sizeVariant?.size?.value
-                        ? getSizeLabel(sizeVariant.size.value)
-                        : sizeVariant?.size?.name ||
-                            sizeVariant?.size?.code ||
-                            "Size đã chọn";
-                    })()}
-                  </span>
-                )}
               </div>
-              <div className="flex flex-wrap gap-4">
-                {Array.from(
-                  new Set(
-                    product.variants
-                      .map((v) => String(v.size?.id || v.sizeId))
-                      .filter(Boolean)
-                  )
-                ).map((sizeId) => {
-                  const sizeVariant = product.variants.find(
-                    (v) => String(v.size?.id || v.sizeId) === sizeId
-                  );
-                  const variantForColorAndSize = product.variants.find(
-                    (v) =>
-                      String(v.color?.id || v.colorId) ===
-                        String(selectedColor) &&
-                      String(v.size?.id || v.sizeId) === sizeId
-                  );
-                  const isAvailable =
-                    !!variantForColorAndSize &&
-                    variantForColorAndSize.stock > 0;
+              {/* Enhanced Size Selection */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      path={mdiRuler}
+                      size={0.9}
+                      className="!text-maintext"
+                    />
+                    <span className="font-semibold text-maintext">
+                      Kích thước
+                    </span>
+                  </div>
+                  {selectedSize && (
+                    <Badge variant="success">
+                      {(() => {
+                        const sizeVariant = product.variants.find(
+                          (v) => String(v.size.id) === String(selectedSize)
+                        );
+                        return sizeVariant?.size?.value
+                          ? getSizeLabel(sizeVariant.size.value)
+                          : sizeVariant?.size?.name ||
+                              sizeVariant?.size?.code ||
+                              "Size đã chọn";
+                      })()}
+                    </Badge>
+                  )}
+                </div>
+                <div className="flex flex-wrap gap-4">
+                  {Array.from(
+                    new Set(
+                      product.variants
+                        .map((v) => String(v.size.id))
+                        .filter(Boolean)
+                    )
+                  ).map((sizeId) => {
+                    const sizeVariant = product.variants.find(
+                      (v) => String(v.size.id) === sizeId
+                    );
+                    const variantForColorAndSize = product.variants.find(
+                      (v) =>
+                        String(v.color.id) === String(selectedColor) &&
+                        String(v.size.id) === sizeId
+                    );
+                    const isAvailable =
+                      !!variantForColorAndSize &&
+                      variantForColorAndSize.stock > 0;
 
-                  return (
-                    <Button
-                      variant={
-                        String(selectedSize) === sizeId ? "default" : "outline"
-                      }
-                      size="icon"
-                      key={sizeId}
-                      onClick={() => handleSizeSelect(sizeId)}
-                      disabled={!isAvailable}
-                      className={
-                        !isAvailable ? "opacity-50 cursor-not-allowed" : ""
-                      }
-                      title={!isAvailable ? "Không có sẵn cho màu này" : ""}
-                    >
-                      {getSizeLabel(sizeVariant?.size?.value || 0)}
-                    </Button>
-                  );
-                })}
+                    return (
+                      <Button
+                        variant={
+                          String(selectedSize) === sizeId
+                            ? "default"
+                            : "outline"
+                        }
+                        size="icon"
+                        key={sizeId}
+                        onClick={() => handleSizeSelect(sizeId)}
+                        disabled={!isAvailable}
+                        className={
+                          !isAvailable ? "opacity-50 cursor-not-allowed" : ""
+                        }
+                        title={!isAvailable ? "Không có sẵn cho màu này" : ""}
+                      >
+                        {getSizeLabel(sizeVariant?.size?.value || 0)}
+                      </Button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
@@ -1378,7 +853,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Enhanced Action Buttons */}
-            <div className="grid grid-cols-2 gap-4 pt-4">
+            <div className="grid grid-cols-2 gap-4">
               <Button
                 variant="outline"
                 size="lg"
@@ -1398,67 +873,53 @@ export default function ProductDetail() {
             </div>
 
             {/* Enhanced Product Features */}
-            <Card className="p-4 bg-gray-50/50">
+            <Card className="p-4 bg-green-50 border-green-300">
               <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon path={mdiTruck} size={0.9} className="text-primary" />
+                {[
+                  {
+                    icon: mdiTruck,
+                    title: "Miễn phí vận chuyển",
+                    description: "Đơn hàng từ 500k",
+                  },
+                  {
+                    icon: mdiShield,
+                    title: "Bảo hành chính hãng",
+                    description: "12 tháng",
+                  },
+                  {
+                    icon: mdiRefresh,
+                    title: "Đổi trả dễ dàng",
+                    description: "Trong 30 ngày",
+                  },
+                  {
+                    icon: mdiCreditCard,
+                    title: "Thanh toán an toàn",
+                    description: "Nhiều phương thức",
+                  },
+                ].map((feature, index) => (
+                  <div key={index} className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center border border-green-300">
+                      <Icon
+                        path={feature.icon}
+                        size={0.9}
+                        className="text-primary"
+                      />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-maintext">
+                        {feature.title}
+                      </p>
+                      <p className="text-sm !text-maintext">
+                        {feature.description}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium text-maintext">
-                      Miễn phí vận chuyển
-                    </p>
-                    <p className="text-sm !text-maintext">Đơn hàng từ 500k</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon
-                      path={mdiShield}
-                      size={0.9}
-                      className="text-primary"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-medium text-maintext">
-                      Bảo hành chính hãng
-                    </p>
-                    <p className="text-sm !text-maintext">12 tháng</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon
-                      path={mdiRefresh}
-                      size={0.9}
-                      className="text-primary"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-medium text-maintext">Đổi trả dễ dàng</p>
-                    <p className="text-sm !text-maintext">Trong 30 ngày</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon
-                      path={mdiCreditCard}
-                      size={0.9}
-                      className="text-primary"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-medium text-maintext">
-                      Thanh toán an toàn
-                    </p>
-                    <p className="text-sm !text-maintext">Nhiều phương thức</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </Card>
 
             {/* Enhanced Product Information */}
-            <Card className="p-4">
+            <Card className="p-4 bg-green-50 border-green-300">
               <h3 className="font-semibold text-maintext mb-4 flex items-center gap-2">
                 <Icon
                   path={mdiInformation}
@@ -1467,232 +928,52 @@ export default function ProductDetail() {
                 />
                 Thông tin sản phẩm
               </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="!text-maintext">Thương hiệu</span>
-                  <span className="font-medium text-maintext">{brandName}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="!text-maintext">Danh mục</span>
-                  <span className="font-medium text-maintext">
-                    {categoryName}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="!text-maintext">Chất liệu</span>
-                  <span className="font-medium text-maintext">
-                    {materialName}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="!text-maintext">Trọng lượng</span>
-                  <span className="font-medium text-maintext">
-                    {product.weight}g
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span className="!text-maintext">Mã sản phẩm</span>
-                  <span className="font-mono font-medium text-primary">
-                    {product.code}
-                  </span>
-                </div>
-                {selectedVariant && (
-                  <div className="flex justify-between items-center py-2">
-                    <span className="!text-maintext">Giá hiện tại</span>
-                    <span className="font-medium text-primary">
-                      {productDiscount && productDiscount.discountPercent > 0
-                        ? formatPrice(productDiscount.discountedPrice)
-                        : formatPrice(selectedVariant.price)}
-                    </span>
-                  </div>
-                )}
-              </div>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell className="font-medium !text-maintext py-3">
+                      Thương hiệu
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-maintext py-3">
+                      {brandName}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium !text-maintext py-3">
+                      Danh mục
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-maintext py-3">
+                      {categoryName}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium !text-maintext py-3">
+                      Chất liệu
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-maintext py-3">
+                      {materialName}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell className="font-medium !text-maintext py-3">
+                      Trọng lượng
+                    </TableCell>
+                    <TableCell className="text-right font-semibold text-maintext py-3">
+                      {product.weight}g
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
             </Card>
           </motion.div>
         </div>
-
-        {/* Enhanced Product Details Tabs */}
-        <motion.div
-          className="mt-20"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <Tabs defaultValue="description" className="w-full">
-            <TabsList className="w-full sm:w-auto border-b bg-transparent h-auto p-0 rounded-none">
-              <TabsTrigger
-                value="description"
-                className="flex-1 sm:flex-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-4 font-semibold text-maintext"
-              >
-                Mô tả sản phẩm
-              </TabsTrigger>
-              <TabsTrigger
-                value="specifications"
-                className="flex-1 sm:flex-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-4 font-semibold text-maintext"
-              >
-                Thông số kỹ thuật
-              </TabsTrigger>
-              <TabsTrigger
-                value="reviews"
-                className="flex-1 sm:flex-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none pb-4 font-semibold"
-              >
-                Đánh giá (128)
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="description" className="mt-8">
-              <Card className="p-8">
-                <div className="prose max-w-none">
-                  <div
-                    dangerouslySetInnerHTML={{ __html: product.description }}
-                    className="text-maintext leading-relaxed"
-                  />
-                </div>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="specifications" className="mt-8">
-              <Card className="p-8">
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div>
-                    <h4 className="font-semibold text-lg mb-4 text-maintext">
-                      Thông tin cơ bản
-                    </h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="!text-maintext">Thương hiệu</span>
-                        <span className="font-medium">{brandName}</span>
-                      </div>
-                      <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="!text-maintext">Danh mục</span>
-                        <span className="font-medium">{categoryName}</span>
-                      </div>
-                      <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="!text-maintext">Chất liệu</span>
-                        <span className="font-medium">{materialName}</span>
-                      </div>
-                      <div className="flex justify-between py-2">
-                        <span className="!text-maintext">Trọng lượng</span>
-                        <span className="font-medium">{product.weight}g</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-lg mb-4 text-maintext">
-                      Thông tin biến thể
-                    </h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="!text-maintext">Số màu sắc</span>
-                        <span className="font-medium">
-                          {
-                            Array.from(
-                              new Set(
-                                product.variants.map(
-                                  (v) => v.color?.id || v.colorId
-                                )
-                              )
-                            ).length
-                          }{" "}
-                          màu
-                        </span>
-                      </div>
-                      <div className="flex justify-between py-2 border-b border-gray-100">
-                        <span className="!text-maintext">Số kích thước</span>
-                        <span className="font-medium">
-                          {
-                            Array.from(
-                              new Set(
-                                product.variants.map(
-                                  (v) => v.size?.id || v.sizeId
-                                )
-                              )
-                            ).length
-                          }{" "}
-                          size
-                        </span>
-                      </div>
-                      <div className="flex justify-between py-2">
-                        <span className="!text-maintext">Tổng tồn kho</span>
-                        <span className="font-medium">
-                          {product.variants.reduce(
-                            (sum, v) => sum + v.stock,
-                            0
-                          )}{" "}
-                          sản phẩm
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="reviews" className="mt-8">
-              <Card className="p-8">
-                <div className="text-center py-12">
-                  <Icon
-                    path={mdiStar}
-                    size={3}
-                    className="text-gray-300 mx-auto mb-4"
-                  />
-                  <h3 className="text-xl font-semibold text-maintext mb-2">
-                    Chưa có đánh giá
-                  </h3>
-                  <p className="!text-maintext">
-                    Hãy là người đầu tiên đánh giá sản phẩm này!
-                  </p>
-                  <Button className="mt-4">Viết đánh giá</Button>
-                </div>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </motion.div>
-
-        {/* Enhanced Similar Products Section */}
-        {similarProducts.length > 0 && (
-          <motion.div
-            className="mt-20"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-maintext mb-4">
-                Sản phẩm tương tự
-              </h2>
-              <p className="!text-maintext max-w-2xl mx-auto">
-                Khám phá những sản phẩm tương tự có thể bạn sẽ thích
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <AnimatePresence>
-                {similarProducts.map(
-                  (similarProduct: IProduct, index: number) => (
-                    <motion.div
-                      key={similarProduct.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <SimilarProductCard
-                        product={similarProduct}
-                        promotionsData={promotionsData}
-                      />
-                    </motion.div>
-                  )
-                )}
-              </AnimatePresence>
-            </div>
-
-            <div className="text-center mt-12">
-              <Button variant="outline" size="lg" asChild>
-                <a href="/products">Xem tất cả sản phẩm</a>
-              </Button>
-            </div>
-          </motion.div>
-        )}
+        <SimilarProducts
+          similarProducts={similarProducts}
+          promotionsData={promotionsData}
+          onAddToCart={handleAddToCartSimilar}
+          onQuickView={handleQuickViewSimilar}
+          onAddToWishlist={handleAddToWishlistSimilar}
+        />
       </div>
       <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 h-10 w-10 flex items-center justify-center">
         <CartIcon className="text-white" />

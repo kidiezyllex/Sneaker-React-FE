@@ -2072,7 +2072,7 @@ export default function GeneralManagementPage() {
 
   return (
     <AccountTabContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className="container mx-auto py-8 relative">
+      <div className="p-8 relative">
         <Breadcrumb className="mb-4">
           <BreadcrumbList>
             <BreadcrumbItem>

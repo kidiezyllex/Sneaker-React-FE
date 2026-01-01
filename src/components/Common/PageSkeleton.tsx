@@ -25,7 +25,7 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({
         {/* Products Grid Skeleton */}
         <div className="container mx-auto mb-12">
           <div className="h-8 bg-gray-200 w-64 mx-auto mb-8 rounded"></div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
@@ -47,7 +47,7 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({
 
   if (type === "product") {
     return (
-      <div className="animate-pulse container mx-auto py-8">
+      <div className="animate-pulse p-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Gallery Skeleton */}
           <div className="space-y-4">
@@ -80,7 +80,7 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({
   }
 
   return (
-    <div className="animate-pulse container mx-auto py-8">
+    <div className="animate-pulse p-8">
       <div className="space-y-4">
         {[...Array(5)].map((_, i) => (
           <div key={i} className="bg-white p-4 rounded-lg shadow">

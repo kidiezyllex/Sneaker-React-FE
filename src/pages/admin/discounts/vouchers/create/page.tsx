@@ -532,7 +532,7 @@ export default function CreateVoucherPage() {
                 onClick={() => setVoucher(initialVoucher)}
                 disabled={createVoucher.isPending}
               >
-                Đặt lại
+                Đặt lại bộ lọc
               </Button>
               <Button type="submit" disabled={createVoucher.isPending}>
                 {createVoucher.isPending ? (
