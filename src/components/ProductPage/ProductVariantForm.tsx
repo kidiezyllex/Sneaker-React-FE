@@ -282,7 +282,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               >
                 <div className="flex flex-col items-center p-4">
                   <Icon path={mdiImageOutline} size={1.5} />
-                  <p className="text-xs mt-2">Chưa có hình ảnh</p>
+                  <p className="text-sm mt-2">Chưa có hình ảnh</p>
                 </div>
               </div>
             )}

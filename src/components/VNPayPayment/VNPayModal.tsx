@@ -424,10 +424,10 @@ export default function VNPayModal({
                       <div className="font-medium text-sm">
                         {bank.shortName}
                       </div>
-                      <div className="text-xs text-maintext truncate">
+                      <div className="text-sm text-maintext truncate">
                         {bank.name}
                       </div>
-                      <div className="text-xs text-blue-600">
+                      <div className="text-sm text-blue-600">
                         Mã: {bank.code}
                       </div>
                     </div>
@@ -512,7 +512,7 @@ export default function VNPayModal({
         )}
       </div>
 
-      <div className="flex items-center justify-center space-x-2 text-xs text-maintext">
+      <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
         <Icon path={mdiLock} size={0.7} />
         <span>Thông tin được mã hóa và bảo mật</span>
       </div>
@@ -576,7 +576,7 @@ export default function VNPayModal({
         )}
       </div>
 
-      <div className="flex items-center justify-center space-x-2 text-xs text-maintext">
+      <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
         <Icon path={mdiShield} size={0.7} />
         <span>Mã OTP có hiệu lực trong 5 phút</span>
       </div>

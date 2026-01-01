@@ -156,7 +156,7 @@ export const SearchBox = () => {
                                 <p className="font-medium text-maintext">
                                   {result.name}
                                 </p>
-                                <span className="text-xs text-maintext">
+                                <span className="text-sm text-maintext">
                                   {result.category}
                                 </span>
                               </div>

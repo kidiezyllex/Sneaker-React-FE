@@ -1,19 +1,36 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect, useMemo } from "react";
 
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Slider } from "@/components/ui/slider"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Icon } from "@mdi/react"
-import { mdiCartOutline, mdiHeartOutline, mdiEye, mdiFilterOutline, mdiClose, mdiMagnify, mdiPercent } from "@mdi/js"
-import { useProducts, useSearchProducts } from "@/hooks/product"
-import { usePromotions } from "@/hooks/promotion"
-import { applyPromotionsToProducts, calculateProductDiscount } from "@/lib/promotions"
-import { getSizeLabel } from "@/utils/sizeMapping"
-import type { IProductFilter } from "@/interface/request/product"
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Slider } from "@/components/ui/slider";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Icon } from "@mdi/react";
+import {
+  mdiCartOutline,
+  mdiHeartOutline,
+  mdiEye,
+  mdiFilterOutline,
+  mdiClose,
+  mdiMagnify,
+  mdiPercent,
+} from "@mdi/js";
+import { useProducts, useSearchProducts } from "@/hooks/product";
+import { usePromotions } from "@/hooks/promotion";
+import {
+  applyPromotionsToProducts,
+  calculateProductDiscount,
+} from "@/lib/promotions";
+import { getSizeLabel } from "@/utils/sizeMapping";
+import type { IProductFilter } from "@/interface/request/product";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -21,17 +38,17 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
-import { Input } from "@/components/ui/input"
-import { Skeleton } from "@/components/ui/skeleton"
-import { checkImageUrl } from "@/lib/utils"
-import { useCartStore } from "@/stores/useCartStore"
-import { toast } from "react-toastify"
-import "react-toastify/dist/ReactToastify.css"
-import { motion, AnimatePresence } from "framer-motion"
-import QrCodeScanner from "@/components/ProductPage/QrCodeScanner"
-import VoucherForm from "@/components/ProductPage/VoucherForm"
-import CartIcon from "@/components/ui/CartIcon"
+} from "@/components/ui/breadcrumb";
+import { Input } from "@/components/ui/input";
+import { Skeleton } from "@/components/ui/skeleton";
+import { checkImageUrl } from "@/lib/utils";
+import { useCartStore } from "@/stores/useCartStore";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { motion, AnimatePresence } from "framer-motion";
+import QrCodeScanner from "@/components/ProductPage/QrCodeScanner";
+import VoucherForm from "@/components/ProductPage/VoucherForm";
+import CartIcon from "@/components/ui/CartIcon";
 import {
   Pagination,
   PaginationContent,
@@ -40,106 +57,133 @@ import {
   PaginationNext,
   PaginationPrevious,
   PaginationEllipsis,
-} from "@/components/ui/pagination"
+} from "@/components/ui/pagination";
 
 interface ProductCardProps {
-  product: any
-  promotionsData?: any
-  onAddToCart: () => void
-  onQuickView: () => void
-  onAddToWishlist: () => void
+  product: any;
+  promotionsData?: any;
+  onAddToCart: () => void;
+  onQuickView: () => void;
+  onAddToWishlist: () => void;
 }
 
 interface ProductFiltersProps {
-  filters: IProductFilter
-  onChange: (filters: Partial<IProductFilter>) => void
+  filters: IProductFilter;
+  onChange: (filters: Partial<IProductFilter>) => void;
 }
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price)
-}
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(price);
+};
 
 export default function ProductsPage() {
-  const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 8,
-  })
-  const [filters, setFilters] = useState<IProductFilter>({})
-  const [searchQuery, setSearchQuery] = useState("")
-  const [sortOption, setSortOption] = useState("default")
-  const [appliedVoucher, setAppliedVoucher] = useState<{ code: string; discount: number; voucherId: string } | null>(
-    null,
-  )
-  const [isSearching, setIsSearching] = useState(false)
-  const { addToCart } = useCartStore()
+  });
+  const [filters, setFilters] = useState<IProductFilter>({});
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOption, setSortOption] = useState("default");
+  const [appliedVoucher, setAppliedVoucher] = useState<{
+    code: string;
+    discount: number;
+    voucherId: string;
+  } | null>(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const { addToCart } = useCartStore();
 
   useEffect(() => {
     const timerId = setTimeout(() => {
       if (searchQuery) {
-        setIsSearching(true)
+        setIsSearching(true);
       } else {
-        setIsSearching(false)
+        setIsSearching(false);
       }
-    }, 500)
+    }, 500);
 
-    return () => clearTimeout(timerId)
-  }, [searchQuery])
+    return () => clearTimeout(timerId);
+  }, [searchQuery]);
 
   const paginationParams: IProductFilter = {
     page: pagination.page,
     limit: pagination.limit,
     status: "ACTIVE",
-  }
+  };
 
-  const productsQuery = useProducts(paginationParams)
-  const searchQuery2 = useSearchProducts(isSearching ? { keyword: searchQuery, status: "ACTIVE" } : { keyword: "" })
-  const { data: rawData, isLoading, isError } = isSearching ? searchQuery2 : productsQuery
+  const productsQuery = useProducts(paginationParams);
+  const searchQuery2 = useSearchProducts(
+    isSearching ? { keyword: searchQuery, status: "ACTIVE" } : { keyword: "" }
+  );
+  const {
+    data: rawData,
+    isLoading,
+    isError,
+  } = isSearching ? searchQuery2 : productsQuery;
   const { data: promotionsData } = usePromotions({ status: "ACTIVE" });
   const data = useMemo(() => {
-    if (!rawData || !rawData.data || !rawData.data.products) return rawData
-    let filteredProducts = [...rawData.data.products]
+    if (!rawData || !rawData.data || !rawData.data.products) return rawData;
+    let filteredProducts = [...rawData.data.products];
     if (promotionsData?.data?.promotions) {
-      filteredProducts = applyPromotionsToProducts(filteredProducts, promotionsData.data.promotions)
+      filteredProducts = applyPromotionsToProducts(
+        filteredProducts,
+        promotionsData.data.promotions
+      );
     }
 
     // Apply filters after promotions
     if (filters.brands && filters.brands.length > 0) {
-      const brandsArray = Array.isArray(filters.brands) ? filters.brands : [filters.brands]
+      const brandsArray = Array.isArray(filters.brands)
+        ? filters.brands
+        : [filters.brands];
       filteredProducts = filteredProducts.filter((product) => {
-        const brandId = typeof product.brand === "object" ? (product.brand as any).id : product.brand
-        return brandsArray.includes(brandId)
-      })
+        const brandId =
+          typeof product.brand === "object"
+            ? (product.brand as any).id
+            : product.brand;
+        return brandsArray.includes(brandId);
+      });
     }
 
     if (filters.categories && filters.categories.length > 0) {
-      const categoriesArray = Array.isArray(filters.categories) ? filters.categories : [filters.categories]
+      const categoriesArray = Array.isArray(filters.categories)
+        ? filters.categories
+        : [filters.categories];
       filteredProducts = filteredProducts.filter((product) => {
-        const categoryId = typeof product.category === "object" ? (product.category as any).id : product.category
-        return categoriesArray.includes(categoryId)
-      })
+        const categoryId =
+          typeof product.category === "object"
+            ? (product.category as any).id
+            : product.category;
+        return categoriesArray.includes(categoryId);
+      });
     }
 
     if (filters.color) {
       filteredProducts = filteredProducts.filter((product) =>
         product.variants.some((variant: any) => {
-          const colorId = variant.color?.id || variant.colorId
-          return colorId === filters.color
-        }),
-      )
+          const colorId = variant.color?.id || variant.colorId;
+          return colorId === filters.color;
+        })
+      );
     }
 
     if (filters.size) {
       filteredProducts = filteredProducts.filter((product) =>
         product.variants.some((variant: any) => {
-          const sizeId = variant.size?.id || variant.sizeId
-          return sizeId === filters.size
-        }),
-      )
+          const sizeId = variant.size?.id || variant.sizeId;
+          return sizeId === filters.size;
+        })
+      );
     }
 
     if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-      const minPrice = filters.minPrice !== undefined ? filters.minPrice : 0
-      const maxPrice = filters.maxPrice !== undefined ? filters.maxPrice : Number.POSITIVE_INFINITY
+      const minPrice = filters.minPrice !== undefined ? filters.minPrice : 0;
+      const maxPrice =
+        filters.maxPrice !== undefined
+          ? filters.maxPrice
+          : Number.POSITIVE_INFINITY;
 
       filteredProducts = filteredProducts.filter((product: any) => {
         // Calculate discount from promotions data if available
@@ -157,8 +201,8 @@ export default function ProductsPage() {
           }
         }
 
-        return price >= minPrice && price <= maxPrice
-      })
+        return price >= minPrice && price <= maxPrice;
+      });
     }
 
     // Sắp xếp sản phẩm
@@ -169,8 +213,16 @@ export default function ProductsPage() {
         let priceB = b.variants[0]?.price || 0;
 
         if (promotionsData?.data?.promotions) {
-          const discountA = calculateProductDiscount(a.id, priceA, promotionsData.data.promotions);
-          const discountB = calculateProductDiscount(b.id, priceB, promotionsData.data.promotions);
+          const discountA = calculateProductDiscount(
+            a.id,
+            priceA,
+            promotionsData.data.promotions
+          );
+          const discountB = calculateProductDiscount(
+            b.id,
+            priceB,
+            promotionsData.data.promotions
+          );
 
           if (discountA.discountPercent > 0) {
             priceA = discountA.discountedPrice;
@@ -180,24 +232,30 @@ export default function ProductsPage() {
           }
         }
 
-        const dateA = new Date(a.createdAt).getTime()
-        const dateB = new Date(b.createdAt).getTime()
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
 
         switch (sortOption) {
           case "price-asc":
-            return priceA - priceB
+            return priceA - priceB;
           case "price-desc":
-            return priceB - priceA
+            return priceB - priceA;
           case "newest":
-            return dateB - dateA
+            return dateB - dateA;
           case "popularity":
-            const stockA = a.variants.reduce((total: number, variant: any) => total + variant.stock, 0)
-            const stockB = b.variants.reduce((total: number, variant: any) => total + variant.stock, 0)
-            return stockB - stockA
+            const stockA = a.variants.reduce(
+              (total: number, variant: any) => total + variant.stock,
+              0
+            );
+            const stockB = b.variants.reduce(
+              (total: number, variant: any) => total + variant.stock,
+              0
+            );
+            return stockB - stockA;
           default:
-            return 0
+            return 0;
         }
-      })
+      });
     }
 
     // Giữ nguyên thông tin phân trang từ API
@@ -207,30 +265,30 @@ export default function ProductsPage() {
         ...rawData.data,
         products: filteredProducts,
       },
-    }
-  }, [rawData, filters, sortOption, pagination, promotionsData])
+    };
+  }, [rawData, filters, sortOption, pagination, promotionsData]);
 
   const handleFilterChange = (updatedFilters: Partial<IProductFilter>) => {
     setFilters((prev) => ({
       ...prev,
       ...updatedFilters,
-    }))
+    }));
     setPagination((prev) => ({
       ...prev,
       page: 1,
-    }))
-  }
+    }));
+  };
 
   const toggleFilter = () => {
-    setIsFilterOpen(!isFilterOpen)
-  }
+    setIsFilterOpen(!isFilterOpen);
+  };
 
   const handlePageChange = (page: number) => {
     setPagination((prev) => ({
       ...prev,
       page,
-    }))
-  }
+    }));
+  };
 
   const handleAddToCart = (product: any) => {
     if (!product.variants?.[0]) return;
@@ -238,7 +296,7 @@ export default function ProductsPage() {
     const firstVariant = product.variants[0];
 
     if (firstVariant.stock === 0) {
-      toast.error('Sản phẩm đã hết hàng');
+      toast.error("Sản phẩm đã hết hàng");
       return;
     }
 
@@ -272,59 +330,74 @@ export default function ProductsPage() {
       originalPrice: originalPrice,
       discountPercent: discountPercent,
       hasDiscount: hasDiscount,
-      image: firstVariant.images?.[0]?.imageUrl || firstVariant.images?.[0] || '',
+      image:
+        firstVariant.images?.[0]?.imageUrl || firstVariant.images?.[0] || "",
       quantity: 1,
       slug: product.code,
-      brand: typeof product.brand === 'string' ? product.brand : product.brand.name,
+      brand:
+        typeof product.brand === "string" ? product.brand : product.brand.name,
       size: firstVariant.size?.code || firstVariant.size?.name,
-      colors: [firstVariant.color?.name || 'Default'],
+      colors: [firstVariant.color?.name || "Default"],
       stock: firstVariant.stock,
       // New variant information
-      colorId: firstVariant.color?.id || firstVariant.colorId || '',
-      sizeId: firstVariant.size?.id || firstVariant.sizeId || '',
-      colorName: firstVariant.color?.name || 'Default',
-      sizeName: firstVariant.size?.value ? getSizeLabel(firstVariant.size.value) : (firstVariant.size?.code || firstVariant.size?.name || '')
+      colorId: firstVariant.color?.id || firstVariant.colorId || "",
+      sizeId: firstVariant.size?.id || firstVariant.sizeId || "",
+      colorName: firstVariant.color?.name || "Default",
+      sizeName: firstVariant.size?.value
+        ? getSizeLabel(firstVariant.size.value)
+        : firstVariant.size?.code || firstVariant.size?.name || "",
     };
 
     addToCart(cartItem, 1);
-    toast.success('Đã thêm sản phẩm vào giỏ hàng');
+    toast.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
   const handleQuickView = (product: any) => {
-    window.location.href = `/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`
-  }
+    window.location.href = `/products/${product.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")}-${product.id}`;
+  };
 
   const handleAddToWishlist = (product: any) => {
-    toast.success("Đã thêm sản phẩm vào danh sách yêu thích")
-  }
+    toast.success("Đã thêm sản phẩm vào danh sách yêu thích");
+  };
 
-  const handleApplyVoucher = (voucherData: { code: string; discount: number; voucherId: string }) => {
-    setAppliedVoucher(voucherData)
-    toast.success(`Đã áp dụng mã giảm giá: ${voucherData.code}`)
-  }
+  const handleApplyVoucher = (voucherData: {
+    code: string;
+    discount: number;
+    voucherId: string;
+  }) => {
+    setAppliedVoucher(voucherData);
+    toast.success(`Đã áp dụng mã giảm giá: ${voucherData.code}`);
+  };
 
   const handleRemoveVoucher = () => {
-    setAppliedVoucher(null)
-    toast.info("Đã xóa mã giảm giá")
-  }
+    setAppliedVoucher(null);
+    toast.info("Đã xóa mã giảm giá");
+  };
 
   const filteredProducts = useMemo(() => {
-    if (!data || !data.data || !data.data.products) return []
-    return data.data.products
-  }, [data])
+    if (!data || !data.data || !data.data.products) return [];
+    return data.data.products;
+  }, [data]);
 
   return (
     <div className="container mx-auto py-8 relative">
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/" className="!text-maintext hover:!text-maintext">
+            <BreadcrumbLink
+              href="/"
+              className="!text-maintext hover:!text-maintext"
+            >
               Trang chủ
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
           <BreadcrumbItem>
-            <BreadcrumbPage className="!text-maintext hover:!text-maintext">Tất cả sản phẩm</BreadcrumbPage>
+            <BreadcrumbPage className="!text-maintext hover:!text-maintext">
+              Tất cả sản phẩm
+            </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
@@ -346,7 +419,10 @@ export default function ProductsPage() {
                     <Icon path={mdiClose} size={0.7} />
                   </Button>
                 </div>
-                <ProductFilters filters={filters} onChange={handleFilterChange} />
+                <ProductFilters
+                  filters={filters}
+                  onChange={handleFilterChange}
+                />
               </div>
             </motion.div>
           )}
@@ -359,7 +435,10 @@ export default function ProductsPage() {
 
             {data && data.data.products && data.data.products.length > 0 && (
               <VoucherForm
-                orderValue={data.data.products.reduce((sum, product) => sum + (product.variants[0]?.price || 0), 0)}
+                orderValue={data.data.products.reduce(
+                  (sum, product) => sum + (product.variants[0]?.price || 0),
+                  0
+                )}
                 onApplyVoucher={handleApplyVoucher}
                 onRemoveVoucher={handleRemoveVoucher}
                 appliedVoucher={appliedVoucher}
@@ -394,7 +473,11 @@ export default function ProductsPage() {
                 />
               </div>
             </div>
-            <Select defaultValue="default" value={sortOption} onValueChange={setSortOption}>
+            <Select
+              defaultValue="default"
+              value={sortOption}
+              onValueChange={setSortOption}
+            >
               <SelectTrigger className="w-full sm:w-[200px]">
                 <SelectValue placeholder="Sắp xếp theo" />
               </SelectTrigger>
@@ -426,12 +509,20 @@ export default function ProductsPage() {
           ) : isError ? (
             <div className="text-center py-12">
               <p className="text-red-500 mb-4">Đã xảy ra lỗi khi tải dữ liệu</p>
-              <Button onClick={() => setPagination({ ...pagination })}>Thử lại</Button>
+              <Button onClick={() => setPagination({ ...pagination })}>
+                Thử lại
+              </Button>
             </div>
           ) : filteredProducts.length > 0 ? (
             <>
               <div className="flex justify-between items-center mb-4">
-                <p className="text-sm text-maintext font-semibold">Tìm thấy <span className="text-primary text-lg">{filteredProducts.length}</span> sản phẩm</p>
+                <p className="text-sm text-maintext font-semibold">
+                  Tìm thấy{" "}
+                  <span className="text-primary text-lg">
+                    {filteredProducts.length}
+                  </span>{" "}
+                  sản phẩm
+                </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {filteredProducts.map((product) => (
@@ -452,17 +543,23 @@ export default function ProductsPage() {
                   <PaginationContent>
                     <PaginationPrevious
                       href="#"
-                      disabled={(data?.data?.pagination as any)?.currentPage <= 1}
+                      disabled={
+                        (data?.data?.pagination as any)?.currentPage <= 1
+                      }
                       onClick={(e) => {
-                        e.preventDefault()
+                        e.preventDefault();
                         if ((data?.data?.pagination as any)?.currentPage > 1)
-                          handlePageChange((data?.data?.pagination as any)?.currentPage - 1)
+                          handlePageChange(
+                            (data?.data?.pagination as any)?.currentPage - 1
+                          );
                       }}
                     />
                     {(() => {
-                      const pages = []
-                      const totalPages = (data?.data?.pagination as any)?.totalPages || 1
-                      const currentPage = (data?.data?.pagination as any)?.currentPage || 1
+                      const pages = [];
+                      const totalPages =
+                        (data?.data?.pagination as any)?.totalPages || 1;
+                      const currentPage =
+                        (data?.data?.pagination as any)?.currentPage || 1;
 
                       // Hiển thị trang đầu
                       if (totalPages > 0) {
@@ -472,14 +569,14 @@ export default function ProductsPage() {
                               href="#"
                               isActive={currentPage === 1}
                               onClick={(e) => {
-                                e.preventDefault()
-                                handlePageChange(1)
+                                e.preventDefault();
+                                handlePageChange(1);
                               }}
                             >
                               1
                             </PaginationLink>
-                          </PaginationItem>,
-                        )
+                          </PaginationItem>
+                        );
                       }
 
                       // Hiển thị dấu ... nếu cần
@@ -487,12 +584,16 @@ export default function ProductsPage() {
                         pages.push(
                           <PaginationItem key="start-ellipsis">
                             <PaginationEllipsis />
-                          </PaginationItem>,
-                        )
+                          </PaginationItem>
+                        );
                       }
 
                       // Hiển thị các trang gần currentPage
-                      for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                      for (
+                        let i = Math.max(2, currentPage - 1);
+                        i <= Math.min(totalPages - 1, currentPage + 1);
+                        i++
+                      ) {
                         if (i !== 1 && i !== totalPages) {
                           pages.push(
                             <PaginationItem key={i}>
@@ -500,14 +601,14 @@ export default function ProductsPage() {
                                 href="#"
                                 isActive={currentPage === i}
                                 onClick={(e) => {
-                                  e.preventDefault()
-                                  handlePageChange(i)
+                                  e.preventDefault();
+                                  handlePageChange(i);
                                 }}
                               >
                                 {i}
                               </PaginationLink>
-                            </PaginationItem>,
-                          )
+                            </PaginationItem>
+                          );
                         }
                       }
 
@@ -515,8 +616,8 @@ export default function ProductsPage() {
                         pages.push(
                           <PaginationItem key="end-ellipsis">
                             <PaginationEllipsis />
-                          </PaginationItem>,
-                        )
+                          </PaginationItem>
+                        );
                       }
 
                       if (totalPages > 1) {
@@ -526,28 +627,32 @@ export default function ProductsPage() {
                               href="#"
                               isActive={currentPage === totalPages}
                               onClick={(e) => {
-                                e.preventDefault()
-                                handlePageChange(totalPages)
+                                e.preventDefault();
+                                handlePageChange(totalPages);
                               }}
                             >
                               {totalPages}
                             </PaginationLink>
-                          </PaginationItem>,
-                        )
+                          </PaginationItem>
+                        );
                       }
 
-                      return pages
+                      return pages;
                     })()}
                     <PaginationNext
                       href="#"
                       disabled={
-                        (data?.data?.pagination as any)?.currentPage >= (data?.data?.pagination?.totalPages || 1)
+                        (data?.data?.pagination as any)?.currentPage >=
+                        (data?.data?.pagination?.totalPages || 1)
                       }
                       onClick={(e) => {
-                        e.preventDefault()
-                        const totalPages = data?.data?.pagination?.totalPages || 1
-                        const currentPage = data?.data?.pagination?.currentPage || 1
-                        if (currentPage < totalPages) handlePageChange(currentPage + 1)
+                        e.preventDefault();
+                        const totalPages =
+                          data?.data?.pagination?.totalPages || 1;
+                        const currentPage =
+                          data?.data?.pagination?.currentPage || 1;
+                        if (currentPage < totalPages)
+                          handlePageChange(currentPage + 1);
                       }}
                     />
                   </PaginationContent>
@@ -556,7 +661,10 @@ export default function ProductsPage() {
 
               <div className="lg:hidden mt-8 bg-white rounded-[6px] shadow-sm border p-4">
                 <VoucherForm
-                  orderValue={filteredProducts.reduce((sum, product) => sum + (product.variants[0]?.price || 0), 0)}
+                  orderValue={filteredProducts.reduce(
+                    (sum, product) => sum + (product.variants[0]?.price || 0),
+                    0
+                  )}
                   onApplyVoucher={handleApplyVoucher}
                   onRemoveVoucher={handleRemoveVoucher}
                   appliedVoucher={appliedVoucher}
@@ -569,8 +677,8 @@ export default function ProductsPage() {
               {(searchQuery || Object.keys(filters).length > 0) && (
                 <Button
                   onClick={() => {
-                    setSearchQuery("")
-                    setFilters({})
+                    setSearchQuery("");
+                    setFilters({});
                   }}
                 >
                   Xóa bộ lọc
@@ -585,11 +693,17 @@ export default function ProductsPage() {
         <CartIcon className="text-white" />
       </div>
     </div>
-  )
+  );
 }
 
-const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddToWishlist }: ProductCardProps) => {
-  const [isHovered, setIsHovered] = useState(false)
+const ProductCard = ({
+  product,
+  promotionsData,
+  onAddToCart,
+  onQuickView,
+  onAddToWishlist,
+}: ProductCardProps) => {
+  const [isHovered, setIsHovered] = useState(false);
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -602,13 +716,21 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg z-10 pointer-events-none" />
 
         <div className="relative overflow-visible bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-t-2xl">
-          <a href={`/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`} className="block">
+          <a
+            href={`/products/${product.name
+              .toLowerCase()
+              .replace(/\s+/g, "-")}-${product.id}`}
+            className="block"
+          >
             <div className="aspect-square overflow-visible relative flex items-center justify-center">
-              <motion.div
-                className="w-full h-full relative z-20"
-              >
+              <motion.div className="w-full h-full relative z-20">
                 <img
-                  src={checkImageUrl(product.variants[0]?.images?.[0]?.imageUrl || product.variants[0]?.images?.[0]) || "/placeholder.svg"}
+                  src={
+                    checkImageUrl(
+                      product.variants[0]?.images?.[0]?.imageUrl ||
+                        product.variants[0]?.images?.[0]
+                    ) || "/placeholder.svg"
+                  }
                   alt={product.name}
                   className="object-contain w-full h-full drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500"
                 />
@@ -619,7 +741,10 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
           {/* Enhanced badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
             {(() => {
-              if (promotionsData?.data?.promotions && product.variants?.[0]?.price) {
+              if (
+                promotionsData?.data?.promotions &&
+                product.variants?.[0]?.price
+              ) {
                 const discount = calculateProductDiscount(
                   product.id,
                   product.variants[0]?.price || 0,
@@ -632,10 +757,12 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                       initial={{ scale: 0, rotate: 180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
-                      className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-xs font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
+                      className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
                     >
                       💥
-                      <span className="text-base">-{discount.discountPercent}%</span>
+                      <span className="text-base">
+                        -{discount.discountPercent}%
+                      </span>
                     </motion.div>
                   );
                 }
@@ -644,14 +771,17 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
             })()}
             {/* Stock badge */}
             {(() => {
-              const totalStock = (product.variants || []).reduce((sum: number, variant: any) => sum + (variant.stock || 0), 0);
+              const totalStock = (product.variants || []).reduce(
+                (sum: number, variant: any) => sum + (variant.stock || 0),
+                0
+              );
               if (totalStock === 0) {
                 return (
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
+                    className="bg-red-500 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
                   >
                     Hết hàng
                   </motion.div>
@@ -662,7 +792,7 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="bg-orange-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
+                    className="bg-orange-500 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
                   >
                     Sắp hết
                   </motion.div>
@@ -688,12 +818,16 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                 size="icon"
                 className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-primary hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
                 onClick={(e) => {
-                  e.preventDefault()
-                  onAddToCart()
+                  e.preventDefault();
+                  onAddToCart();
                 }}
                 aria-label="Thêm vào giỏ hàng"
               >
-                <Icon path={mdiCartOutline} size={0.7} className="group-hover/btn:animate-bounce" />
+                <Icon
+                  path={mdiCartOutline}
+                  size={0.7}
+                  className="group-hover/btn:animate-bounce"
+                />
               </Button>
             </motion.div>
 
@@ -703,12 +837,16 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                 size="icon"
                 className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-pink-500 hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
                 onClick={(e) => {
-                  e.preventDefault()
-                  onAddToWishlist()
+                  e.preventDefault();
+                  onAddToWishlist();
                 }}
                 aria-label="Yêu thích"
               >
-                <Icon path={mdiHeartOutline} size={0.7} className="group-hover/btn:animate-pulse" />
+                <Icon
+                  path={mdiHeartOutline}
+                  size={0.7}
+                  className="group-hover/btn:animate-pulse"
+                />
               </Button>
             </motion.div>
 
@@ -718,27 +856,35 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                 size="icon"
                 className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-blue-500 hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
                 onClick={(e) => {
-                  e.preventDefault()
-                  onQuickView()
+                  e.preventDefault();
+                  onQuickView();
                 }}
                 aria-label="Xem nhanh"
               >
-                <Icon path={mdiEye} size={0.7} className="group-hover/btn:animate-ping" />
+                <Icon
+                  path={mdiEye}
+                  size={0.7}
+                  className="group-hover/btn:animate-ping"
+                />
               </Button>
             </motion.div>
           </motion.div>
         </div>
 
         <div className="p-4 flex flex-col flex-grow bg-gradient-to-b from-white via-gray-50/30 to-white border-t border-gray-100/50 rounded-b-2xl relative">
-          <div className="text-xs text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
+          <div className="text-sm text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-pink-400 animate-pulse"></div>
             <span className="bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">
-              {typeof product.brand === "string" ? product.brand : product.brand.name}
+              {typeof product.brand === "string"
+                ? product.brand
+                : product.brand.name}
             </span>
           </div>
 
           <a
-            href={`/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`}
+            href={`/products/${product.name
+              .toLowerCase()
+              .replace(/\s+/g, "-")}-${product.id}`}
             className="hover:text-primary transition-colors group/link"
           >
             <h3 className="font-bold text-base mb-2 line-clamp-2 leading-tight group-hover:text-primary/90 transition-colors duration-300 text-maintext group-hover/link:underline decoration-primary/50 underline-offset-2">
@@ -755,7 +901,10 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
               >
                 {(() => {
                   // Calculate discount from promotions data if available
-                  if (promotionsData?.data?.promotions && product.variants?.[0]?.price) {
+                  if (
+                    promotionsData?.data?.promotions &&
+                    product.variants?.[0]?.price
+                  ) {
                     const discount = calculateProductDiscount(
                       product.id,
                       product.variants[0]?.price || 0,
@@ -771,7 +920,10 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                 })()}
               </motion.div>
               {(() => {
-                if (promotionsData?.data?.promotions && product.variants?.[0]?.price) {
+                if (
+                  promotionsData?.data?.promotions &&
+                  product.variants?.[0]?.price
+                ) {
                   const discount = calculateProductDiscount(
                     product.id,
                     product.variants[0]?.price || 0,
@@ -780,7 +932,7 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
 
                   if (discount.discountPercent > 0) {
                     return (
-                      <div className="text-xs text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
+                      <div className="text-sm text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
                         {formatPrice(discount.originalPrice)}
                       </div>
                     );
@@ -793,19 +945,26 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
             {product.variants && product.variants.length > 0 && (
               <div className="flex flex-col gap-1 items-start justify-start mt-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">Màu sắc:</span>
+                  <span className="text-sm text-maintext/70 font-semibold">
+                    Màu sắc:
+                  </span>
                   <div className="flex gap-1 text-sm items-center">
                     {Array.from(
                       new Set(
-                        (product.variants || []).map((v: any) => v.color?.id || v.colorId),
-                      ),
+                        (product.variants || []).map(
+                          (v: any) => v.color?.id || v.colorId
+                        )
+                      )
                     )
                       .slice(0, 4)
                       .map((colorId, index: number) => {
                         const variant = (product.variants || []).find(
-                          (v: any) => (v.color?.id || v.colorId) === colorId,
-                        )
-                        const color = variant?.color || { code: "#000000", name: "Unknown" }
+                          (v: any) => (v.color?.id || v.colorId) === colorId
+                        );
+                        const color = variant?.color || {
+                          code: "#000000",
+                          name: "Unknown",
+                        };
 
                         return (
                           <motion.div
@@ -816,35 +975,43 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
                             whileHover={{ scale: 1.3, rotate: 360 }}
                             transition={{ duration: 0.3 }}
                           />
-                        )
+                        );
                       })}
 
                     {Array.from(
                       new Set(
-                        (product.variants || []).map((v: any) => v.color?.id || v.colorId),
-                      ),
+                        (product.variants || []).map(
+                          (v: any) => v.color?.id || v.colorId
+                        )
+                      )
                     ).length > 4 && (
-                        <motion.span
-                          className="text-xs border text-maintext ml-1 bg-gray-100 px-3 py-0.5 rounded-full font-medium"
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          +
-                          {Array.from(
-                            new Set(
-                              (product.variants || []).map((v: any) => v.color?.id || v.colorId),
-                            ),
-                          ).length - 4}
-                        </motion.span>
-                      )}
+                      <motion.span
+                        className="text-sm border text-maintext ml-1 bg-gray-100 px-3 py-0.5 rounded-full font-medium"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        +
+                        {Array.from(
+                          new Set(
+                            (product.variants || []).map(
+                              (v: any) => v.color?.id || v.colorId
+                            )
+                          )
+                        ).length - 4}
+                      </motion.span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">Kích thước:</span>
+                  <span className="text-sm text-maintext/70 font-semibold">
+                    Kích thước:
+                  </span>
                   <div className="flex gap-1 text-maintext text-sm">
                     {Array.from(
                       new Set(
                         (product.variants || []).map((v: any) =>
-                          v.size?.value ? getSizeLabel(v.size.value) : (v.size?.code || v.size?.name || "Unknown")
+                          v.size?.value
+                            ? getSizeLabel(v.size.value)
+                            : v.size?.code || v.size?.name || "Unknown"
                         )
                       )
                     ).join(", ")}
@@ -859,172 +1026,200 @@ const ProductCard = ({ product, promotionsData, onAddToCart, onQuickView, onAddT
         </div>
       </Card>
     </motion.div>
-  )
-}
+  );
+};
 const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
-  const productsQuery = useProducts({ limit: 100, status: "ACTIVE" })
-  const products = productsQuery.data?.data.products || []
+  const productsQuery = useProducts({ limit: 100, status: "ACTIVE" });
+  const products = productsQuery.data?.data.products || [];
   const [selectedBrand, setSelectedBrand] = useState<string | undefined>(
-    filters.brands ? (Array.isArray(filters.brands) ? filters.brands[0] : filters.brands) : undefined,
-  )
+    filters.brands
+      ? Array.isArray(filters.brands)
+        ? filters.brands[0]
+        : filters.brands
+      : undefined
+  );
 
   useEffect(() => {
     if (filters.brands) {
-      setSelectedBrand(Array.isArray(filters.brands) ? filters.brands[0] : filters.brands)
+      setSelectedBrand(
+        Array.isArray(filters.brands) ? filters.brands[0] : filters.brands
+      );
     } else {
-      setSelectedBrand(undefined)
+      setSelectedBrand(undefined);
     }
-  }, [filters.brands])
+  }, [filters.brands]);
 
   const handleBrandChange = (brandId: string) => {
     if (selectedBrand === brandId) {
-      setSelectedBrand(undefined)
-      onChange({ brands: undefined })
+      setSelectedBrand(undefined);
+      onChange({ brands: undefined });
     } else {
-      setSelectedBrand(brandId)
-      onChange({ brands: brandId })
+      setSelectedBrand(brandId);
+      onChange({ brands: brandId });
     }
-  }
+  };
 
   const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
-    filters.categories ? (Array.isArray(filters.categories) ? filters.categories[0] : filters.categories) : undefined,
-  )
+    filters.categories
+      ? Array.isArray(filters.categories)
+        ? filters.categories[0]
+        : filters.categories
+      : undefined
+  );
 
   useEffect(() => {
     if (filters.categories) {
-      setSelectedCategory(Array.isArray(filters.categories) ? filters.categories[0] : filters.categories)
+      setSelectedCategory(
+        Array.isArray(filters.categories)
+          ? filters.categories[0]
+          : filters.categories
+      );
     } else {
-      setSelectedCategory(undefined)
+      setSelectedCategory(undefined);
     }
-  }, [filters.categories])
+  }, [filters.categories]);
 
   const handleCategoryChange = (categoryId: string) => {
     if (selectedCategory === categoryId) {
-      setSelectedCategory(undefined)
-      onChange({ categories: undefined })
+      setSelectedCategory(undefined);
+      onChange({ categories: undefined });
     } else {
-      setSelectedCategory(categoryId)
-      onChange({ categories: categoryId })
+      setSelectedCategory(categoryId);
+      onChange({ categories: categoryId });
     }
-  }
+  };
 
   const handleColorChange = (colorId: string) => {
     onChange({
       color: filters.color === colorId ? undefined : colorId,
-    })
-  }
+    });
+  };
   const handleSizeChange = (sizeId: string) => {
     onChange({
       size: filters.size === sizeId ? undefined : sizeId,
-    })
-  }
+    });
+  };
   const brands = useMemo(() => {
-    if (!products || products.length === 0) return []
+    if (!products || products.length === 0) return [];
 
     const uniqueBrands = Array.from(
       new Set(
         products.map((product) => {
-          const brand = typeof product.brand === "object" ? product.brand : { id: product.brand, name: product.brand }
-          return JSON.stringify(brand)
-        }),
-      ),
-    ).map((brandStr) => JSON.parse(brandStr))
+          const brand =
+            typeof product.brand === "object"
+              ? product.brand
+              : { id: product.brand, name: product.brand };
+          return JSON.stringify(brand);
+        })
+      )
+    ).map((brandStr) => JSON.parse(brandStr));
 
-    return uniqueBrands
-  }, [products])
+    return uniqueBrands;
+  }, [products]);
 
   const categories = useMemo(() => {
-    if (!products || products.length === 0) return []
+    if (!products || products.length === 0) return [];
 
     const uniqueCategories = Array.from(
       new Set(
         products.map((product) => {
           const category =
-            typeof product.category === "object" ? product.category : { id: product.category, name: product.category }
-          return JSON.stringify(category)
-        }),
-      ),
-    ).map((categoryStr) => JSON.parse(categoryStr))
+            typeof product.category === "object"
+              ? product.category
+              : { id: product.category, name: product.category };
+          return JSON.stringify(category);
+        })
+      )
+    ).map((categoryStr) => JSON.parse(categoryStr));
 
-    return uniqueCategories
-  }, [products])
+    return uniqueCategories;
+  }, [products]);
 
   const colors = useMemo(() => {
-    if (!products || products.length === 0) return []
+    if (!products || products.length === 0) return [];
 
     const allColors = products.flatMap((product) =>
-      product.variants.map((variant) =>
-        variant.color || { id: variant.colorId, name: variant.colorId, code: "#000000" },
-      ),
-    )
+      product.variants.map(
+        (variant) =>
+          variant.color || {
+            id: variant.colorId,
+            name: variant.colorId,
+            code: "#000000",
+          }
+      )
+    );
 
-    const uniqueColors = Array.from(new Set(allColors.map((color) => JSON.stringify(color)))).map((colorStr) =>
-      JSON.parse(colorStr),
-    )
+    const uniqueColors = Array.from(
+      new Set(allColors.map((color) => JSON.stringify(color)))
+    ).map((colorStr) => JSON.parse(colorStr));
 
-    return uniqueColors
-  }, [products])
+    return uniqueColors;
+  }, [products]);
 
   const sizes = useMemo(() => {
-    if (!products || products.length === 0) return []
+    if (!products || products.length === 0) return [];
 
     const allSizes = products.flatMap((product) =>
-      product.variants.map((variant) =>
-        variant.size || { id: variant.sizeId, value: variant.sizeId },
-      ),
+      product.variants.map(
+        (variant) =>
+          variant.size || { id: variant.sizeId, value: variant.sizeId }
+      )
+    );
+
+    const uniqueSizes = Array.from(
+      new Set(allSizes.map((size) => JSON.stringify(size)))
     )
-
-    const uniqueSizes = Array.from(new Set(allSizes.map((size) => JSON.stringify(size))))
       .map((sizeStr) => JSON.parse(sizeStr))
-      .sort((a, b) => (a.value || 0) - (b.value || 0)) // Sắp xếp theo kích thước tăng dần
+      .sort((a, b) => (a.value || 0) - (b.value || 0)); // Sắp xếp theo kích thước tăng dần
 
-    return uniqueSizes
-  }, [products])
+    return uniqueSizes;
+  }, [products]);
 
   const priceRange = useMemo(() => {
     if (!products || products.length === 0) {
-      return { min: 0, max: 5000000 }
+      return { min: 0, max: 5000000 };
     }
 
-    const prices = products.flatMap((product) => product.variants.map((variant) => variant.price || 0))
+    const prices = products.flatMap((product) =>
+      product.variants.map((variant) => variant.price || 0)
+    );
 
     return {
       min: Math.min(...prices, 0),
       max: Math.max(...prices, 5000000),
-    }
-  }, [products])
+    };
+  }, [products]);
 
-  const [selectedPriceRange, setSelectedPriceRange] = useState<[number, number]>([
-    filters.minPrice || priceRange.min,
-    filters.maxPrice || priceRange.max,
-  ])
+  const [selectedPriceRange, setSelectedPriceRange] = useState<
+    [number, number]
+  >([filters.minPrice || priceRange.min, filters.maxPrice || priceRange.max]);
 
   const handlePriceChange = (values: number[]) => {
-    setSelectedPriceRange(values as [number, number])
+    setSelectedPriceRange(values as [number, number]);
 
     // Áp dụng thay đổi giá vào bộ lọc sau một khoảng thời gian ngắn
     const timerId = setTimeout(() => {
       onChange({
         minPrice: values[0],
         maxPrice: values[1],
-      })
-    }, 300)
+      });
+    }, 300);
 
-    return () => clearTimeout(timerId)
-  }
+    return () => clearTimeout(timerId);
+  };
 
   const handleResetFilters = () => {
-    setSelectedPriceRange([priceRange.min, priceRange.max])
-    setSelectedCategory(undefined)
+    setSelectedPriceRange([priceRange.min, priceRange.max]);
+    setSelectedCategory(undefined);
     onChange({
       categories: undefined,
       minPrice: undefined,
       maxPrice: undefined,
       color: undefined,
       size: undefined,
-    })
-    toast.info("Đã đặt lại bộ lọc")
-  }
+    });
+    toast.info("Đã đặt lại bộ lọc");
+  };
 
   if (productsQuery.isLoading) {
     return (
@@ -1033,7 +1228,7 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         <Skeleton className="h-40 w-full" />
         <Skeleton className="h-40 w-full" />
       </div>
-    )
+    );
   }
 
   return (
@@ -1047,7 +1242,9 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
             max={priceRange.max}
             step={100000}
             value={selectedPriceRange}
-            onValueChange={(value) => handlePriceChange(value as [number, number])}
+            onValueChange={(value) =>
+              handlePriceChange(value as [number, number])
+            }
           />
           <div className="flex justify-between mt-2 text-sm text-maintext">
             <span>{formatPrice(selectedPriceRange[0])}</span>
@@ -1066,7 +1263,10 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
                 checked={selectedBrand === (brand as any)?.id}
                 onCheckedChange={() => handleBrandChange((brand as any)?.id)}
               />
-              <label htmlFor={`brand-${(brand as any)?.id}`} className="text-sm">
+              <label
+                htmlFor={`brand-${(brand as any)?.id}`}
+                className="text-sm"
+              >
                 {brand.name}
               </label>
             </div>
@@ -1078,13 +1278,21 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         <h3 className="text-sm font-medium mb-3">Danh mục</h3>
         <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
           {categories.map((category) => (
-            <div key={(category as any)?.id} className="flex items-center gap-2">
+            <div
+              key={(category as any)?.id}
+              className="flex items-center gap-2"
+            >
               <Checkbox
                 id={`category-${(category as any)?.id}`}
                 checked={selectedCategory === (category as any)?.id}
-                onCheckedChange={() => handleCategoryChange((category as any)?.id)}
+                onCheckedChange={() =>
+                  handleCategoryChange((category as any)?.id)
+                }
               />
-              <label htmlFor={`category-${(category as any)?.id}`} className="text-sm">
+              <label
+                htmlFor={`category-${(category as any)?.id}`}
+                className="text-sm"
+              >
                 {category.name}
               </label>
             </div>
@@ -1098,7 +1306,11 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
           {colors.map((color) => (
             <button
               key={color.id}
-              className={`w-8 h-8 rounded-full border overflow-hidden relative transition-all duration-300 ${filters.color === color.id ? "ring-2 ring-primary ring-offset-2" : "border-gray-300"}`}
+              className={`w-8 h-8 rounded-full border overflow-hidden relative transition-all duration-300 ${
+                filters.color === color.id
+                  ? "ring-2 ring-primary ring-offset-2"
+                  : "border-gray-300"
+              }`}
               style={{ backgroundColor: color.code }}
               title={color.name}
               onClick={() => handleColorChange(color.id)}
@@ -1112,7 +1324,11 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
           {sizes.map((size) => (
             <button
               key={size.id}
-              className={`px-2 py-1 border rounded text-sm transition-all duration-300 ${filters.size === size.id ? "bg-primary text-white border-primary" : "border-gray-300 hover:border-primary"}`}
+              className={`px-2 py-1 border rounded text-sm transition-all duration-300 ${
+                filters.size === size.id
+                  ? "bg-primary text-white border-primary"
+                  : "border-gray-300 hover:border-primary"
+              }`}
               onClick={() => handleSizeChange(size.id)}
             >
               {size.value ? getSizeLabel(size.value) : size.name || size.id}
@@ -1124,5 +1340,5 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         Đặt lại
       </Button>
     </div>
-  )
-}
+  );
+};

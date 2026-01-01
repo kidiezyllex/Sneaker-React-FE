@@ -999,7 +999,7 @@ function ReturnDetailContent({
                     </TableCell>
                     <TableCell className="font-medium">
                       {product.name}
-                      <div className="text-xs text-maintext">
+                      <div className="text-sm text-maintext">
                         SKU: {product.code}
                       </div>
                     </TableCell>

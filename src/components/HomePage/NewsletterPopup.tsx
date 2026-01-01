@@ -115,7 +115,7 @@ export const NewsletterPopup = () => {
                     </form>
                   )}
 
-                  <p className="text-xs text-maintext mt-4">
+                  <p className="text-sm text-maintext mt-4">
                     Chúng tôi cam kết bảo mật thông tin của bạn. Bằng cách đăng
                     ký, bạn đồng ý với Chính sách bảo mật của chúng tôi.
                   </p>

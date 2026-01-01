@@ -264,7 +264,7 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
                   {iconToShow}
                 </motion.div>
                 <div
-                  className={`mt-2.5 text-xs sm:text-sm text-center text-nowrap ${labelClasses} w-full sm:w-24 break-words leading-tight`}
+                  className={`mt-2.5 text-sm sm:text-sm text-center text-nowrap ${labelClasses} w-full sm:w-24 break-words leading-tight`}
                 >
                   {step.label}
                 </div>
@@ -1318,13 +1318,13 @@ export default function OrderDetailPage() {
                               <div className="font-medium text-sm">
                                 {productInfo.name}
                               </div>
-                              <div className="text-xs text-maintext/70 mt-0.5">
+                              <div className="text-sm text-maintext/70 mt-0.5">
                                 {productInfo.brand}
                               </div>
-                              <div className="text-xs text-maintext/70 mt-0.5">
+                              <div className="text-sm text-maintext/70 mt-0.5">
                                 Mã: {productInfo.code}
                               </div>
-                              <div className="text-xs text-maintext/70 mt-0.5">
+                              <div className="text-sm text-maintext/70 mt-0.5">
                                 {productInfo.colorName} / {productInfo.sizeName}
                               </div>
                             </div>

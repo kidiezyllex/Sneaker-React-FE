@@ -48,13 +48,13 @@ const StatCard = ({
                 className={increasing ? "text-green-medium" : "text-red-medium"}
               />
               <span
-                className={`text-xs ml-1 ${
+                className={`text-sm ml-1 ${
                   increasing ? "text-green-medium" : "text-red-medium"
                 }`}
               >
                 {percentage} {increasing ? "tăng" : "giảm"}
               </span>
-              <span className="text-xs text-maintext ml-1">
+              <span className="text-sm text-maintext ml-1">
                 so với tháng trước
               </span>
             </div>

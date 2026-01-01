@@ -147,7 +147,7 @@ export default function POSRightSection({
                           <Icon path={mdiDelete} size={0.7} />
                         </button>
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
                         <Badge
                           variant="outline"
                           className="h-5 px-1.5 font-normal"
@@ -191,7 +191,7 @@ export default function POSRightSection({
                         </div>
                         {item.price !== item.originalPrice &&
                           item.originalPrice && (
-                            <div className="text-xs text-gray-400 line-through">
+                            <div className="text-sm text-gray-400 line-through">
                               {formatCurrency(
                                 item.originalPrice * item.quantity
                               )}
@@ -336,13 +336,13 @@ export default function POSRightSection({
             <TabsList className="grid w-full grid-cols-2 h-10">
               <TabsTrigger
                 value="cash"
-                className="flex gap-2 items-center text-xs"
+                className="flex gap-2 items-center text-sm"
               >
                 <Icon path={mdiCashMultiple} size={0.7} /> Tiền mặt
               </TabsTrigger>
               <TabsTrigger
                 value="banking"
-                className="flex gap-2 items-center text-xs"
+                className="flex gap-2 items-center text-sm"
               >
                 <Icon path={mdiBankTransfer} size={0.7} /> Chuyển khoản
               </TabsTrigger>
@@ -352,7 +352,7 @@ export default function POSRightSection({
           {paymentMethod === "cash" && (
             <div className="space-y-3 bg-gray-50 p-3 rounded-lg border border-border/50">
               <div className="space-y-2">
-                <Label className="text-xs font-medium text-gray-500 uppercase">
+                <Label className="text-sm font-medium text-gray-500 uppercase">
                   Tiền khách đưa
                 </Label>
                 <div className="relative">

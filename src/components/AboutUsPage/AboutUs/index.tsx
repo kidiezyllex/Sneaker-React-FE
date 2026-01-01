@@ -74,7 +74,7 @@ const TeamMember = ({
       {name}
     </h3>
     <p className="text-center text-white/80 mb-2 relative z-[2]">{id}</p>
-    <p className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-white border border-white/80 bg-primary/80 transition-colors duration-200 rounded-full relative z-[2] uppercase">
+    <p className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-white border border-white/80 bg-primary/80 transition-colors duration-200 rounded-full relative z-[2] uppercase">
       {role}
     </p>
   </motion.div>

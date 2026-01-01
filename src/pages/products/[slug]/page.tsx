@@ -256,7 +256,7 @@ const ImageZoom = ({
       {/* Zoom hint for mobile */}
       {isMobile && (
         <motion.div
-          className="absolute bottom-2 right-2 bg-primary/90 text-white px-2 py-1 rounded text-xs font-medium opacity-70"
+          className="absolute bottom-2 right-2 bg-primary/90 text-white px-2 py-1 rounded text-sm font-medium opacity-70"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 0.7, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
@@ -269,7 +269,7 @@ const ImageZoom = ({
       {/* Zoom hint for desktop */}
       {!isMobile && !isZooming && (
         <motion.div
-          className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-70 transition-opacity duration-300"
+          className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-sm font-medium opacity-0 group-hover:opacity-70 transition-opacity duration-300"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 0, y: 0 }}
           whileHover={{ opacity: 0.7 }}
@@ -418,7 +418,7 @@ const SimilarProductCard = ({
                 initial={{ scale: 0, rotate: -180 }}
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-gradient-to-r from-emerald-500 to-teal-400 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
+                className="bg-gradient-to-r from-emerald-500 to-teal-400 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
               >
                 ✨ Mới
               </motion.div>
@@ -441,7 +441,7 @@ const SimilarProductCard = ({
                       initial={{ scale: 0, rotate: 180 }}
                       animate={{ scale: 1, rotate: 0 }}
                       transition={{ duration: 0.5, delay: 0.3 }}
-                      className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-xs font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
+                      className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
                     >
                       💥
                       <span className="text-base">
@@ -525,7 +525,7 @@ const SimilarProductCard = ({
         </div>
 
         <div className="p-4 flex flex-col flex-grow bg-gradient-to-b from-white via-gray-50/30 to-white border-t border-gray-100/50 rounded-b-2xl relative">
-          <div className="text-xs text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
+          <div className="text-sm text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-pink-400 animate-pulse"></div>
             <span className="bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">
               {typeof product.brand === "string"
@@ -587,7 +587,7 @@ const SimilarProductCard = ({
 
                   if (discount.discountPercent > 0) {
                     return (
-                      <div className="text-xs text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
+                      <div className="text-sm text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
                         {formatPrice(discount.originalPrice)}
                       </div>
                     );
@@ -642,7 +642,7 @@ const SimilarProductCard = ({
                       )
                     ).length > 4 && (
                       <motion.span
-                        className="text-xs text-maintext ml-1 bg-gray-100 px-2 py-1 rounded-full font-medium"
+                        className="text-sm text-maintext ml-1 bg-gray-100 px-2 py-1 rounded-full font-medium"
                         whileHover={{ scale: 1.1 }}
                       >
                         +
@@ -1204,7 +1204,7 @@ export default function ProductDetail() {
                       🎉 Áp dụng khuyến mãi:{" "}
                       {productDiscount.appliedPromotion?.name}
                     </div>
-                    <div className="flex items-center gap-2 text-xs text-maintext">
+                    <div className="flex items-center gap-2 text-sm text-maintext">
                       <span>
                         Giá gốc:{" "}
                         <span className="line-through">

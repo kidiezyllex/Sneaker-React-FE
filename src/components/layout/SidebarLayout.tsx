@@ -229,7 +229,7 @@ const SidebarLayout = memo(function SidebarLayout({
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -5 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed ml-16 mt-[-30px] bg-white border border-primary/20 text-main-text text-xs py-1.5 px-3 rounded-[6px] shadow-light-grey z-50 whitespace-nowrap flex items-center"
+                            className="fixed ml-16 mt-[-30px] bg-white border border-primary/20 text-main-text text-sm py-1.5 px-3 rounded-[6px] shadow-light-grey z-50 whitespace-nowrap flex items-center"
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
                             <span className="font-medium">{menu.name}</span>

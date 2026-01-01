@@ -359,7 +359,7 @@ export const Footer = () => {
                   </div>
 
                   <div className="flex items-center gap-2 text-gray-400 text-sm">
-                    <span>©2025 Sneaker Store. Made with</span>
+                    <span>©2026 Sneaker Store. Made with</span>
                     <Icon path={mdiHeart} size={0.8} className="text-red-500" />
                     <span>in Vietnam</span>
                   </div>
@@ -402,8 +402,8 @@ export const Footer = () => {
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <p className="text-gray-400 text-xs flex items-center justify-center gap-2">
-                <span>©2025 Sneaker Store. Made with</span>
+              <p className="text-gray-400 text-sm flex items-center justify-center gap-2">
+                <span>©2026 Sneaker Store. Made with</span>
                 <Icon path={mdiHeart} size={0.6} className="text-red-500" />
                 <span>in Vietnam</span>
               </p>

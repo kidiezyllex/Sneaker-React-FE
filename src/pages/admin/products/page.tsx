@@ -1,36 +1,77 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Icon } from '@mdi/react';
-import { mdiMagnify, mdiPlus, mdiPencilOutline, mdiTrashCanOutline, mdiFilterOutline, mdiLoading, mdiEmailFast, mdiPencilCircle, mdiDeleteCircle } from '@mdi/js';
-import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useProducts, useDeleteProduct } from '@/hooks/product';
-import { useBrands, useCategories } from '@/hooks/attributes';
-import { usePromotions } from '@/hooks/promotion';
-import { applyPromotionsToProducts, calculateProductDiscount } from '@/lib/promotions';
-import { IProductFilter } from '@/interface/request/product';
-import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { checkImageUrl } from '@/lib/utils';
-import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from '@/components/ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import Download from 'yet-another-react-lightbox/plugins/download';
-import 'yet-another-react-lightbox/styles.css';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose, DialogTrigger } from '@/components/ui/dialog';
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Icon } from "@mdi/react";
+import {
+  mdiMagnify,
+  mdiPlus,
+  mdiPencilOutline,
+  mdiTrashCanOutline,
+  mdiFilterOutline,
+  mdiLoading,
+  mdiEmailFast,
+  mdiPencilCircle,
+  mdiDeleteCircle,
+} from "@mdi/js";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useProducts, useDeleteProduct } from "@/hooks/product";
+import { useBrands, useCategories } from "@/hooks/attributes";
+import { usePromotions } from "@/hooks/promotion";
+import {
+  applyPromotionsToProducts,
+  calculateProductDiscount,
+} from "@/lib/promotions";
+import { IProductFilter } from "@/interface/request/product";
+import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { checkImageUrl } from "@/lib/utils";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHead,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import Download from "yet-another-react-lightbox/plugins/download";
+import "yet-another-react-lightbox/styles.css";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 export default function ProductsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IProductFilter>({
     page: 1,
-    limit: 10
+    limit: 10,
   });
   const { data: promotionsData } = usePromotions();
   const [showFilters, setShowFilters] = useState(false);
@@ -52,7 +93,10 @@ export default function ProductsPage() {
     let products = [...rawData.data.products];
 
     if (promotionsData?.data?.promotions) {
-      products = applyPromotionsToProducts(products, promotionsData.data.promotions);
+      products = applyPromotionsToProducts(
+        products,
+        promotionsData.data.promotions
+      );
     }
 
     return {
@@ -77,8 +121,11 @@ export default function ProductsPage() {
     return () => clearTimeout(debounce);
   }, [searchQuery]);
 
-  const handleFilterChange = (key: keyof IProductFilter, value: string | number | undefined) => {
-    if (value === '') {
+  const handleFilterChange = (
+    key: keyof IProductFilter,
+    value: string | number | undefined
+  ) => {
+    if (value === "") {
       const newFilters = { ...filters };
       delete newFilters[key];
       setFilters({ ...newFilters, page: 1 });
@@ -91,15 +138,25 @@ export default function ProductsPage() {
     try {
       await deleteProduct.mutateAsync(id, {
         onSuccess: () => {
-          toast.success('Đã xóa sản phẩm thành công');
-          queryClient.invalidateQueries({ queryKey: ['products'] });
+          toast.success("Đã xóa sản phẩm thành công");
+          queryClient.invalidateQueries({ queryKey: ["products"] });
         },
         onError: (error: any) => {
-          toast.error(`Xóa sản phẩm thất bại: ${error?.response?.data?.message || error.message || 'Đã có lỗi xảy ra'}`);
-        }
+          toast.error(
+            `Xóa sản phẩm thất bại: ${
+              error?.response?.data?.message ||
+              error.message ||
+              "Đã có lỗi xảy ra"
+            }`
+          );
+        },
       });
     } catch (error: any) {
-      toast.error(`Xóa sản phẩm thất bại: ${error?.response?.data?.message || error.message || 'Đã có lỗi xảy ra'}`);
+      toast.error(
+        `Xóa sản phẩm thất bại: ${
+          error?.response?.data?.message || error.message || "Đã có lỗi xảy ra"
+        }`
+      );
     }
   };
 
@@ -108,10 +165,10 @@ export default function ProductsPage() {
   };
 
   const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat('vi-VN', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
+    return new Intl.DateTimeFormat("vi-VN", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
     }).format(new Date(dateString));
   };
 
@@ -144,7 +201,7 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-4">
-      <div className='flex justify-between items-start'>
+      <div className="flex justify-between items-start">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -152,7 +209,9 @@ export default function ProductsPage() {
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">Quản lý sản phẩm</BreadcrumbLink>
+              <BreadcrumbLink href="/admin/products">
+                Quản lý sản phẩm
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -165,7 +224,6 @@ export default function ProductsPage() {
             <Icon path={mdiPlus} size={0.7} />
             Thêm sản phẩm mới
           </Button>
-
         </a>
       </div>
 
@@ -188,26 +246,37 @@ export default function ProductsPage() {
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t"
-          >
+          <div className="mt-4 pt-4 border-t">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm text-maintext mb-2 font-semibold">
                   Thương hiệu
                 </label>
-                <Select value={filters.brand || 'all'} onValueChange={(value) => handleFilterChange('brand', value === 'all' ? undefined : value)}>
+                <Select
+                  value={filters.brand || "all"}
+                  onValueChange={(value) =>
+                    handleFilterChange(
+                      "brand",
+                      value === "all" ? undefined : value
+                    )
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Tất cả thương hiệu">
                       {filters.brand
-                        ? (brandsData?.data || []).find(brand => brand.id.toString() === filters.brand?.toString())?.name || 'Tất cả thương hiệu'
-                        : 'Tất cả thương hiệu'
-                      }
+                        ? (brandsData?.data || []).find(
+                            (brand) =>
+                              brand.id.toString() === filters.brand?.toString()
+                          )?.name || "Tất cả thương hiệu"
+                        : "Tất cả thương hiệu"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tất cả thương hiệu</SelectItem>
                     {(brandsData?.data || []).map((brand) => (
-                      <SelectItem key={brand.id} value={brand.id.toString()}>{brand.name}</SelectItem>
+                      <SelectItem key={brand.id} value={brand.id.toString()}>
+                        {brand.name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -216,19 +285,35 @@ export default function ProductsPage() {
                 <label className="block text-sm text-maintext mb-2 font-semibold">
                   Danh mục
                 </label>
-                <Select value={filters.category || 'all'} onValueChange={(value) => handleFilterChange('category', value === 'all' ? undefined : value)}>
+                <Select
+                  value={filters.category || "all"}
+                  onValueChange={(value) =>
+                    handleFilterChange(
+                      "category",
+                      value === "all" ? undefined : value
+                    )
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Tất cả danh mục">
                       {filters.category
-                        ? (categoriesData?.data || []).find(category => category.id.toString() === filters.category?.toString())?.name || 'Tất cả danh mục'
-                        : 'Tất cả danh mục'
-                      }
+                        ? (categoriesData?.data || []).find(
+                            (category) =>
+                              category.id.toString() ===
+                              filters.category?.toString()
+                          )?.name || "Tất cả danh mục"
+                        : "Tất cả danh mục"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tất cả danh mục</SelectItem>
                     {(categoriesData?.data || []).map((category) => (
-                      <SelectItem key={category.id} value={category.id.toString()}>{category.name}</SelectItem>
+                      <SelectItem
+                        key={category.id}
+                        value={category.id.toString()}
+                      >
+                        {category.name}
+                      </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -237,15 +322,22 @@ export default function ProductsPage() {
                 <label className="block text-sm text-maintext mb-2 font-semibold">
                   Trạng thái
                 </label>
-                <Select value={filters.status || 'all'} onValueChange={(value) => handleFilterChange('status', value === 'all' ? undefined : value)}>
+                <Select
+                  value={filters.status || "all"}
+                  onValueChange={(value) =>
+                    handleFilterChange(
+                      "status",
+                      value === "all" ? undefined : value
+                    )
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Tất cả trạng thái">
-                      {filters.status === 'ACTIVE'
-                        ? 'Hoạt động'
-                        : filters.status === 'INACTIVE'
-                          ? 'Không hoạt động'
-                          : 'Tất cả trạng thái'
-                      }
+                      {filters.status === "ACTIVE"
+                        ? "Hoạt động"
+                        : filters.status === "INACTIVE"
+                        ? "Không hoạt động"
+                        : "Tất cả trạng thái"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -274,37 +366,60 @@ export default function ProductsPage() {
         </div>
       ) : isError ? (
         <div className="bg-white rounded-[6px] shadow-sm p-4 text-center">
-          <p className="text-red-500">Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</p>
+          <p className="text-red-500">
+            Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+          </p>
           <Button
             variant="outline"
             className="mt-4"
-            onClick={() => queryClient.invalidateQueries({ queryKey: ['products'] })}
+            onClick={() =>
+              queryClient.invalidateQueries({ queryKey: ["products"] })
+            }
           >
             Thử lại
           </Button>
         </div>
       ) : (
         <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
-          <div className="overflow-x-auto" style={{
-            width: '100%',
-            display: 'block',
-            overflowX: 'auto',
-            whiteSpace: 'nowrap',
-            scrollbarWidth: 'thin',
-            scrollbarColor: '#94a3b8 #e2e8f0',
-            WebkitOverflowScrolling: 'touch'
-          }}>
+          <div
+            className="overflow-x-auto"
+            style={{
+              width: "100%",
+              display: "block",
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              scrollbarWidth: "thin",
+              scrollbarColor: "#94a3b8 #e2e8f0",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Hình ảnh</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Sản phẩm</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Thương hiệu</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Danh mục</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Giá</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Trạng thái</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Ngày cập nhật</TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">Thao tác</TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Hình ảnh
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Sản phẩm
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Thương hiệu
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Danh mục
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Giá
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Trạng thái
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Ngày cập nhật
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
+                    Thao tác
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -318,43 +433,71 @@ export default function ProductsPage() {
                           title="Xem ảnh lớn"
                         >
                           <img
-                            src={checkImageUrl(product.variants[0]?.images?.[0]?.imageUrl)}
+                            src={checkImageUrl(
+                              product.variants[0]?.images?.[0]?.imageUrl
+                            )}
                             alt={product.name}
                             className="object-cover group-hover:scale-105 transition-transform duration-200"
                           />
                         </div>
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-maintext">{product.name}</div>
-                        <div className="text-xs text-maintext">
+                        <div className="text-sm font-medium text-maintext">
+                          {product.name}
+                        </div>
+                        <div className="text-sm text-maintext">
                           {product.variants.length} biến thể
                         </div>
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {typeof product.brand === 'string' ? product.brand : product.brand.name}
+                        {typeof product.brand === "string"
+                          ? product.brand
+                          : product.brand.name}
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {typeof product.category === 'string' ? product.category : product.category.name}
+                        {typeof product.category === "string"
+                          ? product.category
+                          : product.category.name}
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap text-sm">
                         {(() => {
                           const basePrice = product.variants[0]?.price || 0;
                           const discount = promotionsData?.data?.promotions
-                            ? calculateProductDiscount(product.id, basePrice, promotionsData.data.promotions)
-                            : { originalPrice: basePrice, discountedPrice: basePrice, discountPercent: 0 };
+                            ? calculateProductDiscount(
+                                product.id,
+                                basePrice,
+                                promotionsData.data.promotions
+                              )
+                            : {
+                                originalPrice: basePrice,
+                                discountedPrice: basePrice,
+                                discountPercent: 0,
+                              };
 
                           return (
                             <div className="space-y-1">
-                              <div className={`font-medium ${discount.discountPercent > 0 ? 'text-primary' : 'text-maintext'}`}>
-                                {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount.discountedPrice)}
+                              <div
+                                className={`font-medium ${
+                                  discount.discountPercent > 0
+                                    ? "text-primary"
+                                    : "text-maintext"
+                                }`}
+                              >
+                                {new Intl.NumberFormat("vi-VN", {
+                                  style: "currency",
+                                  currency: "VND",
+                                }).format(discount.discountedPrice)}
                               </div>
                               {discount.discountPercent > 0 && (
-                                <div className="text-xs text-maintext line-through">
-                                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(discount.originalPrice)}
+                                <div className="text-sm text-maintext line-through">
+                                  {new Intl.NumberFormat("vi-VN", {
+                                    style: "currency",
+                                    currency: "VND",
+                                  }).format(discount.originalPrice)}
                                 </div>
                               )}
                               {discount.discountPercent > 0 && (
-                                <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                <div className="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                                   -{discount.discountPercent}% KM
                                 </div>
                               )}
@@ -363,11 +506,16 @@ export default function ProductsPage() {
                         })()}
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <span className={`px-2 py-1 text-xs rounded-full ${product.status === 'ACTIVE'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-red-100 text-red-800'
-                          }`}>
-                          {product.status === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}
+                        <span
+                          className={`px-2 py-1 text-sm rounded-full ${
+                            product.status === "ACTIVE"
+                              ? "bg-green-100 text-green-800"
+                              : "bg-red-100 text-red-800"
+                          }`}
+                        >
+                          {product.status === "ACTIVE"
+                            ? "Hoạt động"
+                            : "Không hoạt động"}
                         </span>
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
@@ -380,7 +528,10 @@ export default function ProductsPage() {
                             size="icon"
                             title="Sửa"
                             onClick={() => {
-                              window.open(`/admin/products/edit/${product.id}`, '_blank');
+                              window.open(
+                                `/admin/products/edit/${product.id}`,
+                                "_blank"
+                              );
                             }}
                           >
                             <Icon path={mdiPencilCircle} size={0.8} />
@@ -399,27 +550,43 @@ export default function ProductsPage() {
                                 <Icon path={mdiDeleteCircle} size={0.8} />
                               </Button>
                             </DialogTrigger>
-                            {isDeleteDialogOpen && productToDelete === product.id && (
-                              <DialogContent>
-                                <DialogHeader>
-                                  <DialogTitle>Xác nhận xóa sản phẩm</DialogTitle>
-                                </DialogHeader>
-                                <p>Bạn có chắc chắn muốn xóa sản phẩm này không?</p>
-                                <DialogFooter>
-                                  <Button variant="outline" onClick={() => {
-                                    setIsDeleteDialogOpen(false);
-                                    setProductToDelete(null);
-                                  }}>Hủy</Button>
-                                  <Button variant="destructive" onClick={() => {
-                                    if (productToDelete) {
-                                      handleDeleteProduct(productToDelete);
-                                      setIsDeleteDialogOpen(false);
-                                      setProductToDelete(null);
-                                    }
-                                  }}>Xóa</Button>
-                                </DialogFooter>
-                              </DialogContent>
-                            )}
+                            {isDeleteDialogOpen &&
+                              productToDelete === product.id && (
+                                <DialogContent>
+                                  <DialogHeader>
+                                    <DialogTitle>
+                                      Xác nhận xóa sản phẩm
+                                    </DialogTitle>
+                                  </DialogHeader>
+                                  <p>
+                                    Bạn có chắc chắn muốn xóa sản phẩm này
+                                    không?
+                                  </p>
+                                  <DialogFooter>
+                                    <Button
+                                      variant="outline"
+                                      onClick={() => {
+                                        setIsDeleteDialogOpen(false);
+                                        setProductToDelete(null);
+                                      }}
+                                    >
+                                      Hủy
+                                    </Button>
+                                    <Button
+                                      variant="destructive"
+                                      onClick={() => {
+                                        if (productToDelete) {
+                                          handleDeleteProduct(productToDelete);
+                                          setIsDeleteDialogOpen(false);
+                                          setProductToDelete(null);
+                                        }
+                                      }}
+                                    >
+                                      Xóa
+                                    </Button>
+                                  </DialogFooter>
+                                </DialogContent>
+                              )}
                           </Dialog>
                         </div>
                       </TableCell>
@@ -427,7 +594,10 @@ export default function ProductsPage() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={8} className="px-4 py-8 text-center text-maintext">
+                    <TableCell
+                      colSpan={8}
+                      className="px-4 py-8 text-center text-maintext"
+                    >
                       Không tìm thấy sản phẩm nào
                     </TableCell>
                   </TableRow>
@@ -440,38 +610,70 @@ export default function ProductsPage() {
             <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200">
               <div className="hidden sm:block">
                 <p className="text-sm text-maintext">
-                  Hiển thị <span className="font-medium">{(data.data.pagination.currentPage - 1) * data.data.pagination.limit + 1}</span> đến <span className="font-medium">
-                    {Math.min(data.data.pagination.currentPage * data.data.pagination.limit, data.data.pagination.totalItems)}
-                  </span> của <span className="font-medium">{data.data.pagination.totalItems}</span> sản phẩm
+                  Hiển thị{" "}
+                  <span className="font-medium">
+                    {(data.data.pagination.currentPage - 1) *
+                      data.data.pagination.limit +
+                      1}
+                  </span>{" "}
+                  đến{" "}
+                  <span className="font-medium">
+                    {Math.min(
+                      data.data.pagination.currentPage *
+                        data.data.pagination.limit,
+                      data.data.pagination.totalItems
+                    )}
+                  </span>{" "}
+                  của{" "}
+                  <span className="font-medium">
+                    {data.data.pagination.totalItems}
+                  </span>{" "}
+                  sản phẩm
                 </p>
               </div>
               <div className="flex space-x-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleChangePage(data.data.pagination.currentPage - 1)}
+                  onClick={() =>
+                    handleChangePage(data.data.pagination.currentPage - 1)
+                  }
                   disabled={data.data.pagination.currentPage === 1}
                 >
                   Trước
                 </Button>
-                {[...Array(data.data.pagination.totalPages)].map((_, i) => (
-                  <Button
-                    key={i}
-                    variant={data.data.pagination.currentPage === i + 1 ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => handleChangePage(i + 1)}
-                  >
-                    {i + 1}
-                  </Button>
-                )).slice(
-                  Math.max(0, data.data.pagination.currentPage - 3),
-                  Math.min(data.data.pagination.totalPages, data.data.pagination.currentPage + 2)
-                )}
+                {[...Array(data.data.pagination.totalPages)]
+                  .map((_, i) => (
+                    <Button
+                      key={i}
+                      variant={
+                        data.data.pagination.currentPage === i + 1
+                          ? "default"
+                          : "outline"
+                      }
+                      size="sm"
+                      onClick={() => handleChangePage(i + 1)}
+                    >
+                      {i + 1}
+                    </Button>
+                  ))
+                  .slice(
+                    Math.max(0, data.data.pagination.currentPage - 3),
+                    Math.min(
+                      data.data.pagination.totalPages,
+                      data.data.pagination.currentPage + 2
+                    )
+                  )}
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleChangePage(data.data.pagination.currentPage + 1)}
-                  disabled={data.data.pagination.currentPage === data.data.pagination.totalPages}
+                  onClick={() =>
+                    handleChangePage(data.data.pagination.currentPage + 1)
+                  }
+                  disabled={
+                    data.data.pagination.currentPage ===
+                    data.data.pagination.totalPages
+                  }
                 >
                   Sau
                 </Button>
@@ -497,4 +699,4 @@ export default function ProductsPage() {
       )}
     </div>
   );
-} 
+}

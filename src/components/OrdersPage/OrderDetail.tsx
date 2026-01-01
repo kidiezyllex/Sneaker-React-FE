@@ -90,7 +90,7 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
                 <span className="ml-2 text-maintext">
                   {formatDate(item.timestamp)}
                 </span>
-                <span className="ml-2 text-maintext text-xs">
+                <span className="ml-2 text-maintext text-sm">
                   (
                   {formatDistanceToNow(new Date(item.timestamp), {
                     addSuffix: true,
@@ -289,10 +289,10 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
                                   <p className="font-medium">
                                     {item.productName}
                                   </p>
-                                  <p className="text-maintext text-xs">
+                                  <p className="text-maintext text-sm">
                                     Size: {item.size}, Màu: {item.color}
                                   </p>
-                                  <p className="text-maintext text-xs">
+                                  <p className="text-maintext text-sm">
                                     SKU: {item.sku}
                                   </p>
                                 </div>

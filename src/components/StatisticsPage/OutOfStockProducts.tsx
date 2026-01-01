@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { outOfStockProducts } from './mockData';
-import { motion } from 'framer-motion';
-import { Icon } from '@mdi/react';
-import { mdiAlert } from '@mdi/js';
-import { useState } from 'react';
-import Lightbox from 'yet-another-react-lightbox';
-import Zoom from 'yet-another-react-lightbox/plugins/zoom';
-import 'yet-another-react-lightbox/styles.css';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { outOfStockProducts } from "./mockData";
+import { motion } from "framer-motion";
+import { Icon } from "@mdi/react";
+import { mdiAlert } from "@mdi/js";
+import { useState } from "react";
+import Lightbox from "yet-another-react-lightbox";
+import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import "yet-another-react-lightbox/styles.css";
 
 export const OutOfStockProducts = () => {
   const [open, setOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
 
-  const lightboxImages = outOfStockProducts.map(product => ({
+  const lightboxImages = outOfStockProducts.map((product) => ({
     src: product.image,
     alt: product.name,
   }));
@@ -32,7 +32,9 @@ export const OutOfStockProducts = () => {
     >
       <Card className="h-full">
         <CardHeader className="pb-2">
-          <CardTitle className='text-lg font-medium text-maintext mb-2'>Sản phẩm hết hàng</CardTitle>
+          <CardTitle className="text-lg font-medium text-maintext mb-2">
+            Sản phẩm hết hàng
+          </CardTitle>
         </CardHeader>
         <CardContent>
           {outOfStockProducts.length === 0 ? (
@@ -49,7 +51,7 @@ export const OutOfStockProducts = () => {
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   className="flex items-center gap-2 rounded-[6px] border p-3"
                 >
-                  <div 
+                  <div
                     className="relative h-14 w-14 overflow-hidden rounded-[6px] bg-gray-100 cursor-pointer transition-transform hover:scale-105"
                     onClick={() => openLightbox(index)}
                   >
@@ -66,7 +68,7 @@ export const OutOfStockProducts = () => {
                       <span>Hết hàng</span>
                     </div>
                   </div>
-                  <button className="rounded-[6px] bg-primary px-3 py-1 text-xs font-medium text-white hover:bg-primary/80 transition-colors">
+                  <button className="rounded-[6px] bg-primary px-3 py-1 text-sm font-medium text-white hover:bg-primary/80 transition-colors">
                     Nhập hàng
                   </button>
                 </motion.div>
@@ -89,4 +91,4 @@ export const OutOfStockProducts = () => {
       />
     </motion.div>
   );
-}; 
+};

@@ -118,7 +118,7 @@ const Badge = ({ text }: { text: string }) => {
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-extra text-white px-3 py-1 rounded-full text-xs font-medium"
+        className="bg-extra text-white px-3 py-1 rounded-full text-sm font-medium"
       >
         {text}
       </motion.div>
@@ -135,7 +135,7 @@ const DiscountTag = ({ discount }: { discount: number }) => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        className="bg-red-medium text-white px-2 py-1 rounded-[6px] text-xs font-bold"
+        className="bg-red-medium text-white px-2 py-1 rounded-[6px] text-sm font-bold"
       >
         -{discount}%
       </motion.div>
@@ -363,7 +363,7 @@ export const Categories = () => {
               </motion.div>
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-maintext dark:text-white">
-              SNEAKER <span className="text-extra">HOT TREND 2025</span>
+              SNEAKER <span className="text-extra">HOT TREND 2026</span>
             </h2>
           </motion.div>
         </div>

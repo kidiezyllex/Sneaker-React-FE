@@ -325,7 +325,7 @@ export default function CreatePromotionPage() {
                               >
                                 {product.name}
                               </Label>
-                              <div className="text-xs text-maintext">
+                              <div className="text-sm text-maintext">
                                 Mã: {product.code} | Thương hiệu:{" "}
                                 {typeof product.brand === "string"
                                   ? product.brand
@@ -351,7 +351,7 @@ export default function CreatePromotionPage() {
                               <Badge
                                 key={productId}
                                 variant="secondary"
-                                className="text-xs"
+                                className="text-sm"
                               >
                                 {product.name}
                               </Badge>

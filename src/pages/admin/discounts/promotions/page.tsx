@@ -1,37 +1,77 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-import { Card, CardContent } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Icon } from '@mdi/react';
-import { mdiMagnify, mdiPlus, mdiPencilCircle, mdiDeleteCircle, mdiFilterOutline, mdiLoading, mdiEmailFast, mdiTagCheckOutline, mdiFilterRemoveOutline, mdiPercent } from '@mdi/js';
-import { motion, AnimatePresence } from 'framer-motion';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { usePromotions, useDeletePromotion } from '@/hooks/promotion';
-import { IPromotionFilter } from '@/interface/request/promotion';
-import { useQueryClient } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Table, TableHeader, TableBody, TableRow, TableCell, TableHead } from '@/components/ui/table';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+import { Card, CardContent } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Icon } from "@mdi/react";
+import {
+  mdiMagnify,
+  mdiPlus,
+  mdiPencilCircle,
+  mdiDeleteCircle,
+  mdiFilterOutline,
+  mdiLoading,
+  mdiEmailFast,
+  mdiTagCheckOutline,
+  mdiFilterRemoveOutline,
+  mdiPercent,
+} from "@mdi/js";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { usePromotions, useDeletePromotion } from "@/hooks/promotion";
+import { IPromotionFilter } from "@/interface/request/promotion";
+import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHead,
+} from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 
 export default function PromotionsPage() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IPromotionFilter>({
     page: 1,
-    limit: 10
+    limit: 10,
   });
   const [showFilters, setShowFilters] = useState(false);
   const { data, isLoading, isError } = usePromotions(filters);
   const deletePromotion = useDeletePromotion();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [promotionToDelete, setPromotionToDelete] = useState<string | null>(null);
+  const [promotionToDelete, setPromotionToDelete] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -46,8 +86,11 @@ export default function PromotionsPage() {
     return () => clearTimeout(debounce);
   }, [searchQuery]);
 
-  const handleFilterChange = (key: keyof IPromotionFilter, value: string | number | undefined) => {
-    if (value === '') {
+  const handleFilterChange = (
+    key: keyof IPromotionFilter,
+    value: string | number | undefined
+  ) => {
+    if (value === "") {
       const newFilters = { ...filters };
       delete newFilters[key];
       setFilters({ ...newFilters, page: 1 });
@@ -57,7 +100,7 @@ export default function PromotionsPage() {
   };
 
   const handleClearFilters = () => {
-    setSearchQuery('');
+    setSearchQuery("");
     setFilters({ page: 1, limit: 10 });
   };
 
@@ -65,13 +108,13 @@ export default function PromotionsPage() {
     try {
       await deletePromotion.mutateAsync(id, {
         onSuccess: () => {
-          toast.success('Đã xóa chiến dịch khuyến mãi thành công');
-          queryClient.invalidateQueries({ queryKey: ['promotions'] });
+          toast.success("Đã xóa chiến dịch khuyến mãi thành công");
+          queryClient.invalidateQueries({ queryKey: ["promotions"] });
           setIsDeleteDialogOpen(false);
         },
       });
     } catch (error) {
-      toast.error('Xóa chiến dịch khuyến mãi thất bại');
+      toast.error("Xóa chiến dịch khuyến mãi thất bại");
     }
   };
 
@@ -81,11 +124,11 @@ export default function PromotionsPage() {
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    const day = String(date.getUTCDate()).padStart(2, '0');
-    const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
     const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, '0');
-    const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+    const hours = String(date.getUTCHours()).padStart(2, "0");
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
     return `${hours}:${minutes} ${day}/${month}/${year}`;
   };
 
@@ -103,11 +146,11 @@ export default function PromotionsPage() {
     const startUTC = new Date(promotion.startDate).getTime();
     const endUTC = new Date(promotion.endDate).getTime();
 
-    if (promotion.status === 'UNACTIVE') {
+    if (promotion.status === "UNACTIVE") {
       return <Badge variant="destructive">Không hoạt động</Badge>;
     }
 
-    if (promotion.status === 'ACTIVE') {
+    if (promotion.status === "ACTIVE") {
       if (nowUTC < startUTC) {
         return <Badge variant="secondary">Chưa bắt đầu</Badge>;
       }
@@ -124,15 +167,19 @@ export default function PromotionsPage() {
 
   return (
     <div className="space-y-4">
-      <div className='flex justify-between items-start'>
+      <div className="flex justify-between items-start">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">Dashboard</BreadcrumbLink>
+              <BreadcrumbLink href="/admin/statistics">
+                Dashboard
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">Quản lý khuyến mãii</BreadcrumbLink>
+              <BreadcrumbLink href="/admin/discounts">
+                Quản lý khuyến mãii
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -141,7 +188,10 @@ export default function PromotionsPage() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex space-x-2">
-          <a href="/admin/discounts/promotions/create" className="flex items-center gap-2">
+          <a
+            href="/admin/discounts/promotions/create"
+            className="flex items-center gap-2"
+          >
             <Button className="flex items-center gap-2">
               <Icon path={mdiPlus} size={0.7} />
               Thêm chiến dịch khuyến mãi
@@ -168,13 +218,21 @@ export default function PromotionsPage() {
               />
             </div>
             <div className="flex space-x-2">
-              {(showFilters || searchQuery || Object.keys(filters).filter(k => k !== 'page' && k !== 'limit').length > 0) && (
+              {(showFilters ||
+                searchQuery ||
+                Object.keys(filters).filter(
+                  (k) => k !== "page" && k !== "limit"
+                ).length > 0) && (
                 <Button
                   variant="outline"
                   className="flex items-center"
                   onClick={handleClearFilters}
                 >
-                  <Icon path={mdiFilterRemoveOutline} size={0.7} className="mr-2" />
+                  <Icon
+                    path={mdiFilterRemoveOutline}
+                    size={0.7}
+                    className="mr-2"
+                  />
                   Clear bộ lọc
                 </Button>
               )}
@@ -184,7 +242,7 @@ export default function PromotionsPage() {
                 onClick={() => setShowFilters(!showFilters)}
               >
                 <Icon path={mdiFilterOutline} size={0.7} className="mr-2" />
-                {showFilters ? 'Ẩn bộ lọc' : 'Hiện bộ lọc'}
+                {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
               </Button>
             </div>
           </div>
@@ -193,7 +251,7 @@ export default function PromotionsPage() {
             {showFilters && (
               <motion.div
                 initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
+                animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className="mt-4 pt-4 border-t"
@@ -203,14 +261,24 @@ export default function PromotionsPage() {
                     <label className="block text-sm text-maintext mb-2 font-semibold">
                       Trạng thái
                     </label>
-                    <Select value={filters.status || ''} onValueChange={(value) => handleFilterChange('status', value === 'all' ? undefined : value)}>
+                    <Select
+                      value={filters.status || ""}
+                      onValueChange={(value) =>
+                        handleFilterChange(
+                          "status",
+                          value === "all" ? undefined : value
+                        )
+                      }
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Tất cả trạng thái" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all">Tất cả trạng thái</SelectItem>
                         <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                        <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+                        <SelectItem value="INACTIVE">
+                          Không hoạt động
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -220,8 +288,10 @@ export default function PromotionsPage() {
                     </label>
                     <Input
                       type="date"
-                      value={filters.startDate || ''}
-                      onChange={(e) => handleFilterChange('startDate', e.target.value)}
+                      value={filters.startDate || ""}
+                      onChange={(e) =>
+                        handleFilterChange("startDate", e.target.value)
+                      }
                       className="w-full"
                       placeholder="Từ ngày"
                     />
@@ -232,8 +302,10 @@ export default function PromotionsPage() {
                     </label>
                     <Input
                       type="date"
-                      value={filters.endDate || ''}
-                      onChange={(e) => handleFilterChange('endDate', e.target.value)}
+                      value={filters.endDate || ""}
+                      onChange={(e) =>
+                        handleFilterChange("endDate", e.target.value)
+                      }
                       className="w-full"
                       placeholder="Đến ngày"
                     />
@@ -259,11 +331,15 @@ export default function PromotionsPage() {
         </div>
       ) : isError ? (
         <div className="bg-white rounded-[6px] shadow-sm p-4 text-center">
-          <p className="text-red-500">Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.</p>
+          <p className="text-red-500">
+            Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+          </p>
           <Button
             variant="outline"
             className="mt-4"
-            onClick={() => queryClient.invalidateQueries({ queryKey: ['promotions'] })}
+            onClick={() =>
+              queryClient.invalidateQueries({ queryKey: ["promotions"] })
+            }
           >
             Thử lại
           </Button>
@@ -274,13 +350,27 @@ export default function PromotionsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Mã</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Tên chiến dịch</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Giảm giá</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Sản phẩm</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Thời gian</TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">Trạng thái</TableHead>
-                  <TableHead className="px-4 py-4 text-center text-sm font-medium text-maintext">Thao tác</TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Mã
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Tên chiến dịch
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Giảm giá
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Sản phẩm
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Thời gian
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
+                    Trạng thái
+                  </TableHead>
+                  <TableHead className="px-4 py-4 text-center text-sm font-medium text-maintext">
+                    Thao tác
+                  </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -288,13 +378,15 @@ export default function PromotionsPage() {
                   data.data.promotions.map((promotion) => (
                     <TableRow key={promotion.id}>
                       <TableCell className="px-4 py-4 text-sm">
-                        <span className="font-mono font-medium">{promotion.code}</span>
+                        <span className="font-mono font-medium">
+                          {promotion.code}
+                        </span>
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm">
                         <div>
                           <div className="font-medium">{promotion.name}</div>
                           {promotion.description && (
-                            <div className="text-xs text-maintext mt-1 line-clamp-2">
+                            <div className="text-sm text-maintext mt-1 line-clamp-2">
                               {promotion.description}
                             </div>
                           )}
@@ -302,23 +394,33 @@ export default function PromotionsPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm">
                         <div className="flex items-center gap-1">
-                          <Icon path={mdiPercent} size={0.7} className="text-primary" />
-                          <span className="font-medium text-primary">{promotion.discountPercent}%</span>
+                          <Icon
+                            path={mdiPercent}
+                            size={0.7}
+                            className="text-primary"
+                          />
+                          <span className="font-medium text-primary">
+                            {promotion.discountPercent}%
+                          </span>
                         </div>
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm">
                         {Array.isArray(promotion.products) ? (
                           <span className="text-maintext">
-                            {promotion.products.length === 0 ? 'Tất cả sản phẩm' : `${promotion.products.length} sản phẩm`}
+                            {promotion.products.length === 0
+                              ? "Tất cả sản phẩm"
+                              : `${promotion.products.length} sản phẩm`}
                           </span>
                         ) : (
                           <span className="text-maintext">Tất cả sản phẩm</span>
                         )}
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm">
-                        <div className="text-xs">
+                        <div className="text-sm">
                           <div>{formatDate(promotion.startDate)}</div>
-                          <div className="text-maintext">đến {formatDate(promotion.endDate)}</div>
+                          <div className="text-maintext">
+                            đến {formatDate(promotion.endDate)}
+                          </div>
                         </div>
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm">
@@ -326,12 +428,10 @@ export default function PromotionsPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm text-right">
                         <div className="flex items-center justify-end space-x-2">
-                          <a href={`/admin/discounts/promotions/edit/${promotion.id}`}>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              title="Sửa"
-                            >
+                          <a
+                            href={`/admin/discounts/promotions/edit/${promotion.id}`}
+                          >
+                            <Button variant="outline" size="icon" title="Sửa">
                               <Icon path={mdiPencilCircle} size={0.8} />
                             </Button>
                           </a>
@@ -352,7 +452,10 @@ export default function PromotionsPage() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={7} className="px-4 py-8 text-center text-maintext">
+                    <TableCell
+                      colSpan={7}
+                      className="px-4 py-8 text-center text-maintext"
+                    >
                       Không tìm thấy chiến dịch khuyến mãi nào
                     </TableCell>
                   </TableRow>
@@ -375,7 +478,9 @@ export default function PromotionsPage() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => handleChangePage(data.data.pagination.currentPage - 1)}
+                onClick={() =>
+                  handleChangePage(data.data.pagination.currentPage - 1)
+                }
                 disabled={data.data.pagination.currentPage === 1}
               >
                 <span className="sr-only">Trang trước</span>
@@ -393,7 +498,11 @@ export default function PromotionsPage() {
                   return (
                     <Button
                       key={page}
-                      variant={page === data.data.pagination.currentPage ? "default" : "outline"}
+                      variant={
+                        page === data.data.pagination.currentPage
+                          ? "default"
+                          : "outline"
+                      }
                       size="icon"
                       onClick={() => handleChangePage(page)}
                     >
@@ -411,8 +520,13 @@ export default function PromotionsPage() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => handleChangePage(data.data.pagination.currentPage + 1)}
-                disabled={data.data.pagination.currentPage === data.data.pagination.totalPages}
+                onClick={() =>
+                  handleChangePage(data.data.pagination.currentPage + 1)
+                }
+                disabled={
+                  data.data.pagination.currentPage ===
+                  data.data.pagination.totalPages
+                }
               >
                 <span className="sr-only">Trang sau</span>
                 <span>›</span>
@@ -420,8 +534,13 @@ export default function PromotionsPage() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => handleChangePage(data.data.pagination.totalPages)}
-                disabled={data.data.pagination.currentPage === data.data.pagination.totalPages}
+                onClick={() =>
+                  handleChangePage(data.data.pagination.totalPages)
+                }
+                disabled={
+                  data.data.pagination.currentPage ===
+                  data.data.pagination.totalPages
+                }
               >
                 <span className="sr-only">Trang cuối</span>
                 <span>»</span>
@@ -437,23 +556,32 @@ export default function PromotionsPage() {
           <DialogHeader>
             <DialogTitle>Xác nhận xóa chiến dịch khuyến mãi</DialogTitle>
           </DialogHeader>
-          <p className="py-4">Bạn có chắc chắn muốn xóa chiến dịch khuyến mãi này không? Hành động này không thể hoàn tác.</p>
+          <p className="py-4">
+            Bạn có chắc chắn muốn xóa chiến dịch khuyến mãi này không? Hành động
+            này không thể hoàn tác.
+          </p>
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Hủy</Button>
             </DialogClose>
             <Button
               variant="destructive"
-              onClick={() => promotionToDelete && handleDeletePromotion(promotionToDelete)}
+              onClick={() =>
+                promotionToDelete && handleDeletePromotion(promotionToDelete)
+              }
               disabled={deletePromotion.isPending}
             >
               {deletePromotion.isPending ? (
                 <>
-                  <Icon path={mdiLoading} size={0.7} className="mr-2 animate-spin" />
+                  <Icon
+                    path={mdiLoading}
+                    size={0.7}
+                    className="mr-2 animate-spin"
+                  />
                   Đang xóa...
                 </>
               ) : (
-                'Xóa'
+                "Xóa"
               )}
             </Button>
           </DialogFooter>
@@ -461,4 +589,4 @@ export default function PromotionsPage() {
       </Dialog>
     </div>
   );
-} 
+}

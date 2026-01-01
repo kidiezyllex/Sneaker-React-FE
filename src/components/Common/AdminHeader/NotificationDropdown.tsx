@@ -103,7 +103,7 @@ export default function NotificationDropdown() {
         >
           <Icon path={mdiBell} size={0.7} className="text-maintext" />
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-white text-xs rounded-full">
+            <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-white text-sm rounded-full">
               {unreadCount}
             </span>
           )}
@@ -115,7 +115,7 @@ export default function NotificationDropdown() {
           {unreadCount > 0 && (
             <button
               onClick={markAllAsRead}
-              className="text-xs text-primary hover:underline"
+              className="text-sm text-primary hover:underline"
             >
               Đánh dấu tất cả đã đọc
             </button>
@@ -142,7 +142,7 @@ export default function NotificationDropdown() {
                   >
                     {notification.title}
                   </span>
-                  <span className="text-xs text-maintext">
+                  <span className="text-sm text-maintext">
                     {notification.time}
                   </span>
                 </div>

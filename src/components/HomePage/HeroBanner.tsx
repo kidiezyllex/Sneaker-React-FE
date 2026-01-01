@@ -32,7 +32,7 @@ export const HeroBanner = () => {
         <div className="py-20 px-28 relative">
           <img
             src={"/images/banner.jpg"}
-            alt="Sneaker - Sneaker mới nhất 2025"
+            alt="Sneaker - Sneaker mới nhất 2026"
             width={1000}
             height={1000}
             draggable={false}
@@ -50,10 +50,10 @@ export const HeroBanner = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 rounded-full text-primary font-medium text-sm border border-green-500"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-green-50/90 rounded-full text-primary font-medium text-sm border border-green-500"
                 >
                   <Icon path={mdiTrendingUp} size={0.7} />
-                  <span>Sneaker mới nhất 2025</span>
+                  <span>Sneaker mới nhất 2026</span>
                 </motion.div>
 
                 <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-maintext text-nowrap">

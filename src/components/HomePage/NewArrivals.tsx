@@ -89,7 +89,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
           className={i < rating ? "text-amber-500" : "text-gray-300"}
         />
       ))}
-      <span className="text-xs text-maintext ml-1">({rating}.0)</span>
+      <span className="text-sm text-maintext ml-1">({rating}.0)</span>
     </div>
   );
 };
@@ -98,7 +98,7 @@ const DiscountBadge = ({ discount }: { discount: number }) => {
   if (!discount) return null;
 
   return (
-    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-none font-medium text-xs text-white bg-gradient-to-r from-red-500 to-amber-500">
+    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-none font-medium text-sm text-white bg-gradient-to-r from-red-500 to-amber-500">
       -{discount}%
     </div>
   );
@@ -108,7 +108,7 @@ const BestSellerBadge = ({ isBestSeller }: { isBestSeller: boolean }) => {
   if (!isBestSeller) return null;
 
   return (
-    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-none font-medium text-xs text-white bg-gradient-to-r from-[#2C8B3D] to-[#88C140]">
+    <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-none font-medium text-sm text-white bg-gradient-to-r from-[#2C8B3D] to-[#88C140]">
       Best Seller
     </div>
   );
@@ -230,7 +230,7 @@ const ProductCard = ({
       </a>
 
       <div className="p-4 pb-0 flex flex-col gap-1">
-        <div className="text-xs font-medium text-[#2C8B3D] uppercase tracking-wider">
+        <div className="text-sm font-medium text-[#2C8B3D] uppercase tracking-wider">
           {product.brand}
         </div>
         <h3 className="text-maintext dark:text-white font-semibold text-lg truncate group-hover:text-[#2C8B3D] transition-colors duration-200">
@@ -253,7 +253,7 @@ const ProductCard = ({
           <ColorOptions colors={product.colors} />
 
           {product.stock <= 10 && (
-            <div className="text-xs text-orange-600 font-medium">
+            <div className="text-sm text-orange-600 font-medium">
               (Chỉ còn {product.stock} sản phẩm)
             </div>
           )}
@@ -295,7 +295,7 @@ export const NewArrivals = () => {
           animate={isHeaderInView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
+          <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
             Mới ra mắt
           </span>
           <h2 className="text-3xl font-bold text-center mb-4 relative">
