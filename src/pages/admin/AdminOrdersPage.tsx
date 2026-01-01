@@ -1,10 +1,2 @@
-import OrdersPage from '@/app/admin/orders/page'
-import React from 'react'
-
-const AdminOrdersPage: React.FC = () => {
-  return (
-    <OrdersPage />
-  )
-}
-
-export default AdminOrdersPage
+import OrdersPage from './orders/page';
+export default OrdersPage;

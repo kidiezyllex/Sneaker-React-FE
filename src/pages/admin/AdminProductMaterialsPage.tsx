@@ -1,7 +1,2 @@
-import MaterialsPage from '@/app/admin/products/materials/page'
-
-const AdminProductMaterialsPage: React.FC = () => {
-  return <MaterialsPage />
-}
-
-export default AdminProductMaterialsPage
+import MaterialsPage from './products/materials/page';
+export default MaterialsPage;

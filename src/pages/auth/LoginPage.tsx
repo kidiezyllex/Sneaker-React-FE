@@ -1,45 +1,57 @@
-import React, { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Loader2, Eye, EyeOff } from "lucide-react"
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-import { useUser } from "@/context/useUserContext"
-import { motion } from "framer-motion"
-import { useLogin } from "@/hooks/authentication"
-
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Loader2, Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "@/context/useUserContext";
+import { motion } from "framer-motion";
+import { useLogin } from "@/hooks/authentication";
+import Icon from "@mdi/react";
+import { mdiLogin } from "@mdi/js";
 interface LoginFormValues {
   email: string;
   password: string;
 }
 
 function LoginForm({ onSuccess }: { onSuccess: () => void }) {
-  const signInMutation = useLogin()
-  const { loginUser } = useUser()
-  const [showPassword, setShowPassword] = useState(false)
+  const signInMutation = useLogin();
+  const { loginUser } = useUser();
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState<LoginFormValues>({
     email: "",
     password: "",
-  })
-  const navigate = useNavigate()
+  });
+  const navigate = useNavigate();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({
+    const { name, value } = e.target;
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const onSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const response = await signInMutation.mutateAsync(formData)
-      if (response && response.success && response.data?.token && (response.data as any)?.account) {
-        loginUser((response.data as any)?.account, response.data?.token)
-        toast.success("Đăng nhập thành công")
+      const response = await signInMutation.mutateAsync(formData);
+      if (
+        response &&
+        response.success &&
+        response.data?.token &&
+        (response.data as any)?.account
+      ) {
+        loginUser((response.data as any)?.account, response.data?.token);
+        toast.success("Đăng nhập thành công");
         if ((response.data as any)?.account?.role === "ADMIN") {
           navigate("/admin/statistics");
         } else {
@@ -47,19 +59,21 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         }
       }
     } catch (error: any) {
-      console.error("Lỗi đăng nhập:", error)
-      toast.error("Đăng nhập thất bại")
+      console.error("Lỗi đăng nhập:", error);
+      toast.error("Đăng nhập thất bại");
     }
-  }
+  };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword)
-  }
+    setShowPassword(!showPassword);
+  };
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4 h-full">
       <div>
-        <label className="text-maintext dark:text-gray-300 font-medium block mb-2">Email</label>
+        <label className="text-maintext dark:text-gray-300 block mb-2 font-semibold text-sm">
+          Email
+        </label>
         <Input
           type="email"
           name="email"
@@ -71,7 +85,9 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
       <div>
-        <label className="text-maintext dark:text-gray-300 font-medium block mb-2">Mật khẩu</label>
+        <label className="text-maintext dark:text-gray-300 block mb-2 font-semibold text-sm">
+          Mật khẩu
+        </label>
         <div className="relative">
           <Input
             type={showPassword ? "text" : "password"}
@@ -92,10 +108,16 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <a href="/auth/register" className="text-sm text-primary hover:text-secondary transition-colors duration-300">
+        <a
+          href="/auth/register"
+          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
+        >
           Đăng ký?
         </a>
-        <a href="/auth/forget-password" className="text-sm text-primary hover:text-secondary transition-colors duration-300">
+        <a
+          href="/auth/forget-password"
+          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
+        >
           Quên mật khẩu?
         </a>
       </div>
@@ -116,14 +138,14 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }
 
 const LoginPage: React.FC = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSuccess = () => {
-    navigate("/")
-  }
+    navigate("/");
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-green-50 via-green-100 to-green-50 dark:from-gray-900 dark:to-gray-800">
@@ -147,25 +169,31 @@ const LoginPage: React.FC = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="h-full w-[600px]"
+          className="h-full w-[500px]"
         >
-          <Card className="flex flex-col w-full h-full shadow-lg bg-white/50 dark:bg-gray-800/40 backdrop-blur-md border border-white/20 dark:border-gray-700/30 backdrop-filter">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-2xl font-bold text-maintext dark:text-white">
-                Đăng nhập tài khoản
+          <Card>
+            <CardHeader>
+              <CardTitle>
+                <Icon path={mdiLogin} size={1} className="text-primary" />
+                <span className="text-primary">Đăng nhập tài khoản</span>
               </CardTitle>
-              <CardDescription className="text-maintext dark:text-maintext pt-3">
-                Đăng nhập để tiếp tục mua sắm và theo dõi đơn hàng của bạn
-              </CardDescription>
+              <img
+                draggable="false"
+                src="/images/logo.png"
+                alt="logo"
+                width={100}
+                height={100}
+                className="w-auto mx-auto h-20 select-none cursor-pointer"
+              />
             </CardHeader>
-            <CardContent className="flex-1 pt-6 bg-white">
+            <CardContent>
               <LoginForm onSuccess={handleSuccess} />
             </CardContent>
           </Card>
         </motion.div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default LoginPage 
+export default LoginPage;

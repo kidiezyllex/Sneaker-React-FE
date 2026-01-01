@@ -1,7 +1,2 @@
-import VouchersPage from '@/app/admin/discounts/vouchers/page'
-
-const AdminVouchersPage: React.FC = () => {
-  return <VouchersPage />
-}
-
-export default AdminVouchersPage
+import VouchersPage from './discounts/vouchers/page';
+export default VouchersPage;

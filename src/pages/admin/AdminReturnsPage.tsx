@@ -1,7 +1,2 @@
-import ReturnsPage from '@/app/admin/returns/page'
-
-const AdminReturnsPage: React.FC = () => {
-  return <ReturnsPage />
-}
-
-export default AdminReturnsPage
+import ReturnsPage from './returns/page';
+export default ReturnsPage;

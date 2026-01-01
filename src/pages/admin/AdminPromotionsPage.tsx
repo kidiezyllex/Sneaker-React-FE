@@ -1,7 +1,2 @@
-import PromotionsPage from '@/app/admin/discounts/promotions/page'
-
-const AdminPromotionsPage: React.FC = () => {
-  return <PromotionsPage />
-}
-
-export default AdminPromotionsPage
+import PromotionsPage from './discounts/promotions/page';
+export default PromotionsPage;

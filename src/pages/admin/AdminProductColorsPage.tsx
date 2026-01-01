@@ -1,7 +1,2 @@
-import ColorsPage from '@/app/admin/products/colors/page'
-
-const AdminProductColorsPage: React.FC = () => {
-  return <ColorsPage />
-}
-
-export default AdminProductColorsPage
+import ColorsPage from './products/colors/page';
+export default ColorsPage;
