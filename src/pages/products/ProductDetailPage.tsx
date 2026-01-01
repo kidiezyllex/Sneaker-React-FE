@@ -1,2 +1,2 @@
-import ProductDetailPage from './products/[slug]/page';
+import ProductDetailPage from "./[slug]/page";
 export default ProductDetailPage;
