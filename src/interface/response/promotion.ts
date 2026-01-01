@@ -1,3 +1,5 @@
+import { IApiResponse, IApiListResponse } from "../common";
+
 export interface IPromotionProduct {
   id: string;
   name: string;
@@ -7,48 +9,21 @@ export interface IPromotionProduct {
 }
 
 export interface IPromotion {
-  id: string;
-  code: string;
+  id: number;
   name: string;
   description?: string;
   discountPercent: number;
-  products: IPromotionProduct[] | string[];
   startDate: string;
   endDate: string;
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
-  productIds: string[];
 }
 
-export interface IPromotionResponse {
-  success: boolean;
-  message: string;
-  data: IPromotion;
-}
+export interface IPromotionResponse extends IApiResponse<IPromotion> {}
 
-export interface IPromotionsResponse {
-  success: boolean;
-  message: string;
-  data: {
-    promotions: IPromotion[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IPromotionsResponse extends IApiListResponse<IPromotion> {}
 
-export interface IProductPromotionsResponse {
-  success: boolean;
-  message: string;
-  data: Pick<IPromotion, 'id' | 'name' | 'discountPercent' | 'startDate' | 'endDate'>[];
-}
+export interface IProductPromotionsResponse extends IApiResponse<Pick<IPromotion, 'id' | 'name' | 'discountPercent' | 'startDate' | 'endDate'>[]> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+export interface IActionResponse extends IApiResponse<any> {}

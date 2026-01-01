@@ -27,6 +27,7 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { mdiMagnify, mdiClose, mdiEye } from "@mdi/js";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 interface SearchReturnModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -56,18 +57,6 @@ export default function SearchReturnModal({
     if (e.key === "Enter") {
       handleSearch();
     }
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
   };
 
   const getStatusBadge = (status: string) => {

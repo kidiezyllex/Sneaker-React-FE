@@ -1,28 +1,29 @@
 import { IProductVariant } from "../request/product";
+import { IApiResponse, IApiListResponse } from "../common";
 
 export interface IBrand {
-  id: string;
+  id: number;
   name: string;
 }
 
 export interface ICategory {
-  id: string;
+  id: number;
   name: string;
 }
 
 export interface IMaterial {
-  id: string;
+  id: number;
   name: string;
 }
 
 export interface IColor {
-  id: string;
+  id: number;
   name: string;
   code: string;
 }
 
 export interface ISize {
-  id: string;
+  id: number;
   name?: string;
   code?: string;
   value: number;
@@ -34,9 +35,7 @@ export interface IProductImage {
 }
 
 export interface IPopulatedProductVariant {
-  id: string;
-  colorId: string;
-  sizeId: string;
+  id: number;
   color: IColor;
   size: ISize;
   price: number;
@@ -45,61 +44,38 @@ export interface IPopulatedProductVariant {
 }
 
 export interface IProduct {
-  id: string;
+  id: number;
   code: string;
   name: string;
-  brand: string | IBrand;
-  category: string | ICategory;
-  material: string | IMaterial;
+  brand: IBrand;
+  category: ICategory;
+  material: IMaterial;
   description: string;
   weight: number;
   variants: IPopulatedProductVariant[];
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
-  price: number;
 }
 
-export interface IProductResponse {
-  success: boolean;
-  message: string;
-  data: IProduct;
-}
+export interface IProductResponse extends IApiResponse<IProduct> {}
 
-export interface IProductsResponse {
-  success: boolean;
-  message: string;
-  data: {
-    products: IProduct[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IProductsResponse extends IApiListResponse<IProduct> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+export interface IActionResponse extends IApiResponse<any> {}
 
 export interface IPriceRange {
   min: number;
   max: number;
 }
 
-export interface IProductFiltersResponse {
-  success: boolean;
-  message: string;
-  data: {
-    brands: IBrand[];
-    categories: ICategory[];
-    materials: IMaterial[];
-    colors: IColor[];
-    sizes: ISize[];
-    priceRange: IPriceRange;
-  };
+export interface IProductFilters {
+  brands: IBrand[];
+  sizes: ISize[];
+  materials: IMaterial[];
+  categories: ICategory[];
+  priceRange: IPriceRange;
+  colors: IColor[];
 }
+
+export interface IProductFiltersResponse extends IApiResponse<IProductFilters> {}

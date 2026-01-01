@@ -1,4 +1,5 @@
 import { IReturnItem } from "../request/return";
+import { IApiResponse, IApiListResponse } from "../common";
 
 export interface IReturnProduct {
   id: string;
@@ -43,25 +44,9 @@ export interface IReturn {
   updatedAt: string;
 }
 
-export interface IReturnResponse {
-  success: boolean;
-  message: string;
-  data: IReturn;
-}
+export interface IReturnResponse extends IApiResponse<IReturn> {}
 
-export interface IReturnsResponse {
-  success: boolean;
-  message: string;
-  data: {
-    returns: IReturn[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IReturnsResponse extends IApiListResponse<IReturn> {}
 
 export interface IReturnStats {
   totalReturns: number;
@@ -71,24 +56,11 @@ export interface IReturnStats {
   totalRefundAmount: number;
 }
 
-export interface IReturnStatsResponse {
-  success: boolean;
-  message: string;
-  data: IReturnStats;
-}
+export interface IReturnStatsResponse extends IApiResponse<IReturnStats> {}
 
-export interface IReturnSearchResponse {
-  success: boolean;
-  message: string;
-  data: IReturn[];
-}
+export interface IReturnSearchResponse extends IApiResponse<IReturn[]> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
-
+export interface IActionResponse extends IApiResponse<any> {}
 
 export interface IReturnableOrderItem {
   product: {
@@ -111,16 +83,4 @@ export interface IReturnableOrder {
   createdAt: string;
 }
 
-export interface IReturnableOrdersResponse {
-  success: boolean;
-  message: string;
-  data: {
-    orders: IReturnableOrder[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IReturnableOrdersResponse extends IApiListResponse<IReturnableOrder> {}

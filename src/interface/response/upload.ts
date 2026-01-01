@@ -1,17 +1,8 @@
-import { IBaseResponse } from "./authentication";
-
-export interface IUploadImageResponse {
-  data: {
-    url: string;
-    publicId: string;
-  };
-  message: string;
-  statusCode: number;
-}
+import { IApiResponse } from "../common";
 
 export interface IUploadImageResponseData {
   url: string;
   publicId: string;
 }
 
-export interface IUploadImageResponse extends IBaseResponse<IUploadImageResponseData> {}
+export interface IUploadImageResponse extends IApiResponse<IUploadImageResponseData> {}

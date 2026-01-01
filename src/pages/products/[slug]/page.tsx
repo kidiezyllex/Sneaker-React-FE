@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useMemo } from "react";
 import CartIcon from "@/components/ui/CartIcon";
-import { useNavigate } from "react-router-dom";
 
 const zoomStyles = `
   .cursor-zoom-in {
@@ -45,10 +44,10 @@ import { useProductDetail, useProducts } from "@/hooks/product";
 import { usePromotions } from "@/hooks/promotion";
 import {
   calculateProductDiscount,
-  formatPrice as formatPromotionPrice,
   applyPromotionsToProducts,
   filterActivePromotions,
 } from "@/lib/promotions";
+import { formatPrice } from "@/utils/formatters";
 import { getSizeLabel } from "@/utils/sizeMapping";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -280,13 +279,6 @@ const SimilarProductCard = ({
 }) => {
   const { addToCart } = useCartStore();
   const [isHovered, setIsHovered] = useState(false);
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
 
   const handleAddToCart = () => {
     if (!product.variants?.[0]) return;
@@ -686,13 +678,6 @@ export default function ProductDetail() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [productDiscount, setProductDiscount] = useState<any>(null);
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
   useEffect(() => {
     if (typeof slug === "string") {
       const id = slug.split("-").pop();
@@ -880,9 +865,9 @@ export default function ProductDetail() {
   };
 
   const similarProducts = useMemo(() => {
-    if (!allProductsData?.data?.products || !productData?.data) return [];
+    if (!allProductsData?.data || !productData?.data) return [];
 
-    let filteredProducts = allProductsData.data.products
+    let filteredProducts = allProductsData.data
       .filter((p: IProduct) => p.id !== productData.data.id)
       .slice(0, 4);
 

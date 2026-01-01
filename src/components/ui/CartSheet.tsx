@@ -17,7 +17,12 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/useToast";
 import { checkImageUrl } from "@/lib/utils";
 import { toast } from "react-toastify";
-import { formatPrice } from "@/utils/formatters";
+import {
+  formatPrice,
+  formatCurrency,
+  formatDate,
+  formatDiscountValue,
+} from "@/utils/formatters";
 import { useUser } from "@/context/useUserContext";
 import {
   useAvailableVouchersForUser,
@@ -80,32 +85,6 @@ const VouchersListDialog = ({
       .catch((err) => {
         toast.error("Không thể sao chép mã.");
       });
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
-  };
-
-  const formatDiscountValue = (
-    discountType: "PERCENTAGE" | "FIXED_AMOUNT",
-    discountValue: number
-  ) => {
-    if (discountType === "PERCENTAGE") {
-      return `${discountValue}%`;
-    }
-    return formatCurrency(discountValue);
   };
 
   const vouchers = vouchersData?.data?.vouchers;
@@ -642,7 +621,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                             size="sm"
                             variant="ghost"
                             onClick={handleRemoveVoucher}
-                            className="h-8 w-8 p-0 rounded-full text-green-600 hover:bg-green-100"
+                            className="h-9 w-9 p-0 rounded-full text-green-600 hover:bg-green-100"
                           >
                             <Icon path={mdiClose} size={0.8} />
                           </Button>

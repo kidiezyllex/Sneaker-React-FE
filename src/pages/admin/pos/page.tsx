@@ -49,15 +49,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { CommonPagination } from "@/components/ui/common-pagination";
 
 import { useProducts, useSearchProducts } from "@/hooks/product";
 import { usePromotions } from "@/hooks/promotion";
@@ -135,13 +127,6 @@ const getVariantImageUrl = (variant: any) => {
   return "/images/white-image.png";
 };
 
-/**
- * Converts raw variant data from the API to a standardized ApiVariant interface
- * Handles both populated and non-populated data structures for color and size
- *
- * @param variant - Raw variant data from the API
- * @returns Standardized ApiVariant object
- */
 const convertVariantToApiVariant = (variant: any): ApiVariant => {
   if (!variant) {
     return {
@@ -222,13 +207,6 @@ const convertVariantToApiVariant = (variant: any): ApiVariant => {
   };
 };
 
-/**
- * Converts raw product data from the API to a standardized ApiProduct interface
- * Handles missing or incomplete product data with fallback values
- *
- * @param product - Raw product data from the API
- * @returns Standardized ApiProduct object with converted variants
- */
 const convertProductToApiProduct = (product: any): ApiProduct => {
   if (!product) {
     return {
@@ -435,13 +413,6 @@ export default function POSPage() {
     return [...baseCategories, ...Array.from(uniqueCatObjects.values())];
   }, [dataWithPromotions?.data?.products?.length]);
 
-  /**
-   * Handles product selection from the product list
-   * Updates the selected product and variant states
-   * Preserves promotion information when converting product data
-   *
-   * @param product - The selected product from the list
-   */
   const handleProductSelect = (product: any) => {
     const productWithPromotion = { ...product };
 
@@ -479,13 +450,6 @@ export default function POSPage() {
     }
   };
 
-  /**
-   * Handles color selection from the product detail view
-   * Updates the selected variant based on color choice
-   * Prioritizes variants with available stock
-   *
-   * @param colorId - ID of the selected color
-   */
   const handleColorSelectFromDetail = (colorId: string) => {
     if (!selectedProduct) return;
 
@@ -503,13 +467,6 @@ export default function POSPage() {
     }
   };
 
-  /**
-   * Handles size selection from the product detail view
-   * Updates the selected variant based on size choice
-   * Maintains the currently selected color
-   *
-   * @param sizeId - ID of the selected size
-   */
   const handleSizeSelectFromDetail = (sizeId: string) => {
     if (!selectedProduct || !selectedApiVariant?.colorId) return;
 
@@ -526,16 +483,6 @@ export default function POSPage() {
       }
     }
   };
-
-  /**
-   * Adds a product to the appropriate cart
-   * Handles product data conversion and promotion pricing
-   * Creates unique cart item IDs and manages stock validation
-   *
-   * @param product - Product to add to cart
-   * @param variant - Selected variant of the product
-   * @param isAlreadyConverted - Whether the product data is already in API format
-   */
   const addItemToCorrectCart = (
     product: any,
     variant: any,
@@ -632,11 +579,6 @@ export default function POSPage() {
     }
   };
 
-  /**
-   * Adds the currently selected product and variant to the cart
-   * Validates stock availability before adding
-   * Shows appropriate success/error messages
-   */
   const addToCart = () => {
     if (!selectedProduct || !selectedApiVariant) {
       toast.error("Vui lòng chọn sản phẩm và biến thể.");
@@ -1642,165 +1584,13 @@ export default function POSPage() {
 
                     {dataWithPromotions?.data?.pagination &&
                       dataWithPromotions.data.pagination.totalPages > 1 && (
-                        <div className="flex justify-center mt-6">
-                          <Pagination>
-                            <PaginationContent>
-                              <PaginationItem>
-                                <PaginationPrevious
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    if (pagination.page > 1) {
-                                      setPagination((p) => ({
-                                        ...p,
-                                        page: p.page - 1,
-                                      }));
-                                    }
-                                  }}
-                                  disabled={pagination.page <= 1}
-                                />
-                              </PaginationItem>
-                              {(() => {
-                                const pages = [];
-                                const totalPages =
-                                  dataWithPromotions.data.pagination.totalPages;
-                                const currentPage = pagination.page;
-                                const pageLimit = 5;
-
-                                if (totalPages <= pageLimit) {
-                                  for (let i = 1; i <= totalPages; i++) {
-                                    pages.push(
-                                      <PaginationItem key={i}>
-                                        <PaginationLink
-                                          href="#"
-                                          isActive={currentPage === i}
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            setPagination((p) => ({
-                                              ...p,
-                                              page: i,
-                                            }));
-                                          }}
-                                        >
-                                          {i}
-                                        </PaginationLink>
-                                      </PaginationItem>
-                                    );
-                                  }
-                                } else {
-                                  pages.push(
-                                    <PaginationItem key={1}>
-                                      <PaginationLink
-                                        href="#"
-                                        isActive={currentPage === 1}
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          setPagination((p) => ({
-                                            ...p,
-                                            page: 1,
-                                          }));
-                                        }}
-                                      >
-                                        1
-                                      </PaginationLink>
-                                    </PaginationItem>
-                                  );
-
-                                  if (currentPage > 3) {
-                                    pages.push(
-                                      <PaginationItem key="start-ellipsis">
-                                        <PaginationEllipsis />
-                                      </PaginationItem>
-                                    );
-                                  }
-
-                                  let startPage = Math.max(2, currentPage - 1);
-                                  let endPage = Math.min(
-                                    totalPages - 1,
-                                    currentPage + 1
-                                  );
-
-                                  if (currentPage <= 2) {
-                                    endPage = Math.min(totalPages - 1, 3);
-                                  }
-                                  if (currentPage >= totalPages - 1) {
-                                    startPage = Math.max(2, totalPages - 2);
-                                  }
-
-                                  for (let i = startPage; i <= endPage; i++) {
-                                    pages.push(
-                                      <PaginationItem key={i}>
-                                        <PaginationLink
-                                          href="#"
-                                          isActive={currentPage === i}
-                                          onClick={(e) => {
-                                            e.preventDefault();
-                                            setPagination((p) => ({
-                                              ...p,
-                                              page: i,
-                                            }));
-                                          }}
-                                        >
-                                          {i}
-                                        </PaginationLink>
-                                      </PaginationItem>
-                                    );
-                                  }
-
-                                  if (currentPage < totalPages - 2) {
-                                    pages.push(
-                                      <PaginationItem key="end-ellipsis">
-                                        <PaginationEllipsis />
-                                      </PaginationItem>
-                                    );
-                                  }
-
-                                  pages.push(
-                                    <PaginationItem key={totalPages}>
-                                      <PaginationLink
-                                        href="#"
-                                        isActive={currentPage === totalPages}
-                                        onClick={(e) => {
-                                          e.preventDefault();
-                                          setPagination((p) => ({
-                                            ...p,
-                                            page: totalPages,
-                                          }));
-                                        }}
-                                      >
-                                        {totalPages}
-                                      </PaginationLink>
-                                    </PaginationItem>
-                                  );
-                                }
-                                return pages;
-                              })()}
-                              <PaginationItem>
-                                <PaginationNext
-                                  href="#"
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    if (
-                                      pagination.page <
-                                      (dataWithPromotions?.data?.pagination
-                                        ?.totalPages || 1)
-                                    ) {
-                                      setPagination((p) => ({
-                                        ...p,
-                                        page: p.page + 1,
-                                      }));
-                                    }
-                                  }}
-                                  disabled={
-                                    pagination.page >=
-                                    (dataWithPromotions?.data?.pagination
-                                      ?.totalPages || 1)
-                                  }
-                                />
-                              </PaginationItem>
-                            </PaginationContent>
-                          </Pagination>
-                        </div>
+                        <CommonPagination
+                          className="flex justify-center mt-6"
+                          pagination={dataWithPromotions.data.pagination}
+                          onPageChange={(page) =>
+                            setPagination((p) => ({ ...p, page }))
+                          }
+                        />
                       )}
                   </>
                 )}

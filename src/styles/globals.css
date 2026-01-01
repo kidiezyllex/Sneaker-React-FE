@@ -107,60 +107,6 @@ ul.ant-menu.ant-menu-sub.ant-menu-inline {
   list-style: disc !important;
 }
 
-/* Ant Design Pagination Custom Styles */
-.ant-pagination-item {
-  /* Base styles for all pagination items */
-  border-radius: 4px !important;
-  font-weight: 500 !important;
-  transition: all 0.3s ease !important;
-}
-
-.ant-pagination-item:hover {
-  border-color: #1890ff !important;
-  color: #1890ff !important;
-  background-color: #ffffff !important;
-}
-
-.ant-pagination-item-active {
-  background-color: #1890ff !important;
-  border-color: #1890ff !important;
-}
-.ant-pagination-item-active:hover {
-  background-color: #1890ff !important;
-  border-color: #1890ff !important;
-}
-
-.ant-pagination-item-active a {
-  color: white !important;
-}
-
-.ant-pagination-item-active:hover a {
-  color: white !important;
-}
-
-.ant-menu-root {
-  background-color: #131921 !important;
-}
-
-.ant-menu-item-selected {
-  background-color: #131921 !important;
-}
-
-.ant-menu-root {
-  background-color: #131921 !important;
-}
-
-.ant-menu-item-selected {
-  background-color: #131921 !important;
-}
-
-.ant-typography, 
-.ant-table-column-title,
-.ant-table-cell,
-.ant-badge-status-text {
-  color: #373737 !important;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -272,16 +218,5 @@ ul.ant-menu.ant-menu-sub.ant-menu-inline {
 button[type="button"].absolute:focus {
   box-shadow: none !important;
   outline: none !important;
-}
-
-:global(.ant-pagination-options .ant-select-selector) {
-  display: none !important;
-}
-
-.paginationContainer :global(.ant-select-selector) {
-  display: none !important;
-}
-.ant-pagination-options {
-  display: none !important;
 }
 

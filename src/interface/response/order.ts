@@ -1,4 +1,5 @@
 import { IVoucher } from "./voucher";
+import { IApiResponse, IApiListResponse } from "../common";
 
 export interface IOrderProduct {
   id: string;
@@ -119,48 +120,10 @@ export interface IOrder {
   updatedAt: string;
 }
 
-export interface IOrderResponse {
-  success: boolean;
-  data: {
-    id: string;
-    orderNumber: string;
-    customer: any;
-    items: any[];
-    voucher: any;
-    subTotal: number;
-    discount: number;
-    total: number;
-    shippingAddress: any;
-    paymentMethod: string;
-    orderStatus: 'CHO_XAC_NHAN' | 'CHO_GIAO_HANG' | 'DANG_VAN_CHUYEN' | 'DA_GIAO_HANG' | 'HOAN_THANH' | 'DA_HUY';
-    paymentStatus: 'PENDING' | 'PARTIAL_PAID' | 'PAID';
-    createdAt: string;
-    updatedAt: string;
-  };
-}
+export interface IOrderResponse extends IApiResponse<IOrder> {}
 
-export interface IOrdersResponse {
-  success: boolean;
-  message: string;
-  data: {
-    orders: IOrder[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IOrdersResponse extends IApiListResponse<IOrder> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+export interface IActionResponse extends IApiResponse<any> {}
 
-export interface IPOSOrderCreateResponse {
-  success: boolean;
-  message: string;
-  data: IOrder;
-}
+export interface IPOSOrderCreateResponse extends IApiResponse<IOrder> {}

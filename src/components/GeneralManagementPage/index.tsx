@@ -106,7 +106,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { formatDate } from "@/lib/utils";
-import { formatPrice } from "@/utils/formatters";
+import {
+  formatPrice,
+  formatCurrency,
+  getPaymentMethodName,
+  getPaymentStatusName,
+} from "@/utils/formatters";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -177,49 +182,6 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
   onOpenChange,
 }) => {
   const { data: orderData, isLoading, isError } = useOrderDetail(orderId || "");
-
-  const formatDate = (dateString: string) => {
-    try {
-      return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-    } catch (error) {
-      return dateString;
-    }
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
-  const getPaymentMethodName = (method: string) => {
-    switch (method) {
-      case "COD":
-        return "Thanh toán khi nhận hàng";
-      case "VNPAY":
-        return "Thanh toán qua VNPay";
-      case "BANK_TRANSFER":
-        return "Chuyển khoản ngân hàng";
-      default:
-        return method;
-    }
-  };
-
-  const getPaymentStatusName = (status: string) => {
-    switch (status) {
-      case "PENDING":
-        return "Chờ thanh toán";
-      case "PAID":
-        return "Đã thanh toán";
-      case "FAILED":
-        return "Thanh toán thất bại";
-      case "REFUNDED":
-        return "Đã hoàn tiền";
-      default:
-        return status;
-    }
-  };
 
   const getShippingProgress = (orderStatus: string, createdAt: string) => {
     const orderDate = new Date(createdAt);
@@ -1872,27 +1834,6 @@ const ReturnsTab = () => {
   const { data: returnsData, isLoading, isError, refetch } = useMyReturns();
   const [selectedReturnId, setSelectedReturnId] = useState<string | null>(null);
   const [returnDetailOpen, setReturnDetailOpen] = useState(false);
-
-  const handleViewReturnDetails = (returnId: string) => {
-    setSelectedReturnId(returnId);
-    setReturnDetailOpen(true);
-  };
-
-  const formatDate = (dateString: string) => {
-    try {
-      return format(new Date(dateString), "dd/MM/yyyy", { locale: vi });
-    } catch (error) {
-      return dateString;
-    }
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
   return (
     <>
       <Card>
@@ -1909,7 +1850,7 @@ const ReturnsTab = () => {
         <CardContent>
           {isLoading ? (
             <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+              <div className="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-primary"></div>
             </div>
           ) : isError ? (
             <div className="py-8 text-center">
@@ -2129,66 +2070,6 @@ export default function GeneralManagementPage() {
     },
   ];
 
-  const handleViewOrderDetails = (orderId: string) => {
-    setSelectedOrderId(orderId);
-    setOrderDetailOpen(true);
-  };
-
-  const handleCreateReturn = (orderId: string) => {
-    setCreateReturnOrderId(orderId);
-    setCreateReturnOpen(true);
-  };
-
-  const isOrderReturnable = (order: IOrder) => {
-    return (
-      order.orderStatus === "HOAN_THANH" &&
-      returnableOrdersData?.data?.orders?.some((ro) => ro.id === order.id)
-    );
-  };
-
-  const formatDate = (dateString: string) => {
-    try {
-      return format(new Date(dateString), "dd/MM/yyyy", { locale: vi });
-    } catch (error) {
-      return dateString;
-    }
-  };
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
-  const getPaymentMethodName = (method: string) => {
-    switch (method) {
-      case "COD":
-        return "Thanh toán khi nhận hàng";
-      case "VNPAY":
-        return "Thanh toán qua VNPay";
-      case "BANK_TRANSFER":
-        return "Chuyển khoản ngân hàng";
-      default:
-        return method;
-    }
-  };
-
-  const getPaymentStatusName = (status: string) => {
-    switch (status) {
-      case "PENDING":
-        return "Chờ thanh toán";
-      case "PAID":
-        return "Đã thanh toán";
-      case "FAILED":
-        return "Thanh toán thất bại";
-      case "REFUNDED":
-        return "Đã hoàn tiền";
-      default:
-        return status;
-    }
-  };
-
   return (
     <AccountTabContext.Provider value={{ activeTab, setActiveTab }}>
       <div className="container mx-auto py-8 relative">
@@ -2300,7 +2181,7 @@ export default function GeneralManagementPage() {
                   <CardContent>
                     {isLoading ? (
                       <div className="flex items-center justify-center py-8">
-                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary"></div>
+                        <div className="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-primary"></div>
                       </div>
                     ) : isError ? (
                       <div className="py-8 text-center">

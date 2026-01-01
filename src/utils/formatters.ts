@@ -6,6 +6,14 @@ export const formatPrice = (price: number): string => {
   }).format(price);
 };
 
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
+
 export const formatDate = (dateString: string): string => {
   return new Intl.DateTimeFormat('vi-VN', {
     day: '2-digit',
@@ -58,4 +66,54 @@ export const formatStockStatus = (stock: number): { text: string; className: str
   } else {
     return { text: 'Còn hàng', className: 'text-green-500' };
   }
+};
+
+export const formatDiscountValue = (
+  discountType: 'PERCENTAGE' | 'FIXED_AMOUNT',
+  discountValue: number
+): string => {
+  if (discountType === 'PERCENTAGE') {
+    return `${discountValue}%`;
+  }
+  return formatCurrency(discountValue);
+};
+
+export const getPaymentMethodName = (method: string): string => {
+  const methods: Record<string, string> = {
+    COD: 'Thanh toán khi nhận hàng',
+    VNPAY: 'Thanh toán qua VNPay',
+    BANK_TRANSFER: 'Chuyển khoản ngân hàng',
+  };
+  return methods[method] || method;
+};
+
+export const getPaymentStatusName = (status: string): string => {
+  const statuses: Record<string, string> = {
+    PENDING: 'Chờ thanh toán',
+    PAID: 'Đã thanh toán',
+    FAILED: 'Thanh toán thất bại',
+    REFUNDED: 'Đã hoàn tiền',
+  };
+  return statuses[status] || status;
+};
+
+export const getOrderStatusName = (status: string): string => {
+  const statuses: Record<string, string> = {
+    CHO_XAC_NHAN: 'Chờ xác nhận',
+    CHO_GIAO_HANG: 'Chờ giao hàng',
+    DANG_VAN_CHUYEN: 'Đang vận chuyển',
+    DA_GIAO_HANG: 'Đã giao hàng',
+    HOAN_THANH: 'Hoàn thành',
+    DA_HUY: 'Đã hủy',
+  };
+  return statuses[status] || status;
+};
+
+export const getReturnStatusName = (status: string): string => {
+  const statuses: Record<string, string> = {
+    CHO_XU_LY: 'Chờ xử lý',
+    DA_HOAN_TIEN: 'Đã hoàn tiền',
+    DA_HUY: 'Đã hủy',
+  };
+  return statuses[status] || status;
 };

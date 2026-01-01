@@ -1,3 +1,5 @@
+import { IApiResponse, IApiListResponse } from "../common";
+
 export interface IStatisticsItem {
   id: string;
   date: string;
@@ -77,38 +79,12 @@ export interface ITopProduct {
   totalRevenue: number;
 }
 
-export interface IStatisticsResponse {
-  success: boolean;
-  message: string;
-  data: {
-    statistics: IStatisticsItem[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IStatisticsResponse extends IApiListResponse<IStatisticsItem> {}
 
-export interface IStatisticsDetailResponse {
-  success: boolean;
-  data: IStatisticsDetail;
-}
+export interface IStatisticsDetailResponse extends IApiResponse<IStatisticsDetail> {}
 
-export interface IRevenueReportResponse {
-  success: boolean;
-  message: string;
-  data: IRevenueSeries[];
-}
+export interface IRevenueReportResponse extends IApiResponse<IRevenueSeries[]> {}
 
-export interface ITopProductsResponse {
-  success: boolean;
-  message: string;
-  data: ITopProduct[];
-}
+export interface ITopProductsResponse extends IApiResponse<ITopProduct[]> {}
 
-export interface IGenerateDailyResponse {
-  success: boolean;
-  data: IStatisticsDetail;
-}
+export interface IGenerateDailyResponse extends IApiResponse<IStatisticsDetail> {}

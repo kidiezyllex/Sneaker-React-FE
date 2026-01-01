@@ -1,3 +1,5 @@
+import { IApiResponse, IApiListResponse } from "../common";
+
 export interface IVoucher {
   id: string;
   code: string;
@@ -16,39 +18,18 @@ export interface IVoucher {
   type: 'PERCENTAGE' | 'FIXED_AMOUNT';
   value: number;
 }
-export interface IVoucherResponse {
-  success: boolean;
-  message: string;
-  data: IVoucher;
+
+export interface IVoucherResponse extends IApiResponse<IVoucher> {}
+
+export interface IVouchersResponse extends IApiListResponse<IVoucher> {}
+
+export interface IVoucherValidationData {
+  voucher: IVoucher;
+  discountValue: number;
 }
-export interface IVouchersResponse {
-  success: boolean;
-  message: string;
-  data: {
-    vouchers: IVoucher[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
-export interface IVoucherValidationResponse {
-  success: boolean;
-  message: string;
-  data: {
-    voucher: IVoucher;
-    discountValue: number;
-  };
-}
-export interface INotificationResponse {
-  success: boolean;
-  message: string;
-  data: any;
-}
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+
+export interface IVoucherValidationResponse extends IApiResponse<IVoucherValidationData> {}
+
+export interface INotificationResponse extends IApiResponse<any> {}
+
+export interface IActionResponse extends IApiResponse<any> {}

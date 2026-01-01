@@ -1,3 +1,5 @@
+import { IApiResponse, IApiListResponse } from "../common";
+
 export interface INotification {
   id: string;
   type: 'EMAIL' | 'SYSTEM';
@@ -15,28 +17,8 @@ export interface INotification {
   updatedAt: string;
 }
 
-export interface INotificationResponse {
-  success: boolean;
-  message: string;
-  data: INotification;
-}
+export interface INotificationResponse extends IApiResponse<INotification> {}
 
-export interface INotificationsResponse {
-  success: boolean;
-  message: string;
-  data: {
-    notifications: INotification[];
-    pagination: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface INotificationsResponse extends IApiListResponse<INotification> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+export interface IActionResponse extends IApiResponse<any> {}

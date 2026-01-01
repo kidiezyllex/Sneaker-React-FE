@@ -8,7 +8,7 @@ export interface ProductWithDiscount {
 }
 
 export const calculateProductDiscount = (
-  productId: string,
+  productId: string | number,
   originalPrice: number,
   activePromotions: any[]
 ): ProductWithDiscount => {
@@ -138,14 +138,6 @@ export const applyPromotionsToProducts = (
 
     return result;
   });
-};
-
-export const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-    maximumFractionDigits: 0,
-  }).format(price);
 };
 
 export const isPromotionActive = (promotion: any): boolean => {

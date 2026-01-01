@@ -1,10 +1,5 @@
 import { IAddress } from "../request/account"
-
-export interface IBaseResponse<T> {
-  success: boolean
-  message?: string
-  data: T
-}
+import { IApiResponse, IBaseResponse } from "../common"
 
 export interface IAccountData {
   id: string
@@ -23,7 +18,7 @@ export interface IAuthData {
   account: IAccountData
 }
 
-export interface IAuthResponse extends IBaseResponse<IAuthData> {}
+export interface IAuthResponse extends IApiResponse<IAuthData> {}
 
 export interface IProfileData {
   id: string
@@ -34,5 +29,9 @@ export interface IProfileData {
   avatar: string
 }
 
-export interface IProfileResponse extends IBaseResponse<IProfileData> {}
+export interface IProfileResponse extends IApiResponse<IProfileData> {}
+
+// Legacy responses (for backward compatibility)
+export interface ILegacyAuthResponse extends IBaseResponse<IAuthData> {}
+export interface ILegacyProfileResponse extends IBaseResponse<IProfileData> {}
 

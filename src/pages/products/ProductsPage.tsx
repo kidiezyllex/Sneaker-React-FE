@@ -42,6 +42,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { checkImageUrl } from "@/lib/utils";
+import { formatPrice } from "@/utils/formatters";
 import { useCartStore } from "@/stores/useCartStore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -49,15 +50,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import QrCodeScanner from "@/components/ProductPage/QrCodeScanner";
 import VoucherForm from "@/components/ProductPage/VoucherForm";
 import CartIcon from "@/components/ui/CartIcon";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-  PaginationEllipsis,
-} from "@/components/ui/pagination";
+import { CommonPagination } from "@/components/ui/common-pagination";
 
 interface ProductCardProps {
   product: any;
@@ -71,12 +64,6 @@ interface ProductFiltersProps {
   filters: IProductFilter;
   onChange: (filters: Partial<IProductFilter>) => void;
 }
-const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-  }).format(price);
-};
 
 export default function ProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -124,8 +111,8 @@ export default function ProductsPage() {
   } = isSearching ? searchQuery2 : productsQuery;
   const { data: promotionsData } = usePromotions({ status: "ACTIVE" });
   const data = useMemo(() => {
-    if (!rawData || !rawData.data || !rawData.data.products) return rawData;
-    let filteredProducts = [...rawData.data.products];
+    if (!rawData || !rawData.data) return rawData;
+    let filteredProducts = [...rawData.data];
     if (promotionsData?.data?.promotions) {
       filteredProducts = applyPromotionsToProducts(
         filteredProducts,
@@ -138,11 +125,8 @@ export default function ProductsPage() {
         ? filters.brands
         : [filters.brands];
       filteredProducts = filteredProducts.filter((product) => {
-        const brandId =
-          typeof product.brand === "object"
-            ? (product.brand as any).id
-            : product.brand;
-        return brandsArray.includes(brandId);
+        const brandId = product.brand.id;
+        return brandsArray.includes(String(brandId));
       });
     }
 
@@ -151,19 +135,16 @@ export default function ProductsPage() {
         ? filters.categories
         : [filters.categories];
       filteredProducts = filteredProducts.filter((product) => {
-        const categoryId =
-          typeof product.category === "object"
-            ? (product.category as any).id
-            : product.category;
-        return categoriesArray.includes(categoryId);
+        const categoryId = product.category.id;
+        return categoriesArray.includes(String(categoryId));
       });
     }
 
     if (filters.color) {
       filteredProducts = filteredProducts.filter((product) =>
         product.variants.some((variant: any) => {
-          const colorId = variant.color?.id || variant.colorId;
-          return colorId === filters.color;
+          const colorId = variant.color?.id;
+          return String(colorId) === filters.color;
         })
       );
     }
@@ -171,8 +152,8 @@ export default function ProductsPage() {
     if (filters.size) {
       filteredProducts = filteredProducts.filter((product) =>
         product.variants.some((variant: any) => {
-          const sizeId = variant.size?.id || variant.sizeId;
-          return sizeId === filters.size;
+          const sizeId = variant.size?.id;
+          return String(sizeId) === filters.size;
         })
       );
     }
@@ -256,10 +237,7 @@ export default function ProductsPage() {
 
     return {
       ...rawData,
-      data: {
-        ...rawData.data,
-        products: filteredProducts,
-      },
+      data: filteredProducts,
     };
   }, [rawData, filters, sortOption, pagination, promotionsData]);
 
@@ -327,13 +305,12 @@ export default function ProductsPage() {
         firstVariant.images?.[0]?.imageUrl || firstVariant.images?.[0] || "",
       quantity: 1,
       slug: product.code,
-      brand:
-        typeof product.brand === "string" ? product.brand : product.brand.name,
+      brand: product.brand.name,
       size: firstVariant.size?.code || firstVariant.size?.name,
       colors: [firstVariant.color?.name || "Default"],
       stock: firstVariant.stock,
-      colorId: firstVariant.color?.id || firstVariant.colorId || "",
-      sizeId: firstVariant.size?.id || firstVariant.sizeId || "",
+      colorId: String(firstVariant.color?.id || ""),
+      sizeId: String(firstVariant.size?.id || ""),
       colorName: firstVariant.color?.name || "Default",
       sizeName: firstVariant.size?.value
         ? getSizeLabel(firstVariant.size.value)
@@ -369,8 +346,8 @@ export default function ProductsPage() {
   };
 
   const filteredProducts = useMemo(() => {
-    if (!data || !data.data || !data.data.products) return [];
-    return data.data.products;
+    if (!data || !data.data) return [];
+    return data.data;
   }, [data]);
 
   return (
@@ -425,10 +402,11 @@ export default function ProductsPage() {
             <h2 className="font-medium mb-4">Bộ lọc sản phẩm</h2>
             <ProductFilters filters={filters} onChange={handleFilterChange} />
 
-            {data && data.data.products && data.data.products.length > 0 && (
+            {data && data.data && data.data.length > 0 && (
               <VoucherForm
-                orderValue={data.data.products.reduce(
-                  (sum, product) => sum + (product.variants[0]?.price || 0),
+                orderValue={data.data.reduce(
+                  (sum: number, product: any) =>
+                    sum + (product.variants[0]?.price || 0),
                   0
                 )}
                 onApplyVoucher={handleApplyVoucher}
@@ -529,123 +507,13 @@ export default function ProductsPage() {
                 ))}
               </div>
 
-              {/* Phân trang */}
               <div className="flex justify-center mt-8">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationPrevious
-                      href="#"
-                      disabled={
-                        (data?.data?.pagination as any)?.currentPage <= 1
-                      }
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if ((data?.data?.pagination as any)?.currentPage > 1)
-                          handlePageChange(
-                            (data?.data?.pagination as any)?.currentPage - 1
-                          );
-                      }}
-                    />
-                    {(() => {
-                      const pages = [];
-                      const totalPages =
-                        (data?.data?.pagination as any)?.totalPages || 1;
-                      const currentPage =
-                        (data?.data?.pagination as any)?.currentPage || 1;
-
-                      if (totalPages > 0) {
-                        pages.push(
-                          <PaginationItem key={1}>
-                            <PaginationLink
-                              href="#"
-                              isActive={currentPage === 1}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handlePageChange(1);
-                              }}
-                            >
-                              1
-                            </PaginationLink>
-                          </PaginationItem>
-                        );
-                      }
-
-                      if (currentPage > 3) {
-                        pages.push(
-                          <PaginationItem key="start-ellipsis">
-                            <PaginationEllipsis />
-                          </PaginationItem>
-                        );
-                      }
-
-                      for (
-                        let i = Math.max(2, currentPage - 1);
-                        i <= Math.min(totalPages - 1, currentPage + 1);
-                        i++
-                      ) {
-                        if (i !== 1 && i !== totalPages) {
-                          pages.push(
-                            <PaginationItem key={i}>
-                              <PaginationLink
-                                href="#"
-                                isActive={currentPage === i}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  handlePageChange(i);
-                                }}
-                              >
-                                {i}
-                              </PaginationLink>
-                            </PaginationItem>
-                          );
-                        }
-                      }
-
-                      if (currentPage < totalPages - 2) {
-                        pages.push(
-                          <PaginationItem key="end-ellipsis">
-                            <PaginationEllipsis />
-                          </PaginationItem>
-                        );
-                      }
-
-                      if (totalPages > 1) {
-                        pages.push(
-                          <PaginationItem key={totalPages}>
-                            <PaginationLink
-                              href="#"
-                              isActive={currentPage === totalPages}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handlePageChange(totalPages);
-                              }}
-                            >
-                              {totalPages}
-                            </PaginationLink>
-                          </PaginationItem>
-                        );
-                      }
-
-                      return pages;
-                    })()}
-                    <PaginationNext
-                      href="#"
-                      disabled={
-                        (data?.data?.pagination as any)?.currentPage >=
-                        (data?.data?.pagination?.totalPages || 1)
-                      }
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const totalPages =
-                          data?.data?.pagination?.totalPages || 1;
-                        const currentPage =
-                          data?.data?.pagination?.currentPage || 1;
-                        if (currentPage < totalPages)
-                          handlePageChange(currentPage + 1);
-                      }}
-                    />
-                  </PaginationContent>
-                </Pagination>
+                {data?.pagination && (
+                  <CommonPagination
+                    pagination={data.pagination}
+                    onPageChange={handlePageChange}
+                  />
+                )}
               </div>
 
               <div className="lg:hidden mt-8 bg-white rounded-[6px] shadow-sm border p-4">
@@ -1018,7 +886,7 @@ const ProductCard = ({
 };
 const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
   const productsQuery = useProducts({ limit: 100, status: "ACTIVE" });
-  const products = productsQuery.data?.data.products || [];
+  const products = productsQuery.data?.data || [];
   const [selectedBrand, setSelectedBrand] = useState<string | undefined>(
     filters.brands
       ? Array.isArray(filters.brands)
@@ -1130,8 +998,8 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
       product.variants.map(
         (variant) =>
           variant.color || {
-            id: variant.colorId,
-            name: variant.colorId,
+            id: 0,
+            name: "Unknown",
             code: "#000000",
           }
       )
@@ -1148,10 +1016,7 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
     if (!products || products.length === 0) return [];
 
     const allSizes = products.flatMap((product) =>
-      product.variants.map(
-        (variant) =>
-          variant.size || { id: variant.sizeId, value: variant.sizeId }
-      )
+      product.variants.map((variant) => variant.size || { id: 0, value: 0 })
     );
 
     const uniqueSizes = Array.from(
@@ -1247,8 +1112,10 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
             <div key={(brand as any)?.id} className="flex items-center gap-2">
               <Checkbox
                 id={`brand-${(brand as any)?.id}`}
-                checked={selectedBrand === (brand as any)?.id}
-                onCheckedChange={() => handleBrandChange((brand as any)?.id)}
+                checked={selectedBrand === String((brand as any)?.id)}
+                onCheckedChange={() =>
+                  handleBrandChange(String((brand as any)?.id))
+                }
               />
               <label
                 htmlFor={`brand-${(brand as any)?.id}`}
@@ -1271,9 +1138,9 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
             >
               <Checkbox
                 id={`category-${(category as any)?.id}`}
-                checked={selectedCategory === (category as any)?.id}
+                checked={selectedCategory === String((category as any)?.id)}
                 onCheckedChange={() =>
-                  handleCategoryChange((category as any)?.id)
+                  handleCategoryChange(String((category as any)?.id))
                 }
               />
               <label
@@ -1294,13 +1161,13 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
             <button
               key={color.id}
               className={`w-8 h-8 rounded-full border overflow-hidden relative transition-all duration-300 ${
-                filters.color === color.id
+                filters.color === String(color.id)
                   ? "ring-2 ring-primary ring-offset-2"
                   : "border-gray-300"
               }`}
               style={{ backgroundColor: color.code }}
               title={color.name}
-              onClick={() => handleColorChange(color.id)}
+              onClick={() => handleColorChange(String(color.id))}
             />
           ))}
         </div>
@@ -1312,11 +1179,11 @@ const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
             <button
               key={size.id}
               className={`px-2 py-1 border rounded text-sm transition-all duration-300 ${
-                filters.size === size.id
+                filters.size === String(size.id)
                   ? "bg-primary text-white border-primary"
                   : "border-gray-300 hover:border-primary"
               }`}
-              onClick={() => handleSizeChange(size.id)}
+              onClick={() => handleSizeChange(String(size.id))}
             >
               {size.value ? getSizeLabel(size.value) : size.name || size.id}
             </button>

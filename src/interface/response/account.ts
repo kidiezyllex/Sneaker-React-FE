@@ -1,4 +1,4 @@
-import { IBaseResponse } from './authentication';
+import { IApiResponse, IApiListResponse } from '../common';
 import { IAddress } from '../request/account';
 
 export interface IAccount {
@@ -17,23 +17,10 @@ export interface IAccount {
   updatedAt: string;
 }
 
-export interface IAccountResponse extends IBaseResponse<IAccount> {}
+export interface IAccountResponse extends IApiResponse<IAccount> {}
 
-export interface IPagination {
-  count: number;
-  totalPages: number;
-  currentPage: number;
-}
+export interface IAccountsResponse extends IApiListResponse<IAccount> {}
 
-export interface IAccountsData {
-  accounts: IAccount[];
-  pagination: IPagination;
-}
+export interface IProfileResponse extends IApiResponse<IAccount> {}
 
-export interface IAccountsResponse extends IBaseResponse<IAccountsData> {}
-
-export interface IProfileResponse extends IBaseResponse<IAccount> {}
-
-export interface IActionResponse extends IBaseResponse<{
-  message: string;
-}> {}
+export interface IActionResponse extends IApiResponse<{ message: string }> {}

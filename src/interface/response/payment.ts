@@ -1,5 +1,6 @@
 import { IBankTransferInfo } from "../request/payment";
 import { IOrder } from "./order";
+import { IApiResponse, IApiListResponse } from "../common";
 
 export interface IPaymentOrder {
   id: string;
@@ -28,28 +29,8 @@ export interface IPayment {
   updatedAt: string;
 }
 
-export interface IPaymentResponse {
-  success: boolean;
-  message: string;
-  data: IPayment;
-}
+export interface IPaymentResponse extends IApiResponse<IPayment> {}
 
-export interface IPaymentsResponse {
-  success: boolean;
-  message: string;
-  data: {
-    payments: IPayment[];
-    pagination?: {
-      totalItems: number;
-      totalPages: number;
-      currentPage: number;
-      limit: number;
-    };
-  };
-}
+export interface IPaymentsResponse extends IApiListResponse<IPayment> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+export interface IActionResponse extends IApiResponse<any> {}

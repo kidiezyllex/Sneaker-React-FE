@@ -1,3 +1,5 @@
+import { IApiResponse, IApiListResponse } from '../common';
+
 interface IAttributeBase {
   id: number;
   status: 'ACTIVE' | 'INACTIVE';
@@ -9,85 +11,41 @@ export interface IBrand extends IAttributeBase {
   name: string;
 }
 
-export interface IBrandResponse {
-  success: boolean;
-  message: string;
-  data: IBrand;
-}
+export interface IBrandResponse extends IApiResponse<IBrand> {}
 
-export interface IBrandsResponse {
-  success: boolean;
-  message: string;
-  data: IBrand[];
-}
+export interface IBrandsResponse extends IApiListResponse<IBrand> {}
 
 export interface ICategory extends IAttributeBase {
   name: string;
 }
 
-export interface ICategoryResponse {
-  success: boolean;
-  message: string;
-  data: ICategory;
-}
+export interface ICategoryResponse extends IApiResponse<ICategory> {}
 
-export interface ICategoriesResponse {
-  success: boolean;
-  message: string;
-  data: ICategory[];
-}
+export interface ICategoriesResponse extends IApiListResponse<ICategory> {}
 
 export interface IMaterial extends IAttributeBase {
   name: string;
 }
 
-export interface IMaterialResponse {
-  success: boolean;
-  message: string;
-  data: IMaterial;
-}
+export interface IMaterialResponse extends IApiResponse<IMaterial> {}
 
-export interface IMaterialsResponse {
-  success: boolean;
-  message: string;
-  data: IMaterial[];
-}
+export interface IMaterialsResponse extends IApiListResponse<IMaterial> {}
 
 export interface IColor extends IAttributeBase {
   name: string;
   code: string;
 }
 
-export interface IColorResponse {
-  success: boolean;
-  message: string;
-  data: IColor;
-}
+export interface IColorResponse extends IApiResponse<IColor> {}
 
-export interface IColorsResponse {
-  success: boolean;
-  message: string;
-  data: IColor[];
-}
+export interface IColorsResponse extends IApiListResponse<IColor> {}
 
 export interface ISize extends IAttributeBase {
   value: number;
 }
 
-export interface ISizeResponse {
-  success: boolean;
-  message: string;
-  data: ISize;
-}
+export interface ISizeResponse extends IApiResponse<ISize> {}
 
-export interface ISizesResponse {
-  success: boolean;
-  message: string;
-  data: ISize[];
-}
+export interface ISizesResponse extends IApiListResponse<ISize> {}
 
-export interface IActionResponse {
-  success: boolean;
-  message: string;
-  data?: any;
-}
+export interface IActionResponse extends IApiResponse<any> {}
