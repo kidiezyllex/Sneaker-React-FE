@@ -260,7 +260,7 @@ export default function StatisticsPage() {
               <div className="flex items-center mt-2">
                 <Icon
                   path={change >= 0 ? mdiTrendingUp : mdiTrendingUp}
-                  size={0.7}
+                  size={0.8}
                   className={change >= 0 ? "text-primary" : "text-red-600"}
                 />
                 <span
@@ -376,7 +376,7 @@ export default function StatisticsPage() {
         >
           <DialogTrigger asChild>
             <Button variant="outline">
-              <Icon path={mdiSync} size={0.7} className="mr-2" />
+              <Icon path={mdiSync} size={0.8} className="mr-2" />
               Tạo thống kê
             </Button>
           </DialogTrigger>
@@ -414,7 +414,7 @@ export default function StatisticsPage() {
                   <>
                     <Icon
                       path={mdiLoading}
-                      size={0.7}
+                      size={0.8}
                       className="mr-2 animate-spin"
                     />
                     Đang xử lý...

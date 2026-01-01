@@ -116,7 +116,7 @@ const SidebarLayout = memo(function SidebarLayout({
                         <div className="flex items-center">
                           <Icon
                             path={menu.icon}
-                            size={0.7}
+                            size={0.8}
                             className={cn(
                               "mr-2",
                               isMenuActive(menu)
@@ -139,7 +139,7 @@ const SidebarLayout = memo(function SidebarLayout({
                           path={
                             openMenus[menu.id] ? mdiChevronUp : mdiChevronDown
                           }
-                          size={0.7}
+                          size={0.8}
                           className="text-maintext"
                         />
                       </button>
@@ -171,7 +171,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                     {subItem.icon && (
                                       <Icon
                                         path={subItem.icon}
-                                        size={0.7}
+                                        size={0.8}
                                         className="mr-2 text-maintext"
                                       />
                                     )}
@@ -211,7 +211,7 @@ const SidebarLayout = memo(function SidebarLayout({
                         >
                           <Icon
                             path={menu.icon}
-                            size={0.7}
+                            size={0.8}
                             className={cn(
                               isOpen ? "mr-2" : "mr-0",
                               isMenuActive(menu)

@@ -252,7 +252,7 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
         </Breadcrumb>
         <a href="/admin/returns" className="mr-2">
           <Button variant="outline">
-            <Icon path={mdiArrowLeft} size={0.7} className="mr-2" />
+            <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
             Quay lại
           </Button>
         </a>
@@ -378,7 +378,7 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
                           }
                           disabled={item.quantity <= 1}
                         >
-                          <Icon path={mdiMinus} size={0.7} />
+                          <Icon path={mdiMinus} size={0.8} />
                         </Button>
                         <Input
                           type="number"
@@ -401,7 +401,7 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
                           }
                           disabled={item.quantity >= item.maxQuantity}
                         >
-                          <Icon path={mdiPlus} size={0.7} />
+                          <Icon path={mdiPlus} size={0.8} />
                         </Button>
                       </div>
                     </div>
@@ -521,7 +521,7 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
             onClick={handleSubmit}
             disabled={isSubmitting || editableItems.length === 0}
           >
-            <Icon path={mdiContentSave} size={0.7} className="mr-2" />
+            <Icon path={mdiContentSave} size={0.8} className="mr-2" />
             {isSubmitting ? "Đang lưu..." : "Lưu thay đổi"}
           </Button>
         </div>

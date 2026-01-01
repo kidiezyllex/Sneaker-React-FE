@@ -452,7 +452,7 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
             onClick={() => onOpenChange(false)}
             className="px-8 py-2 font-medium"
           >
-            <Icon path={mdiChevronLeft} size={0.7} className="mr-2" />
+            <Icon path={mdiChevronLeft} size={0.8} className="mr-2" />
             Đóng
           </Button>
         </DialogFooter>

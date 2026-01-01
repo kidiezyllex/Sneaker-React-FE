@@ -101,7 +101,7 @@ export default function NotificationDropdown() {
           variant="ghost"
           className="relative flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 bg-gray-100"
         >
-          <Icon path={mdiBell} size={0.7} className="text-maintext" />
+          <Icon path={mdiBell} size={0.8} className="text-maintext" />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 flex items-center justify-center w-4 h-4 text-white text-sm rounded-full">
               {unreadCount}

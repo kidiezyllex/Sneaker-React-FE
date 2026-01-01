@@ -31,14 +31,16 @@ export default function UserMenu() {
     navigate("/auth/login");
   };
 
+  const getAvatarUrl = () => {
+    const userId = profileData?.data.id || "default";
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar className="h-8 w-8 cursor-pointer">
-          <AvatarImage
-            src={profileData?.data.avatar}
-            alt={profileData?.data.fullName}
-          />
+          <AvatarImage src={getAvatarUrl()} alt={profileData?.data.fullName} />
           <AvatarFallback>
             {profileData?.data.fullName.split(" ").pop()?.charAt(0) || "U"}
           </AvatarFallback>

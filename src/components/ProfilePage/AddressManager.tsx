@@ -228,7 +228,7 @@ export default function AddressManager() {
                       <div className="flex items-center gap-2">
                         <Icon
                           path={mdiHome}
-                          size={0.7}
+                          size={0.8}
                           className="text-primary"
                         />
                         <CardTitle className="text-base font-medium">
@@ -238,7 +238,7 @@ export default function AddressManager() {
                       <div className="flex items-center gap-1">
                         {address.isDefault ? (
                           <div className="flex items-center text-sm text-primary bg-primary/10 px-2 py-1 rounded">
-                            <Icon path={mdiStar} size={0.7} className="mr-1" />
+                            <Icon path={mdiStar} size={0.8} className="mr-1" />
                             Mặc định
                           </div>
                         ) : (
@@ -249,7 +249,7 @@ export default function AddressManager() {
                           >
                             <Icon
                               path={mdiStarOutline}
-                              size={0.7}
+                              size={0.8}
                               className="mr-1"
                             />
                             Đặt mặc định

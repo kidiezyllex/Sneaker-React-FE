@@ -13,7 +13,7 @@ export const RatingStars = ({ rating }: RatingStarsProps) => {
         <Icon
           key={i}
           path={mdiStar}
-          size={0.7}
+          size={0.8}
           className={i < rating ? "text-amber-500" : "text-gray-300"}
         />
       ))}

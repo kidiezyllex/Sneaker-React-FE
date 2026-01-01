@@ -117,7 +117,7 @@ export const NavigationBar = () => {
               onClick={() => setIsOpen(true)}
               className="relative p-2 text-maintext hover:text-primary transition-colors"
             >
-              <Icon path={mdiCart} size={0.7} />
+              <Icon path={mdiCart} size={0.8} />
               <span className="absolute -top-1 -right-1 bg-extra text-white text-sm rounded-full h-4 w-4 flex items-center justify-center">
                 {totalItems}
               </span>

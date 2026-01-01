@@ -277,7 +277,7 @@ const RatingStars = React.memo(({ rating }: { rating: number }) => {
         <Icon
           key={i}
           path={mdiStar}
-          size={0.7}
+          size={0.8}
           className={i < rating ? "text-amber-500" : "text-gray-300"}
         />
       ))}
@@ -417,7 +417,7 @@ const ProductCard = React.memo(
               className="rounded-full w-9 h-9 bg-white/80 hover:bg-white shadow-md backdrop-blur-sm flex items-center justify-center"
               title="Xem nhanh"
             >
-              <Icon path={mdiEye} size={0.7} className="text-maintext" />
+              <Icon path={mdiEye} size={0.8} className="text-maintext" />
             </Button>
             <Button
               size="sm"
@@ -427,7 +427,7 @@ const ProductCard = React.memo(
             >
               <Icon
                 path={mdiHeartOutline}
-                size={0.7}
+                size={0.8}
                 className="text-maintext"
               />
             </Button>
@@ -439,7 +439,7 @@ const ProductCard = React.memo(
             >
               <Icon
                 path={mdiCartOutline}
-                size={0.7}
+                size={0.8}
                 className="text-maintext"
               />
             </Button>
@@ -481,7 +481,7 @@ const ProductCard = React.memo(
             Xem chi tiết
             <Icon
               path={mdiArrowRight}
-              size={0.7}
+              size={0.8}
               className="ml-2 group-hover:translate-x-1 transition-transform"
             />
           </InteractiveHoverButton>

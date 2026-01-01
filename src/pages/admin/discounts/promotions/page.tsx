@@ -193,7 +193,7 @@ export default function PromotionsPage() {
             className="flex items-center gap-2"
           >
             <Button className="flex items-center gap-2">
-              <Icon path={mdiPlus} size={0.7} />
+              <Icon path={mdiPlus} size={0.8} />
               Thêm chiến dịch khuyến mãi
             </Button>
           </a>
@@ -206,7 +206,7 @@ export default function PromotionsPage() {
             <div className="relative flex-1 max-w-4xl">
               <Icon
                 path={mdiMagnify}
-                size={0.7}
+                size={0.8}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
               />
               <Input
@@ -230,7 +230,7 @@ export default function PromotionsPage() {
                 >
                   <Icon
                     path={mdiFilterRemoveOutline}
-                    size={0.7}
+                    size={0.8}
                     className="mr-2"
                   />
                   Clear bộ lọc
@@ -241,7 +241,7 @@ export default function PromotionsPage() {
                 className="flex items-center"
                 onClick={() => setShowFilters(!showFilters)}
               >
-                <Icon path={mdiFilterOutline} size={0.7} className="mr-2" />
+                <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
                 {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
               </Button>
             </div>
@@ -396,7 +396,7 @@ export default function PromotionsPage() {
                         <div className="flex items-center gap-1">
                           <Icon
                             path={mdiPercent}
-                            size={0.7}
+                            size={0.8}
                             className="text-primary"
                           />
                           <span className="font-medium text-primary">
@@ -574,7 +574,7 @@ export default function PromotionsPage() {
                 <>
                   <Icon
                     path={mdiLoading}
-                    size={0.7}
+                    size={0.8}
                     className="mr-2 animate-spin"
                   />
                   Đang xóa...

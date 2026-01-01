@@ -221,7 +221,7 @@ export default function ProductsPage() {
         </Breadcrumb>
         <a href="/admin/products/create">
           <Button>
-            <Icon path={mdiPlus} size={0.7} />
+            <Icon path={mdiPlus} size={0.8} />
             Thêm sản phẩm mới
           </Button>
         </a>
@@ -233,7 +233,7 @@ export default function ProductsPage() {
             <div className="relative flex-1">
               <Icon
                 path={mdiMagnify}
-                size={0.7}
+                size={0.8}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
               />
               <Input

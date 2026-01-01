@@ -259,7 +259,7 @@ export default function DiscountsPage() {
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
         <Button className="flex items-center">
-          <Icon path={mdiPlus} size={0.7} className="mr-2" />
+          <Icon path={mdiPlus} size={0.8} className="mr-2" />
           Tạo mã giảm giá
         </Button>
       </div>
@@ -295,7 +295,7 @@ export default function DiscountsPage() {
                   className="pl-10 w-full"
                 />
                 <div className="absolute left-3 top-2.5 text-maintext">
-                  <Icon path={mdiMagnify} size={0.7} />
+                  <Icon path={mdiMagnify} size={0.8} />
                 </div>
               </div>
             </div>
@@ -459,7 +459,7 @@ const DiscountTable: React.FC<DiscountTableProps> = ({
                 <div className="flex items-center justify-center">
                   <Icon
                     path={mdiCalendarClock}
-                    size={0.7}
+                    size={0.8}
                     className="mr-1 text-maintext"
                   />
                   <div>
@@ -510,7 +510,7 @@ const DiscountTable: React.FC<DiscountTableProps> = ({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem className="flex items-center cursor-pointer">
-                        <Icon path={mdiPencil} size={0.7} className="mr-2" />
+                        <Icon path={mdiPencil} size={0.8} className="mr-2" />
                         <span>Chỉnh sửa</span>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
@@ -518,7 +518,7 @@ const DiscountTable: React.FC<DiscountTableProps> = ({
                         className="flex items-center text-red-600 cursor-pointer"
                         onClick={() => onDelete(discount)}
                       >
-                        <Icon path={mdiDelete} size={0.7} className="mr-2" />
+                        <Icon path={mdiDelete} size={0.8} className="mr-2" />
                         <span>Xóa</span>
                       </DropdownMenuItem>
                     </DropdownMenuContent>

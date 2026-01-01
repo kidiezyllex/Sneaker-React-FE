@@ -845,7 +845,7 @@ export default function OrderDetailPage() {
             variant="outline"
             onClick={() => setIsInvoiceDialogOpen(true)}
           >
-            <Icon path={mdiFileDocument} size={0.7} />
+            <Icon path={mdiFileDocument} size={0.8} />
             Xem hóa đơn
           </Button>
           <Button
@@ -854,7 +854,7 @@ export default function OrderDetailPage() {
             disabled={["DA_HUY", "HOAN_THANH"].includes(order.orderStatus)}
             onClick={() => setIsConfirmCancelDialogOpen(true)}
           >
-            <Icon path={mdiDelete} size={0.7} />
+            <Icon path={mdiDelete} size={0.8} />
             Hủy đơn hàng
           </Button>
           <Button
@@ -1368,7 +1368,7 @@ export default function OrderDetailPage() {
               Đóng
             </Button>
             <Button onClick={handlePrintInvoice} disabled={isProcessingPrint}>
-              <Icon path={mdiPrinter} size={0.7} className="mr-2" />
+              <Icon path={mdiPrinter} size={0.8} className="mr-2" />
               {isProcessingPrint ? "Đang xử lý..." : "In hóa đơn"}
             </Button>
           </DialogFooter>

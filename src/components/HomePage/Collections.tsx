@@ -94,7 +94,7 @@ const CollectionCard = ({
                   Khám phá ngay
                   <Icon
                     path={mdiArrowRight}
-                    size={0.7}
+                    size={0.8}
                     className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
                   />
                 </span>
@@ -163,7 +163,7 @@ export const Collections = () => {
                   Xem tất cả bộ sưu tập
                   <Icon
                     path={mdiArrowRight}
-                    size={0.7}
+                    size={0.8}
                     className="ml-2 group-hover:translate-x-1 transition-transform"
                   />
                 </Button>
@@ -207,7 +207,7 @@ export const Collections = () => {
             Xem tất cả bộ sưu tập
             <Icon
               path={mdiArrowRight}
-              size={0.7}
+              size={0.8}
               className="ml-2 group-hover:translate-x-1 transition-transform"
             />
           </Button>

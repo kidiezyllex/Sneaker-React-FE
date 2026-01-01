@@ -408,7 +408,7 @@ export default function ProductsPage() {
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="font-medium">Bộ lọc sản phẩm</h2>
                   <Button variant="ghost" size="sm" onClick={toggleFilter}>
-                    <Icon path={mdiClose} size={0.7} />
+                    <Icon path={mdiClose} size={0.8} />
                   </Button>
                 </div>
                 <ProductFilters
@@ -448,13 +448,13 @@ export default function ProductsPage() {
                 onClick={toggleFilter}
                 className="lg:hidden flex items-center gap-2"
               >
-                <Icon path={mdiFilterOutline} size={0.7} />
+                <Icon path={mdiFilterOutline} size={0.8} />
                 Bộ lọc
               </Button>
               <div className="relative flex-1">
                 <Icon
                   path={mdiMagnify}
-                  size={0.7}
+                  size={0.8}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
                 />
                 <Input
@@ -814,7 +814,7 @@ const ProductCard = ({
               >
                 <Icon
                   path={mdiCartOutline}
-                  size={0.7}
+                  size={0.8}
                   className="group-hover/btn:animate-bounce"
                 />
               </Button>
@@ -833,7 +833,7 @@ const ProductCard = ({
               >
                 <Icon
                   path={mdiHeartOutline}
-                  size={0.7}
+                  size={0.8}
                   className="group-hover/btn:animate-pulse"
                 />
               </Button>
@@ -852,7 +852,7 @@ const ProductCard = ({
               >
                 <Icon
                   path={mdiEye}
-                  size={0.7}
+                  size={0.8}
                   className="group-hover/btn:animate-ping"
                 />
               </Button>

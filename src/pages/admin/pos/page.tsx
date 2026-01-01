@@ -801,7 +801,7 @@ export default function POSPage() {
             onClick={handleCreateNewCart}
             disabled={pendingCarts.length >= 5}
           >
-            <Icon path={mdiInvoicePlus} size={0.7} />
+            <Icon path={mdiInvoicePlus} size={0.8} />
             Thêm mới
           </Button>
         </div>
@@ -854,7 +854,7 @@ export default function POSPage() {
                     className="min-w-[100px] h-[46px] border-2 border-primary/50 flex items-center justify-center text-sm"
                   >
                     +{pendingCarts.length - 4} khác
-                    <Icon path={mdiChevronDown} size={0.7} className="ml-1" />
+                    <Icon path={mdiChevronDown} size={0.8} className="ml-1" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
@@ -953,7 +953,7 @@ export default function POSPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >
-                  <Icon path={mdiChevronLeft} size={0.7} />
+                  <Icon path={mdiChevronLeft} size={0.8} />
                   Quay lại danh sách sản phẩm
                 </motion.button>
               </div>
@@ -991,7 +991,7 @@ export default function POSPage() {
                           onClick={addToCart}
                           disabled={selectedApiVariant.stock === 0}
                         >
-                          <Icon path={mdiCartPlus} size={0.7} />
+                          <Icon path={mdiCartPlus} size={0.8} />
                           Thêm vào giỏ hàng POS
                         </Button>
                       </motion.div>
@@ -1388,7 +1388,7 @@ export default function POSPage() {
                                     (v) => v.stock === 0
                                   )}
                                 >
-                                  <Icon path={mdiEye} size={0.7} />
+                                  <Icon path={mdiEye} size={0.8} />
                                   Xem chi tiết
                                 </Button>
                               </div>
@@ -1578,7 +1578,7 @@ export default function POSPage() {
                                             >
                                               <Icon
                                                 path={mdiInformationOutline}
-                                                size={0.7}
+                                                size={0.8}
                                                 className="text-maintext"
                                               />
                                             </Button>
@@ -1620,7 +1620,7 @@ export default function POSPage() {
                                             >
                                               <Icon
                                                 path={mdiPlus}
-                                                size={0.7}
+                                                size={0.8}
                                                 className="text-maintext"
                                               />
                                             </Button>

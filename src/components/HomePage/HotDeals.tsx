@@ -111,7 +111,7 @@ export const HotDeals = () => {
                     <Icon
                       key={i}
                       path={mdiStar}
-                      size={0.7}
+                      size={0.8}
                       className="text-amber-500"
                     />
                   ))}
@@ -129,7 +129,7 @@ export const HotDeals = () => {
                 <li key={index} className="flex items-start">
                   <Icon
                     path={mdiChevronDoubleRight}
-                    size={0.7}
+                    size={0.8}
                     className="mt-1 mr-2 text-[#88C140]"
                   />
                   <span className="text-maintext dark:text-gray-300 text-sm">

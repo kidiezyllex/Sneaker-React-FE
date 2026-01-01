@@ -149,7 +149,7 @@ export default function ColorsPage() {
             <div className="relative flex-1 max-w-4xl">
               <Icon
                 path={mdiMagnify}
-                size={0.7}
+                size={0.8}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
               />
               <Input
@@ -180,7 +180,7 @@ export default function ColorsPage() {
               >
                 <DialogTrigger asChild>
                   <Button onClick={() => setIsCreateDialogOpen(true)}>
-                    <Icon path={mdiPlus} size={0.7} />
+                    <Icon path={mdiPlus} size={0.8} />
                     Thêm màu sắc mới
                   </Button>
                 </DialogTrigger>
@@ -666,7 +666,7 @@ function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogProps) {
             className="w-full"
             onClick={generateRandomColor}
           >
-            <Icon path={mdiRefresh} size={0.7} className="mr-2" />
+            <Icon path={mdiRefresh} size={0.8} className="mr-2" />
             Random Color
           </Button>
           {errors.code && <p className="text-red-500 text-sm">{errors.code}</p>}
@@ -844,7 +844,7 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
             className="w-full"
             onClick={generateRandomColor}
           >
-            <Icon path={mdiRefresh} size={0.7} className="mr-2" />
+            <Icon path={mdiRefresh} size={0.8} className="mr-2" />
             Random Color
           </Button>
           {errors.code && <p className="text-red-500 text-sm">{errors.code}</p>}

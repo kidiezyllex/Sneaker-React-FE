@@ -140,7 +140,7 @@ export function Header() {
               className="py-2 pr-10 h-[38px] rounded-sm w-full"
             />
             <div className="absolute right-0 top-0 h-full flex items-center justify-center bg-[#febd69] w-[45px] rounded-r-sm cursor-pointer">
-              <Icon path={mdiMagnify} size={0.7} color="#E3E6E6" />
+              <Icon path={mdiMagnify} size={0.8} color="#E3E6E6" />
             </div>
           </div>
 
@@ -161,7 +161,7 @@ export function Header() {
                   className="object-contain mr-1"
                 />
                 <span className="mr-1">{currentLanguage.name}</span>
-                <Icon path={mdiChevronDown} size={0.7} />
+                <Icon path={mdiChevronDown} size={0.8} />
               </div>
             </Dropdown>
 
@@ -215,7 +215,7 @@ export function Header() {
                 <span className="mr-1 text-maintext text-sm transition-all duration-300 hover:!text-white/80 font-bold">
                   {currentCurrency.name} {currentCurrency.symbol}
                 </span>
-                <Icon path={mdiChevronDown} size={0.7} />
+                <Icon path={mdiChevronDown} size={0.8} />
               </div>
             </Dropdown>
 
@@ -246,7 +246,7 @@ export function Header() {
               className="text-gray-300 hover:text-white p-1"
               aria-label="Search"
             >
-              <Icon path={mdiMagnify} size={0.7} />
+              <Icon path={mdiMagnify} size={0.8} />
             </button>
             <div className="p-1">
               <CartIcon className="text-white" />
@@ -256,7 +256,7 @@ export function Header() {
               className="mr-2 text-gray-300 hover:text-white"
               aria-label="Menu"
             >
-              <Icon path={mdiCog} size={0.7} />
+              <Icon path={mdiCog} size={0.8} />
             </button>
           </div>
         </div>
@@ -270,7 +270,7 @@ export function Header() {
               autoFocus
             />
             <div className="absolute right-0 top-0 h-full flex items-center justify-center bg-[#febd69] w-[40px] rounded-r-sm cursor-pointer">
-              <Icon path={mdiMagnify} size={0.7} color="#E3E6E6" />
+              <Icon path={mdiMagnify} size={0.8} color="#E3E6E6" />
             </div>
           </div>
         )}
@@ -388,7 +388,7 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
               >
                 <div className="flex items-center">
-                  <Icon path={mdiCart} size={0.7} className="mr-2" />
+                  <Icon path={mdiCart} size={0.8} className="mr-2" />
                   <span>Giỏ hàng ({cartItemCount})</span>
                 </div>
               </a>

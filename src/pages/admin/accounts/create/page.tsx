@@ -162,7 +162,7 @@ export default function CreateAccountPage() {
           onClick={() => navigate(-1)}
           className="flex items-center gap-2"
         >
-          <Icon path={mdiArrowLeft} size={0.7} />
+          <Icon path={mdiArrowLeft} size={0.8} />
           Quay lại
         </Button>
       </div>
@@ -354,7 +354,7 @@ export default function CreateAccountPage() {
               className="flex items-center gap-2"
             >
               {createAccount.isPending && (
-                <Icon path={mdiLoading} size={0.7} className="animate-spin" />
+                <Icon path={mdiLoading} size={0.8} className="animate-spin" />
               )}
               Thêm tài khoản
             </Button>

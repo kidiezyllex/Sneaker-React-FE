@@ -452,7 +452,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                 <Card>
                   <CardHeader className="pb-3">
                     <CardTitle className="flex items-center gap-2">
-                      <Icon path={mdiMapMarker} size={0.7} className="mr-2" />
+                      <Icon path={mdiMapMarker} size={0.8} className="mr-2" />
                       Địa chỉ giao hàng
                     </CardTitle>
                   </CardHeader>
@@ -494,7 +494,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                     <CardTitle className="flex items-center gap-2">
                       <Icon
                         path={mdiCreditCardOutline}
-                        size={0.7}
+                        size={0.8}
                         className="mr-2"
                       />
                       Thông tin thanh toán
@@ -512,7 +512,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                               ? mdiCashMultiple
                               : mdiCreditCardOutline
                           }
-                          size={0.7}
+                          size={0.8}
                           className="mr-2 text-primary"
                         />
                         <span>
@@ -545,7 +545,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                   <CardTitle className="flex items-center gap-2">
                     <Icon
                       path={mdiOrderBoolAscending}
-                      size={0.7}
+                      size={0.8}
                       className="mr-2"
                     />
                     Chi tiết đơn hàng
@@ -672,7 +672,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                   <CardTitle className="flex items-center gap-2">
                     <Icon
                       path={mdiTruck}
-                      size={0.7}
+                      size={0.8}
                       className="mr-3 text-primary"
                     />
                     Tiến trình đơn hàng
@@ -700,7 +700,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                           >
                             <Icon
                               path={step.icon}
-                              size={0.7}
+                              size={0.8}
                               className="text-white"
                             />
                           </div>
@@ -723,7 +723,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                             <div className="mt-3 flex items-center text-sm text-green-600">
                               <Icon
                                 path={mdiCheckCircle}
-                                size={0.7}
+                                size={0.8}
                                 className="mr-1"
                               />
                               Hoàn thành
@@ -999,7 +999,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                       onClick={() => handleAddItem(item)}
                       className="gap-2"
                     >
-                      <Icon path={mdiPlus} size={0.7} />
+                      <Icon path={mdiPlus} size={0.8} />
                       Thêm
                     </Button>
                   </div>
@@ -1032,7 +1032,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                         onClick={() => handleRemoveItem(index)}
                         className="gap-1"
                       >
-                        <Icon path={mdiMinus} size={0.7} />
+                        <Icon path={mdiMinus} size={0.8} />
                       </Button>
                       <Button
                         variant="outline"
@@ -1044,7 +1044,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                         }}
                         className="gap-1 text-red-600 hover:text-red-700"
                       >
-                        <Icon path={mdiDelete} size={0.7} />
+                        <Icon path={mdiDelete} size={0.8} />
                       </Button>
                     </div>
                   </div>
@@ -1083,7 +1083,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
             {createReturnMutation.isPending ? (
               <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
             ) : (
-              <Icon path={mdiKeyboardReturn} size={0.7} />
+              <Icon path={mdiKeyboardReturn} size={0.8} />
             )}
             Gửi yêu cầu trả hàng
           </Button>
@@ -1272,7 +1272,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                   {cancelReturnMutation.isPending ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
                   ) : (
-                    <Icon path={mdiCancel} size={0.7} />
+                    <Icon path={mdiCancel} size={0.8} />
                   )}
                   Hủy yêu cầu
                 </Button>
@@ -1360,7 +1360,7 @@ const ProfileTab = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Icon path={mdiAccountEdit} size={0.7} className="text-primary" />
+          <Icon path={mdiAccountEdit} size={0.8} className="text-primary" />
           <span>Cập nhật thông tin cá nhân</span>
         </CardTitle>
       </CardHeader>
@@ -1447,7 +1447,7 @@ const ProfileTab = () => {
                 {updateProfileMutation.isPending ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
                 ) : (
-                  <Icon path={mdiContentSaveOutline} size={0.7} />
+                  <Icon path={mdiContentSaveOutline} size={0.8} />
                 )}
                 Lưu thay đổi
               </Button>
@@ -1519,7 +1519,7 @@ const PasswordTab = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Icon path={mdiLock} size={0.7} className="text-primary" />
+          <Icon path={mdiLock} size={0.8} className="text-primary" />
           <span>Đổi mật khẩu</span>
         </CardTitle>
         <CardDescription>
@@ -1602,7 +1602,7 @@ const PasswordTab = () => {
                 {changePasswordMutation.isPending ? (
                   <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
                 ) : (
-                  <Icon path={mdiLock} size={0.7} />
+                  <Icon path={mdiLock} size={0.8} />
                 )}
                 Cập nhật mật khẩu
               </Button>
@@ -1663,7 +1663,7 @@ const VouchersTab = () => {
           <CardTitle className="flex items-center gap-2">
             <Icon
               path={mdiAlertCircleOutline}
-              size={0.7}
+              size={0.8}
               className="text-primary"
             />
             <span>Lỗi tải mã giảm giá</span>
@@ -1685,7 +1685,7 @@ const VouchersTab = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icon path={mdiTicketPercentOutline} size={0.7} />
+            <Icon path={mdiTicketPercentOutline} size={0.8} />
             <span>Mã giảm giá</span>
           </CardTitle>
         </CardHeader>
@@ -1705,7 +1705,7 @@ const VouchersTab = () => {
           <CardTitle className="flex items-center gap-2">
             <Icon
               path={mdiTicketPercentOutline}
-              size={0.7}
+              size={0.8}
               className="text-primary"
             />
             <span>Mã giảm giá của bạn</span>
@@ -1845,7 +1845,7 @@ const VouchersTab = () => {
                           });
                       }}
                     >
-                      <Icon path={mdiContentCopy} size={0.7} />
+                      <Icon path={mdiContentCopy} size={0.8} />
                       Sao chép mã
                     </Button>
                   ) : (
@@ -1900,7 +1900,7 @@ const ReturnsTab = () => {
           <CardTitle className="flex items-center gap-2">
             <Icon
               path={mdiKeyboardReturn}
-              size={0.7}
+              size={0.8}
               className="text-primary"
             />
             <span>Đơn trả hàng của bạn</span>
@@ -1993,7 +1993,7 @@ const ReturnsTab = () => {
                           }
                           title="Xem chi tiết"
                         >
-                          <Icon path={mdiEye} size={0.7} />
+                          <Icon path={mdiEye} size={0.8} />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -2250,7 +2250,7 @@ export default function GeneralManagementPage() {
                         <div className="flex items-center">
                           <Icon
                             path={tab.icon}
-                            size={0.7}
+                            size={0.8}
                             className={`mr-3 text-maintext ${
                               activeTab === tab.value ? "text-primary" : ""
                             }`}
@@ -2260,7 +2260,7 @@ export default function GeneralManagementPage() {
                         {activeTab === tab.value && (
                           <Icon
                             path={mdiChevronRight}
-                            size={0.7}
+                            size={0.8}
                             className="text-primary"
                           />
                         )}
@@ -2291,7 +2291,7 @@ export default function GeneralManagementPage() {
                     <CardTitle className="flex items-center gap-2">
                       <Icon
                         path={mdiOrderBoolAscending}
-                        size={0.7}
+                        size={0.8}
                         className="text-primary"
                       />
                       <span>Đơn hàng của bạn</span>
@@ -2436,7 +2436,7 @@ export default function GeneralManagementPage() {
                                       }
                                       title="Xem chi tiết"
                                     >
-                                      <Icon path={mdiEye} size={0.7} />
+                                      <Icon path={mdiEye} size={0.8} />
                                     </Button>
                                     {isOrderReturnable(order) && (
                                       <Button
@@ -2449,7 +2449,7 @@ export default function GeneralManagementPage() {
                                       >
                                         <Icon
                                           path={mdiKeyboardReturn}
-                                          size={0.7}
+                                          size={0.8}
                                         />
                                       </Button>
                                     )}

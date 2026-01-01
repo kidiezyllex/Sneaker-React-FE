@@ -73,11 +73,11 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
             <div className="relative">
               <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary">
                 {index === 0 ? (
-                  <Icon path={mdiTruckDeliveryOutline} size={0.7} />
+                  <Icon path={mdiTruckDeliveryOutline} size={0.8} />
                 ) : index === history.length - 1 ? (
-                  <Icon path={mdiCheckCircleOutline} size={0.7} />
+                  <Icon path={mdiCheckCircleOutline} size={0.8} />
                 ) : (
-                  <Icon path={mdiCreditCardOutline} size={0.7} />
+                  <Icon path={mdiCreditCardOutline} size={0.8} />
                 )}
               </div>
               {index < history.length - 1 && (

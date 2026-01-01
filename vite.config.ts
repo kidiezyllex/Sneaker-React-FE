@@ -8,19 +8,13 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
-    hmr: true,
-    allowedHosts: ['*'],
+    hmr: {
+      overlay: true,
+    },
   },
   plugins: [
     react({
-      // Enable Fast Refresh
-      fastRefresh: true,
-      // Optimize babel config
-      babel: {
-        plugins: [
-          // Add any babel plugins if needed
-        ],
-      },
+      jsxRuntime: 'automatic',
     }),
   ],
   resolve: {
@@ -30,11 +24,9 @@ export default defineConfig({
   },
   base: '/',
   build: {
-    // Optimize chunk size
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
-        // Manual chunk splitting for better caching
         manualChunks: {
           'react-vendor': ['react', 'react-dom', 'react-router-dom'],
           'ui-vendor': ['framer-motion', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
@@ -44,11 +36,10 @@ export default defineConfig({
         },
       },
     },
-    // Minify with terser for better compression
     minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true, // Remove console.logs in production
+        drop_console: true,
         drop_debugger: true,
       },
     },

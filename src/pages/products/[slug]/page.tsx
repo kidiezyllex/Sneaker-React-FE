@@ -251,7 +251,7 @@ const ImageZoom = ({
           animate={{ opacity: 0.7, y: 0 }}
           transition={{ delay: 1, duration: 0.5 }}
         >
-          <Icon path={mdiMagnify} size={0.7} className="inline mr-1" />
+          <Icon path={mdiMagnify} size={0.8} className="inline mr-1" />
           Nhấn để phóng to
         </motion.div>
       )}
@@ -263,7 +263,7 @@ const ImageZoom = ({
           animate={{ opacity: 0, y: 0 }}
           whileHover={{ opacity: 0.7 }}
         >
-          <Icon path={mdiMagnify} size={0.7} className="inline mr-1" />
+          <Icon path={mdiMagnify} size={0.8} className="inline mr-1" />
           Hover để phóng to
         </motion.div>
       )}
@@ -462,7 +462,7 @@ const SimilarProductCard = ({
               >
                 <Icon
                   path={mdiCartOutline}
-                  size={0.7}
+                  size={0.8}
                   className="group-hover/btn:animate-bounce"
                 />
               </Button>
@@ -481,7 +481,7 @@ const SimilarProductCard = ({
               >
                 <Icon
                   path={mdiHeartOutline}
-                  size={0.7}
+                  size={0.8}
                   className="group-hover/btn:animate-pulse"
                 />
               </Button>
@@ -500,7 +500,7 @@ const SimilarProductCard = ({
               >
                 <Icon
                   path={mdiEye}
-                  size={0.7}
+                  size={0.8}
                   className="group-hover/btn:animate-ping"
                 />
               </Button>
@@ -1119,7 +1119,7 @@ export default function ProductDetail() {
                     <Icon
                       key={i}
                       path={i < 4 ? mdiStar : mdiStarOutline}
-                      size={0.7}
+                      size={0.8}
                       className={i < 4 ? "text-yellow-400" : "text-gray-300"}
                     />
                   ))}

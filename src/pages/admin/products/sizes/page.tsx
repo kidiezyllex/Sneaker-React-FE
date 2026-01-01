@@ -59,7 +59,6 @@ export default function SizesPage() {
     const numericQuery = Number(query);
     return data.data.filter((size) => {
       const sizeLabel = getSizeLabel(size.value);
-      // Search by both numeric value and size label
       return (
         (!isNaN(numericQuery)
           ? size.value === numericQuery
@@ -128,7 +127,7 @@ export default function SizesPage() {
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
         <DialogTrigger asChild>
           <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Icon path={mdiPlus} size={0.7} />
+            <Icon path={mdiPlus} size={0.8} />
             Thêm kích cỡ mới
           </Button>
         </DialogTrigger>
@@ -434,7 +433,6 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
     }
   };
 
-  // Get the currently selected size label
   const getCurrentSizeLabel = () => {
     if (formData.value > 0) {
       return getSizeLabel(formData.value);

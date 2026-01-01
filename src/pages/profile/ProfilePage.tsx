@@ -1,40 +1,61 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
- 
-import { useNavigate } from 'react-router-dom';
-import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Loader2 } from "lucide-react"
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css';
-import { useUser } from "@/context/useUserContext"
-import { motion } from "framer-motion"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Icon } from '@mdi/react'
-import { mdiAccount, mdiAccountEdit, mdiShieldAccount, mdiMapMarker } from '@mdi/js'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AddressManager from "@/components/ProfilePage/AddressManager"
-import { useUpdateUserProfile, useUserProfile } from "@/hooks/account"
+import { useState, useEffect } from "react";
+
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useUser } from "@/context/useUserContext";
+import { motion } from "framer-motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Icon } from "@mdi/react";
+import {
+  mdiAccount,
+  mdiAccountEdit,
+  mdiShieldAccount,
+  mdiMapMarker,
+} from "@mdi/js";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AddressManager from "@/components/ProfilePage/AddressManager";
+import { useUpdateUserProfile, useUserProfile } from "@/hooks/account";
 
 const profileSchema = z.object({
   fullName: z.string().min(3, "Tên đầy đủ phải có ít nhất 3 ký tự"),
-  email: z.string().email("Email không hợp lệ").min(1, "Email không được để trống"),
+  email: z
+    .string()
+    .email("Email không hợp lệ")
+    .min(1, "Email không được để trống"),
   phoneNumber: z.string().optional(),
   avatar: z.string().optional(),
-})
+});
 
-type ProfileFormValues = z.infer<typeof profileSchema>
+type ProfileFormValues = z.infer<typeof profileSchema>;
 
 function ProfileForm() {
-  const { data: profileData, isLoading, refetch } = useUserProfile()
-  const updateProfileMutation = useUpdateUserProfile()
-  const { updateUserProfile } = useUser()
+  const { data: profileData, isLoading, refetch } = useUserProfile();
+  const updateProfileMutation = useUpdateUserProfile();
+  const { updateUserProfile } = useUser();
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -44,7 +65,7 @@ function ProfileForm() {
       phoneNumber: "",
       avatar: "",
     },
-  })
+  });
 
   useEffect(() => {
     if (profileData && profileData.data) {
@@ -53,27 +74,32 @@ function ProfileForm() {
         email: profileData.data.email || "",
         phoneNumber: profileData.data.phoneNumber || "",
         avatar: profileData.data.avatar || "",
-      })
+      });
     }
-  }, [profileData, form])
+  }, [profileData, form]);
+
+  const getAvatarUrl = () => {
+    const userId = profileData?.data?.id || "default";
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+  };
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {
-      await updateProfileMutation.mutateAsync(data)
-      toast.success("Cập nhật thành công")
-      refetch()
+      await updateProfileMutation.mutateAsync(data);
+      toast.success("Cập nhật thành công");
+      refetch();
     } catch (error: any) {
-      console.error("Lỗi cập nhật:", error)
-      toast.error("Cập nhật thất bại")
+      console.error("Lỗi cập nhật:", error);
+      toast.error("Cập nhật thất bại");
     }
-  }
+  };
 
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
-    )
+    );
   }
 
   return (
@@ -81,9 +107,11 @@ function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <div className="flex justify-center mb-4">
           <Avatar className="w-24 h-24 border-4 border-primary/20">
-            <AvatarImage src={form.getValues("avatar") || undefined} alt="Avatar" />
+            <AvatarImage src={getAvatarUrl()} alt="Avatar" />
             <AvatarFallback className="bg-primary/10 text-primary text-2xl">
-              {form.getValues("fullName")?.charAt(0)?.toUpperCase() || <Icon path={mdiAccount} size={1.5} />}
+              {form.getValues("fullName")?.charAt(0)?.toUpperCase() || (
+                <Icon path={mdiAccount} size={1.5} />
+              )}
             </AvatarFallback>
           </Avatar>
         </div>
@@ -93,7 +121,9 @@ function ProfileForm() {
           name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-maintext dark:text-gray-300 font-medium">Họ và tên</FormLabel>
+              <FormLabel className="text-maintext dark:text-gray-300 font-medium">
+                Họ và tên
+              </FormLabel>
               <FormControl>
                 <Input
                   type="text"
@@ -112,7 +142,9 @@ function ProfileForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-maintext dark:text-gray-300 font-medium">Email</FormLabel>
+              <FormLabel className="text-maintext dark:text-gray-300 font-medium">
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   type="email"
@@ -132,7 +164,9 @@ function ProfileForm() {
           name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-maintext dark:text-gray-300 font-medium">Số điện thoại</FormLabel>
+              <FormLabel className="text-maintext dark:text-gray-300 font-medium">
+                Số điện thoại
+              </FormLabel>
               <FormControl>
                 <Input
                   type="tel"
@@ -164,21 +198,21 @@ function ProfileForm() {
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
 const ProfilePage: React.FC = () => {
-  const navigate = useNavigate()
-  const { profile, isAuthenticated } = useUser()
+  const navigate = useNavigate();
+  const { profile, isAuthenticated } = useUser();
 
   useEffect(() => {
     if (!isAuthenticated) {
-      navigate("/auth/login")
+      navigate("/auth/login");
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate]);
 
   if (!isAuthenticated) {
-    return null
+    return null;
   }
 
   return (
@@ -189,7 +223,9 @@ const ProfilePage: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="mb-8 flex flex-col items-center text-center">
-          <h1 className="text-3xl font-bold text-maintext dark:text-white mb-2">Hồ sơ tài khoản</h1>
+          <h1 className="text-3xl font-bold text-maintext dark:text-white mb-2">
+            Hồ sơ tài khoản
+          </h1>
           <p className="text-maintext dark:text-maintext max-w-2xl">
             Quản lý thông tin cá nhân, địa chỉ và thay đổi mật khẩu của bạn
           </p>
@@ -198,16 +234,16 @@ const ProfilePage: React.FC = () => {
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="profile" className="flex items-center gap-2">
-              <Icon path={mdiAccountEdit} size={0.7} /> Thông tin cá nhân
+              <Icon path={mdiAccountEdit} size={0.8} /> Thông tin cá nhân
             </TabsTrigger>
             <TabsTrigger value="addresses" className="flex items-center gap-2">
-              <Icon path={mdiMapMarker} size={0.7} /> Sổ địa chỉ
+              <Icon path={mdiMapMarker} size={0.8} /> Sổ địa chỉ
             </TabsTrigger>
             <TabsTrigger value="security" className="flex items-center gap-2">
-              <Icon path={mdiShieldAccount} size={0.7} /> Bảo mật
+              <Icon path={mdiShieldAccount} size={0.8} /> Bảo mật
             </TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="profile">
             <Card className="border border-gray-200 dark:border-gray-700 shadow-sm">
               <CardHeader>
@@ -221,7 +257,7 @@ const ProfilePage: React.FC = () => {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="addresses">
             <Card className="border border-gray-200 dark:border-gray-700 shadow-sm">
               <CardHeader>
@@ -235,7 +271,7 @@ const ProfilePage: React.FC = () => {
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="security">
             <Card className="border border-gray-200 dark:border-gray-700 shadow-sm">
               <CardHeader>
@@ -246,12 +282,22 @@ const ProfilePage: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-col items-center justify-center py-8">
-                  <Icon path={mdiShieldAccount} size={3} className="text-primary mb-4 opacity-80" />
-                  <h3 className="text-xl font-medium mb-2">Thay đổi mật khẩu tài khoản</h3>
+                  <Icon
+                    path={mdiShieldAccount}
+                    size={3}
+                    className="text-primary mb-4 opacity-80"
+                  />
+                  <h3 className="text-xl font-medium mb-2">
+                    Thay đổi mật khẩu tài khoản
+                  </h3>
                   <p className="text-maintext dark:text-maintext text-center mb-4 max-w-4xl">
-                    Cập nhật mật khẩu mới để bảo vệ tài khoản của bạn khỏi các truy cập trái phép
+                    Cập nhật mật khẩu mới để bảo vệ tài khoản của bạn khỏi các
+                    truy cập trái phép
                   </p>
-                  <a href="/profile/change-password" className="bg-primary hover:bg-secondary transition-all duration-300">
+                  <a
+                    href="/profile/change-password"
+                    className="bg-primary hover:bg-secondary transition-all duration-300"
+                  >
                     <Button className="bg-primary hover:bg-secondary transition-all duration-300">
                       Đổi mật khẩu
                     </Button>
@@ -263,7 +309,7 @@ const ProfilePage: React.FC = () => {
         </Tabs>
       </motion.div>
     </div>
-  )
-}
+  );
+};
 
-export default ProfilePage
+export default ProfilePage;

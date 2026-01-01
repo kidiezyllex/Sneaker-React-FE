@@ -144,7 +144,7 @@ export default function POSRightSection({
                           onClick={() => onRemoveCartItem(item.id)}
                           className="text-gray-400 hover:text-red-500 transition-colors p-1 absolute top-2 right-2"
                         >
-                          <Icon path={mdiDelete} size={0.7} />
+                          <Icon path={mdiDelete} size={0.8} />
                         </button>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
@@ -270,7 +270,7 @@ export default function POSRightSection({
             <div className="relative flex-1">
               <Icon
                 path={mdiContentCopy}
-                size={0.7}
+                size={0.8}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
               />
               <Input
@@ -338,13 +338,13 @@ export default function POSRightSection({
                 value="cash"
                 className="flex gap-2 items-center text-sm"
               >
-                <Icon path={mdiCashMultiple} size={0.7} /> Tiền mặt
+                <Icon path={mdiCashMultiple} size={0.8} /> Tiền mặt
               </TabsTrigger>
               <TabsTrigger
                 value="banking"
                 className="flex gap-2 items-center text-sm"
               >
-                <Icon path={mdiBankTransfer} size={0.7} /> Chuyển khoản
+                <Icon path={mdiBankTransfer} size={0.8} /> Chuyển khoản
               </TabsTrigger>
             </TabsList>
           </Tabs>

@@ -1,48 +1,79 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useReturnableOrders, useMyReturns } from '@/hooks/return';
-import { format } from 'date-fns';
-import { vi } from 'date-fns/locale';
-import { Icon } from '@mdi/react';
-import CreateReturnRequestModal from '@/components/returns/CreateReturnRequestModal';
-import ReturnDetailModal from '@/components/returns/ReturnDetailModal';
-import { IReturnableOrder, IReturn } from '@/interface/response/return';
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useReturnableOrders, useMyReturns } from "@/hooks/return";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { Icon } from "@mdi/react";
+import CreateReturnRequestModal from "@/components/returns/CreateReturnRequestModal";
+import ReturnDetailModal from "@/components/returns/ReturnDetailModal";
+import { IReturnableOrder, IReturn } from "@/interface/response/return";
 
 export default function CustomerReturnsPage() {
-  const [selectedTab, setSelectedTab] = useState('returnable');
-  const [selectedOrder, setSelectedOrder] = useState<IReturnableOrder | null>(null);
+  const [selectedTab, setSelectedTab] = useState("returnable");
+  const [selectedOrder, setSelectedOrder] = useState<IReturnableOrder | null>(
+    null
+  );
   const [selectedReturn, setSelectedReturn] = useState<IReturn | null>(null);
-  const [returnableParams, setReturnableParams] = useState({ page: 1, limit: 10 });
-  const [myReturnsParams, setMyReturnsParams] = useState({ page: 1, limit: 10 });
+  const [returnableParams, setReturnableParams] = useState({
+    page: 1,
+    limit: 10,
+  });
+  const [myReturnsParams, setMyReturnsParams] = useState({
+    page: 1,
+    limit: 10,
+  });
 
-  const { data: returnableOrders, isLoading: loadingReturnable } = useReturnableOrders(returnableParams);
-  const { data: myReturns, isLoading: loadingMyReturns } = useMyReturns(myReturnsParams);
+  const { data: returnableOrders, isLoading: loadingReturnable } =
+    useReturnableOrders(returnableParams);
+  const { data: myReturns, isLoading: loadingMyReturns } =
+    useMyReturns(myReturnsParams);
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
       maximumFractionDigits: 0,
     }).format(amount);
   };
 
   const formatDate = (dateString: string) => {
-    return format(new Date(dateString), 'dd/MM/yyyy', { locale: vi });
+    return format(new Date(dateString), "dd/MM/yyyy", { locale: vi });
   };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'CHO_XU_LY':
-        return <Badge variant="outline" className="bg-yellow-50 text-yellow-600 border-yellow-200">Chờ xử lý</Badge>;
-      case 'DA_HOAN_TIEN':
-        return <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200">Đã hoàn tiền</Badge>;
-      case 'DA_HUY':
-        return <Badge variant="outline" className="bg-red-50 text-red-600 border-red-200">Đã hủy</Badge>;
+      case "CHO_XU_LY":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-yellow-50 text-yellow-600 border-yellow-200"
+          >
+            Chờ xử lý
+          </Badge>
+        );
+      case "DA_HOAN_TIEN":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-green-50 text-green-600 border-green-200"
+          >
+            Đã hoàn tiền
+          </Badge>
+        );
+      case "DA_HUY":
+        return (
+          <Badge
+            variant="outline"
+            className="bg-red-50 text-red-600 border-red-200"
+          >
+            Đã hủy
+          </Badge>
+        );
       default:
         return <Badge variant="outline">Không xác định</Badge>;
     }
@@ -56,35 +87,35 @@ export default function CustomerReturnsPage() {
             <h3 className="font-semibold text-lg">#{order.code}</h3>
             <div className="flex items-center gap-4 text-sm text-maintext mt-1">
               <div className="flex items-center gap-1">
-                <Icon path={mdiCalendar} size={0.7} />
+                <Icon path={mdiCalendar} size={0.8} />
                 {formatDate(order.createdAt)}
               </div>
               <div className="flex items-center gap-1">
-                <Icon path={mdiCurrencyUsd} size={0.7} />
+                <Icon path={mdiCurrencyUsd} size={0.8} />
                 {formatCurrency(order.total)}
               </div>
             </div>
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 onClick={() => setSelectedOrder(order)}
               >
-                <Icon path={mdiPackageVariant} size={0.7} className="mr-1" />
+                <Icon path={mdiPackageVariant} size={0.8} className="mr-1" />
                 Yêu cầu trả hàng
               </Button>
             </DialogTrigger>
             <CreateReturnRequestModal order={selectedOrder} />
           </Dialog>
         </div>
-        
+
         <div className="flex gap-2 overflow-x-auto pb-2">
           {order.items.slice(0, 3).map((item, index) => (
             <div key={index} className="flex-shrink-0">
               <img
-                src={item.product.images[0] || '/placeholder.jpg'}
+                src={item.product.images[0] || "/placeholder.jpg"}
                 alt={item.product.name}
                 width={60}
                 height={60}
@@ -109,15 +140,18 @@ export default function CustomerReturnsPage() {
           <div>
             <h3 className="font-semibold text-lg">#{returnItem.code}</h3>
             <p className="text-sm text-maintext">
-              Đơn gốc: #{typeof returnItem.originalOrder === 'string' ? returnItem.originalOrder : returnItem.originalOrder.code}
+              Đơn gốc: #
+              {typeof returnItem.originalOrder === "string"
+                ? returnItem.originalOrder
+                : returnItem.originalOrder.code}
             </p>
             <div className="flex items-center gap-4 text-sm text-maintext mt-1">
               <div className="flex items-center gap-1">
-                <Icon path={mdiCalendar} size={0.7} />
+                <Icon path={mdiCalendar} size={0.8} />
                 {formatDate(returnItem.createdAt)}
               </div>
               <div className="flex items-center gap-1">
-                <Icon path={mdiCurrencyUsd} size={0.7} />
+                <Icon path={mdiCurrencyUsd} size={0.8} />
                 {formatCurrency(returnItem.totalRefund)}
               </div>
             </div>
@@ -127,18 +161,18 @@ export default function CustomerReturnsPage() {
             <div className="flex gap-2">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     size="sm"
                     onClick={() => setSelectedReturn(returnItem)}
                   >
-                    <Icon path={mdiEye} size={0.7} className="mr-1" />
+                    <Icon path={mdiEye} size={0.8} className="mr-1" />
                     Chi tiết
                   </Button>
                 </DialogTrigger>
                 <ReturnDetailModal returnItem={selectedReturn} />
               </Dialog>
-              {returnItem.status === 'CHO_XU_LY' && (
+              {returnItem.status === "CHO_XU_LY" && (
                 <Button variant="destructive" size="sm">
                   Hủy yêu cầu
                 </Button>
@@ -146,12 +180,12 @@ export default function CustomerReturnsPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="flex gap-2 overflow-x-auto pb-2">
           {returnItem.items.slice(0, 3).map((item, index) => (
             <div key={index} className="flex-shrink-0">
               <img
-                src={'/placeholder.jpg'}
+                src={"/placeholder.jpg"}
                 alt="Product"
                 width={60}
                 height={60}
@@ -173,10 +207,16 @@ export default function CustomerReturnsPage() {
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
         <h1 className="text-3xl font-bold mb-2">Quản lý trả hàng</h1>
-        <p className="text-maintext">Xem đơn hàng có thể trả và quản lý yêu cầu trả hàng của bạn</p>
+        <p className="text-maintext">
+          Xem đơn hàng có thể trả và quản lý yêu cầu trả hàng của bạn
+        </p>
       </div>
 
-      <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
+      <Tabs
+        value={selectedTab}
+        onValueChange={setSelectedTab}
+        className="w-full"
+      >
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="returnable">Đơn hàng có thể trả</TabsTrigger>
           <TabsTrigger value="my-returns">Yêu cầu trả hàng của tôi</TabsTrigger>
@@ -194,13 +234,22 @@ export default function CustomerReturnsPage() {
               {loadingReturnable ? (
                 <div className="space-y-4">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-32 bg-gray-100 rounded-lg animate-pulse" />
+                    <div
+                      key={i}
+                      className="h-32 bg-gray-100 rounded-lg animate-pulse"
+                    />
                   ))}
                 </div>
               ) : returnableOrders?.data.orders.length === 0 ? (
                 <div className="text-center py-8">
-                  <Icon path={mdiPackageVariant} size={2} className="mx-auto text-gray-400 mb-4" />
-                  <p className="text-maintext">Không có đơn hàng nào có thể trả</p>
+                  <Icon
+                    path={mdiPackageVariant}
+                    size={2}
+                    className="mx-auto text-gray-400 mb-4"
+                  />
+                  <p className="text-maintext">
+                    Không có đơn hàng nào có thể trả
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -225,18 +274,30 @@ export default function CustomerReturnsPage() {
               {loadingMyReturns ? (
                 <div className="space-y-4">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="h-32 bg-gray-100 rounded-lg animate-pulse" />
+                    <div
+                      key={i}
+                      className="h-32 bg-gray-100 rounded-lg animate-pulse"
+                    />
                   ))}
                 </div>
               ) : myReturns?.data.returns.length === 0 ? (
                 <div className="text-center py-8">
-                  <Icon path={mdiPackageVariant} size={2} className="mx-auto text-gray-400 mb-4" />
-                  <p className="text-maintext">Bạn chưa có yêu cầu trả hàng nào</p>
+                  <Icon
+                    path={mdiPackageVariant}
+                    size={2}
+                    className="mx-auto text-gray-400 mb-4"
+                  />
+                  <p className="text-maintext">
+                    Bạn chưa có yêu cầu trả hàng nào
+                  </p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {myReturns?.data.returns.map((returnItem) => (
-                    <MyReturnCard key={(returnItem as any)?.id} returnItem={returnItem} />
+                    <MyReturnCard
+                      key={(returnItem as any)?.id}
+                      returnItem={returnItem}
+                    />
                   ))}
                 </div>
               )}
@@ -246,4 +307,4 @@ export default function CustomerReturnsPage() {
       </Tabs>
     </div>
   );
-} 
+}

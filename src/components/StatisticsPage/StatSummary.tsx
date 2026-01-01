@@ -44,7 +44,7 @@ const StatCard = ({
             <div className="flex items-center mt-2">
               <Icon
                 path={increasing ? mdiTrendingUp : mdiTrendingUp}
-                size={0.7}
+                size={0.8}
                 className={increasing ? "text-green-medium" : "text-red-medium"}
               />
               <span

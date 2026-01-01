@@ -356,7 +356,7 @@ export const Categories = () => {
                   Xem tất cả danh mục
                   <Icon
                     path={mdiArrowRight}
-                    size={0.7}
+                    size={0.8}
                     className="ml-2 group-hover:translate-x-1 transition-transform"
                   />
                 </Button>

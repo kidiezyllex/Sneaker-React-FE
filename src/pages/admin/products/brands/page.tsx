@@ -132,7 +132,7 @@ export default function BrandsPage() {
             <div className="relative flex-1 max-w-4xl">
               <Icon
                 path={mdiMagnify}
-                size={0.7}
+                size={0.8}
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
               />
               <Input
@@ -163,7 +163,7 @@ export default function BrandsPage() {
               >
                 <DialogTrigger asChild>
                   <Button onClick={() => setIsCreateDialogOpen(true)}>
-                    <Icon path={mdiPlus} size={0.7} />
+                    <Icon path={mdiPlus} size={0.8} />
                     Thêm thương hiệu mới
                   </Button>
                 </DialogTrigger>

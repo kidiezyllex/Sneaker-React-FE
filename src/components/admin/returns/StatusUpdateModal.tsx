@@ -130,7 +130,7 @@ export default function StatusUpdateModal({
                   <div className="flex items-center gap-2">
                     <Icon
                       path={mdiCheckCircle}
-                      size={0.7}
+                      size={0.8}
                       className="text-green-600"
                     />
                     Phê duyệt hoàn tiền
@@ -140,7 +140,7 @@ export default function StatusUpdateModal({
                   <div className="flex items-center gap-2">
                     <Icon
                       path={mdiCancel}
-                      size={0.7}
+                      size={0.8}
                       className="text-red-600"
                     />
                     Từ chối yêu cầu
@@ -156,7 +156,7 @@ export default function StatusUpdateModal({
             >
               <Icon
                 path={statusInfo.icon}
-                size={0.7}
+                size={0.8}
                 className={statusInfo.color}
               />
               <AlertDescription className={statusInfo.color}>
@@ -167,7 +167,7 @@ export default function StatusUpdateModal({
                   <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-blue-700">
                     <Icon
                       path={mdiCurrencyUsd}
-                      size={0.7}
+                      size={0.8}
                       className="inline mr-1"
                     />
                     <strong>Lưu ý:</strong> Khi phê duyệt hoàn tiền, hệ thống sẽ

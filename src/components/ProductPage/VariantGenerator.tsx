@@ -154,7 +154,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
           <CardHeader className="flex flex-row items-center justify-between border-b">
             <CardTitle className="flex items-center justify-between w-full">
               <div className="flex items-center gap-2">
-                <Icon path={mdiAutoFix} size={0.7} className="text-primary" />
+                <Icon path={mdiAutoFix} size={0.8} className="text-primary" />
                 Generate tất cả biến thể
               </div>
             </CardTitle>
@@ -279,7 +279,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
                 disabled={selectedCount === 0}
                 className="flex items-center gap-2"
               >
-                <Icon path={mdiAutoFix} size={0.7} />
+                <Icon path={mdiAutoFix} size={0.8} />
                 Tạo {selectedCount} biến thể
               </Button>
             </div>

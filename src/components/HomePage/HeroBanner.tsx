@@ -53,7 +53,7 @@ export const HeroBanner = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-green-50/90 rounded-full text-primary font-medium text-sm border border-green-500"
                 >
-                  <Icon path={mdiTrendingUp} size={0.7} />
+                  <Icon path={mdiTrendingUp} size={0.8} />
                   <span>Sneaker mới nhất 2026</span>
                 </motion.div>
 
@@ -88,7 +88,7 @@ export const HeroBanner = () => {
                     <div className="flex items-center justify-center border border-secondary/50 w-8 h-8 bg-extra/10 rounded-full">
                       <Icon
                         path={mdiShieldCheck}
-                        size={0.7}
+                        size={0.8}
                         className="text-primary"
                       />
                     </div>

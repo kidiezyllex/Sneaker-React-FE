@@ -190,7 +190,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               onClick={convertToVND}
               title="Chuyển đổi từ USD sang VNĐ (1 USD = 25,912.04 VNĐ)"
             >
-              <Icon path={mdiTransferRight} size={0.7} className="text-white" />
+              <Icon path={mdiTransferRight} size={0.8} className="text-white" />
               Chuyển sang đơn vị VNĐ
             </Button>
           </div>
@@ -231,12 +231,12 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
             >
               {uploading ? (
                 <>
-                  <Icon path={mdiLoading} size={0.7} className="animate-spin" />
+                  <Icon path={mdiLoading} size={0.8} className="animate-spin" />
                   Đang tải...
                 </>
               ) : (
                 <>
-                  <Icon path={mdiUpload} size={0.7} />
+                  <Icon path={mdiUpload} size={0.8} />
                   Tải lên hình ảnh
                 </>
               )}
@@ -269,7 +269,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
                         className="opacity-0 group-hover:opacity-100 transition-opacity"
                         onClick={() => onRemoveImage(index)}
                       >
-                        <Icon path={mdiTrashCanOutline} size={0.7} />
+                        <Icon path={mdiTrashCanOutline} size={0.8} />
                       </Button>
                     </div>
                   </motion.div>

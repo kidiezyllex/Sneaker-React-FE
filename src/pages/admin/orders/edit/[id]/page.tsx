@@ -175,7 +175,7 @@ export default function EditOrderPage() {
           </BreadcrumbList>
         </Breadcrumb>
         <Button variant="outline" onClick={() => navigate(-1)}>
-          <Icon path={mdiArrowLeft} size={0.7} className="mr-2" />
+          <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
           Quay lại
         </Button>
       </div>
@@ -493,7 +493,7 @@ export default function EditOrderPage() {
                     <span>Đang cập nhật...</span>
                   ) : (
                     <>
-                      <Icon path={mdiContentSave} size={0.7} className="mr-2" />
+                      <Icon path={mdiContentSave} size={0.8} className="mr-2" />
                       Lưu thay đổi
                     </>
                   )}

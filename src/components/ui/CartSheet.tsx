@@ -117,7 +117,7 @@ const VouchersListDialog = ({
           <DialogTitle className="flex items-center gap-2">
             <Icon
               path={mdiTicketPercentOutline}
-              size={0.7}
+              size={0.8}
               className="text-primary"
             />
             Danh sách mã giảm giá
@@ -241,7 +241,7 @@ const VouchersListDialog = ({
                           onClick={() => handleCopyCode(voucher.code)}
                           disabled={isDisabled}
                         >
-                          <Icon path={mdiContentCopy} size={0.7} />
+                          <Icon path={mdiContentCopy} size={0.8} />
                           {isDisabled ? "Không thể sử dụng" : "Chọn mã này"}
                         </Button>
                       </div>
@@ -523,7 +523,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                             onClick={() => removeFromCart(item.id)}
                             className="text-muted-foreground hover:text-destructive text-sm text-red-error"
                           >
-                            <Icon path={mdiDelete} size={0.7} />
+                            <Icon path={mdiDelete} size={0.8} />
                           </button>
                         </div>
                         <div className="text-sm text-muted-foreground flex items-center justify-between mb-2">
@@ -548,7 +548,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                               className="px-2 py-1 text-sm hover:bg-muted transition-colors"
                               onClick={() => handleQuantityChange(item.id, -1)}
                             >
-                              <Icon path={mdiMinus} size={0.7} />
+                              <Icon path={mdiMinus} size={0.8} />
                             </button>
                             <Input
                               type="number"
@@ -580,7 +580,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                 item.stock ? item.quantity >= item.stock : false
                               }
                             >
-                              <Icon path={mdiPlus} size={0.7} />
+                              <Icon path={mdiPlus} size={0.8} />
                             </button>
                           </div>
                           <div>
@@ -626,7 +626,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                           <div className="flex items-center gap-2">
                             <Icon
                               path={mdiCheck}
-                              size={0.7}
+                              size={0.8}
                               className="text-green-600"
                             />
                             <div>
@@ -644,7 +644,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                             onClick={handleRemoveVoucher}
                             className="h-8 w-8 p-0 rounded-full text-green-600 hover:bg-green-100"
                           >
-                            <Icon path={mdiClose} size={0.7} />
+                            <Icon path={mdiClose} size={0.8} />
                           </Button>
                         </motion.div>
                       ) : (

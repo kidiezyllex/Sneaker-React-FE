@@ -46,13 +46,18 @@ const AccountDropdown = () => {
     return name.charAt(0).toUpperCase();
   };
 
+  const getAvatarUrl = () => {
+    const userId = profile?.data?.id || "default";
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="ml-4">
           <Avatar className="h-8 w-8 border border-primary/20">
             <AvatarImage
-              src={profile?.data?.avatar || ""}
+              src={getAvatarUrl()}
               alt={profile?.data?.fullName || "User"}
             />
             <AvatarFallback className="bg-primary/10 text-primary font-medium">
@@ -80,7 +85,7 @@ const AccountDropdown = () => {
               <a href="/account" className="flex items-center cursor-pointer">
                 <Icon
                   path={mdiAccount}
-                  size={0.7}
+                  size={0.8}
                   className="mr-2 text-maintext"
                 />
                 <span className="!text-maintext">Quản lý chung</span>
@@ -97,7 +102,7 @@ const AccountDropdown = () => {
                 >
                   <Icon
                     path={mdiViewDashboard}
-                    size={0.7}
+                    size={0.8}
                     className="mr-2 text-maintext"
                   />
                   <span className="!text-maintext">Dashboard</span>
@@ -111,7 +116,7 @@ const AccountDropdown = () => {
               className="text-rose-500 focus:text-rose-500 cursor-pointer"
               onClick={handleLogout}
             >
-              <Icon path={mdiLogout} size={0.7} className="mr-2" />
+              <Icon path={mdiLogout} size={0.8} className="mr-2" />
               Đăng xuất
             </DropdownMenuItem>
           </motion.div>

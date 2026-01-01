@@ -148,7 +148,6 @@ export default function CreateReturnPage() {
   ];
 
   useEffect(() => {
-    // Mock customer search
     if (customerSearch.trim()) {
       const filtered = mockCustomers.filter(
         (customer) =>
@@ -165,7 +164,6 @@ export default function CreateReturnPage() {
   }, [customerSearch]);
 
   useEffect(() => {
-    // Mock order loading
     if (selectedCustomer) {
       setOrders(mockOrders);
     } else {
@@ -320,7 +318,7 @@ export default function CreateReturnPage() {
         </Breadcrumb>
         <a href="/admin/returns" className="mr-2">
           <Button variant="outline">
-            <Icon path={mdiArrowLeft} size={0.7} className="mr-2" />
+            <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
             Quay lại
           </Button>
         </a>
@@ -512,7 +510,7 @@ export default function CreateReturnPage() {
                                 }
                               }}
                             >
-                              <Icon path={mdiMinus} size={0.7} />
+                              <Icon path={mdiMinus} size={0.8} />
                             </Button>
                             <Input
                               type="number"
@@ -566,7 +564,7 @@ export default function CreateReturnPage() {
                                 }
                               }}
                             >
-                              <Icon path={mdiPlus} size={0.7} />
+                              <Icon path={mdiPlus} size={0.8} />
                             </Button>
                           </div>
                         </div>

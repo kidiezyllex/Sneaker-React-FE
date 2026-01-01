@@ -373,7 +373,7 @@ export default function VNPayModal({
         <div className="relative mb-4">
           <Icon
             path={mdiMagnify}
-            size={0.7}
+            size={0.8}
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
           />
           <Input
@@ -440,7 +440,7 @@ export default function VNPayModal({
       </div>
 
       <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
-        <Icon path={mdiShield} size={0.7} />
+        <Icon path={mdiShield} size={0.8} />
         <span>Giao dịch được bảo mật bởi VNPay</span>
       </div>
     </div>
@@ -513,7 +513,7 @@ export default function VNPayModal({
       </div>
 
       <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
-        <Icon path={mdiLock} size={0.7} />
+        <Icon path={mdiLock} size={0.8} />
         <span>Thông tin được mã hóa và bảo mật</span>
       </div>
     </div>
@@ -577,7 +577,7 @@ export default function VNPayModal({
       </div>
 
       <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
-        <Icon path={mdiShield} size={0.7} />
+        <Icon path={mdiShield} size={0.8} />
         <span>Mã OTP có hiệu lực trong 5 phút</span>
       </div>
     </div>
@@ -714,7 +714,7 @@ export default function VNPayModal({
         {(currentStep === "account-input" ||
           currentStep === "otp-verification") && (
           <Button variant="outline" onClick={goBack} className="w-32">
-            <Icon path={mdiArrowLeft} size={0.7} className="mr-2" />
+            <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
             Quay lại
           </Button>
         )}
