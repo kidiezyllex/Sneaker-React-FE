@@ -153,7 +153,7 @@ export default function MaterialsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên chất liệu..."
-                className="pl-10 pr-4 py-2 w-full border rounded-[6px]"
+                className="pl-10 pr-4 py-2 w-full border rounded-2xl"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -193,7 +193,7 @@ export default function MaterialsPage() {
       </Card>
 
       {isLoading ? (
-        <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
+        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -232,8 +232,8 @@ export default function MaterialsPage() {
                     </TableCell>
                     <TableCell className="px-4 py-4 whitespace-nowrap text-right">
                       <div className="flex items-center justify-end space-x-2">
-                        <Skeleton className="h-8 w-8 rounded-[6px]" />
-                        <Skeleton className="h-8 w-8 rounded-[6px]" />
+                        <Skeleton className="h-8 w-8 rounded-2xl" />
+                        <Skeleton className="h-8 w-8 rounded-2xl" />
                       </div>
                     </TableCell>
                   </TableRow>
@@ -243,7 +243,7 @@ export default function MaterialsPage() {
           </div>
         </div>
       ) : isError ? (
-        <div className="bg-white rounded-[6px] shadow-sm p-4 text-center">
+        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
           <p className="text-red-500">
             Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
           </p>
@@ -258,7 +258,7 @@ export default function MaterialsPage() {
           </Button>
         </div>
       ) : (
-        <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
+        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>

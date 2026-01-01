@@ -737,7 +737,7 @@ export default function OrdersPage() {
         <div className="space-y-4">
           {[...Array(5)].map((_, index) => (
             <div key={index} className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-[6px]" />
+              <Skeleton className="h-12 w-12 rounded-2xl" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
@@ -1110,7 +1110,7 @@ const OrderDetailDialog = ({
                 <h3 className="text-sm font-medium text-maintext">
                   Thông tin đơn hàng
                 </h3>
-                <div className="mt-2 rounded-[6px] border p-4 space-y-4">
+                <div className="mt-2 rounded-2xl border p-4 space-y-4">
                   <div className="flex justify-between">
                     <span className="text-sm text-maintext">Mã đơn hàng:</span>
                     <span className="text-sm font-medium">
@@ -1150,7 +1150,7 @@ const OrderDetailDialog = ({
                 <h3 className="text-sm font-medium text-maintext">
                   Thông tin khách hàng
                 </h3>
-                <div className="mt-2 rounded-[6px] border p-4 space-y-4">
+                <div className="mt-2 rounded-2xl border p-4 space-y-4">
                   <div className="flex justify-between">
                     <span className="text-sm text-maintext">
                       Tên khách hàng:
@@ -1182,7 +1182,7 @@ const OrderDetailDialog = ({
                 <h3 className="text-sm font-medium text-maintext">
                   Địa chỉ giao hàng
                 </h3>
-                <div className="mt-2 rounded-[6px] border p-4">
+                <div className="mt-2 rounded-2xl border p-4">
                   {orderDetail.shippingAddress ? (
                     <div className="space-y-2">
                       <p className="text-sm font-medium">
@@ -1214,7 +1214,7 @@ const OrderDetailDialog = ({
                 <h3 className="text-sm font-medium text-maintext">
                   Sản phẩm đã đặt
                 </h3>
-                <div className="mt-2 rounded-[6px]">
+                <div className="mt-2 rounded-2xl">
                   <div className="max-h-[300px] overflow-y-auto">
                     <Table>
                       <TableHeader>
@@ -1270,7 +1270,7 @@ const OrderDetailDialog = ({
 
               <div>
                 <h3 className="text-sm font-medium text-maintext">Tổng tiền</h3>
-                <div className="mt-2 rounded-[6px] border p-4 space-y-4">
+                <div className="mt-2 rounded-2xl border p-4 space-y-4">
                   <div className="flex justify-between">
                     <span className="text-sm text-maintext">
                       Tổng tiền hàng:

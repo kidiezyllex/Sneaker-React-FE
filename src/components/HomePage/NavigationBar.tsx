@@ -28,14 +28,14 @@ const Tab = React.memo(({ text, selected, setSelected }: TabProps) => {
         selected
           ? "text-white"
           : "text-maintext hover:text-maintext dark:hover:text-gray-100"
-      } relative rounded-[6px] px-3 py-1.5 text-sm font-medium transition-colors`}
+      } relative rounded-2xl px-3 py-1.5 text-sm font-medium transition-colors`}
     >
       <span className="relative z-10">{text}</span>
       {selected && (
         <motion.span
           layoutId="tab"
           transition={{ type: "spring", duration: 0.4 }}
-          className="absolute inset-0 z-0 rounded-sm bg-primary/80"
+          className="absolute inset-0 z-0 rounded-md bg-primary/80"
         ></motion.span>
       )}
     </button>
@@ -86,18 +86,18 @@ export const NavigationBar = () => {
             <div className="hidden md:flex items-center gap-2">
               <a
                 href="/auth/login"
-                className="border border-primary text-primary hover:text-primary/80 rounded-sm"
+                className="border border-primary text-primary hover:text-primary/80 rounded-md"
               >
                 <Button
                   variant="outline"
                   size="sm"
-                  className="border border-primary text-primary hover:text-primary/80 rounded-sm"
+                  className="border border-primary text-primary hover:text-primary/80 rounded-md"
                 >
                   Đăng nhập
                 </Button>
               </a>
-              <a href="/auth/register" className="rounded-sm bg-primary/80">
-                <Button size="sm" className="rounded-sm bg-primary/80">
+              <a href="/auth/register" className="rounded-md bg-primary/80">
+                <Button size="sm" className="rounded-md bg-primary/80">
                   Đăng ký
                 </Button>
               </a>
@@ -115,7 +115,7 @@ export const NavigationBar = () => {
           <div className="flex items-center">
             <button
               onClick={() => setIsOpen(true)}
-              className="relative p-2 text-maintext hover:text-primary transition-colors"
+              className="relative h-10 w-10 flex items-center justify-center text-maintext hover:text-primary transition-colors"
             >
               <Icon path={mdiCart} size={0.8} />
               <span className="absolute -top-1 -right-1 bg-extra text-white text-sm rounded-full h-4 w-4 flex items-center justify-center">

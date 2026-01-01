@@ -323,7 +323,7 @@ export default function EditVoucherPage() {
                 <Label htmlFor="code" className="text-maintext">
                   Mã voucher
                 </Label>
-                <div className="px-2.5 border rounded-[6px] bg-gray-50 mt-1 h-9 flex items-center justify-between">
+                <div className="px-2.5 border rounded-2xl bg-gray-50 mt-1 h-9 flex items-center justify-between">
                   {originalVoucher.code}
                 </div>
                 <p className="text-sm text-maintext mt-1 italic">
@@ -335,7 +335,7 @@ export default function EditVoucherPage() {
                 <Label htmlFor="discountType" className="text-maintext">
                   Loại voucher
                 </Label>
-                <div className="px-2.5 border rounded-[6px] bg-gray-50 mt-1 h-9 flex items-center justify-between">
+                <div className="px-2.5 border rounded-2xl bg-gray-50 mt-1 h-9 flex items-center justify-between">
                   {originalVoucher.discountType === "PERCENTAGE"
                     ? "Phần trăm (%)"
                     : "Số tiền cố định (VNĐ)"}
@@ -349,7 +349,7 @@ export default function EditVoucherPage() {
                 <Label htmlFor="discountValue" className="text-maintext">
                   Giá trị
                 </Label>
-                <div className="px-2.5 border rounded-[6px] bg-gray-50 mt-1 h-9 flex items-center justify-between flex">
+                <div className="px-2.5 border rounded-2xl bg-gray-50 mt-1 h-9 flex items-center justify-between flex">
                   <span>{originalVoucher.discountValue}</span>
                   <span className="ml-2">
                     {originalVoucher.discountType === "PERCENTAGE"

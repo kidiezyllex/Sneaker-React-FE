@@ -55,7 +55,7 @@ const AccountDropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="ml-4">
-          <Avatar className="h-8 w-8 border border-primary/20">
+          <Avatar className="h-10 w-10 border border-primary/20">
             <AvatarImage
               src={getAvatarUrl()}
               alt={profile?.data?.fullName || "User"}

@@ -138,7 +138,7 @@ export default function SizesPage() {
       </Dialog>
 
       {isLoading ? (
-        <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
+        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -195,7 +195,7 @@ export default function SizesPage() {
           <p className="text-red-500">Đã xảy ra lỗi khi tải dữ liệu.</p>
         </div>
       ) : (
-        <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
+        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
           <div className="p-4 border-b">
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="flex-1">
@@ -244,7 +244,7 @@ export default function SizesPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="h-8 w-12 rounded-[6px] bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+                          <div className="h-8 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
                             <span className="text-sm font-bold">
                               {getSizeLabel(size.value)}
                             </span>

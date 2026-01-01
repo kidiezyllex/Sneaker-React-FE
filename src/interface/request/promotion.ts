@@ -1,5 +1,5 @@
 export interface IPromotionFilter {
-  status?: 'ACTIVE' | 'UNACTIVE';
+  status?: 'ACTIVE' | 'INACTIVE';
   search?: string;
   startDate?: string;
   endDate?: string;
@@ -11,7 +11,7 @@ export interface IPromotionCreate {
   name: string;
   description?: string;
   discountPercent: number;
-  products?: string[];
+  productIds?: string[];
   startDate: string | Date;
   endDate: string | Date;
 }
@@ -23,5 +23,5 @@ export interface IPromotionUpdate {
   productIds?: string[];
   startDate?: string | Date;
   endDate?: string | Date;
-  status?: 'ACTIVE' | 'UNACTIVE';
+  status?: 'ACTIVE' | 'INACTIVE';
 }

@@ -70,7 +70,7 @@ const ProductCard = ({
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -10 }}
-      className="group bg-white dark:bg-gray-800 rounded-[6px] shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
+      className="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden"
     >
       <div className="relative">
         <div className="overflow-hidden aspect-square">
@@ -168,7 +168,7 @@ export const FeaturedProducts = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4">
           {featuredProducts.map((product, index) => (
             <ProductCard key={product.id} product={product} index={index} />
           ))}

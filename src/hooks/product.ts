@@ -15,7 +15,9 @@ import {
   updateProductImages,
   deleteProduct,
   searchProducts,
-  getAllFilters 
+  getAllFilters,
+  getLatestProducts,
+  getBestSellingProducts
 } from "@/api/product";
 import {
   IProductFilter,
@@ -144,6 +146,28 @@ export const useProductFilters = (): UseQueryResult<IProductFiltersResponse, Err
     refetchIntervalInBackground: true,
   });
 }; 
+
+export const useLatestProducts = (): UseQueryResult<IProductsResponse, Error> => {
+  return useQuery<IProductsResponse, Error>({
+    queryKey: ["latestProducts"],
+    queryFn: () => getLatestProducts(),
+    staleTime: 30000,
+    gcTime: 300000,
+    refetchInterval: 4000,
+    refetchIntervalInBackground: true,
+  });
+};
+
+export const useBestSellingProducts = (): UseQueryResult<IProductsResponse, Error> => {
+  return useQuery<IProductsResponse, Error>({
+    queryKey: ["bestSellingProducts"],
+    queryFn: () => getBestSellingProducts(),
+    staleTime: 30000,
+    gcTime: 300000,
+    refetchInterval: 4000,
+    refetchIntervalInBackground: true,
+  });
+};
 
 export const useSoles = () => {
   return {

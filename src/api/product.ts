@@ -101,3 +101,13 @@ export const getAllFilters = async (): Promise<IProductFiltersResponse> => {
   const res = await sendGet("/products/filters");
   return res as IProductFiltersResponse;
 };
+
+export const getLatestProducts = async (): Promise<IProductsResponse> => {
+  const res = await sendGet("/products/latest");
+  return res as IProductsResponse;
+};
+
+export const getBestSellingProducts = async (): Promise<IProductsResponse> => {
+  const res = await sendGet("/products/best-sellers");
+  return res as IProductsResponse;
+};

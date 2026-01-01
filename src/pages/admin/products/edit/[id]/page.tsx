@@ -646,7 +646,7 @@ export default function EditProductPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border p-4 rounded-[6px]"
+                    className="border p-4 rounded-2xl"
                   >
                     <div className="flex justify-between items-center mb-4">
                       <div>
@@ -802,7 +802,7 @@ export default function EditProductPage() {
                             variant.images.map((image, index) => (
                               <div
                                 key={index}
-                                className="relative group rounded-[6px] overflow-hidden border border-gray-200"
+                                className="relative group rounded-2xl overflow-hidden border border-gray-200"
                                 style={{ aspectRatio: "1/1" }}
                               >
                                 <img
@@ -842,7 +842,7 @@ export default function EditProductPage() {
                             ))
                           ) : (
                             <div
-                              className="flex items-center justify-center border border-dashed border-gray-300 rounded-[6px] text-maintext"
+                              className="flex items-center justify-center border border-dashed border-gray-300 rounded-2xl text-maintext"
                               style={{ aspectRatio: "1/1" }}
                             >
                               <div className="flex flex-col items-center p-4">
@@ -867,7 +867,7 @@ export default function EditProductPage() {
               <CardTitle>Trạng thái sản phẩm</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="flex items-center justify-between px-4 py-3 border rounded-[6px]">
+              <div className="flex items-center justify-between px-4 py-3 border rounded-2xl">
                 <div>
                   <h3 className="font-medium text-maintext">
                     Trạng thái hoạt động

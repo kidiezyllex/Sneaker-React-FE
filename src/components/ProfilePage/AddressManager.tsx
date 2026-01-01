@@ -192,7 +192,7 @@ export default function AddressManager() {
         </div>
 
         {addresses.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-[6px]">
+          <div className="flex flex-col items-center justify-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-2xl">
             <Icon path={mdiMapMarker} size={3} className="text-maintext mb-4" />
             <p className="text-maintext dark:text-maintext mb-4">
               Bạn chưa có địa chỉ nào
@@ -452,7 +452,7 @@ export default function AddressManager() {
                     control={form.control}
                     name="isDefault"
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-center space-x-4 space-y-0 rounded-[6px] border p-4">
+                      <FormItem className="flex flex-row items-center space-x-4 space-y-0 rounded-2xl border p-4">
                         <FormControl>
                           <Input
                             type="checkbox"

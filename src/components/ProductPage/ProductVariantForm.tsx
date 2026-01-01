@@ -253,7 +253,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.2 }}
-                    className="relative group rounded-[6px] overflow-hidden border border-gray-200"
+                    className="relative group rounded-2xl overflow-hidden border border-gray-200"
                     style={{ aspectRatio: "1/1" }}
                   >
                     <img
@@ -277,7 +277,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               </AnimatePresence>
             ) : (
               <div
-                className="flex items-center justify-center border border-dashed border-gray-300 rounded-[6px] text-maintext"
+                className="flex items-center justify-center border border-dashed border-gray-300 rounded-2xl text-maintext"
                 style={{ aspectRatio: "1/1" }}
               >
                 <div className="flex flex-col items-center p-4">

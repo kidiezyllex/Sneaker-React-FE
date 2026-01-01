@@ -67,7 +67,7 @@ import { getSizeLabel } from "@/utils/sizeMapping";
 import { Input } from "@/components/ui/input";
 
 const CardSkeleton = () => (
-  <div className="bg-white rounded-[6px] border border-border shadow-sm overflow-hidden">
+  <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
     <Skeleton className="h-48 w-full" />
     <div className="p-4">
       <Skeleton className="h-4 w-3/4 mb-2" />
@@ -733,7 +733,7 @@ export default function POSPage() {
       </div>
 
       {/* Phần quản lý các giỏ hàng đang chờ */}
-      <div className="bg-white rounded-[6px] p-4 mb-4 shadow-sm border border-border">
+      <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-border">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-maintext flex items-center gap-2">
             <Icon path={mdiCart} size={0.9} className="text-primary" />
@@ -758,7 +758,7 @@ export default function POSPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 className={cn(
-                  "relative flex items-center gap-2 p-2 rounded-sm border-2 transition-all duration-200 min-w-[140px] group",
+                  "relative flex items-center gap-2 p-2 rounded-md border-2 transition-all duration-200 min-w-[140px] group",
                   activeCartId === cart.id
                     ? "border-primary bg-primary/5 text-primary shadow-md"
                     : "border-border bg-white text-maintext hover:border-primary/50 hover:bg-primary/5"
@@ -839,7 +839,7 @@ export default function POSPage() {
         {/* Cột trái - Danh sách sản phẩm */}
         <div className="lg:col-span-2 overflow-hidden flex flex-col">
           {/* Thanh tìm kiếm và lọc */}
-          <div className="bg-white rounded-[6px] p-4 mb-4 shadow-sm border border-border hover:shadow-md transition-shadow duration-300">
+          <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-border hover:shadow-md transition-shadow duration-300">
             <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
               <div className="relative flex-1">
                 <Icon
@@ -851,7 +851,7 @@ export default function POSPage() {
                   id="product-search"
                   type="text"
                   placeholder="Tìm kiếm sản phẩm..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-[6px] border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -864,7 +864,7 @@ export default function POSPage() {
                 <button
                   key={category.id}
                   className={cn(
-                    "whitespace-nowrap px-4 py-2 rounded-[6px] text-sm font-medium transition-all duration-200",
+                    "whitespace-nowrap px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-200",
                     activeCategoryName === category.name
                       ? "bg-primary text-white shadow-sm"
                       : "bg-gray-50 text-maintext hover:bg-gray-100 hover:text-primary"
@@ -1241,7 +1241,7 @@ export default function POSPage() {
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.3 }}
-                              className="bg-white rounded-[6px] border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 group"
+                              className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 group"
                             >
                               <div
                                 className="relative h-48 w-full bg-gray-50 overflow-hidden cursor-pointer"
@@ -1341,7 +1341,7 @@ export default function POSPage() {
                     </TabsContent>
 
                     <TabsContent value="table" className="mt-0">
-                      <div className="border border-border rounded-[6px] overflow-hidden">
+                      <div className="border border-border rounded-2xl overflow-hidden">
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="bg-muted/50">
@@ -1390,7 +1390,7 @@ export default function POSPage() {
                                     onClick={() => handleProductSelect(product)}
                                   >
                                     <div className="flex items-center gap-2">
-                                      <div className="relative h-10 w-10 rounded-[6px] overflow-hidden bg-gray-50">
+                                      <div className="relative h-10 w-10 rounded-2xl overflow-hidden bg-gray-50">
                                         <img
                                           src={checkImageUrl(
                                             getVariantImageUrl(firstVariant)

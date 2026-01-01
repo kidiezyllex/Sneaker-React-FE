@@ -234,13 +234,13 @@ export default function CreateOrderPage() {
               </CardHeader>
               <CardContent>
                 {selectedProducts.length === 0 ? (
-                  <div className="text-center py-4 border rounded-[6px]">
+                  <div className="text-center py-4 border rounded-2xl">
                     <p className="text-maintext">
                       Chưa có sản phẩm nào. Vui lòng thêm sản phẩm vào đơn hàng.
                     </p>
                   </div>
                 ) : (
-                  <div className="border rounded-[6px]">
+                  <div className="border rounded-2xl">
                     <Table>
                       <TableHeader>
                         <TableRow>
@@ -606,7 +606,7 @@ export default function CreateOrderPage() {
                               <img
                                 src={product.images[0]}
                                 alt={product.name}
-                                className="h-10 w-10 rounded-[6px] object-cover"
+                                className="h-10 w-10 rounded-2xl object-cover"
                               />
                             )}
                             <div>

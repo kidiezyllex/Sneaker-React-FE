@@ -24,7 +24,7 @@ const FeatureCard = ({
   description: string;
 }) => (
   <motion.div
-    className="bg-white backdrop-blur-md p-8 rounded-[6px] transition-all duration-300 border border-white/20"
+    className="bg-white backdrop-blur-md p-8 rounded-2xl transition-all duration-300 border border-white/20"
     whileHover={{ y: -10, scale: 1.02 }}
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ const TeamMember = ({
   role: string;
 }) => (
   <motion.div
-    className=" bg-gradient-to-r from-[#2C8B3D80] to-[#88C14080] flex flex-col items-center justify-center gap-2 p-4 px-2 rounded-[6px] relative overflow-hidden cursor-pointer"
+    className=" bg-gradient-to-r from-[#2C8B3D80] to-[#88C14080] flex flex-col items-center justify-center gap-2 p-4 px-2 rounded-2xl relative overflow-hidden cursor-pointer"
     whileHover={{ y: -10, scale: 1.02 }}
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -96,7 +96,7 @@ const TestimonialCard = ({
   role: string;
 }) => (
   <motion.div
-    className="bg-white/15 backdrop-blur-md p-8 rounded-[6px] shadow-lg transition-all duration-300 border border-white/20 h-full"
+    className="bg-white/15 backdrop-blur-md p-8 rounded-2xl shadow-lg transition-all duration-300 border border-white/20 h-full"
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true }}
@@ -501,7 +501,7 @@ export const AboutUs = () => {
       <section className="py-24">
         <div className="container mx-auto px-4">
           <motion.div
-            className="bg-gradient-to-r from-[#2C8B3D] via-[#88C140] to-[#F2A024] rounded-[6px] p-16 text-center relative overflow-hidden"
+            className="bg-gradient-to-r from-[#2C8B3D] via-[#88C140] to-[#F2A024] rounded-2xl p-16 text-center relative overflow-hidden"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

@@ -367,7 +367,10 @@ export default function VNPayModal({
       {renderOrderInfo()}
 
       <div>
-        <Label htmlFor="bank-search" className="text-sm font-medium mb-3 block">
+        <Label
+          htmlFor="bank-search"
+          className="text-sm font-semibold mb-3 block"
+        >
           Tìm kiếm ngân hàng
         </Label>
         <div className="relative mb-4">
@@ -387,7 +390,7 @@ export default function VNPayModal({
       </div>
 
       <div>
-        <Label className="text-sm font-medium mb-3 block">
+        <Label className="text-sm font-semibold mb-3 block">
           Chọn ngân hàng ({filteredBanks.length} ngân hàng)
         </Label>
         {isLoadingBanks ? (

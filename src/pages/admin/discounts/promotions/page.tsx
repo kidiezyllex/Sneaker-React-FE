@@ -212,7 +212,7 @@ export default function PromotionsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên chiến dịch..."
-                className="pl-10 pr-4 py-2 w-full border rounded-[6px]"
+                className="pl-10 pr-4 py-2 w-full border rounded-2xl"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -318,10 +318,10 @@ export default function PromotionsPage() {
       </Card>
 
       {isLoading ? (
-        <div className="bg-white rounded-[6px] shadow-sm p-4 space-y-4">
+        <div className="bg-white rounded-2xl shadow-sm p-4 space-y-4">
           {[...Array(5)].map((_, index) => (
             <div key={index} className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-[6px]" />
+              <Skeleton className="h-12 w-12 rounded-2xl" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
@@ -330,7 +330,7 @@ export default function PromotionsPage() {
           ))}
         </div>
       ) : isError ? (
-        <div className="bg-white rounded-[6px] shadow-sm p-4 text-center">
+        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
           <p className="text-red-500">
             Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
           </p>
@@ -345,7 +345,7 @@ export default function PromotionsPage() {
           </Button>
         </div>
       ) : (
-        <div className="bg-white rounded-[6px] shadow-sm overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>

@@ -301,7 +301,7 @@ export default function EditOrderPage() {
                 <CardTitle>Các sản phẩm trong đơn hàng</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="border rounded-[6px]">
+                <div className="border rounded-2xl">
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
@@ -327,7 +327,7 @@ export default function EditOrderPage() {
                               {item.product.imageUrl && (
                                 <div className="flex-shrink-0 h-10 w-10">
                                   <img
-                                    className="h-10 w-10 rounded-[6px] object-cover"
+                                    className="h-10 w-10 rounded-2xl object-cover"
                                     src={item.product.imageUrl}
                                     alt={item.product.name}
                                   />

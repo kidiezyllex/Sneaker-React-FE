@@ -240,7 +240,7 @@ export default function EditAccountPage() {
         </Button>
       </div>
 
-      <div className="flex items-center space-x-4 bg-white p-8 rounded-[6px] shadow-md">
+      <div className="flex items-center space-x-4 bg-white p-8 rounded-2xl shadow-md">
         <Avatar className="w-24 h-24 border-2 border-primary">
           <AvatarImage src={getAvatarUrl()} />
           <AvatarFallback className="text-2xl">
@@ -274,7 +274,7 @@ export default function EditAccountPage() {
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-4 rounded-[6px] shadow-md"
+        className="bg-white p-4 rounded-2xl shadow-md"
       >
         <Tabs
           value={activeTab}

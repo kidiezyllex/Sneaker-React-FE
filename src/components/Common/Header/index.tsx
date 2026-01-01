@@ -137,7 +137,7 @@ export function Header() {
           <div className="relative flex-1 max-w-[550px]">
             <Input
               placeholder="Tôi đang tìm mua..."
-              className="py-2 pr-10 h-[38px] rounded-sm w-full"
+              className="py-2 pr-10 h-[38px] rounded-md w-full"
             />
             <div className="absolute right-0 top-0 h-full flex items-center justify-center bg-[#febd69] w-[45px] rounded-r-sm cursor-pointer">
               <Icon path={mdiMagnify} size={0.8} color="#E3E6E6" />
@@ -266,7 +266,7 @@ export function Header() {
           <div className="md:hidden mt-2 relative">
             <Input
               placeholder="Tôi đang tìm mua..."
-              className="py-1 pr-10 h-[34px] rounded-sm w-full"
+              className="py-1 pr-10 h-[34px] rounded-md w-full"
               autoFocus
             />
             <div className="absolute right-0 top-0 h-full flex items-center justify-center bg-[#febd69] w-[40px] rounded-r-sm cursor-pointer">

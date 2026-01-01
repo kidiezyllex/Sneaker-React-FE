@@ -239,7 +239,7 @@ export default function ProductsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên sản phẩm..."
-                className="pl-10 py-2 w-full border rounded-[6px]"
+                className="pl-10 py-2 w-full border rounded-2xl"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -353,10 +353,10 @@ export default function ProductsPage() {
       </Card>
 
       {isLoading ? (
-        <div className="bg-white rounded-[6px] shadow-sm p-4 space-y-4">
+        <div className="bg-white rounded-2xl shadow-sm p-4 space-y-4">
           {[...Array(5)].map((_, index) => (
             <div key={index} className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-[6px]" />
+              <Skeleton className="h-12 w-12 rounded-2xl" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-[250px]" />
                 <Skeleton className="h-4 w-[200px]" />
@@ -365,7 +365,7 @@ export default function ProductsPage() {
           ))}
         </div>
       ) : isError ? (
-        <div className="bg-white rounded-[6px] shadow-sm p-4 text-center">
+        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
           <p className="text-red-500">
             Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
           </p>
@@ -380,7 +380,7 @@ export default function ProductsPage() {
           </Button>
         </div>
       ) : (
-        <div className="bg-white rounded-[6px] shadow-sm overflow-visible">
+        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
           <div
             className="overflow-x-auto"
             style={{
@@ -428,7 +428,7 @@ export default function ProductsPage() {
                     <TableRow key={product.id} className="hover:bg-gray-50">
                       <TableCell className="px-4 py-4 whitespace-nowrap">
                         <div
-                          className="relative h-12 w-12 rounded-[6px] overflow-hidden bg-gray-100 cursor-pointer group"
+                          className="relative h-12 w-12 rounded-2xl overflow-hidden bg-gray-100 cursor-pointer group"
                           onClick={() => handleOpenLightbox(product, 0, 0)}
                           title="Xem ảnh lớn"
                         >

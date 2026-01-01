@@ -1,11 +1,8 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Slider } from "@/components/ui/slider";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -14,15 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Icon } from "@mdi/react";
-import {
-  mdiCartOutline,
-  mdiHeartOutline,
-  mdiEye,
-  mdiFilterOutline,
-  mdiClose,
-  mdiMagnify,
-  mdiPercent,
-} from "@mdi/js";
+import { mdiFilterOutline, mdiClose, mdiMagnify } from "@mdi/js";
 import { useProducts, useSearchProducts } from "@/hooks/product";
 import { usePromotions } from "@/hooks/promotion";
 import {
@@ -41,29 +30,14 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
-import { checkImageUrl } from "@/lib/utils";
-import { formatPrice } from "@/utils/formatters";
 import { useCartStore } from "@/stores/useCartStore";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
-import QrCodeScanner from "@/components/ProductPage/QrCodeScanner";
 import VoucherForm from "@/components/ProductPage/VoucherForm";
 import CartIcon from "@/components/ui/CartIcon";
 import { CommonPagination } from "@/components/ui/common-pagination";
-
-interface ProductCardProps {
-  product: any;
-  promotionsData?: any;
-  onAddToCart: () => void;
-  onQuickView: () => void;
-  onAddToWishlist: () => void;
-}
-
-interface ProductFiltersProps {
-  filters: IProductFilter;
-  onChange: (filters: Partial<IProductFilter>) => void;
-}
+import { ProductCard, ProductFilters } from "./components";
 
 export default function ProductsPage() {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -351,7 +325,7 @@ export default function ProductsPage() {
   }, [data]);
 
   return (
-    <div className="container mx-auto py-8 relative">
+    <div className="relative bg-[#F6F8F7] p-8">
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -381,9 +355,9 @@ export default function ProductsPage() {
               transition={{ duration: 0.3 }}
               className="lg:hidden w-full"
             >
-              <div className="bg-white rounded-[6px] shadow-sm border p-4 mb-4">
+              <div className="bg-white rounded-2xl shadow-sm border p-4 mb-4">
                 <div className="flex justify-between items-center mb-2">
-                  <h2 className="font-medium">Bộ lọc sản phẩm</h2>
+                  <h2 className="font-semibold">Bộ lọc sản phẩm</h2>
                   <Button variant="ghost" size="sm" onClick={toggleFilter}>
                     <Icon path={mdiClose} size={0.8} />
                   </Button>
@@ -398,8 +372,8 @@ export default function ProductsPage() {
         </AnimatePresence>
 
         <div className="hidden lg:block w-full lg:w-1/4 xl:w-1/5 ">
-          <div className="bg-white rounded-[6px] shadow-sm border p-4 sticky top-20">
-            <h2 className="font-medium mb-4">Bộ lọc sản phẩm</h2>
+          <div className="bg-white rounded-2xl shadow-md border-2 border-white p-4 sticky top-20">
+            <h2 className="font-semibold mb-4">Bộ lọc sản phẩm</h2>
             <ProductFilters filters={filters} onChange={handleFilterChange} />
 
             {data && data.data && data.data.length > 0 && (
@@ -437,7 +411,7 @@ export default function ProductsPage() {
                 />
                 <Input
                   placeholder="Tìm kiếm sản phẩm..."
-                  className="pl-10"
+                  className="pl-10 bg-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -516,7 +490,7 @@ export default function ProductsPage() {
                 )}
               </div>
 
-              <div className="lg:hidden mt-8 bg-white rounded-[6px] shadow-sm border p-4">
+              <div className="lg:hidden mt-8 bg-white rounded-2xl shadow-sm border p-4">
                 <VoucherForm
                   orderValue={filteredProducts.reduce(
                     (sum, product) => sum + (product.variants[0]?.price || 0),
@@ -546,653 +520,9 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300">
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 h-10 w-10 flex items-center justify-center">
         <CartIcon className="text-white" />
       </div>
     </div>
   );
 }
-
-const ProductCard = ({
-  product,
-  promotionsData,
-  onAddToCart,
-  onQuickView,
-  onAddToWishlist,
-}: ProductCardProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-    >
-      <Card className="group overflow-visible border rounded-lg hover:shadow-2xl shadow-lg transition-all duration-500 h-full flex flex-col transform bg-white relative backdrop-blur-sm">
-        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg z-10 pointer-events-none" />
-
-        <div className="relative overflow-visible bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-t-2xl">
-          <a
-            href={`/products/${product.name
-              .toLowerCase()
-              .replace(/\s+/g, "-")}-${product.id}`}
-            className="block"
-          >
-            <div className="aspect-square overflow-visible relative flex items-center justify-center">
-              <motion.div className="w-full h-full relative z-20">
-                <img
-                  src={
-                    checkImageUrl(
-                      product.variants[0]?.images?.[0]?.imageUrl ||
-                        product.variants[0]?.images?.[0]
-                    ) || "/placeholder.svg"
-                  }
-                  alt={product.name}
-                  className="object-contain w-full h-full drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500"
-                />
-              </motion.div>
-            </div>
-          </a>
-
-          {/* Enhanced badges */}
-          <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
-            {(() => {
-              if (
-                promotionsData?.data?.promotions &&
-                product.variants?.[0]?.price
-              ) {
-                const discount = calculateProductDiscount(
-                  product.id,
-                  product.variants[0]?.price || 0,
-                  promotionsData.data.promotions
-                );
-
-                if (discount.discountPercent > 0) {
-                  return (
-                    <motion.div
-                      initial={{ scale: 0, rotate: 180 }}
-                      animate={{ scale: 1, rotate: 0 }}
-                      transition={{ duration: 0.5, delay: 0.3 }}
-                      className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
-                    >
-                      💥
-                      <span className="text-base">
-                        -{discount.discountPercent}%
-                      </span>
-                    </motion.div>
-                  );
-                }
-              }
-              return null;
-            })()}
-            {/* Stock badge */}
-            {(() => {
-              const totalStock = (product.variants || []).reduce(
-                (sum: number, variant: any) => sum + (variant.stock || 0),
-                0
-              );
-              if (totalStock === 0) {
-                return (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="bg-red-500 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
-                  >
-                    Hết hàng
-                  </motion.div>
-                );
-              } else if (totalStock <= 5) {
-                return (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="bg-orange-500 text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-xl border-2 border-white/50 backdrop-blur-sm"
-                  >
-                    Sắp hết
-                  </motion.div>
-                );
-              }
-              return null;
-            })()}
-          </div>
-
-          {/* Enhanced quick action buttons */}
-          <motion.div
-            className="absolute right-2 top-2 transform -translate-y-1/2 flex flex-col gap-4 z-50"
-            initial={{ x: 60, opacity: 0 }}
-            animate={{
-              x: isHovered ? 0 : 60,
-              opacity: isHovered ? 1 : 0,
-            }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-          >
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-primary hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onAddToCart();
-                }}
-                aria-label="Thêm vào giỏ hàng"
-              >
-                <Icon
-                  path={mdiCartOutline}
-                  size={0.8}
-                  className="group-hover/btn:animate-bounce"
-                />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-pink-500 hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onAddToWishlist();
-                }}
-                aria-label="Yêu thích"
-              >
-                <Icon
-                  path={mdiHeartOutline}
-                  size={0.8}
-                  className="group-hover/btn:animate-pulse"
-                />
-              </Button>
-            </motion.div>
-
-            <motion.div whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.95 }}>
-              <Button
-                variant="outline"
-                size="icon"
-                className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-blue-500 hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onQuickView();
-                }}
-                aria-label="Xem nhanh"
-              >
-                <Icon
-                  path={mdiEye}
-                  size={0.8}
-                  className="group-hover/btn:animate-ping"
-                />
-              </Button>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        <div className="p-4 flex flex-col flex-grow bg-gradient-to-b from-white via-gray-50/30 to-white border-t border-gray-100/50 rounded-b-2xl relative">
-          <div className="text-sm text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-pink-400 animate-pulse"></div>
-            <span className="bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">
-              {typeof product.brand === "string"
-                ? product.brand
-                : product.brand.name}
-            </span>
-          </div>
-
-          <a
-            href={`/products/${product.name
-              .toLowerCase()
-              .replace(/\s+/g, "-")}-${product.id}`}
-            className="hover:text-primary transition-colors group/link"
-          >
-            <h3 className="font-bold text-base mb-2 line-clamp-2 leading-tight group-hover:text-primary/90 transition-colors duration-300 text-maintext group-hover/link:underline decoration-primary/50 underline-offset-2">
-              {product.name}
-            </h3>
-          </a>
-
-          <div>
-            <div className="flex items-center justify-between">
-              <motion.div
-                className="font-extrabold text-lg text-active"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
-              >
-                {(() => {
-                  if (
-                    promotionsData?.data?.promotions &&
-                    product.variants?.[0]?.price
-                  ) {
-                    const discount = calculateProductDiscount(
-                      product.id,
-                      product.variants[0]?.price || 0,
-                      promotionsData.data.promotions
-                    );
-
-                    if (discount.discountPercent > 0) {
-                      return formatPrice(discount.discountedPrice);
-                    }
-                  }
-
-                  return formatPrice(product.variants?.[0]?.price || 0);
-                })()}
-              </motion.div>
-              {(() => {
-                if (
-                  promotionsData?.data?.promotions &&
-                  product.variants?.[0]?.price
-                ) {
-                  const discount = calculateProductDiscount(
-                    product.id,
-                    product.variants[0]?.price || 0,
-                    promotionsData.data.promotions
-                  );
-
-                  if (discount.discountPercent > 0) {
-                    return (
-                      <div className="text-sm text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
-                        {formatPrice(discount.originalPrice)}
-                      </div>
-                    );
-                  }
-                }
-                return null;
-              })()}
-            </div>
-
-            {product.variants && product.variants.length > 0 && (
-              <div className="flex flex-col gap-1 items-start justify-start mt-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">
-                    Màu sắc:
-                  </span>
-                  <div className="flex gap-1 text-sm items-center">
-                    {Array.from(
-                      new Set(
-                        (product.variants || []).map(
-                          (v: any) => v.color?.id || v.colorId
-                        )
-                      )
-                    )
-                      .slice(0, 4)
-                      .map((colorId, index: number) => {
-                        const variant = (product.variants || []).find(
-                          (v: any) => (v.color?.id || v.colorId) === colorId
-                        );
-                        const color = variant?.color || {
-                          code: "#000000",
-                          name: "Unknown",
-                        };
-
-                        return (
-                          <motion.div
-                            key={index}
-                            className="w-4 h-4 flex-shrink-0 rounded-full border-2 border-white shadow-lg ring-2 ring-gray-200 cursor-pointer"
-                            style={{ backgroundColor: color.code }}
-                            title={color.name}
-                            whileHover={{ scale: 1.3, rotate: 360 }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        );
-                      })}
-
-                    {Array.from(
-                      new Set(
-                        (product.variants || []).map(
-                          (v: any) => v.color?.id || v.colorId
-                        )
-                      )
-                    ).length > 4 && (
-                      <motion.span
-                        className="text-sm border text-maintext ml-1 bg-gray-100 px-3 py-0.5 rounded-full font-medium"
-                        whileHover={{ scale: 1.1 }}
-                      >
-                        +
-                        {Array.from(
-                          new Set(
-                            (product.variants || []).map(
-                              (v: any) => v.color?.id || v.colorId
-                            )
-                          )
-                        ).length - 4}
-                      </motion.span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">
-                    Kích thước:
-                  </span>
-                  <div className="flex gap-1 text-maintext text-sm">
-                    {Array.from(
-                      new Set(
-                        (product.variants || []).map((v: any) =>
-                          v.size?.value
-                            ? getSizeLabel(v.size.value)
-                            : v.size?.code || v.size?.name || "Unknown"
-                        )
-                      )
-                    ).join(", ")}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Decorative bottom border */}
-          <div className="absolute bottom-0 left-0 right-0 h-1 bg-primary rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        </div>
-      </Card>
-    </motion.div>
-  );
-};
-const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
-  const productsQuery = useProducts({ limit: 100, status: "ACTIVE" });
-  const products = productsQuery.data?.data || [];
-  const [selectedBrand, setSelectedBrand] = useState<string | undefined>(
-    filters.brands
-      ? Array.isArray(filters.brands)
-        ? filters.brands[0]
-        : filters.brands
-      : undefined
-  );
-
-  useEffect(() => {
-    if (filters.brands) {
-      setSelectedBrand(
-        Array.isArray(filters.brands) ? filters.brands[0] : filters.brands
-      );
-    } else {
-      setSelectedBrand(undefined);
-    }
-  }, [filters.brands]);
-
-  const handleBrandChange = (brandId: string) => {
-    if (selectedBrand === brandId) {
-      setSelectedBrand(undefined);
-      onChange({ brands: undefined });
-    } else {
-      setSelectedBrand(brandId);
-      onChange({ brands: brandId });
-    }
-  };
-
-  const [selectedCategory, setSelectedCategory] = useState<string | undefined>(
-    filters.categories
-      ? Array.isArray(filters.categories)
-        ? filters.categories[0]
-        : filters.categories
-      : undefined
-  );
-
-  useEffect(() => {
-    if (filters.categories) {
-      setSelectedCategory(
-        Array.isArray(filters.categories)
-          ? filters.categories[0]
-          : filters.categories
-      );
-    } else {
-      setSelectedCategory(undefined);
-    }
-  }, [filters.categories]);
-
-  const handleCategoryChange = (categoryId: string) => {
-    if (selectedCategory === categoryId) {
-      setSelectedCategory(undefined);
-      onChange({ categories: undefined });
-    } else {
-      setSelectedCategory(categoryId);
-      onChange({ categories: categoryId });
-    }
-  };
-
-  const handleColorChange = (colorId: string) => {
-    onChange({
-      color: filters.color === colorId ? undefined : colorId,
-    });
-  };
-  const handleSizeChange = (sizeId: string) => {
-    onChange({
-      size: filters.size === sizeId ? undefined : sizeId,
-    });
-  };
-  const brands = useMemo(() => {
-    if (!products || products.length === 0) return [];
-
-    const uniqueBrands = Array.from(
-      new Set(
-        products.map((product) => {
-          const brand =
-            typeof product.brand === "object"
-              ? product.brand
-              : { id: product.brand, name: product.brand };
-          return JSON.stringify(brand);
-        })
-      )
-    ).map((brandStr) => JSON.parse(brandStr));
-
-    return uniqueBrands;
-  }, [products]);
-
-  const categories = useMemo(() => {
-    if (!products || products.length === 0) return [];
-
-    const uniqueCategories = Array.from(
-      new Set(
-        products.map((product) => {
-          const category =
-            typeof product.category === "object"
-              ? product.category
-              : { id: product.category, name: product.category };
-          return JSON.stringify(category);
-        })
-      )
-    ).map((categoryStr) => JSON.parse(categoryStr));
-
-    return uniqueCategories;
-  }, [products]);
-
-  const colors = useMemo(() => {
-    if (!products || products.length === 0) return [];
-
-    const allColors = products.flatMap((product) =>
-      product.variants.map(
-        (variant) =>
-          variant.color || {
-            id: 0,
-            name: "Unknown",
-            code: "#000000",
-          }
-      )
-    );
-
-    const uniqueColors = Array.from(
-      new Set(allColors.map((color) => JSON.stringify(color)))
-    ).map((colorStr) => JSON.parse(colorStr));
-
-    return uniqueColors;
-  }, [products]);
-
-  const sizes = useMemo(() => {
-    if (!products || products.length === 0) return [];
-
-    const allSizes = products.flatMap((product) =>
-      product.variants.map((variant) => variant.size || { id: 0, value: 0 })
-    );
-
-    const uniqueSizes = Array.from(
-      new Set(allSizes.map((size) => JSON.stringify(size)))
-    )
-      .map((sizeStr) => JSON.parse(sizeStr))
-      .sort((a, b) => (a.value || 0) - (b.value || 0));
-
-    return uniqueSizes;
-  }, [products]);
-
-  const priceRange = useMemo(() => {
-    if (!products || products.length === 0) {
-      return { min: 0, max: 5000000 };
-    }
-
-    const prices = products.flatMap((product) =>
-      product.variants.map((variant) => variant.price || 0)
-    );
-
-    return {
-      min: Math.min(...prices, 0),
-      max: Math.max(...prices, 5000000),
-    };
-  }, [products]);
-
-  const [selectedPriceRange, setSelectedPriceRange] = useState<
-    [number, number]
-  >([filters.minPrice || priceRange.min, filters.maxPrice || priceRange.max]);
-
-  const handlePriceChange = (values: number[]) => {
-    setSelectedPriceRange(values as [number, number]);
-
-    const timerId = setTimeout(() => {
-      onChange({
-        minPrice: values[0],
-        maxPrice: values[1],
-      });
-    }, 300);
-
-    return () => clearTimeout(timerId);
-  };
-
-  const handleResetFilters = () => {
-    setSelectedPriceRange([priceRange.min, priceRange.max]);
-    setSelectedCategory(undefined);
-    onChange({
-      categories: undefined,
-      minPrice: undefined,
-      maxPrice: undefined,
-      color: undefined,
-      size: undefined,
-    });
-    toast.info("Đã đặt lại bộ lọc");
-  };
-
-  if (productsQuery.isLoading) {
-    return (
-      <div className="space-y-4">
-        <Skeleton className="h-20 w-full" />
-        <Skeleton className="h-40 w-full" />
-        <Skeleton className="h-40 w-full" />
-      </div>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      <div>
-        <h3 className="text-sm font-medium mb-3">Giá</h3>
-        <div className="px-2">
-          <Slider
-            defaultValue={[priceRange.min, priceRange.max]}
-            min={priceRange.min}
-            max={priceRange.max}
-            step={100000}
-            value={selectedPriceRange}
-            onValueChange={(value) =>
-              handlePriceChange(value as [number, number])
-            }
-          />
-          <div className="flex justify-between mt-2 text-sm text-maintext">
-            <span>{formatPrice(selectedPriceRange[0])}</span>
-            <span>{formatPrice(selectedPriceRange[1])}</span>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-medium mb-3">Thương hiệu</h3>
-        <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
-          {brands.map((brand) => (
-            <div key={(brand as any)?.id} className="flex items-center gap-2">
-              <Checkbox
-                id={`brand-${(brand as any)?.id}`}
-                checked={selectedBrand === String((brand as any)?.id)}
-                onCheckedChange={() =>
-                  handleBrandChange(String((brand as any)?.id))
-                }
-              />
-              <label
-                htmlFor={`brand-${(brand as any)?.id}`}
-                className="text-sm"
-              >
-                {brand.name}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-medium mb-3">Danh mục</h3>
-        <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
-          {categories.map((category) => (
-            <div
-              key={(category as any)?.id}
-              className="flex items-center gap-2"
-            >
-              <Checkbox
-                id={`category-${(category as any)?.id}`}
-                checked={selectedCategory === String((category as any)?.id)}
-                onCheckedChange={() =>
-                  handleCategoryChange(String((category as any)?.id))
-                }
-              />
-              <label
-                htmlFor={`category-${(category as any)?.id}`}
-                className="text-sm"
-              >
-                {category.name}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-medium mb-3">Màu sắc</h3>
-        <div className="flex flex-wrap gap-2">
-          {colors.map((color) => (
-            <button
-              key={color.id}
-              className={`w-8 h-8 rounded-full border overflow-hidden relative transition-all duration-300 ${
-                filters.color === String(color.id)
-                  ? "ring-2 ring-primary ring-offset-2"
-                  : "border-gray-300"
-              }`}
-              style={{ backgroundColor: color.code }}
-              title={color.name}
-              onClick={() => handleColorChange(String(color.id))}
-            />
-          ))}
-        </div>
-      </div>
-      <div>
-        <h3 className="text-sm font-medium mb-3">Kích cỡ</h3>
-        <div className="flex flex-wrap gap-2">
-          {sizes.map((size) => (
-            <button
-              key={size.id}
-              className={`px-2 py-1 border rounded text-sm transition-all duration-300 ${
-                filters.size === String(size.id)
-                  ? "bg-primary text-white border-primary"
-                  : "border-gray-300 hover:border-primary"
-              }`}
-              onClick={() => handleSizeChange(String(size.id))}
-            >
-              {size.value ? getSizeLabel(size.value) : size.name || size.id}
-            </button>
-          ))}
-        </div>
-      </div>
-      <Button variant="outline" className="w-full" onClick={handleResetFilters}>
-        Đặt lại
-      </Button>
-    </div>
-  );
-};

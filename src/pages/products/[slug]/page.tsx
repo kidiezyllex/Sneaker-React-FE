@@ -561,7 +561,7 @@ const SimilarProductCard = ({
 
                   if (discount.discountPercent > 0) {
                     return (
-                      <div className="text-sm text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
+                      <div className="text-sm text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-md italic">
                         {formatPrice(discount.originalPrice)}
                       </div>
                     );
@@ -1361,7 +1361,7 @@ export default function ProductDetail() {
                 >
                   -
                 </Button>
-                <div className="w-9 h-9 flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-sm">
+                <div className="w-9 h-9 flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
                   {quantity}
                 </div>
                 <Button
@@ -1694,7 +1694,7 @@ export default function ProductDetail() {
           </motion.div>
         )}
       </div>
-      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300">
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 h-10 w-10 flex items-center justify-center">
         <CartIcon className="text-white" />
       </div>
     </div>
