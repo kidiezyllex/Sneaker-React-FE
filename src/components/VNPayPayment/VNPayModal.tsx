@@ -1,26 +1,33 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useMemo } from 'react';
- 
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Icon } from '@mdi/react';
-import { 
-  mdiBank, 
-  mdiShield, 
-  mdiLoading, 
-  mdiCheckCircle, 
+import { useState, useEffect, useMemo } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Icon } from "@mdi/react";
+import {
+  mdiBank,
+  mdiShield,
+  mdiLoading,
+  mdiCheckCircle,
   mdiClose,
   mdiMagnify,
   mdiArrowLeft,
   mdiLock,
-  mdiCellphone
-} from '@mdi/js';
-import { toast } from 'react-toastify';
-import { formatPrice } from '@/utils/formatters';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogClose } from '@/components/ui/dialog';
+  mdiCellphone,
+} from "@mdi/js";
+import { toast } from "react-toastify";
+import { formatPrice } from "@/utils/formatters";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogClose,
+} from "@/components/ui/dialog";
 interface Bank {
   id: number;
   name: string;
@@ -49,41 +56,48 @@ interface VNPayModalProps {
   onPaymentError: (error: string) => void;
 }
 
-type PaymentStep = 'bank-selection' | 'account-input' | 'otp-verification' | 'processing' | 'success' | 'error';
+type PaymentStep =
+  | "bank-selection"
+  | "account-input"
+  | "otp-verification"
+  | "processing"
+  | "success"
+  | "error";
 
-export default function VNPayModal({ 
-  isOpen, 
-  onClose, 
-  orderData, 
-  onPaymentSuccess, 
-  onPaymentError 
+export default function VNPayModal({
+  isOpen,
+  onClose,
+  orderData,
+  onPaymentSuccess,
+  onPaymentError,
 }: VNPayModalProps) {
   const [banks, setBanks] = useState<Bank[]>([]);
   const [selectedBank, setSelectedBank] = useState<Bank | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isLoadingBanks, setIsLoadingBanks] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [currentStep, setCurrentStep] = useState<PaymentStep>('bank-selection');
+  const [currentStep, setCurrentStep] = useState<PaymentStep>("bank-selection");
   const [paymentResult, setPaymentResult] = useState<any>(null);
-  
+
   // Account input fields
-  const [accountNumber, setAccountNumber] = useState('');
-  const [accountHolder, setAccountHolder] = useState('');
-  
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountHolder, setAccountHolder] = useState("");
+
   // OTP fields
-  const [otpCode, setOtpCode] = useState('');
+  const [otpCode, setOtpCode] = useState("");
   const [otpTimer, setOtpTimer] = useState(60);
   const [canResendOtp, setCanResendOtp] = useState(false);
 
   // Filter banks based on search term
   const filteredBanks = useMemo(() => {
     if (!searchTerm) return banks;
-    
+
     const term = searchTerm.toLowerCase();
-    return banks.filter(bank => 
-      bank.name.toLowerCase().includes(term) ||
-      bank.shortName.toLowerCase().includes(term) ||
-      bank.code.toLowerCase().includes(term)
+    return banks.filter(
+      (bank) =>
+        bank.name.toLowerCase().includes(term) ||
+        bank.shortName.toLowerCase().includes(term) ||
+        bank.code.toLowerCase().includes(term)
     );
   }, [banks, searchTerm]);
 
@@ -97,10 +111,10 @@ export default function VNPayModal({
   // OTP timer effect
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
-    if (currentStep === 'otp-verification' && otpTimer > 0) {
+
+    if (currentStep === "otp-verification" && otpTimer > 0) {
       interval = setInterval(() => {
-        setOtpTimer(prev => {
+        setOtpTimer((prev) => {
           if (prev <= 1) {
             setCanResendOtp(true);
             return 0;
@@ -109,70 +123,72 @@ export default function VNPayModal({
         });
       }, 1000);
     }
-    
+
     return () => clearInterval(interval);
   }, [currentStep, otpTimer]);
 
   const fetchBanks = async () => {
     try {
       setIsLoadingBanks(true);
-      const response = await fetch('https://api.vietqr.io/v2/banks');
+      const response = await fetch("https://api.vietqr.io/v2/banks");
       const result = await response.json();
-      
-      if (result.code === '00' && result.data) {
+
+      if (result.code === "00" && result.data) {
         // Filter banks that support transfer
-        const supportedBanks = result.data.filter((bank: Bank) => bank.transferSupported === 1);
+        const supportedBanks = result.data.filter(
+          (bank: Bank) => bank.transferSupported === 1
+        );
         setBanks(supportedBanks);
       } else {
-        throw new Error('Không thể tải danh sách ngân hàng');
+        throw new Error("Không thể tải danh sách ngân hàng");
       }
     } catch (error) {
-      console.error('Error fetching banks:', error);
-      toast.error('Không thể tải danh sách ngân hàng');
+      console.error("Error fetching banks:", error);
+      toast.error("Không thể tải danh sách ngân hàng");
       // Fallback to some popular banks
       setBanks([
         {
           id: 1,
-          name: 'Ngân hàng TMCP Công thương Việt Nam',
-          code: 'ICB',
-          bin: '970415',
-          shortName: 'VietinBank',
-          logo: 'https://api.vietqr.io/img/ICB.png',
+          name: "Ngân hàng TMCP Công thương Việt Nam",
+          code: "ICB",
+          bin: "970415",
+          shortName: "VietinBank",
+          logo: "https://api.vietqr.io/img/ICB.png",
           transferSupported: 1,
           lookupSupported: 1,
-          short_name: 'VietinBank',
+          short_name: "VietinBank",
           support: 3,
           isTransfer: 1,
-          swift_code: 'ICBVVNVX'
+          swift_code: "ICBVVNVX",
         },
         {
           id: 2,
-          name: 'Ngân hàng TMCP Ngoại Thương Việt Nam',
-          code: 'VCB',
-          bin: '970436',
-          shortName: 'Vietcombank',
-          logo: 'https://api.vietqr.io/img/VCB.png',
+          name: "Ngân hàng TMCP Ngoại Thương Việt Nam",
+          code: "VCB",
+          bin: "970436",
+          shortName: "Vietcombank",
+          logo: "https://api.vietqr.io/img/VCB.png",
           transferSupported: 1,
           lookupSupported: 1,
-          short_name: 'Vietcombank',
+          short_name: "Vietcombank",
           support: 3,
           isTransfer: 1,
-          swift_code: 'BFTVVNVX'
+          swift_code: "BFTVVNVX",
         },
         {
           id: 3,
-          name: 'Ngân hàng TMCP Đầu tư và Phát triển Việt Nam',
-          code: 'BIDV',
-          bin: '970418',
-          shortName: 'BIDV',
-          logo: 'https://api.vietqr.io/img/BIDV.png',
+          name: "Ngân hàng TMCP Đầu tư và Phát triển Việt Nam",
+          code: "BIDV",
+          bin: "970418",
+          shortName: "BIDV",
+          logo: "https://api.vietqr.io/img/BIDV.png",
           transferSupported: 1,
           lookupSupported: 1,
-          short_name: 'BIDV',
+          short_name: "BIDV",
           support: 3,
           isTransfer: 1,
-          swift_code: 'BIDVVNVX'
-        }
+          swift_code: "BIDVVNVX",
+        },
       ]);
     } finally {
       setIsLoadingBanks(false);
@@ -181,35 +197,35 @@ export default function VNPayModal({
 
   const handleBankSelect = (bank: Bank) => {
     setSelectedBank(bank);
-    setCurrentStep('account-input');
+    setCurrentStep("account-input");
   };
 
   const handleAccountSubmit = () => {
     if (!accountNumber || accountNumber.length < 8) {
-      toast.error('Vui lòng nhập số tài khoản hợp lệ (ít nhất 8 số)');
+      toast.error("Vui lòng nhập số tài khoản hợp lệ (ít nhất 8 số)");
       return;
     }
 
     // Simulate account verification
     setIsProcessing(true);
     setTimeout(() => {
-      setAccountHolder('NGUYEN VAN A'); // Simulated account holder name
-      setCurrentStep('otp-verification');
+      setAccountHolder("NGUYEN VAN A"); // Simulated account holder name
+      setCurrentStep("otp-verification");
       setOtpTimer(60);
       setCanResendOtp(false);
       setIsProcessing(false);
-      toast.success('Mã OTP đã được gửi đến số điện thoại của bạn');
+      toast.success("Mã OTP đã được gửi đến số điện thoại của bạn");
     }, 2000);
   };
 
   const handleOtpSubmit = () => {
     if (!otpCode || otpCode.length !== 4) {
-      toast.error('Vui lòng nhập mã OTP 4 số');
+      toast.error("Vui lòng nhập mã OTP 4 số");
       return;
     }
 
-    if (otpCode !== '1234') {
-      toast.error('Mã OTP không chính xác');
+    if (otpCode !== "1234") {
+      toast.error("Mã OTP không chính xác");
       return;
     }
 
@@ -219,10 +235,10 @@ export default function VNPayModal({
   const processPayment = async () => {
     try {
       setIsProcessing(true);
-      setCurrentStep('processing');
+      setCurrentStep("processing");
 
       // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
 
       // Simulate random success/failure (95% success rate)
       const isSuccess = Math.random() > 0.05;
@@ -236,25 +252,25 @@ export default function VNPayModal({
           accountNumber: accountNumber,
           transactionId: `VNP${Date.now()}`,
           paymentTime: new Date().toISOString(),
-          status: 'SUCCESS'
+          status: "SUCCESS",
         };
-        
+
         setPaymentResult(paymentData);
-        setCurrentStep('success');
-        
+        setCurrentStep("success");
+
         // Call success callback after a short delay
         setTimeout(() => {
           onPaymentSuccess(paymentData);
         }, 2000);
       } else {
-        setCurrentStep('error');
+        setCurrentStep("error");
         setTimeout(() => {
-          onPaymentError('Giao dịch không thành công. Vui lòng thử lại.');
+          onPaymentError("Giao dịch không thành công. Vui lòng thử lại.");
         }, 2000);
       }
     } catch (error) {
-      setCurrentStep('error');
-      onPaymentError('Đã xảy ra lỗi trong quá trình thanh toán');
+      setCurrentStep("error");
+      onPaymentError("Đã xảy ra lỗi trong quá trình thanh toán");
     } finally {
       setIsProcessing(false);
     }
@@ -263,24 +279,24 @@ export default function VNPayModal({
   const handleResendOtp = () => {
     setOtpTimer(60);
     setCanResendOtp(false);
-    setOtpCode('');
-    toast.success('Mã OTP mới đã được gửi');
+    setOtpCode("");
+    toast.success("Mã OTP mới đã được gửi");
   };
 
   const handleClose = () => {
-    if (currentStep !== 'processing') {
+    if (currentStep !== "processing") {
       resetModal();
       onClose();
     }
   };
 
   const resetModal = () => {
-    setCurrentStep('bank-selection');
+    setCurrentStep("bank-selection");
     setSelectedBank(null);
-    setSearchTerm('');
-    setAccountNumber('');
-    setAccountHolder('');
-    setOtpCode('');
+    setSearchTerm("");
+    setAccountNumber("");
+    setAccountHolder("");
+    setOtpCode("");
     setOtpTimer(60);
     setCanResendOtp(false);
     setPaymentResult(null);
@@ -288,16 +304,16 @@ export default function VNPayModal({
 
   const goBack = () => {
     switch (currentStep) {
-      case 'account-input':
-        setCurrentStep('bank-selection');
+      case "account-input":
+        setCurrentStep("bank-selection");
         setSelectedBank(null);
         break;
-      case 'otp-verification':
-        setCurrentStep('account-input');
-        setOtpCode('');
+      case "otp-verification":
+        setCurrentStep("account-input");
+        setOtpCode("");
         break;
-      case 'error':
-        setCurrentStep('bank-selection');
+      case "error":
+        setCurrentStep("bank-selection");
         resetModal();
         break;
     }
@@ -311,15 +327,21 @@ export default function VNPayModal({
       <CardContent className="space-y-2">
         <div className="flex justify-between">
           <span className="text-maintext">Mã đơn hàng:</span>
-          <span className="font-medium text-maintext">{orderData.orderCode || orderData.orderId}</span>
+          <span className="font-medium text-maintext">
+            {orderData.orderCode || orderData.orderId}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-maintext">Số tiền:</span>
-          <span className="font-bold text-lg text-red-600">{formatPrice(orderData.amount)}</span>
+          <span className="font-bold text-lg text-red-600">
+            {formatPrice(orderData.amount)}
+          </span>
         </div>
         <div className="flex justify-between">
           <span className="text-maintext">Nội dung:</span>
-          <span className="font-medium text-right max-w-[200px] truncate text-maintext">{orderData.orderInfo}</span>
+          <span className="font-medium text-right max-w-[200px] truncate text-maintext">
+            {orderData.orderInfo}
+          </span>
         </div>
       </CardContent>
     </Card>
@@ -329,9 +351,14 @@ export default function VNPayModal({
     <div className="space-y-4">
       <div className="text-center">
         <div className="flex items-center justify-center mb-4">
-         <img
-         draggable="false"
-         src="/images/vnpay-logo.png" alt="bank" width={500} height={500} className='h-16 object-contain w-auto' />
+          <img
+            draggable="false"
+            src="/images/vnpay-logo.png"
+            alt="bank"
+            width={500}
+            height={500}
+            className="h-16 object-contain w-auto"
+          />
         </div>
         <h3 className="text-lg font-semibold mb-2">Thanh toán qua VNPay</h3>
         <p className="text-maintext">Chọn ngân hàng để thực hiện thanh toán</p>
@@ -344,7 +371,11 @@ export default function VNPayModal({
           Tìm kiếm ngân hàng
         </Label>
         <div className="relative mb-4">
-          <Icon path={mdiMagnify} size={0.7} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext" />
+          <Icon
+            path={mdiMagnify}
+            size={0.7}
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+          />
           <Input
             id="bank-search"
             placeholder="Tìm theo tên ngân hàng, mã ngân hàng..."
@@ -361,7 +392,11 @@ export default function VNPayModal({
         </Label>
         {isLoadingBanks ? (
           <div className="flex items-center justify-center py-8">
-            <Icon path={mdiLoading} size={1} className="animate-spin text-blue-600" />
+            <Icon
+              path={mdiLoading}
+              size={0.9}
+              className="animate-spin text-blue-600"
+            />
             <span className="ml-2">Đang tải danh sách ngân hàng...</span>
           </div>
         ) : (
@@ -386,9 +421,15 @@ export default function VNPayModal({
                       />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-sm">{bank.shortName}</div>
-                      <div className="text-xs text-maintext truncate">{bank.name}</div>
-                      <div className="text-xs text-blue-600">Mã: {bank.code}</div>
+                      <div className="font-medium text-sm">
+                        {bank.shortName}
+                      </div>
+                      <div className="text-xs text-maintext truncate">
+                        {bank.name}
+                      </div>
+                      <div className="text-xs text-blue-600">
+                        Mã: {bank.code}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -409,7 +450,13 @@ export default function VNPayModal({
     <div className="space-y-4">
       <div className="text-center">
         <div className="flex items-center justify-center mb-4">
-          <img src="/images/vnpay-logo.png" alt="bank" width={500} height={500} className='h-10 object-contain w-auto' />
+          <img
+            src="/images/vnpay-logo.png"
+            alt="bank"
+            width={500}
+            height={500}
+            className="h-10 object-contain w-auto"
+          />
         </div>
         <h3 className="text-lg font-semibold mb-2">Thông tin tài khoản</h3>
         <p className="text-maintext">Nhập thông tin tài khoản ngân hàng</p>
@@ -439,20 +486,27 @@ export default function VNPayModal({
 
       <div className="space-y-4">
         <div>
-          <Label htmlFor="account-number" className="text-sm font-medium mb-2 block">
+          <Label
+            htmlFor="account-number"
+            className="text-sm font-medium mb-2 block"
+          >
             Số tài khoản <span className="text-red-500">*</span>
           </Label>
           <Input
             id="account-number"
             placeholder="Nhập số tài khoản (ví dụ: 1234567890)"
             value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) =>
+              setAccountNumber(e.target.value.replace(/\D/g, ""))
+            }
             maxLength={20}
           />
         </div>
         {accountHolder && (
           <div>
-            <Label className="text-sm font-medium mb-2 block">Chủ tài khoản</Label>
+            <Label className="text-sm font-medium mb-2 block">
+              Chủ tài khoản
+            </Label>
             <Input value={accountHolder} disabled />
           </div>
         )}
@@ -474,14 +528,16 @@ export default function VNPayModal({
           </div>
         </div>
         <h3 className="text-lg font-semibold mb-2">Xác thực OTP</h3>
-        <p className="text-maintext">Nhập mã OTP được gửi đến số điện thoại của bạn</p>
+        <p className="text-maintext">
+          Nhập mã OTP được gửi đến số điện thoại của bạn
+        </p>
       </div>
 
       {renderOrderInfo()}
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center space-x-4">
-          <Icon path={mdiCellphone} size={1} className="text-blue-600" />
+          <Icon path={mdiCellphone} size={0.9} className="text-blue-600" />
           <div>
             <p className="text-sm font-medium">Mã OTP đã được gửi đến</p>
             <p className="text-sm text-maintext">*******890</p>
@@ -497,7 +553,9 @@ export default function VNPayModal({
           id="otp-code"
           placeholder="Nhập mã OTP 4 số"
           value={otpCode}
-          onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 4))}
+          onChange={(e) =>
+            setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 4))
+          }
           maxLength={4}
           className="text-center text-lg tracking-widest"
         />
@@ -505,9 +563,7 @@ export default function VNPayModal({
 
       <div className="text-center">
         {otpTimer > 0 ? (
-          <p className="text-sm text-maintext">
-            Gửi lại mã sau {otpTimer}s
-          </p>
+          <p className="text-sm text-maintext">Gửi lại mã sau {otpTimer}s</p>
         ) : (
           <Button
             variant="link"
@@ -531,7 +587,11 @@ export default function VNPayModal({
     <div className="text-center py-8">
       <div className="flex items-center justify-center mb-4">
         <div className="bg-blue-100 p-4 rounded-full">
-          <Icon path={mdiLoading} size={2} className="text-blue-600 animate-spin" />
+          <Icon
+            path={mdiLoading}
+            size={2}
+            className="text-blue-600 animate-spin"
+          />
         </div>
       </div>
       <h3 className="text-lg font-semibold mb-2">Đang xử lý thanh toán</h3>
@@ -551,15 +611,21 @@ export default function VNPayModal({
           <Icon path={mdiCheckCircle} size={2} className="text-primary" />
         </div>
       </div>
-      <h3 className="text-lg font-semibold mb-2 text-primary">Thanh toán thành công!</h3>
-      <p className="text-maintext mb-4">Đơn hàng của bạn đã được thanh toán thành công</p>
+      <h3 className="text-lg font-semibold mb-2 text-primary">
+        Thanh toán thành công!
+      </h3>
+      <p className="text-maintext mb-4">
+        Đơn hàng của bạn đã được thanh toán thành công
+      </p>
       {paymentResult && (
         <Card>
           <CardContent className="pt-4">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span>Mã giao dịch:</span>
-                <span className="font-medium">{paymentResult.transactionId}</span>
+                <span className="font-medium">
+                  {paymentResult.transactionId}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Ngân hàng:</span>
@@ -567,16 +633,20 @@ export default function VNPayModal({
               </div>
               <div className="flex justify-between">
                 <span>Số tài khoản:</span>
-                <span className="font-medium">***{paymentResult.accountNumber.slice(-4)}</span>
+                <span className="font-medium">
+                  ***{paymentResult.accountNumber.slice(-4)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Số tiền:</span>
-                <span className="font-medium">{formatPrice(paymentResult.amount)}</span>
+                <span className="font-medium">
+                  {formatPrice(paymentResult.amount)}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span>Thời gian:</span>
                 <span className="font-medium">
-                  {new Date(paymentResult.paymentTime).toLocaleString('vi-VN')}
+                  {new Date(paymentResult.paymentTime).toLocaleString("vi-VN")}
                 </span>
               </div>
             </div>
@@ -593,8 +663,12 @@ export default function VNPayModal({
           <Icon path={mdiClose} size={2} className="text-red-600" />
         </div>
       </div>
-      <h3 className="text-lg font-semibold mb-2 text-red-600">Thanh toán thất bại</h3>
-      <p className="text-maintext mb-4">Giao dịch không thể hoàn tất. Vui lòng thử lại.</p>
+      <h3 className="text-lg font-semibold mb-2 text-red-600">
+        Thanh toán thất bại
+      </h3>
+      <p className="text-maintext mb-4">
+        Giao dịch không thể hoàn tất. Vui lòng thử lại.
+      </p>
       <Button onClick={goBack} variant="outline">
         Thử lại
       </Button>
@@ -603,17 +677,17 @@ export default function VNPayModal({
 
   const renderStepContent = () => {
     switch (currentStep) {
-      case 'bank-selection':
+      case "bank-selection":
         return renderBankSelection();
-      case 'account-input':
+      case "account-input":
         return renderAccountInput();
-      case 'otp-verification':
+      case "otp-verification":
         return renderOtpVerification();
-      case 'processing':
+      case "processing":
         return renderProcessing();
-      case 'success':
+      case "success":
         return renderSuccess();
-      case 'error':
+      case "error":
         return renderError();
       default:
         return renderBankSelection();
@@ -621,11 +695,11 @@ export default function VNPayModal({
   };
 
   const renderActionButtons = () => {
-    if (currentStep === 'processing' || currentStep === 'success') {
+    if (currentStep === "processing" || currentStep === "success") {
       return null;
     }
 
-    if (currentStep === 'error') {
+    if (currentStep === "error") {
       return (
         <div className="flex space-x-4 pt-4">
           <Button variant="outline" onClick={handleClose} className="flex-1">
@@ -637,38 +711,41 @@ export default function VNPayModal({
 
     return (
       <div className="flex space-x-4 pt-4">
-        {(currentStep === 'account-input' || currentStep === 'otp-verification') && (
+        {(currentStep === "account-input" ||
+          currentStep === "otp-verification") && (
           <Button variant="outline" onClick={goBack} className="w-32">
             <Icon path={mdiArrowLeft} size={0.7} className="mr-2" />
             Quay lại
           </Button>
         )}
-        
-       <div className='w-full flex justify-end'>
-       {currentStep === 'bank-selection' && (
-          <Button variant="default" onClick={handleClose} className='w-32'>
-            Hủy
-          </Button>
-        )}
-       </div>
 
-        {currentStep === 'account-input' && (
-          <Button 
-            onClick={handleAccountSubmit} 
-            disabled={!accountNumber || accountNumber.length < 8 || isProcessing}
+        <div className="w-full flex justify-end">
+          {currentStep === "bank-selection" && (
+            <Button variant="default" onClick={handleClose} className="w-32">
+              Hủy
+            </Button>
+          )}
+        </div>
+
+        {currentStep === "account-input" && (
+          <Button
+            onClick={handleAccountSubmit}
+            disabled={
+              !accountNumber || accountNumber.length < 8 || isProcessing
+            }
             className="w-32"
           >
-            {isProcessing ? 'Đang xử lý...' : 'Tiếp tục'}
+            {isProcessing ? "Đang xử lý..." : "Tiếp tục"}
           </Button>
         )}
 
-        {currentStep === 'otp-verification' && (
-          <Button 
-            onClick={handleOtpSubmit} 
+        {currentStep === "otp-verification" && (
+          <Button
+            onClick={handleOtpSubmit}
             disabled={!otpCode || otpCode.length !== 4 || isProcessing}
             className="flex-1"
           >
-            {isProcessing ? 'Đang xử lý...' : 'Xác nhận thanh toán'}
+            {isProcessing ? "Đang xử lý..." : "Xác nhận thanh toán"}
           </Button>
         )}
       </div>
@@ -680,7 +757,7 @@ export default function VNPayModal({
       <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
-            <Icon path={mdiBank} size={1} className="text-blue-600" />
+            <Icon path={mdiBank} size={0.9} className="text-blue-600" />
             <span>VNPay - Cổng thanh toán</span>
           </DialogTitle>
         </DialogHeader>
@@ -690,4 +767,4 @@ export default function VNPayModal({
       </DialogContent>
     </Dialog>
   );
-} 
+}

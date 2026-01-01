@@ -1,33 +1,36 @@
-import React from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Icon } from '@mdi/react';
-import { mdiStar, mdiStarHalfFull, mdiStarOutline } from '@mdi/js';
+import React from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Icon } from "@mdi/react";
+import { mdiStar, mdiStarHalfFull, mdiStarOutline } from "@mdi/js";
 
 //                                                                                                                     Dữ liệu mẫu cho phần đánh giá
 const testimonials = [
   {
     id: 1,
-    name: 'Nguyễn Thị Lan',
-    role: 'Blogger thời trang',
-    avatar: 'https://i.pravatar.cc/150?img=1',
-    content: 'Tôi rất ấn tượng với chất lượng vải và thiết kế độc đáo của các sản phẩm tại Sneaker Store. Mỗi món đồ đều có form dáng đẹp và rất hợp thời trang.',
+    name: "Nguyễn Thị Lan",
+    role: "Blogger thời trang",
+    avatar: "https://i.pravatar.cc/150?img=1",
+    content:
+      "Tôi rất ấn tượng với chất lượng vải và thiết kế độc đáo của các sản phẩm tại Sneaker Store. Mỗi món đồ đều có form dáng đẹp và rất hợp thời trang.",
     rating: 5,
   },
   {
     id: 2,
-    name: 'Trần Văn Minh',
-    role: 'Người yêu thời trang',
-    avatar: 'https://i.pravatar.cc/150?img=5',
-    content: 'Đã mua sắm nhiều lần tại đây và luôn hài lòng. Quần áo đa dạng về kiểu dáng, từ casual đến formal, giá cả phải chăng và chất lượng tuyệt vời.',
+    name: "Trần Văn Minh",
+    role: "Người yêu thời trang",
+    avatar: "https://i.pravatar.cc/150?img=5",
+    content:
+      "Đã mua sắm nhiều lần tại đây và luôn hài lòng. Quần áo đa dạng về kiểu dáng, từ casual đến formal, giá cả phải chăng và chất lượng tuyệt vời.",
     rating: 5,
   },
   {
     id: 3,
-    name: 'Lê Thị Hương',
-    role: 'Nhân viên văn phòng',
-    avatar: 'https://i.pravatar.cc/150?img=12',
-    content: 'Shop luôn cập nhật những xu hướng thời trang mới nhất. Tôi đặc biệt thích các bộ suit và váy công sở ở đây, rất thanh lịch và chuyên nghiệp.',
+    name: "Lê Thị Hương",
+    role: "Nhân viên văn phòng",
+    avatar: "https://i.pravatar.cc/150?img=12",
+    content:
+      "Shop luôn cập nhật những xu hướng thời trang mới nhất. Tôi đặc biệt thích các bộ suit và váy công sở ở đây, rất thanh lịch và chuyên nghiệp.",
     rating: 4,
   },
 ];
@@ -43,7 +46,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
             <Icon
               key={i}
               path={mdiStar}
-              size={1}
+              size={0.9}
               className="text-yellow-400"
             />
           );
@@ -52,7 +55,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
             <Icon
               key={i}
               path={mdiStarHalfFull}
-              size={1}
+              size={0.9}
               className="text-yellow-400"
             />
           );
@@ -61,7 +64,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
             <Icon
               key={i}
               path={mdiStarOutline}
-              size={1}
+              size={0.9}
               className="text-gray-300"
             />
           );
@@ -72,7 +75,13 @@ const RatingStars = ({ rating }: { rating: number }) => {
 };
 
 //                                                                                                                     Component card đánh giá
-const TestimonialCard = ({ testimonial, index }: { testimonial: typeof testimonials[0], index: number }) => {
+const TestimonialCard = ({
+  testimonial,
+  index,
+}: {
+  testimonial: (typeof testimonials)[0];
+  index: number;
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -97,8 +106,12 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: typeof testimoni
           />
         </div>
         <div>
-          <h4 className="font-semibold text-maintext dark:text-white text-lg">{testimonial.name}</h4>
-          <p className="text-sm text-maintext dark:text-maintext">{testimonial.role}</p>
+          <h4 className="font-semibold text-maintext dark:text-white text-lg">
+            {testimonial.name}
+          </h4>
+          <p className="text-sm text-maintext dark:text-maintext">
+            {testimonial.role}
+          </p>
         </div>
       </div>
 
@@ -107,9 +120,15 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: typeof testimoni
       </div>
 
       <div className="relative">
-        <div className="absolute -top-2 -left-2 text-4xl text-primary/10 dark:text-primary/20">"</div>
-        <p className="text-maintext dark:text-gray-300 relative z-10">{testimonial.content}</p>
-        <div className="absolute -bottom-2 -right-2 text-4xl text-primary/10 dark:text-primary/20">"</div>
+        <div className="absolute -top-2 -left-2 text-4xl text-primary/10 dark:text-primary/20">
+          "
+        </div>
+        <p className="text-maintext dark:text-gray-300 relative z-10">
+          {testimonial.content}
+        </p>
+        <div className="absolute -bottom-2 -right-2 text-4xl text-primary/10 dark:text-primary/20">
+          "
+        </div>
       </div>
     </motion.div>
   );
@@ -133,13 +152,18 @@ export const Testimonials = () => {
             Khách hàng nói gì về chúng tôi
           </h2>
           <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">
-            Chúng tôi luôn lắng nghe và cải thiện dịch vụ dựa trên phản hồi của khách hàng
+            Chúng tôi luôn lắng nghe và cải thiện dịch vụ dựa trên phản hồi của
+            khách hàng
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} index={index} />
+            <TestimonialCard
+              key={testimonial.id}
+              testimonial={testimonial}
+              index={index}
+            />
           ))}
         </div>
       </div>
@@ -147,4 +171,4 @@ export const Testimonials = () => {
   );
 };
 
-export default Testimonials; 
+export default Testimonials;

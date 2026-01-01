@@ -46,7 +46,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       const response = await signInMutation.mutateAsync(formData);
       if (
         response &&
-        response.success &&
+        (response.success || (response as any).statusCode === 200) &&
         response.data?.token &&
         (response.data as any)?.account
       ) {
@@ -57,6 +57,8 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         } else {
           onSuccess();
         }
+      } else {
+        toast.error(response.message || "Đăng nhập thất bại");
       }
     } catch (error: any) {
       console.error("Lỗi đăng nhập:", error);
@@ -110,13 +112,13 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="flex justify-between items-center">
         <a
           href="/auth/register"
-          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
+          className="text-base text-primary hover:text-secondary transition-colors duration-300"
         >
           Đăng ký?
         </a>
         <a
           href="/auth/forget-password"
-          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
+          className="text-base text-primary hover:text-secondary transition-colors duration-300"
         >
           Quên mật khẩu?
         </a>
@@ -174,7 +176,7 @@ const LoginPage: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle>
-                <Icon path={mdiLogin} size={1} className="text-primary" />
+                <Icon path={mdiLogin} size={0.9} className="text-primary" />
                 <span className="text-primary">Đăng nhập tài khoản</span>
               </CardTitle>
               <img

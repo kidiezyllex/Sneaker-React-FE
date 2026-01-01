@@ -1,44 +1,58 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
- 
-import { useNavigate, useParams } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Icon } from '@mdi/react';
-import { mdiArrowLeft, mdiLoading, mdiPercent, mdiInformation } from '@mdi/js';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { usePromotionDetail, useUpdatePromotion } from '@/hooks/promotion';
-import { useProducts } from '@/hooks/product';
-import { IPromotionUpdate } from '@/interface/request/promotion';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Badge } from '@/components/ui/badge';
-import { motion } from 'framer-motion';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useState, useEffect } from "react";
+
+import { useNavigate, useParams } from "react-router-dom";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Icon } from "@mdi/react";
+import { mdiArrowLeft, mdiLoading, mdiPercent, mdiInformation } from "@mdi/js";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { usePromotionDetail, useUpdatePromotion } from "@/hooks/promotion";
+import { useProducts } from "@/hooks/product";
+import { IPromotionUpdate } from "@/interface/request/promotion";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Badge } from "@/components/ui/badge";
+import { motion } from "framer-motion";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function EditPromotionPage() {
   const navigate = useNavigate();
   const params = useParams();
   const promotionId = params.id as string;
-  
-  const { data: promotionData, isLoading: isLoadingPromotion } = usePromotionDetail(promotionId);
+
+  const { data: promotionData, isLoading: isLoadingPromotion } =
+    usePromotionDetail(promotionId);
   const updatePromotion = useUpdatePromotion();
-  const { data: productsData } = useProducts({ limit: 100, status: 'ACTIVE' });
+  const { data: productsData } = useProducts({ limit: 100, status: "ACTIVE" });
 
   const [formData, setFormData] = useState<IPromotionUpdate>({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     discountPercent: 0,
     productIds: [],
-    startDate: '',
-    endDate: '',
-    status: 'ACTIVE',
+    startDate: "",
+    endDate: "",
+    status: "ACTIVE",
   });
 
   const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
@@ -50,12 +64,16 @@ export default function EditPromotionPage() {
       const promotion = promotionData.data;
       const startDate = new Date(promotion.startDate);
       const endDate = new Date(promotion.endDate);
-      
+
       setFormData({
         name: promotion.name,
-        description: promotion.description || '',
+        description: promotion.description || "",
         discountPercent: promotion.discountPercent,
-        productIds: Array.isArray(promotion.productIds) ? promotion.productIds.map((p: any) => typeof p === 'string' ? p : p.id) : [],
+        productIds: Array.isArray(promotion.productIds)
+          ? promotion.productIds.map((p: any) =>
+              typeof p === "string" ? p : p.id
+            )
+          : [],
         startDate: startDate.toISOString().slice(0, 16),
         endDate: endDate.toISOString().slice(0, 16),
         status: promotion.status as any,
@@ -64,7 +82,9 @@ export default function EditPromotionPage() {
       // Set product selection state
       if (Array.isArray(promotion.products) && promotion.products.length > 0) {
         setApplyToAllProducts(false);
-        setSelectedProducts(promotion.products.map((p: any) => typeof p === 'string' ? p : p.id));
+        setSelectedProducts(
+          promotion.products.map((p: any) => (typeof p === "string" ? p : p.id))
+        );
       } else {
         setApplyToAllProducts(true);
         setSelectedProducts([]);
@@ -73,17 +93,17 @@ export default function EditPromotionPage() {
   }, [promotionData]);
 
   const handleInputChange = (field: keyof IPromotionUpdate, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   const handleProductSelection = (productId: string, checked: boolean) => {
     if (checked) {
-      setSelectedProducts(prev => [...prev, productId]);
+      setSelectedProducts((prev) => [...prev, productId]);
     } else {
-      setSelectedProducts(prev => prev.filter(id => id !== productId));
+      setSelectedProducts((prev) => prev.filter((id) => id !== productId));
     }
   };
 
@@ -98,17 +118,21 @@ export default function EditPromotionPage() {
     e.preventDefault();
 
     if (!formData.name?.trim()) {
-      toast.error('Vui lòng nhập tên chiến dịch');
+      toast.error("Vui lòng nhập tên chiến dịch");
       return;
     }
 
-    if (!formData.discountPercent || formData.discountPercent <= 0 || formData.discountPercent > 100) {
-      toast.error('Phần trăm giảm giá phải từ 1% đến 100%');
+    if (
+      !formData.discountPercent ||
+      formData.discountPercent <= 0 ||
+      formData.discountPercent > 100
+    ) {
+      toast.error("Phần trăm giảm giá phải từ 1% đến 100%");
       return;
     }
 
     if (!formData.startDate || !formData.endDate) {
-      toast.error('Vui lòng chọn thời gian bắt đầu và kết thúc');
+      toast.error("Vui lòng chọn thời gian bắt đầu và kết thúc");
       return;
     }
 
@@ -120,19 +144,19 @@ export default function EditPromotionPage() {
     // Nếu thay đổi thời gian bắt đầu, phải sau thời điểm hiện tại
     if (startDate.getTime() !== originalStartDate.getTime()) {
       if (startDate <= now) {
-        toast.error('Thời gian bắt đầu mới phải sau thời điểm hiện tại');
+        toast.error("Thời gian bắt đầu mới phải sau thời điểm hiện tại");
         return;
       }
     }
 
     // Thời gian kết thúc luôn phải sau thời điểm hiện tại
     if (endDate <= now) {
-      toast.error('Thời gian kết thúc phải sau thời điểm hiện tại');
+      toast.error("Thời gian kết thúc phải sau thời điểm hiện tại");
       return;
     }
 
     if (startDate >= endDate) {
-      toast.error('Thời gian kết thúc phải sau thời gian bắt đầu');
+      toast.error("Thời gian kết thúc phải sau thời gian bắt đầu");
       return;
     }
 
@@ -142,14 +166,17 @@ export default function EditPromotionPage() {
     };
 
     try {
-      await updatePromotion.mutateAsync({ promotionId, payload: submitData }, {
-        onSuccess: () => {
-          toast.success('Cập nhật chiến dịch khuyến mãi thành công');
-          navigate('/admin/discounts/promotions');
-        },
-      });
+      await updatePromotion.mutateAsync(
+        { promotionId, payload: submitData },
+        {
+          onSuccess: () => {
+            toast.success("Cập nhật chiến dịch khuyến mãi thành công");
+            navigate("/admin/discounts/promotions");
+          },
+        }
+      );
     } catch (error) {
-      toast.error('Cập nhật chiến dịch khuyến mãi thất bại');
+      toast.error("Cập nhật chiến dịch khuyến mãi thất bại");
     }
   };
 
@@ -203,15 +230,21 @@ export default function EditPromotionPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">Dashboard</BreadcrumbLink>
+              <BreadcrumbLink href="/admin/statistics">
+                Dashboard
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">Quản lý khuyến mãii</BreadcrumbLink>
+              <BreadcrumbLink href="/admin/discounts">
+                Quản lý khuyến mãii
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts/promotions">Chiến dịch khuyến mãi</BreadcrumbLink>
+              <BreadcrumbLink href="/admin/discounts/promotions">
+                Chiến dịch khuyến mãi
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -238,7 +271,7 @@ export default function EditPromotionPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icon path={mdiPercent} size={1} className="text-primary" />
+              <Icon path={mdiPercent} size={0.9} className="text-primary" />
               Chỉnh sửa chiến dịch khuyến mãi
             </CardTitle>
           </CardHeader>
@@ -251,21 +284,28 @@ export default function EditPromotionPage() {
                   <Input
                     id="name"
                     value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
                     placeholder="Nhập tên chiến dịch khuyến mãi"
                     required
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="discountPercent">Phần trăm giảm giá (%) *</Label>
+                  <Label htmlFor="discountPercent">
+                    Phần trăm giảm giá (%) *
+                  </Label>
                   <Input
                     id="discountPercent"
                     type="number"
                     min="1"
                     max="100"
                     value={formData.discountPercent}
-                    onChange={(e) => handleInputChange('discountPercent', parseInt(e.target.value) || 0)}
+                    onChange={(e) =>
+                      handleInputChange(
+                        "discountPercent",
+                        parseInt(e.target.value) || 0
+                      )
+                    }
                     placeholder="Nhập phần trăm giảm giá"
                     required
                   />
@@ -277,7 +317,9 @@ export default function EditPromotionPage() {
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("description", e.target.value)
+                  }
                   placeholder="Nhập mô tả cho chiến dịch khuyến mãi"
                   rows={3}
                 />
@@ -290,8 +332,14 @@ export default function EditPromotionPage() {
                   <Input
                     id="startDate"
                     type="datetime-local"
-                    value={typeof formData.startDate === 'string' ? formData.startDate : ''}
-                    onChange={(e) => handleInputChange('startDate', e.target.value)}
+                    value={
+                      typeof formData.startDate === "string"
+                        ? formData.startDate
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleInputChange("startDate", e.target.value)
+                    }
                     min={new Date().toISOString().slice(0, 16)}
                     required
                   />
@@ -302,9 +350,20 @@ export default function EditPromotionPage() {
                   <Input
                     id="endDate"
                     type="datetime-local"
-                    value={typeof formData.endDate === 'string' ? formData.endDate : ''}
-                    onChange={(e) => handleInputChange('endDate', e.target.value)}
-                    min={typeof formData.startDate === 'string' && formData.startDate ? formData.startDate : new Date().toISOString().slice(0, 16)}
+                    value={
+                      typeof formData.endDate === "string"
+                        ? formData.endDate
+                        : ""
+                    }
+                    onChange={(e) =>
+                      handleInputChange("endDate", e.target.value)
+                    }
+                    min={
+                      typeof formData.startDate === "string" &&
+                      formData.startDate
+                        ? formData.startDate
+                        : new Date().toISOString().slice(0, 16)
+                    }
                     required
                   />
                 </div>
@@ -313,7 +372,10 @@ export default function EditPromotionPage() {
               {/* Trạng thái */}
               <div className="space-y-2">
                 <Label htmlFor="status">Trạng thái</Label>
-                <Select value={formData.status} onValueChange={(value) => handleInputChange('status', value)}>
+                <Select
+                  value={formData.status}
+                  onValueChange={(value) => handleInputChange("status", value)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Chọn trạng thái" />
                   </SelectTrigger>
@@ -326,8 +388,10 @@ export default function EditPromotionPage() {
 
               {/* Áp dụng sản phẩm */}
               <div className="space-y-4">
-                <Label className="text-base font-semibold">Áp dụng cho sản phẩm</Label>
-                
+                <Label className="text-base font-semibold">
+                  Áp dụng cho sản phẩm
+                </Label>
+
                 <div className="flex items-center space-x-2">
                   <Checkbox
                     id="applyToAll"
@@ -342,7 +406,7 @@ export default function EditPromotionPage() {
                 {!applyToAllProducts && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
+                    animate={{ opacity: 1, height: "auto" }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: 0.3 }}
                     className="space-y-4"
@@ -350,18 +414,32 @@ export default function EditPromotionPage() {
                     <div className="border rounded-lg p-4 max-h-96 overflow-y-auto">
                       <div className="space-y-3">
                         {productsData?.data?.products?.map((product) => (
-                          <div key={product.id} className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded">
+                          <div
+                            key={product.id}
+                            className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded"
+                          >
                             <Checkbox
                               id={`product-${product.id}`}
                               checked={selectedProducts.includes(product.id)}
-                              onCheckedChange={(checked) => handleProductSelection(product.id, checked as boolean)}
+                              onCheckedChange={(checked) =>
+                                handleProductSelection(
+                                  product.id,
+                                  checked as boolean
+                                )
+                              }
                             />
                             <div className="flex-1">
-                              <Label htmlFor={`product-${product.id}`} className="text-sm font-medium cursor-pointer">
+                              <Label
+                                htmlFor={`product-${product.id}`}
+                                className="text-sm font-medium cursor-pointer"
+                              >
                                 {product.name}
                               </Label>
                               <div className="text-xs text-maintext">
-                                Mã: {product.code} | Thương hiệu: {typeof product.brand === 'string' ? product.brand : product.brand.name}
+                                Mã: {product.code} | Thương hiệu:{" "}
+                                {typeof product.brand === "string"
+                                  ? product.brand
+                                  : product.brand.name}
                               </div>
                             </div>
                           </div>
@@ -376,9 +454,15 @@ export default function EditPromotionPage() {
                         </Label>
                         <div className="flex flex-wrap gap-2">
                           {selectedProducts.map((productId) => {
-                            const product = productsData?.data?.products?.find(p => p.id === productId);
+                            const product = productsData?.data?.products?.find(
+                              (p) => p.id === productId
+                            );
                             return product ? (
-                              <Badge key={productId} variant="secondary" className="text-xs">
+                              <Badge
+                                key={productId}
+                                variant="secondary"
+                                className="text-xs"
+                              >
                                 {product.name}
                               </Badge>
                             ) : null;
@@ -394,16 +478,49 @@ export default function EditPromotionPage() {
               <Card className="bg-blue-50 border-blue-200">
                 <CardContent className="pt-6">
                   <div className="flex items-start gap-4">
-                    <Icon path={mdiInformation} size={1} className="text-blue-600 mt-0.5" />
+                    <Icon
+                      path={mdiInformation}
+                      size={0.9}
+                      className="text-blue-600 mt-0.5"
+                    />
                     <div className="space-y-2">
-                      <h4 className="font-semibold text-blue-900">Tóm tắt chiến dịch</h4>
+                      <h4 className="font-semibold text-blue-900">
+                        Tóm tắt chiến dịch
+                      </h4>
                       <div className="text-sm text-blue-800 space-y-1">
-                        <p><strong>Mã:</strong> {promotionData.data.code}</p>
-                        <p><strong>Tên:</strong> {formData.name || 'Chưa nhập'}</p>
-                        <p><strong>Giảm giá:</strong> {formData.discountPercent}%</p>
-                        <p><strong>Thời gian:</strong> {formData.startDate ? new Date(formData.startDate).toLocaleString('vi-VN') : 'Chưa chọn'} - {formData.endDate ? new Date(formData.endDate).toLocaleString('vi-VN') : 'Chưa chọn'}</p>
-                        <p><strong>Áp dụng:</strong> {applyToAllProducts ? 'Tất cả sản phẩm' : `${selectedProducts.length} sản phẩm được chọn`}</p>
-                        <p><strong>Trạng thái:</strong> {formData.status === 'ACTIVE' ? 'Hoạt động' : 'Không hoạt động'}</p>
+                        <p>
+                          <strong>Mã:</strong> {promotionData.data.code}
+                        </p>
+                        <p>
+                          <strong>Tên:</strong> {formData.name || "Chưa nhập"}
+                        </p>
+                        <p>
+                          <strong>Giảm giá:</strong> {formData.discountPercent}%
+                        </p>
+                        <p>
+                          <strong>Thời gian:</strong>{" "}
+                          {formData.startDate
+                            ? new Date(formData.startDate).toLocaleString(
+                                "vi-VN"
+                              )
+                            : "Chưa chọn"}{" "}
+                          -{" "}
+                          {formData.endDate
+                            ? new Date(formData.endDate).toLocaleString("vi-VN")
+                            : "Chưa chọn"}
+                        </p>
+                        <p>
+                          <strong>Áp dụng:</strong>{" "}
+                          {applyToAllProducts
+                            ? "Tất cả sản phẩm"
+                            : `${selectedProducts.length} sản phẩm được chọn`}
+                        </p>
+                        <p>
+                          <strong>Trạng thái:</strong>{" "}
+                          {formData.status === "ACTIVE"
+                            ? "Hoạt động"
+                            : "Không hoạt động"}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -426,11 +543,15 @@ export default function EditPromotionPage() {
                 >
                   {updatePromotion.isPending ? (
                     <>
-                      <Icon path={mdiLoading} size={0.7} className="mr-2 animate-spin" />
+                      <Icon
+                        path={mdiLoading}
+                        size={0.7}
+                        className="mr-2 animate-spin"
+                      />
                       Đang cập nhật...
                     </>
                   ) : (
-                    'Cập nhật chiến dịch'
+                    "Cập nhật chiến dịch"
                   )}
                 </Button>
               </div>
@@ -440,4 +561,4 @@ export default function EditPromotionPage() {
       </motion.div>
     </div>
   );
-} 
+}

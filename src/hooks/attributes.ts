@@ -50,7 +50,6 @@ import {
   IActionResponse
 } from "@/interface/response/attributes";
 
-// ======= Brand Hooks ======= //
 export const useBrands = (params: IBrandFilter = {}): UseQueryResult<IBrandsResponse, Error> => {
   return useQuery<IBrandsResponse, Error>({
     queryKey: ["brands", params],
@@ -88,7 +87,6 @@ export const useDeleteBrand = (): UseMutationResult<IActionResponse, Error, stri
   });
 };
 
-// ======= Category Hooks ======= //
 export const useCategories = (params: ICategoryFilter = {}): UseQueryResult<ICategoriesResponse, Error> => {
   return useQuery<ICategoriesResponse, Error>({
     queryKey: ["categories", params],
@@ -126,7 +124,6 @@ export const useDeleteCategory = (): UseMutationResult<IActionResponse, Error, s
   });
 };
 
-// ======= Material Hooks ======= //
 export const useMaterials = (params: IMaterialFilter = {}): UseQueryResult<IMaterialsResponse, Error> => {
   return useQuery<IMaterialsResponse, Error>({
     queryKey: ["materials", params],
@@ -164,7 +161,6 @@ export const useDeleteMaterial = (): UseMutationResult<IActionResponse, Error, s
   });
 };
 
-// ======= Color Hooks ======= //
 export const useColors = (params: IColorFilter = {}): UseQueryResult<IColorsResponse, Error> => {
   return useQuery<IColorsResponse, Error>({
     queryKey: ["colors", params],
@@ -202,7 +198,6 @@ export const useDeleteColor = (): UseMutationResult<IActionResponse, Error, stri
   });
 };
 
-// ======= Size Hooks ======= //
 export const useSizes = (params: ISizeFilter = {}): UseQueryResult<ISizesResponse, Error> => {
   return useQuery<ISizesResponse, Error>({
     queryKey: ["sizes", params],

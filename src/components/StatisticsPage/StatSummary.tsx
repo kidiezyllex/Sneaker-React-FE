@@ -1,9 +1,14 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { Card } from '@/components/ui/card';
-import { Icon } from '@mdi/react';
-import { mdiCashMultiple, mdiPackageVariantClosed, mdiAccountGroup, mdiTrendingUp } from '@mdi/js';
+import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
+import { Icon } from "@mdi/react";
+import {
+  mdiCashMultiple,
+  mdiPackageVariantClosed,
+  mdiAccountGroup,
+  mdiTrendingUp,
+} from "@mdi/js";
 
 interface StatCardProps {
   title: string;
@@ -15,7 +20,15 @@ interface StatCardProps {
   increasing: boolean;
 }
 
-const StatCard = ({ title, value, icon, iconColor, bgColor, percentage, increasing }: StatCardProps) => {
+const StatCard = ({
+  title,
+  value,
+  icon,
+  iconColor,
+  bgColor,
+  percentage,
+  increasing,
+}: StatCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -27,29 +40,29 @@ const StatCard = ({ title, value, icon, iconColor, bgColor, percentage, increasi
         <div className="flex justify-between items-start">
           <div>
             <p className="text-base text-maintext">{title}</p>
-            <h3 
-            className={`text-xl font-bold mt-2 ${iconColor}`}
-            >{value}</h3>
+            <h3 className={`text-xl font-bold mt-2 ${iconColor}`}>{value}</h3>
             <div className="flex items-center mt-2">
               <Icon
                 path={increasing ? mdiTrendingUp : mdiTrendingUp}
                 size={0.7}
-                className={increasing ? 'text-green-medium' : 'text-red-medium'}
+                className={increasing ? "text-green-medium" : "text-red-medium"}
               />
               <span
                 className={`text-xs ml-1 ${
-                  increasing ? 'text-green-medium' : 'text-red-medium'
+                  increasing ? "text-green-medium" : "text-red-medium"
                 }`}
               >
-                {percentage} {increasing ? 'tăng' : 'giảm'}
+                {percentage} {increasing ? "tăng" : "giảm"}
               </span>
-              <span className="text-xs text-maintext ml-1">so với tháng trước</span>
+              <span className="text-xs text-maintext ml-1">
+                so với tháng trước
+              </span>
             </div>
           </div>
           <div
             className={`${bgColor} w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0`}
           >
-            <Icon path={icon} size={1} className={iconColor} />
+            <Icon path={icon} size={0.9} className={iconColor} />
           </div>
         </div>
       </Card>
@@ -98,4 +111,4 @@ export const StatSummary = () => {
       />
     </div>
   );
-}; 
+};

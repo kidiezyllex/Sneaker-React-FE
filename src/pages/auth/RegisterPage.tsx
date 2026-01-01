@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useUser } from "@/context/useUserContext";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { motion } from "framer-motion";
 import Icon from "@mdi/react";
 import { mdiAccountPlus } from "@mdi/js";
+import { useRegister } from "@/hooks/authentication";
 
 interface RegisterFormValues {
   fullName: string;
@@ -18,8 +20,9 @@ interface RegisterFormValues {
 }
 
 function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
+  const { loginUser } = useUser();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const { mutate: registerUser, isPending: isLoading } = useRegister();
   const [formData, setFormData] = useState<RegisterFormValues>({
     fullName: "",
     email: "",
@@ -36,23 +39,33 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
     }));
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    try {
-      // TODO: Implement register API call
-      console.log("Register data:", formData);
-      toast.success("Đăng ký thành công!");
-      setTimeout(() => {
-        navigate("/auth/login");
-      }, 1500);
-    } catch (error: any) {
-      console.error("Lỗi đăng ký:", error);
-      toast.error("Đăng ký thất bại");
-    } finally {
-      setIsLoading(false);
-    }
+    registerUser(formData, {
+      onSuccess: (data) => {
+        if (data.success || (data as any).statusCode === 200) {
+          const token = data.data.token;
+          const account = data.data.account;
+
+          if (token && account) {
+            loginUser(account, token);
+            toast.success("Đăng ký thành công!");
+            navigate("/");
+          } else {
+            toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
+            setTimeout(() => {
+              navigate("/auth/login");
+            }, 1500);
+          }
+        } else {
+          toast.error(data.message || "Đăng ký thất bại");
+        }
+      },
+      onError: (error: any) => {
+        toast.error(error?.response?.data?.message || "Đăng ký thất bại");
+      },
+    });
   };
 
   const togglePasswordVisibility = () => {
@@ -129,7 +142,7 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="flex justify-between items-center">
         <a
           href="/auth/login"
-          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
+          className="text-base text-primary hover:text-secondary transition-colors duration-300"
         >
           Đã có tài khoản? Đăng nhập
         </a>
@@ -187,7 +200,11 @@ const RegisterPage: React.FC = () => {
           <Card>
             <CardHeader>
               <CardTitle>
-                <Icon path={mdiAccountPlus} size={1} className="text-primary" />
+                <Icon
+                  path={mdiAccountPlus}
+                  size={0.9}
+                  className="text-primary"
+                />
                 <span className="text-primary">Đăng ký tài khoản</span>
               </CardTitle>
               <img

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
-import CartIcon from "@/components/ui/CartIcon"
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo } from "react";
+import CartIcon from "@/components/ui/CartIcon";
+import { useNavigate } from "react-router-dom";
 
 // Add custom styles for zoom cursor
 const zoomStyles = `
@@ -37,19 +37,24 @@ const zoomStyles = `
 `;
 
 // Inject styles
-if (typeof document !== 'undefined') {
-  const styleSheet = document.createElement('style');
-  styleSheet.type = 'text/css';
+if (typeof document !== "undefined") {
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
   styleSheet.innerText = zoomStyles;
   document.head.appendChild(styleSheet);
 }
-import { useProductDetail, useProducts } from '@/hooks/product';
-import { usePromotions } from '@/hooks/promotion';
-import { calculateProductDiscount, formatPrice as formatPromotionPrice, applyPromotionsToProducts, filterActivePromotions } from '@/lib/promotions';
-import { getSizeLabel } from '@/utils/sizeMapping';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Icon } from '@mdi/react';
+import { useProductDetail, useProducts } from "@/hooks/product";
+import { usePromotions } from "@/hooks/promotion";
+import {
+  calculateProductDiscount,
+  formatPrice as formatPromotionPrice,
+  applyPromotionsToProducts,
+  filterActivePromotions,
+} from "@/lib/promotions";
+import { getSizeLabel } from "@/utils/sizeMapping";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Icon } from "@mdi/react";
 import {
   mdiCartOutline,
   mdiHeartOutline,
@@ -69,19 +74,40 @@ import {
   mdiInformation,
   mdiCartPlus,
   mdiMagnify,
-  mdiEye
-} from '@mdi/js';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent } from '@/components/ui/card';
-import { checkImageUrl } from '@/lib/utils';
-import { useCartStore } from '@/stores/useCartStore';
-import { IProduct, IBrand, ICategory, IPopulatedProductVariant, IProductImage } from '@/interface/response/product';
-import { motion, AnimatePresence } from 'framer-motion';
-const ImageZoom = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
+  mdiEye,
+} from "@mdi/js";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { checkImageUrl } from "@/lib/utils";
+import { useCartStore } from "@/stores/useCartStore";
+import {
+  IProduct,
+  IBrand,
+  ICategory,
+  IPopulatedProductVariant,
+  IProductImage,
+} from "@/interface/response/product";
+import { motion, AnimatePresence } from "framer-motion";
+const ImageZoom = ({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) => {
   const [isZooming, setIsZooming] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [lensPosition, setLensPosition] = useState({ x: 0, y: 0 });
@@ -91,11 +117,11 @@ const ImageZoom = ({ src, alt, className }: { src: string; alt: string; classNam
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleMouseEnter = () => {
@@ -110,22 +136,28 @@ const ImageZoom = ({ src, alt, className }: { src: string; alt: string; classNam
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isMobile) return;
-    
+
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     // Calculate percentage position
     const xPercent = (x / rect.width) * 100;
     const yPercent = (y / rect.height) * 100;
-    
+
     setMousePosition({ x: xPercent, y: yPercent });
-    
+
     // Calculate lens position (centered on cursor)
     const lensSize = 150; // Size of the lens
-    const lensX = Math.max(lensSize / 2, Math.min(rect.width - lensSize / 2, x));
-    const lensY = Math.max(lensSize / 2, Math.min(rect.height - lensSize / 2, y));
-    
+    const lensX = Math.max(
+      lensSize / 2,
+      Math.min(rect.width - lensSize / 2, x)
+    );
+    const lensY = Math.max(
+      lensSize / 2,
+      Math.min(rect.height - lensSize / 2, y)
+    );
+
     setLensPosition({ x: lensX, y: lensY });
   };
 
@@ -139,7 +171,9 @@ const ImageZoom = ({ src, alt, className }: { src: string; alt: string; classNam
     <div className="relative overflow-visible group zoom-container">
       {/* Main Image Container */}
       <div
-        className={`relative ${className} transition-all duration-300 ${!isMobile && !isZooming ? 'cursor-zoom-in' : ''} ${!isMobile && isZooming ? 'cursor-none' : ''}`}
+        className={`relative ${className} transition-all duration-300 ${
+          !isMobile && !isZooming ? "cursor-zoom-in" : ""
+        } ${!isMobile && isZooming ? "cursor-none" : ""}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
@@ -151,30 +185,31 @@ const ImageZoom = ({ src, alt, className }: { src: string; alt: string; classNam
           draggable="false"
           className="object-contain p-4 transition-transform duration-300"
         />
-        
+
         {/* Zoom Lens - Desktop only */}
         {isZooming && !isMobile && (
           <motion.div
             className="absolute pointer-events-none border-4 border-white rounded-full shadow-2xl z-30 overflow-hidden zoom-lens"
             style={{
-              width: '150px',
-              height: '150px',
+              width: "150px",
+              height: "150px",
               left: `${lensPosition.x - 75}px`,
               top: `${lensPosition.y - 75}px`,
-              boxShadow: '0 0 0 2px rgba(59, 130, 246, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+              boxShadow:
+                "0 0 0 2px rgba(59, 130, 246, 0.8), 0 25px 50px -12px rgba(0, 0, 0, 0.25)",
             }}
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.2 }}
           >
             {/* Zoomed image inside the lens */}
-            <div 
+            <div
               className="w-full h-full relative bg-white"
               style={{
                 backgroundImage: `url(${src})`,
-                backgroundSize: '400%',
+                backgroundSize: "400%",
                 backgroundPosition: `${mousePosition.x}% ${mousePosition.y}%`,
-                backgroundRepeat: 'no-repeat',
+                backgroundRepeat: "no-repeat",
               }}
             />
             {/* Lens border effect */}
@@ -184,14 +219,14 @@ const ImageZoom = ({ src, alt, className }: { src: string; alt: string; classNam
       </div>
       {/* Mobile Zoom Overlay */}
       {isZooming && isMobile && (
-        <motion.div 
+        <motion.div
           className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}
           onClick={() => setIsZooming(false)}
         >
-          <motion.div 
+          <motion.div
             className="relative w-full max-w-lg aspect-square bg-white rounded-xl overflow-hidden"
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
@@ -218,54 +253,63 @@ const ImageZoom = ({ src, alt, className }: { src: string; alt: string; classNam
         </motion.div>
       )}
 
-             {/* Zoom hint for mobile */}
-       {isMobile && (
-         <motion.div 
-           className="absolute bottom-2 right-2 bg-primary/90 text-white px-2 py-1 rounded text-xs font-medium opacity-70"
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 0.7, y: 0 }}
-           transition={{ delay: 1, duration: 0.5 }}
-         >
-           <Icon path={mdiMagnify} size={0.7} className="inline mr-1" />
-           Nhấn để phóng to
-         </motion.div>
-       )}
+      {/* Zoom hint for mobile */}
+      {isMobile && (
+        <motion.div
+          className="absolute bottom-2 right-2 bg-primary/90 text-white px-2 py-1 rounded text-xs font-medium opacity-70"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 0.7, y: 0 }}
+          transition={{ delay: 1, duration: 0.5 }}
+        >
+          <Icon path={mdiMagnify} size={0.7} className="inline mr-1" />
+          Nhấn để phóng to
+        </motion.div>
+      )}
 
-       {/* Zoom hint for desktop */}
-       {!isMobile && !isZooming && (
-         <motion.div 
-           className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-70 transition-opacity duration-300"
-           initial={{ opacity: 0, y: 10 }}
-           animate={{ opacity: 0, y: 0 }}
-           whileHover={{ opacity: 0.7 }}
-         >
-           <Icon path={mdiMagnify} size={0.7} className="inline mr-1" />
-           Hover để phóng to
-         </motion.div>
-       )}
+      {/* Zoom hint for desktop */}
+      {!isMobile && !isZooming && (
+        <motion.div
+          className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 rounded text-xs font-medium opacity-0 group-hover:opacity-70 transition-opacity duration-300"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 0, y: 0 }}
+          whileHover={{ opacity: 0.7 }}
+        >
+          <Icon path={mdiMagnify} size={0.7} className="inline mr-1" />
+          Hover để phóng to
+        </motion.div>
+      )}
     </div>
   );
 };
 
 // Similar Products Component
-const SimilarProductCard = ({ product, promotionsData }: { product: any; promotionsData?: any }) => {
+const SimilarProductCard = ({
+  product,
+  promotionsData,
+}: {
+  product: any;
+  promotionsData?: any;
+}) => {
   const { addToCart } = useCartStore();
   const [isHovered, setIsHovered] = useState(false);
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
   };
 
   const handleAddToCart = () => {
     if (!product.variants?.[0]) return;
 
     const firstVariant = product.variants[0];
-    
+
     if (firstVariant.stock === 0) {
-      toast.error('Sản phẩm đã hết hàng');
+      toast.error("Sản phẩm đã hết hàng");
       return;
     }
-    
+
     // Calculate discount from promotions data if available
     let finalPrice = firstVariant.price;
     let originalPrice = undefined;
@@ -274,13 +318,15 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
 
     // Check if promotions data is available and calculate discount
     if (promotionsData?.data?.promotions) {
-      const activePromotions = filterActivePromotions(promotionsData.data.promotions);
+      const activePromotions = filterActivePromotions(
+        promotionsData.data.promotions
+      );
       const discount = calculateProductDiscount(
         product.id,
         firstVariant.price,
         activePromotions
       );
-      
+
       if (discount.discountPercent > 0) {
         finalPrice = discount.discountedPrice;
         originalPrice = discount.originalPrice;
@@ -297,30 +343,35 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
       originalPrice: originalPrice,
       discountPercent: discountPercent,
       hasDiscount: hasDiscount,
-      image: firstVariant.images?.[0] || '',
+      image: firstVariant.images?.[0] || "",
       quantity: 1,
       slug: product.code,
-      brand: typeof product.brand === 'string' ? product.brand : product.brand.name,
+      brand:
+        typeof product.brand === "string" ? product.brand : product.brand.name,
       size: firstVariant.sizeId?.code,
-      colors: [firstVariant.colorId?.name || 'Default'],
+      colors: [firstVariant.colorId?.name || "Default"],
       stock: firstVariant.stock,
       // New variant information
-      colorId: firstVariant.colorId?.id || '',
-      sizeId: firstVariant.sizeId?.id || '',
-      colorName: firstVariant.colorId?.name || 'Default',
-      sizeName: firstVariant.sizeId?.value ? getSizeLabel(firstVariant.sizeId.value) : (firstVariant.sizeId?.name || firstVariant.sizeId?.code || '')
+      colorId: firstVariant.colorId?.id || "",
+      sizeId: firstVariant.sizeId?.id || "",
+      colorName: firstVariant.colorId?.name || "Default",
+      sizeName: firstVariant.sizeId?.value
+        ? getSizeLabel(firstVariant.sizeId.value)
+        : firstVariant.sizeId?.name || firstVariant.sizeId?.code || "",
     };
 
     addToCart(cartItem, 1);
-    toast.success('Đã thêm sản phẩm vào giỏ hàng');
+    toast.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
   const handleQuickView = () => {
-    window.location.href = `/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`;
+    window.location.href = `/products/${product.name
+      .toLowerCase()
+      .replace(/\s+/g, "-")}-${product.id}`;
   };
 
   const handleAddToWishlist = () => {
-    toast.success('Đã thêm vào danh sách yêu thích');
+    toast.success("Đã thêm vào danh sách yêu thích");
   };
 
   return (
@@ -334,7 +385,12 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
       <Card className="group overflow-hidden border rounded-lg hover:shadow-2xl shadow-lg transition-all duration-500 h-full flex flex-col transform hover:-translate-y-3 bg-white relative backdrop-blur-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg z-10 pointer-events-none" />
         <div className="relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 rounded-t-2xl">
-          <a href={`/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`} className="block">
+          <a
+            href={`/products/${product.name
+              .toLowerCase()
+              .replace(/\s+/g, "-")}-${product.id}`}
+            className="block"
+          >
             <div className="aspect-square overflow-hidden relative flex items-center justify-center">
               <motion.div
                 className="w-full h-full relative"
@@ -342,7 +398,10 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
                 <img
-                  src={checkImageUrl(product.variants?.[0]?.images?.[0]) || "/placeholder.svg"}
+                  src={
+                    checkImageUrl(product.variants?.[0]?.images?.[0]) ||
+                    "/placeholder.svg"
+                  }
                   alt={product.name}
                   className="object-contain w-full h-full drop-shadow-2xl filter group-hover:brightness-110 transition-all duration-500"
                   sizes="(max-width: 768px) 50vw, 25vw"
@@ -367,13 +426,15 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
             {(() => {
               // Calculate discount from promotions data if available
               if (promotionsData?.data?.promotions && product.variants?.[0]) {
-                const activePromotions = filterActivePromotions(promotionsData.data.promotions);
+                const activePromotions = filterActivePromotions(
+                  promotionsData.data.promotions
+                );
                 const discount = calculateProductDiscount(
                   product.id,
                   product.variants[0].price,
                   activePromotions
                 );
-                
+
                 if (discount.discountPercent > 0) {
                   return (
                     <motion.div
@@ -383,7 +444,9 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                       className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-xs font-bold px-3 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-1"
                     >
                       💥
-                      <span className="text-base">-{discount.discountPercent}%</span>
+                      <span className="text-base">
+                        -{discount.discountPercent}%
+                      </span>
                     </motion.div>
                   );
                 }
@@ -408,12 +471,16 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                 size="icon"
                 className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-primary hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleAddToCart()
+                  e.preventDefault();
+                  handleAddToCart();
                 }}
                 aria-label="Thêm vào giỏ hàng"
               >
-                <Icon path={mdiCartOutline} size={0.7} className="group-hover/btn:animate-bounce" />
+                <Icon
+                  path={mdiCartOutline}
+                  size={0.7}
+                  className="group-hover/btn:animate-bounce"
+                />
               </Button>
             </motion.div>
 
@@ -423,12 +490,16 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                 size="icon"
                 className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-pink-500 hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleAddToWishlist()
+                  e.preventDefault();
+                  handleAddToWishlist();
                 }}
                 aria-label="Yêu thích"
               >
-                <Icon path={mdiHeartOutline} size={0.7} className="group-hover/btn:animate-pulse" />
+                <Icon
+                  path={mdiHeartOutline}
+                  size={0.7}
+                  className="group-hover/btn:animate-pulse"
+                />
               </Button>
             </motion.div>
 
@@ -438,12 +509,16 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                 size="icon"
                 className="rounded-full h-10 w-10 bg-white/90 backdrop-blur-md hover:!bg-primary hover:text-white shadow-xl border-0 hover:shadow-2xl transition-all duration-300 group/btn"
                 onClick={(e) => {
-                  e.preventDefault()
-                  handleQuickView()
+                  e.preventDefault();
+                  handleQuickView();
                 }}
                 aria-label="Xem nhanh"
               >
-                <Icon path={mdiEye} size={0.7} className="group-hover/btn:animate-ping" />
+                <Icon
+                  path={mdiEye}
+                  size={0.7}
+                  className="group-hover/btn:animate-ping"
+                />
               </Button>
             </motion.div>
           </motion.div>
@@ -453,12 +528,16 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
           <div className="text-xs text-primary/80 mb-2 uppercase tracking-wider font-bold flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-gradient-to-r from-primary to-pink-400 animate-pulse"></div>
             <span className="bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">
-              {typeof product.brand === "string" ? product.brand : product.brand?.name}
+              {typeof product.brand === "string"
+                ? product.brand
+                : product.brand?.name}
             </span>
           </div>
 
           <a
-            href={`/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`}
+            href={`/products/${product.name
+              .toLowerCase()
+              .replace(/\s+/g, "-")}-${product.id}`}
             className="hover:text-primary transition-colors group/a"
           >
             <h3 className="font-bold text-base mb-3 line-clamp-2 leading-tight group-hover:text-primary/90 transition-colors duration-300 text-maintext group-hover/link:underline decoration-primary/50 underline-offset-2">
@@ -476,19 +555,25 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
               >
                 {(() => {
                   // Calculate discount from promotions data if available
-                  if (promotionsData?.data?.promotions && product.variants?.[0]) {
+                  if (
+                    promotionsData?.data?.promotions &&
+                    product.variants?.[0]
+                  ) {
                     const discount = calculateProductDiscount(
                       product.id,
                       product.variants[0].price,
                       promotionsData.data.promotions
                     );
-                    
+
                     if (discount.discountPercent > 0) {
                       return formatPrice(discount.discountedPrice);
                     }
                   }
-                  
-                  return product.variants?.[0] && formatPrice(product.variants[0].price);
+
+                  return (
+                    product.variants?.[0] &&
+                    formatPrice(product.variants[0].price)
+                  );
                 })()}
               </motion.div>
               {(() => {
@@ -499,7 +584,7 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                     product.variants[0].price,
                     promotionsData.data.promotions
                   );
-                  
+
                   if (discount.discountPercent > 0) {
                     return (
                       <div className="text-xs text-maintext line-through font-medium bg-gray-100 px-2 py-1 rounded-sm italic">
@@ -516,17 +601,26 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
             {product.variants && product.variants.length > 0 && (
               <div className="flex flex-col gap-1 items-start justify-start">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">Màu sắc:</span>
+                  <span className="text-sm text-maintext/70 font-semibold">
+                    Màu sắc:
+                  </span>
                   <div className="flex gap-1 text-sm">
                     {Array.from(
                       new Set(
-                        product.variants.map((v: any) => v.colorId?.id).filter(Boolean)
+                        product.variants
+                          .map((v: any) => v.colorId?.id)
+                          .filter(Boolean)
                       )
                     )
                       .slice(0, 4)
                       .map((colorId: unknown, index: number) => {
-                        const variant = product.variants.find((v: any) => v.colorId?.id === colorId);
-                        const color = variant?.colorId || { code: "#000000", name: "Default" };
+                        const variant = product.variants.find(
+                          (v: any) => v.colorId?.id === colorId
+                        );
+                        const color = variant?.colorId || {
+                          code: "#000000",
+                          name: "Default",
+                        };
 
                         return (
                           <motion.div
@@ -537,29 +631,44 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
                             whileHover={{ scale: 1.3, rotate: 360 }}
                             transition={{ duration: 0.3 }}
                           />
-                        )
+                        );
                       })}
 
                     {Array.from(
                       new Set(
-                        product.variants.map((v: any) => v.colorId?.id).filter(Boolean)
+                        product.variants
+                          .map((v: any) => v.colorId?.id)
+                          .filter(Boolean)
                       )
                     ).length > 4 && (
-                        <motion.span
-                          className="text-xs text-maintext ml-1 bg-gray-100 px-2 py-1 rounded-full font-medium"
-                          whileHover={{ scale: 1.1 }}
-                        >
-                          +{Array.from(new Set(product.variants.map((v: any) => v.colorId?.id).filter(Boolean))).length - 4}
-                        </motion.span>
-                      )}
+                      <motion.span
+                        className="text-xs text-maintext ml-1 bg-gray-100 px-2 py-1 rounded-full font-medium"
+                        whileHover={{ scale: 1.1 }}
+                      >
+                        +
+                        {Array.from(
+                          new Set(
+                            product.variants
+                              .map((v: any) => v.colorId?.id)
+                              .filter(Boolean)
+                          )
+                        ).length - 4}
+                      </motion.span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-maintext/70 font-semibold">Kích thước:</span>
+                  <span className="text-sm text-maintext/70 font-semibold">
+                    Kích thước:
+                  </span>
                   <div className="flex gap-1 text-maintext text-sm">
                     {Array.from(
                       new Set(
-                        product.variants.map((v: any) => (typeof v.sizeId === "object" ? getSizeLabel(v.sizeId.value) : getSizeLabel(v.sizeId)))
+                        product.variants.map((v: any) =>
+                          typeof v.sizeId === "object"
+                            ? getSizeLabel(v.sizeId.value)
+                            : getSizeLabel(v.sizeId)
+                        )
                       )
                     ).join(", ")}
                   </div>
@@ -576,31 +685,35 @@ const SimilarProductCard = ({ product, promotionsData }: { product: any; promoti
   );
 };
 
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 export default function ProductDetail() {
   const params = useParams<{ slug: string }>();
   const slug = params.slug;
-  const [productId, setProductId] = useState<string>('');
+  const [productId, setProductId] = useState<string>("");
   const { data: productData, isLoading } = useProductDetail(productId);
   const { data: allProductsData } = useProducts({ limit: 8 });
   const { data: promotionsData } = usePromotions({ status: "ACTIVE" });
   const { addToCart } = useCartStore();
 
-  const [selectedVariant, setSelectedVariant] = useState<IPopulatedProductVariant | null>(null);
-  const [selectedColor, setSelectedColor] = useState('');
-  const [selectedSize, setSelectedSize] = useState('');
+  const [selectedVariant, setSelectedVariant] =
+    useState<IPopulatedProductVariant | null>(null);
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [productDiscount, setProductDiscount] = useState<any>(null);
 
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(price);
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
   };
 
   useEffect(() => {
-    if (typeof slug === 'string') {
-      const id = slug.split('-').pop();
+    if (typeof slug === "string") {
+      const id = slug.split("-").pop();
       if (id) {
         setProductId(id);
       }
@@ -609,19 +722,32 @@ export default function ProductDetail() {
 
   // Cập nhật variant được chọn khi có dữ liệu sản phẩm
   useEffect(() => {
-    if (productData?.data?.variants?.length && productData.data.variants.length > 0) {
+    if (
+      productData?.data?.variants?.length &&
+      productData.data.variants.length > 0
+    ) {
       const firstVariant = productData.data.variants[0];
       setSelectedVariant(firstVariant);
-      setSelectedColor(String(firstVariant.color?.id || firstVariant.colorId || ''));
-      setSelectedSize(String(firstVariant.size?.id || firstVariant.sizeId || ''));
+      setSelectedColor(
+        String(firstVariant.color?.id || firstVariant.colorId || "")
+      );
+      setSelectedSize(
+        String(firstVariant.size?.id || firstVariant.sizeId || "")
+      );
       setCurrentImageIndex(0);
     }
   }, [productData]);
 
   // Calculate product discount when promotions data is available
   useEffect(() => {
-    if (productData?.data && selectedVariant && promotionsData?.data?.promotions) {
-      const activePromotions = filterActivePromotions(promotionsData.data.promotions);
+    if (
+      productData?.data &&
+      selectedVariant &&
+      promotionsData?.data?.promotions
+    ) {
+      const activePromotions = filterActivePromotions(
+        promotionsData.data.promotions
+      );
       const discount = calculateProductDiscount(
         productData.data.id,
         selectedVariant.price,
@@ -640,7 +766,9 @@ export default function ProductDetail() {
 
     // Try to find a variant with the selected color and current size
     const matchingVariant = productData?.data?.variants.find(
-      (v) => String(v.color?.id || v.colorId) === String(colorId) && String(v.size?.id || v.sizeId) === String(selectedSize)
+      (v) =>
+        String(v.color?.id || v.colorId) === String(colorId) &&
+        String(v.size?.id || v.sizeId) === String(selectedSize)
     );
 
     if (matchingVariant) {
@@ -653,7 +781,11 @@ export default function ProductDetail() {
       );
       if (firstVariantWithColor) {
         setSelectedVariant(firstVariantWithColor);
-        setSelectedSize(String(firstVariantWithColor.size?.id || firstVariantWithColor.sizeId || ''));
+        setSelectedSize(
+          String(
+            firstVariantWithColor.size?.id || firstVariantWithColor.sizeId || ""
+          )
+        );
         setCurrentImageIndex(0);
       }
     }
@@ -664,12 +796,14 @@ export default function ProductDetail() {
     setSelectedSize(sizeId);
 
     const matchingVariant = productData?.data?.variants.find(
-      (v) => String(v.color?.id || v.colorId) === String(selectedColor) && String(v.size?.id || v.sizeId) === String(sizeId)
+      (v) =>
+        String(v.color?.id || v.colorId) === String(selectedColor) &&
+        String(v.size?.id || v.sizeId) === String(sizeId)
     );
 
     if (matchingVariant) {
       setSelectedVariant(matchingVariant);
-    } 
+    }
   };
 
   // Xử lý thêm vào giỏ hàng
@@ -678,7 +812,7 @@ export default function ProductDetail() {
 
     // Check stock availability
     if (selectedVariant.stock === 0) {
-      toast.error('Sản phẩm đã hết hàng');
+      toast.error("Sản phẩm đã hết hàng");
       return;
     }
 
@@ -687,13 +821,15 @@ export default function ProductDetail() {
       return;
     }
 
-    const finalPrice = productDiscount && productDiscount.discountPercent > 0 
-      ? productDiscount.discountedPrice 
-      : selectedVariant.price;
-    
-    const originalPrice = productDiscount && productDiscount.discountPercent > 0 
-      ? productDiscount.originalPrice 
-      : undefined;
+    const finalPrice =
+      productDiscount && productDiscount.discountPercent > 0
+        ? productDiscount.discountedPrice
+        : selectedVariant.price;
+
+    const originalPrice =
+      productDiscount && productDiscount.discountPercent > 0
+        ? productDiscount.originalPrice
+        : undefined;
 
     const cartItem = {
       id: selectedVariant.id, // Use variant ID as main ID
@@ -702,23 +838,39 @@ export default function ProductDetail() {
       price: finalPrice,
       originalPrice: originalPrice,
       discountPercent: productDiscount?.discountPercent || 0,
-      hasDiscount: Boolean(productDiscount && productDiscount.discountPercent > 0),
-      image: selectedVariant.images?.[0]?.imageUrl || selectedVariant.images?.[0] || '',
+      hasDiscount: Boolean(
+        productDiscount && productDiscount.discountPercent > 0
+      ),
+      image:
+        selectedVariant.images?.[0]?.imageUrl ||
+        selectedVariant.images?.[0] ||
+        "",
       quantity: quantity,
       slug: productData.data.code,
-      brand: typeof productData.data.brand === 'string' ? productData.data.brand : productData.data.brand.name,
-      size: String(selectedVariant.size?.value || selectedVariant.sizeId || ''),
-      colors: [selectedVariant.color?.name || 'Default'],
+      brand:
+        typeof productData.data.brand === "string"
+          ? productData.data.brand
+          : productData.data.brand.name,
+      size: String(selectedVariant.size?.value || selectedVariant.sizeId || ""),
+      colors: [selectedVariant.color?.name || "Default"],
       stock: selectedVariant.stock,
       // New variant information
-      colorId: String(selectedVariant.color?.id || selectedVariant.colorId || ''),
-      sizeId: String(selectedVariant.size?.id || selectedVariant.sizeId || ''),
-      colorName: selectedVariant.color?.name || 'Default',
-      sizeName: selectedVariant.size?.value ? getSizeLabel(selectedVariant.size.value) : String(selectedVariant.sizeId || '')
+      colorId: String(
+        selectedVariant.color?.id || selectedVariant.colorId || ""
+      ),
+      sizeId: String(selectedVariant.size?.id || selectedVariant.sizeId || ""),
+      colorName: selectedVariant.color?.name || "Default",
+      sizeName: selectedVariant.size?.value
+        ? getSizeLabel(selectedVariant.size.value)
+        : String(selectedVariant.sizeId || ""),
     };
 
     addToCart(cartItem, quantity);
-    toast.success(`Đã thêm ${quantity} sản phẩm vào giỏ hàng${originalPrice ? ' với giá ưu đãi' : ''}`);
+    toast.success(
+      `Đã thêm ${quantity} sản phẩm vào giỏ hàng${
+        originalPrice ? " với giá ưu đãi" : ""
+      }`
+    );
   };
 
   // Xử lý chuyển ảnh
@@ -727,14 +879,24 @@ export default function ProductDetail() {
   };
 
   const handlePrevImage = () => {
-    if (!selectedVariant || !selectedVariant.images || selectedVariant.images.length === 0) return;
+    if (
+      !selectedVariant ||
+      !selectedVariant.images ||
+      selectedVariant.images.length === 0
+    )
+      return;
     setCurrentImageIndex((prev) =>
       prev === 0 ? selectedVariant.images.length - 1 : prev - 1
     );
   };
 
   const handleNextImage = () => {
-    if (!selectedVariant || !selectedVariant.images || selectedVariant.images.length === 0) return;
+    if (
+      !selectedVariant ||
+      !selectedVariant.images ||
+      selectedVariant.images.length === 0
+    )
+      return;
     setCurrentImageIndex((prev) =>
       prev === selectedVariant.images.length - 1 ? 0 : prev + 1
     );
@@ -749,15 +911,22 @@ export default function ProductDetail() {
   // Get similar products (exclude current product) and apply promotions
   const similarProducts = useMemo(() => {
     if (!allProductsData?.data?.products || !productData?.data) return [];
-    
-    let filteredProducts = allProductsData.data.products.filter((p: IProduct) => p.id !== productData.data.id).slice(0, 4);
-    
+
+    let filteredProducts = allProductsData.data.products
+      .filter((p: IProduct) => p.id !== productData.data.id)
+      .slice(0, 4);
+
     // Apply promotions to similar products - but only active promotions
     if (promotionsData?.data?.promotions) {
-      const activePromotions = filterActivePromotions(promotionsData.data.promotions);
-      filteredProducts = applyPromotionsToProducts(filteredProducts, activePromotions);
+      const activePromotions = filterActivePromotions(
+        promotionsData.data.promotions
+      );
+      filteredProducts = applyPromotionsToProducts(
+        filteredProducts,
+        activePromotions
+      );
     }
-    
+
     return filteredProducts;
   }, [allProductsData, productData?.data, promotionsData]);
 
@@ -769,7 +938,10 @@ export default function ProductDetail() {
             <Skeleton className="aspect-square w-full rounded-xl" />
             <div className="grid grid-cols-5 gap-2 mt-4">
               {[...Array(5)].map((_, index) => (
-                <Skeleton key={index} className="aspect-square w-full rounded-lg" />
+                <Skeleton
+                  key={index}
+                  className="aspect-square w-full rounded-lg"
+                />
               ))}
             </div>
           </div>
@@ -803,10 +975,20 @@ export default function ProductDetail() {
   const product = productData?.data;
   if (!product) return null;
 
-  const brandName = typeof product.brand === 'string' ? product.brand : product.brand.name;
-  const brandSlug = typeof product.brand === 'string' ? product.brand : product.brand.name.toLowerCase().replace(/\s+/g, '-');
-  const categoryName = typeof product.category === 'string' ? product.category : product.category.name;
-  const materialName = typeof product.material === 'string' ? product.material : product.material.name;
+  const brandName =
+    typeof product.brand === "string" ? product.brand : product.brand.name;
+  const brandSlug =
+    typeof product.brand === "string"
+      ? product.brand
+      : product.brand.name.toLowerCase().replace(/\s+/g, "-");
+  const categoryName =
+    typeof product.category === "string"
+      ? product.category
+      : product.category.name;
+  const materialName =
+    typeof product.material === "string"
+      ? product.material
+      : product.material.name;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50/50 to-white">
@@ -820,19 +1002,27 @@ export default function ProductDetail() {
           <Breadcrumb className="mb-4">
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/" className="!text-maintext hover:!text-maintext transition-colors">
+                <BreadcrumbLink
+                  href="/"
+                  className="!text-maintext hover:!text-maintext transition-colors"
+                >
                   Trang chủ
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/products" className="!text-maintext hover:!text-maintext transition-colors">
+                <BreadcrumbLink
+                  href="/products"
+                  className="!text-maintext hover:!text-maintext transition-colors"
+                >
                   Tất cả sản phẩm
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
               <BreadcrumbItem>
-                <BreadcrumbPage className="!text-maintext hover:!text-maintext">{product.name}</BreadcrumbPage>
+                <BreadcrumbPage className="!text-maintext hover:!text-maintext">
+                  {product.name}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -848,10 +1038,15 @@ export default function ProductDetail() {
           >
             {/* Main Image */}
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border flex items-center justify-center">
-              {selectedVariant && selectedVariant.images && selectedVariant.images.length > 0 ? (
+              {selectedVariant &&
+              selectedVariant.images &&
+              selectedVariant.images.length > 0 ? (
                 <>
                   <ImageZoom
-                    src={checkImageUrl(selectedVariant.images[currentImageIndex]?.imageUrl || selectedVariant.images[currentImageIndex])}
+                    src={checkImageUrl(
+                      selectedVariant.images[currentImageIndex]?.imageUrl ||
+                        selectedVariant.images[currentImageIndex]
+                    )}
                     alt={product.name}
                     className="aspect-square"
                   />
@@ -863,7 +1058,7 @@ export default function ProductDetail() {
                         className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full opacity-80 hover:opacity-100 bg-white/90 hover:bg-white shadow-xl border-0 backdrop-blur-sm z-20"
                         onClick={handlePrevImage}
                       >
-                        <Icon path={mdiChevronLeft} size={1} />
+                        <Icon path={mdiChevronLeft} size={0.9} />
                       </Button>
                       <Button
                         variant="secondary"
@@ -871,7 +1066,7 @@ export default function ProductDetail() {
                         className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full opacity-80 hover:opacity-100 bg-white/90 hover:bg-white shadow-xl border-0 backdrop-blur-sm z-20"
                         onClick={handleNextImage}
                       >
-                        <Icon path={mdiChevronRight} size={1} />
+                        <Icon path={mdiChevronRight} size={0.9} />
                       </Button>
                     </>
                   )}
@@ -884,33 +1079,40 @@ export default function ProductDetail() {
             </div>
 
             {/* Thumbnail Images */}
-            {selectedVariant && selectedVariant.images && selectedVariant.images.length > 1 && (
-              <div className="grid grid-cols-5 gap-4 mt-4">
-                {selectedVariant.images.map((image: IProductImage, index: number) => (
-                  <motion.div
-                    key={index}
-                    onClick={() => handleImageChange(index)}
-                    className={`
+            {selectedVariant &&
+              selectedVariant.images &&
+              selectedVariant.images.length > 1 && (
+                <div className="grid grid-cols-5 gap-4 mt-4">
+                  {selectedVariant.images.map(
+                    (image: IProductImage, index: number) => (
+                      <motion.div
+                        key={index}
+                        onClick={() => handleImageChange(index)}
+                        className={`
                       relative aspect-square rounded-xl overflow-hidden cursor-pointer
                       border-2 transition-all duration-300 hover:opacity-80
-                      ${currentImageIndex === index
-                        ? 'border-primary ring-2 ring-primary/20 shadow-lg scale-105'
-                        : 'border-gray-200 hover:border-gray-300'
+                      ${
+                        currentImageIndex === index
+                          ? "border-primary ring-2 ring-primary/20 shadow-lg scale-105"
+                          : "border-gray-200 hover:border-gray-300"
                       }
                     `}
-                    whileHover={{ scale: currentImageIndex === index ? 1.05 : 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <img
-                      src={checkImageUrl(image.imageUrl)}
-                      alt={`${product.name} - ${index + 1}`}
-                      className="object-contain p-2"
-                      sizes="(max-width: 768px) 20vw, 10vw"
-                    />
-                  </motion.div>
-                ))}
-              </div>
-            )}
+                        whileHover={{
+                          scale: currentImageIndex === index ? 1.05 : 1.02,
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <img
+                          src={checkImageUrl(image.imageUrl)}
+                          alt={`${product.name} - ${index + 1}`}
+                          className="object-contain p-2"
+                          sizes="(max-width: 768px) 20vw, 10vw"
+                        />
+                      </motion.div>
+                    )
+                  )}
+                </div>
+              )}
           </motion.div>
 
           {/* Enhanced Product Information Section */}
@@ -923,10 +1125,13 @@ export default function ProductDetail() {
             {/* Product Header */}
             <div className="space-y-3">
               <div className="flex items-center gap-4">
-              <div className="font-mono border h-[22px] bg-gray-100 px-3 flex items-center justify-center text-primary text-sm font-medium rounded-full">
+                <div className="font-mono border h-[22px] bg-gray-100 px-3 flex items-center justify-center text-primary text-sm font-medium rounded-full">
                   {product.code}
                 </div>
-                <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/10 text-primary border-primary/20"
+                >
                   {brandName}
                 </Badge>
                 <Badge variant="outline" className="!text-maintext">
@@ -937,8 +1142,6 @@ export default function ProductDetail() {
               <h1 className="text-3xl lg:text-4xl font-bold text-maintext leading-tight">
                 {product.name}
               </h1>
-
-           
 
               {/* Rating placeholder */}
               <div className="flex items-center gap-2">
@@ -952,7 +1155,9 @@ export default function ProductDetail() {
                     />
                   ))}
                 </div>
-                <span className="text-sm !text-maintext">(4.0) • 128 đánh giá</span>
+                <span className="text-sm !text-maintext">
+                  (4.0) • 128 đánh giá
+                </span>
               </div>
             </div>
 
@@ -968,7 +1173,9 @@ export default function ProductDetail() {
                     className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-2"
                   >
                     💥
-                    <span className="text-lg">-{productDiscount.discountPercent}%</span>
+                    <span className="text-lg">
+                      -{productDiscount.discountPercent}%
+                    </span>
                   </motion.div>
                 )}
 
@@ -979,10 +1186,9 @@ export default function ProductDetail() {
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {productDiscount && productDiscount.discountPercent > 0 
+                    {productDiscount && productDiscount.discountPercent > 0
                       ? formatPrice(productDiscount.discountedPrice)
-                      : selectedVariant && formatPrice(selectedVariant.price)
-                    }
+                      : selectedVariant && formatPrice(selectedVariant.price)}
                   </motion.div>
                   {productDiscount && productDiscount.discountPercent > 0 && (
                     <div className="text-xl text-maintext line-through font-medium bg-gray-100 px-3 py-2 rounded-lg">
@@ -994,21 +1200,33 @@ export default function ProductDetail() {
                 {/* Price breakdown for clarity */}
                 {productDiscount && productDiscount.discountPercent > 0 && (
                   <div className="text-sm text-green-600 font-medium space-y-1">
-                    <div>🎉 Áp dụng khuyến mãi: {productDiscount.appliedPromotion?.name}</div>
+                    <div>
+                      🎉 Áp dụng khuyến mãi:{" "}
+                      {productDiscount.appliedPromotion?.name}
+                    </div>
                     <div className="flex items-center gap-2 text-xs text-maintext">
-                      <span>Giá gốc: <span className="line-through">{formatPrice(productDiscount.originalPrice)}</span></span>
+                      <span>
+                        Giá gốc:{" "}
+                        <span className="line-through">
+                          {formatPrice(productDiscount.originalPrice)}
+                        </span>
+                      </span>
                       <span>→</span>
-                      <span className="text-green-600 font-semibold">Giá sau giảm: {formatPrice(productDiscount.discountedPrice)}</span>
+                      <span className="text-green-600 font-semibold">
+                        Giá sau giảm:{" "}
+                        {formatPrice(productDiscount.discountedPrice)}
+                      </span>
                     </div>
                   </div>
                 )}
 
                 {/* Show original price info when no discount */}
-                {(!productDiscount || productDiscount.discountPercent === 0) && selectedVariant && (
-                  <div className="text-sm text-maintext">
-                    Giá bán: {formatPrice(selectedVariant.price)}
-                  </div>
-                )}
+                {(!productDiscount || productDiscount.discountPercent === 0) &&
+                  selectedVariant && (
+                    <div className="text-sm text-maintext">
+                      Giá bán: {formatPrice(selectedVariant.price)}
+                    </div>
+                  )}
               </div>
             </Card>
 
@@ -1016,14 +1234,22 @@ export default function ProductDetail() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Icon path={mdiPalette} size={1} className="!text-maintext" />
+                  <Icon
+                    path={mdiPalette}
+                    size={0.9}
+                    className="!text-maintext"
+                  />
                   <span className="font-semibold text-maintext">Màu sắc</span>
                 </div>
                 {selectedColor && (
                   <span className="text-sm !text-maintext bg-gray-100 px-3 py-1 rounded-full">
                     {(() => {
-                      const colorVariant = product.variants.find(v => String(v.color?.id || v.colorId) === String(selectedColor));
-                      return colorVariant?.color?.name || 'Màu sắc đã chọn';
+                      const colorVariant = product.variants.find(
+                        (v) =>
+                          String(v.color?.id || v.colorId) ===
+                          String(selectedColor)
+                      );
+                      return colorVariant?.color?.name || "Màu sắc đã chọn";
                     })()}
                   </span>
                 )}
@@ -1032,29 +1258,48 @@ export default function ProductDetail() {
                 {product.variants
                   .filter((variant, index, self) => {
                     const colorId = variant.color?.id || variant.colorId;
-                    return colorId && index === self.findIndex((v) => (v.color?.id || v.colorId) === colorId);
+                    return (
+                      colorId &&
+                      index ===
+                        self.findIndex(
+                          (v) => (v.color?.id || v.colorId) === colorId
+                        )
+                    );
                   })
                   .map((variant) => (
                     <motion.button
                       key={variant.color?.id || variant.colorId}
-                      onClick={() => handleColorSelect(String(variant.color?.id || variant.colorId))}
+                      onClick={() =>
+                        handleColorSelect(
+                          String(variant.color?.id || variant.colorId)
+                        )
+                      }
                       className={`
                         relative group flex items-center justify-center w-10 h-10 rounded-full
                         transition-all duration-300 border-2
-                        ${String(selectedColor) === String(variant.color?.id || variant.colorId)
-                          ? 'border-primary ring-4 ring-primary/20 scale-110'
-                          : 'border-gray-200 hover:border-gray-300 hover:scale-105'
+                        ${
+                          String(selectedColor) ===
+                          String(variant.color?.id || variant.colorId)
+                            ? "border-primary ring-4 ring-primary/20 scale-110"
+                            : "border-gray-200 hover:border-gray-300 hover:scale-105"
                         }
                       `}
                       style={{ backgroundColor: variant.color?.code }}
                       title={variant.color?.name}
-                      whileHover={{ scale: String(selectedColor) === String(variant.color?.id || variant.colorId) ? 1.1 : 1.05 }}
+                      whileHover={{
+                        scale:
+                          String(selectedColor) ===
+                          String(variant.color?.id || variant.colorId)
+                            ? 1.1
+                            : 1.05,
+                      }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      {String(selectedColor) === String(variant.color?.id || variant.colorId) && (
+                      {String(selectedColor) ===
+                        String(variant.color?.id || variant.colorId) && (
                         <Icon
                           path={mdiCheck}
-                          size={1}
+                          size={0.9}
                           className="text-white drop-shadow-lg"
                         />
                       )}
@@ -1067,41 +1312,67 @@ export default function ProductDetail() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Icon path={mdiRuler} size={1} className="!text-maintext" />
-                  <span className="font-semibold text-maintext">Kích thước</span>
+                  <Icon path={mdiRuler} size={0.9} className="!text-maintext" />
+                  <span className="font-semibold text-maintext">
+                    Kích thước
+                  </span>
                 </div>
                 {selectedSize && (
                   <span className="text-sm !text-maintext bg-gray-100 px-3 py-1 rounded-full">
                     {(() => {
-                      const sizeVariant = product.variants.find(v => String(v.size?.id || v.sizeId) === String(selectedSize));
-                      return sizeVariant?.size?.value ? getSizeLabel(sizeVariant.size.value) : (sizeVariant?.size?.name || sizeVariant?.size?.code || 'Size đã chọn');
+                      const sizeVariant = product.variants.find(
+                        (v) =>
+                          String(v.size?.id || v.sizeId) ===
+                          String(selectedSize)
+                      );
+                      return sizeVariant?.size?.value
+                        ? getSizeLabel(sizeVariant.size.value)
+                        : sizeVariant?.size?.name ||
+                            sizeVariant?.size?.code ||
+                            "Size đã chọn";
                     })()}
                   </span>
                 )}
               </div>
               <div className="flex flex-wrap gap-4">
-                {Array.from(new Set(product.variants.map(v => String(v.size?.id || v.sizeId)).filter(Boolean)))
-                  .map(sizeId => {
-                    const sizeVariant = product.variants.find(v => String(v.size?.id || v.sizeId) === sizeId);
-                    const variantForColorAndSize = product.variants.find(
-                      v => String(v.color?.id || v.colorId) === String(selectedColor) && String(v.size?.id || v.sizeId) === sizeId
-                    );
-                    const isAvailable = !!variantForColorAndSize && variantForColorAndSize.stock > 0;
-                    
-                    return (
-                      <Button
-                        variant={String(selectedSize) === sizeId ? "default" : "outline"}
-                        size="icon"
-                        key={sizeId}
-                        onClick={() => handleSizeSelect(sizeId)}
-                        disabled={!isAvailable}
-                        className={!isAvailable ? "opacity-50 cursor-not-allowed" : ""}
-                        title={!isAvailable ? "Không có sẵn cho màu này" : ""}
-                      >
-                        {getSizeLabel(sizeVariant?.size?.value || 0)}
-                      </Button>
-                    );
-                  })}
+                {Array.from(
+                  new Set(
+                    product.variants
+                      .map((v) => String(v.size?.id || v.sizeId))
+                      .filter(Boolean)
+                  )
+                ).map((sizeId) => {
+                  const sizeVariant = product.variants.find(
+                    (v) => String(v.size?.id || v.sizeId) === sizeId
+                  );
+                  const variantForColorAndSize = product.variants.find(
+                    (v) =>
+                      String(v.color?.id || v.colorId) ===
+                        String(selectedColor) &&
+                      String(v.size?.id || v.sizeId) === sizeId
+                  );
+                  const isAvailable =
+                    !!variantForColorAndSize &&
+                    variantForColorAndSize.stock > 0;
+
+                  return (
+                    <Button
+                      variant={
+                        String(selectedSize) === sizeId ? "default" : "outline"
+                      }
+                      size="icon"
+                      key={sizeId}
+                      onClick={() => handleSizeSelect(sizeId)}
+                      disabled={!isAvailable}
+                      className={
+                        !isAvailable ? "opacity-50 cursor-not-allowed" : ""
+                      }
+                      title={!isAvailable ? "Không có sẵn cho màu này" : ""}
+                    >
+                      {getSizeLabel(sizeVariant?.size?.value || 0)}
+                    </Button>
+                  );
+                })}
               </div>
             </div>
 
@@ -1109,13 +1380,21 @@ export default function ProductDetail() {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Icon path={mdiCartPlus} size={1} className="!text-maintext" />
+                  <Icon
+                    path={mdiCartPlus}
+                    size={0.9}
+                    className="!text-maintext"
+                  />
                   <span className="font-semibold text-maintext">Số lượng</span>
                 </div>
 
                 {selectedVariant && (
                   <span className="text-sm !text-maintext">
-                    Còn <span className="font-semibold text-primary">{selectedVariant.stock}</span> sản phẩm
+                    Còn{" "}
+                    <span className="font-semibold text-primary">
+                      {selectedVariant.stock}
+                    </span>{" "}
+                    sản phẩm
                   </span>
                 )}
               </div>
@@ -1135,7 +1414,9 @@ export default function ProductDetail() {
                   variant="outline"
                   size="icon"
                   onClick={() => handleQuantityChange(quantity + 1)}
-                  disabled={!selectedVariant || quantity >= (selectedVariant.stock || 0)}
+                  disabled={
+                    !selectedVariant || quantity >= (selectedVariant.stock || 0)
+                  }
                 >
                   +
                 </Button>
@@ -1147,9 +1428,9 @@ export default function ProductDetail() {
               <Button
                 variant="outline"
                 size="lg"
-                onClick={() => toast.success('Đã thêm vào danh sách yêu thích')}
+                onClick={() => toast.success("Đã thêm vào danh sách yêu thích")}
               >
-                <Icon path={mdiHeartOutline} size={1} className="mr-2" />
+                <Icon path={mdiHeartOutline} size={0.9} className="mr-2" />
                 Yêu thích
               </Button>
               <Button
@@ -1157,7 +1438,7 @@ export default function ProductDetail() {
                 onClick={handleAddToCart}
                 disabled={!selectedVariant || selectedVariant.stock === 0}
               >
-                <Icon path={mdiCartOutline} size={1} className="mr-2" />
+                <Icon path={mdiCartOutline} size={0.9} className="mr-2" />
                 Thêm vào giỏ hàng
               </Button>
             </div>
@@ -1167,25 +1448,37 @@ export default function ProductDetail() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon path={mdiTruck} size={1} className="text-primary" />
+                    <Icon path={mdiTruck} size={0.9} className="text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-maintext">Miễn phí vận chuyển</p>
+                    <p className="font-medium text-maintext">
+                      Miễn phí vận chuyển
+                    </p>
                     <p className="text-sm !text-maintext">Đơn hàng từ 500k</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon path={mdiShield} size={1} className="text-primary" />
+                    <Icon
+                      path={mdiShield}
+                      size={0.9}
+                      className="text-primary"
+                    />
                   </div>
                   <div>
-                    <p className="font-medium text-maintext">Bảo hành chính hãng</p>
+                    <p className="font-medium text-maintext">
+                      Bảo hành chính hãng
+                    </p>
                     <p className="text-sm !text-maintext">12 tháng</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon path={mdiRefresh} size={1} className="text-primary" />
+                    <Icon
+                      path={mdiRefresh}
+                      size={0.9}
+                      className="text-primary"
+                    />
                   </div>
                   <div>
                     <p className="font-medium text-maintext">Đổi trả dễ dàng</p>
@@ -1194,10 +1487,16 @@ export default function ProductDetail() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
-                    <Icon path={mdiCreditCard} size={1} className="text-primary" />
+                    <Icon
+                      path={mdiCreditCard}
+                      size={0.9}
+                      className="text-primary"
+                    />
                   </div>
                   <div>
-                    <p className="font-medium text-maintext">Thanh toán an toàn</p>
+                    <p className="font-medium text-maintext">
+                      Thanh toán an toàn
+                    </p>
                     <p className="text-sm !text-maintext">Nhiều phương thức</p>
                   </div>
                 </div>
@@ -1207,7 +1506,11 @@ export default function ProductDetail() {
             {/* Enhanced Product Information */}
             <Card className="p-4">
               <h3 className="font-semibold text-maintext mb-4 flex items-center gap-2">
-                <Icon path={mdiInformation} size={1} className="text-primary" />
+                <Icon
+                  path={mdiInformation}
+                  size={0.9}
+                  className="text-primary"
+                />
                 Thông tin sản phẩm
               </h3>
               <div className="space-y-3">
@@ -1217,28 +1520,35 @@ export default function ProductDetail() {
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="!text-maintext">Danh mục</span>
-                  <span className="font-medium text-maintext">{categoryName}</span>
+                  <span className="font-medium text-maintext">
+                    {categoryName}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="!text-maintext">Chất liệu</span>
-                  <span className="font-medium text-maintext">{materialName}</span>
+                  <span className="font-medium text-maintext">
+                    {materialName}
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="!text-maintext">Trọng lượng</span>
-                  <span className="font-medium text-maintext">{product.weight}g</span>
+                  <span className="font-medium text-maintext">
+                    {product.weight}g
+                  </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-100">
                   <span className="!text-maintext">Mã sản phẩm</span>
-                  <span className="font-mono font-medium text-primary">{product.code}</span>
+                  <span className="font-mono font-medium text-primary">
+                    {product.code}
+                  </span>
                 </div>
                 {selectedVariant && (
                   <div className="flex justify-between items-center py-2">
                     <span className="!text-maintext">Giá hiện tại</span>
                     <span className="font-medium text-primary">
-                      {productDiscount && productDiscount.discountPercent > 0 
+                      {productDiscount && productDiscount.discountPercent > 0
                         ? formatPrice(productDiscount.discountedPrice)
-                        : formatPrice(selectedVariant.price)
-                      }
+                        : formatPrice(selectedVariant.price)}
                     </span>
                   </div>
                 )}
@@ -1291,7 +1601,9 @@ export default function ProductDetail() {
               <Card className="p-8">
                 <div className="grid md:grid-cols-2 gap-8">
                   <div>
-                    <h4 className="font-semibold text-lg mb-4 text-maintext">Thông tin cơ bản</h4>
+                    <h4 className="font-semibold text-lg mb-4 text-maintext">
+                      Thông tin cơ bản
+                    </h4>
                     <div className="space-y-3">
                       <div className="flex justify-between py-2 border-b border-gray-100">
                         <span className="!text-maintext">Thương hiệu</span>
@@ -1312,24 +1624,48 @@ export default function ProductDetail() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-lg mb-4 text-maintext">Thông tin biến thể</h4>
+                    <h4 className="font-semibold text-lg mb-4 text-maintext">
+                      Thông tin biến thể
+                    </h4>
                     <div className="space-y-3">
                       <div className="flex justify-between py-2 border-b border-gray-100">
                         <span className="!text-maintext">Số màu sắc</span>
                         <span className="font-medium">
-                          {Array.from(new Set(product.variants.map(v => v.color?.id || v.colorId))).length} màu
+                          {
+                            Array.from(
+                              new Set(
+                                product.variants.map(
+                                  (v) => v.color?.id || v.colorId
+                                )
+                              )
+                            ).length
+                          }{" "}
+                          màu
                         </span>
                       </div>
                       <div className="flex justify-between py-2 border-b border-gray-100">
                         <span className="!text-maintext">Số kích thước</span>
                         <span className="font-medium">
-                          {Array.from(new Set(product.variants.map(v => v.size?.id || v.sizeId))).length} size
+                          {
+                            Array.from(
+                              new Set(
+                                product.variants.map(
+                                  (v) => v.size?.id || v.sizeId
+                                )
+                              )
+                            ).length
+                          }{" "}
+                          size
                         </span>
                       </div>
                       <div className="flex justify-between py-2">
                         <span className="!text-maintext">Tổng tồn kho</span>
                         <span className="font-medium">
-                          {product.variants.reduce((sum, v) => sum + v.stock, 0)} sản phẩm
+                          {product.variants.reduce(
+                            (sum, v) => sum + v.stock,
+                            0
+                          )}{" "}
+                          sản phẩm
                         </span>
                       </div>
                     </div>
@@ -1341,9 +1677,17 @@ export default function ProductDetail() {
             <TabsContent value="reviews" className="mt-8">
               <Card className="p-8">
                 <div className="text-center py-12">
-                  <Icon path={mdiStar} size={3} className="text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-maintext mb-2">Chưa có đánh giá</h3>
-                  <p className="!text-maintext">Hãy là người đầu tiên đánh giá sản phẩm này!</p>
+                  <Icon
+                    path={mdiStar}
+                    size={3}
+                    className="text-gray-300 mx-auto mb-4"
+                  />
+                  <h3 className="text-xl font-semibold text-maintext mb-2">
+                    Chưa có đánh giá
+                  </h3>
+                  <p className="!text-maintext">
+                    Hãy là người đầu tiên đánh giá sản phẩm này!
+                  </p>
                   <Button className="mt-4">Viết đánh giá</Button>
                 </div>
               </Card>
@@ -1360,7 +1704,9 @@ export default function ProductDetail() {
             transition={{ duration: 0.6, delay: 0.6 }}
           >
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-maintext mb-4">Sản phẩm tương tự</h2>
+              <h2 className="text-3xl font-bold text-maintext mb-4">
+                Sản phẩm tương tự
+              </h2>
               <p className="!text-maintext max-w-2xl mx-auto">
                 Khám phá những sản phẩm tương tự có thể bạn sẽ thích
               </p>
@@ -1368,27 +1714,30 @@ export default function ProductDetail() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <AnimatePresence>
-                {similarProducts.map((similarProduct: IProduct, index: number) => (
-                  <motion.div
-                    key={similarProduct.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                  >
-                    <SimilarProductCard product={similarProduct} promotionsData={promotionsData} />
-                  </motion.div>
-                ))}
+                {similarProducts.map(
+                  (similarProduct: IProduct, index: number) => (
+                    <motion.div
+                      key={similarProduct.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                      <SimilarProductCard
+                        product={similarProduct}
+                        promotionsData={promotionsData}
+                      />
+                    </motion.div>
+                  )
+                )}
               </AnimatePresence>
             </div>
 
             <div className="text-center mt-12">
               <Button variant="outline" size="lg" asChild>
-                <a href="/products">
-                  Xem tất cả sản phẩm
-                </a>
+                <a href="/products">Xem tất cả sản phẩm</a>
               </Button>
             </div>
-          </motion.div> 
+          </motion.div>
         )}
       </div>
       <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300">
@@ -1396,4 +1745,4 @@ export default function ProductDetail() {
       </div>
     </div>
   );
-} 
+}

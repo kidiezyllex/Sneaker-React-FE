@@ -1,9 +1,16 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Icon } from '@mdi/react';
-import { mdiCartOutline, mdiHeartOutline, mdiStar, mdiEye, mdiArrowRight, mdiArrowLeft } from '@mdi/js';
-import { InteractiveHoverButton } from '../Common/InteractiveHoverButton';
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@mdi/react";
+import {
+  mdiCartOutline,
+  mdiHeartOutline,
+  mdiStar,
+  mdiEye,
+  mdiArrowRight,
+  mdiArrowLeft,
+} from "@mdi/js";
+import { InteractiveHoverButton } from "../Common/InteractiveHoverButton";
 
 const bestSellerData = [
   {
@@ -12,13 +19,14 @@ const bestSellerData = [
     price: 4750000,
     originalPrice: 5000000,
     discount: 5,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/000/032/117/original/344646_001.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/000/032/117/original/344646_001.png.png",
     rating: 5,
     slug: "nike-air-1-2-cent-black",
     brand: "Nike",
     colors: ["Đen"],
     isBestSeller: true,
-    stock: 12
+    stock: 12,
   },
   {
     id: 2,
@@ -26,13 +34,14 @@ const bestSellerData = [
     price: 4750000,
     originalPrice: 5000000,
     discount: 5,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/000/032/118/original/344646_002.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/000/032/118/original/344646_002.png.png",
     rating: 5,
     slug: "nike-air-1-2-cent-black-green-spark",
     brand: "Nike",
     colors: ["Đen", "Xanh lá"],
     isBestSeller: true,
-    stock: 10
+    stock: 10,
   },
   {
     id: 3,
@@ -40,13 +49,14 @@ const bestSellerData = [
     price: 4750000,
     originalPrice: 5000000,
     discount: 5,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/100/579/287/original/21956_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/100/579/287/original/21956_00.png.png",
     rating: 5,
     slug: "nike-air-1-2-cent-silver",
     brand: "Nike",
     colors: ["Bạc"],
     isBestSeller: true,
-    stock: 8
+    stock: 8,
   },
   {
     id: 4,
@@ -54,13 +64,14 @@ const bestSellerData = [
     price: 4750000,
     originalPrice: 5000000,
     discount: 5,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/098/477/735/original/21878_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/098/477/735/original/21878_00.png.png",
     rating: 5,
     slug: "nike-air-1-2-cent-royal",
     brand: "Nike",
     colors: ["Xanh dương"],
     isBestSeller: true,
-    stock: 15
+    stock: 15,
   },
   {
     id: 5,
@@ -68,13 +79,14 @@ const bestSellerData = [
     price: 4750000,
     originalPrice: 5000000,
     discount: 5,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/000/032/122/original/344646_600.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/000/032/122/original/344646_600.png.png",
     rating: 5,
     slug: "nike-air-1-2-cent-cranberry",
     brand: "Nike",
     colors: ["Đỏ"],
     isBestSeller: true,
-    stock: 6
+    stock: 6,
   },
   {
     id: 6,
@@ -82,13 +94,14 @@ const bestSellerData = [
     price: 3875000,
     originalPrice: 4500000,
     discount: 14,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/096/779/934/original/1328101_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/096/779/934/original/1328101_00.png.png",
     rating: 5,
     slug: "nike-air-force-1-low-sp-1017-alyx-9sm-black",
     brand: "Nike",
     colors: ["Đen"],
     isBestSeller: true,
-    stock: 9
+    stock: 9,
   },
   {
     id: 7,
@@ -96,13 +109,14 @@ const bestSellerData = [
     price: 3875000,
     originalPrice: 4500000,
     discount: 14,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/096/910/209/original/1328103_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/096/910/209/original/1328103_00.png.png",
     rating: 5,
     slug: "nike-air-force-1-low-sp-1017-alyx-9sm-white",
     brand: "Nike",
     colors: ["Trắng"],
     isBestSeller: true,
-    stock: 11
+    stock: 11,
   },
   {
     id: 8,
@@ -110,13 +124,14 @@ const bestSellerData = [
     price: 11250000,
     originalPrice: 12500000,
     discount: 10,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/089/001/207/original/CQ4018_004.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/089/001/207/original/CQ4018_004.png.png",
     rating: 5,
     slug: "nike-air-force-1-high-1017-alyx-9sm-black-red",
     brand: "Nike",
     colors: ["Đen", "Đỏ"],
     isBestSeller: true,
-    stock: 5
+    stock: 5,
   },
   {
     id: 9,
@@ -124,13 +139,14 @@ const bestSellerData = [
     price: 11250000,
     originalPrice: 12500000,
     discount: 10,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/062/778/469/original/CQ4018_601.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/062/778/469/original/CQ4018_601.png.png",
     rating: 5,
     slug: "nike-air-force-1-high-1017-alyx-9sm-red-black",
     brand: "Nike",
     colors: ["Đỏ", "Đen"],
     isBestSeller: true,
-    stock: 7
+    stock: 7,
   },
   {
     id: 10,
@@ -138,13 +154,14 @@ const bestSellerData = [
     price: 11525000,
     originalPrice: 12500000,
     discount: 8,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/064/337/111/original/766833_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/064/337/111/original/766833_00.png.png",
     rating: 4,
     slug: "nike-air-force-1-high-1017-alyx-9sm-white-grey-2021",
     brand: "Nike",
     colors: ["Trắng", "Xám"],
     isBestSeller: false,
-    stock: 4
+    stock: 4,
   },
   {
     id: 11,
@@ -152,13 +169,14 @@ const bestSellerData = [
     price: 11525000,
     originalPrice: 12500000,
     discount: 8,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/061/833/440/original/763416_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/061/833/440/original/763416_00.png.png",
     rating: 4,
     slug: "nike-air-force-1-high-1017-alyx-9sm-black-grey-2021",
     brand: "Nike",
     colors: ["Đen", "Xám"],
     isBestSeller: false,
-    stock: 6
+    stock: 6,
   },
   {
     id: 12,
@@ -166,13 +184,14 @@ const bestSellerData = [
     price: 11250000,
     originalPrice: 12500000,
     discount: 10,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/079/969/012/original/593004_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/079/969/012/original/593004_00.png.png",
     rating: 5,
     slug: "nike-air-force-1-high-1017-alyx-9sm-black-white",
     brand: "Nike",
     colors: ["Đen", "Trắng"],
     isBestSeller: true,
-    stock: 8
+    stock: 8,
   },
   {
     id: 13,
@@ -180,13 +199,14 @@ const bestSellerData = [
     price: 6000000,
     originalPrice: 6500000,
     discount: 8,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/064/893/056/original/DC9964_010.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/064/893/056/original/DC9964_010.png.png",
     rating: 5,
     slug: "nike-the-1971-black-white",
     brand: "Nike",
     colors: ["Đen", "Trắng"],
     isBestSeller: true,
-    stock: 10
+    stock: 10,
   },
   {
     id: 14,
@@ -194,13 +214,14 @@ const bestSellerData = [
     price: 3500000,
     originalPrice: 4000000,
     discount: 13,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/000/036/735/original/586367_200.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/000/036/735/original/586367_200.png.png",
     rating: 4,
     slug: "nike-1972-dark-brown",
     brand: "Nike",
     colors: ["Nâu"],
     isBestSeller: false,
-    stock: 12
+    stock: 12,
   },
   {
     id: 15,
@@ -208,13 +229,14 @@ const bestSellerData = [
     price: 4000000,
     originalPrice: 4500000,
     discount: 11,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/000/036/736/original/586367_600.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/000/036/736/original/586367_600.png.png",
     rating: 4,
     slug: "nike-1972-dress-code",
     brand: "Nike",
     colors: ["Đen"],
     isBestSeller: false,
-    stock: 9
+    stock: 9,
   },
   {
     id: 16,
@@ -222,14 +244,15 @@ const bestSellerData = [
     price: 1875000,
     originalPrice: 2200000,
     discount: 15,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/006/875/424/original/314192_097.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/006/875/424/original/314192_097.png.png",
     rating: 5,
     slug: "nike-air-force-1-pure-platinum-gs",
     brand: "Nike",
     colors: ["Bạc"],
     isBestSeller: true,
-    stock: 15
-  }
+    stock: 15,
+  },
 ];
 
 const fallbackImages = [
@@ -244,7 +267,7 @@ const fallbackImages = [
   "https://image.goat.com/750/attachments/product_template_pictures/images/000/036/735/original/586367_200.png.png",
   "https://image.goat.com/750/attachments/product_template_pictures/images/000/036/736/original/586367_600.png.png",
   "https://image.goat.com/750/attachments/product_template_pictures/images/006/875/424/original/314192_097.png.png",
-  "https://image.goat.com/750/attachments/product_template_pictures/images/108/411/867/original/326768_001.png.png"
+  "https://image.goat.com/750/attachments/product_template_pictures/images/108/411/867/original/326768_001.png.png",
 ];
 
 //                                                                                                                     Component hiển thị rating stars
@@ -295,17 +318,30 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
           <div
             className="w-4 h-4 rounded-full border cursor-pointer hover:scale-110 transition-transform duration-200"
             style={{
-              backgroundColor: color === 'Đen' ? 'black' :
-                color === 'Trắng' ? 'white' :
-                  color === 'Xanh' ? '#3B82F6' :
-                    color === 'Xanh đen' ? '#1e293b' :
-                      color === 'Đỏ' ? '#EF4444' :
-                        color === 'Hồng' ? '#EC4899' :
-                          color === 'Xám' ? '#6B7280' :
-                            color === 'Cam' ? '#F97316' :
-                              color === 'Vàng' ? '#EAB308' :
-                                color === 'Kem' ? '#FEF3C7' :
-                                  color === 'Xanh rêu' ? '#4D7C0F' : '#9CA3AF'
+              backgroundColor:
+                color === "Đen"
+                  ? "black"
+                  : color === "Trắng"
+                  ? "white"
+                  : color === "Xanh"
+                  ? "#3B82F6"
+                  : color === "Xanh đen"
+                  ? "#1e293b"
+                  : color === "Đỏ"
+                  ? "#EF4444"
+                  : color === "Hồng"
+                  ? "#EC4899"
+                  : color === "Xám"
+                  ? "#6B7280"
+                  : color === "Cam"
+                  ? "#F97316"
+                  : color === "Vàng"
+                  ? "#EAB308"
+                  : color === "Kem"
+                  ? "#FEF3C7"
+                  : color === "Xanh rêu"
+                  ? "#4D7C0F"
+                  : "#9CA3AF",
             }}
           />
         </div>
@@ -315,17 +351,23 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
 };
 
 //                                                                                                                     Component card sản phẩm
-const ProductCard = ({ product, index }: { product: typeof bestSellerData[0], index: number }) => {
+const ProductCard = ({
+  product,
+  index,
+}: {
+  product: (typeof bestSellerData)[0];
+  index: number;
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
   //                                                                                                                     Format giá tiền sang VND
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(price);
   };
 
@@ -337,15 +379,26 @@ const ProductCard = ({ product, index }: { product: typeof bestSellerData[0], in
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative bg-white dark:bg-gray-800 rounded-[6px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 pb-4 flex flex-col border border-gray-100"
     >
-      <a href={`/products/${product.slug}`} className="block relative overflow-hidden">
+      <a
+        href={`/products/${product.slug}`}
+        className="block relative overflow-hidden"
+      >
         <div className="relative aspect-square w-full overflow-hidden">
-          {product.discount > 0 && <DiscountBadge discount={product.discount} />}
-          {product.isBestSeller && <BestSellerBadge isBestSeller={product.isBestSeller} />}
+          {product.discount > 0 && (
+            <DiscountBadge discount={product.discount} />
+          )}
+          {product.isBestSeller && (
+            <BestSellerBadge isBestSeller={product.isBestSeller} />
+          )}
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
 
           <img
-            src={product.image.startsWith('//') ? `https:${product.image}` : product.image}
+            src={
+              product.image.startsWith("//")
+                ? `https:${product.image}`
+                : product.image
+            }
             alt={product.name}
             className="object-cover transition-transform duration-700 group-hover:scale-110 w-full h-full"
             draggable="false"
@@ -389,9 +442,7 @@ const ProductCard = ({ product, index }: { product: typeof bestSellerData[0], in
           {product.brand}
         </div>
         <h3 className="text-maintext dark:text-white font-semibold text-lg truncate group-hover:text-[#2C8B3D] transition-colors duration-200">
-          <a href={`/products/${product.slug}`}>
-            {product.name}
-          </a>
+          <a href={`/products/${product.slug}`}>{product.name}</a>
         </h3>
         <div className="">
           <RatingStars rating={product.rating} />
@@ -406,19 +457,24 @@ const ProductCard = ({ product, index }: { product: typeof bestSellerData[0], in
             </span>
           )}
         </div>
-        <div className='flex gap-1 items-center justify-between mb-4'>
+        <div className="flex gap-1 items-center justify-between mb-4">
           <ColorOptions colors={product.colors} />
 
           {product.stock <= 10 && (
             <div className="text-xs text-orange-600 font-medium">
               (Chỉ còn {product.stock} sản phẩm)
             </div>
-          )}</div>
+          )}
+        </div>
       </div>
       <div className="flex w-full flex-col items-center justify-end flex-1">
-        <InteractiveHoverButton className='rounded-none uppercase font-normal w-fit'>
+        <InteractiveHoverButton className="rounded-none uppercase font-normal w-fit">
           Xem chi tiết
-          <Icon path={mdiArrowRight} size={0.7} className="ml-2 group-hover:translate-x-1 transition-transform" />
+          <Icon
+            path={mdiArrowRight}
+            size={0.7}
+            className="ml-2 group-hover:translate-x-1 transition-transform"
+          />
         </InteractiveHoverButton>
       </div>
     </motion.div>
@@ -434,8 +490,8 @@ export const BestSeller = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' }
-    }
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   return (
@@ -448,7 +504,9 @@ export const BestSeller = () => {
           animate={isHeaderInView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">Bán chạy nhất</span>
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
+            Bán chạy nhất
+          </span>
           <h2 className="text-3xl font-bold text-center mb-4 relative">
             <span className="inline-block relative">
               <span className="uppercase bg-gradient-to-r from-[#2C8B3D] to-[#88C140] bg-clip-text text-transparent drop-shadow-sm">
@@ -458,7 +516,8 @@ export const BestSeller = () => {
             </span>
           </h2>
           <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">
-            Khám phá những sản phẩm bán chạy nhất với chất lượng và thiết kế vượt trội
+            Khám phá những sản phẩm bán chạy nhất với chất lượng và thiết kế
+            vượt trội
           </p>
         </motion.div>
 
@@ -469,10 +528,14 @@ export const BestSeller = () => {
           ))}
         </div>
         <div className="flex w-full flex-col items-center justify-end flex-1 mt-8">
-          <InteractiveHoverButton className='!rounded-full uppercase font-normal w-fit'>
+          <InteractiveHoverButton className="!rounded-full uppercase font-normal w-fit">
             Xem tất cả
-            <Icon path={mdiArrowLeft} size={1} className="
-        ml-2 group-hover:translate-x-1 transition-transform transform scale-x-[-1]" />
+            <Icon
+              path={mdiArrowLeft}
+              size={0.9}
+              className="
+        ml-2 group-hover:translate-x-1 transition-transform transform scale-x-[-1]"
+            />
           </InteractiveHoverButton>
         </div>
       </div>
@@ -480,4 +543,4 @@ export const BestSeller = () => {
   );
 };
 
-export default BestSeller; 
+export default BestSeller;

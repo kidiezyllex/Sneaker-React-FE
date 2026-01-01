@@ -1,65 +1,71 @@
-import { Icon } from '@mdi/react';
+import { Icon } from "@mdi/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { mdiMapMarker, mdiEmail, mdiPhone, mdiClockOutline, mdiHeart } from '@mdi/js';
-import { motion } from 'framer-motion';
+import {
+  mdiMapMarker,
+  mdiEmail,
+  mdiPhone,
+  mdiClockOutline,
+  mdiHeart,
+} from "@mdi/js";
+import { motion } from "framer-motion";
 
 export const Footer = () => {
   const socialLinks = [
     {
-      name: 'linkedin',
-      href: 'https://www.linkedin.com/company/clothess/',
-      src: '/images/linkedin.png',
+      name: "linkedin",
+      href: "https://www.linkedin.com/company/clothess/",
+      src: "/images/linkedin.png",
       width: 60,
       height: 60,
-      hoverColor: 'hover:bg-blue-600'
+      hoverColor: "hover:bg-blue-600",
     },
     {
-      name: 'google-play',
-      href: 'https://play.google.com/store/apps/dev?id=8799588644277179294&hl',
-      src: '/images/google-play.png',
+      name: "google-play",
+      href: "https://play.google.com/store/apps/dev?id=8799588644277179294&hl",
+      src: "/images/google-play.png",
       width: 60,
       height: 60,
-      hoverColor: 'hover:bg-green-600'
+      hoverColor: "hover:bg-green-600",
     },
     {
-      name: 'app-store',
-      href: 'https://apps.apple.com/us/developer/commandoo-joint-stock-company/id1561328863',
-      src: '/images/app-store.png',
+      name: "app-store",
+      href: "https://apps.apple.com/us/developer/commandoo-joint-stock-company/id1561328863",
+      src: "/images/app-store.png",
       width: 60,
       height: 60,
-      hoverColor: 'hover:bg-gray-800'
+      hoverColor: "hover:bg-gray-800",
     },
     {
-      name: 'facebook',
-      href: 'https://www.facebook.com/clothess',
-      src: '/images/facebook.png',
+      name: "facebook",
+      href: "https://www.facebook.com/clothess",
+      src: "/images/facebook.png",
       width: 60,
       height: 60,
-      hoverColor: 'hover:bg-blue-500'
+      hoverColor: "hover:bg-blue-500",
     },
     {
-      name: 'tiktok',
-      href: 'https://www.tiktok.com/@clothess',
-      src: '/images/tiktok.png',
+      name: "tiktok",
+      href: "https://www.tiktok.com/@clothess",
+      src: "/images/tiktok.png",
       width: 60,
       height: 60,
-      hoverColor: 'hover:bg-black'
+      hoverColor: "hover:bg-black",
     },
   ];
 
   const quickLinks = [
-    { name: 'Về chúng tôi', href: '/about-us' },
-    { name: 'Sản phẩm', href: '/products' },
-    { name: 'Đơn hàng', href: '/orders' },
-    { name: 'Liên hệ', href: '/contact' },
+    { name: "Về chúng tôi", href: "/about-us" },
+    { name: "Sản phẩm", href: "/products" },
+    { name: "Đơn hàng", href: "/orders" },
+    { name: "Liên hệ", href: "/contact" },
   ];
 
   const supportLinks = [
-    { name: 'Hướng dẫn mua hàng', href: '/guide' },
-    { name: 'Chính sách đổi trả', href: '/return-policy' },
-    { name: 'Hỗ trợ khách hàng', href: '/support' },
-    { name: 'FAQ', href: '/faq' },
+    { name: "Hướng dẫn mua hàng", href: "/guide" },
+    { name: "Chính sách đổi trả", href: "/return-policy" },
+    { name: "Hỗ trợ khách hàng", href: "/support" },
+    { name: "FAQ", href: "/faq" },
   ];
 
   return (
@@ -73,12 +79,12 @@ export const Footer = () => {
             animate={{
               x: [0, 50, 0],
               y: [0, -30, 0],
-              scale: [1, 1.1, 1]
+              scale: [1, 1.1, 1],
             }}
             transition={{
               duration: 20,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
           <motion.div
@@ -86,12 +92,12 @@ export const Footer = () => {
             animate={{
               x: [0, -40, 0],
               y: [0, 40, 0],
-              scale: [1, 0.9, 1]
+              scale: [1, 0.9, 1],
             }}
             transition={{
               duration: 25,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: "easeInOut",
             }}
           />
         </div>
@@ -126,23 +132,44 @@ export const Footer = () => {
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
                 <div className="flex items-start gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                  <Icon path={mdiMapMarker} size={1.2} className="text-primary mt-1 flex-shrink-0" />
-                  <p className="text-gray-300 text-sm">D29, Pham Van Bach Street, Cau Giay District, Ha Noi, Vietnam</p>
+                  <Icon
+                    path={mdiMapMarker}
+                    size={1.2}
+                    className="text-primary mt-1 flex-shrink-0"
+                  />
+                  <p className="text-gray-300 text-sm">
+                    D29, Pham Van Bach Street, Cau Giay District, Ha Noi,
+                    Vietnam
+                  </p>
                 </div>
 
                 <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                  <Icon path={mdiEmail} size={1.2} className="text-primary flex-shrink-0" />
+                  <Icon
+                    path={mdiEmail}
+                    size={1.2}
+                    className="text-primary flex-shrink-0"
+                  />
                   <p className="text-gray-300 text-sm">streetstore@gmail.com</p>
                 </div>
 
                 <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                  <Icon path={mdiPhone} size={1.2} className="text-primary flex-shrink-0" />
+                  <Icon
+                    path={mdiPhone}
+                    size={1.2}
+                    className="text-primary flex-shrink-0"
+                  />
                   <p className="text-gray-300 text-sm">+84 123 456 789</p>
                 </div>
 
                 <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
-                  <Icon path={mdiClockOutline} size={1.2} className="text-primary flex-shrink-0" />
-                  <p className="text-gray-300 text-sm">8:00 - 22:00 hàng ngày</p>
+                  <Icon
+                    path={mdiClockOutline}
+                    size={1.2}
+                    className="text-primary flex-shrink-0"
+                  />
+                  <p className="text-gray-300 text-sm">
+                    8:00 - 22:00 hàng ngày
+                  </p>
                 </div>
               </motion.div>
             </div>
@@ -168,8 +195,9 @@ export const Footer = () => {
                     />
                   </div>
                   <p className="text-gray-400 leading-relaxed">
-                    Điểm đến tin cậy cho những tín đồ thời trang. Chúng tôi mang đến những sản phẩm chất lượng cao
-                    với thiết kế độc đáo và phong cách hiện đại.
+                    Điểm đến tin cậy cho những tín đồ thời trang. Chúng tôi mang
+                    đến những sản phẩm chất lượng cao với thiết kế độc đáo và
+                    phong cách hiện đại.
                   </p>
                 </motion.div>
 
@@ -179,23 +207,50 @@ export const Footer = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                  <h4 className="text-lg font-semibold mb-6 text-white">Thông tin liên hệ</h4>
+                  <h4 className="text-lg font-semibold mb-6 text-white">
+                    Thông tin liên hệ
+                  </h4>
                   <div className="space-y-3">
                     <div className="flex items-start gap-3">
-                      <Icon path={mdiMapMarker} size={1} className="text-primary mt-1 flex-shrink-0" />
-                      <span className="text-gray-300 text-sm">D29, Pham Van Bach Street, Cau Giay District, Ha Noi, Vietnam</span>
+                      <Icon
+                        path={mdiMapMarker}
+                        size={0.9}
+                        className="text-primary mt-1 flex-shrink-0"
+                      />
+                      <span className="text-gray-300 text-sm">
+                        D29, Pham Van Bach Street, Cau Giay District, Ha Noi,
+                        Vietnam
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Icon path={mdiEmail} size={1} className="text-primary flex-shrink-0" />
-                      <span className="text-gray-300 text-sm">streetstore@gmail.com</span>
+                      <Icon
+                        path={mdiEmail}
+                        size={0.9}
+                        className="text-primary flex-shrink-0"
+                      />
+                      <span className="text-gray-300 text-sm">
+                        streetstore@gmail.com
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Icon path={mdiPhone} size={1} className="text-primary flex-shrink-0" />
-                      <span className="text-gray-300 text-sm">+84 123 456 789</span>
+                      <Icon
+                        path={mdiPhone}
+                        size={0.9}
+                        className="text-primary flex-shrink-0"
+                      />
+                      <span className="text-gray-300 text-sm">
+                        +84 123 456 789
+                      </span>
                     </div>
                     <div className="flex items-center gap-3">
-                      <Icon path={mdiClockOutline} size={1} className="text-primary flex-shrink-0" />
-                      <span className="text-gray-300 text-sm">8:00 - 22:00 hàng ngày</span>
+                      <Icon
+                        path={mdiClockOutline}
+                        size={0.9}
+                        className="text-primary flex-shrink-0"
+                      />
+                      <span className="text-gray-300 text-sm">
+                        8:00 - 22:00 hàng ngày
+                      </span>
                     </div>
                   </div>
                 </motion.div>
@@ -206,7 +261,9 @@ export const Footer = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                  <h4 className="text-lg font-semibold mb-6 text-white">Liên kết nhanh</h4>
+                  <h4 className="text-lg font-semibold mb-6 text-white">
+                    Liên kết nhanh
+                  </h4>
                   <ul className="space-y-3">
                     {quickLinks.map((link, index) => (
                       <li key={index}>
@@ -228,7 +285,9 @@ export const Footer = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                  <h4 className="text-lg font-semibold mb-6 text-white">Hỗ trợ</h4>
+                  <h4 className="text-lg font-semibold mb-6 text-white">
+                    Hỗ trợ
+                  </h4>
                   <ul className="space-y-3">
                     {supportLinks.map((link, index) => (
                       <li key={index}>
@@ -283,7 +342,12 @@ export const Footer = () => {
               >
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                   <div className="flex flex-wrap justify-center md:justify-start gap-6">
-                    {['Điều khoản sử dụng', 'Chính sách bảo mật', 'Bản quyền', 'Cộng đồng'].map((item, index) => (
+                    {[
+                      "Điều khoản sử dụng",
+                      "Chính sách bảo mật",
+                      "Bản quyền",
+                      "Cộng đồng",
+                    ].map((item, index) => (
                       <a
                         key={index}
                         href="#"
@@ -351,4 +415,4 @@ export const Footer = () => {
   );
 };
 
-export default Footer; 
+export default Footer;
