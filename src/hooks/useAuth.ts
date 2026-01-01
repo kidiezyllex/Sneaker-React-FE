@@ -34,4 +34,4 @@ export const useAuth = create<AuthStore>((set) => ({
     localStorage.removeItem('refreshToken');
     set({ user: null, accessToken: null, refreshToken: null });
   }
-})); 
+}));

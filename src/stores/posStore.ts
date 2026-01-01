@@ -43,8 +43,8 @@ export const usePosStore = create<PosState>()(
       },
     }),
     {
-      name: 'pos-storage', // name of the item in the storage (must be unique)
-      storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+      name: 'pos-storage', 
+      storage: createJSONStorage(() => localStorage), 
     }
   )
 ); 

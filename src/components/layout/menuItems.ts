@@ -66,12 +66,6 @@ export const menuItems: MenuItem[] = [
       },
     ],
   },
-  // {
-  //   id: 'returns',
-  //   name: 'Quản lý trả hàng',
-  //   path: '/admin/returns',
-  //   icon: mdiRestart,
-  // },
   {
     id: 'discounts',
     name: 'Giảm giá',

@@ -22,10 +22,7 @@ export const calculateProductDiscount = (
   }
 
   const now = new Date();
-
   const applicablePromotions = activePromotions.filter(promotion => {
-    
-    // Check status - handle both 'ACTIVE' and 'ACTIVE'
     if (promotion.status !== 'ACTIVE' && promotion.status !== 'ACTIVE') {
       return false;
     }
@@ -37,7 +34,6 @@ export const calculateProductDiscount = (
       return false;
     }
 
-    // Handle productIds from API - could be string or array
     let productIds = [];
     if (promotion.productIds) {
       if (typeof promotion.productIds === 'string') {
@@ -123,7 +119,6 @@ export const applyPromotionsToProducts = (
       };
     }
 
-    // Ensure product.id is a string for comparison
     const productId = String(product.id || product._id);
 
     const discountInfo = calculateProductDiscount(
@@ -145,9 +140,6 @@ export const applyPromotionsToProducts = (
   });
 };
 
-/**
- * Format price with currency
- */
 export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -156,11 +148,7 @@ export const formatPrice = (price: number): string => {
   }).format(price);
 };
 
-/**
- * Check if a promotion is currently active
- */
 export const isPromotionActive = (promotion: any): boolean => {
-  // Handle both 'ACTIVE' and 'ACTIVE' status
   if (promotion.status !== 'ACTIVE' && promotion.status !== 'ACTIVE') return false;
 
   const now = new Date();
@@ -168,13 +156,9 @@ export const isPromotionActive = (promotion: any): boolean => {
   const startDate = new Date(promotion.startDate);
   const endDate = new Date(promotion.endDate);
 
-  // Check if current time is within the promotion period
   return now >= startDate && now <= endDate;
 };
 
-/**
- * Filter promotions to only include those that are currently active
- */
 export const filterActivePromotions = (promotions: any[]): any[] => {
   if (!promotions || promotions.length === 0) return [];
   

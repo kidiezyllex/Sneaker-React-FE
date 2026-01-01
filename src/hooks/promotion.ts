@@ -37,7 +37,7 @@ export const usePromotionDetail = (promotionId: string): UseQueryResult<IPromoti
   return useQuery<IPromotionResponse, Error>({
     queryKey: ["promotion", promotionId],
     queryFn: () => getPromotionById(promotionId),
-    enabled: !!promotionId, // Chỉ fetch khi có promotionId
+    enabled: !!promotionId,
     refetchInterval: 4000,
     refetchIntervalInBackground: true,
   });
@@ -69,9 +69,8 @@ export const useProductPromotions = (productId: string): UseQueryResult<IProduct
   return useQuery<IProductPromotionsResponse, Error>({
     queryKey: ["productPromotions", productId],
     queryFn: () => getProductPromotions(productId),
-    enabled: !!productId, // Chỉ fetch khi có productId
+    enabled: !!productId,
     refetchInterval: 4000,
     refetchIntervalInBackground: true,
   });
 };
-

@@ -1,4 +1,3 @@
-// Common attribute properties
 interface IAttributeBase {
   id: number;
   status: 'ACTIVE' | 'INACTIVE';
@@ -6,7 +5,6 @@ interface IAttributeBase {
   updatedAt: string;
 }
 
-// Brand interfaces
 export interface IBrand extends IAttributeBase {
   name: string;
 }
@@ -23,7 +21,6 @@ export interface IBrandsResponse {
   data: IBrand[];
 }
 
-// Category interfaces
 export interface ICategory extends IAttributeBase {
   name: string;
 }
@@ -40,7 +37,6 @@ export interface ICategoriesResponse {
   data: ICategory[];
 }
 
-// Material interfaces
 export interface IMaterial extends IAttributeBase {
   name: string;
 }
@@ -57,7 +53,6 @@ export interface IMaterialsResponse {
   data: IMaterial[];
 }
 
-// Color interfaces
 export interface IColor extends IAttributeBase {
   name: string;
   code: string;
@@ -75,7 +70,6 @@ export interface IColorsResponse {
   data: IColor[];
 }
 
-// Size interfaces
 export interface ISize extends IAttributeBase {
   value: number;
 }
@@ -92,9 +86,8 @@ export interface ISizesResponse {
   data: ISize[];
 }
 
-// Action response interface
 export interface IActionResponse {
   success: boolean;
   message: string;
   data?: any;
-} 
+}

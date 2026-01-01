@@ -43,7 +43,6 @@ export interface IReturnStatsParams {
   endDate?: string;
 }
 
-// === Customer Return Interfaces ===
 
 export interface IReturnableOrdersParams {
   page?: number;
@@ -66,4 +65,4 @@ export interface ICustomerReturnRequest {
 export interface IMyReturnsParams {
   page?: number;
   limit?: number;
-} 
+}

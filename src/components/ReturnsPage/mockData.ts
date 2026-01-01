@@ -1,62 +1,56 @@
-// Import kiểu Order nếu cần dùng (hiện tại không dùng trong file này)
 import { Order } from '../OrdersPage/mockData';
 
-// Định nghĩa các lý do hoàn trả hàng có thể
 export type ReturnReason = 
-  | 'wrong_size'        // Sai kích cỡ
-  | 'wrong_item'        // Giao nhầm sản phẩm
-  | 'damaged'           // Sản phẩm bị hỏng trong quá trình giao
-  | 'defective'         // Sản phẩm bị lỗi kỹ thuật
-  | 'changed_mind'      // Khách đổi ý không muốn mua nữa
-  | 'other';            // Lý do khác
+  | 'wrong_size'
+  | 'wrong_item'
+  | 'damaged'
+  | 'defective'
+  | 'changed_mind'
+  | 'other';
 
-// Trạng thái xử lý yêu cầu hoàn trả
 export type ReturnStatus = 
-  | 'pending'           // Chờ xử lý
-  | 'approved'          // Đã được chấp nhận
-  | 'rejected'          // Bị từ chối
-  | 'completed';        // Đã hoàn tất hoàn trả
+  | 'pending'
+  | 'approved'
+  | 'rejected'
+  | 'completed';
 
-// Thông tin về từng mặt hàng trong đơn hoàn trả
 export interface ReturnItem {
-  id: string;               // ID của mục hoàn trả
-  orderItemId: string;      // ID của sản phẩm trong đơn hàng gốc
-  productId: string;        // ID sản phẩm
-  productName: string;      // Tên sản phẩm
-  productImage: string;     // Hình ảnh sản phẩm
-  sku: string;              // Mã SKU
-  size: string;             // Kích cỡ
-  color: string;            // Màu sắc
-  price: number;            // Giá sản phẩm
-  quantity: number;         // Số lượng đã đặt
-  returnedQuantity: number; // Số lượng được trả
+  id: string;
+  orderItemId: string;
+  productId: string;
+  productName: string;
+  productImage: string;
+  sku: string;
+  size: string;
+  color: string;
+  price: number;
+  quantity: number;
+  returnedQuantity: number;
 }
 
-// Thông tin chi tiết của một đơn hoàn trả
 export interface Return {
-  id: string;                         // ID hoàn trả
-  code: string;                       // Mã hoàn trả (hiển thị)
-  orderId: string;                    // ID đơn hàng gốc
-  orderCode: string;                 // Mã đơn hàng gốc
-  customerId: string;                // ID khách hàng
-  customerName: string;              // Tên khách hàng
-  customerPhone: string;             // Số điện thoại
-  customerEmail?: string;            // Email (có thể không có)
-  items: ReturnItem[];               // Danh sách sản phẩm hoàn trả
-  reason: ReturnReason;              // Lý do hoàn trả (enum)
-  reasonDetail?: string;             // Mô tả chi tiết lý do (tùy chọn)
-  status: ReturnStatus;              // Trạng thái hoàn trả
-  refundAmount: number;              // Số tiền hoàn trả
-  refundMethod: string;              // Hình thức hoàn tiền (banking, momo...)
-  refundStatus: 'pending' | 'completed' | 'failed'; // Trạng thái hoàn tiền
-  staffId?: string;                  // Nhân viên xử lý (tùy chọn)
-  staffName?: string;                // Tên nhân viên xử lý
-  createdAt: string;                 // Ngày tạo đơn hoàn trả
-  updatedAt: string;                 // Ngày cập nhật cuối
-  images?: string[];                 // Hình ảnh kèm theo (lỗi sản phẩm...)
+  id: string;
+  code: string;
+  orderId: string;
+  orderCode: string;
+  customerId: string;
+  customerName: string;
+  customerPhone: string;
+  customerEmail?: string;
+  items: ReturnItem[];
+  reason: ReturnReason;
+  reasonDetail?: string;
+  status: ReturnStatus;
+  refundAmount: number;
+  refundMethod: string;
+  refundStatus: 'pending' | 'completed' | 'failed';
+  staffId?: string;
+  staffName?: string;
+  createdAt: string;
+  updatedAt: string;
+  images?: string[];
 }
 
-// Hàm chuyển đổi mã lý do thành văn bản tiếng Việt
 export const getReturnReasonText = (reason: ReturnReason): string => {
   switch (reason) {
     case 'wrong_size': return 'Sai kích cỡ';
@@ -69,7 +63,6 @@ export const getReturnReasonText = (reason: ReturnReason): string => {
   }
 };
 
-// Hàm chuyển đổi trạng thái hoàn trả thành văn bản tiếng Việt
 export const getReturnStatusText = (status: ReturnStatus): string => {
   switch (status) {
     case 'pending': return 'Chờ xử lý';
@@ -80,7 +73,6 @@ export const getReturnStatusText = (status: ReturnStatus): string => {
   }
 };
 
-// Dữ liệu mẫu (mock data) cho các đơn hoàn trả
 export const mockReturns: Return[] = [
   {
     id: '1',

@@ -26,4 +26,4 @@ export interface IPaymentCreate {
 export interface IPaymentStatusUpdate {
   status: 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
   note?: string;
-} 
+}

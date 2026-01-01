@@ -39,8 +39,6 @@ import {
   IReturnableOrdersResponse
 } from "@/interface/response/return";
 
-// === Admin Return Hooks ===
-
 export const useReturns = (params: IReturnFilter = {}): UseQueryResult<IReturnsResponse, Error> => {
   return useQuery<IReturnsResponse, Error>({
     queryKey: ["returns", params],
@@ -52,7 +50,7 @@ export const useReturnDetail = (returnId: string): UseQueryResult<IReturnRespons
   return useQuery<IReturnResponse, Error>({
     queryKey: ["return", returnId],
     queryFn: () => getReturnById(returnId),
-    enabled: !!returnId, // Chỉ fetch khi có returnId
+    enabled: !!returnId,
   });
 };
 
@@ -92,7 +90,7 @@ export const useSearchReturn = (params: IReturnSearchParams): UseQueryResult<IRe
   return useQuery<IReturnSearchResponse, Error>({
     queryKey: ["returnSearch", params],
     queryFn: () => searchReturn(params),
-    enabled: !!params.query, // Chỉ fetch khi có query
+    enabled: !!params.query,
   });
 };
 
@@ -102,8 +100,6 @@ export const useReturnStats = (params: IReturnStatsParams = {}): UseQueryResult<
     queryFn: () => getReturnStats(params),
   });
 };
-
-// === Customer Return Hooks ===
 
 export const useReturnableOrders = (params: IReturnableOrdersParams = {}): UseQueryResult<IReturnableOrdersResponse, Error> => {
   return useQuery<IReturnableOrdersResponse, Error>({
@@ -129,7 +125,7 @@ export const useMyReturnDetail = (returnId: string): UseQueryResult<IReturnRespo
   return useQuery<IReturnResponse, Error>({
     queryKey: ["myReturn", returnId],
     queryFn: () => getMyReturnDetail(returnId),
-    enabled: !!returnId, // Chỉ fetch khi có returnId
+    enabled: !!returnId,
   });
 };
 
@@ -137,4 +133,4 @@ export const useCancelMyReturn = (): UseMutationResult<IActionResponse, Error, s
   return useMutation<IActionResponse, Error, string>({
     mutationFn: (returnId) => cancelMyReturn(returnId),
   });
-}; 
+};

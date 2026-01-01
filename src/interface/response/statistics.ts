@@ -111,4 +111,4 @@ export interface ITopProductsResponse {
 export interface IGenerateDailyResponse {
   success: boolean;
   data: IStatisticsDetail;
-} 
+}

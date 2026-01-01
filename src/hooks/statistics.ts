@@ -36,7 +36,7 @@ export const useStatisticsDetail = (statisticsId: string): UseQueryResult<IStati
   return useQuery<IStatisticsDetailResponse, Error>({
     queryKey: ["statistics", statisticsId],
     queryFn: () => getStatisticsById(statisticsId),
-    enabled: !!statisticsId, // Only fetch when statisticsId is available
+    enabled: !!statisticsId,
   });
 };
 
@@ -44,7 +44,7 @@ export const useRevenueReport = (params: IRevenueReportFilter): UseQueryResult<I
   return useQuery<IRevenueReportResponse, Error>({
     queryKey: ["revenueReport", params],
     queryFn: () => getRevenueReport(params),
-    enabled: !!params.startDate && !!params.endDate, // Only fetch when required dates are available
+    enabled: !!params.startDate && !!params.endDate,
   });
 };
 
@@ -52,7 +52,7 @@ export const useTopProducts = (params: ITopProductsFilter): UseQueryResult<ITopP
   return useQuery<ITopProductsResponse, Error>({
     queryKey: ["topProducts", params],
     queryFn: () => getTopProducts(params),
-    enabled: !!params.startDate && !!params.endDate, // Only fetch when required dates are available
+    enabled: !!params.startDate && !!params.endDate,
   });
 };
 
@@ -60,4 +60,4 @@ export const useGenerateDailyStatistics = (): UseMutationResult<IGenerateDailyRe
   return useMutation<IGenerateDailyResponse, Error, IGenerateDailyStatistics>({
     mutationFn: (payload) => generateDailyStatistics(payload),
   });
-}; 
+};

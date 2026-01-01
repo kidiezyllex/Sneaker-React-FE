@@ -5,4 +5,4 @@ export const useUploadImage = (): UseMutationResult<IUploadImageResponseData, Er
   return useMutation<IUploadImageResponseData, Error, FormData>({
     mutationFn: (formData) => uploadImage(formData),
   });
-}; 
+};

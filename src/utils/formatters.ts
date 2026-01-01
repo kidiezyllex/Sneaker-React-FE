@@ -1,8 +1,3 @@
-/**
- * Định dạng giá tiền theo định dạng VND
- * @param price Số tiền cần định dạng
- * @returns Chuỗi đã định dạng theo VND
- */
 export const formatPrice = (price: number): string => {
   return new Intl.NumberFormat('vi-VN', {
     style: 'currency',
@@ -11,11 +6,6 @@ export const formatPrice = (price: number): string => {
   }).format(price);
 };
 
-/**
- * Định dạng ngày tháng theo định dạng Việt Nam
- * @param dateString Chuỗi ngày cần định dạng
- * @returns Chuỗi ngày đã định dạng theo Việt Nam
- */
 export const formatDate = (dateString: string): string => {
   return new Intl.DateTimeFormat('vi-VN', {
     day: '2-digit',
@@ -24,11 +14,6 @@ export const formatDate = (dateString: string): string => {
   }).format(new Date(dateString));
 };
 
-/**
- * Định dạng ngày tháng có giờ theo định dạng Việt Nam
- * @param dateString Chuỗi ngày giờ cần định dạng
- * @returns Chuỗi ngày giờ đã định dạng theo Việt Nam
- */
 export const formatDateTime = (dateString: string): string => {
   return new Intl.DateTimeFormat('vi-VN', {
     day: '2-digit',
@@ -40,11 +25,6 @@ export const formatDateTime = (dateString: string): string => {
   }).format(new Date(dateString));
 };
 
-/**
- * Chuyển đổi chuỗi thành slug URL
- * @param text Chuỗi cần chuyển đổi
- * @returns Chuỗi slug
- */
 export const slugify = (text: string): string => {
   return text
     .toLowerCase()
@@ -56,31 +36,18 @@ export const slugify = (text: string): string => {
     .replace(/^-+|-+$/g, '');
 };
 
-/**
- * Định dạng số điện thoại Việt Nam
- * @param phone Số điện thoại cần định dạng 
- * @returns Chuỗi số điện thoại đã định dạng
- */
 export const formatPhoneNumber = (phone: string): string => {
-  // Loại bỏ tất cả ký tự không phải số
   const cleaned = phone.replace(/\D/g, '');
   
-  // Kiểm tra độ dài và định dạng tùy theo loại số điện thoại
   if (cleaned.length === 10) {
     return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
   } else if (cleaned.length === 11) {
     return cleaned.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3');
   }
   
-  // Trả về nguyên bản nếu không phù hợp các mẫu trên
   return phone;
 };
 
-/**
- * Định dạng số lượng sản phẩm còn lại trong kho
- * @param stock Số lượng sản phẩm
- * @returns Chuỗi định dạng tình trạng kho
- */
 export const formatStockStatus = (stock: number): { text: string; className: string } => {
   if (stock <= 0) {
     return { text: 'Hết hàng', className: 'text-red-500' };
@@ -91,4 +58,4 @@ export const formatStockStatus = (stock: number): { text: string; className: str
   } else {
     return { text: 'Còn hàng', className: 'text-green-500' };
   }
-}; 
+};

@@ -3,13 +3,17 @@ import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
-
-//                                                                                                                     Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-
-//                                                                                                                     Component cho các tính năng
+import {
+  mdiCheckCircle,
+  mdiChevronDoubleDown,
+  mdiShieldCheck,
+  mdiStar,
+  mdiStore,
+  mdiTruck,
+} from "@mdi/js";
 const FeatureCard = ({
   icon,
   title,
@@ -39,7 +43,6 @@ const FeatureCard = ({
   </motion.div>
 );
 
-//                                                                                                                     Component cho thành viên nhóm
 const TeamMember = ({
   name,
   id,
@@ -77,7 +80,6 @@ const TeamMember = ({
   </motion.div>
 );
 
-//                                                                                                                     Component cho đánh giá khách hàng
 const TestimonialCard = ({
   rating,
   title,
@@ -132,7 +134,6 @@ const TestimonialCard = ({
   </motion.div>
 );
 
-//                                                                                                                     Dữ liệu testimonial mở rộng
 const testimonialData = [
   {
     rating: 5,

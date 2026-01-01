@@ -1,11 +1,7 @@
 import React from 'react';
 
-// Performance optimization utilities
-
-// Web Vitals monitoring
 export const measureWebVitals = () => {
   if (typeof window !== 'undefined' && 'performance' in window) {
-    // Measure First Contentful Paint (FCP)
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
       }
@@ -15,7 +11,6 @@ export const measureWebVitals = () => {
   }
 };
 
-// Resource hints for critical resources
 export const addResourceHints = () => {
   const criticalFonts = [
     '/fonts/Roboto-Regular.woff2',
@@ -26,7 +21,6 @@ export const addResourceHints = () => {
     '/images/background.jpg',
   ];
 
-  // Preload critical fonts
   criticalFonts.forEach(font => {
     const link = document.createElement('link');
     link.rel = 'preload';
@@ -37,7 +31,6 @@ export const addResourceHints = () => {
     document.head.appendChild(link);
   });
 
-  // Preload critical images
   criticalImages.forEach(image => {
     const link = document.createElement('link');
     link.rel = 'preload';
@@ -47,7 +40,6 @@ export const addResourceHints = () => {
   });
 };
 
-// Service Worker registration for caching
 export const registerServiceWorker = async () => {
   if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
     try {
@@ -67,15 +59,12 @@ export const registerServiceWorker = async () => {
   }
 };
 
-// Optimize images with lazy loading and WebP support
 export const optimizeImages = () => {
-  // Add loading="lazy" to all images
   const images = document.querySelectorAll('img:not([loading])');
   images.forEach(img => {
     img.setAttribute('loading', 'lazy');
   });
 
-  // WebP support detection
   const supportsWebP = () => {
     const canvas = document.createElement('canvas');
     canvas.width = 1;
@@ -88,9 +77,7 @@ export const optimizeImages = () => {
   }
 };
 
-// Memory management
 export const cleanupMemory = () => {
-  // Clear unused caches
   if ('caches' in window) {
     caches.keys().then(names => {
       names.forEach(name => {
@@ -101,19 +88,16 @@ export const cleanupMemory = () => {
     });
   }
 
-  // Clear old localStorage items
   const oldKeys = Object.keys(localStorage).filter(key => 
     key.includes('temp-') || key.includes('cache-')
   );
   oldKeys.forEach(key => localStorage.removeItem(key));
 };
 
-// Bundle analyzer for development
 export const analyzeBundleSize = () => {
   if (process.env.NODE_ENV === 'development') {
     console.group('📊 Bundle Analysis');
     
-    // Estimate chunk sizes
     const scripts = document.querySelectorAll('script[src]');
     scripts.forEach(script => {
       const src = script.getAttribute('src');
@@ -130,13 +114,12 @@ export const analyzeBundleSize = () => {
   }
 };
 
-// Performance budget monitoring
 export const monitorPerformanceBudget = () => {
   const budgets = {
-    FCP: 2000, // 2 seconds
-    LCP: 2500, // 2.5 seconds
-    FID: 100,  // 100ms
-    CLS: 0.1   // 0.1
+    FCP: 2000, 
+    LCP: 2500, 
+    FID: 100,  
+    CLS: 0.1   
   };
 
   const observer = new PerformanceObserver((list) => {
@@ -169,13 +152,10 @@ export const monitorPerformanceBudget = () => {
   });
 };
 
-// Initialize all performance optimizations
 export const initPerformanceOptimizations = () => {
-  // Run immediately
   addResourceHints();
   optimizeImages();
   
-  // Run after DOM is loaded
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       measureWebVitals();
@@ -188,16 +168,13 @@ export const initPerformanceOptimizations = () => {
     analyzeBundleSize();
   }
   
-  // Run after page is fully loaded
   window.addEventListener('load', () => {
     registerServiceWorker();
     
-    // Cleanup after 5 minutes
     setTimeout(cleanupMemory, 5 * 60 * 1000);
   });
 };
 
-// Performance monitoring hook
 export const usePerformanceMonitor = () => {
   const [metrics, setMetrics] = React.useState<{
     fcp?: number;
@@ -228,4 +205,4 @@ export const usePerformanceMonitor = () => {
   }, []);
 
   return metrics;
-}; 
+};

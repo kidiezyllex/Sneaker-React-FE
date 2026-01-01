@@ -270,7 +270,6 @@ const fallbackImages = [
   "https://image.goat.com/750/attachments/product_template_pictures/images/108/411/867/original/326768_001.png.png",
 ];
 
-//                                                                                                                     Component hiển thị rating stars
 const RatingStars = ({ rating }: { rating: number }) => {
   return (
     <div className="flex gap-1 items-center">
@@ -287,7 +286,6 @@ const RatingStars = ({ rating }: { rating: number }) => {
   );
 };
 
-//                                                                                                                     Component thẻ giảm giá
 const DiscountBadge = ({ discount }: { discount: number }) => {
   if (!discount) return null;
 
@@ -298,7 +296,6 @@ const DiscountBadge = ({ discount }: { discount: number }) => {
   );
 };
 
-//                                                                                                                     Component thẻ best seller
 const BestSellerBadge = ({ isBestSeller }: { isBestSeller: boolean }) => {
   if (!isBestSeller) return null;
 
@@ -309,7 +306,6 @@ const BestSellerBadge = ({ isBestSeller }: { isBestSeller: boolean }) => {
   );
 };
 
-//                                                                                                                     Component hiển thị màu sắc
 const ColorOptions = ({ colors }: { colors: string[] }) => {
   return (
     <div className="flex gap-1 items-center">
@@ -350,7 +346,6 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
   );
 };
 
-//                                                                                                                     Component card sản phẩm
 const ProductCard = ({
   product,
   index,
@@ -361,7 +356,6 @@ const ProductCard = ({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  //                                                                                                                     Format giá tiền sang VND
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",

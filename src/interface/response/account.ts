@@ -36,4 +36,4 @@ export interface IProfileResponse extends IBaseResponse<IAccount> {}
 
 export interface IActionResponse extends IBaseResponse<{
   message: string;
-}> {} 
+}> {}

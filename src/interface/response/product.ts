@@ -102,4 +102,4 @@ export interface IProductFiltersResponse {
     sizes: ISize[];
     priceRange: IPriceRange;
   };
-} 
+}

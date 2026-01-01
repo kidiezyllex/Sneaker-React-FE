@@ -28,7 +28,6 @@ export const useLogin = (): UseMutationResult<
   return useMutation<IAuthResponse, Error, ISignIn>({
     mutationFn: (params: ISignIn) => login(params),
     onSuccess: (result: IAuthResponse) => {
-      // Lưu token vào cookie khi đăng nhập thành công
       if (result.success && result.data.token) {
         cookies.set("accessToken", result.data.token);
       }
@@ -37,9 +36,6 @@ export const useLogin = (): UseMutationResult<
   });
 };
 
-/**
- * Hook đăng ký
- */
 export const useRegister = (): UseMutationResult<
   IAuthResponse,
   Error,
@@ -50,9 +46,6 @@ export const useRegister = (): UseMutationResult<
   });
 };
 
-/**
- * Hook đăng xuất
- */
 export const useLogout = (): UseMutationResult<
   {success: boolean; message: string},
   Error,
@@ -61,16 +54,12 @@ export const useLogout = (): UseMutationResult<
   return useMutation<{success: boolean; message: string}, Error, void>({
     mutationFn: () => logout(),
     onSuccess: () => {
-      // Xóa token khi đăng xuất
       cookies.remove("accessToken");
       localStorage.clear();
     },
   });
 };
 
-/**
- * Hook lấy thông tin người dùng hiện tại
- */
 export const useCurrentUser = () => {
   const {
     data: userData,
@@ -91,9 +80,6 @@ export const useCurrentUser = () => {
   };
 };
 
-/**
- * Hook làm mới token
- */
 export const useRefreshToken = (): UseMutationResult<
   {success: boolean; data: {token: string; refreshToken: string}},
   Error,
@@ -114,5 +100,4 @@ export const useRefreshToken = (): UseMutationResult<
   });
 };
 
-// Re-export hooks from account
 export { useChangePassword, useUpdateUserProfile as useUpdateProfile };

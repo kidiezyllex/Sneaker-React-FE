@@ -79,4 +79,4 @@ export interface IProductSearchParams {
   sortBy?: string;
   sortOrder?: 'asc' | 'desc';
   status?: string;
-} 
+}

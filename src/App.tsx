@@ -5,21 +5,17 @@ import { UserProvider } from "@/context/useUserContext";
 import { ToastContainer } from "react-toastify";
 import { LazyComponentLoader } from "@/components/Common/LazyComponentLoader";
 
-// Layout components
 import RootLayout from "@/layouts/RootLayout";
 import AdminLayout from "@/layouts/AdminLayout";
 
-// Lazy load page components with route-based code splitting
 const HomePage = React.lazy(() => import("@/pages/home/HomePage"));
 const NotFoundPage = React.lazy(() => import("@/pages/error/NotFoundPage"));
 const AboutUsPage = React.lazy(() => import("@/pages/about-us/AboutUsPage"));
 const AccountPage = React.lazy(() => import("@/pages/account/AccountPage"));
 
-// Auth pages
 const LoginPage = React.lazy(() => import("@/pages/auth/LoginPage"));
 const RegisterPage = React.lazy(() => import("@/pages/auth/RegisterPage"));
 
-// Public pages
 const ProductsPage = React.lazy(() => import("@/pages/products/ProductsPage"));
 const ProductDetailPage = React.lazy(
   () => import("@/pages/products/ProductDetailPage")
@@ -40,7 +36,6 @@ const PaymentResultPage = React.lazy(
   () => import("@/pages/payment/PaymentResultPage")
 );
 
-// Admin pages - grouped by functionality for better code splitting
 const AdminDashboardPage = React.lazy(
   () => import("@/pages/admin/AdminDashboardPage")
 );
@@ -48,7 +43,6 @@ const AdminStatisticsPage = React.lazy(
   () => import("@/pages/admin/AdminStatisticsPage")
 );
 
-// Admin Account Management
 const AdminAccountsPage = React.lazy(
   () => import("@/pages/admin/AdminAccountsPage")
 );
@@ -59,7 +53,6 @@ const AdminAccountEditPage = React.lazy(
   () => import("@/pages/admin/AdminAccountEditPage")
 );
 
-// Admin Discounts Management
 const AdminDiscountsPage = React.lazy(
   () => import("@/pages/admin/AdminDiscountsPage")
 );
@@ -82,7 +75,6 @@ const AdminVoucherEditPage = React.lazy(
   () => import("@/pages/admin/AdminVoucherEditPage")
 );
 
-// Admin Orders Management
 const AdminOrdersPage = React.lazy(
   () => import("@/pages/admin/AdminOrdersPage")
 );
@@ -96,10 +88,8 @@ const AdminOrderEditPage = React.lazy(
   () => import("@/pages/admin/AdminOrderEditPage")
 );
 
-// Admin POS
 const AdminPosPage = React.lazy(() => import("@/pages/admin/AdminPosPage"));
 
-// Admin Products Management
 const AdminProductsPage = React.lazy(
   () => import("@/pages/admin/AdminProductsPage")
 );
@@ -125,7 +115,6 @@ const AdminProductSizesPage = React.lazy(
   () => import("@/pages/admin/AdminProductSizesPage")
 );
 
-// Admin Returns Management
 const AdminReturnsPage = React.lazy(
   () => import("@/pages/admin/AdminReturnsPage")
 );

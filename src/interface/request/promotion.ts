@@ -24,4 +24,4 @@ export interface IPromotionUpdate {
   startDate?: string | Date;
   endDate?: string | Date;
   status?: 'ACTIVE' | 'UNACTIVE';
-} 
+}

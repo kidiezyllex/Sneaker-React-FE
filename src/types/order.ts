@@ -33,6 +33,6 @@ export interface CreateOrderResponse {
   success: boolean;
   message?: string;
   data?: IOrder & {
-    vnpayUrl?: string; // URL thanh toán VNPay nếu có
+    vnpayUrl?: string;
   };
 } 

@@ -110,7 +110,6 @@ const categories = [
   },
 ];
 
-//                                                                                                                     Component Badge hiển thị nhãn cho sản phẩm
 const Badge = ({ text }: { text: string }) => {
   if (!text) return null;
 
@@ -127,7 +126,6 @@ const Badge = ({ text }: { text: string }) => {
   );
 };
 
-//                                                                                                                     Component DiscountTag hiển thị phần trăm giảm giá
 const DiscountTag = ({ discount }: { discount: number }) => {
   if (!discount) return null;
 

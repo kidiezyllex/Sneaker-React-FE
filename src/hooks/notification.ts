@@ -26,8 +26,6 @@ import {
   IActionResponse
 } from "@/interface/response/notification";
 
-// === Admin Notification Hooks ===
-
 export const useNotifications = (params: INotificationFilter = {}): UseQueryResult<INotificationsResponse, Error> => {
   return useQuery<INotificationsResponse, Error>({
     queryKey: ["notifications", params],
@@ -39,7 +37,7 @@ export const useNotificationDetail = (notificationId: string): UseQueryResult<IN
   return useQuery<INotificationResponse, Error>({
     queryKey: ["notification", notificationId],
     queryFn: () => getNotificationById(notificationId),
-    enabled: !!notificationId, // Chỉ fetch khi có notificationId
+    enabled: !!notificationId,
   });
 };
 
@@ -77,11 +75,9 @@ export const useSendNotificationToAllCustomers = (): UseMutationResult<INotifica
   });
 };
 
-// === User Notification Hooks ===
-
 export const useUserNotifications = (params: INotificationFilter = {}): UseQueryResult<INotificationsResponse, Error> => {
   return useQuery<INotificationsResponse, Error>({
     queryKey: ["userNotifications", params],
     queryFn: () => getUserNotifications(params),
   });
-}; 
+};

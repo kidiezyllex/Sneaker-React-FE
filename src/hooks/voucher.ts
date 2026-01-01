@@ -43,7 +43,7 @@ export const useVoucherDetail = (voucherId: string): UseQueryResult<IVoucherResp
   return useQuery<IVoucherResponse, Error>({
     queryKey: ["voucher", voucherId],
     queryFn: () => getVoucherById(voucherId),
-    enabled: !!voucherId, // Chỉ fetch khi có voucherId
+    enabled: !!voucherId,
     refetchInterval: 4000,
     refetchIntervalInBackground: true,
   });
@@ -89,7 +89,6 @@ export const useNotifyVoucher = (): UseMutationResult<INotificationResponse, Err
   });
 };
 
-// === User Voucher Hooks ===
 export const useAvailableVouchersForUser = (
   userId: string,
   params: IUserVoucherParams = {}
@@ -97,8 +96,8 @@ export const useAvailableVouchersForUser = (
   return useQuery<IVouchersResponse, Error>({
     queryKey: ["availableVouchers", userId, params],
     queryFn: () => getAvailableVouchersForUser(userId, params),
-    enabled: !!userId, // Only fetch if userId is present
+    enabled: !!userId,
     refetchInterval: 4000,
     refetchIntervalInBackground: true,
   });
-}; 
+};

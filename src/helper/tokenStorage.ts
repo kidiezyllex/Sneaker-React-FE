@@ -23,4 +23,3 @@ export const getTokenFromLocalStorage = async () => {
       console.error("Lỗi khi xóa token khỏi localStorage:", error);
     }
   };
-  

@@ -18,7 +18,6 @@ interface OrderDetailProps {
 export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
   const [activeTab, setActiveTab] = useState<"details" | "history">("details");
 
-  //                                                                                                                     Định dạng tiền tệ
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat("vi-VN", {
       style: "currency",
@@ -27,7 +26,6 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
     }).format(amount);
   };
 
-  //                                                                                                                     Định dạng ngày tháng
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat("vi-VN", {
@@ -39,7 +37,6 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
     }).format(date);
   };
 
-  //                                                                                                                     Lấy tên phương thức thanh toán
   const getPaymentMethodName = (method: string) => {
     switch (method) {
       case "cash":
@@ -57,7 +54,6 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
     }
   };
 
-  //                                                                                                                     Lấy tên loại đơn hàng
   const getOrderTypeName = (type: string) => {
     switch (type) {
       case "store":
@@ -69,7 +65,6 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
     }
   };
 
-  //                                                                                                                     Render lịch sử trạng thái
   const renderStatusHistory = (history: OrderStatusHistory[]) => {
     return (
       <div className="space-y-4 my-4">

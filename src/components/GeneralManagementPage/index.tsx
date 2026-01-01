@@ -182,7 +182,6 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
     const orderDate = new Date(createdAt);
     const now = new Date();
 
-    // Generate realistic timestamps based on order status
     const generateTimestamp = (hoursOffset: number) => {
       const timestamp = new Date(orderDate.getTime() + hoursOffset * 60 * 60 * 1000);
       return format(timestamp, 'HH:mm dd/MM/yyyy', { locale: vi });
@@ -610,7 +609,6 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
   );
 };
 
-// Return Status Badge Component
 const ReturnStatusBadge = ({ status }: { status: string }) => {
   const statusConfig: Record<string, { label: string; className: string }> = {
     'CHO_XU_LY': { label: 'Chờ xử lý', className: '!bg-yellow-400 !text-white !border-yellow-500 text-nowrap' },
@@ -907,7 +905,6 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
   );
 };
 
-// Return Detail Dialog
 interface ReturnDetailDialogProps {
   returnId: string | null;
   open: boolean;
@@ -981,7 +978,6 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                 </CardContent>
               </Card>
 
-              {/* Sản phẩm trả hàng */}
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base">Sản phẩm trả hàng</CardTitle>
@@ -989,7 +985,6 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                 <CardContent>
                   <div className="space-y-3">
                     {returnData.data.items.map((item: any, index) => {
-                      // Check if it's the new structure with productVariant or old structure with product
                       const productVariant = item.productVariant as any;
                       const product = productVariant?.product || item.product;
                       const imageUrl = productVariant?.images?.[0]?.imageUrl || product?.variants?.[0]?.images?.[0];
@@ -1081,21 +1076,18 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
   );
 };
 
-// Tab Thông tin cá nhân
 const ProfileTab = () => {
   const { profile } = useUser();
   const userData = profile?.data;
   const { showToast } = useToast();
   const updateProfileMutation = useUpdateUserProfile();
 
-  // Form validation schema
   const formSchema = z.object({
     fullName: z.string().min(2, { message: "Họ và tên phải có ít nhất 2 ký tự" }),
     email: z.string().email({ message: "Email không hợp lệ" }),
     phoneNumber: z.string().regex(/^[0-9]{10,11}$/, { message: "Số điện thoại không hợp lệ" }).optional().or(z.literal(''))
   });
 
-  // Initialize form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -1105,7 +1097,6 @@ const ProfileTab = () => {
     }
   });
 
-  // Update form when user data changes
   useEffect(() => {
     if (userData) {
       form.reset({
@@ -1116,7 +1107,6 @@ const ProfileTab = () => {
     }
   }, [userData, form]);
 
-  // Submit handler
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     updateProfileMutation.mutate(
       {
@@ -1235,12 +1225,9 @@ const ProfileTab = () => {
   );
 };
 
-// Tab Đổi mật khẩu
 const PasswordTab = () => {
   const changePasswordMutation = useChangePassword();
   const { showToast } = useToast();
-
-  // Form validation schema
   const formSchema = z
     .object({
       currentPassword: z.string().min(6, { message: "Mật khẩu phải có ít nhất 6 ký tự" }),
@@ -1252,7 +1239,6 @@ const PasswordTab = () => {
       path: ["confirmPassword"],
     });
 
-  // Initialize form
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -1262,7 +1248,6 @@ const PasswordTab = () => {
     },
   });
 
-  // Submit handler
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     changePasswordMutation.mutate(
       {
@@ -1373,7 +1358,6 @@ const PasswordTab = () => {
   );
 };
 
-// Tab Mã giảm giá
 const VouchersTab = () => {
   const { profile } = useUser();
   const userId = profile?.data?.id;
@@ -1563,7 +1547,6 @@ const VouchersTab = () => {
   );
 };
 
-// Tab Trả hàng
 const ReturnsTab = () => {
   const { data: returnsData, isLoading, isError, refetch } = useMyReturns();
   const [selectedReturnId, setSelectedReturnId] = useState<string | null>(null);
@@ -1782,7 +1765,6 @@ export default function GeneralManagementPage() {
   };
 
   const isOrderReturnable = (order: IOrder) => {
-    // Kiểm tra xem đơn hàng có thể trả hay không
     return order.orderStatus === 'HOAN_THANH' && 
            returnableOrdersData?.data?.orders?.some(ro => ro.id === order.id);
   };

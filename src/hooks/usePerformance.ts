@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useRef, useEffect, useState } from 'react';
 
-// Debounce hook to reduce API calls
 export const useDebounce = <T>(value: T, delay: number): T => {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
@@ -17,7 +16,6 @@ export const useDebounce = <T>(value: T, delay: number): T => {
   return debouncedValue;
 };
 
-// Throttle hook for scroll events and similar
 export const useThrottle = <T extends (...args: any[]) => any>(
   callback: T,
   delay: number
@@ -35,7 +33,6 @@ export const useThrottle = <T extends (...args: any[]) => any>(
   );
 };
 
-// Stable callback that doesn't change on re-renders
 export const useStableCallback = <T extends (...args: any[]) => any>(
   callback: T
 ): T => {
@@ -51,7 +48,6 @@ export const useStableCallback = <T extends (...args: any[]) => any>(
   );
 };
 
-// Memoize expensive calculations
 export const useExpensiveMemo = <T>(
   factory: () => T,
   deps: React.DependencyList,
@@ -59,11 +55,10 @@ export const useExpensiveMemo = <T>(
 ): T => {
   return useMemo(() => {
     if (isExpensive) {
-      // Add small delay for very expensive calculations
       const start = performance.now();
       const result = factory();
       const end = performance.now();
-      if (end - start > 16) { // If calculation takes more than 1 frame (16ms)
+      if (end - start > 16) {
         console.warn(`Expensive calculation detected: ${end - start}ms`);
       }
       return result;
@@ -72,7 +67,6 @@ export const useExpensiveMemo = <T>(
   }, deps);
 };
 
-// Intersection observer hook for lazy loading
 export const useIntersectionObserver = (
   elementRef: React.RefObject<Element>,
   options?: IntersectionObserverInit
@@ -106,7 +100,6 @@ export const useIntersectionObserver = (
   return { isIntersecting, hasIntersected };
 };
 
-// Performance monitoring hook
 export const usePerformanceMonitor = (componentName: string) => {
   const renderCount = useRef(0);
   const startTime = useRef(performance.now());
@@ -131,4 +124,4 @@ export const usePerformanceMonitor = (componentName: string) => {
   return {
     renderCount: renderCount.current,
   };
-}; 
+};

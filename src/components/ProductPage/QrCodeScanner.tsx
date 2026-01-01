@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useRef } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
+import { useState, useEffect, useRef } from "react";
+import { Html5QrcodeScanner } from "html5-qrcode";
 import { Button } from "@/components/ui/button";
-import { Icon } from '@mdi/react';
-import { motion } from 'framer-motion';
+import { Icon } from "@mdi/react";
+import { motion } from "framer-motion";
 
 interface QrCodeScannerProps {
   onQrCodeDetected: (qrCodeData: string) => void;
@@ -18,7 +18,7 @@ const QrCodeScanner = ({ onQrCodeDetected }: QrCodeScannerProps) => {
   const startScanner = () => {
     if (!hasStarted) {
       const qrScanner = new Html5QrcodeScanner(
-        'qr-reader',
+        "qr-reader",
         { fps: 10, qrbox: { width: 250, height: 250 } },
         false
       );
@@ -47,15 +47,12 @@ const QrCodeScanner = ({ onQrCodeDetected }: QrCodeScannerProps) => {
   };
 
   useEffect(() => {
-    // Khởi động scanner khi dialog mở
     if (isOpen) {
-      // Đặt timeout để đảm bảo DOM đã render xong
       const timer = setTimeout(() => {
         startScanner();
       }, 500);
       return () => clearTimeout(timer);
     } else {
-      // Dừng scanner khi dialog đóng
       stopScanner();
     }
   }, [isOpen]);
@@ -76,12 +73,13 @@ const QrCodeScanner = ({ onQrCodeDetected }: QrCodeScannerProps) => {
           <DialogHeader>
             <DialogTitle>Quét mã QR</DialogTitle>
             <DialogDescription>
-              Quét mã QR trên sản phẩm để xem thông tin chi tiết hoặc thêm vào giỏ hàng nhanh.
+              Quét mã QR trên sản phẩm để xem thông tin chi tiết hoặc thêm vào
+              giỏ hàng nhanh.
             </DialogDescription>
           </DialogHeader>
           <div className="mt-4">
             {isOpen && (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -110,4 +108,4 @@ const QrCodeScanner = ({ onQrCodeDetected }: QrCodeScannerProps) => {
   );
 };
 
-export default QrCodeScanner; 
+export default QrCodeScanner;

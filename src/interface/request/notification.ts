@@ -33,4 +33,4 @@ export interface ISendToAllCustomers {
   content: string;
   relatedTo: 'VOUCHER' | 'ORDER' | 'PROMOTION' | 'SYSTEM';
   relatedId: string;
-} 
+}

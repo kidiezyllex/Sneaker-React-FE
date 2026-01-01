@@ -9,7 +9,6 @@ export const NewsletterPopup = () => {
   const [email, setEmail] = useState("");
   const [success, setSuccess] = useState(false);
 
-  //                                                                                                                     Hiển thị popup sau 5 giây vào trang
   useEffect(() => {
     const hasSeenPopup = localStorage.getItem("hasSeenNewsletterPopup");
 
@@ -24,17 +23,14 @@ export const NewsletterPopup = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    //                                                                                                                     Đánh dấu đã hiện popup
     localStorage.setItem("hasSeenNewsletterPopup", "true");
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    //                                                                                                                     Xử lý logic đăng ký thực tế
     setSuccess(true);
     setTimeout(() => {
       handleClose();
-      //                                                                                                                     Reset trạng thái để lần sau hiển thị lại form
       setTimeout(() => setSuccess(false), 500);
     }, 3000);
   };

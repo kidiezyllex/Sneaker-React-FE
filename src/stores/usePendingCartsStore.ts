@@ -18,7 +18,6 @@ interface PendingCartsState {
   activeCartId: string | null;
   maxCarts: number;
   
-  // Actions
   createNewCart: () => string | null;
   deleteCart: (cartId: string) => void;
   setActiveCart: (cartId: string) => void;
@@ -26,7 +25,6 @@ interface PendingCartsState {
   getActiveCart: () => PendingCart | null;
   clearAllCarts: () => void;
   
-  // Cart content actions
   addItemToCart: (cartId: string, item: POSCartItem) => void;
   removeItemFromCart: (cartId: string, itemId: string) => void;
   updateItemQuantityInCart: (cartId: string, itemId: string, amount: number) => void;
@@ -45,7 +43,7 @@ export const usePendingCartsStore = create<PendingCartsState>()(
         const { carts, maxCarts } = get();
         
         if (carts.length >= maxCarts) {
-          return null; // Indicate failure
+          return null;
         }
 
         const newCartId = `cart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
@@ -73,12 +71,10 @@ export const usePendingCartsStore = create<PendingCartsState>()(
           const newCarts = state.carts.filter(cart => cart.id !== cartId);
           let newActiveCartId = state.activeCartId;
           
-          // If we're deleting the active cart, switch to another one
           if (state.activeCartId === cartId) {
             newActiveCartId = newCarts.length > 0 ? newCarts[0].id : null;
           }
           
-          // Rename remaining carts to maintain sequential numbering
           const renamedCarts = newCarts.map((cart, index) => ({
             ...cart,
             name: `Giỏ hàng ${index + 1}`,
@@ -123,7 +119,6 @@ export const usePendingCartsStore = create<PendingCartsState>()(
         });
       },
 
-      // Cart content actions
       addItemToCart: (cartId: string, item: POSCartItem) => {
         set((state) => ({
           carts: state.carts.map(cart => {
@@ -133,14 +128,12 @@ export const usePendingCartsStore = create<PendingCartsState>()(
             let newItems;
             
             if (existingItemIndex >= 0) {
-              // Update existing item quantity
               newItems = cart.items.map((existingItem, index) =>
                 index === existingItemIndex
                   ? { ...existingItem, quantity: existingItem.quantity + item.quantity }
                   : existingItem
               );
             } else {
-              // Add new item
               newItems = [...cart.items, item];
             }
             

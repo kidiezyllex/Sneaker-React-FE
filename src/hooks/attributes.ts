@@ -233,4 +233,4 @@ export const useDeleteSize = (): UseMutationResult<IActionResponse, Error, strin
   return useMutation<IActionResponse, Error, string>({
     mutationFn: (sizeId) => deleteSize(sizeId),
   });
-}; 
+};

@@ -1,5 +1,5 @@
-import React, { Suspense } from 'react';
-import { Skeleton } from '@/components/ui/skeleton';
+import React, { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface LazyComponentLoaderProps {
   children: React.ReactNode;
@@ -27,28 +27,24 @@ const DefaultFallback = ({ minHeight = "200px" }: { minHeight?: string }) => (
   </div>
 );
 
-export const LazyComponentLoader: React.FC<LazyComponentLoaderProps> = ({ 
-  children, 
+export const LazyComponentLoader: React.FC<LazyComponentLoaderProps> = ({
+  children,
   fallback,
-  minHeight 
+  minHeight,
 }) => {
-  const loadingComponent = fallback || <DefaultFallback minHeight={minHeight} />;
-  
-  return (
-    <Suspense fallback={loadingComponent}>
-      {children}
-    </Suspense>
+  const loadingComponent = fallback || (
+    <DefaultFallback minHeight={minHeight} />
   );
+
+  return <Suspense fallback={loadingComponent}>{children}</Suspense>;
 };
 
-// Simple loading component for quick loads
 export const SimpleLoader = () => (
   <div className="flex items-center justify-center py-8">
     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
   </div>
 );
 
-// Loading component for heavy operations
 export const HeavyLoader = () => (
   <div className="flex items-center justify-center min-h-[200px]">
     <div className="flex flex-col items-center space-y-4">
@@ -58,4 +54,4 @@ export const HeavyLoader = () => (
   </div>
 );
 
-export default LazyComponentLoader; 
+export default LazyComponentLoader;

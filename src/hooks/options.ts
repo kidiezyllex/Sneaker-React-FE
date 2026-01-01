@@ -1,7 +1,6 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import { sendGet } from "@/api/axios";
 
-// Định nghĩa các interface cho response
 interface IBrandsResponse {
   success: boolean;
   message: string;
@@ -58,7 +57,6 @@ interface IMaterialsResponse {
   };
 }
 
-// API functions
 const getBrands = async (): Promise<IBrandsResponse> => {
   const res = await sendGet("/brands");
   return res as IBrandsResponse;
@@ -84,7 +82,6 @@ const getMaterials = async (): Promise<IMaterialsResponse> => {
   return res as IMaterialsResponse;
 };
 
-// Hooks
 export const useBrands = (): UseQueryResult<IBrandsResponse, Error> => {
   return useQuery<IBrandsResponse, Error>({
     queryKey: ["brands"],
@@ -118,4 +115,4 @@ export const useMaterials = (): UseQueryResult<IMaterialsResponse, Error> => {
     queryKey: ["materials"],
     queryFn: () => getMaterials(),
   });
-}; 
+};

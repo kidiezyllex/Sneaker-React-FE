@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  lazy,
-  Suspense,
-} from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,25 +8,13 @@ import { Icon } from "@mdi/react";
 import {
   mdiMagnify,
   mdiPlus,
-  mdiMinus,
-  mdiDelete,
-  mdiCashRegister,
-  mdiTag,
-  mdiCashMultiple,
   mdiInformationOutline,
-  mdiReceipt,
-  mdiClock,
-  mdiAccount,
-  mdiContentCopy,
-  mdiPrinter,
   mdiChevronLeft,
   mdiPalette,
   mdiCheck,
   mdiRuler,
-  mdiCurrencyUsd,
   mdiPackageVariant,
   mdiCartPlus,
-  mdiBarcode,
   mdiInvoicePlus,
   mdiClose,
   mdiCart,
@@ -41,7 +22,6 @@ import {
   mdiViewGridOutline,
   mdiTableLarge,
   mdiEye,
-  mdiBankTransfer,
 } from "@mdi/js";
 import { checkImageUrl, cn } from "@/lib/utils";
 import {
@@ -59,21 +39,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -127,49 +92,6 @@ import { Input } from "@/components/ui/input";
 import VouchersDialog from "./components/VouchersDialog";
 import InvoiceDialog from "./components/InvoiceDialog";
 
-/**
- * QR Code Component
- * Generates a QR code image using an external API service
- * Used for displaying payment QR codes and product information
- *
- * @param value - The data to be encoded in the QR code
- * @param size - The dimensions of the QR code in pixels (default: 200)
- * @returns A rendered QR code image with border styling
- */
-const QRCodeComponent = ({
-  value,
-  size = 200,
-}: {
-  value: string;
-  size?: number;
-}) => {
-  const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(
-    value
-  )}`;
-
-  return (
-    <img
-      src={qrCodeUrl}
-      alt="QR Code"
-      width={size}
-      height={size}
-      className="border border-gray-200 rounded"
-    />
-  );
-};
-
-/**
- * Card Skeleton Component
- * Displays a loading placeholder for product cards while data is being fetched
- * Improves perceived performance by showing a visual representation of the content structure
- *
- * Includes skeleton placeholders for:
- * - Product image (full width)
- * - Product name (3/4 width)
- * - Price information (1/2 width)
- * - Variant indicators (circular shapes)
- * - Action button (full width)
- */
 const CardSkeleton = () => (
   <div className="bg-white rounded-[6px] border border-border shadow-sm overflow-hidden">
     <Skeleton className="h-48 w-full" />
@@ -188,80 +110,56 @@ const CardSkeleton = () => (
   </div>
 );
 
-/**
- * Interface for product variant data from the API
- * Represents the different variations of a product (color, size, etc.)
- */
 interface ApiVariant {
   id: string;
   colorId?: { id: string; name: string; code: string; images?: string[] }; // Color information if applicable
   sizeId?: { id: string; name: string; value?: string }; // Size information if applicable
-  price: number; // Variant price
-  stock: number; // Available stock
-  images?: string[]; // Variant-specific images
-  sku?: string; // Stock Keeping Unit
-  actualSizeId?: string; // Reference to actual size ID
+  price: number;
+  stock: number;
+  images?: string[];
+  sku?: string;
+  actualSizeId?: string;
 }
 
-/**
- * Interface for product data from the API
- * Contains core product information and its variants
- */
 interface ApiProduct {
-  id: string; // Unique product identifier
-  name: string; // Product name
-  brand: { id: string; name: string } | string; // Brand information or brand ID
-  category: { id: string; name: string } | string; // Category information or category ID
-  description?: string; // Optional product description
-  variants: ApiVariant[]; // Array of product variants
-  status?: string; // Product status (e.g., active, inactive)
-  createdAt: string; // Product creation timestamp
+  id: string;
+  name: string;
+  brand: { id: string; name: string } | string;
+  category: { id: string; name: string } | string;
+  description?: string;
+  variants: ApiVariant[];
+  status?: string;
+  createdAt: string;
 }
 
-/**
- * Interface for shop information in invoices
- * Contains business details for receipt printing
- */
 interface InvoiceShopInfo {
-  name: string; // Shop name
-  address: string; // Shop address
-  phone: string; // Contact phone number
-  email: string; // Contact email
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
 }
 
-/**
- * Interface for customer information in invoices
- * Contains basic customer details for receipt
- */
 interface InvoiceCustomerInfo {
-  name: string; // Customer name
-  phone: string; // Customer phone number
+  name: string;
+  phone: string;
 }
 
-/**
- * Interface for individual items in an invoice
- * Represents a purchased product with its details
- */
 interface InvoiceItem {
-  name: string; // Product name
-  quantity: number; // Quantity purchased
+  name: string;
+  quantity: number;
   price: number; // Unit price
   total: number; // Total price (quantity * price)
   color: string; // Selected color
   size: string; // Selected size
 }
 
-/**
- * Interface for complete invoice data
- * Contains all information needed for generating a receipt
- */
 interface InvoiceData {
-  shopInfo: InvoiceShopInfo; // Shop details
-  customerInfo: InvoiceCustomerInfo; // Customer details
-  orderId: string; // Unique order identifier
-  employee: string; // Employee who processed the sale
-  createdAt: string; // Order timestamp
-  items: InvoiceItem[]; // Array of purchased items
+  shopInfo: InvoiceShopInfo;
+  customerInfo: InvoiceCustomerInfo;
+  orderId: string;
+  employee: string;
+  createdAt: string;
+  items: InvoiceItem[];
   subTotal: number; // Sum before discounts
   discount: number; // Applied discount amount
   voucherCode?: string; // Applied voucher code if any
@@ -271,13 +169,6 @@ interface InvoiceData {
   paymentMethod: string; // Payment method used
 }
 
-/**
- * Extracts and validates the image URL from a product variant
- * Handles different image data structures and provides a fallback image
- *
- * @param variant - The product variant containing image data
- * @returns A valid image URL or fallback image path
- */
 const getVariantImageUrl = (variant: any) => {
   if (
     !variant?.images ||
@@ -287,7 +178,6 @@ const getVariantImageUrl = (variant: any) => {
     return "/images/white-image.png";
   }
 
-  // Handle both string arrays and object arrays
   const firstImage = variant.images[0];
   if (typeof firstImage === "string") {
     return firstImage;
@@ -308,7 +198,6 @@ const getVariantImageUrl = (variant: any) => {
  * @returns Standardized ApiVariant object
  */
 const convertVariantToApiVariant = (variant: any): ApiVariant => {
-  // Handle case where variant might be null or undefined
   if (!variant) {
     return {
       id: "",
@@ -318,10 +207,8 @@ const convertVariantToApiVariant = (variant: any): ApiVariant => {
     };
   }
 
-  // Handle color data - check for populated vs non-populated
   let colorData = undefined;
   if (variant.color) {
-    // Populated format - color data is directly available
     colorData = {
       id: variant.color.id?.toString() || "",
       name: variant.color.name || "N/A",
@@ -329,7 +216,6 @@ const convertVariantToApiVariant = (variant: any): ApiVariant => {
       images: variant.color.images || [],
     };
   } else if (variant.colorId) {
-    // Non-populated format - colorId might be string or object
     if (typeof variant.colorId === "object") {
       colorData = {
         id: variant.colorId.id?.toString() || "",
@@ -347,10 +233,8 @@ const convertVariantToApiVariant = (variant: any): ApiVariant => {
     }
   }
 
-  // Handle size data - check for populated vs non-populated
   let sizeData = undefined;
   if (variant.size) {
-    // Populated format - size data is directly available
     sizeData = {
       id: variant.size.id?.toString() || "",
       name:
@@ -359,7 +243,6 @@ const convertVariantToApiVariant = (variant: any): ApiVariant => {
       value: variant.size.value?.toString(),
     };
   } else if (variant.sizeId) {
-    // Non-populated format - sizeId might be string or object
     if (typeof variant.sizeId === "object") {
       sizeData = {
         id: variant.sizeId.id?.toString() || "",
@@ -379,7 +262,6 @@ const convertVariantToApiVariant = (variant: any): ApiVariant => {
     }
   }
 
-  // Return standardized variant data
   return {
     id: variant.id?.toString() || variant._id?.toString() || "",
     colorId: colorData,
@@ -426,12 +308,7 @@ const convertProductToApiProduct = (product: any): ApiProduct => {
   };
 };
 
-/**
- * Main POS (Point of Sale) page component
- * Manages product selection, cart operations, and checkout process
- */
 export default function POSPage() {
-  // State for product selection and search
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<ApiProduct | null>(
     null
@@ -439,22 +316,20 @@ export default function POSPage() {
   const [selectedApiVariant, setSelectedApiVariant] =
     useState<ApiVariant | null>(null);
 
-  // Initialize cart management from store
   const {
-    carts: pendingCarts, // All pending shopping carts
-    activeCartId, // Currently active cart ID
-    createNewCart, // Function to create a new cart
-    deleteCart, // Function to delete a cart
-    setActiveCart, // Function to switch active cart
-    addItemToCart: addItemToPendingCart, // Add item to pending cart
-    removeItemFromCart: removeItemFromPendingCart, // Remove item from pending cart
-    updateItemQuantityInCart: updateItemQuantityInPendingCart, // Update item quantity
-    clearCartItems: clearPendingCartItems, // Clear all items from cart
-    setCartDiscount: setPendingCartDiscount, // Apply discount to cart
-    getActiveCart, // Get currently active cart
+    carts: pendingCarts,
+    activeCartId,
+    createNewCart,
+    deleteCart,
+    setActiveCart,
+    addItemToCart: addItemToPendingCart,
+    removeItemFromCart: removeItemFromPendingCart,
+    updateItemQuantityInCart: updateItemQuantityInPendingCart,
+    clearCartItems: clearPendingCartItems,
+    setCartDiscount: setPendingCartDiscount,
+    getActiveCart,
   } = usePendingCartsStore();
 
-  // Get active cart data
   const activeCart = getActiveCart();
   const cartItems = activeCart?.items || [];
   const appliedDiscount = activeCart?.appliedDiscount || 0;
@@ -552,7 +427,6 @@ export default function POSPage() {
   const { data: usersData, isLoading: isLoadingUsers } =
     useAccounts(accountsParams);
 
-  // Debounced search with better performance
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setIsSearching(searchQuery.trim().length > 0);
@@ -561,17 +435,14 @@ export default function POSPage() {
     return () => clearTimeout(timeoutId);
   }, [searchQuery]);
 
-  // Optimize category filter effect
   useEffect(() => {
     setFilters((prevFilters) => {
       const isAllProducts = activeCategoryName === "Tất cả sản phẩm";
 
       if (isAllProducts) {
-        // Remove categories filter if "All products" is selected
         const { categories, ...restFilters } = prevFilters;
         return categories ? restFilters : prevFilters;
       } else {
-        // Add/update categories filter
         const newCategories = [activeCategoryName];
         if (prevFilters.categories?.[0] === activeCategoryName) {
           return prevFilters; // No change needed
@@ -580,11 +451,9 @@ export default function POSPage() {
       }
     });
 
-    // Reset pagination only when actually changing category
     setPagination((prev) => ({ ...prev, page: 1 }));
   }, [activeCategoryName]);
 
-  // Optimize pagination params with stable reference
   const productsHookParams: IProductFilter = useMemo(
     () => ({
       ...pagination,
@@ -595,7 +464,6 @@ export default function POSPage() {
 
   const productsQuery = useProducts(productsHookParams);
 
-  // Optimize search params with stable reference
   const searchQueryParams = useMemo(() => {
     if (!isSearching) return { keyword: "" };
     return {
@@ -621,10 +489,8 @@ export default function POSPage() {
     isError: apiIsError,
   } = isSearching ? searchQueryHook : productsQuery;
 
-  // Get promotions data with stable params
   const promotionsParams = useMemo(() => ({ status: "ACTIVE" as const }), []);
   const { data: promotionsData } = usePromotions(promotionsParams);
-  // Optimize promotions application - only when data changes
   const dataWithPromotions = useMemo(() => {
     if (!rawData?.data?.products) return rawData;
 
@@ -646,17 +512,14 @@ export default function POSPage() {
     };
   }, [rawData?.data?.products, promotionsData?.data?.promotions]);
 
-  // Optimize product sorting with early return
   const processedProducts = useMemo(() => {
     const products = dataWithPromotions?.data?.products;
     if (!products?.length) return [];
 
-    // Return early if no sorting needed
     if (sortOption === "default" || sortOption === "newest") {
       return products;
     }
 
-    // Only sort if explicitly needed
     return [...products].sort((a, b) => {
       const priceA = (a as any).hasDiscount
         ? (a as any).discountedPrice
@@ -676,7 +539,6 @@ export default function POSPage() {
     });
   }, [dataWithPromotions?.data?.products, sortOption]);
 
-  // Optimize categories calculation - only when products change
   const dynamicCategories = useMemo(() => {
     const baseCategories = [{ id: "all", name: "Tất cả sản phẩm" }];
     const products = dataWithPromotions?.data?.products;
@@ -720,13 +582,10 @@ export default function POSPage() {
    * @param product - The selected product from the list
    */
   const handleProductSelect = (product: any) => {
-    // Keep the product with promotion info intact
     const productWithPromotion = { ...product };
 
-    // Convert only for variant handling, but preserve promotion info
     const convertedProduct = convertProductToApiProduct(product);
 
-    // Merge promotion info back to the converted product
     if ((product as any).hasDiscount) {
       (convertedProduct as any).hasDiscount = (product as any).hasDiscount;
       (convertedProduct as any).discountedPrice = (
@@ -744,7 +603,6 @@ export default function POSPage() {
     setSelectedProduct(convertedProduct);
 
     if (convertedProduct.variants && convertedProduct.variants.length > 0) {
-      // Prioritize variants with stock, but still allow selection of out-of-stock variants
       const variantWithStock = convertedProduct.variants.find(
         (v) => v.stock > 0
       );
@@ -770,18 +628,15 @@ export default function POSPage() {
   const handleColorSelectFromDetail = (colorId: string) => {
     if (!selectedProduct) return;
 
-    // Find variants with the selected color
     const variantsWithThisColor = selectedProduct.variants.filter(
       (v) => v.colorId?.id === colorId
     );
     if (variantsWithThisColor.length === 0) return;
 
-    // Try to find a variant with stock first
     const variantWithStock = variantsWithThisColor.find((v) => v.stock > 0);
     if (variantWithStock) {
       setSelectedApiVariant(variantWithStock);
     } else {
-      // If no variants with stock, select the first one
       setSelectedApiVariant(variantsWithThisColor[0]);
       toast.warn("Màu này đã hết hàng.");
     }
@@ -797,7 +652,6 @@ export default function POSPage() {
   const handleSizeSelectFromDetail = (sizeId: string) => {
     if (!selectedProduct || !selectedApiVariant?.colorId) return;
 
-    // Find variant with selected color and size
     const variantWithThisSizeAndColor = selectedProduct.variants.find(
       (v) =>
         v.colorId?.id === selectedApiVariant.colorId?.id &&
@@ -826,7 +680,6 @@ export default function POSPage() {
     variant: any,
     isAlreadyConverted = false
   ) => {
-    // Convert product and variant data to standard format if needed
     const convertedProduct = isAlreadyConverted
       ? product
       : convertProductToApiProduct(product);
@@ -834,24 +687,19 @@ export default function POSPage() {
       ? variant
       : convertVariantToApiVariant(variant);
 
-    // Create unique cart item identifier
     const cartItemId = `${convertedProduct.id}-${convertedVariant.id}`;
 
-    // Initialize pricing variables
     let finalPrice = convertedVariant.price;
     let originalPrice = undefined;
     let discountPercent = undefined;
     let hasDiscount = false;
 
-    // Check for promotion and apply discount if applicable
     if ((product as any).hasDiscount) {
-      // If product has a discount, use the discounted price
       finalPrice = (product as any).discountedPrice;
       originalPrice = (product as any).originalPrice;
       discountPercent = (product as any).discountPercent;
       hasDiscount = true;
     } else if (promotionsData?.data?.promotions?.length > 0) {
-      // If no discount applied, check for active promotions
       const activePromotions = filterActivePromotions(
         promotionsData.data.promotions
       );
@@ -869,7 +717,6 @@ export default function POSPage() {
       }
     }
 
-    // Create new cart item
     const newItem: POSCartItem = {
       id: cartItemId,
       productId: convertedProduct.id,
@@ -890,14 +737,12 @@ export default function POSPage() {
     };
 
     if (activeCartId) {
-      // Add to existing cart if there's an active cart
       const existingItem = cartItems.find((item) => item.id === cartItemId);
       const activeCartName =
         pendingCarts.find((cart) => cart.id === activeCartId)?.name ||
         "Giỏ hàng";
 
       if (existingItem) {
-        // If item already exists, increase quantity
         if (existingItem.quantity < convertedVariant.stock) {
           updateItemQuantityInPendingCart(activeCartId, cartItemId, 1);
           toast.success(
@@ -907,12 +752,10 @@ export default function POSPage() {
           toast.warn("Số lượng sản phẩm trong kho không đủ.");
         }
       } else {
-        // If new item, add to cart
         addItemToPendingCart(activeCartId, newItem);
         toast.success(`Đã thêm sản phẩm vào ${activeCartName}`);
       }
     } else {
-      // Add to main cart if no active cart
       const existingItem = mainCartItems.find((item) => item.id === cartItemId);
       if (existingItem) {
         if (existingItem.quantity < convertedVariant.stock) {
@@ -1046,7 +889,6 @@ export default function POSPage() {
         return;
       }
 
-      // Apply voucher to active cart or main cart
       if (activeCartId) {
         const cart = pendingCarts.find((c) => c.id === activeCartId);
         if (cart) {
@@ -1083,17 +925,14 @@ export default function POSPage() {
   };
 
   const handleCheckout = async () => {
-    // Kiểm tra giỏ hàng có trống không
     if (cartItems.length === 0) {
       toast.error("Giỏ hàng đang trống");
       return;
     }
 
-    // Kiểm tra số tiền thanh toán
     const totalAmount = calculateCartTotal();
     const cashReceivedNum = parseFloat(cashReceived.toString());
 
-    // Kiểm tra tiền mặt nếu thanh toán bằng tiền mặt
     if (
       paymentMethod === "cash" &&
       (isNaN(cashReceivedNum) || cashReceivedNum < totalAmount)
@@ -1102,17 +941,14 @@ export default function POSPage() {
       return;
     }
 
-    // Bắt đầu quá trình thanh toán
     setCheckoutIsLoading(true);
 
-    // Tạo mã đơn hàng từ thời gian hiện tại
     const now = new Date();
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
     const seconds = String(now.getSeconds()).padStart(2, "0");
     const generatedOrderId = `POS${hours}${minutes}${seconds}`;
 
-    // Chuẩn bị dữ liệu đơn hàng
     const orderPayload: IPOSOrderCreateRequest = {
       orderId: generatedOrderId,
       customer: customerName || "Khách tại quầy",
@@ -1142,19 +978,15 @@ export default function POSPage() {
     };
 
     try {
-      // Gọi API tạo đơn hàng
       const orderResponse = await createOrderMutation.mutateAsync(orderPayload);
 
       if (orderResponse.success && orderResponse.data) {
-        // Xử lý khi tạo đơn hàng thành công
         const orderCode =
           orderResponse.data.orderNumber ||
           `POS-${Math.floor(1000 + Math.random() * 9000)}`;
 
-        // Cập nhật thống kê
         updateStatsOnCheckout(totalAmount);
 
-        // Thêm vào danh sách giao dịch gần đây
         const newTransaction = {
           id: orderCode,
           customer: customerName || "Khách vãng lai",
@@ -1170,10 +1002,8 @@ export default function POSPage() {
           ...recentTransactions.slice(0, 2),
         ]);
 
-        // Hiển thị thông báo thành công
         toast.success(`Đã tạo đơn hàng ${orderCode} và thanh toán thành công!`);
 
-        // Cập nhật số lượng sử dụng voucher nếu có
         if (appliedVoucher) {
           incrementVoucherUsageMutation(appliedVoucher.id, {
             onSuccess: () => {
@@ -1187,7 +1017,6 @@ export default function POSPage() {
           });
         }
 
-        // Tính tiền thừa cho thanh toán tiền mặt
         const currentChangeDue =
           paymentMethod === "cash" &&
           !isNaN(cashReceivedNum) &&
@@ -1195,7 +1024,6 @@ export default function POSPage() {
             ? cashReceivedNum - totalAmount
             : 0;
 
-        // Chuẩn bị dữ liệu cho hóa đơn
         const invoiceData: InvoiceData = {
           shopInfo: {
             name: "Sneaker Store",
@@ -1228,11 +1056,9 @@ export default function POSPage() {
           paymentMethod: paymentMethod === "cash" ? "Tiền mặt" : "Chuyển khoản",
         };
 
-        // Hiển thị hóa đơn
         setCurrentInvoiceData(invoiceData);
         setShowInvoiceDialog(true);
 
-        // Reset các state sau khi thanh toán thành công
         clearCartStore();
         if (activeCartId) {
           clearPendingCartItems(activeCartId);
@@ -1245,21 +1071,18 @@ export default function POSPage() {
         setTransferPaymentCompleted(false);
         setShowCheckoutDialog(false);
       } else {
-        // Xử lý khi tạo đơn hàng thất bại
         toast.error(
           (orderResponse as any).message ||
             "Không thể tạo đơn hàng. Vui lòng thử lại."
         );
       }
     } catch (error: any) {
-      // Xử lý lỗi
       toast.error(
         error.response?.data?.message ||
           error.message ||
           "Có lỗi xảy ra trong quá trình thanh toán."
       );
     } finally {
-      // Kết thúc loading
       setCheckoutIsLoading(false);
     }
   };
@@ -1332,7 +1155,6 @@ export default function POSPage() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [cartItems, appliedVoucher, handleProceedToCheckout]);
 
-  // Optimize variant calculations with memoization
   const uniqueColorsForSelectedProduct = useMemo(() => {
     if (!selectedProduct?.variants?.length) return [];
     const colorMap = new Map<string, ApiVariant["colorId"]>();
@@ -1368,7 +1190,6 @@ export default function POSPage() {
     >[];
   }, [selectedProduct?.id, selectedApiVariant?.colorId?.id]);
 
-  // Memoize cart calculations
   const cartCalculations = useMemo(() => {
     const subtotal = cartItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
@@ -1378,14 +1199,12 @@ export default function POSPage() {
     return { subtotal, total };
   }, [cartItems, appliedDiscount]);
 
-  // Helper functions for cart calculations - now use memoized values
   const calculateCartSubtotal = () => cartCalculations.subtotal;
   const calculateCartTotal = () => cartCalculations.total;
 
   const totalAmount = cartCalculations.total;
   const cashReceivedNum = parseFloat(cashReceived.toString());
 
-  // Optimize change calculation
   const changeDue = useMemo(() => {
     if (paymentMethod !== "cash" || !cashReceived) return 0;
     const cashReceivedNum = parseFloat(cashReceived.toString());
@@ -1394,14 +1213,12 @@ export default function POSPage() {
       : 0;
   }, [paymentMethod, cashReceived, totalAmount]);
 
-  // Memoize getBrandName function
   const getBrandName = useCallback(
     (brand: ApiProduct["brand"]) =>
       typeof brand === "object" ? brand.name : brand,
     []
   );
 
-  // Helper function to safely get color info from variants
   const getColorInfo = useCallback((colorId: any) => {
     if (!colorId) return null;
     if (typeof colorId === "object" && colorId.id) {
@@ -1410,7 +1227,6 @@ export default function POSPage() {
     return null;
   }, []);
 
-  // Helper function to safely get unique colors from variants
   const getUniqueColors = useCallback(
     (variants: any[]) => {
       if (!variants?.length) return [];
@@ -1428,7 +1244,6 @@ export default function POSPage() {
     [getColorInfo]
   );
 
-  // Handle creating new pending cart
   const handleCreateNewCart = () => {
     const newCartId = createNewCart();
     if (!newCartId) {
@@ -1438,13 +1253,11 @@ export default function POSPage() {
     toast.success(`Đã tạo giỏ hàng mới: Giỏ hàng ${pendingCarts.length + 1}`);
   };
 
-  // Handle deleting a pending cart
   const handleDeleteCart = (cartId: string) => {
     setCartToDelete(cartId);
     setShowDeleteCartDialog(true);
   };
 
-  // Confirm delete cart
   const confirmDeleteCart = () => {
     if (cartToDelete) {
       const cartToDeleteData = pendingCarts.find(
@@ -1459,13 +1272,6 @@ export default function POSPage() {
     }
   };
 
-  // Cancel delete cart
-  const cancelDeleteCart = () => {
-    setCartToDelete(null);
-    setShowDeleteCartDialog(false);
-  };
-
-  // Handle switching active cart
   const handleSwitchCart = (cartId: string) => {
     setActiveCart(cartId);
     const cart = pendingCarts.find((c) => c.id === cartId);
@@ -1474,37 +1280,20 @@ export default function POSPage() {
     }
   };
 
-  // Sync active cart to main cart before checkout
   const syncActiveCartToMainCart = () => {
     if (activeCart) {
-      // Clear main cart first
       clearCartStore();
 
-      // Add all items from active cart to main cart
       activeCart.items.forEach((item) => {
         addToCartStore(item);
       });
 
-      // Set discount and voucher
       setDiscount(activeCart.appliedDiscount);
       setVoucher(activeCart.appliedVoucher);
       setCouponCode(activeCart.couponCode);
     }
   };
 
-  // Handle viewing cart items
-  const handleViewCartItems = (cartId: string) => {
-    setSelectedCartForView(cartId);
-    setShowCartItemsDialog(true);
-  };
-
-  // Close cart items dialog
-  const closeCartItemsDialog = () => {
-    setShowCartItemsDialog(false);
-    setSelectedCartForView(null);
-  };
-
-  // JSX return - giao diện của component
   return (
     <div className="h-full">
       {/* Header với breadcrumb navigation */}
@@ -1723,7 +1512,6 @@ export default function POSPage() {
 
             {/* Chi tiết sản phẩm hoặc danh sách sản phẩm */}
             {selectedProduct && selectedApiVariant ? (
-              // Hiển thị chi tiết sản phẩm khi có sản phẩm được chọn
               <div className="mb-4">
                 <div className="flex flex-col lg:flex-row gap-8">
                   <motion.div
@@ -2003,7 +1791,6 @@ export default function POSPage() {
                 </div>
               </div>
             ) : (
-              // Hiển thị danh sách sản phẩm
               <Tabs defaultValue="grid" className="w-full">
                 <div className="flex justify-between items-center mb-4">
                   <TabsList>
@@ -2365,7 +2152,6 @@ export default function POSPage() {
                                               )}
                                               onClick={(e) => {
                                                 e.stopPropagation();
-                                                // Use the product from the list (which already has promotions applied)
                                                 const firstAvailableVariant =
                                                   product.variants.find(
                                                     (v: any) => v.stock > 0

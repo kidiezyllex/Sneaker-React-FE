@@ -1,10 +1,15 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Icon } from '@mdi/react';
-import { mdiCartOutline, mdiHeartOutline, mdiStar, mdiEye, mdiArrowRight } from '@mdi/js';
-import { InteractiveHoverButton } from '../Common/InteractiveHoverButton';
-
+import React, { useRef } from "react";
+import { motion, useInView } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Icon } from "@mdi/react";
+import {
+  mdiCartOutline,
+  mdiHeartOutline,
+  mdiStar,
+  mdiEye,
+  mdiArrowRight,
+} from "@mdi/js";
+import { InteractiveHoverButton } from "../Common/InteractiveHoverButton";
 
 const newArrivalsData = [
   {
@@ -13,13 +18,14 @@ const newArrivalsData = [
     price: 299000,
     originalPrice: 399000,
     discount: 25,
-    image: "https://image.goat.com/750/attachments/product_template_pictures/images/078/460/445/original/264438_00.png.png",
+    image:
+      "https://image.goat.com/750/attachments/product_template_pictures/images/078/460/445/original/264438_00.png.png",
     rating: 5,
     slug: "ao-thun-nam-form-rong-premium",
     brand: "Davies",
     colors: ["Đen", "Trắng", "Xanh"],
     isBestSeller: true,
-    stock: 15
+    stock: 15,
   },
   {
     id: 2,
@@ -33,7 +39,7 @@ const newArrivalsData = [
     brand: "Local Brand",
     colors: ["Đen", "Xám", "Navy"],
     isBestSeller: false,
-    stock: 20
+    stock: 20,
   },
   {
     id: 3,
@@ -47,7 +53,7 @@ const newArrivalsData = [
     brand: "Street Style",
     colors: ["Đen", "Xanh rêu", "Xám"],
     isBestSeller: true,
-    stock: 8
+    stock: 8,
   },
   {
     id: 4,
@@ -61,16 +67,15 @@ const newArrivalsData = [
     brand: "Urban Wear",
     colors: ["Đen", "Navy", "Olive"],
     isBestSeller: false,
-    stock: 12
-  }
+    stock: 12,
+  },
 ];
 
 const fallbackImages = [
   "https://image.goat.com/750/attachments/product_template_pictures/images/078/460/445/original/264438_00.png.png",
   "https://image.goat.com/750/attachments/product_template_pictures/images/000/083/840/original/F33022.png.png",
   "https://image.goat.com/750/attachments/product_template_pictures/images/094/896/132/original/741107_W3CZ1_9010.png.png",
-  "https://image.goat.com/750/attachments/product_template_pictures/images/000/029/227/original/316077_221.png.png"
-
+  "https://image.goat.com/750/attachments/product_template_pictures/images/000/029/227/original/316077_221.png.png",
 ];
 
 const RatingStars = ({ rating }: { rating: number }) => {
@@ -89,7 +94,6 @@ const RatingStars = ({ rating }: { rating: number }) => {
   );
 };
 
-//                                                                                                                     Component thẻ giảm giá
 const DiscountBadge = ({ discount }: { discount: number }) => {
   if (!discount) return null;
 
@@ -118,16 +122,28 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
           <div
             className="w-4 h-4 rounded-full border cursor-pointer hover:scale-110 transition-transform duration-200"
             style={{
-              backgroundColor: color === 'Đen' ? 'black' :
-                color === 'Trắng' ? 'white' :
-                  color === 'Xanh' ? '#3B82F6' :
-                    color === 'Đỏ' ? '#EF4444' :
-                      color === 'Hồng' ? '#EC4899' :
-                        color === 'Xám' ? '#6B7280' :
-                          color === 'Cam' ? '#F97316' :
-                            color === 'Navy' ? '#1E3A8A' :
-                              color === 'Olive' ? '#65A30D' :
-                                color === 'Xanh rêu' ? '#4D7C0F' : '#9CA3AF'
+              backgroundColor:
+                color === "Đen"
+                  ? "black"
+                  : color === "Trắng"
+                  ? "white"
+                  : color === "Xanh"
+                  ? "#3B82F6"
+                  : color === "Đỏ"
+                  ? "#EF4444"
+                  : color === "Hồng"
+                  ? "#EC4899"
+                  : color === "Xám"
+                  ? "#6B7280"
+                  : color === "Cam"
+                  ? "#F97316"
+                  : color === "Navy"
+                  ? "#1E3A8A"
+                  : color === "Olive"
+                  ? "#65A30D"
+                  : color === "Xanh rêu"
+                  ? "#4D7C0F"
+                  : "#9CA3AF",
             }}
           />
         </div>
@@ -136,18 +152,22 @@ const ColorOptions = ({ colors }: { colors: string[] }) => {
   );
 };
 
-
-const ProductCard = ({ product, index }: { product: typeof newArrivalsData[0], index: number }) => {
+const ProductCard = ({
+  product,
+  index,
+}: {
+  product: (typeof newArrivalsData)[0];
+  index: number;
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-
   const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('vi-VN', {
-      style: 'currency',
-      currency: 'VND',
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(price);
   };
 
@@ -159,10 +179,17 @@ const ProductCard = ({ product, index }: { product: typeof newArrivalsData[0], i
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group relative bg-white dark:bg-gray-800 rounded-[6px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 pb-4 flex flex-col border border-gray-100"
     >
-      <a href={`/products/${product.slug}`} className="block relative overflow-hidden">
+      <a
+        href={`/products/${product.slug}`}
+        className="block relative overflow-hidden"
+      >
         <div className="relative aspect-square w-full overflow-hidden">
-          {product.discount > 0 && <DiscountBadge discount={product.discount} />}
-          {product.isBestSeller && <BestSellerBadge isBestSeller={product.isBestSeller} />}
+          {product.discount > 0 && (
+            <DiscountBadge discount={product.discount} />
+          )}
+          {product.isBestSeller && (
+            <BestSellerBadge isBestSeller={product.isBestSeller} />
+          )}
 
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
 
@@ -207,9 +234,7 @@ const ProductCard = ({ product, index }: { product: typeof newArrivalsData[0], i
           {product.brand}
         </div>
         <h3 className="text-maintext dark:text-white font-semibold text-lg truncate group-hover:text-[#2C8B3D] transition-colors duration-200">
-          <a href={`/products/${product.slug}`}>
-            {product.name}
-          </a>
+          <a href={`/products/${product.slug}`}>{product.name}</a>
         </h3>
         <div className="">
           <RatingStars rating={product.rating} />
@@ -224,19 +249,24 @@ const ProductCard = ({ product, index }: { product: typeof newArrivalsData[0], i
             </span>
           )}
         </div>
-        <div className='flex gap-1 items-center justify-between mb-4'>
+        <div className="flex gap-1 items-center justify-between mb-4">
           <ColorOptions colors={product.colors} />
 
           {product.stock <= 10 && (
             <div className="text-xs text-orange-600 font-medium">
               (Chỉ còn {product.stock} sản phẩm)
             </div>
-          )}</div>
+          )}
+        </div>
       </div>
       <div className="flex w-full flex-col items-center justify-end flex-1">
-        <InteractiveHoverButton className='rounded-none uppercase font-normal w-fit'>
+        <InteractiveHoverButton className="rounded-none uppercase font-normal w-fit">
           Xem chi tiết
-          <Icon path={mdiArrowRight} size={0.7} className="ml-2 group-hover:translate-x-1 transition-transform" />
+          <Icon
+            path={mdiArrowRight}
+            size={0.7}
+            className="ml-2 group-hover:translate-x-1 transition-transform"
+          />
         </InteractiveHoverButton>
       </div>
     </motion.div>
@@ -250,12 +280,13 @@ export const NewArrivals = () => {
   return (
     <section
       style={{
-        backgroundImage: 'url(/images/new-arrivals.svg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
+        backgroundImage: "url(/images/new-arrivals.svg)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
-      className="py-20 pt-12 bg-gradient-to-b from-white to-[#F8FBF6] dark:from-gray-900 dark:to-gray-800">
+      className="py-20 pt-12 bg-gradient-to-b from-white to-[#F8FBF6] dark:from-gray-900 dark:to-gray-800"
+    >
       <div className="container mx-auto">
         {/* Header Section */}
         <motion.div
@@ -264,14 +295,15 @@ export const NewArrivals = () => {
           animate={isHeaderInView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">Mới ra mắt</span>
+          <span className="inline-block px-4 py-1.5 mb-4 text-xs font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
+            Mới ra mắt
+          </span>
           <h2 className="text-3xl font-bold text-center mb-4 relative">
             <span className="inline-block relative">
               <span className="uppercase bg-gradient-to-r from-[#2C8B3D] to-[#88C140] bg-clip-text text-transparent drop-shadow-sm">
                 Sản phẩm mới nhất
               </span>
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
-
             </span>
           </h2>
           <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">
@@ -290,4 +322,4 @@ export const NewArrivals = () => {
   );
 };
 
-export default NewArrivals; 
+export default NewArrivals;

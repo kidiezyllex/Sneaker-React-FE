@@ -1,4 +1,3 @@
-// Optimize Framer Motion imports - only import what we need
 export const motionConfig = {
   transition: { duration: 0.2, ease: "easeInOut" },
   initial: { opacity: 0, y: 10 },
@@ -6,10 +5,8 @@ export const motionConfig = {
   exit: { opacity: 0, y: -10 }
 };
 
-// Lazy load heavy animation libraries
 export const loadFramerMotion = () => import('framer-motion');
 
-// Optimize Antd imports
 export const loadAntdComponent = (componentName: string) => {
   switch (componentName) {
     case 'Input':
@@ -35,7 +32,6 @@ export const loadAntdComponent = (componentName: string) => {
   }
 };
 
-// Optimize Recharts imports
 export const loadRechartsComponent = (componentName: string) => {
   switch (componentName) {
     case 'LineChart':
@@ -49,24 +45,17 @@ export const loadRechartsComponent = (componentName: string) => {
   }
 };
 
-// Export utilities
 export const exportUtilities = {
-  // Lazy load jsPDF
   loadJsPDF: () => import('jspdf'),
   
-  // Lazy load XLSX
   loadXLSX: () => import('xlsx'),
   
-  // Lazy load QR Scanner
   loadQrScanner: () => import('html5-qrcode'),
   
-  // Lazy load Lightbox
   loadLightbox: () => import('yet-another-react-lightbox')
 };
 
-// Performance helpers
 export const performanceHelpers = {
-  // Debounce function
   debounce: <T extends (...args: any[]) => any>(func: T, wait: number): T => {
     let timeout: NodeJS.Timeout;
     return ((...args: any[]) => {
@@ -75,7 +64,6 @@ export const performanceHelpers = {
     }) as T;
   },
   
-  // Throttle function
   throttle: <T extends (...args: any[]) => any>(func: T, limit: number): T => {
     let inThrottle: boolean;
     return ((...args: any[]) => {
@@ -87,7 +75,6 @@ export const performanceHelpers = {
     }) as T;
   },
   
-  // Optimize image loading
   preloadImage: (src: string): Promise<void> => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -98,7 +85,6 @@ export const performanceHelpers = {
   }
 };
 
-// Bundle size analyzer
 export const bundleAnalyzer = {
   measureBundleSize: () => {
     if (typeof window !== 'undefined' && 'performance' in window) {
@@ -111,4 +97,4 @@ export const bundleAnalyzer = {
     }
     return null;
   }
-}; 
+};

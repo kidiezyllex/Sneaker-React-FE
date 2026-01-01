@@ -34,7 +34,6 @@ export interface CreateOrderData {
 
 const getAuthToken = () => {
   if (typeof window !== 'undefined') {
-    // Get token from cookies as that's where it's being stored by the auth system
     const token = localStorage.getItem('accessToken');
     return token;
   }

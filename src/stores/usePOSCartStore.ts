@@ -52,10 +52,9 @@ export const usePOSCartStore = create(
           if (currentItems[existingItemIndex].quantity < newItem.stock) {
             currentItems[existingItemIndex].quantity += 1;
           } else {
-            return; // Don't add if exceeds stock
+            return;
           }
         } else {
-          // Ensure discount information is properly set
           const itemToAdd = {
             ...newItem,
             hasDiscount: Boolean(newItem.hasDiscount || (newItem.originalPrice && newItem.originalPrice > newItem.price)),
@@ -76,7 +75,7 @@ export const usePOSCartStore = create(
         const updatedItems = get().items.map(item => {
           if (item.id === id) {
             const newQuantity = item.quantity + amount;
-            if (newQuantity <= 0) return null; // Mark for removal
+            if (newQuantity <= 0) return null;
             if (newQuantity > item.stock) {
               return {...item, quantity: item.stock };
             }

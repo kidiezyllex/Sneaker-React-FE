@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { Button } from "@/components/ui/button";
 
-//                                                                                                                     Dữ liệu mẫu cho kết quả tìm kiếm
 const searchResults = [
   {
     id: 1,
@@ -38,7 +37,6 @@ const searchResults = [
   },
 ];
 
-//                                                                                                                     Format giá tiền theo VND
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat("vi-VN", {
     style: "currency",

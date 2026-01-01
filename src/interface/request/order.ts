@@ -70,12 +70,12 @@ export interface IOrderUpdateStatusPayload {
 }
 
 export interface IPOSOrderItem {
-  product: string;      // Product ID
+  product: string;
   quantity: number;
   price: number;
   variant: {
-    colorId: string;  // Variant Color ID
-    sizeId: string;   // Variant Size ID
+    colorId: string;
+    sizeId: string;
   };
 }
 
@@ -99,4 +99,4 @@ export interface IPOSOrderCreateRequest {
   discount: number;
   voucher?: string; 
   orderStatus: string;
-} 
+}

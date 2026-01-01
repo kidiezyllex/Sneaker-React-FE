@@ -23,8 +23,6 @@ import {
   IActionResponse
 } from "@/interface/response/payment";
 
-// === Admin/Staff Payment Hooks ===
-
 export const usePayments = (params: IPaymentFilter = {}): UseQueryResult<IPaymentsResponse, Error> => {
   return useQuery<IPaymentsResponse, Error>({
     queryKey: ["payments", params],
@@ -36,7 +34,7 @@ export const usePaymentDetail = (paymentId: string): UseQueryResult<IPaymentResp
   return useQuery<IPaymentResponse, Error>({
     queryKey: ["payment", paymentId],
     queryFn: () => getPaymentById(paymentId),
-    enabled: !!paymentId, // Chỉ fetch khi có paymentId
+    enabled: !!paymentId,
   });
 };
 
@@ -66,6 +64,6 @@ export const useOrderPayments = (orderId: string): UseQueryResult<IPaymentsRespo
   return useQuery<IPaymentsResponse, Error>({
     queryKey: ["orderPayments", orderId],
     queryFn: () => getPaymentsByOrderId(orderId),
-    enabled: !!orderId, // Chỉ fetch khi có orderId
+    enabled: !!orderId,
   });
-}; 
+};

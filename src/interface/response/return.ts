@@ -89,7 +89,6 @@ export interface IActionResponse {
   data?: any;
 }
 
-// === Customer Return Response Interfaces ===
 
 export interface IReturnableOrderItem {
   product: {
@@ -124,4 +123,4 @@ export interface IReturnableOrdersResponse {
       limit: number;
     };
   };
-} 
+}
