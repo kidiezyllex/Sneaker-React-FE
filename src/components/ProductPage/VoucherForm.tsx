@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Icon } from "@mdi/react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { mdiTicket, mdiClose, mdiLoading, mdiCheck } from "@mdi/js";
 interface VoucherFormProps {
@@ -44,13 +44,30 @@ const VoucherForm = ({
           discount: result.data.discountValue,
           voucherId: voucher.id,
         });
-        toast.success(`Áp dụng mã giảm giá ${voucher.code} thành công`);
+        toast.success(
+          <CustomToast
+            title={`Áp dụng mã giảm giá ${voucher.code} thành công`}
+          />,
+          { icon: false }
+        );
         setVoucherCode("");
       } else {
-        toast.error(result.message || "Mã giảm giá không hợp lệ");
+        toast.error(
+          <CustomToast
+            title={result.message || "Mã giảm giá không hợp lệ"}
+            type="error"
+          />,
+          { icon: false }
+        );
       }
     } catch (error) {
-      toast.error("Không thể kiểm tra mã giảm giá. Vui lòng thử lại sau.");
+      toast.error(
+        <CustomToast
+          title="Không thể kiểm tra mã giảm giá. Vui lòng thử lại sau."
+          type="error"
+        />,
+        { icon: false }
+      );
     }
   };
 

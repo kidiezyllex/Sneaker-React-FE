@@ -32,7 +32,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/stores/useCartStore";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import VoucherForm from "@/components/ProductPage/VoucherForm";
 import CartIcon from "@/components/ui/CartIcon";
@@ -243,7 +243,9 @@ export default function ProductsPage() {
     const firstVariant = product.variants[0];
 
     if (firstVariant.stock === 0) {
-      toast.error("Sản phẩm đã hết hàng");
+      toast.error(<CustomToast title="Sản phẩm đã hết hàng" type="error" />, {
+        icon: false,
+      });
       return;
     }
 
@@ -292,7 +294,9 @@ export default function ProductsPage() {
     };
 
     addToCart(cartItem, 1);
-    toast.success("Đã thêm sản phẩm vào giỏ hàng");
+    toast.success(<CustomToast title="Đã thêm sản phẩm vào giỏ hàng" />, {
+      icon: false,
+    });
   };
 
   const handleQuickView = (product: any) => {
@@ -302,7 +306,10 @@ export default function ProductsPage() {
   };
 
   const handleAddToWishlist = (product: any) => {
-    toast.success("Đã thêm sản phẩm vào danh sách yêu thích");
+    toast.success(
+      <CustomToast title="Đã thêm sản phẩm vào danh sách yêu thích" />,
+      { icon: false }
+    );
   };
 
   const handleApplyVoucher = (voucherData: {
@@ -311,12 +318,17 @@ export default function ProductsPage() {
     voucherId: string;
   }) => {
     setAppliedVoucher(voucherData);
-    toast.success(`Đã áp dụng mã giảm giá: ${voucherData.code}`);
+    toast.success(
+      <CustomToast title={`Đã áp dụng mã giảm giá: ${voucherData.code}`} />,
+      { icon: false }
+    );
   };
 
   const handleRemoveVoucher = () => {
     setAppliedVoucher(null);
-    toast.info("Đã xóa mã giảm giá");
+    toast.info(<CustomToast title="Đã xóa mã giảm giá" type="info" />, {
+      icon: false,
+    });
   };
 
   const filteredProducts = useMemo(() => {

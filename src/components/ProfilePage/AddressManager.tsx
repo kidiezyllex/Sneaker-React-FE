@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/form";
 import { Loader2, Plus, Pencil, Trash2, Check, X } from "lucide-react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import {
   useAddAddress,
   useUpdateAddress,
@@ -137,11 +137,13 @@ export default function AddressManager() {
     setIsDeleting(true);
     try {
       await deleteAddressMutation.mutateAsync(deleteId);
-      toast.success("Xóa thành công");
+      toast.success(<CustomToast title="Xóa thành công" />, { icon: false });
       setDeleteId(null);
       refetch();
     } catch (error: any) {
-      toast.error("Xóa thất bại");
+      toast.error(<CustomToast title="Xóa thất bại" type="error" />, {
+        icon: false,
+      });
     } finally {
       setIsDeleting(false);
     }
@@ -154,16 +156,26 @@ export default function AddressManager() {
           addressId: currentAddressId,
           data: data,
         });
-        toast.success("Cập nhật thành công");
+        toast.success(<CustomToast title="Cập nhật thành công" />, {
+          icon: false,
+        });
       } else {
         await addAddressMutation.mutateAsync(data as any);
-        toast.success("Thêm mới thành công");
+        toast.success(<CustomToast title="Thêm mới thành công" />, {
+          icon: false,
+        });
       }
       setOpenDialog(false);
       resetForm();
       refetch();
     } catch (error: any) {
-      toast.error(isEditMode ? "Cập nhật thất bại" : "Thêm mới thất bại");
+      toast.error(
+        <CustomToast
+          title={isEditMode ? "Cập nhật thất bại" : "Thêm mới thất bại"}
+          type="error"
+        />,
+        { icon: false }
+      );
     }
   };
 

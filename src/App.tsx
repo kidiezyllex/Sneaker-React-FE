@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React, { Suspense } from "react"; // Refreshing dependency graph
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ReactQueryClientProvider } from "@/provider/ReactQueryClientProvider";
 import { UserProvider } from "@/context/useUserContext";
@@ -506,14 +506,14 @@ function App() {
                   </LazyComponentLoader>
                 }
               />
-              <Route
+              {/* <Route
                 path="returns/edit/:id"
                 element={
                   <LazyComponentLoader fallback={<PageLoader />}>
                     <AdminReturnEditPage />
                   </LazyComponentLoader>
                 }
-              />
+              /> */}
             </Route>
 
             {/* 404 page */}

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/form";
 import { Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { useUser } from "@/context/useUserContext";
 import { motion } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -86,11 +86,15 @@ function ProfileForm() {
   const onSubmit = async (data: ProfileFormValues) => {
     try {
       await updateProfileMutation.mutateAsync(data);
-      toast.success("Cập nhật thành công");
+      toast.success(<CustomToast title="Cập nhật thành công" />, {
+        icon: false,
+      });
       refetch();
     } catch (error: any) {
       console.error("Lỗi cập nhật:", error);
-      toast.error("Cập nhật thất bại");
+      toast.error(<CustomToast title="Cập nhật thất bại" type="error" />, {
+        icon: false,
+      });
     }
   };
 

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { useUser } from "@/context/useUserContext";
 import { motion } from "framer-motion";
 import { useLogin } from "@/hooks/authentication";
@@ -51,18 +51,28 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         (response.data as any)?.account
       ) {
         loginUser((response.data as any)?.account, response.data?.token);
-        toast.success("Đăng nhập thành công");
+        toast.success(<CustomToast title="Đăng nhập thành công" />, {
+          icon: false,
+        });
         if ((response.data as any)?.account?.role === "ADMIN") {
           navigate("/admin/statistics");
         } else {
           onSuccess();
         }
       } else {
-        toast.error(response.message || "Đăng nhập thất bại");
+        toast.error(
+          <CustomToast
+            title={response.message || "Đăng nhập thất bại"}
+            type="error"
+          />,
+          { icon: false }
+        );
       }
     } catch (error: any) {
       console.error("Lỗi đăng nhập:", error);
-      toast.error("Đăng nhập thất bại");
+      toast.error(<CustomToast title="Đăng nhập thất bại" type="error" />, {
+        icon: false,
+      });
     }
   };
 

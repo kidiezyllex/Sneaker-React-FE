@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUser } from "@/context/useUserContext";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { useUserProfile } from "@/hooks/account";
 export default function UserMenu() {
   const { logoutUser } = useUser();
@@ -27,7 +27,9 @@ export default function UserMenu() {
   const navigate = useNavigate();
   const handleLogout = () => {
     logoutUser();
-    toast.success("Đăng xuất thành công");
+    toast.success(<CustomToast title="Đăng xuất thành công" />, {
+      icon: false,
+    });
     navigate("/auth/login");
   };
 

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import {
@@ -442,11 +442,20 @@ export default function POSPage() {
       setSelectedApiVariant(selectedVariant);
 
       if (!variantWithStock) {
-        toast.warn("Sản phẩm này hiện tại đã hết hàng.");
+        toast.warn(
+          <CustomToast
+            title="Sản phẩm này hiện tại đã hết hàng."
+            type="warning"
+          />,
+          { icon: false }
+        );
       }
     } else {
       setSelectedApiVariant(null);
-      toast.warn("Sản phẩm này không có biến thể.");
+      toast.warn(
+        <CustomToast title="Sản phẩm này không có biến thể." type="warning" />,
+        { icon: false }
+      );
     }
   };
 
@@ -463,7 +472,9 @@ export default function POSPage() {
       setSelectedApiVariant(variantWithStock);
     } else {
       setSelectedApiVariant(variantsWithThisColor[0]);
-      toast.warn("Màu này đã hết hàng.");
+      toast.warn(<CustomToast title="Màu này đã hết hàng." type="warning" />, {
+        icon: false,
+      });
     }
   };
 
@@ -479,7 +490,13 @@ export default function POSPage() {
     if (variantWithThisSizeAndColor) {
       setSelectedApiVariant(variantWithThisSizeAndColor);
       if (variantWithThisSizeAndColor.stock === 0) {
-        toast.warn("Kích thước này với màu đã chọn đã hết hàng.");
+        toast.warn(
+          <CustomToast
+            title="Kích thước này với màu đã chọn đã hết hàng."
+            type="warning"
+          />,
+          { icon: false }
+        );
       }
     }
   };
@@ -554,39 +571,70 @@ export default function POSPage() {
         if (existingItem.quantity < convertedVariant.stock) {
           updateItemQuantityInPendingCart(activeCartId, cartItemId, 1);
           toast.success(
-            `Đã cập nhật số lượng sản phẩm trong ${activeCartName}.`
+            <CustomToast
+              title={`Đã cập nhật số lượng sản phẩm trong ${activeCartName}.`}
+            />,
+            { icon: false }
           );
         } else {
-          toast.warn("Số lượng sản phẩm trong kho không đủ.");
+          toast.warn(
+            <CustomToast
+              title="Số lượng sản phẩm trong kho không đủ."
+              type="warning"
+            />,
+            { icon: false }
+          );
         }
       } else {
         addItemToPendingCart(activeCartId, newItem);
-        toast.success(`Đã thêm sản phẩm vào ${activeCartName}`);
+        toast.success(
+          <CustomToast title={`Đã thêm sản phẩm vào ${activeCartName}`} />,
+          { icon: false }
+        );
       }
     } else {
       const existingItem = mainCartItems.find((item) => item.id === cartItemId);
       if (existingItem) {
         if (existingItem.quantity < convertedVariant.stock) {
           updateQuantityStore(cartItemId, 1);
-          toast.success("Đã cập nhật số lượng sản phẩm.");
+          toast.success(
+            <CustomToast title="Đã cập nhật số lượng sản phẩm." />,
+            { icon: false }
+          );
         } else {
-          toast.warn("Số lượng sản phẩm trong kho không đủ.");
+          toast.warn(
+            <CustomToast
+              title="Số lượng sản phẩm trong kho không đủ."
+              type="warning"
+            />,
+            { icon: false }
+          );
         }
       } else {
         addToCartStore(newItem);
-        toast.success("Đã thêm sản phẩm vào giỏ hàng");
+        toast.success(<CustomToast title="Đã thêm sản phẩm vào giỏ hàng" />, {
+          icon: false,
+        });
       }
     }
   };
 
   const addToCart = () => {
     if (!selectedProduct || !selectedApiVariant) {
-      toast.error("Vui lòng chọn sản phẩm và biến thể.");
+      toast.error(
+        <CustomToast
+          title="Vui lòng chọn sản phẩm và biến thể."
+          type="error"
+        />,
+        { icon: false }
+      );
       return;
     }
 
     if (selectedApiVariant.stock <= 0) {
-      toast.error("Sản phẩm đã hết hàng.");
+      toast.error(<CustomToast title="Sản phẩm đã hết hàng." type="error" />, {
+        icon: false,
+      });
       return;
     }
 
@@ -611,7 +659,9 @@ export default function POSPage() {
           }
           setSelectedProduct(null);
           setSelectedApiVariant(null);
-          toast.success("Đã xóa giỏ hàng.");
+          toast.success(<CustomToast title="Đã xóa giỏ hàng." />, {
+            icon: false,
+          });
         }
       }
 
@@ -697,17 +747,31 @@ export default function POSPage() {
   const handleCreateNewCart = () => {
     const newCartId = createNewCart();
     if (!newCartId) {
-      toast.warn("Không thể tạo thêm giỏ hàng. Tối đa 5 Hoá đơn chờ!");
+      toast.warn(
+        <CustomToast
+          title="Không thể tạo thêm giỏ hàng. Tối đa 5 Hoá đơn chờ!"
+          type="warning"
+        />,
+        { icon: false }
+      );
       return;
     }
-    toast.success(`Đã tạo giỏ hàng mới: Giỏ hàng ${pendingCarts.length + 1}`);
+    toast.success(
+      <CustomToast
+        title={`Đã tạo giỏ hàng mới: Giỏ hàng ${pendingCarts.length + 1}`}
+      />,
+      { icon: false }
+    );
   };
 
   const handleSwitchCart = (cartId: string) => {
     setActiveCart(cartId);
     const cart = pendingCarts.find((c) => c.id === cartId);
     if (cart) {
-      toast.info(`Đã chuyển sang ${cart.name}`);
+      toast.info(
+        <CustomToast title={`Đã chuyển sang ${cart.name}`} type="info" />,
+        { icon: false }
+      );
     }
   };
 
@@ -1555,7 +1619,11 @@ export default function POSPage() {
                                                   );
                                                 } else {
                                                   toast.warn(
-                                                    "Sản phẩm này đã hết hàng."
+                                                    <CustomToast
+                                                      title="Sản phẩm này đã hết hàng."
+                                                      type="warning"
+                                                    />,
+                                                    { icon: false }
                                                   );
                                                 }
                                               }}

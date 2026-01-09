@@ -28,7 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFormData } from "@/utils/cloudinary";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { Icon } from "@mdi/react";
 import {
   mdiPlus,
@@ -134,9 +134,14 @@ export default function CreateProductPage() {
       ];
 
       setProduct({ ...product, variants: newVariants });
-      toast.success("Tải lên hình ảnh thành công");
+      toast.success(<CustomToast title="Tải lên hình ảnh thành công" />, {
+        icon: false,
+      });
     } catch (error) {
-      toast.error("Tải lên hình ảnh thất bại");
+      toast.error(
+        <CustomToast title="Tải lên hình ảnh thất bại" type="error" />,
+        { icon: false }
+      );
       console.error(error);
     } finally {
       setUploading(false);
@@ -154,13 +159,25 @@ export default function CreateProductPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!product.name || !product.brand || !product.category) {
-      toast.error("Vui lòng điền đầy đủ thông tin sản phẩm");
+      toast.error(
+        <CustomToast
+          title="Vui lòng điền đầy đủ thông tin sản phẩm"
+          type="error"
+        />,
+        { icon: false }
+      );
       setActiveTab("info");
       return;
     }
 
     if (product.variants.some((v) => !v.colorId || !v.sizeId || v.price <= 0)) {
-      toast.error("Vui lòng điền đầy đủ thông tin biến thể");
+      toast.error(
+        <CustomToast
+          title="Vui lòng điền đầy đủ thông tin biến thể"
+          type="error"
+        />,
+        { icon: false }
+      );
       setActiveTab("variants");
       return;
     }
@@ -168,7 +185,9 @@ export default function CreateProductPage() {
     try {
       await createProduct.mutateAsync(product, {
         onSuccess: () => {
-          toast.success("Tạo sản phẩm thành công");
+          toast.success(<CustomToast title="Tạo sản phẩm thành công" />, {
+            icon: false,
+          });
           navigate("/admin/products");
         },
         onError: (error) => {
@@ -176,7 +195,13 @@ export default function CreateProductPage() {
         },
       });
     } catch (error) {
-      toast.error("Vui lòng cung cấp đầy đủ thông tin sản phẩm");
+      toast.error(
+        <CustomToast
+          title="Vui lòng cung cấp đầy đủ thông tin sản phẩm"
+          type="error"
+        />,
+        { icon: false }
+      );
     }
   };
 
@@ -213,7 +238,11 @@ export default function CreateProductPage() {
 
     if (missingFields.length > 0) {
       toast.error(
-        `Vui lòng điền đầy đủ thông tin: ${missingFields.join(", ")}`
+        <CustomToast
+          title={`Vui lòng điền đầy đủ thông tin: ${missingFields.join(", ")}`}
+          type="error"
+        />,
+        { icon: false }
       );
       return;
     }
@@ -224,7 +253,10 @@ export default function CreateProductPage() {
   const handleGenerateVariants = (variants: IProductVariant[]) => {
     setProduct({ ...product, variants });
     setShowVariantGenerator(false);
-    toast.success(`Đã tạo ${variants.length} biến thể`);
+    toast.success(
+      <CustomToast title={`Đã tạo ${variants.length} biến thể`} />,
+      { icon: false }
+    );
   };
 
   const isFirstVariantComplete = () => {

@@ -17,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/useToast";
 import { checkImageUrl } from "@/lib/utils";
 import { toast } from "react-toastify";
+import { CustomToast } from "@/components/ui/custom-toast";
 import {
   formatPrice,
   formatCurrency,
@@ -78,12 +79,17 @@ const VouchersListDialog = ({
     navigator.clipboard
       .writeText(code)
       .then(() => {
-        toast.success(`Đã sao chép mã: ${code}`);
+        toast.success(<CustomToast title={`Đã sao chép mã: ${code}`} />, {
+          icon: false,
+        });
         onSelectVoucher(code);
         onOpenChange(false);
       })
       .catch((err) => {
-        toast.error("Không thể sao chép mã.");
+        toast.error(
+          <CustomToast title="Không thể sao chép mã." type="error" />,
+          { icon: false }
+        );
       });
   };
 
@@ -447,7 +453,10 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
         });
         return;
       }
-      toast.info("Đang chuyển đến trang thanh toán");
+      toast.info(
+        <CustomToast title="Đang chuyển đến trang thanh toán" type="info" />,
+        { icon: false }
+      );
       navigate("/checkout/shipping");
       onOpenChange(false);
     } catch (error) {

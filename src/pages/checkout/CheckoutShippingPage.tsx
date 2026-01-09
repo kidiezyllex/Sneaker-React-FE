@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { useCartStore } from "@/stores/useCartStore";
 import {
   Breadcrumb,
@@ -469,12 +470,31 @@ export default function ShippingPage() {
       };
 
       const response = await createOrderMutation.mutateAsync(orderData as any);
-      if (response && response.success && response.data) {
+      if (
+        response &&
+        (response.statusCode === 200 || (response as any).success) &&
+        response.data
+      ) {
         clearCart();
         if (appliedVoucher) {
           removeVoucher();
         }
-        toast.success("Đặt hàng thành công!");
+
+        // Custom Rich Toast
+        toast.success(
+          <CustomToast
+            title={response.message || "Đặt hàng thành công!"}
+            description={
+              response.data?.code
+                ? `Mã đơn hàng: #${response.data.code}`
+                : undefined
+            }
+            subText="Cảm ơn bạn đã tin tưởng Sneaker Store!"
+          />,
+          {
+            icon: false,
+          }
+        );
 
         await sendOrderConfirmationEmail(
           response.data.id,
@@ -534,12 +554,32 @@ export default function ShippingPage() {
       };
 
       const response = await createOrderMutation.mutateAsync(orderData as any);
-      if (response && response.success && response.data) {
+      if (
+        response &&
+        (response.statusCode === 200 || (response as any).success) &&
+        response.data
+      ) {
         clearCart();
         if (appliedVoucher) {
           removeVoucher();
         }
-        toast.success("Thanh toán và đặt hàng thành công!");
+
+        // Custom Rich Toast
+        toast.success(
+          <CustomToast
+            title={response.message || "Thanh toán và đặt hàng thành công!"}
+            description={
+              response.data?.code
+                ? `Mã đơn hàng: #${response.data.code}`
+                : undefined
+            }
+            subText="Thanh toán qua VNPay đã được ghi nhận."
+          />,
+          {
+            icon: false,
+          }
+        );
+
         await sendOrderConfirmationEmail(
           response.data.id,
           response.data,

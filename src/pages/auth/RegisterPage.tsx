@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { CustomToast } from "@/components/ui/custom-toast";
 import { motion } from "framer-motion";
 import Icon from "@mdi/react";
 import { mdiAccountPlus } from "@mdi/js";
@@ -44,26 +44,46 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
 
     registerUser(formData, {
       onSuccess: (data) => {
-        if (data.success || (data as any).statusCode === 200) {
-          const token = data.data.token;
-          const account = data.data.account;
+        if ((data as any)?.success || (data as any).statusCode === 200) {
+          const token = (data as any)?.data?.token;
+          const account = (data as any)?.data?.account;
 
           if (token && account) {
             loginUser(account, token);
-            toast.success("Đăng ký thành công!");
+            toast.success(<CustomToast title="Đăng ký thành công!" />, {
+              icon: false,
+            });
             navigate("/");
           } else {
-            toast.success("Đăng ký thành công! Vui lòng đăng nhập.");
+            toast.success(
+              <CustomToast
+                title="Đăng ký thành công!"
+                description="Vui lòng đăng nhập để tiếp tục."
+              />,
+              { icon: false }
+            );
             setTimeout(() => {
               navigate("/auth/login");
             }, 1500);
           }
         } else {
-          toast.error(data.message || "Đăng ký thất bại");
+          toast.error(
+            <CustomToast
+              title={data.message || "Đăng ký thất bại"}
+              type="error"
+            />,
+            { icon: false }
+          );
         }
       },
       onError: (error: any) => {
-        toast.error(error?.response?.data?.message || "Đăng ký thất bại");
+        toast.error(
+          <CustomToast
+            title={error?.response?.data?.message || "Đăng ký thất bại"}
+            type="error"
+          />,
+          { icon: false }
+        );
       },
     });
   };
