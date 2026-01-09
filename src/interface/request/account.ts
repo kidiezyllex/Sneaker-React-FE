@@ -12,7 +12,7 @@ export interface IAccountCreate {
   password: string;
   phoneNumber: string;
   role?: 'CUSTOMER' | 'STAFF' | 'ADMIN';
-  gender?: 'male' | 'female' | 'other';
+  gender?: boolean;
   birthday?: string | Date;
   citizenId?: string;
 }
@@ -33,25 +33,27 @@ export interface IAccountStatusUpdate {
 }
 
 export interface IAddress {
-  id?: string;
+  id?: number | string;
   name: string;
   phoneNumber: string;
-  provinceName: string;
-  districtName: string;
-  wardName: string;
+  provinceId: string;
+  districtId: string;
+  wardId: string;
   specificAddress: string;
-  type: "Nhà riêng" | "Văn phòng";
+  type: boolean;
   isDefault: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface IAddressCreate {
   name: string;
   phoneNumber: string;
-  provinceName: string;
-  districtName: string;
-  wardName: string;
+  provinceId: string;
+  districtId: string;
+  wardId: string;
   specificAddress: string;
-  type: "Nhà riêng" | "Văn phòng";
+  type: boolean;
   isDefault: boolean;
 }
 
@@ -60,7 +62,7 @@ export interface IAddressUpdate extends Partial<IAddressCreate> {}
 export interface IProfileUpdate {
   fullName?: string;
   phoneNumber?: string;
-  gender?: 'Nam' | 'Nữ' | 'Khác';
+  gender?: boolean;
   birthday?: string | Date;
   avatar?: string;
 }

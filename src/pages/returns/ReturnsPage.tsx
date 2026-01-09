@@ -213,7 +213,7 @@ const ReturnsPage: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-2">Quản lý trả hàng</h1>
+        <h1 className="text-3xl font-semibold mb-2">Quản lý trả hàng</h1>
         <p className="text-maintext">
           Xem đơn hàng có thể trả và quản lý yêu cầu trả hàng của bạn
         </p>

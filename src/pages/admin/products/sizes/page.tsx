@@ -245,7 +245,7 @@ export default function SizesPage() {
                       <TableCell className="px-4 py-4 whitespace-nowrap">
                         <div className="flex items-center">
                           <div className="h-8 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
-                            <span className="text-sm font-bold">
+                            <span className="text-sm font-semibold">
                               {getSizeLabel(size.value)}
                             </span>
                           </div>

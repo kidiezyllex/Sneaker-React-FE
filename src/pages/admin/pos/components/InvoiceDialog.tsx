@@ -139,7 +139,9 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
               />
             </div>
             <div className="text-center mb-4">
-              <h2 className="text-xl font-bold">{invoiceData.shopInfo.name}</h2>
+              <h2 className="text-xl font-semibold">
+                {invoiceData.shopInfo.name}
+              </h2>
               <p className="text-sm">{invoiceData.shopInfo.address}</p>
               <p className="text-sm">
                 ĐT: {invoiceData.shopInfo.phone} - Email:{" "}
@@ -220,7 +222,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
                   </div>
                 )}
                 <Separator />
-                <div className="flex justify-between font-bold text-base">
+                <div className="flex justify-between font-semibold text-base">
                   <span>TỔNG THANH TOÁN:</span>
                   <span className="text-primary">
                     {formatCurrency(invoiceData.total)}

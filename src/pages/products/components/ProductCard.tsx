@@ -72,7 +72,7 @@ export const ProductCard = ({
 
                 if (discount.discountPercent > 0) {
                   return (
-                    <div className="bg-[#00B207] text-white text-sm font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
+                    <div className="bg-[#00B207] text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
                       <svg
                         width="14"
                         height="14"
@@ -97,7 +97,7 @@ export const ProductCard = ({
               );
               if (totalStock === 0) {
                 return (
-                  <div className="bg-red-500 text-white text-sm font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
+                  <div className="bg-red-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
                     <svg
                       width="14"
                       height="14"
@@ -111,7 +111,7 @@ export const ProductCard = ({
                 );
               } else if (totalStock <= 5) {
                 return (
-                  <div className="bg-[#FF8A00] text-white text-sm font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
+                  <div className="bg-[#FF8A00] text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
                     <svg
                       width="14"
                       height="14"
@@ -197,14 +197,14 @@ export const ProductCard = ({
               .replace(/\s+/g, "-")}-${product.id}`}
             className="hover:text-primary transition-colors flex-1"
           >
-            <h3 className="font-bold text-base mb-3 line-clamp-2 leading-tight text-maintext hover:text-primary transition-colors">
+            <h3 className="font-semibold text-base mb-3 line-clamp-2 leading-tight text-maintext hover:text-primary transition-colors">
               {product.name}
             </h3>
           </a>
 
           {/* Price */}
           <div className="flex items-center gap-2 mb-4">
-            <span className="font-bold text-xl text-[#00B207]">
+            <span className="font-semibold text-xl text-[#00B207]">
               {(() => {
                 if (
                   promotionsData?.data?.promotions &&

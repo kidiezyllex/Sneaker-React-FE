@@ -399,7 +399,9 @@ export default function AccountsPage() {
             </div>
           ) : error ? (
             <div className="flex flex-col items-center justify-center h-64">
-              <h2 className="text-xl font-bold text-red-500">Đã xảy ra lỗi</h2>
+              <h2 className="text-xl font-semibold text-red-500">
+                Đã xảy ra lỗi
+              </h2>
               <p className="text-maintext">
                 {error.message || "Không thể tải dữ liệu tài khoản"}
               </p>

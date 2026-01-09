@@ -135,7 +135,7 @@ const DiscountTag = ({ discount }: { discount: number }) => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        className="bg-red-medium text-white px-2 py-1 rounded-2xl text-sm font-bold"
+        className="bg-red-medium text-white px-2 py-1 rounded-2xl text-sm font-semibold"
       >
         -{discount}%
       </motion.div>
@@ -175,7 +175,7 @@ const CategoryCard = ({
           <div className="absolute inset-0 bg-gradient-to-t from-main-dark-blue/80 via-main-dark-blue/50 to-transparent opacity-90 group-hover:opacity-100 transition-opacity duration-300">
             <div className="absolute bottom-0 left-0 right-0 p-4">
               <motion.div className="text-white space-y-2">
-                <h3 className="text-2xl font-bold mb-1">{category.name}</h3>
+                <h3 className="text-2xl font-semibold mb-1">{category.name}</h3>
                 <motion.p className="text-gray-200 text-sm line-clamp-2 mb-3">
                   {category.description}
                 </motion.p>
@@ -335,7 +335,7 @@ export const Categories = () => {
             className="text-center md:text-left w-full"
           >
             <div className="flex items-center w-full gap-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-start mb-4 relative">
+              <h2 className="text-2xl md:text-3xl font-semibold text-start mb-4 relative">
                 <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent drop-shadow-sm ">
                   Danh mục
                 </span>
@@ -362,7 +362,7 @@ export const Categories = () => {
                 </Button>
               </motion.div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-maintext dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white">
               SNEAKER <span className="text-extra">HOT TREND 2026</span>
             </h2>
           </motion.div>

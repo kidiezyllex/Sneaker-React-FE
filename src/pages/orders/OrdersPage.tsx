@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/hooks/useAuth';
-import { useToast } from '@/hooks/useToast';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 import {
   Card,
   CardContent,
@@ -12,8 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { format } from 'date-fns';
-import { vi } from 'date-fns/locale';
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
 
 interface OrderItem {
   product: {
@@ -40,8 +40,8 @@ interface Order {
     wardId: string;
     specificAddress: string;
   };
-  paymentMethod: 'COD' | 'VNPAY';
-  status: 'pending' | 'processing' | 'completed' | 'cancelled';
+  paymentMethod: "COD" | "VNPAY";
+  status: "pending" | "processing" | "completed" | "cancelled";
   createdAt: string;
   updatedAt: string;
 }
@@ -57,7 +57,7 @@ const OrdersPage: React.FC = () => {
     const fetchOrders = async () => {
       try {
         if (!user?.id) {
-          navigate('/login');
+          navigate("/login");
           return;
         }
 
@@ -67,13 +67,13 @@ const OrdersPage: React.FC = () => {
         if (data.success) {
           setOrders(data.data);
         } else {
-          throw new Error(data.message || 'Không thể tải danh sách đơn hàng');
+          throw new Error(data.message || "Không thể tải danh sách đơn hàng");
         }
       } catch (error: any) {
         showToast({
           title: "Lỗi",
           message: error.message || "Đã có lỗi xảy ra khi tải đơn hàng",
-          type: "error"
+          type: "error",
         });
       } finally {
         setIsLoading(false);
@@ -83,31 +83,31 @@ const OrdersPage: React.FC = () => {
     fetchOrders();
   }, [user, navigate, showToast]);
 
-  const getStatusColor = (status: Order['status']) => {
+  const getStatusColor = (status: Order["status"]) => {
     switch (status) {
-      case 'pending':
-        return 'bg-yellow-500';
-      case 'processing':
-        return 'bg-blue-500';
-      case 'completed':
-        return 'bg-green-500';
-      case 'cancelled':
-        return 'bg-red-500';
+      case "pending":
+        return "bg-yellow-500";
+      case "processing":
+        return "bg-blue-500";
+      case "completed":
+        return "bg-green-500";
+      case "cancelled":
+        return "bg-red-500";
       default:
-        return 'bg-gray-500';
+        return "bg-gray-500";
     }
   };
 
-  const getStatusText = (status: Order['status']) => {
+  const getStatusText = (status: Order["status"]) => {
     switch (status) {
-      case 'pending':
-        return 'Chờ xác nhận';
-      case 'processing':
-        return 'Đang xử lý';
-      case 'completed':
-        return 'Hoàn thành';
-      case 'cancelled':
-        return 'Đã hủy';
+      case "pending":
+        return "Chờ xác nhận";
+      case "processing":
+        return "Đang xử lý";
+      case "completed":
+        return "Hoàn thành";
+      case "cancelled":
+        return "Đã hủy";
       default:
         return status;
     }
@@ -123,8 +123,8 @@ const OrdersPage: React.FC = () => {
 
   return (
     <div className="container max-w-6xl py-8">
-      <h1 className="text-2xl font-bold mb-4">Đơn hàng của tôi</h1>
-      
+      <h1 className="text-2xl font-semibold mb-4">Đơn hàng của tôi</h1>
+
       {orders.length === 0 ? (
         <Card>
           <CardContent className="py-8">
@@ -136,8 +136,11 @@ const OrdersPage: React.FC = () => {
       ) : (
         <div className="space-y-4">
           {orders.map((order) => (
-            <Card key={order.id} className="cursor-pointer hover:shadow-md transition-shadow"
-                  onClick={() => navigate(`/orders/${order.id}`)}>
+            <Card
+              key={order.id}
+              className="cursor-pointer hover:shadow-md transition-shadow"
+              onClick={() => navigate(`/orders/${order.id}`)}
+            >
               <CardHeader className="pb-4">
                 <div className="flex justify-between items-start">
                   <div>
@@ -145,10 +148,14 @@ const OrdersPage: React.FC = () => {
                       Đơn hàng #{order.id.slice(-6)}
                     </CardTitle>
                     <CardDescription>
-                      {format(new Date(order.createdAt), 'dd/MM/yyyy HH:mm', { locale: vi })}
+                      {format(new Date(order.createdAt), "dd/MM/yyyy HH:mm", {
+                        locale: vi,
+                      })}
                     </CardDescription>
                   </div>
-                  <Badge className={`${getStatusColor(order.status)} text-white`}>
+                  <Badge
+                    className={`${getStatusColor(order.status)} text-white`}
+                  >
                     {getStatusText(order.status)}
                   </Badge>
                 </div>
@@ -159,8 +166,10 @@ const OrdersPage: React.FC = () => {
                     <div>
                       <h3 className="font-medium mb-2">Thông tin giao hàng</h3>
                       <p className="text-sm text-muted-foreground">
-                        {order.shippingAddress.name}<br />
-                        {order.shippingAddress.phoneNumber}<br />
+                        {order.shippingAddress.name}
+                        <br />
+                        {order.shippingAddress.phoneNumber}
+                        <br />
                         {order.shippingAddress.specificAddress}
                       </p>
                     </div>
@@ -169,7 +178,11 @@ const OrdersPage: React.FC = () => {
                       <div className="text-sm text-muted-foreground">
                         <div className="flex justify-between">
                           <span>Phương thức:</span>
-                          <span>{order.paymentMethod === 'COD' ? 'Thanh toán khi nhận hàng' : 'VNPay'}</span>
+                          <span>
+                            {order.paymentMethod === "COD"
+                              ? "Thanh toán khi nhận hàng"
+                              : "VNPay"}
+                          </span>
                         </div>
                         <div className="flex justify-between font-medium mt-2">
                           <span>Tổng tiền:</span>
@@ -178,7 +191,7 @@ const OrdersPage: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
                     <h3 className="font-medium mb-2">Sản phẩm</h3>
                     <div className="space-y-2">
@@ -210,6 +223,6 @@ const OrdersPage: React.FC = () => {
       )}
     </div>
   );
-}
+};
 
-export default OrdersPage
+export default OrdersPage;

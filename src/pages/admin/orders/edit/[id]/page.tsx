@@ -383,7 +383,7 @@ export default function EditOrderPage() {
                     <span className="text-sm font-medium">
                       Tổng thanh toán:
                     </span>
-                    <span className="text-lg font-bold">
+                    <span className="text-lg font-semibold">
                       {formatCurrency(order.total)}
                     </span>
                   </div>

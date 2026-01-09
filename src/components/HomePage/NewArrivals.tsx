@@ -109,7 +109,7 @@ export const NewArrivals = () => {
           <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
             Mới ra mắt
           </span>
-          <h2 className="text-3xl font-bold text-center mb-4 relative">
+          <h2 className="text-3xl font-semibold text-center mb-4 relative">
             <span className="inline-block relative">
               <span className="uppercase bg-gradient-to-r from-[#2C8B3D] to-[#88C140] bg-clip-text text-transparent drop-shadow-sm">
                 Sản phẩm mới nhất

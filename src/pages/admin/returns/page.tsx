@@ -349,7 +349,7 @@ export default function ReturnsPage() {
             <CardContent className="p-4">
               <div className="flex flex-col">
                 <p className="text-sm text-maintext">Tổng số đơn trả</p>
-                <h3 className="text-2xl font-bold">
+                <h3 className="text-2xl font-semibold">
                   {statsData.data.totalReturns}
                 </h3>
               </div>
@@ -359,7 +359,7 @@ export default function ReturnsPage() {
             <CardContent className="p-4">
               <div className="flex flex-col">
                 <p className="text-sm text-maintext">Đang chờ xử lý</p>
-                <h3 className="text-2xl font-bold">
+                <h3 className="text-2xl font-semibold">
                   {statsData.data.pendingReturns}
                 </h3>
               </div>
@@ -369,7 +369,7 @@ export default function ReturnsPage() {
             <CardContent className="p-4">
               <div className="flex flex-col">
                 <p className="text-sm text-maintext">Đã hoàn tiền</p>
-                <h3 className="text-2xl font-bold">
+                <h3 className="text-2xl font-semibold">
                   {statsData.data.refundedReturns}
                 </h3>
               </div>
@@ -379,7 +379,7 @@ export default function ReturnsPage() {
             <CardContent className="p-4">
               <div className="flex flex-col">
                 <p className="text-sm text-maintext">Tổng tiền hoàn trả</p>
-                <h3 className="text-2xl font-bold">
+                <h3 className="text-2xl font-semibold">
                   {formatCurrency(statsData.data.totalRefundAmount)}
                 </h3>
               </div>

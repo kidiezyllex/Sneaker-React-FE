@@ -333,7 +333,7 @@ export default function VNPayModal({
         </div>
         <div className="flex justify-between">
           <span className="text-maintext">Số tiền:</span>
-          <span className="font-bold text-lg text-red-600">
+          <span className="font-semibold text-lg text-red-600">
             {formatPrice(orderData.amount)}
           </span>
         </div>

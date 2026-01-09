@@ -109,10 +109,10 @@ const CollectionCard = ({
           transition={{ delay: 0.3, duration: 0.5 }}
           className="transform group-hover:translate-y-[-8px] transition-transform duration-500"
         >
-          <h3 className="text-outline-white uppercase text-4xl font-bold text-white mb-2 group-hover:text-primary-foreground transition-colors duration-300">
+          <h3 className="text-outline-white uppercase text-4xl font-semibold text-white mb-2 group-hover:text-primary-foreground transition-colors duration-300">
             {collection.title}
           </h3>
-          <h3 className="text-2xl font-bold text-white/80 group-hover:text-primary-foreground/80 transition-colors duration-300">
+          <h3 className="text-2xl font-semibold text-white/80 group-hover:text-primary-foreground/80 transition-colors duration-300">
             {collection.subtitle}
           </h3>
         </motion.div>
@@ -142,7 +142,7 @@ export const Collections = () => {
             className="text-center md:text-left w-full"
           >
             <div className="flex items-center w-full gap-4">
-              <h2 className="text-2xl md:text-3xl font-bold text-start mb-4 relative">
+              <h2 className="text-2xl md:text-3xl font-semibold text-start mb-4 relative">
                 <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent drop-shadow-sm ">
                   Bộ sưu tập
                 </span>
@@ -169,7 +169,7 @@ export const Collections = () => {
                 </Button>
               </motion.div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-maintext dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white">
               BỘ SƯU TẬP <span className="text-extra">THỜI TRANG</span>
             </h2>
           </motion.div>

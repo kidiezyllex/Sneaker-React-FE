@@ -130,7 +130,7 @@ const ProductCard = ({
 
         <div className="flex items-baseline justify-between">
           <div className="space-y-1">
-            <span className="font-bold text-primary text-lg">
+            <span className="font-semibold text-primary text-lg">
               {formatPrice(discountedPrice)}
             </span>
             {product.discount > 0 && (
@@ -159,7 +159,7 @@ export const FeaturedProducts = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-maintext dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white mb-4">
             Sản phẩm nổi bật
           </h2>
           <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">

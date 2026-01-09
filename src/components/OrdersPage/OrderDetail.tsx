@@ -351,7 +351,7 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
                           >
                             Tổng cộng:
                           </td>
-                          <td className="pt-4 text-right font-bold text-lg text-primary">
+                          <td className="pt-4 text-right font-semibold text-lg text-primary">
                             {formatCurrency(order.finalAmount)}
                           </td>
                         </tr>

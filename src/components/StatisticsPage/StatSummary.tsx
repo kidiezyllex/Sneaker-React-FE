@@ -40,7 +40,9 @@ const StatCard = ({
         <div className="flex justify-between items-start">
           <div>
             <p className="text-base text-maintext">{title}</p>
-            <h3 className={`text-xl font-bold mt-2 ${iconColor}`}>{value}</h3>
+            <h3 className={`text-xl font-semibold mt-2 ${iconColor}`}>
+              {value}
+            </h3>
             <div className="flex items-center mt-2">
               <Icon
                 path={increasing ? mdiTrendingUp : mdiTrendingUp}

@@ -1030,7 +1030,7 @@ export default function POSPage() {
                         )}
                       </div>
 
-                      <h2 className="text-2xl font-bold text-maintext leading-tight">
+                      <h2 className="text-2xl font-semibold text-maintext leading-tight">
                         {selectedProduct.name}
                       </h2>
 
@@ -1049,7 +1049,7 @@ export default function POSPage() {
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.2 }}
                       >
-                        <div className="text-4xl font-bold text-primary">
+                        <div className="text-4xl font-semibold text-primary">
                           {formatCurrency(
                             (selectedProduct as any).hasDiscount
                               ? (selectedProduct as any).discountedPrice

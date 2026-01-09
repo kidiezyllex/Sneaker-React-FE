@@ -88,7 +88,7 @@ export const Newsletter = () => {
             className="text-center"
           >
             <motion.h2
-              className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6 "
+              className="text-4xl md:text-5xl font-semibold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-200 dark:to-purple-200 bg-clip-text text-transparent mb-6 "
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
@@ -195,7 +195,7 @@ export const Newsletter = () => {
                       className="text-green-500 mx-auto mb-4"
                     />
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-green-700 dark:text-green-400 mb-2">
+                  <h3 className="text-2xl font-semibold text-green-700 dark:text-green-400 mb-2">
                     Cảm ơn bạn đã đăng ký!
                   </h3>
                   <p className="text-green-600 dark:text-green-300">

@@ -1293,7 +1293,7 @@ const OrderDetailDialog = ({
                     <span className="text-sm font-medium">
                       Tổng thanh toán:
                     </span>
-                    <span className="text-base font-bold">
+                    <span className="text-base font-semibold">
                       {formatCurrency(orderDetail.total)}
                     </span>
                   </div>

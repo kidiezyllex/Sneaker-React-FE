@@ -256,7 +256,9 @@ export default function StatisticsPage() {
           <div className="flex justify-between items-start">
             <div>
               <p className="text-base text-maintext">{title}</p>
-              <h3 className="text-2xl font-bold mt-2 text-maintext">{value}</h3>
+              <h3 className="text-2xl font-semibold mt-2 text-maintext">
+                {value}
+              </h3>
               <div className="flex items-center mt-2">
                 <Icon
                   path={change >= 0 ? mdiTrendingUp : mdiTrendingUp}
@@ -662,7 +664,7 @@ export default function StatisticsPage() {
                     <h3 className="text-lg font-semibold text-maintext">
                       Tổng doanh thu
                     </h3>
-                    <p className="text-2xl font-bold text-green-500 mt-2">
+                    <p className="text-2xl font-semibold text-green-500 mt-2">
                       {formatCurrency(totalRevenue)}
                     </p>
                   </div>
@@ -670,7 +672,7 @@ export default function StatisticsPage() {
                     <h3 className="text-lg font-semibold text-maintext">
                       Số đơn hàng
                     </h3>
-                    <p className="text-2xl font-bold mt-2 text-blue-500">
+                    <p className="text-2xl font-semibold mt-2 text-blue-500">
                       {mockRevenueData.reduce(
                         (sum: number, item) => sum + (item.totalOrders || 0),
                         0
@@ -850,7 +852,7 @@ export default function StatisticsPage() {
                   <h4 className="text-lg font-semibold text-blue-700 mb-2">
                     Tổng số lượng bán
                   </h4>
-                  <p className="text-2xl font-bold text-blue-600">
+                  <p className="text-2xl font-semibold text-blue-600">
                     {mockTopProductsData.reduce(
                       (sum: number, item: any) => sum + item.totalQuantity,
                       0
@@ -862,7 +864,7 @@ export default function StatisticsPage() {
                   <h4 className="text-lg font-semibold text-green-700 mb-2">
                     Tổng doanh thu
                   </h4>
-                  <p className="text-2xl font-bold text-green-600">
+                  <p className="text-2xl font-semibold text-green-600">
                     {formatCurrency(
                       mockTopProductsData.reduce(
                         (sum: number, item) => sum + item.totalRevenue,
@@ -1135,7 +1137,7 @@ export default function StatisticsPage() {
                     <h4 className="text-sm font-medium text-blue-700">
                       Tổng đơn hàng
                     </h4>
-                    <p className="text-xl font-bold text-blue-600">
+                    <p className="text-xl font-semibold text-blue-600">
                       {statisticsDetailData.data.totalOrders}
                     </p>
                   </div>
@@ -1143,7 +1145,7 @@ export default function StatisticsPage() {
                     <h4 className="text-sm font-medium text-green-700">
                       Doanh thu
                     </h4>
-                    <p className="text-xl font-bold text-green-600">
+                    <p className="text-xl font-semibold text-green-600">
                       {formatCurrency(statisticsDetailData.data.totalRevenue)}
                     </p>
                   </div>
@@ -1151,7 +1153,7 @@ export default function StatisticsPage() {
                     <h4 className="text-sm font-medium text-purple-700">
                       Lợi nhuận
                     </h4>
-                    <p className="text-xl font-bold text-purple-600">
+                    <p className="text-xl font-semibold text-purple-600">
                       {formatCurrency(statisticsDetailData.data.totalProfit)}
                     </p>
                   </div>
@@ -1159,7 +1161,7 @@ export default function StatisticsPage() {
                     <h4 className="text-sm font-medium text-yellow-700">
                       Khách hàng mới
                     </h4>
-                    <p className="text-xl font-bold text-yellow-600">
+                    <p className="text-xl font-semibold text-yellow-600">
                       {statisticsDetailData.data.customerCount?.new || 0}
                     </p>
                   </div>

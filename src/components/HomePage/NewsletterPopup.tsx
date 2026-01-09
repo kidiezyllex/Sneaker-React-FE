@@ -80,7 +80,7 @@ export const NewsletterPopup = () => {
               {/* Phần nội dung */}
               <div className="p-4 md:p-8 md:col-span-3">
                 <div className="text-center md:text-left">
-                  <h3 className="text-xl md:text-2xl font-bold text-maintext mb-2">
+                  <h3 className="text-xl md:text-2xl font-semibold text-maintext mb-2">
                     Nhận ngay ưu đãi 20%
                   </h3>
                   <p className="text-maintext mb-4">

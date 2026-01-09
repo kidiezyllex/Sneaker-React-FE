@@ -182,13 +182,13 @@ export function Header() {
                     {user && (
                       <span
                         onClick={() => navigate("/seller/products/storehouse")}
-                        className="font-bold text-sm text-maintext hover:!text-white/80 transition-all duration-300"
+                        className="font-semibold text-sm text-maintext hover:!text-white/80 transition-all duration-300"
                       >
                         Bảng điều khiển của tôi
                       </span>
                     )}
                     {!user && (
-                      <span className="font-bold text-sm text-maintext hover:!text-white/80 transition-all duration-300">
+                      <span className="font-semibold text-sm text-maintext hover:!text-white/80 transition-all duration-300">
                         Tài khoản và danh sách mong muốn
                       </span>
                     )}
@@ -198,7 +198,7 @@ export function Header() {
             </a>
             {isMounted && user && (
               <div
-                className="font-bold text-sm text-maintext cursor-pointer hover:!text-white/80 transition-all duration-300"
+                className="font-semibold text-sm text-maintext cursor-pointer hover:!text-white/80 transition-all duration-300"
                 onClick={() => logout()}
               >
                 Đăng xuất
@@ -212,7 +212,7 @@ export function Header() {
               placement="bottomRight"
             >
               <div className="flex items-center cursor-pointer px-2">
-                <span className="mr-1 text-maintext text-sm transition-all duration-300 hover:!text-white/80 font-bold">
+                <span className="mr-1 text-maintext text-sm transition-all duration-300 hover:!text-white/80 font-semibold">
                   {currentCurrency.name} {currentCurrency.symbol}
                 </span>
                 <Icon path={mdiChevronDown} size={0.8} />
@@ -297,7 +297,9 @@ export function Header() {
                       }}
                       className="cursor-pointer"
                     >
-                      <h3 className="font-bold text-lg">Xin chào. Đăng nhập</h3>
+                      <h3 className="font-semibold text-lg">
+                        Xin chào. Đăng nhập
+                      </h3>
                       <p className="text-sm">
                         Tài khoản và danh sách mong muốn
                       </p>
@@ -311,13 +313,13 @@ export function Header() {
                         }}
                         className="cursor-pointer"
                       >
-                        <h3 className="font-bold text-lg">
+                        <h3 className="font-semibold text-lg">
                           Xin chào, {user.username || "Người dùng"}
                         </h3>
                         <p className="text-sm">Bảng điều khiển của tôi</p>
                       </div>
                       <div
-                        className="font-bold text-sm cursor-pointer hover:text-white/80"
+                        className="font-semibold text-sm cursor-pointer hover:text-white/80"
                         onClick={() => {
                           logout();
                           setMobileMenuOpen(false);
@@ -333,7 +335,7 @@ export function Header() {
 
             {/* Language Selector */}
             <div className="p-4 border-b border-gray-700">
-              <h3 className="text-white font-bold mb-2">Ngôn ngữ</h3>
+              <h3 className="text-white font-semibold mb-2">Ngôn ngữ</h3>
               <ul className="space-y-2">
                 {languages.map((language) => (
                   <li
@@ -360,7 +362,7 @@ export function Header() {
 
             {/* Currency Selector */}
             <div className="p-4 border-b border-gray-700">
-              <h3 className="text-white font-bold mb-2">Tiền tệ</h3>
+              <h3 className="text-white font-semibold mb-2">Tiền tệ</h3>
               <ul className="space-y-2">
                 {currencies.map((currency) => (
                   <li

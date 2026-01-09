@@ -9,12 +9,14 @@ export interface IOrderProduct {
   price?: number;
 }
 
+import { IAddress } from "../request/account";
+
 export interface IOrderCustomer {
   id: string;
   fullName: string;
   email: string;
   phoneNumber: string;
-  addresses?: any[];
+  addresses?: IAddress[];
 }
 
 export interface IOrderStaff {

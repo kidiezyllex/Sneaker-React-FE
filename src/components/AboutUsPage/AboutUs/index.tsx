@@ -35,7 +35,7 @@ const FeatureCard = ({
       <div className="p-4 rounded-full bg-gradient-to-r from-[#2C8B3D] to-[#88C140] mr-5">
         <Icon path={icon} size={1.5} className="text-white" />
       </div>
-      <h3 className="text-xl font-bold text-maintext dark:text-white">
+      <h3 className="text-xl font-semibold text-maintext dark:text-white">
         {title}
       </h3>
     </div>
@@ -70,7 +70,7 @@ const TeamMember = ({
         className="object-contain h-full w-full rounded-full"
       />
     </div>
-    <h3 className="uppercase text-base font-bold text-center text-white relative z-[2]">
+    <h3 className="uppercase text-base font-semibold text-center text-white relative z-[2]">
       {name}
     </h3>
     <p className="text-center text-white/80 mb-2 relative z-[2]">{id}</p>
@@ -112,7 +112,9 @@ const TestimonialCard = ({
         />
       ))}
     </div>
-    <h3 className="text-2xl font-bold text-center text-white mb-4">{title}</h3>
+    <h3 className="text-2xl font-semibold text-center text-white mb-4">
+      {title}
+    </h3>
     <p className="text-white/80 text-center mb-8 text-lg italic">
       "{description}"
     </p>
@@ -127,7 +129,7 @@ const TestimonialCard = ({
         />
       </div>
       <div>
-        <h4 className="text-lg font-bold text-white">{name}</h4>
+        <h4 className="text-lg font-semibold text-white">{name}</h4>
         <p className="text-white/80">{role}</p>
       </div>
     </div>
@@ -253,7 +255,7 @@ export const AboutUs = () => {
             >
               <a
                 href="#team"
-                className="flex items-center bg-transparent border border-white/80 text-white/80 font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                className="flex items-center bg-transparent border border-white/80 text-white/80 font-semibold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
               >
                 Gặp gỡ đội ngũ của chúng tôi
                 <Icon path={mdiChevronDoubleDown} size={1.5} className="ml-2" />
@@ -273,7 +275,7 @@ export const AboutUs = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-4xl font-bold text-maintext dark:text-white mb-8">
+              <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-8">
                 Câu chuyện của chúng tôi
               </h2>
               <p className="text-lg text-maintext dark:text-maintext mb-8">
@@ -360,7 +362,7 @@ export const AboutUs = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-4xl font-bold text-maintext dark:text-white mb-4">
+            <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-4">
               Tại sao chọn AllwearStudio?
             </h2>
             <p className="text-lg text-maintext dark:text-maintext max-w-2xl mx-auto">
@@ -403,7 +405,7 @@ export const AboutUs = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-4xl font-bold text-maintext dark:text-white mb-4">
+            <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-4">
               Đội ngũ của chúng tôi
             </h2>
             <p className="text-lg text-maintext dark:text-maintext max-w-2xl mx-auto">
@@ -448,7 +450,7 @@ export const AboutUs = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-semibold text-white mb-4">
               Khách hàng nói gì về chúng tôi?
             </h2>
             <p className="text-xl text-white/80 max-w-2xl mx-auto">
@@ -508,7 +510,7 @@ export const AboutUs = () => {
             transition={{ duration: 0.5 }}
           >
             <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10"></div>
-            <h2 className="text-4xl font-bold text-white mb-8 relative z-10">
+            <h2 className="text-4xl font-semibold text-white mb-8 relative z-10">
               Sẵn sàng khám phá bộ sưu tập của chúng tôi?
             </h2>
             <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto relative z-10">
@@ -522,7 +524,7 @@ export const AboutUs = () => {
             >
               <a
                 href="/products"
-                className="bg-white text-[#2C8B3D] font-bold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
+                className="bg-white text-[#2C8B3D] font-semibold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
               >
                 Xem sản phẩm ngay
               </a>

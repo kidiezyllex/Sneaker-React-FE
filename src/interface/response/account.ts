@@ -2,16 +2,17 @@ import { IApiResponse, IApiListResponse } from '../common';
 import { IAddress } from '../request/account';
 
 export interface IAccount {
-  id: string;
+  id: number | string;
+  code: string;
   fullName: string;
   email: string;
   phoneNumber: string;
   role: 'CUSTOMER' | 'STAFF' | 'ADMIN';
-  gender?: 'Nam' | 'Nữ' | 'Khác';
+  gender?: boolean;
   birthday?: string | Date;
   citizenId?: string;
   status: 'ACTIVE' | 'INACTIVE';
-  avatar?: string;
+  avatar?: string | null;
   addresses: IAddress[];
   createdAt: string;
   updatedAt: string;

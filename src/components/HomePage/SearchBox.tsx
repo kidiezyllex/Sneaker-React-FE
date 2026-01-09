@@ -103,7 +103,9 @@ export const SearchBox = () => {
           >
             <div className="container mx-auto">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-xl font-bold text-maintext">Tìm kiếm</h3>
+                <h3 className="text-xl font-semibold text-maintext">
+                  Tìm kiếm
+                </h3>
                 <Button
                   variant="ghost"
                   size="icon"

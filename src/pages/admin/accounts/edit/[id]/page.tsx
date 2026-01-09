@@ -197,7 +197,9 @@ export default function EditAccountPage() {
   if (error || !accountData) {
     return (
       <div className="flex flex-col items-center justify-center h-full">
-        <h2 className="text-xl font-bold">Không thể tải thông tin tài khoản</h2>
+        <h2 className="text-xl font-semibold">
+          Không thể tải thông tin tài khoản
+        </h2>
         <p className="text-maintext">
           Có lỗi xảy ra: {error?.message || "Không tìm thấy tài khoản"}
         </p>
@@ -248,7 +250,7 @@ export default function EditAccountPage() {
           </AvatarFallback>
         </Avatar>
         <div className="space-y-1">
-          <h2 className="text-3xl font-bold">{formData.fullName}</h2>
+          <h2 className="text-3xl font-semibold">{formData.fullName}</h2>
           <p className="text-maintext text-lg">
             {accountData.data.role === "ADMIN"
               ? "Quản trị viên"

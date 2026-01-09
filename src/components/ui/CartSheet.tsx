@@ -157,7 +157,7 @@ const VouchersListDialog = ({
 
                     <div className="space-y-3 flex flex-col flex-1">
                       <div>
-                        <h4 className="font-bold text-primary">
+                        <h4 className="font-semibold text-primary">
                           {voucher.name}
                         </h4>
                         <p className="text-sm text-muted-foreground">
@@ -173,7 +173,7 @@ const VouchersListDialog = ({
                           <span className="text-muted-foreground">
                             Giá trị giảm:
                           </span>
-                          <span className="font-bold text-primary text-lg">
+                          <span className="font-semibold text-primary text-lg">
                             {formatDiscountValue(
                               voucher.discountType,
                               voucher.discountValue

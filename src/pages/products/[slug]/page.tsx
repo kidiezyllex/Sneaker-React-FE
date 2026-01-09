@@ -591,7 +591,7 @@ export default function ProductDetail() {
                   </div>
                 </div>
               </div>
-              <h1 className="text-3xl lg:text-4xl font-bold text-maintext leading-tight">
+              <h1 className="text-3xl lg:text-4xl font-semibold text-maintext leading-tight">
                 {product.name}
               </h1>
             </div>
@@ -605,7 +605,7 @@ export default function ProductDetail() {
                     initial={{ scale: 0, rotate: 180 }}
                     animate={{ scale: 1, rotate: 0 }}
                     transition={{ duration: 0.5 }}
-                    className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-bold px-4 py-2 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-2"
+                    className="bg-gradient-to-r from-green-500 via-emerald-500 to-lime-500 text-white text-sm font-semibold px-4 py-2 rounded-full shadow-xl border border-white/50 backdrop-blur-sm animate-pulse flex-shrink-0 w-fit flex items-center justify-center gap-2"
                   >
                     💥
                     <span className="text-lg">
@@ -617,7 +617,7 @@ export default function ProductDetail() {
                 {/* Price Display */}
                 <div className="flex items-center gap-4">
                   <motion.div
-                    className="text-4xl font-bold text-primary"
+                    className="text-4xl font-semibold text-primary"
                     whileHover={{ scale: 1.05 }}
                     transition={{ duration: 0.2 }}
                   >

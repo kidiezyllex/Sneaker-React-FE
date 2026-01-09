@@ -103,7 +103,7 @@ export default function POSRightSection({
     <div className="flex flex-col h-full bg-white rounded-xl shadow-lg border border-border/50 overflow-hidden">
       {/* Header Giỏ hàng */}
       <div className="p-4 bg-gray-50 border-b border-border flex items-center justify-between">
-        <h3 className="font-bold text-lg flex items-center gap-2 text-maintext">
+        <h3 className="font-semibold text-lg flex items-center gap-2 text-maintext">
           <Icon path={mdiCartOutline} size={1} className="text-primary" />
           {activeCartName}
           <Badge variant="secondary" className="bg-primary/10 text-primary">
@@ -186,7 +186,7 @@ export default function POSRightSection({
                         </button>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold text-primary">
+                        <div className="font-semibold text-primary">
                           {formatCurrency(item.price * item.quantity)}
                         </div>
                         {item.price !== item.originalPrice &&
@@ -320,7 +320,7 @@ export default function POSRightSection({
               </div>
             )}
 
-            <div className="flex justify-between items-center text-lg font-bold">
+            <div className="flex justify-between items-center text-lg font-semibold">
               <span className="text-maintext">Tổng tiền</span>
               <span className="text-primary text-xl">
                 {formatCurrency(total)}
@@ -372,7 +372,7 @@ export default function POSRightSection({
                 <span className="text-sm font-medium text-gray-500">
                   Tiền thừa
                 </span>
-                <span className="font-bold text-lg text-primary">
+                <span className="font-semibold text-lg text-primary">
                   {formatCurrency(changeDue)}
                 </span>
               </div>
@@ -380,7 +380,7 @@ export default function POSRightSection({
           )}
 
           <Button
-            className="w-full h-12 text-base font-bold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
+            className="w-full h-12 text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
             onClick={onCheckout}
             disabled={
               checkoutIsLoading ||

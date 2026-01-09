@@ -57,7 +57,7 @@ export const HeroBanner = () => {
                   <span>Sneaker mới nhất 2026</span>
                 </motion.div>
 
-                <h2 className="text-4xl lg:text-5xl font-bold tracking-tight text-maintext text-nowrap">
+                <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-maintext text-nowrap">
                   <span className="block text-primary uppercase font-extrabold">
                     Sneaker <span className="text-maintext">Sale</span>
                   </span>
@@ -122,7 +122,7 @@ export const HeroBanner = () => {
                       className="w-10 h-10 rounded-full border-2 border-white object-cover"
                       loading="lazy"
                     />
-                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold text-sm border-2 border-white">
+                    <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-sm border-2 border-white">
                       +
                     </div>
                   </div>

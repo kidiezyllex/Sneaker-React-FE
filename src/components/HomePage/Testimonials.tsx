@@ -145,7 +145,7 @@ export const Testimonials = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-maintext dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white mb-4">
             Khách hàng nói gì về chúng tôi
           </h2>
           <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">

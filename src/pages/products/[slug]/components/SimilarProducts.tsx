@@ -29,7 +29,7 @@ export const SimilarProducts: React.FC<SimilarProductsProps> = ({
       transition={{ duration: 0.6, delay: 0.6 }}
     >
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold text-maintext mb-4">
+        <h2 className="text-3xl font-semibold text-maintext mb-4">
           Sản phẩm tương tự
         </h2>
         <p className="!text-maintext max-w-2xl mx-auto text-lg">

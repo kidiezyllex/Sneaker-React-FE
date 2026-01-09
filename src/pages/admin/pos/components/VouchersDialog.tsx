@@ -255,7 +255,7 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
                                 <div>
                                   <div
                                     className={cn(
-                                      "font-mono font-bold text-sm tracking-wider",
+                                      "font-mono font-semibold text-sm tracking-wider",
                                       isDisabled
                                         ? "text-maintext"
                                         : "text-primary"
@@ -310,7 +310,7 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
                             <TableCell className="text-right">
                               <div
                                 className={cn(
-                                  "font-bold text-sm",
+                                  "font-semibold text-sm",
                                   isDisabled ? "text-maintext" : "text-primary"
                                 )}
                               >

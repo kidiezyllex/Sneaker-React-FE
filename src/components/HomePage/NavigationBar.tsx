@@ -106,7 +106,7 @@ export const NavigationBar = () => {
             <div className="hidden md:flex items-center gap-2">
               <span className="text-sm font-medium text-maintext">
                 Xin chào,{" "}
-                <span className="text-primary font-bold">
+                <span className="text-primary font-semibold">
                   {user?.fullName || "Khách hàng"}
                 </span>
               </span>

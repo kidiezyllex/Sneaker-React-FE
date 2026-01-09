@@ -87,14 +87,14 @@ export const HotDeals = () => {
               <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-[#F2A024] uppercase bg-amber-100 dark:bg-amber-900/30 rounded-full">
                 Ưu đãi hấp dẫn
               </span>
-              <h2 className="text-3xl md:text-4xl font-bold uppercase mb-2 bg-gradient-to-r from-[#2C8B3D] via-[#88C140] to-[#F2A024] bg-clip-text text-transparent drop-shadow-sm">
+              <h2 className="text-3xl md:text-4xl font-semibold uppercase mb-2 bg-gradient-to-r from-[#2C8B3D] via-[#88C140] to-[#F2A024] bg-clip-text text-transparent drop-shadow-sm">
                 Giày Thể Thao Phiên Bản Giới Hạn
               </h2>
             </motion.div>
 
             <motion.div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-primary">
+                <span className="text-2xl font-semibold text-primary">
                   1.300.000₫
                 </span>
                 <span className="text-lg text-maintext line-through">

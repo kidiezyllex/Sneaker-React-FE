@@ -28,6 +28,13 @@ import {
   mdiPlus,
   mdiDelete,
   mdiMinus,
+  mdiCamera,
+  mdiClose,
+  mdiCalendar,
+  mdiGenderMaleFemale,
+  mdiCardAccountDetailsOutline,
+  mdiInformationOutline,
+  mdiAccountBadgeOutline,
 } from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -616,7 +623,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                         )}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center text-lg font-bold border-t pt-3">
+                    <div className="flex justify-between items-center text-lg font-semibold border-t pt-3">
                       <span>Tổng tiền:</span>
                       <span className="text-primary">
                         {formatPrice(
@@ -1213,7 +1220,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex justify-between items-center text-lg font-bold">
+                  <div className="flex justify-between items-center text-lg font-semibold">
                     <span>Tổng tiền hoàn:</span>
                     <span className="text-primary">
                       {formatPrice(returnData.data.totalRefund)}
@@ -1262,6 +1269,11 @@ const ProfileTab = () => {
   const { showToast } = useToast();
   const updateProfileMutation = useUpdateUserProfile();
 
+  const getAvatarUrl = () => {
+    const userId = userData?.id || "default";
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+  };
+
   const formSchema = z.object({
     fullName: z
       .string()
@@ -1272,6 +1284,9 @@ const ProfileTab = () => {
       .regex(/^[0-9]{10,11}$/, { message: "Số điện thoại không hợp lệ" })
       .optional()
       .or(z.literal("")),
+    birthday: z.string().optional().or(z.literal("")),
+    gender: z.string().optional().or(z.literal("")),
+    citizenId: z.string().optional().or(z.literal("")),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -1280,6 +1295,14 @@ const ProfileTab = () => {
       fullName: userData?.fullName || "",
       email: userData?.email || "",
       phoneNumber: userData?.phoneNumber || "",
+      birthday: userData?.birthday || "",
+      gender:
+        userData?.gender === true
+          ? "Nam"
+          : userData?.gender === false
+          ? "Nữ"
+          : "Khác",
+      citizenId: userData?.citizenId || "",
     },
   });
 
@@ -1289,6 +1312,14 @@ const ProfileTab = () => {
         fullName: userData.fullName || "",
         email: userData.email || "",
         phoneNumber: userData.phoneNumber || "",
+        birthday: userData.birthday || "",
+        gender:
+          userData.gender === true
+            ? "Nam"
+            : userData.gender === false
+            ? "Nữ"
+            : "Khác",
+        citizenId: userData.citizenId || "",
       });
     }
   }, [userData, form]);
@@ -1298,9 +1329,16 @@ const ProfileTab = () => {
       {
         fullName: values.fullName,
         phoneNumber: values.phoneNumber || undefined,
+        gender:
+          values.gender === "Nam"
+            ? true
+            : values.gender === "Nữ"
+            ? false
+            : undefined,
+        birthday: values.birthday || undefined,
       },
       {
-        onSuccess: (response) => {
+        onSuccess: () => {
           showToast({
             title: "Cập nhật thành công",
             message: "Thông tin cá nhân đã được cập nhật",
@@ -1319,100 +1357,264 @@ const ProfileTab = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className="border-none shadow-none bg-transparent">
+      <CardHeader className="px-0 pt-0">
         <CardTitle className="flex items-center gap-2">
-          <Icon path={mdiAccountEdit} size={0.8} className="text-primary" />
-          <span>Cập nhật thông tin cá nhân</span>
+          <div className="p-2 rounded-full bg-primary/10">
+            <Icon path={mdiAccountEdit} size={0.8} className="text-primary" />
+          </div>
+          <span>Thông tin cá nhân</span>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-4 bg-white">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-              <div className="sm:w-1/3 flex flex-col items-center space-y-4">
-                <div className="h-32 w-32 rounded-full bg-primary/10 flex items-center justify-center text-primary text-4xl font-semibold">
-                  {userData?.fullName?.charAt(0) ||
-                    userData?.email?.charAt(0) ||
-                    "U"}
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+              {/* Cột trái: Avatar và Thông tin trạng thái */}
+              <div className="md:col-span-4 space-y-6">
+                <Card>
+                  <CardContent className="pt-6">
+                    <div className="flex flex-col items-center text-center space-y-4">
+                      <div className="relative group">
+                        <img
+                          src={getAvatarUrl()}
+                          alt={userData?.fullName || "User Avatar"}
+                          className="h-32 w-32 rounded-full border-4 border-background shadow-xl object-cover transition-transform group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 rounded-full bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer">
+                          <Icon
+                            path={mdiCamera}
+                            size={1.2}
+                            className="text-white"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <h3 className="text-lg font-semibold">
+                          {userData?.fullName}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {userData?.email}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap justify-center gap-2">
+                        <Badge
+                          variant="outline"
+                          className="bg-primary/5 text-primary border-primary/20"
+                        >
+                          {userData?.role || "CUSTOMER"}
+                        </Badge>
+                        <Badge
+                          variant="outline"
+                          className="bg-green-500/5 text-green-600 border-green-500/20"
+                        >
+                          {userData?.status || "ACTIVE"}
+                        </Badge>
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full gap-2"
+                        type="button"
+                      >
+                        <Icon path={mdiCamera} size={0.7} />
+                        Thay đổi ảnh
+                      </Button>
+                    </div>
+
+                    <div className="mt-8 pt-6 border-t space-y-4">
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="font-semibold flex items-center gap-2">
+                          <Icon path={mdiInformationOutline} size={0.6} />
+                          Mã tài khoản
+                        </span>
+                        <span className="font-medium">
+                          {userData?.code || "N/A"}
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center text-sm">
+                        <span className="font-semibold flex items-center gap-2">
+                          <Icon path={mdiCalendar} size={0.6} />
+                          Ngày tham gia
+                        </span>
+                        <span className="font-medium">
+                          {userData?.createdAt
+                            ? format(new Date(userData.createdAt), "dd/MM/yyyy")
+                            : "N/A"}
+                        </span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Cột phải: Form cập nhật */}
+              <div className="md:col-span-8 space-y-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-primary">
+                      Thông tin cơ bản
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="fullName"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Họ và tên</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Nhập họ và tên" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="phoneNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Số điện thoại</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Nhập số điện thoại"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Địa chỉ Email</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Nhập email"
+                              {...field}
+                              disabled
+                              className="bg-muted/50"
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            Email dùng để đăng nhập và không thể thay đổi
+                          </FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-primary">
+                      Chi tiết cá nhân
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="gender"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Icon path={mdiGenderMaleFemale} size={0.6} />
+                              Giới tính
+                            </FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Chọn giới tính" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="Nam">Nam</SelectItem>
+                                <SelectItem value="Nữ">Nữ</SelectItem>
+                                <SelectItem value="Khác">Khác</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="birthday"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="flex items-center gap-2">
+                              <Icon path={mdiCalendar} size={0.6} />
+                              Ngày sinh
+                            </FormLabel>
+                            <FormControl>
+                              <Input type="date" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="citizenId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Icon
+                              path={mdiCardAccountDetailsOutline}
+                              size={0.6}
+                            />
+                            Số CCCD/CMND
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Nhập số định danh" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </CardContent>
+                </Card>
+
+                <div className="flex justify-end gap-3 pt-2">
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    onClick={() => form.reset()}
+                    className="gap-2"
+                  >
+                    <Icon path={mdiClose} size={0.7} />
+                    Đặt lại
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={updateProfileMutation.isPending}
+                    className="gap-2 px-8 shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95"
+                  >
+                    {updateProfileMutation.isPending ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
+                    ) : (
+                      <Icon path={mdiContentSaveOutline} size={0.7} />
+                    )}
+                    Lưu thông tin
+                  </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  className="w-full max-w-[160px]"
-                  type="button"
-                >
-                  Thay đổi ảnh
-                </Button>
               </div>
-
-              <div className="sm:w-2/3 space-y-4">
-                <FormField
-                  control={form.control}
-                  name="fullName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Họ và tên</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Nhập họ và tên" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Nhập email" {...field} disabled />
-                      </FormControl>
-                      <FormDescription>
-                        Email không thể thay đổi
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="phoneNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Số điện thoại</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Nhập số điện thoại" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end space-x-2">
-              <Button
-                variant="outline"
-                type="button"
-                onClick={() => form.reset()}
-              >
-                Hủy
-              </Button>
-              <Button
-                type="submit"
-                disabled={updateProfileMutation.isPending}
-                className="gap-2"
-              >
-                {updateProfileMutation.isPending ? (
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
-                ) : (
-                  <Icon path={mdiContentSaveOutline} size={0.8} />
-                )}
-                Lưu thay đổi
-              </Button>
             </div>
           </form>
         </Form>
@@ -1583,7 +1785,7 @@ const VouchersTab = () => {
     data: vouchersData,
     isLoading,
     isError,
-  } = useAvailableVouchersForUser(userId || "", {});
+  } = useAvailableVouchersForUser(`${userId || ""}`, {});
 
   const formatDiscountValue = (
     discountType: "PERCENTAGE" | "FIXED_AMOUNT",
@@ -1711,7 +1913,7 @@ const VouchersTab = () => {
                     <div className="absolute -top-4 -left-5 w-16 h-16 bg-primary/10 rounded-full transform rotate-45 group-hover:scale-110 transition-transform duration-300"></div>
                   )}
                   <div className="relative z-0">
-                    <CardTitle className="text-lg font-bold flex items-center gap-2.5 text-primary tracking-wide">
+                    <CardTitle className="text-lg font-semibold flex items-center gap-2.5 text-primary tracking-wide">
                       {voucher.name}
                     </CardTitle>
                     <CardDescription className="text-sm mt-1">
@@ -1728,7 +1930,7 @@ const VouchersTab = () => {
                       <span className="font-medium text-muted-foreground">
                         Giá trị giảm:
                       </span>
-                      <span className="font-bold text-lg text-primary">
+                      <span className="font-semibold text-lg text-primary">
                         {formatDiscountValue(
                           voucher.discountType,
                           voucher.discountValue
@@ -1980,7 +2182,7 @@ export default function GeneralManagementPage() {
     isLoading,
     isError,
     refetch,
-  } = useOrdersByUser(userId || "");
+  } = useOrdersByUser(`${userId || ""}`);
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [orderDetailOpen, setOrderDetailOpen] = useState(false);
   const [createReturnOrderId, setCreateReturnOrderId] = useState<string | null>(
@@ -2099,7 +2301,16 @@ export default function GeneralManagementPage() {
           >
             <Card className="sticky">
               <CardHeader>
-                <CardTitle>Quản lý chung</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiAccountBadgeOutline}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Quản lý chung</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <nav className="flex flex-col" id="account-sidebar-tabs">

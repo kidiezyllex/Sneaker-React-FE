@@ -80,7 +80,7 @@ export default function EditProductPage() {
     return (
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Chi tiết sản phẩm</h1>
+          <h1 className="text-2xl font-semibold">Chi tiết sản phẩm</h1>
           <Button
             variant="outline"
             onClick={() => navigate(-1)}
@@ -413,7 +413,7 @@ export default function EditProductPage() {
         </Breadcrumb>
 
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Chi tiết sản phẩm</h1>
+          <h1 className="text-2xl font-semibold">Chi tiết sản phẩm</h1>
           <Button
             variant="outline"
             onClick={() => navigate(-1)}

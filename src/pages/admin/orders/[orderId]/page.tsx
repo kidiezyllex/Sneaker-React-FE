@@ -1097,10 +1097,10 @@ export default function OrderDetailPage() {
                   </div>
                 )}
                 <div className="flex justify-between items-center pt-3 border-t">
-                  <span className="font-bold text-maintext">
+                  <span className="font-semibold text-maintext">
                     Tổng thanh toán:
                   </span>
-                  <span className="text-lg font-bold text-primary">
+                  <span className="text-lg font-semibold text-primary">
                     {formatCurrency(order.total)}
                   </span>
                 </div>
@@ -1118,7 +1118,7 @@ export default function OrderDetailPage() {
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-bold mb-2 block">
+              <label className="text-sm font-semibold mb-2 block">
                 Trạng thái đơn hàng
               </label>
               <Select value={statusToUpdate} onValueChange={setStatusToUpdate}>
@@ -1142,7 +1142,7 @@ export default function OrderDetailPage() {
             </div>
 
             <div>
-              <label className="text-sm font-bold mb-2 block">
+              <label className="text-sm font-semibold mb-2 block">
                 Trạng thái thanh toán
               </label>
               <Select
@@ -1229,7 +1229,7 @@ export default function OrderDetailPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <h3 className="font-bold text-xl mb-2">
+                    <h3 className="font-semibold text-xl mb-2">
                       Mã hóa đơn: {generateInvoiceCode(order.code)}
                     </h3>
                     <p className="text-sm text-maintext">
@@ -1344,7 +1344,7 @@ export default function OrderDetailPage() {
                     </span>
                   </div>
                 )}
-                <div className="flex justify-between pt-2 border-t font-bold">
+                <div className="flex justify-between pt-2 border-t font-semibold">
                   <span>Tổng thanh toán:</span>
                   <span>{formatCurrency(order.total)}</span>
                 </div>

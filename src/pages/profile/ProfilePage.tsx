@@ -227,7 +227,7 @@ const ProfilePage: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <div className="mb-8 flex flex-col items-center text-center">
-          <h1 className="text-3xl font-bold text-maintext dark:text-white mb-2">
+          <h1 className="text-3xl font-semibold text-maintext dark:text-white mb-2">
             Hồ sơ tài khoản
           </h1>
           <p className="text-maintext dark:text-maintext max-w-2xl">

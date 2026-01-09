@@ -55,14 +55,16 @@ import {
 } from "@/components/ui/select";
 
 const addressSchema = z.object({
-  addressName: z.string().min(1, "Tên địa chỉ không được để trống"),
-  fullName: z.string().min(3, "Tên người nhận phải có ít nhất 3 ký tự"),
+  name: z.string().min(3, "Tên người nhận phải có ít nhất 3 ký tự"),
   phoneNumber: z.string().min(10, "Số điện thoại phải có ít nhất 10 số"),
-  province: z.string().min(1, "Tỉnh/Thành phố không được để trống"),
-  district: z.string().min(1, "Quận/Huyện không được để trống"),
-  ward: z.string().min(1, "Phường/Xã không được để trống"),
-  addressDetail: z.string().min(5, "Địa chỉ chi tiết phải có ít nhất 5 ký tự"),
-  isDefault: z.boolean().optional(),
+  provinceId: z.string().min(1, "Tỉnh/Thành phố không được để trống"),
+  districtId: z.string().min(1, "Quận/Huyện không được để trống"),
+  wardId: z.string().min(1, "Phường/Xã không được để trống"),
+  specificAddress: z
+    .string()
+    .min(5, "Địa chỉ chi tiết phải có ít nhất 5 ký tự"),
+  type: z.boolean().default(false),
+  isDefault: z.boolean().optional().default(false),
 });
 
 type AddressFormValues = z.infer<typeof addressSchema>;
@@ -83,13 +85,13 @@ export default function AddressManager() {
   const form = useForm<AddressFormValues>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
-      addressName: "",
-      fullName: "",
+      name: "",
       phoneNumber: "",
-      province: "",
-      district: "",
-      ward: "",
-      addressDetail: "",
+      provinceId: "",
+      districtId: "",
+      wardId: "",
+      specificAddress: "",
+      type: false,
       isDefault: false,
     },
   });
@@ -102,13 +104,13 @@ export default function AddressManager() {
 
   const resetForm = () => {
     form.reset({
-      addressName: "",
-      fullName: "",
+      name: "",
       phoneNumber: "",
-      province: "",
-      district: "",
-      ward: "",
-      addressDetail: "",
+      provinceId: "",
+      districtId: "",
+      wardId: "",
+      specificAddress: "",
+      type: false,
       isDefault: false,
     });
     setIsEditMode(false);
@@ -119,13 +121,13 @@ export default function AddressManager() {
     setIsEditMode(true);
     setCurrentAddressId(address.id);
     form.reset({
-      addressName: address.addressName,
-      fullName: address.fullName,
+      name: address.name,
       phoneNumber: address.phoneNumber,
-      province: address.province,
-      district: address.district,
-      ward: address.ward,
-      addressDetail: address.addressDetail,
+      provinceId: address.provinceId,
+      districtId: address.districtId,
+      wardId: address.wardId,
+      specificAddress: address.specificAddress,
+      type: address.type,
       isDefault: address.isDefault,
     });
     setOpenDialog(true);
@@ -272,11 +274,14 @@ export default function AddressManager() {
                     <CardContent className="p-4 pt-2">
                       <div className="text-sm space-y-1">
                         <p className="font-medium">
-                          {address.fullName} | {address.phoneNumber}
+                          {address.name} | {address.phoneNumber}
                         </p>
                         <p className="text-maintext dark:text-maintext">
-                          {address.addressDetail}, {address.ward},{" "}
-                          {address.district}, {address.province}
+                          {address.specificAddress}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Mã KV: {address.wardId}, {address.districtId},{" "}
+                          {address.provinceId}
                         </p>
                       </div>
                     </CardContent>
@@ -328,16 +333,26 @@ export default function AddressManager() {
                 >
                   <FormField
                     control={form.control}
-                    name="addressName"
+                    name="type"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Tên địa chỉ</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Ví dụ: Nhà riêng, Văn phòng..."
-                            {...field}
-                          />
-                        </FormControl>
+                        <FormLabel>Loại địa chỉ</FormLabel>
+                        <Select
+                          onValueChange={(val) =>
+                            field.onChange(val === "true")
+                          }
+                          value={field.value ? "true" : "false"}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Chọn loại địa chỉ" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            <SelectItem value="false">Nhà riêng</SelectItem>
+                            <SelectItem value="true">Văn phòng</SelectItem>
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -346,7 +361,7 @@ export default function AddressManager() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="fullName"
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Họ tên người nhận</FormLabel>
@@ -382,45 +397,12 @@ export default function AddressManager() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <FormField
                       control={form.control}
-                      name="province"
+                      name="provinceId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Tỉnh/Thành phố</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Chọn tỉnh/thành phố" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="Hà Nội">Hà Nội</SelectItem>
-                              <SelectItem value="TP. Hồ Chí Minh">
-                                TP. Hồ Chí Minh
-                              </SelectItem>
-                              <SelectItem value="Đà Nẵng">Đà Nẵng</SelectItem>
-                              <SelectItem value="Hải Phòng">
-                                Hải Phòng
-                              </SelectItem>
-                              <SelectItem value="Cần Thơ">Cần Thơ</SelectItem>
-                              {/* Thêm các tỉnh/thành phố khác tại đây */}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="district"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Quận/Huyện</FormLabel>
+                          <FormLabel>Mã Tỉnh/Thành phố</FormLabel>
                           <FormControl>
-                            <Input placeholder="Nhập quận/huyện" {...field} />
+                            <Input placeholder="Nhập mã tỉnh" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -429,12 +411,26 @@ export default function AddressManager() {
 
                     <FormField
                       control={form.control}
-                      name="ward"
+                      name="districtId"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phường/Xã</FormLabel>
+                          <FormLabel>Mã Quận/Huyện</FormLabel>
                           <FormControl>
-                            <Input placeholder="Nhập phường/xã" {...field} />
+                            <Input placeholder="Nhập mã quận" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="wardId"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Mã Phường/Xã</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Nhập mã phường" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -444,7 +440,7 @@ export default function AddressManager() {
 
                   <FormField
                     control={form.control}
-                    name="addressDetail"
+                    name="specificAddress"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Địa chỉ chi tiết</FormLabel>
