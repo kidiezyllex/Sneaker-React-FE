@@ -247,13 +247,13 @@ const ReturnsPage: React.FC = () => {
                     />
                   ))}
                 </div>
-              ) : returnableOrders?.data.orders.length === 0 ? (
+              ) : returnableOrders?.data.content.length === 0 ? (
                 <div className="text-center py-8 text-maintext">
                   Không có đơn hàng nào có thể trả hàng
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {returnableOrders?.data.orders.map((order) => (
+                  {returnableOrders?.data.content.map((order) => (
                     <ReturnableOrderCard key={order.id} order={order} />
                   ))}
                 </div>

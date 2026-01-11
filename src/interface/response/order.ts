@@ -35,53 +35,53 @@ export interface IOrderItem {
   price: number;
 }
 
-export interface IProductVariant {
+// Color interface
+export interface IColor {
   id: number;
-  productId: number;
-  colorId: number;
-  sizeId: number;
-  price: string;
-  stock: number;
+  name: string;
+  code: string;
+  status: string;
   createdAt: string;
   updatedAt: string;
-  product: {
-    id: number;
-    code: string;
-    name: string;
-    description: string;
-    weight: string;
-    status: string;
-    brand: {
-      id: number;
-      name: string;
-    };
-    category: {
-      id: number;
-      name: string;
-    };
-    material: {
-      id: number;
-      name: string;
-    };
-  };
-  color: {
-    id: number;
-    name: string;
-    code: string;
-  };
-  size: {
-    id: number;
-    value: string;
-  };
-  images: Array<{
-    id: number;
-    imageUrl: string;
-  }>;
 }
 
-export interface IPopulatedOrderItem extends Omit<IOrderItem, 'product'> {
-  product?: IOrderProduct;
-  productVariant?: IProductVariant;
+// Size interface
+export interface ISize {
+  id: number;
+  value: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Image interface
+export interface IVariantImage {
+  id: number;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Product Variant interface - phù hợp với API mới
+export interface IProductVariant {
+  id: number;
+  color: IColor;
+  size: ISize;
+  price: number;
+  stock: number;
+  images: IVariantImage[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Order Item với variant - phù hợp với API mới
+export interface IPopulatedOrderItem {
+  id: number;
+  variant: IProductVariant;
+  quantity: number;
+  price: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IShippingAddress {
@@ -124,7 +124,27 @@ export interface IOrder {
 
 export interface IOrderResponse extends IApiResponse<IOrder> {}
 
-export interface IOrdersResponse extends IApiListResponse<IOrder> {}
+// Pagination interface cho orders
+export interface IOrderPagination {
+  totalItems: number;
+  limit: number;
+  currentPage: number;
+  totalPages: number;
+}
+
+// Orders response với cấu trúc mới
+export interface IOrdersResponse {
+  statusCode: number;
+  message: string;
+  data: {
+    pagination: IOrderPagination;
+    orders: IOrder[];
+  };
+  meta: {
+    timestamp: string;
+    apiVersion: string;
+  };
+}
 
 export interface IActionResponse extends IApiResponse<any> {}
 

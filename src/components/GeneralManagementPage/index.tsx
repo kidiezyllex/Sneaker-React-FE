@@ -2206,6 +2206,48 @@ export default function GeneralManagementPage() {
   const { data: returnableOrdersData, refetch: refetchReturnableOrders } =
     useReturnableOrders();
 
+  // Helper function to check if an order can be returned
+  const isOrderReturnable = (order: IOrder): boolean => {
+    // An order can be returned if:
+    // 1. Order status is "DA_GIAO_HANG" (delivered) or "HOAN_THANH" (completed)
+    // 2. Payment status is "PAID"
+    // 3. Order was delivered within the last 7 days (or your return policy period)
+    const returnableStatuses = ["DA_GIAO_HANG", "HOAN_THANH"];
+    
+    if (!returnableStatuses.includes(order.orderStatus)) {
+      return false;
+    }
+    
+    if (order.paymentStatus !== "PAID") {
+      return false;
+    }
+    
+    // Check if order is within return period (7 days from delivery/completion)
+    const orderDate = new Date(order.createdAt);
+    const now = new Date();
+    const daysSinceOrder = Math.floor((now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24));
+    
+    return daysSinceOrder <= 7;
+  };
+
+  // Handler to view order details
+  const handleViewOrderDetails = (orderId: string) => {
+    setSelectedOrderId(orderId);
+    setOrderDetailOpen(true);
+  };
+
+  // Handler to create a return request
+  const handleCreateReturn = (orderId: string) => {
+    setCreateReturnOrderId(orderId);
+    setCreateReturnOpen(true);
+  };
+
+  // Handler to view return details
+  const handleViewReturnDetails = (returnId: string) => {
+    setSelectedReturnId(returnId);
+    setReturnDetailOpen(true);
+  };
+
   useEffect(() => {
     const updateActiveTabFromHash = () => {
       if (

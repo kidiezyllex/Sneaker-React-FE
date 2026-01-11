@@ -14,43 +14,22 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
+import { getOrdersByUser } from "@/api/order";
+import { IOrder } from "@/interface/response/order";
 
-interface OrderItem {
-  product: {
-    id: string;
-    name: string;
-    image: string;
-    price: number;
-  };
-  quantity: number;
-  price: number;
-}
-
-interface Order {
-  id: string;
-  customer: string;
-  items: OrderItem[];
-  subTotal: number;
-  total: number;
-  shippingAddress: {
-    name: string;
-    phoneNumber: string;
-    provinceId: string;
-    districtId: string;
-    wardId: string;
-    specificAddress: string;
-  };
-  paymentMethod: "COD" | "VNPAY";
-  status: "pending" | "processing" | "completed" | "cancelled";
-  createdAt: string;
-  updatedAt: string;
-}
+type OrderStatus =
+  | "CHO_XAC_NHAN"
+  | "CHO_GIAO_HANG"
+  | "DANG_VAN_CHUYEN"
+  | "DA_GIAO_HANG"
+  | "HOAN_THANH"
+  | "DA_HUY";
 
 const OrdersPage: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [orders, setOrders] = useState<Order[]>([]);
+  const [orders, setOrders] = useState<IOrder[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -61,13 +40,14 @@ const OrdersPage: React.FC = () => {
           return;
         }
 
-        const response = await fetch(`/api/orders?customer=${user.id}`);
-        const data = await response.json();
+        const response = await getOrdersByUser(user.id.toString());
 
-        if (data.success) {
-          setOrders(data.data);
+        if (response.statusCode === 200) {
+          setOrders(response.data.orders);
         } else {
-          throw new Error(data.message || "Không thể tải danh sách đơn hàng");
+          throw new Error(
+            response.message || "Không thể tải danh sách đơn hàng"
+          );
         }
       } catch (error: any) {
         showToast({
@@ -83,34 +63,49 @@ const OrdersPage: React.FC = () => {
     fetchOrders();
   }, [user, navigate, showToast]);
 
-  const getStatusColor = (status: Order["status"]) => {
+  const getStatusColor = (status: OrderStatus) => {
     switch (status) {
-      case "pending":
+      case "CHO_XAC_NHAN":
         return "bg-yellow-500";
-      case "processing":
+      case "CHO_GIAO_HANG":
+        return "bg-blue-400";
+      case "DANG_VAN_CHUYEN":
         return "bg-blue-500";
-      case "completed":
+      case "DA_GIAO_HANG":
+        return "bg-green-400";
+      case "HOAN_THANH":
         return "bg-green-500";
-      case "cancelled":
+      case "DA_HUY":
         return "bg-red-500";
       default:
         return "bg-gray-500";
     }
   };
 
-  const getStatusText = (status: Order["status"]) => {
+  const getStatusText = (status: OrderStatus) => {
     switch (status) {
-      case "pending":
+      case "CHO_XAC_NHAN":
         return "Chờ xác nhận";
-      case "processing":
-        return "Đang xử lý";
-      case "completed":
+      case "CHO_GIAO_HANG":
+        return "Chờ giao hàng";
+      case "DANG_VAN_CHUYEN":
+        return "Đang vận chuyển";
+      case "DA_GIAO_HANG":
+        return "Đã giao hàng";
+      case "HOAN_THANH":
         return "Hoàn thành";
-      case "cancelled":
+      case "DA_HUY":
         return "Đã hủy";
       default:
         return status;
     }
+  };
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price);
   };
 
   if (isLoading) {
@@ -145,7 +140,7 @@ const OrdersPage: React.FC = () => {
                 <div className="flex justify-between items-start">
                   <div>
                     <CardTitle className="text-lg">
-                      Đơn hàng #{order.id.slice(-6)}
+                      Đơn hàng #{order.code}
                     </CardTitle>
                     <CardDescription>
                       {format(new Date(order.createdAt), "dd/MM/yyyy HH:mm", {
@@ -154,9 +149,11 @@ const OrdersPage: React.FC = () => {
                     </CardDescription>
                   </div>
                   <Badge
-                    className={`${getStatusColor(order.status)} text-white`}
+                    className={`${getStatusColor(
+                      order.orderStatus
+                    )} text-white`}
                   >
-                    {getStatusText(order.status)}
+                    {getStatusText(order.orderStatus)}
                   </Badge>
                 </div>
               </CardHeader>
@@ -166,11 +163,11 @@ const OrdersPage: React.FC = () => {
                     <div>
                       <h3 className="font-medium mb-2">Thông tin giao hàng</h3>
                       <p className="text-sm text-muted-foreground">
-                        {order.shippingAddress.name}
+                        {order.shippingName}
                         <br />
-                        {order.shippingAddress.phoneNumber}
+                        {order.shippingPhoneNumber}
                         <br />
-                        {order.shippingAddress.specificAddress}
+                        {order.shippingSpecificAddress}
                       </p>
                     </div>
                     <div>
@@ -181,12 +178,26 @@ const OrdersPage: React.FC = () => {
                           <span>
                             {order.paymentMethod === "COD"
                               ? "Thanh toán khi nhận hàng"
-                              : "VNPay"}
+                              : order.paymentMethod === "CASH"
+                              ? "Tiền mặt"
+                              : order.paymentMethod === "BANK_TRANSFER"
+                              ? "Chuyển khoản"
+                              : "Hỗn hợp"}
                           </span>
                         </div>
+                        <div className="flex justify-between mt-1">
+                          <span>Tạm tính:</span>
+                          <span>{formatPrice(order.subTotal)}</span>
+                        </div>
+                        {order.discount > 0 && (
+                          <div className="flex justify-between mt-1 text-red-500">
+                            <span>Giảm giá:</span>
+                            <span>-{formatPrice(order.discount)}</span>
+                          </div>
+                        )}
                         <div className="flex justify-between font-medium mt-2">
                           <span>Tổng tiền:</span>
-                          <span>${order.total.toFixed(2)}</span>
+                          <span>{formatPrice(order.total)}</span>
                         </div>
                       </div>
                     </div>
@@ -195,20 +206,26 @@ const OrdersPage: React.FC = () => {
                   <div>
                     <h3 className="font-medium mb-2">Sản phẩm</h3>
                     <div className="space-y-2">
-                      {order.items.map((item, index) => (
-                        <div key={index} className="flex items-center gap-4">
+                      {order.items.map((item) => (
+                        <div key={item.id} className="flex items-center gap-4">
                           <div className="w-16 h-16 bg-muted rounded relative overflow-hidden">
                             <img
-                              src={item.product.image}
-                              alt={item.product.name}
+                              src={
+                                item.variant.images[0]?.imageUrl ||
+                                "/placeholder.png"
+                              }
+                              alt={`Size ${item.variant.size.value} - ${item.variant.color.name}`}
                               className="object-cover w-full h-full"
                             />
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-medium">{item.product.name}</h4>
+                            <h4 className="font-medium">
+                              Size {item.variant.size.value} -{" "}
+                              {item.variant.color.name}
+                            </h4>
                             <div className="flex justify-between mt-1 text-sm text-muted-foreground">
                               <span>x{item.quantity}</span>
-                              <span>${item.price.toFixed(2)}</span>
+                              <span>{formatPrice(item.price)}</span>
                             </div>
                           </div>
                         </div>

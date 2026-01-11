@@ -46,7 +46,24 @@ export interface IReturn {
 
 export interface IReturnResponse extends IApiResponse<IReturn> {}
 
-export interface IReturnsResponse extends IApiListResponse<IReturn> {}
+// Returns response với cấu trúc tương tự orders
+export interface IReturnsResponse {
+  statusCode: number;
+  message: string;
+  data: {
+    pagination?: {
+      totalItems: number;
+      limit: number;
+      currentPage: number;
+      totalPages: number;
+    };
+    returns: IReturn[];
+  };
+  meta: {
+    timestamp: string;
+    apiVersion: string;
+  };
+}
 
 export interface IReturnStats {
   totalReturns: number;
@@ -83,4 +100,42 @@ export interface IReturnableOrder {
   createdAt: string;
 }
 
-export interface IReturnableOrdersResponse extends IApiListResponse<IReturnableOrder> {}
+// Spring Pageable response structure
+export interface ISpringPageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
+
+export interface IReturnableOrdersResponse {
+  statusCode: number;
+  message: string;
+  data: {
+    content: IReturnableOrder[];
+    pageable: ISpringPageable;
+    last: boolean;
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    empty: boolean;
+  };
+  meta: {
+    timestamp: string;
+    apiVersion: string;
+  };
+}
