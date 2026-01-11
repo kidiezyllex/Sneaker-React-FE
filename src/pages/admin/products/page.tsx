@@ -46,6 +46,7 @@ import {
   TableCell,
   TableHead,
 } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -67,6 +68,12 @@ import {
   DialogClose,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IProductFilter>({
@@ -74,7 +81,6 @@ export default function ProductsPage() {
     limit: 10,
   });
   const { data: promotionsData } = usePromotions();
-  const [showFilters, setShowFilters] = useState(false);
   const { data: rawData, isLoading, isError } = useProducts(filters);
   const deleteProduct = useDeleteProduct();
   const queryClient = useQueryClient();
@@ -239,7 +245,7 @@ export default function ProductsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên sản phẩm..."
-                className="pl-10 py-2 w-full border rounded-2xl"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -380,233 +386,211 @@ export default function ProductsPage() {
           </Button>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div
-            className="overflow-x-auto"
-            style={{
-              width: "100%",
-              display: "block",
-              overflowX: "auto",
-              whiteSpace: "nowrap",
-              scrollbarWidth: "thin",
-              scrollbarColor: "#94a3b8 #e2e8f0",
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Hình ảnh
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Sản phẩm
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Thương hiệu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Danh mục
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Giá
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data?.data &&
-                Array.isArray(data.data) &&
-                data.data.length > 0 ? (
-                  data.data.map((product) => (
-                    <TableRow key={product.id} className="hover:bg-gray-50">
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div
-                          className="relative h-12 w-12 rounded-2xl overflow-hidden bg-gray-100 cursor-pointer group"
-                          onClick={() => handleOpenLightbox(product, 0, 0)}
-                          title="Xem ảnh lớn"
-                        >
-                          <img
-                            src={checkImageUrl(
-                              product.variants[0]?.images?.[0]?.imageUrl
-                            )}
-                            alt={product.name}
-                            className="object-cover group-hover:scale-105 transition-transform duration-200"
-                          />
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-maintext">
-                          {product.name}
-                        </div>
-                        <div className="text-sm text-maintext">
-                          {product.variants.length} biến thể
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {typeof product.brand === "string"
-                          ? product.brand
-                          : product.brand.name}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {typeof product.category === "string"
-                          ? product.category
-                          : product.category.name}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm">
-                        {(() => {
-                          const basePrice = product.variants[0]?.price || 0;
-                          const discount = promotionsData?.data?.promotions
-                            ? calculateProductDiscount(
-                                product.id,
-                                basePrice,
-                                promotionsData.data.promotions
-                              )
-                            : {
-                                originalPrice: basePrice,
-                                discountedPrice: basePrice,
-                                discountPercent: 0,
-                              };
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+          <Table className="min-w-[1000px]">
+            <TableHeader>
+              <TableRow>
+                <TableHead>Hình ảnh</TableHead>
+                <TableHead>Sản phẩm</TableHead>
+                <TableHead>Thương hiệu</TableHead>
+                <TableHead>Danh mục</TableHead>
+                <TableHead>Giá</TableHead>
+                <TableHead>Trạng thái</TableHead>
+                <TableHead>Ngày cập nhật</TableHead>
+                <TableHead>Thao tác</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {data?.data &&
+              Array.isArray(data.data) &&
+              data.data.length > 0 ? (
+                data.data.map((product) => (
+                  <TableRow key={product.id} className="hover:bg-gray-50">
+                    <TableCell className="px-4 py-4 whitespace-nowrap">
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div
+                              className="relative w-full aspect-square rounded-md overflow-hidden bg-gray-100 cursor-pointer group"
+                              onClick={() => handleOpenLightbox(product, 0, 0)}
+                            >
+                              <img
+                                src={checkImageUrl(
+                                  product.variants[0]?.images?.[0]?.imageUrl
+                                )}
+                                alt={product.name}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                              />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Click để phóng to ảnh</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-maintext">
+                        {product.name}
+                      </div>
+                      <div className="text-sm text-maintext">
+                        {product.variants.length} biến thể
+                      </div>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                      {typeof product.brand === "string"
+                        ? product.brand
+                        : product.brand.name}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                      {typeof product.category === "string"
+                        ? product.category
+                        : product.category.name}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap text-sm">
+                      {(() => {
+                        const basePrice = product.variants[0]?.price || 0;
+                        const discount = promotionsData?.data?.promotions
+                          ? calculateProductDiscount(
+                              product.id,
+                              basePrice,
+                              promotionsData.data.promotions
+                            )
+                          : {
+                              originalPrice: basePrice,
+                              discountedPrice: basePrice,
+                              discountPercent: 0,
+                            };
 
-                          return (
-                            <div className="space-y-1">
-                              <div
-                                className={`font-medium ${
-                                  discount.discountPercent > 0
-                                    ? "text-primary"
-                                    : "text-maintext"
-                                }`}
-                              >
+                        return (
+                          <div className="space-y-1">
+                            <div
+                              className={`font-medium ${
+                                discount.discountPercent > 0
+                                  ? "text-primary"
+                                  : "text-maintext"
+                              }`}
+                            >
+                              {new Intl.NumberFormat("vi-VN", {
+                                style: "currency",
+                                currency: "VND",
+                              }).format(discount.discountedPrice)}
+                            </div>
+                            {discount.discountPercent > 0 && (
+                              <div className="text-sm text-maintext line-through">
                                 {new Intl.NumberFormat("vi-VN", {
                                   style: "currency",
                                   currency: "VND",
-                                }).format(discount.discountedPrice)}
+                                }).format(discount.originalPrice)}
                               </div>
-                              {discount.discountPercent > 0 && (
-                                <div className="text-sm text-maintext line-through">
-                                  {new Intl.NumberFormat("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
-                                  }).format(discount.originalPrice)}
-                                </div>
-                              )}
-                              {discount.discountPercent > 0 && (
-                                <div className="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                  -{discount.discountPercent}% KM
-                                </div>
-                              )}
-                            </div>
-                          );
-                        })()}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <span
-                          className={`px-2 py-1 text-sm rounded-full ${
-                            product.status === "ACTIVE"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+                            )}
+                            {discount.discountPercent > 0 && (
+                              <div className="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                -{discount.discountPercent}% KM
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })()}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap">
+                      <Badge
+                        variant={
+                          product.status === "ACTIVE"
+                            ? "success"
+                            : "destructive"
+                        }
+                      >
+                        {product.status === "ACTIVE"
+                          ? "Hoạt động"
+                          : "Không hoạt động"}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                      {formatDate(product.updatedAt)}
+                    </TableCell>
+                    <TableCell className="px-4 py-4 whitespace-nowrap text-right">
+                      <div className="flex items-center justify-end space-x-2">
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          title="Sửa"
+                          onClick={() => {
+                            window.open(
+                              `/admin/products/edit/${product.id}`,
+                              "_blank"
+                            );
+                          }}
                         >
-                          {product.status === "ACTIVE"
-                            ? "Hoạt động"
-                            : "Không hoạt động"}
-                        </span>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {formatDate(product.updatedAt)}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            title="Sửa"
-                            onClick={() => {
-                              window.open(
-                                `/admin/products/edit/${product.id}`,
-                                "_blank"
-                              );
-                            }}
-                          >
-                            <Icon path={mdiPencilCircle} size={0.8} />
-                          </Button>
-                          <Dialog>
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setProductToDelete(product.id);
-                                  setIsDeleteDialogOpen(true);
-                                }}
-                                title="Xóa"
-                              >
-                                <Icon path={mdiDeleteCircle} size={0.8} />
-                              </Button>
-                            </DialogTrigger>
-                            {isDeleteDialogOpen &&
-                              productToDelete === product.id && (
-                                <DialogContent>
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      Xác nhận xóa sản phẩm
-                                    </DialogTitle>
-                                  </DialogHeader>
-                                  <p>
-                                    Bạn có chắc chắn muốn xóa sản phẩm này
-                                    không?
-                                  </p>
-                                  <DialogFooter>
-                                    <Button
-                                      variant="outline"
-                                      onClick={() => {
+                          <Icon path={mdiPencilCircle} size={0.8} />
+                        </Button>
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                setProductToDelete(product.id);
+                                setIsDeleteDialogOpen(true);
+                              }}
+                              title="Xóa"
+                            >
+                              <Icon path={mdiDeleteCircle} size={0.8} />
+                            </Button>
+                          </DialogTrigger>
+                          {isDeleteDialogOpen &&
+                            productToDelete === product.id && (
+                              <DialogContent>
+                                <DialogHeader>
+                                  <DialogTitle>
+                                    Xác nhận xóa sản phẩm
+                                  </DialogTitle>
+                                </DialogHeader>
+                                <p>
+                                  Bạn có chắc chắn muốn xóa sản phẩm này không?
+                                </p>
+                                <DialogFooter>
+                                  <Button
+                                    variant="outline"
+                                    onClick={() => {
+                                      setIsDeleteDialogOpen(false);
+                                      setProductToDelete(null);
+                                    }}
+                                  >
+                                    Hủy
+                                  </Button>
+                                  <Button
+                                    variant="destructive"
+                                    onClick={() => {
+                                      if (productToDelete) {
+                                        handleDeleteProduct(productToDelete);
                                         setIsDeleteDialogOpen(false);
                                         setProductToDelete(null);
-                                      }}
-                                    >
-                                      Hủy
-                                    </Button>
-                                    <Button
-                                      variant="destructive"
-                                      onClick={() => {
-                                        if (productToDelete) {
-                                          handleDeleteProduct(productToDelete);
-                                          setIsDeleteDialogOpen(false);
-                                          setProductToDelete(null);
-                                        }
-                                      }}
-                                    >
-                                      Xóa
-                                    </Button>
-                                  </DialogFooter>
-                                </DialogContent>
-                              )}
-                          </Dialog>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={8}
-                      className="px-4 py-8 text-center text-maintext"
-                    >
-                      Không tìm thấy sản phẩm nào
+                                      }
+                                    }}
+                                  >
+                                    Xóa
+                                  </Button>
+                                </DialogFooter>
+                              </DialogContent>
+                            )}
+                        </Dialog>
+                      </div>
                     </TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell
+                    colSpan={8}
+                    className="px-4 py-8 text-center text-maintext"
+                  >
+                    Không tìm thấy sản phẩm nào
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
 
           {data?.pagination && data.pagination.totalPages > 1 && (
             <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200">

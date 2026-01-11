@@ -34,6 +34,7 @@ export interface IVoucherUpdate {
 export interface IVoucherValidate {
   code: string;
   orderValue?: number;
+  userId?: string;
 }
 
 export interface IUserVoucherParams {

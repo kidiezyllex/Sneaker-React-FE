@@ -62,7 +62,7 @@ export const formatStockStatus = (stock: number): { text: string; className: str
   } else if (stock <= 5) {
     return { text: `Còn ${stock} sản phẩm`, className: 'text-orange-500' };
   } else if (stock <= 10) {
-    return { text: `Sắp hết hàng (${stock})`, className: 'text-amber-500' };
+    return { text: `Sắp hết hàng (${stock})`, className: 'text-yellow-600' };
   } else {
     return { text: 'Còn hàng', className: 'text-green-500' };
   }

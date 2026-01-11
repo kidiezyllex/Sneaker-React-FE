@@ -14,7 +14,7 @@ export const RatingStars = ({ rating }: RatingStarsProps) => {
           key={i}
           path={mdiStar}
           size={0.8}
-          className={i < rating ? "text-amber-500" : "text-gray-300"}
+          className={i < rating ? "text-yellow-600" : "text-gray-300"}
         />
       ))}
       <span className="text-sm text-maintext ml-1">({rating}.0)</span>

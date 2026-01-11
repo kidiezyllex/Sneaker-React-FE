@@ -112,7 +112,7 @@ export const HotDeals = () => {
                       key={i}
                       path={mdiStar}
                       size={0.8}
-                      className="text-amber-500"
+                      className="text-yellow-600"
                     />
                   ))}
                 </div>

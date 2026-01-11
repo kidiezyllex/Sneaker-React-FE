@@ -65,6 +65,11 @@ import { usePendingCartsStore } from "@/stores/usePendingCartsStore";
 import { getSizeLabel } from "@/utils/sizeMapping";
 
 import { Input } from "@/components/ui/input";
+import { useAccounts } from "@/hooks/account";
+import { useVouchers, useValidateVoucher } from "@/hooks/voucher";
+import { useCreatePOSOrder } from "@/hooks/order";
+import POSRightSection from "./components/POSRightSection";
+import InvoiceDialog from "./components/InvoiceDialog";
 
 const CardSkeleton = () => (
   <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
@@ -247,11 +252,10 @@ export default function POSPage() {
     addItemToCart: addItemToPendingCart,
     updateItemQuantityInCart: updateItemQuantityInPendingCart,
     clearCartItems: clearPendingCartItems,
+    removeItemFromCart,
+    deleteCart,
     getActiveCart,
   } = usePendingCartsStore();
-
-  const activeCart = getActiveCart();
-  const cartItems = activeCart?.items || [];
 
   const {
     items: mainCartItems,
@@ -260,12 +264,193 @@ export default function POSPage() {
     updateQuantity: updateQuantityStore,
   } = usePOSCartStore();
 
+  const activeCart = getActiveCart();
+  const cartItems = useMemo(() => {
+    if (activeCartId && activeCart) {
+      return activeCart.items;
+    }
+    return mainCartItems;
+  }, [activeCartId, activeCart, mainCartItems]);
+
   const [pagination, setPagination] = useState({ page: 1, limit: 6 });
   const [filters, setFilters] = useState<IProductFilter>({ status: "ACTIVE" });
   const [sortOption, setSortOption] = useState<string>("newest");
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [activeCategoryName, setActiveCategoryName] =
     useState<string>("Tất cả sản phẩm");
+
+  // State for POSRightSection (Checkout Logic)
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedVoucher, setAppliedVoucher] = useState<any>(null);
+  const [customerName, setCustomerName] = useState("");
+  const [customerPhone, setCustomerPhone] = useState("");
+  const [selectedUserId, setSelectedUserId] = useState("guest");
+  const [paymentMethod, setPaymentMethod] = useState("cash");
+  const [cashReceived, setCashReceived] = useState<number | string>(0);
+  const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
+  const [createdOrder, setCreatedOrder] = useState<any>(null);
+
+  const { data: usersData } = useAccounts({ limit: 100 });
+  const validateVoucherMutation = useValidateVoucher();
+  const createPOSOrderMutation = useCreatePOSOrder();
+
+  const subtotal = useMemo(() => {
+    return cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  }, [cartItems]);
+
+  const discount = useMemo(() => {
+    if (!appliedVoucher) return 0;
+    if (appliedVoucher.type === "PERCENTAGE") {
+      const calculated = (subtotal * appliedVoucher.value) / 100;
+      return Math.min(calculated, appliedVoucher.maxDiscount || calculated);
+    }
+    return Math.min(appliedVoucher.value, subtotal);
+  }, [subtotal, appliedVoucher]);
+
+  const total = useMemo(() => subtotal - discount, [subtotal, discount]);
+
+  const changeDue = useMemo(() => {
+    const received =
+      typeof cashReceived === "number"
+        ? cashReceived
+        : parseFloat(cashReceived) || 0;
+    return Math.max(0, received - total);
+  }, [cashReceived, total]);
+
+  const onApplyCoupon = async () => {
+    if (!couponCode) return;
+    try {
+      const response = await validateVoucherMutation.mutateAsync({
+        code: couponCode,
+        orderValue: subtotal,
+        userId: selectedUserId !== "guest" ? selectedUserId : undefined,
+      });
+      if (response && response.data) {
+        setAppliedVoucher(response.data);
+        toast.success(
+          <CustomToast title="Đã áp dụng mã giảm giá thành công!" />
+        );
+      }
+    } catch (error: any) {
+      toast.error(
+        <CustomToast
+          title={error?.response?.data?.message || "Mã giảm giá không hợp lệ"}
+          type="error"
+        />
+      );
+      setAppliedVoucher(null);
+    }
+  };
+
+  const onCheckout = async () => {
+    if (cartItems.length === 0) return;
+
+    const orderData = {
+      accountId: selectedUserId !== "guest" ? selectedUserId : undefined,
+      customerName:
+        selectedUserId === "guest" && customerName ? customerName : undefined,
+      customerPhone:
+        selectedUserId === "guest" && customerPhone ? customerPhone : undefined,
+      voucherId: appliedVoucher?.id,
+      paymentMethod,
+      items: cartItems.map((item) => ({
+        variantId: item.variantId,
+        quantity: item.quantity,
+        price: item.price,
+      })),
+      totalAmount: total,
+      subTotal: subtotal,
+      discountAmount: discount,
+      cashReceived: paymentMethod === "cash" ? Number(cashReceived) : total,
+    };
+
+    try {
+      const response = await createPOSOrderMutation.mutateAsync(orderData);
+      if (response && response.data) {
+        setCreatedOrder(response.data);
+        setIsInvoiceDialogOpen(true);
+        toast.success(<CustomToast title="Thanh toán đơn hàng thành công!" />);
+
+        // Reset state after success
+        if (activeCartId) {
+          clearPendingCartItems(activeCartId);
+        } else {
+          clearCartStore();
+        }
+        setAppliedVoucher(null);
+        setCouponCode("");
+        setCustomerName("");
+        setCustomerPhone("");
+        setSelectedUserId("guest");
+        setCashReceived(0);
+      }
+    } catch (error: any) {
+      toast.error(
+        <CustomToast
+          title={error?.response?.data?.message || "Thanh toán thất bại"}
+          type="error"
+        />
+      );
+    }
+  };
+
+  const onUserSelect = (id: string) => {
+    setSelectedUserId(id);
+    if (id !== "guest") {
+      const user = usersData?.data?.accounts?.find((u: any) => u.id === id);
+      if (user) {
+        setCustomerName(user.fullName || "");
+        setCustomerPhone(user.phoneNumber || "");
+      }
+    } else {
+      setCustomerName("");
+      setCustomerPhone("");
+    }
+  };
+
+  const handleClearCart = () => {
+    if (cartItems.length === 0) return;
+
+    if (activeCartId) {
+      clearPendingCartItems(activeCartId);
+    } else {
+      clearCartStore();
+    }
+    setAppliedVoucher(null);
+    setCouponCode("");
+    toast.success(<CustomToast title="Đã làm mới giỏ hàng." />);
+  };
+
+  const onRemoveCartItem = (id: string) => {
+    if (activeCartId) {
+      removeItemFromCart(activeCartId, id);
+    } else {
+      const { removeFromCart } = usePOSCartStore.getState();
+      removeFromCart(id);
+    }
+    toast.info(
+      <CustomToast title="Đã xóa sản phẩm khỏi giỏ hàng" type="info" />
+    );
+  };
+
+  const onUpdateQuantity = (id: string, delta: number) => {
+    if (activeCartId) {
+      updateItemQuantityInPendingCart(activeCartId, id, delta);
+    } else {
+      updateQuantityStore(id, delta);
+    }
+  };
+
+  // Sync state when switching carts
+  useEffect(() => {
+    if (activeCartId && activeCart) {
+      setAppliedVoucher(activeCart.appliedVoucher || null);
+      setCouponCode(activeCart.couponCode || "");
+    } else {
+      setAppliedVoucher(null);
+      setCouponCode("");
+    }
+  }, [activeCartId, activeCart]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -655,15 +840,9 @@ export default function POSPage() {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.altKey && e.key === "c") {
         if (cartItems.length > 0) {
-          clearCartStore();
-          if (activeCartId) {
-            clearPendingCartItems(activeCartId);
-          }
+          handleClearCart();
           setSelectedProduct(null);
           setSelectedApiVariant(null);
-          toast.success(<CustomToast title="Đã xóa giỏ hàng." />, {
-            icon: false,
-          });
         }
       }
 
@@ -800,7 +979,7 @@ export default function POSPage() {
 
       {/* Phần quản lý các giỏ hàng đang chờ */}
       <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-border">
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-start justify-between mb-4">
           <h3 className="text-lg font-semibold text-maintext flex items-center gap-2">
             <Icon path={mdiCart} size={0.9} className="text-primary" />
             Hoá đơn chờ ({pendingCarts.length}/5)
@@ -849,6 +1028,18 @@ export default function POSPage() {
                   </span>
                 </div>
                 {/* Nút xóa giỏ hàng */}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteCart(cart.id);
+                    toast.info(
+                      <CustomToast title={`Đã xóa ${cart.name}`} type="info" />
+                    );
+                  }}
+                  className="p-1 hover:bg-red-100 hover:text-red-500 rounded-full transition-colors opacity-0 group-hover:opacity-100"
+                >
+                  <Icon path={mdiClose} size={0.6} />
+                </button>
               </motion.button>
             ))}
 
@@ -917,7 +1108,7 @@ export default function POSPage() {
                   id="product-search"
                   type="text"
                   placeholder="Tìm kiếm sản phẩm..."
-                  className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all duration-200"
+                  className="w-full pl-10"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -930,7 +1121,7 @@ export default function POSPage() {
                 <button
                   key={category.id}
                   className={cn(
-                    "whitespace-nowrap px-4 py-2 rounded-2xl text-sm font-medium transition-all duration-200",
+                    "whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-all duration-200",
                     activeCategoryName === category.name
                       ? "bg-primary text-white shadow-sm"
                       : "bg-gray-50 text-maintext hover:bg-gray-100 hover:text-primary"
@@ -1668,7 +1859,51 @@ export default function POSPage() {
             )}
           </div>
         </div>
+
+        {/* Cột phải - Nội dung giỏ hàng và Thanh toán */}
+        <div className="lg:col-span-1">
+          <POSRightSection
+            cartItems={cartItems}
+            subtotal={subtotal}
+            total={total}
+            discount={discount}
+            appliedVoucher={appliedVoucher}
+            couponCode={couponCode}
+            setCouponCode={setCouponCode}
+            onApplyCoupon={onApplyCoupon}
+            onRemoveCartItem={onRemoveCartItem}
+            onUpdateQuantity={onUpdateQuantity}
+            customerName={customerName}
+            setCustomerName={setCustomerName}
+            customerPhone={customerPhone}
+            setCustomerPhone={setCustomerPhone}
+            selectedUserId={selectedUserId}
+            onUserSelect={onUserSelect}
+            usersData={usersData}
+            paymentMethod={paymentMethod}
+            setPaymentMethod={setPaymentMethod}
+            cashReceived={cashReceived}
+            setCashReceived={setCashReceived}
+            changeDue={changeDue}
+            onCheckout={onCheckout}
+            checkoutIsLoading={createPOSOrderMutation.isPending}
+            activeCartId={activeCartId}
+            pendingCarts={pendingCarts}
+          />
+        </div>
       </div>
+
+      {/* Dialog hiển thị hoá đơn sau khi thanh toán */}
+      {createdOrder && (
+        <InvoiceDialog
+          isOpen={isInvoiceDialogOpen}
+          onClose={() => {
+            setIsInvoiceDialogOpen(false);
+            setCreatedOrder(null);
+          }}
+          order={createdOrder}
+        />
+      )}
     </div>
   );
 }

@@ -407,9 +407,7 @@ export default function OrdersPage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="font-medium">
-                  Quản lý đơn hàng
-                </BreadcrumbPage>
+                <BreadcrumbPage>Quản lý đơn hàng</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -885,7 +883,7 @@ const OrderStatusBadge = ({ status }: { status: string }) => {
       case "CHO_XAC_NHAN":
         return {
           label: "Chờ xác nhận",
-          className: "!bg-amber-50 !text-amber-500 !border-amber-500",
+          className: "!bg-amber-50 !text-yellow-600 !border-yellow-500",
         };
       case "CHO_GIAO_HANG":
         return {
@@ -931,7 +929,7 @@ const PaymentStatusBadge = ({ status }: { status: string }) => {
       case "PENDING":
         return {
           label: "Chưa thanh toán",
-          className: "!bg-yellow-50 !text-yellow-500 !border-yellow-500",
+          className: "!bg-yellow-50 !text-yellow-600 !border-yellow-500",
         };
       case "PARTIAL_PAID":
         return {

@@ -67,7 +67,7 @@ const SidebarLayout = memo(function SidebarLayout({
   const memoizedMenuItems = useMemo(() => menuItems, []);
 
   return (
-    <div className="flex flex-row min-h-screen w-screen">
+    <div className="flex flex-row min-h-screen w-full">
       <div
         className={cn(
           "bg-white shadow-md min-h-screen transition-all duration-300",
@@ -245,10 +245,10 @@ const SidebarLayout = memo(function SidebarLayout({
         </div>
       </div>
       {/* Main content */}
-      <div className="w-full flex-1 flex flex-col bg-[#1C2B38]">
+      <div className="flex-1 flex flex-col bg-[#1C2B38] min-w-0 overflow-hidden">
         <AdminHeader />
-        <main className="p-4 min-h-[calc(100vh-66px)]">
-          <div style={{ position: "relative", zIndex: 2 }}>{children}</div>
+        <main className="flex-1 p-4 min-h-[calc(100vh-66px)] pr-6 overflow-y-auto overflow-x-hidden">
+          <div className="relative z-[2] w-full">{children}</div>
         </main>
       </div>
     </div>

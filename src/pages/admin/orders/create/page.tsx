@@ -581,7 +581,7 @@ export default function CreateOrderPage() {
               className="mb-4"
             />
 
-            {!productsData || productsData.data.products.length === 0 ? (
+            {!productsData || productsData.data.length === 0 ? (
               <div className="text-center py-4">
                 <p className="text-maintext">
                   Không tìm thấy sản phẩm phù hợp.
@@ -598,7 +598,7 @@ export default function CreateOrderPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {productsData.data.products.map((product: any) => (
+                    {productsData.data.map((product: any) => (
                       <TableRow key={product.id}>
                         <TableCell>
                           <div className="flex items-center space-x-4">

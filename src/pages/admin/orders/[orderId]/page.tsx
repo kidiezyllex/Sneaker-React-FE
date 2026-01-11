@@ -16,6 +16,13 @@ import {
   mdiTruckDeliveryOutline,
   mdiMapMarkerCheckOutline,
   mdiCheckDecagramOutline,
+  mdiInformation,
+  mdiAccount,
+  mdiAccountTie,
+  mdiMapMarker,
+  mdiPackageVariant,
+  mdiClipboardList,
+  mdiFileEdit,
 } from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -77,10 +84,21 @@ interface ProductInfo {
 
 interface OrderItem {
   id: number;
-  orderId: number;
-  variantId: number;
+  orderId?: number;
+  variantId?: number;
   quantity: number;
   price: string | number;
+  variant?: {
+    id: number;
+    product?: {
+      name: string;
+      code: string;
+      brand: { name: string } | string;
+    };
+    color?: { name: string; code: string };
+    size?: { value: string | number };
+    images?: any[];
+  };
   productVariant?: {
     product: {
       name: string;
@@ -97,10 +115,6 @@ interface OrderItem {
     brand: { name: string } | string;
     variants?: any[];
   };
-  variant?: {
-    colorId: string;
-    sizeId: string;
-  };
 }
 
 interface OrderData {
@@ -109,14 +123,14 @@ interface OrderData {
   orderStatus: string;
   paymentStatus: string;
   paymentMethod: string;
-  subTotal: string | number;
-  discount: string | number;
-  total: string | number;
+  subTotal: number;
+  discount: number;
+  total: number;
   createdAt: string;
   shippingName?: string;
   shippingPhoneNumber?: string;
   shippingSpecificAddress?: string;
-  customer:
+  customer?:
     | {
         fullName: string;
         email: string;
@@ -152,7 +166,7 @@ const orderSteps: OrderStep[] = [
     colors: {
       bgClass: "bg-amber-100 dark:bg-amber-800/30",
       textClass: "text-amber-600 dark:text-amber-400",
-      borderClass: "border-amber-500 dark:border-amber-500",
+      borderClass: "border-yellow-500 dark:border-yellow-500",
       progressFillClass: "bg-amber-500",
     },
   },
@@ -212,7 +226,7 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
   const currentStepIdx = getCurrentStep();
   return (
     <Card className="mb-4 overflow-hidden">
-      <CardContent className="p-4">
+      <CardContent className="p-4 px-0">
         <div className="flex justify-between items-start relative">
           {orderSteps.map((step, index) => {
             const isCompleted = index < currentStepIdx;
@@ -300,7 +314,7 @@ const OrderStatusBadge = ({ status }: { status: string }) => {
       case "CHO_XAC_NHAN":
         return {
           label: "Chờ xác nhận",
-          className: "!bg-amber-50 !text-amber-500 !border-amber-500",
+          className: "!bg-amber-50 !text-yellow-600 !border-yellow-500",
         };
       case "CHO_GIAO_HANG":
         return {
@@ -345,7 +359,7 @@ const PaymentStatusBadge = ({ status }: { status: string }) => {
       case "PENDING":
         return {
           label: "Chưa thanh toán",
-          className: "!bg-amber-50 !text-amber-500 !border-amber-500",
+          className: "!bg-amber-50 !text-yellow-600 !border-yellow-500",
         };
       case "PAID":
         return {
@@ -365,6 +379,24 @@ const PaymentStatusBadge = ({ status }: { status: string }) => {
 };
 
 const getProductInfo = (item: OrderItem): ProductInfo => {
+  // Try new variant structure
+  if (item.variant) {
+    const variant = item.variant;
+    return {
+      name: variant.product?.name || "Tên sản phẩm chưa cập nhật",
+      code: variant.product?.code || "N/A",
+      brand:
+        typeof variant.product?.brand === "object"
+          ? variant.product.brand.name
+          : variant.product?.brand || "N/A",
+      colorName: variant.color?.name || "N/A",
+      colorCode: variant.color?.code || "#000000",
+      sizeName: variant.size ? variant.size.value.toString() : "N/A",
+      images: variant.images || [],
+    };
+  }
+
+  // Fallback to productVariant structure
   if (item.productVariant?.product) {
     return {
       name: item.productVariant.product.name || "Tên sản phẩm chưa cập nhật",
@@ -379,6 +411,7 @@ const getProductInfo = (item: OrderItem): ProductInfo => {
     };
   }
 
+  // Fallback to product structure
   return {
     name: item.product?.name || "Tên sản phẩm chưa cập nhật",
     code: item.product?.code || "N/A",
@@ -405,21 +438,6 @@ const getVariantImage = (item: OrderItem): string => {
     } else if (typeof firstImage === "object" && firstImage?.url) {
       return firstImage.url;
     }
-  }
-
-  if (item.variant && item.variant.colorId && item.variant.sizeId) {
-    const matchingVariant = item.product?.variants?.find(
-      (v: any) =>
-        v.colorId === item.variant.colorId && v.sizeId === item.variant.sizeId
-    );
-    return matchingVariant?.images?.[0] || "/images/white-image.png";
-  }
-
-  if (item.product?.variants) {
-    const variantWithImage = item.product.variants.find(
-      (v: any) => v.images && v.images.length > 0
-    );
-    return variantWithImage?.images?.[0] || "/images/white-image.png";
   }
 
   return "/images/white-image.png";
@@ -629,9 +647,7 @@ export default function OrderDetailPage() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="font-medium">
-                    Chi tiết đơn hàng #{orderId}
-                  </BreadcrumbPage>
+                  <BreadcrumbPage>Chi tiết đơn hàng #{orderId}</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
@@ -668,7 +684,16 @@ export default function OrderDetailPage() {
             {/* Order info card skeleton */}
             <Card>
               <CardHeader>
-                <CardTitle>Thông tin đơn hàng</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiInformation}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Thông tin đơn hàng</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-4">
@@ -688,7 +713,16 @@ export default function OrderDetailPage() {
             {/* Customer info card skeleton */}
             <Card>
               <CardHeader>
-                <CardTitle>Thông tin khách hàng</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiAccount}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Thông tin khách hàng</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-4">
@@ -708,7 +742,16 @@ export default function OrderDetailPage() {
             {/* Shipping address card skeleton */}
             <Card>
               <CardHeader>
-                <CardTitle>Địa chỉ giao hàng</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiMapMarker}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Địa chỉ giao hàng</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-2">
@@ -725,7 +768,16 @@ export default function OrderDetailPage() {
             {/* Products card skeleton */}
             <Card>
               <CardHeader>
-                <CardTitle>Sản phẩm đã đặt</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiPackageVariant}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Sản phẩm đã đặt</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <Table>
@@ -768,7 +820,16 @@ export default function OrderDetailPage() {
             {/* Order summary card skeleton */}
             <Card>
               <CardHeader>
-                <CardTitle>Tổng quan đơn hàng</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiClipboardList}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Tổng quan đơn hàng</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-4">
@@ -833,29 +894,27 @@ export default function OrderDetailPage() {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="font-medium">
-                  Chi tiết đơn hàng #{orderId}
-                </BreadcrumbPage>
+                <BreadcrumbPage>Chi tiết đơn hàng {order.code}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
         <div className="flex space-x-2">
           <Button
-            variant="outline"
-            onClick={() => setIsInvoiceDialogOpen(true)}
-          >
-            <Icon path={mdiFileDocument} size={0.8} />
-            Xem hóa đơn
-          </Button>
-          <Button
-            variant="outline"
+            variant="destructive"
             className="w-full"
             disabled={["DA_HUY", "HOAN_THANH"].includes(order.orderStatus)}
             onClick={() => setIsConfirmCancelDialogOpen(true)}
           >
             <Icon path={mdiDelete} size={0.8} />
             Hủy đơn hàng
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => setIsInvoiceDialogOpen(true)}
+          >
+            <Icon path={mdiFileDocument} size={0.8} />
+            Xem hóa đơn
           </Button>
           <Button
             className="w-full"
@@ -866,6 +925,7 @@ export default function OrderDetailPage() {
               setIsStatusDialogOpen(true);
             }}
           >
+            <Icon path={mdiFileEdit} size={0.8} />
             Cập nhật trạng thái
           </Button>
         </div>
@@ -878,7 +938,16 @@ export default function OrderDetailPage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Thông tin đơn hàng</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiInformation}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
+                <span>Thông tin đơn hàng</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4">
               <div className="space-y-4">
@@ -914,11 +983,16 @@ export default function OrderDetailPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Thông tin khách hàng</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon path={mdiAccount} size={0.8} className="text-primary" />
+                </div>
+                <span>Thông tin khách hàng</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4">
               <div className="space-y-4">
-                {typeof order.customer === "object" ? (
+                {order.customer && typeof order.customer === "object" ? (
                   <>
                     <div className="flex justify-between items-center">
                       <span className="text-maintext">Tên khách hàng:</span>
@@ -940,12 +1014,22 @@ export default function OrderDetailPage() {
                     </div>
                   </>
                 ) : (
-                  <div className="flex justify-between items-center">
-                    <span className="text-maintext">Tên khách hàng:</span>
-                    <span className="font-medium text-maintext">
-                      {order.customer}
-                    </span>
-                  </div>
+                  <>
+                    <div className="flex justify-between items-center">
+                      <span className="text-maintext">Tên khách hàng:</span>
+                      <span className="font-medium text-maintext">
+                        {order.customer || order.shippingName || "Khách lẻ"}
+                      </span>
+                    </div>
+                    {order.shippingPhoneNumber && (
+                      <div className="flex justify-between items-center">
+                        <span className="text-maintext">Số điện thoại:</span>
+                        <span className="text-maintext">
+                          {formatPhoneDisplay(order.shippingPhoneNumber)}
+                        </span>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
             </CardContent>
@@ -955,7 +1039,16 @@ export default function OrderDetailPage() {
           {order.staff && (
             <Card>
               <CardHeader>
-                <CardTitle>Thông tin nhân viên</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiAccountTie}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Thông tin nhân viên</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-4">
@@ -973,7 +1066,16 @@ export default function OrderDetailPage() {
           {/* Shipping Address */}
           <Card>
             <CardHeader>
-              <CardTitle>Địa chỉ giao hàng</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiMapMarker}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
+                <span>Địa chỉ giao hàng</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4">
               <div className="space-y-2">
@@ -1008,7 +1110,16 @@ export default function OrderDetailPage() {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Sản phẩm đã đặt</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiPackageVariant}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
+                <span>Sản phẩm đã đặt</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4">
               <Table>
@@ -1076,7 +1187,16 @@ export default function OrderDetailPage() {
           {/* Order Summary */}
           <Card>
             <CardHeader>
-              <CardTitle>Tổng quan đơn hàng</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiClipboardList}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
+                <span>Tổng quan đơn hàng</span>
+              </CardTitle>
             </CardHeader>
             <CardContent className="p-4">
               <div className="space-y-4">
@@ -1086,13 +1206,23 @@ export default function OrderDetailPage() {
                     {formatCurrency(order.subTotal)}
                   </span>
                 </div>
-                {order.voucher && (
+                {order.discount > 0 && (
                   <div className="flex justify-between items-center">
                     <span className="text-maintext">
-                      Mã giảm giá ({order.voucher.code}):
+                      Giảm giá {order.voucher ? `(${order.voucher.code})` : ""}:
                     </span>
                     <span className="text-red-500">
                       -{formatCurrency(order.discount)}
+                    </span>
+                  </div>
+                )}
+                {order.total - (order.subTotal - order.discount) > 0 && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-maintext">Phí vận chuyển:</span>
+                    <span className="text-maintext">
+                      {formatCurrency(
+                        order.total - (order.subTotal - order.discount)
+                      )}
                     </span>
                   </div>
                 )}
@@ -1242,14 +1372,21 @@ export default function OrderDetailPage() {
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <h3 className="font-semibold mb-2">Thông tin khách hàng:</h3>
-                  {typeof order.customer === "object" ? (
+                  {order.customer && typeof order.customer === "object" ? (
                     <>
                       <p>{order.customer?.fullName}</p>
                       <p>{formatPhoneDisplay(order.customer?.phoneNumber)}</p>
                       <p>{formatEmailDisplay(order.customer?.email)}</p>
                     </>
                   ) : (
-                    <p>{order.customer}</p>
+                    <>
+                      <p>
+                        {order.customer || order.shippingName || "Khách lẻ"}
+                      </p>
+                      {order.shippingPhoneNumber && (
+                        <p>{formatPhoneDisplay(order.shippingPhoneNumber)}</p>
+                      )}
+                    </>
                   )}
                 </div>
                 <div>
@@ -1336,11 +1473,23 @@ export default function OrderDetailPage() {
                   <span>Tổng tiền hàng:</span>
                   <span>{formatCurrency(order.subTotal)}</span>
                 </div>
-                {order.voucher && (
+                {order.discount > 0 && (
                   <div className="flex justify-between">
-                    <span>Giảm giá ({order.voucher.code}):</span>
+                    <span>
+                      Giảm giá {order.voucher ? `(${order.voucher.code})` : ""}:
+                    </span>
                     <span className="text-red-500">
                       -{formatCurrency(order.discount)}
+                    </span>
+                  </div>
+                )}
+                {order.total - (order.subTotal - order.discount) > 0 && (
+                  <div className="flex justify-between">
+                    <span>Phí vận chuyển:</span>
+                    <span>
+                      {formatCurrency(
+                        order.total - (order.subTotal - order.discount)
+                      )}
                     </span>
                   </div>
                 )}
