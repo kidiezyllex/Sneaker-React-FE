@@ -5,6 +5,7 @@ import { mdiTag, mdiContentCopy, mdiChevronLeft } from "@mdi/js";
 import { toast } from "react-toastify";
 import { useVouchers } from "@/hooks/voucher";
 import { cn } from "@/lib/utils";
+import { CommonPagination } from "@/components/ui/common-pagination";
 import {
   Dialog,
   DialogContent,
@@ -38,11 +39,12 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
   onVoucherSelect,
   formatCurrency,
 }) => {
+  const [page, setPage] = React.useState(1);
   const {
     data: vouchersData,
     isLoading,
     isError,
-  } = useVouchers({ page: 1, limit: 100, status: "ACTIVE" });
+  } = useVouchers({ page, limit: 10, status: "ACTIVE" });
   const handleCopyCode = (code: string) => {
     navigator.clipboard
       .writeText(code)
@@ -166,7 +168,7 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
                 <div className="flex items-center gap-6">
                   <div className="text-sm text-maintext">
                     <span className="font-semibold text-primary text-lg">
-                      {vouchersData.data.vouchers.length}
+                      {vouchersData.data.pagination.totalItems}
                     </span>{" "}
                     mã giảm giá
                   </div>
@@ -422,6 +424,20 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
                     </TableBody>
                   </Table>
                 </ScrollArea>
+                {vouchersData.data.pagination.totalPages > 1 && (
+                  <div className="p-4 border-t bg-gray-50/50">
+                    <CommonPagination
+                      pagination={{
+                        total: vouchersData.data.pagination.totalItems,
+                        count: vouchersData.data.vouchers.length,
+                        perPage: vouchersData.data.pagination.limit,
+                        currentPage: vouchersData.data.pagination.currentPage,
+                        totalPages: vouchersData.data.pagination.totalPages,
+                      }}
+                      onPageChange={setPage}
+                    />
+                  </div>
+                )}
               </div>
 
               {/* Footer Info */}

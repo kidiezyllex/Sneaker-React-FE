@@ -69,6 +69,10 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
+import {
+  CommonPagination,
+  type PaginationData,
+} from "@/components/ui/common-pagination";
 import "react-toastify/dist/ReactToastify.css";
 import {
   useOrders,
@@ -859,84 +863,17 @@ export default function OrdersPage() {
           </Table>
         </div>
 
-        {data.data.pagination.totalPages > 1 && (
-          <div className="flex justify-center mt-6">
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  handleChangePage(
-                    Math.max(1, data.data.pagination.currentPage - 1)
-                  )
-                }
-                disabled={data.data.pagination.currentPage === 1}
-              >
-                Trước
-              </Button>
-              {Array.from(
-                { length: data.data.pagination.totalPages },
-                (_, i) => i + 1
-              )
-                .filter(
-                  (page) =>
-                    page === 1 ||
-                    page === data.data.pagination.currentPage ||
-                    Math.abs(page - data.data.pagination.currentPage) <= 1
-                )
-                .reduce((acc: (number | string)[], page, idx, arr) => {
-                  if (idx > 0 && page - arr[idx - 1] > 1) {
-                    acc.push("...");
-                  }
-                  acc.push(page);
-                  return acc;
-                }, [])
-                .map((page, index) =>
-                  page === "..." ? (
-                    <Button
-                      key={`ellipsis-${index}`}
-                      variant="outline"
-                      size="sm"
-                      disabled
-                    >
-                      ...
-                    </Button>
-                  ) : (
-                    <Button
-                      key={`page-${page}`}
-                      variant={
-                        data.data.pagination.currentPage === page
-                          ? "default"
-                          : "outline"
-                      }
-                      size="sm"
-                      onClick={() => handleChangePage(page as number)}
-                    >
-                      {page}
-                    </Button>
-                  )
-                )}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() =>
-                  handleChangePage(
-                    Math.min(
-                      data.data.pagination.totalPages,
-                      data.data.pagination.currentPage + 1
-                    )
-                  )
-                }
-                disabled={
-                  data.data.pagination.currentPage ===
-                  data.data.pagination.totalPages
-                }
-              >
-                Sau
-              </Button>
-            </div>
-          </div>
-        )}
+        <CommonPagination
+          pagination={{
+            total: data.data.pagination.totalItems,
+            count: data.data.orders.length,
+            perPage: data.data.pagination.limit,
+            currentPage: data.data.pagination.currentPage,
+            totalPages: data.data.pagination.totalPages,
+          }}
+          onPageChange={handleChangePage}
+          className="mt-6"
+        />
       </>
     );
   }

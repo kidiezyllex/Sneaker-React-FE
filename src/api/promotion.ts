@@ -18,7 +18,7 @@ export const getAllPromotions = async (params: IPromotionFilter): Promise<IPromo
   return res as IPromotionsResponse;
 };
 
-export const getPromotionById = async (promotionId: string): Promise<IPromotionResponse> => {
+export const getPromotionById = async (promotionId: number | string): Promise<IPromotionResponse> => {
   const res = await sendGet(`/promotions/${promotionId}`);
   return res as IPromotionResponse;
 };
@@ -29,14 +29,14 @@ export const createPromotion = async (payload: IPromotionCreate): Promise<IPromo
 };
 
 export const updatePromotion = async (
-  promotionId: string,
+  promotionId: number | string,
   payload: IPromotionUpdate
 ): Promise<IPromotionResponse> => {
   const res = await sendPut(`/promotions/${promotionId}`, payload);
   return res as IPromotionResponse;
 };
 
-export const deletePromotion = async (promotionId: string): Promise<IActionResponse> => {
+export const deletePromotion = async (promotionId: number | string): Promise<IActionResponse> => {
   const res = await sendDelete(`/promotions/${promotionId}`);
   return res as IActionResponse;
 };

@@ -43,7 +43,11 @@ export default function EditPromotionPage() {
   const { data: promotionData, isLoading: isLoadingPromotion } =
     usePromotionDetail(promotionId);
   const updatePromotion = useUpdatePromotion();
-  const { data: productsData } = useProducts({ limit: 100, status: "ACTIVE" });
+  const { data: productsData } = useProducts({
+    page: 1,
+    limit: 8,
+    status: "ACTIVE",
+  });
 
   const [formData, setFormData] = useState<IPromotionUpdate>({
     name: "",
@@ -55,7 +59,7 @@ export default function EditPromotionPage() {
     status: "ACTIVE",
   });
 
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [applyToAllProducts, setApplyToAllProducts] = useState(true);
 
   // Load promotion data when available
@@ -71,7 +75,7 @@ export default function EditPromotionPage() {
         discountPercent: promotion.discountPercent,
         productIds: Array.isArray(promotion.productIds)
           ? promotion.productIds.map((p: any) =>
-              typeof p === "string" ? p : p.id
+              typeof p === "number" ? p : p.id
             )
           : [],
         startDate: startDate.toISOString().slice(0, 16),
@@ -82,9 +86,10 @@ export default function EditPromotionPage() {
       // Set product selection state
       if (Array.isArray(promotion.products) && promotion.products.length > 0) {
         setApplyToAllProducts(false);
-        setSelectedProducts(
-          promotion.products.map((p: any) => (typeof p === "string" ? p : p.id))
+        const ids = promotion.products.map((p: any) =>
+          typeof p === "number" ? p : p.id
         );
+        setSelectedProducts(ids);
       } else {
         setApplyToAllProducts(true);
         setSelectedProducts([]);
@@ -99,7 +104,7 @@ export default function EditPromotionPage() {
     }));
   };
 
-  const handleProductSelection = (productId: string, checked: boolean) => {
+  const handleProductSelection = (productId: number, checked: boolean) => {
     if (checked) {
       setSelectedProducts((prev) => [...prev, productId]);
     } else {
@@ -413,7 +418,7 @@ export default function EditPromotionPage() {
                   >
                     <div className="border rounded-lg p-4 max-h-96 overflow-y-auto">
                       <div className="space-y-3">
-                        {productsData?.data?.products?.map((product) => (
+                        {productsData?.data?.map((product) => (
                           <div
                             key={product.id}
                             className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded"
@@ -454,7 +459,7 @@ export default function EditPromotionPage() {
                         </Label>
                         <div className="flex flex-wrap gap-2">
                           {selectedProducts.map((productId) => {
-                            const product = productsData?.data?.products?.find(
+                            const product = productsData?.data?.find(
                               (p) => p.id === productId
                             );
                             return product ? (

@@ -1,4 +1,4 @@
-import { IApiResponse } from "../common";
+import { IApiResponse, IApiMeta } from "../common";
 
 export interface IPromotionProduct {
   id: string;
@@ -10,6 +10,7 @@ export interface IPromotionProduct {
 
 export interface IPromotion {
   id: number;
+  code?: string;
   name: string;
   description?: string;
   discountPercent: number;
@@ -18,13 +19,16 @@ export interface IPromotion {
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
+  // Some responses might include productIds or products
+  productIds?: number[];
+  products?: any[];
 }
 
 export interface IPromotionPagination {
   totalItems: number;
-  totalPages: number;
-  currentPage: number;
   limit: number;
+  currentPage: number;
+  totalPages: number;
 }
 
 export interface IPromotionListData {
@@ -35,9 +39,13 @@ export interface IPromotionListData {
 export interface IPromotionResponse extends IApiResponse<IPromotion> {}
 
 export interface IPromotionsResponse {
-  success: boolean;
+  statusCode: number;
   message: string;
-  data: IPromotionListData;
+  data: {
+    pagination: IPromotionPagination;
+    promotions: IPromotion[];
+  };
+  meta: IApiMeta;
 }
 
 export interface IProductPromotionsResponse extends IApiResponse<Pick<IPromotion, 'id' | 'name' | 'discountPercent' | 'startDate' | 'endDate'>[]> {}

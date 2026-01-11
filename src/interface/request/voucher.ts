@@ -11,8 +11,8 @@ export interface IVoucherFilter {
 export interface IVoucherCreate {
   code: string;
   name: string;
-  discountType: 'PERCENTAGE' | 'FIXED_AMOUNT';
-  discountValue: number;
+  type: 'PERCENTAGE' | 'FIXED_AMOUNT';
+  value: number;
   quantity: number;
   startDate: string | Date;
   endDate: string | Date;

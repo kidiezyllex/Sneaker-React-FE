@@ -11,7 +11,8 @@ export interface IPromotionCreate {
   name: string;
   description?: string;
   discountPercent: number;
-  productIds?: string[];
+  productIds?: number[];
+  products?: number[]; // Compatibility with some components
   startDate: string | Date;
   endDate: string | Date;
 }
@@ -20,7 +21,8 @@ export interface IPromotionUpdate {
   name?: string;
   description?: string;
   discountPercent?: number;
-  productIds?: string[];
+  productIds?: number[];
+  products?: number[]; // Compatibility with some components
   startDate?: string | Date;
   endDate?: string | Date;
   status?: 'ACTIVE' | 'INACTIVE';

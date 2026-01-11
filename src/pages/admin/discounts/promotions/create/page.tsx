@@ -36,18 +36,22 @@ import { mdiArrowLeft, mdiPercent, mdiInformation, mdiLoading } from "@mdi/js";
 export default function CreatePromotionPage() {
   const navigate = useNavigate();
   const createPromotion = useCreatePromotion();
-  const { data: productsData } = useProducts({ limit: 100, status: "ACTIVE" });
+  const { data: productsData } = useProducts({
+    page: 1,
+    limit: 8,
+    status: "ACTIVE",
+  });
 
   const [formData, setFormData] = useState<IPromotionCreate>({
     name: "",
     description: "",
     discountPercent: 0,
-    products: [],
+    productIds: [],
     startDate: "",
     endDate: "",
   });
 
-  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [applyToAllProducts, setApplyToAllProducts] = useState(true);
 
   const handleInputChange = (field: keyof IPromotionCreate, value: any) => {
@@ -57,7 +61,7 @@ export default function CreatePromotionPage() {
     }));
   };
 
-  const handleProductSelection = (productId: string, checked: boolean) => {
+  const handleProductSelection = (productId: number, checked: boolean) => {
     if (checked) {
       setSelectedProducts((prev) => [...prev, productId]);
     } else {
@@ -110,7 +114,7 @@ export default function CreatePromotionPage() {
 
     const submitData: IPromotionCreate = {
       ...formData,
-      products: applyToAllProducts ? [] : selectedProducts,
+      productIds: applyToAllProducts ? [] : selectedProducts,
     };
 
     try {
@@ -299,7 +303,7 @@ export default function CreatePromotionPage() {
                   >
                     <div className="border rounded-lg p-4 max-h-96 overflow-y-auto">
                       <div className="space-y-3">
-                        {productsData?.data?.products?.map((product) => (
+                        {productsData?.data?.map((product) => (
                           <div
                             key={product.id}
                             className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded"
@@ -340,7 +344,7 @@ export default function CreatePromotionPage() {
                         </Label>
                         <div className="flex flex-wrap gap-2">
                           {selectedProducts.map((productId) => {
-                            const product = productsData?.data?.products?.find(
+                            const product = productsData?.data?.find(
                               (p) => p.id === productId
                             );
                             return product ? (

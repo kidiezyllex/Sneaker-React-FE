@@ -1,27 +1,41 @@
-import { IApiResponse, IApiListResponse } from "../common";
+import { IApiResponse } from "../common";
 
 export interface IVoucher {
-  id: string;
+  id: number | string;
   code: string;
   name: string;
-  discountType: 'PERCENTAGE' | 'FIXED_AMOUNT';
-  discountValue: number;
+  type: 'PERCENTAGE' | 'FIXED_AMOUNT';
+  value: number;
   quantity: number;
   usedCount: number;
   startDate: string;
   endDate: string;
   minOrderValue: number;
-  maxDiscount?: number;
+  maxDiscount: number | null;
   status: 'ACTIVE' | 'INACTIVE';
   createdAt: string;
   updatedAt: string;
-  type: 'PERCENTAGE' | 'FIXED_AMOUNT';
-  value: number;
 }
 
 export interface IVoucherResponse extends IApiResponse<IVoucher> {}
 
-export interface IVouchersResponse extends IApiListResponse<IVoucher> {}
+export interface IVouchersResponse {
+  statusCode: number;
+  message: string;
+  data: {
+    pagination: {
+      totalItems: number;
+      limit: number;
+      currentPage: number;
+      totalPages: number;
+    };
+    vouchers: IVoucher[];
+  };
+  meta: {
+    timestamp: string;
+    apiVersion: string;
+  };
+}
 
 export interface IVoucherValidationData {
   voucher: IVoucher;

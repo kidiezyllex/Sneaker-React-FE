@@ -38,8 +38,8 @@ import {
 const initialVoucher: IVoucherCreate = {
   code: "",
   name: "",
-  discountType: "PERCENTAGE",
-  discountValue: 0,
+  type: "PERCENTAGE",
+  value: 0,
   quantity: 1,
   startDate: new Date().toISOString().split("T")[0],
   endDate: new Date(new Date().setMonth(new Date().getMonth() + 1))
@@ -102,12 +102,12 @@ export default function CreateVoucherPage() {
       newErrors.name = "Tên voucher không được để trống";
     }
 
-    if (voucher.discountValue <= 0) {
-      newErrors.discountValue = "Giá trị voucher phải lớn hơn 0";
+    if (voucher.value <= 0) {
+      newErrors.value = "Giá trị voucher phải lớn hơn 0";
     }
 
-    if (voucher.discountType === "PERCENTAGE" && voucher.discountValue > 100) {
-      newErrors.discountValue = "Phần trăm giảm giá không được vượt quá 100%";
+    if (voucher.type === "PERCENTAGE" && voucher.value > 100) {
+      newErrors.value = "Phần trăm giảm giá không được vượt quá 100%";
     }
 
     if (voucher.quantity <= 0) {
@@ -135,7 +135,7 @@ export default function CreateVoucherPage() {
     }
 
     if (
-      voucher.discountType === "PERCENTAGE" &&
+      voucher.type === "PERCENTAGE" &&
       voucher.maxDiscount !== undefined &&
       voucher.maxDiscount <= 0
     ) {
@@ -296,18 +296,16 @@ export default function CreateVoucherPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="discountType">
+                <Label htmlFor="type">
                   Loại voucher <span className="text-red-500">*</span>
                 </Label>
                 <Select
-                  value={voucher.discountType}
-                  onValueChange={(value) =>
-                    handleSelectChange("discountType", value)
-                  }
+                  value={voucher.type}
+                  onValueChange={(value) => handleSelectChange("type", value)}
                 >
                   <SelectTrigger
-                    id="discountType"
-                    className={errors.discountType ? "border-red-500" : ""}
+                    id="type"
+                    className={errors.type ? "border-red-500" : ""}
                   >
                     <SelectValue placeholder="Chọn loại voucher" />
                   </SelectTrigger>
@@ -318,47 +316,43 @@ export default function CreateVoucherPage() {
                     </SelectItem>
                   </SelectContent>
                 </Select>
-                {errors.discountType && (
-                  <p className="text-red-500 text-sm">{errors.discountType}</p>
+                {errors.type && (
+                  <p className="text-red-500 text-sm">{errors.type}</p>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="discountValue">
+                <Label htmlFor="value">
                   Giá trị <span className="text-red-500">*</span>
                 </Label>
                 <div className="flex items-center">
                   <Input
-                    id="discountValue"
-                    name="discountValue"
+                    id="value"
+                    name="value"
                     type="number"
                     min={0}
-                    value={voucher.discountValue}
+                    value={voucher.value}
                     onChange={handleInputChange}
-                    className={`${
-                      errors.discountValue ? "border-red-500" : ""
-                    } ${
-                      voucher.discountType === "PERCENTAGE"
-                        ? "rounded-r-none"
-                        : ""
+                    className={`${errors.value ? "border-red-500" : ""} ${
+                      voucher.type === "PERCENTAGE" ? "rounded-r-none" : ""
                     }`}
                   />
-                  {voucher.discountType === "PERCENTAGE" && (
+                  {voucher.type === "PERCENTAGE" && (
                     <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
                       %
                     </div>
                   )}
-                  {voucher.discountType === "FIXED_AMOUNT" && (
+                  {voucher.type === "FIXED_AMOUNT" && (
                     <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
                       VNĐ
                     </div>
                   )}
                 </div>
-                {errors.discountValue && (
-                  <p className="text-red-500 text-sm">{errors.discountValue}</p>
+                {errors.value && (
+                  <p className="text-red-500 text-sm">{errors.value}</p>
                 )}
                 <p className="text-sm text-maintext">
-                  {voucher.discountType === "PERCENTAGE"
+                  {voucher.type === "PERCENTAGE"
                     ? "Phần trăm giảm giá (0-100%)"
                     : "Số tiền giảm giá cố định"}
                 </p>
@@ -385,7 +379,7 @@ export default function CreateVoucherPage() {
                 </p>
               </div>
 
-              {voucher.discountType === "PERCENTAGE" && (
+              {voucher.type === "PERCENTAGE" && (
                 <div className="space-y-2">
                   <Label htmlFor="maxDiscount">Giảm giá tối đa</Label>
                   <div className="flex items-center">

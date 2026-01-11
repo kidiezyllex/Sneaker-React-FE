@@ -33,7 +33,7 @@ export const usePromotions = (params: IPromotionFilter = {}): UseQueryResult<IPr
   });
 };
 
-export const usePromotionDetail = (promotionId: string): UseQueryResult<IPromotionResponse, Error> => {
+export const usePromotionDetail = (promotionId: number | string): UseQueryResult<IPromotionResponse, Error> => {
   return useQuery<IPromotionResponse, Error>({
     queryKey: ["promotion", promotionId],
     queryFn: () => getPromotionById(promotionId),
@@ -52,15 +52,15 @@ export const useCreatePromotion = (): UseMutationResult<IPromotionResponse, Erro
 export const useUpdatePromotion = (): UseMutationResult<
   IPromotionResponse,
   Error,
-  { promotionId: string; payload: IPromotionUpdate }
+  { promotionId: number | string; payload: IPromotionUpdate }
 > => {
-  return useMutation<IPromotionResponse, Error, { promotionId: string; payload: IPromotionUpdate }>({
+  return useMutation<IPromotionResponse, Error, { promotionId: number | string; payload: IPromotionUpdate }>({
     mutationFn: ({ promotionId, payload }) => updatePromotion(promotionId, payload),
   });
 };
 
-export const useDeletePromotion = (): UseMutationResult<IActionResponse, Error, string> => {
-  return useMutation<IActionResponse, Error, string>({
+export const useDeletePromotion = (): UseMutationResult<IActionResponse, Error, number | string> => {
+  return useMutation<IActionResponse, Error, number | string>({
     mutationFn: (promotionId) => deletePromotion(promotionId),
   });
 };

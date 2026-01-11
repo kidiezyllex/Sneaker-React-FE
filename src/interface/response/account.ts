@@ -20,7 +20,45 @@ export interface IAccount {
 
 export interface IAccountResponse extends IApiResponse<IAccount> {}
 
-export interface IAccountsResponse extends IApiListResponse<IAccount> {}
+// Spring Pageable response structure
+export interface ISpringPageable {
+  pageNumber: number;
+  pageSize: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  offset: number;
+  unpaged: boolean;
+  paged: boolean;
+}
+
+export interface IAccountsResponse {
+  statusCode: number;
+  message: string;
+  data: {
+    content: IAccount[];
+    pageable: ISpringPageable;
+    last: boolean;
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    numberOfElements: number;
+    first: boolean;
+    empty: boolean;
+  };
+  meta: {
+    timestamp: string;
+    apiVersion: string;
+  };
+}
 
 export interface IProfileResponse extends IApiResponse<IAccount> {}
 

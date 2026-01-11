@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePromotions, useDeletePromotion } from "@/hooks/promotion";
+import { CommonPagination } from "@/components/ui/common-pagination";
 import { IPromotionFilter } from "@/interface/request/promotion";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -69,7 +70,7 @@ export default function PromotionsPage() {
   const deletePromotion = useDeletePromotion();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [promotionToDelete, setPromotionToDelete] = useState<string | null>(
+  const [promotionToDelete, setPromotionToDelete] = useState<number | null>(
     null
   );
 
@@ -104,7 +105,7 @@ export default function PromotionsPage() {
     setFilters({ page: 1, limit: 10 });
   };
 
-  const handleDeletePromotion = async (id: string) => {
+  const handleDeletePromotion = async (id: number) => {
     try {
       await deletePromotion.mutateAsync(id, {
         onSuccess: () => {
@@ -465,85 +466,17 @@ export default function PromotionsPage() {
           </div>
 
           {data && data.data && data.data.pagination && (
-            <div className="flex justify-center items-center space-x-2 p-4 border-t">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleChangePage(1)}
-                disabled={data.data.pagination.currentPage === 1}
-              >
-                <span className="sr-only">Trang đầu</span>
-                <span>«</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleChangePage(data.data.pagination.currentPage - 1)
-                }
-                disabled={data.data.pagination.currentPage === 1}
-              >
-                <span className="sr-only">Trang trước</span>
-                <span>‹</span>
-              </Button>
-              {[...Array(data.data.pagination.totalPages)].map((_, index) => {
-                const page = index + 1;
-                if (
-                  page === 1 ||
-                  page === data.data.pagination.totalPages ||
-                  (page >= data.data.pagination.currentPage - 2 &&
-                    page <= data.data.pagination.currentPage + 2)
-                ) {
-                  return (
-                    <Button
-                      key={page}
-                      variant={
-                        page === data.data.pagination.currentPage
-                          ? "default"
-                          : "outline"
-                      }
-                      size="icon"
-                      onClick={() => handleChangePage(page)}
-                    >
-                      {page}
-                    </Button>
-                  );
-                } else if (
-                  page === data.data.pagination.currentPage - 3 ||
-                  page === data.data.pagination.currentPage + 3
-                ) {
-                  return <span key={page}>...</span>;
-                }
-                return null;
-              })}
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleChangePage(data.data.pagination.currentPage + 1)
-                }
-                disabled={
-                  data.data.pagination.currentPage ===
-                  data.data.pagination.totalPages
-                }
-              >
-                <span className="sr-only">Trang sau</span>
-                <span>›</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleChangePage(data.data.pagination.totalPages)
-                }
-                disabled={
-                  data.data.pagination.currentPage ===
-                  data.data.pagination.totalPages
-                }
-              >
-                <span className="sr-only">Trang cuối</span>
-                <span>»</span>
-              </Button>
+            <div className="p-4 border-t">
+              <CommonPagination
+                pagination={{
+                  total: data.data.pagination.totalItems,
+                  count: data.data.promotions.length,
+                  perPage: data.data.pagination.limit,
+                  currentPage: data.data.pagination.currentPage,
+                  totalPages: data.data.pagination.totalPages,
+                }}
+                onPageChange={handleChangePage}
+              />
             </div>
           )}
         </div>

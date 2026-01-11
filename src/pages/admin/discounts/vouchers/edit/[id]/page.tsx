@@ -55,8 +55,8 @@ export default function EditVoucherPage() {
 
   const [originalVoucher, setOriginalVoucher] = useState({
     code: "",
-    discountType: "",
-    discountValue: 0,
+    type: "",
+    value: 0,
     usedCount: 0,
   });
 
@@ -76,8 +76,8 @@ export default function EditVoucherPage() {
 
       setOriginalVoucher({
         code: voucherData.data.code,
-        discountType: voucherData.data.discountType,
-        discountValue: voucherData.data.discountValue,
+        type: voucherData.data.type,
+        value: voucherData.data.value,
         usedCount: voucherData.data.usedCount,
       });
     }
@@ -153,7 +153,7 @@ export default function EditVoucherPage() {
     }
 
     if (
-      originalVoucher.discountType === "PERCENTAGE" &&
+      originalVoucher.type === "PERCENTAGE" &&
       voucher.maxDiscount !== undefined &&
       voucher.maxDiscount <= 0
     ) {
@@ -332,11 +332,11 @@ export default function EditVoucherPage() {
               </div>
 
               <div>
-                <Label htmlFor="discountType" className="text-maintext">
+                <Label htmlFor="type" className="text-maintext">
                   Loại voucher
                 </Label>
                 <div className="px-2.5 border rounded-2xl bg-gray-50 mt-1 h-9 flex items-center justify-between">
-                  {originalVoucher.discountType === "PERCENTAGE"
+                  {originalVoucher.type === "PERCENTAGE"
                     ? "Phần trăm (%)"
                     : "Số tiền cố định (VNĐ)"}
                 </div>
@@ -346,15 +346,13 @@ export default function EditVoucherPage() {
               </div>
 
               <div>
-                <Label htmlFor="discountValue" className="text-maintext">
+                <Label htmlFor="value" className="text-maintext">
                   Giá trị
                 </Label>
-                <div className="px-2.5 border rounded-2xl bg-gray-50 mt-1 h-9 flex items-center justify-between flex">
-                  <span>{originalVoucher.discountValue}</span>
+                <div className="px-2.5 border rounded-2xl bg-gray-50 mt-1 h-9 flex items-center justify-between">
+                  <span>{originalVoucher.value}</span>
                   <span className="ml-2">
-                    {originalVoucher.discountType === "PERCENTAGE"
-                      ? "%"
-                      : "VNĐ"}
+                    {originalVoucher.type === "PERCENTAGE" ? "%" : "VNĐ"}
                   </span>
                 </div>
                 <p className="text-sm text-maintext mt-1 italic">
@@ -402,7 +400,7 @@ export default function EditVoucherPage() {
                 </p>
               </div>
 
-              {originalVoucher.discountType === "PERCENTAGE" && (
+              {originalVoucher.type === "PERCENTAGE" && (
                 <div className="space-y-2">
                   <Label htmlFor="maxDiscount">Giảm giá tối đa</Label>
                   <div className="flex items-center">

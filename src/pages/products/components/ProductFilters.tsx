@@ -15,7 +15,7 @@ interface ProductFiltersProps {
 }
 
 export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
-  const productsQuery = useProducts({ limit: 100, status: "ACTIVE" });
+  const productsQuery = useProducts({ page: 1, limit: 8, status: "ACTIVE" });
   const products = productsQuery.data?.data || [];
   const [selectedBrand, setSelectedBrand] = useState<string | undefined>(
     filters.brands

@@ -25,6 +25,7 @@ import {
   useNotifyVoucher,
   useValidateVoucher,
 } from "@/hooks/voucher";
+import { CommonPagination } from "@/components/ui/common-pagination";
 import { IVoucherFilter } from "@/interface/request/voucher";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -430,14 +431,14 @@ export default function VouchersPage() {
                       {voucher.name}
                     </TableCell>
                     <TableCell className="px-4 py-4 text-sm">
-                      {(voucher as any)?.type === "PERCENTAGE"
+                      {voucher.type === "PERCENTAGE"
                         ? "Phần trăm"
                         : "Số tiền cố định"}
                     </TableCell>
                     <TableCell className="px-4 py-4 text-sm">
-                      {(voucher as any)?.type === "PERCENTAGE"
-                        ? `${(voucher as any)?.value}%`
-                        : formatCurrency((voucher as any)?.value)}
+                      {voucher.type === "PERCENTAGE"
+                        ? `${voucher.value}%`
+                        : formatCurrency(voucher.value)}
                     </TableCell>
                     <TableCell className="px-4 py-4 text-sm">
                       {voucher.usedCount}/{voucher.quantity}
@@ -501,86 +502,17 @@ export default function VouchersPage() {
           </div>
 
           {data && data.data && data.data.pagination && (
-            <div className="flex justify-center items-center space-x-2 p-4 border-t">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => handleChangePage(1)}
-                disabled={data.data.pagination.currentPage === 1}
-              >
-                <span className="sr-only">Trang đầu</span>
-                <span>«</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleChangePage(data.data.pagination.currentPage - 1)
-                }
-                disabled={data.data.pagination.currentPage === 1}
-              >
-                <span className="sr-only">Trang trước</span>
-                <span>‹</span>
-              </Button>
-              {[...Array(data.data.pagination.totalPages)].map((_, index) => {
-                const page = index + 1;
-                // Hiển thị trang hiện tại, 2 trang trước và 2 trang sau
-                if (
-                  page === 1 ||
-                  page === data.data.pagination.totalPages ||
-                  (page >= data.data.pagination.currentPage - 2 &&
-                    page <= data.data.pagination.currentPage + 2)
-                ) {
-                  return (
-                    <Button
-                      key={page}
-                      variant={
-                        page === data.data.pagination.currentPage
-                          ? "default"
-                          : "outline"
-                      }
-                      size="icon"
-                      onClick={() => handleChangePage(page)}
-                    >
-                      {page}
-                    </Button>
-                  );
-                } else if (
-                  page === data.data.pagination.currentPage - 3 ||
-                  page === data.data.pagination.currentPage + 3
-                ) {
-                  return <span key={page}>...</span>;
-                }
-                return null;
-              })}
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleChangePage(data.data.pagination.currentPage + 1)
-                }
-                disabled={
-                  data.data.pagination.currentPage ===
-                  data.data.pagination.totalPages
-                }
-              >
-                <span className="sr-only">Trang sau</span>
-                <span>›</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() =>
-                  handleChangePage(data.data.pagination.totalPages)
-                }
-                disabled={
-                  data.data.pagination.currentPage ===
-                  data.data.pagination.totalPages
-                }
-              >
-                <span className="sr-only">Trang cuối</span>
-                <span>»</span>
-              </Button>
+            <div className="p-4 border-t">
+              <CommonPagination
+                pagination={{
+                  total: data.data.pagination.totalItems,
+                  count: data.data.vouchers.length,
+                  perPage: data.data.pagination.limit,
+                  currentPage: data.data.pagination.currentPage,
+                  totalPages: data.data.pagination.totalPages,
+                }}
+                onPageChange={handleChangePage}
+              />
             </div>
           )}
         </div>
@@ -715,7 +647,7 @@ export default function VouchersPage() {
                   <div className="flex justify-between">
                     <span className="text-maintext">Loại:</span>
                     <span className="font-medium">
-                      {validationResult.data.discountType === "PERCENTAGE"
+                      {validationResult.data.voucher.type === "PERCENTAGE"
                         ? "Phần trăm"
                         : "Số tiền cố định"}
                     </span>
