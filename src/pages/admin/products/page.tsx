@@ -88,9 +88,12 @@ export default function ProductsPage() {
   const { data: categoriesData } = useCategories();
 
   const data = useMemo(() => {
-    if (!rawData || !rawData.data || !rawData.data.products) return rawData;
+    if (!rawData || !rawData.data) return rawData;
 
-    let products = [...rawData.data.products];
+    let products = Array.isArray(rawData.data)
+      ? [...rawData.data]
+      : (rawData.data as any).products;
+    if (!products) return rawData;
 
     if (promotionsData?.data?.promotions) {
       products = applyPromotionsToProducts(
@@ -101,10 +104,7 @@ export default function ProductsPage() {
 
     return {
       ...rawData,
-      data: {
-        ...rawData.data,
-        products,
-      },
+      data: products,
     };
   }, [rawData, promotionsData]);
 
@@ -423,8 +423,10 @@ export default function ProductsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data?.data.products.length ? (
-                  data.data.products.map((product) => (
+                {data?.data &&
+                Array.isArray(data.data) &&
+                data.data.length > 0 ? (
+                  data.data.map((product) => (
                     <TableRow key={product.id} className="hover:bg-gray-50">
                       <TableCell className="px-4 py-4 whitespace-nowrap">
                         <div
@@ -606,28 +608,25 @@ export default function ProductsPage() {
             </Table>
           </div>
 
-          {data?.data.pagination && data.data.pagination.totalPages > 1 && (
+          {data?.pagination && data.pagination.totalPages > 1 && (
             <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200">
               <div className="hidden sm:block">
                 <p className="text-sm text-maintext">
                   Hiển thị{" "}
                   <span className="font-medium">
-                    {(data.data.pagination.currentPage - 1) *
-                      data.data.pagination.limit +
+                    {(data.pagination.currentPage - 1) *
+                      data.pagination.perPage +
                       1}
                   </span>{" "}
                   đến{" "}
                   <span className="font-medium">
                     {Math.min(
-                      data.data.pagination.currentPage *
-                        data.data.pagination.limit,
-                      data.data.pagination.totalItems
+                      data.pagination.currentPage * data.pagination.perPage,
+                      data.pagination.total
                     )}
                   </span>{" "}
                   của{" "}
-                  <span className="font-medium">
-                    {data.data.pagination.totalItems}
-                  </span>{" "}
+                  <span className="font-medium">{data.pagination.total}</span>{" "}
                   sản phẩm
                 </p>
               </div>
@@ -636,18 +635,18 @@ export default function ProductsPage() {
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    handleChangePage(data.data.pagination.currentPage - 1)
+                    handleChangePage(data.pagination.currentPage - 1)
                   }
-                  disabled={data.data.pagination.currentPage === 1}
+                  disabled={data.pagination.currentPage === 1}
                 >
                   Trước
                 </Button>
-                {[...Array(data.data.pagination.totalPages)]
+                {[...Array(data.pagination.totalPages)]
                   .map((_, i) => (
                     <Button
                       key={i}
                       variant={
-                        data.data.pagination.currentPage === i + 1
+                        data.pagination.currentPage === i + 1
                           ? "default"
                           : "outline"
                       }
@@ -658,21 +657,20 @@ export default function ProductsPage() {
                     </Button>
                   ))
                   .slice(
-                    Math.max(0, data.data.pagination.currentPage - 3),
+                    Math.max(0, data.pagination.currentPage - 3),
                     Math.min(
-                      data.data.pagination.totalPages,
-                      data.data.pagination.currentPage + 2
+                      data.pagination.totalPages,
+                      data.pagination.currentPage + 2
                     )
                   )}
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() =>
-                    handleChangePage(data.data.pagination.currentPage + 1)
+                    handleChangePage(data.pagination.currentPage + 1)
                   }
                   disabled={
-                    data.data.pagination.currentPage ===
-                    data.data.pagination.totalPages
+                    data.pagination.currentPage === data.pagination.totalPages
                   }
                 >
                   Sau

@@ -257,6 +257,7 @@ export default function POSPage() {
     items: mainCartItems,
     addToCart: addToCartStore,
     clearCart: clearCartStore,
+    updateQuantity: updateQuantityStore,
   } = usePOSCartStore();
 
   const [pagination, setPagination] = useState({ page: 1, limit: 6 });
@@ -331,9 +332,16 @@ export default function POSPage() {
   const promotionsParams = useMemo(() => ({ status: "ACTIVE" as const }), []);
   const { data: promotionsData } = usePromotions(promotionsParams);
   const dataWithPromotions = useMemo(() => {
-    if (!rawData?.data?.products) return rawData;
+    if (!rawData) return rawData;
 
-    let products = rawData.data.products;
+    let products = Array.isArray(rawData.data)
+      ? rawData.data
+      : (rawData.data as any)?.products;
+
+    if (!products || !Array.isArray(products)) {
+      if (Array.isArray(rawData)) products = rawData;
+      else return rawData;
+    }
 
     if (promotionsData?.data?.promotions?.length > 0) {
       const activePromotions = filterActivePromotions(
@@ -344,16 +352,18 @@ export default function POSPage() {
 
     return {
       ...rawData,
-      data: {
-        ...rawData.data,
-        products,
-      },
+      data: products,
+      pagination:
+        rawData.pagination ||
+        (rawData as any).meta?.pagination ||
+        (rawData.data as any)?.pagination,
     };
-  }, [rawData?.data?.products, promotionsData?.data?.promotions]);
+  }, [rawData, promotionsData?.data?.promotions]);
 
   const processedProducts = useMemo(() => {
-    const products = dataWithPromotions?.data?.products;
-    if (!products?.length) return [];
+    const products = dataWithPromotions?.data;
+    if (!products || !Array.isArray(products) || products.length === 0)
+      return [];
 
     if (sortOption === "default" || sortOption === "newest") {
       return products;
@@ -376,42 +386,34 @@ export default function POSPage() {
           return 0;
       }
     });
-  }, [dataWithPromotions?.data?.products, sortOption]);
+  }, [dataWithPromotions?.data, sortOption]);
 
   const dynamicCategories = useMemo(() => {
     const baseCategories = [{ id: "all", name: "Tất cả sản phẩm" }];
-    const products = dataWithPromotions?.data?.products;
+    const products = dataWithPromotions?.data;
 
-    if (!products?.length) return baseCategories;
+    if (!products || !Array.isArray(products) || products.length === 0)
+      return baseCategories;
 
     const uniqueCatObjects = new Map<string, { id: string; name: string }>();
 
     for (const product of products) {
-      if (
-        product.category &&
-        typeof product.category === "object" &&
-        (product.category as any).id &&
-        product.category.name
-      ) {
-        if (!uniqueCatObjects.has((product.category as any).id)) {
-          uniqueCatObjects.set((product.category as any).id, {
-            id: (product.category as any).id,
-            name: product.category.name,
-          });
+      const category = product.category;
+      if (category && typeof category === "object") {
+        const catId = (category as any).id?.toString();
+        const catName = category.name;
+        if (catId && catName && !uniqueCatObjects.has(catId)) {
+          uniqueCatObjects.set(catId, { id: catId, name: catName });
         }
-      } else if (
-        typeof product.category === "string" &&
-        !uniqueCatObjects.has(product.category)
-      ) {
-        uniqueCatObjects.set(product.category, {
-          id: product.category,
-          name: product.category,
-        });
+      } else if (typeof category === "string") {
+        if (!uniqueCatObjects.has(category)) {
+          uniqueCatObjects.set(category, { id: category, name: category });
+        }
       }
     }
 
     return [...baseCategories, ...Array.from(uniqueCatObjects.values())];
-  }, [dataWithPromotions?.data?.products?.length]);
+  }, [dataWithPromotions?.data]);
 
   const handleProductSelect = (product: any) => {
     const productWithPromotion = { ...product };
@@ -1272,7 +1274,7 @@ export default function POSPage() {
                     ) : (
                       processedProducts.length
                     )}{" "}
-                    / {rawData?.data?.pagination?.totalItems || 0} sản phẩm
+                    / {dataWithPromotions?.pagination?.total || 0} sản phẩm
                   </div>
                 </div>
 
@@ -1650,11 +1652,11 @@ export default function POSPage() {
                       </div>
                     </TabsContent>
 
-                    {dataWithPromotions?.data?.pagination &&
-                      dataWithPromotions.data.pagination.totalPages > 1 && (
+                    {dataWithPromotions?.pagination &&
+                      dataWithPromotions.pagination.totalPages > 1 && (
                         <CommonPagination
                           className="flex justify-center mt-6"
-                          pagination={dataWithPromotions.data.pagination}
+                          pagination={dataWithPromotions.pagination}
                           onPageChange={(page) =>
                             setPagination((p) => ({ ...p, page }))
                           }

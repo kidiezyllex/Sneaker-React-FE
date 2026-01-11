@@ -533,11 +533,11 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                     </TableHeader>
                     <TableBody>
                       {orderData.data.items.map((item, index) => {
-                        const productVariant = item.productVariant as any;
-                        const product = productVariant?.product;
-                        const imageUrl = productVariant?.images?.[0]?.imageUrl;
-                        const color = productVariant?.color;
-                        const size = productVariant?.size;
+                        const variant = (item as any).variant;
+                        const product = variant?.product;
+                        const imageUrl = variant?.images?.[0]?.imageUrl;
+                        const color = variant?.color;
+                        const size = variant?.size;
 
                         return (
                           <TableRow key={index}>
@@ -790,10 +790,10 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
   const order = displayOrder || returnableOrder;
 
   const handleAddItem = (item: any) => {
-    const productVariant = item.productVariant as any;
-    const product = productVariant?.product;
+    const variant = item.variant;
+    const product = variant?.product;
 
-    if (!product || !productVariant) {
+    if (!product || !variant) {
       toast.error("Không thể xác định thông tin sản phẩm");
       return;
     }
@@ -801,8 +801,8 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
     const existingIndex = selectedItems.findIndex(
       (si) =>
         si.product === product.id &&
-        si.variant.colorId === productVariant.colorId &&
-        si.variant.sizeId === productVariant.sizeId
+        si.variant.colorId === variant.colorId &&
+        si.variant.sizeId === variant.sizeId
     );
 
     if (existingIndex >= 0) {
@@ -817,8 +817,8 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
         {
           product: product.id,
           variant: {
-            colorId: productVariant.colorId,
-            sizeId: productVariant.sizeId,
+            colorId: variant.colorId,
+            sizeId: variant.sizeId,
           },
           quantity: 1,
           maxQuantity: item.quantity,
@@ -886,11 +886,11 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
             <h4 className="font-medium mb-3">Sản phẩm trong đơn hàng:</h4>
             <div className="space-y-2 max-h-60 overflow-y-auto">
               {order.items.map((item, index) => {
-                const productVariant = item.productVariant as any;
-                const product = productVariant?.product;
-                const imageUrl = productVariant?.images?.[0]?.imageUrl;
-                const color = productVariant?.color;
-                const size = productVariant?.size;
+                const variant = (item as any).variant;
+                const product = variant?.product;
+                const imageUrl = variant?.images?.[0]?.imageUrl;
+                const color = variant?.color;
+                const size = variant?.size;
 
                 if (!product) {
                   return (
@@ -1158,13 +1158,13 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                 <CardContent>
                   <div className="space-y-3">
                     {returnData.data.items.map((item: any, index) => {
-                      const productVariant = item.productVariant as any;
-                      const product = productVariant?.product || item.product;
+                      const variant = item.variant;
+                      const product = variant?.product || item.product;
                       const imageUrl =
-                        productVariant?.images?.[0]?.imageUrl ||
+                        variant?.images?.[0]?.imageUrl ||
                         product?.variants?.[0]?.images?.[0];
-                      const color = productVariant?.color;
-                      const size = productVariant?.size;
+                      const color = variant?.color;
+                      const size = variant?.size;
 
                       return (
                         <div
@@ -2213,20 +2213,22 @@ export default function GeneralManagementPage() {
     // 2. Payment status is "PAID"
     // 3. Order was delivered within the last 7 days (or your return policy period)
     const returnableStatuses = ["DA_GIAO_HANG", "HOAN_THANH"];
-    
+
     if (!returnableStatuses.includes(order.orderStatus)) {
       return false;
     }
-    
+
     if (order.paymentStatus !== "PAID") {
       return false;
     }
-    
+
     // Check if order is within return period (7 days from delivery/completion)
     const orderDate = new Date(order.createdAt);
     const now = new Date();
-    const daysSinceOrder = Math.floor((now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24));
-    
+    const daysSinceOrder = Math.floor(
+      (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
     return daysSinceOrder <= 7;
   };
 
@@ -2519,11 +2521,10 @@ export default function GeneralManagementPage() {
                                     {order.items
                                       .slice(0, 3)
                                       .map((item, index) => {
-                                        const productVariant =
-                                          item.productVariant as any;
-                                        const product = productVariant?.product;
+                                        const variant = (item as any).variant;
+                                        const product = variant?.product;
                                         const imageUrl =
-                                          productVariant?.images?.[0]?.imageUrl;
+                                          variant?.images?.[0]?.imageUrl;
 
                                         return (
                                           <div key={index} className="relative">
