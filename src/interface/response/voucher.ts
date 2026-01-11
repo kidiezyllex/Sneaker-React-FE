@@ -13,8 +13,9 @@ export interface IVoucher {
   minOrderValue: number;
   maxDiscount: number | null;
   status: 'ACTIVE' | 'INACTIVE';
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
+  discountAmount?: number;
 }
 
 export interface IVoucherResponse extends IApiResponse<IVoucher> {}
@@ -30,8 +31,8 @@ export interface IVouchersResponse {
       totalPages: number;
     };
     vouchers: IVoucher[];
-  };
-  meta: {
+  } | IVoucher[];
+  meta?: {
     timestamp: string;
     apiVersion: string;
   };
@@ -39,7 +40,7 @@ export interface IVouchersResponse {
 
 export interface IVoucherValidationData {
   voucher: IVoucher;
-  discountValue: number;
+  discountAmount: number;
 }
 
 export interface IVoucherValidationResponse extends IApiResponse<IVoucherValidationData> {}

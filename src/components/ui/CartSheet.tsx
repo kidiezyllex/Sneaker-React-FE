@@ -18,38 +18,30 @@ import { useToast } from "@/hooks/useToast";
 import { checkImageUrl } from "@/lib/utils";
 import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
-import {
-  formatPrice,
-  formatCurrency,
-  formatDate,
-  formatDiscountValue,
-} from "@/utils/formatters";
+import { formatPrice, formatDate } from "@/utils/formatters";
 import { useUser } from "@/context/useUserContext";
-import {
-  useAvailableVouchersForUser,
-  useValidateVoucher,
-} from "@/hooks/voucher";
+import { useVouchers, useValidateVoucher } from "@/hooks/voucher";
 import { IVoucher } from "@/interface/response/voucher";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
 import {
-  mdiTicketPercentOutline,
   mdiContentCopy,
   mdiMinus,
   mdiPlus,
-  mdiTrashCanOutline,
   mdiDelete,
   mdiCheck,
   mdiClose,
+  mdiShopping,
+  mdiCreditCardOutline,
+  mdiLoading,
+  mdiTicketPercentOutline,
 } from "@mdi/js";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -67,13 +59,11 @@ const VouchersListDialog = ({
   onOpenChange: (open: boolean) => void;
   onSelectVoucher: (code: string) => void;
 }) => {
-  const { profile } = useUser();
-  const userId = profile?.data?.id;
   const {
     data: vouchersData,
     isLoading,
     isError,
-  } = useAvailableVouchersForUser(userId || "", {});
+  } = useVouchers({ status: "ACTIVE" });
 
   const handleCopyCode = (code: string) => {
     navigator.clipboard
@@ -100,34 +90,40 @@ const VouchersListDialog = ({
       <DialogContent className="sm:max-w-4xl max-h-[80vh] overflow-hidden">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Icon
-              path={mdiTicketPercentOutline}
-              size={0.8}
-              className="text-primary"
-            />
-            Danh sách mã giảm giá
+            <div className="p-2 rounded-full bg-primary/10">
+              <Icon
+                path={mdiTicketPercentOutline}
+                size={0.8}
+                className="text-primary"
+              />
+            </div>
+            <span>Danh sách mã giảm giá</span>
           </DialogTitle>
-          <DialogDescription>
-            Chọn mã giảm giá bạn muốn áp dụng cho đơn hàng
-          </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="max-h-[60vh] overflow-y-auto">
+        <ScrollArea className="max-h-[60vh] overflow-y-auto p-4">
           {isLoading ? (
-            <div className="space-y-2 py-4">
+            <div className="space-y-2">
               {[...Array(5)].map((_, i) => (
                 <Skeleton key={i} className="h-16 w-full" />
               ))}
             </div>
           ) : isError ? (
             <p className="text-red-500 text-center py-4">
-              Lỗi khi tải danh sách mã giảm giá.
+              Lỗi khi tải danh sách phiếu giảm giá.
             </p>
           ) : !vouchers || vouchers.length === 0 ? (
-            <p className="text-muted-foreground text-center py-8">
-              Bạn không có mã giảm giá nào khả dụng.
-            </p>
+            <div className="flex flex-col items-center justify-center py-8 text-center">
+              <Icon
+                path={mdiTicketPercentOutline}
+                size={2}
+                className="text-muted-foreground/20 mb-2"
+              />
+              <p className="text-muted-foreground">
+                Hiện không có phiếu giảm giá nào khả dụng.
+              </p>
+            </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {vouchers.map((voucher: IVoucher) => {
                 const isExpired = new Date(voucher.endDate) < new Date();
                 const isInactive = voucher.status === "INACTIVE";
@@ -148,16 +144,24 @@ const VouchersListDialog = ({
                         <Badge variant="destructive" className="text-sm">
                           {isExpired
                             ? "Đã hết hạn"
-                            : isInactive
-                            ? "Ngừng hoạt động"
-                            : "Hết lượt"}
+                            : isOutOfStock
+                            ? "Hết lượt dùng"
+                            : "Ngừng hoạt động"}
+                        </Badge>
+                      </div>
+                    )}
+
+                    {!isDisabled && (
+                      <div className="absolute top-2 right-2">
+                        <Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-none text-xs">
+                          Khả dụng
                         </Badge>
                       </div>
                     )}
 
                     <div className="space-y-3 flex flex-col flex-1">
-                      <div>
-                        <h4 className="font-semibold text-primary">
+                      <div className="pr-16">
+                        <h4 className="font-semibold text-primary line-clamp-1">
                           {voucher.name}
                         </h4>
                         <p className="text-sm text-muted-foreground">
@@ -168,58 +172,50 @@ const VouchersListDialog = ({
                         </p>
                       </div>
 
-                      <div className="space-y-2 text-sm">
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">
-                            Giá trị giảm:
-                          </span>
-                          <span className="font-semibold text-primary text-lg">
-                            {formatDiscountValue(
-                              voucher.discountType,
-                              voucher.discountValue
-                            )}
+                      <div className="space-y-2 text-sm mt-auto">
+                        <div className="flex justify-between items-center">
+                          <span className="text-muted-foreground">Ưu đãi:</span>
+                          <span className="font-bold text-primary text-xl">
+                            {voucher.type === "PERCENTAGE"
+                              ? `${voucher.value}%`
+                              : formatPrice(voucher.value)}
                           </span>
                         </div>
 
-                        {voucher.discountType === "PERCENTAGE" &&
+                        {voucher.type === "PERCENTAGE" &&
                           voucher.maxDiscount && (
-                            <div className="flex justify-between text-sm">
+                            <div className="flex justify-between text-xs">
                               <span className="text-muted-foreground">
                                 Tối đa:
                               </span>
-                              <span className="text-sm">
-                                {formatCurrency(voucher.maxDiscount)}
-                              </span>
+                              <span>{formatPrice(voucher.maxDiscount)}</span>
                             </div>
                           )}
 
-                        <div className="flex justify-between">
+                        <div className="flex justify-between text-xs">
                           <span className="text-muted-foreground">
                             Đơn tối thiểu:
                           </span>
-                          <span className="text-sm">
-                            {formatCurrency(voucher.minOrderValue || 0)}
-                          </span>
+                          <span>{formatPrice(voucher.minOrderValue)}</span>
                         </div>
 
-                        <div className="flex justify-between">
-                          <span className="text-muted-foreground">
-                            Hết hạn:
-                          </span>
-                          <span>{formatDate(voucher.endDate)}</span>
-                        </div>
-
-                        {voucher.quantity < Infinity && (
-                          <div className="flex justify-between">
-                            <span className="text-muted-foreground">
-                              Còn lại:
+                        <div className="flex justify-between text-[11px] text-muted-foreground pt-1 border-t border-dashed">
+                          <div className="flex flex-col">
+                            <span>Hết hạn:</span>
+                            <span className="font-medium text-maintext">
+                              {formatDate(voucher.endDate)}
                             </span>
-                            <span>{voucher.quantity - voucher.usedCount}</span>
                           </div>
-                        )}
+                          <div className="flex flex-col text-right">
+                            <span>Cửa hàng:</span>
+                            <span className="font-medium text-maintext">
+                              Sneaker Shop
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="flex justify-end items-end h-full flex-1 flex-col ">
+                      <div className="flex justify-end items-end h-full pt-2">
                         <Button
                           variant={isDisabled ? "outline" : "default"}
                           className="w-full gap-2"
@@ -396,22 +392,27 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
         orderValue: finalSubtotal,
       });
 
-      if (result.success && result.data.voucher) {
+      if (result.statusCode === 200 && result.data?.voucher) {
         const voucherData = result.data.voucher;
         setAppliedVoucher({
           code: voucherData.code,
-          discount: result.data.discountValue,
-          voucherId: voucherData.id,
-          discountType: voucherData.discountType,
-          discountValue: voucherData.discountValue,
-          maxDiscount: voucherData.maxDiscount,
+          discount: result.data.discountAmount,
+          voucherId: voucherData.id.toString(),
+          discountType: voucherData.type,
+          discountValue: voucherData.value,
+          maxDiscount: voucherData.maxDiscount || undefined,
         });
         setVoucher("");
-        showToast({
-          title: "Thành công",
-          message: `Áp dụng mã giảm giá ${voucherData.code} thành công`,
-          type: "success",
-        });
+        toast.success(
+          <CustomToast
+            title={`Áp dụng mã ${voucherData.code} thành công`}
+            description={`Bạn được giảm ${formatPrice(
+              result.data.discountAmount
+            )} cho đơn hàng này`}
+            type="success"
+          />,
+          { icon: false }
+        );
       } else {
         showToast({
           title: "Lỗi",
@@ -432,10 +433,8 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
   const handleRemoveVoucher = () => {
     removeVoucher();
-    showToast({
-      title: "Thành công",
-      message: "Đã xóa mã giảm giá",
-      type: "success",
+    toast.success(<CustomToast title="Đã xóa mã giảm giá" type="success" />, {
+      icon: false,
     });
   };
 
@@ -446,10 +445,8 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
   const handleCheckout = async () => {
     try {
       if (items.length === 0) {
-        showToast({
-          title: "Lỗi",
-          message: "Giỏ hàng trống",
-          type: "error",
+        toast.error(<CustomToast title="Giỏ hàng trống" type="error" />, {
+          icon: false,
         });
         return;
       }
@@ -485,12 +482,16 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
               <p className="text-muted-foreground">
                 Giỏ hàng của bạn đang trống
               </p>
-              <Button onClick={() => onOpenChange(false)} className="mt-4">
+              <Button
+                onClick={() => onOpenChange(false)}
+                className="mt-4 gap-2"
+              >
+                <Icon path={mdiShopping} size={0.8} />
                 Tiếp tục mua sắm
               </Button>
             </div>
           ) : (
-            <ScrollArea className="flex-1 my-4 pr-2">
+            <ScrollArea className="flex-1 mb-4 pr-2">
               <>
                 <div className="space-y-4 pr-4">
                   {items.map((item) => (
@@ -509,7 +510,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                           </h4>
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="text-muted-foreground hover:text-destructive text-sm text-red-error"
+                            className="text-muted-foreground hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50"
                           >
                             <Icon path={mdiDelete} size={0.8} />
                           </button>
@@ -618,7 +619,11 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                               className="text-green-600"
                             />
                             <div>
-                              <div className="font-medium text-sm text-green-800">
+                              <div className="font-medium text-sm text-green-800 flex items-center gap-1.5">
+                                <Icon
+                                  path={mdiTicketPercentOutline}
+                                  size={0.6}
+                                />
                                 {appliedVoucher.code}
                               </div>
                               <div className="text-sm text-green-600">
@@ -626,14 +631,12 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                               </div>
                             </div>
                           </div>
-                          <Button
-                            size="sm"
-                            variant="ghost"
+                          <button
                             onClick={handleRemoveVoucher}
-                            className="h-9 w-9 p-0 rounded-full text-green-600 hover:bg-green-100"
+                            className="text-muted-foreground hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50 border border-red-300"
                           >
                             <Icon path={mdiClose} size={0.8} />
-                          </Button>
+                          </button>
                         </motion.div>
                       ) : (
                         <motion.div
@@ -659,16 +662,26 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                               variant="default"
                               onClick={handleApplyVoucher}
                               disabled={isProcessing || !voucher.trim()}
-                              className="px-4"
+                              className="px-4 gap-2"
                             >
+                              {isProcessing ? (
+                                <Icon
+                                  path={mdiLoading}
+                                  size={0.8}
+                                  className="animate-spin"
+                                />
+                              ) : (
+                                <Icon path={mdiCheck} size={0.8} />
+                              )}
                               {isProcessing ? "Đang kiểm tra..." : "Áp dụng"}
                             </Button>
                           </div>
                           <Button
                             variant="link"
-                            className="text-sm text-primary p-0 h-auto"
+                            className="text-sm text-primary p-0 h-auto flex items-center gap-2"
                             onClick={() => setShowVouchersDialog(true)}
                           >
+                            <Icon path={mdiTicketPercentOutline} size={0.6} />
                             Xem danh sách mã giảm giá
                           </Button>
                         </motion.div>
@@ -748,7 +761,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                   <SheetFooter className="flex gap-2 items-center">
                     <Button
                       variant="outline"
-                      className="w-full"
+                      className="w-full gap-2"
                       onClick={() => {
                         onOpenChange(false);
                         if (!pathname.includes("products")) {
@@ -756,13 +769,23 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                         }
                       }}
                     >
+                      <Icon path={mdiShopping} size={0.8} />
                       Tiếp tục mua hàng
                     </Button>
                     <Button
-                      className="w-full"
+                      className="w-full gap-2"
                       onClick={handleCheckout}
                       disabled={isProcessing || items.length === 0}
                     >
+                      {isProcessing ? (
+                        <Icon
+                          path={mdiLoading}
+                          size={0.8}
+                          className="animate-spin"
+                        />
+                      ) : (
+                        <Icon path={mdiCreditCardOutline} size={0.8} />
+                      )}
                       {isProcessing ? "Đang xử lý..." : "Thanh toán"}
                     </Button>
                   </SheetFooter>

@@ -50,9 +50,9 @@ import { useUser } from "@/context/useUserContext";
 import { useCreateNotification } from "@/hooks/notification";
 import { useUserProfile } from "@/hooks/account";
 import VNPayModal from "@/components/VNPayPayment/VNPayModal";
-import SuccessModal from "@/components/OrderSuccess/SuccessModal";
-import React from "react";
 import { getSizeLabel } from "@/utils/sizeMapping";
+import { Icon } from "@mdi/react";
+import { mdiTruckDeliveryOutline, mdiShoppingOutline } from "@mdi/js";
 
 const shippingFormSchema = z.object({
   fullName: z.string().min(1, "Vui lòng nhập họ tên"),
@@ -103,8 +103,6 @@ export default function ShippingPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [showVNPayModal, setShowVNPayModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [orderResult, setOrderResult] = useState<any>(null);
   const [vnpayOrderData, setVnpayOrderData] = useState<any>(null);
 
   const [provinces, setProvinces] = useState<Province[]>([]);
@@ -120,7 +118,7 @@ export default function ShippingPage() {
 
   const createOrderMutation = useCreateOrder();
   const createNotificationMutation = useCreateNotification();
-  const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
+  const { data: userProfile } = useUserProfile();
 
   const form = useForm<ShippingFormValues>({
     resolver: zodResolver(shippingFormSchema),
@@ -225,9 +223,9 @@ export default function ShippingPage() {
         email: profile.email || "",
         phoneNumber: profile.phoneNumber || "",
         address: profile.addresses?.[0]?.specificAddress || "",
-        province: profile.addresses?.[0]?.provinceName || "",
-        district: profile.addresses?.[0]?.districtName || "",
-        ward: profile.addresses?.[0]?.wardName || "",
+        province: profile.addresses?.[0]?.provinceId || "",
+        district: profile.addresses?.[0]?.districtId || "",
+        ward: profile.addresses?.[0]?.wardId || "",
         paymentMethod: "COD",
       });
     }
@@ -263,7 +261,7 @@ export default function ShippingPage() {
       setVnpayOrderData(demoOrderData);
       setShowVNPayModal(true);
     }
-  }, [selectedPaymentMethod]);
+  }, [selectedPaymentMethod, total, showVNPayModal]);
 
   useEffect(() => {
     if (selectedProvince) {
@@ -446,7 +444,7 @@ export default function ShippingPage() {
           .slice(-6)}`,
         customerId: user?.id || "000000000000000000000000",
         items: items.map((item) => ({
-          product: item.productId + "" || item.id + "",
+          product: item.productId || item.id,
           variant: {
             colorId: item.colorId,
             sizeId: item.sizeId,
@@ -470,17 +468,11 @@ export default function ShippingPage() {
       };
 
       const response = await createOrderMutation.mutateAsync(orderData as any);
-      if (
-        response &&
-        (response.statusCode === 200 || (response as any).success) &&
-        response.data
-      ) {
+      if (response && response.statusCode === 200 && response.data) {
         clearCart();
         if (appliedVoucher) {
           removeVoucher();
         }
-
-        // Custom Rich Toast
         toast.success(
           <CustomToast
             title={response.message || "Đặt hàng thành công!"}
@@ -502,8 +494,7 @@ export default function ShippingPage() {
           values.email
         );
 
-        setOrderResult(response.data);
-        setShowSuccessModal(true);
+        navigate("/account#account-tabs?tab=orders");
       } else {
         throw new Error(
           (response as any)?.message || "Đã xảy ra lỗi khi tạo đơn hàng"
@@ -554,11 +545,7 @@ export default function ShippingPage() {
       };
 
       const response = await createOrderMutation.mutateAsync(orderData as any);
-      if (
-        response &&
-        (response.statusCode === 200 || (response as any).success) &&
-        response.data
-      ) {
+      if (response && response.statusCode === 200 && response.data) {
         clearCart();
         if (appliedVoucher) {
           removeVoucher();
@@ -585,8 +572,7 @@ export default function ShippingPage() {
           response.data,
           formValues.email
         );
-        setOrderResult(response.data);
-        setShowSuccessModal(true);
+        navigate("/account#account-tabs?tab=orders");
       } else {
         throw new Error(
           (response as any)?.message || "Đã xảy ra lỗi khi tạo đơn hàng"
@@ -622,11 +608,11 @@ export default function ShippingPage() {
       case "address":
         return !!profile.addresses?.[0]?.specificAddress;
       case "province":
-        return !!profile.addresses?.[0]?.provinceName;
+        return !!profile.addresses?.[0]?.provinceId;
       case "district":
-        return !!profile.addresses?.[0]?.districtName;
+        return !!profile.addresses?.[0]?.districtId;
       case "ward":
-        return !!profile.addresses?.[0]?.wardName;
+        return !!profile.addresses?.[0]?.wardId;
       default:
         return false;
     }
@@ -673,7 +659,16 @@ export default function ShippingPage() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Thông tin giao hàng</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiTruckDeliveryOutline}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
+                <span>Thông tin giao hàng</span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Form {...form}>
@@ -953,7 +948,16 @@ export default function ShippingPage() {
         <div>
           <Card>
             <CardHeader>
-              <CardTitle>Đơn hàng của bạn</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiShoppingOutline}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
+                <span>Đơn hàng của bạn</span>
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -1043,15 +1047,7 @@ export default function ShippingPage() {
         onPaymentError={handleVNPayError}
       />
 
-      {/* Success Modal */}
-      {orderResult && (
-        <SuccessModal
-          isOpen={showSuccessModal}
-          onClose={() => setShowSuccessModal(false)}
-          orderId={orderResult.id}
-          orderCode={orderResult.code}
-        />
-      )}
+      {/* Success Modal đã được gỡ bỏ để navigate trực tiếp theo yêu cầu */}
     </div>
   );
 }
