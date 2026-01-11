@@ -1,0 +1,7 @@
+1. Styling CardTitle
+<CardTitle className="flex items-center gap-2">
+          <div className="p-2 rounded-full bg-primary/10">
+            <Icon path={mdiAccountEdit} size={0.8} className="text-primary" />
+          </div>
+          <span>Thông tin cá nhân</span>
+        </CardTitle>

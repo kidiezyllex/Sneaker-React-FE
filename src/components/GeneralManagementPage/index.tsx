@@ -1683,7 +1683,9 @@ const PasswordTab = () => {
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Icon path={mdiLock} size={0.8} className="text-primary" />
+          <div className="p-2 rounded-full bg-primary/10">
+            <Icon path={mdiLock} size={0.8} className="text-primary" />
+          </div>
           <span>Đổi mật khẩu</span>
         </CardTitle>
         <CardDescription>
@@ -1825,11 +1827,13 @@ const VouchersTab = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icon
-              path={mdiAlertCircleOutline}
-              size={0.8}
-              className="text-primary"
-            />
+            <div className="p-2 rounded-full bg-primary/10">
+              <Icon
+                path={mdiAlertCircleOutline}
+                size={0.8}
+                className="text-primary"
+              />
+            </div>
             <span>Lỗi tải mã giảm giá</span>
           </CardTitle>
         </CardHeader>
@@ -1849,7 +1853,13 @@ const VouchersTab = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icon path={mdiTicketPercentOutline} size={0.8} />
+            <div className="p-2 rounded-full bg-primary/10">
+              <Icon
+                path={mdiTicketPercentOutline}
+                size={0.8}
+                className="text-primary"
+              />
+            </div>
             <span>Mã giảm giá</span>
           </CardTitle>
         </CardHeader>
@@ -1867,11 +1877,13 @@ const VouchersTab = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icon
-              path={mdiTicketPercentOutline}
-              size={0.8}
-              className="text-primary"
-            />
+            <div className="p-2 rounded-full bg-primary/10">
+              <Icon
+                path={mdiTicketPercentOutline}
+                size={0.8}
+                className="text-primary"
+              />
+            </div>
             <span>Mã giảm giá của bạn</span>
           </CardTitle>
           <CardDescription>
@@ -2041,11 +2053,13 @@ const ReturnsTab = () => {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icon
-              path={mdiKeyboardReturn}
-              size={0.8}
-              className="text-primary"
-            />
+            <div className="p-2 rounded-full bg-primary/10">
+              <Icon
+                path={mdiKeyboardReturn}
+                size={0.8}
+                className="text-primary"
+              />
+            </div>
             <span>Đơn trả hàng của bạn</span>
           </CardTitle>
         </CardHeader>
@@ -2381,11 +2395,13 @@ export default function GeneralManagementPage() {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Icon
-                        path={mdiOrderBoolAscending}
-                        size={0.8}
-                        className="text-primary"
-                      />
+                      <div className="p-2 rounded-full bg-primary/10">
+                        <Icon
+                          path={mdiOrderBoolAscending}
+                          size={0.8}
+                          className="text-primary"
+                        />
+                      </div>
                       <span>Đơn hàng của bạn</span>
                     </CardTitle>
                   </CardHeader>
