@@ -60,6 +60,8 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   CommonPagination,
   type PaginationData,
@@ -546,47 +548,26 @@ export default function AccountsPage() {
         </CardContent>
       </Card>
 
-      {/* Delete Account Dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Xác nhận xóa tài khoản</DialogTitle>
-            <DialogDescription>
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setAccountToDelete(null);
+        }}
+        onConfirm={confirmDeleteAccount}
+        isLoading={deleteAccount.isPending}
+        title="Xác nhận xóa tài khoản"
+        description={
+          accountToDelete ? (
+            <>
               Bạn có chắc chắn muốn xóa tài khoản{" "}
-              <span className="font-semibold">{accountToDelete?.fullName}</span>
-              ?
+              <span className="font-semibold">{accountToDelete.fullName}</span>?
               <br />
               Hành động này không thể hoàn tác.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="gap-2 sm:justify-end">
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Hủy
-              </Button>
-            </DialogClose>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={confirmDeleteAccount}
-              disabled={deleteAccount.isPending}
-              className="flex items-center gap-2"
-            >
-              {deleteAccount.isPending ? (
-                <>
-                  <Icon path={mdiLoading} size={0.8} className="animate-spin" />
-                  Đang xử lý...
-                </>
-              ) : (
-                <>
-                  <Icon path={mdiDelete} size={0.8} />
-                  Xác nhận xóa
-                </>
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            </>
+          ) : null
+        }
+      />
 
       {/* Update Status Dialog */}
       <Dialog open={isStatusDialogOpen} onOpenChange={setIsStatusDialogOpen}>

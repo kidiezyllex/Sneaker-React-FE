@@ -64,6 +64,7 @@ import {
   DialogClose,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   Tooltip,
   TooltipContent,
@@ -81,7 +82,7 @@ export default function ProductsPage() {
   const deleteProduct = useDeleteProduct();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [productToDelete, setProductToDelete] = useState<string | null>(null);
+  const [productToDelete, setProductToDelete] = useState<any>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxSlides, setLightboxSlides] = useState<any[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -142,6 +143,8 @@ export default function ProductsPage() {
         onSuccess: () => {
           toast.success("Đã xóa sản phẩm thành công");
           queryClient.invalidateQueries({ queryKey: ["products"] });
+          setIsDeleteDialogOpen(false);
+          setProductToDelete(null);
         },
         onError: (error: any) => {
           toast.error(
@@ -519,60 +522,17 @@ export default function ProductsPage() {
                             >
                               <Icon path={mdiPencilCircle} size={0.8} />
                             </Button>
-                            <Dialog>
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  onClick={() => {
-                                    setProductToDelete(product.id);
-                                    setIsDeleteDialogOpen(true);
-                                  }}
-                                  title="Xóa"
-                                >
-                                  <Icon path={mdiDeleteCircle} size={0.8} />
-                                </Button>
-                              </DialogTrigger>
-                              {isDeleteDialogOpen &&
-                                productToDelete === product.id && (
-                                  <DialogContent>
-                                    <DialogHeader>
-                                      <DialogTitle>
-                                        Xác nhận xóa sản phẩm
-                                      </DialogTitle>
-                                    </DialogHeader>
-                                    <p>
-                                      Bạn có chắc chắn muốn xóa sản phẩm này
-                                      không?
-                                    </p>
-                                    <DialogFooter>
-                                      <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                          setIsDeleteDialogOpen(false);
-                                          setProductToDelete(null);
-                                        }}
-                                      >
-                                        Hủy
-                                      </Button>
-                                      <Button
-                                        variant="destructive"
-                                        onClick={() => {
-                                          if (productToDelete) {
-                                            handleDeleteProduct(
-                                              productToDelete
-                                            );
-                                            setIsDeleteDialogOpen(false);
-                                            setProductToDelete(null);
-                                          }
-                                        }}
-                                      >
-                                        Xóa
-                                      </Button>
-                                    </DialogFooter>
-                                  </DialogContent>
-                                )}
-                            </Dialog>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                setProductToDelete(product);
+                                setIsDeleteDialogOpen(true);
+                              }}
+                              title="Xóa"
+                            >
+                              <Icon path={mdiDeleteCircle} size={0.8} />
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -682,6 +642,30 @@ export default function ProductsPage() {
           }}
         />
       )}
+
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setProductToDelete(null);
+        }}
+        onConfirm={() => {
+          if (productToDelete) {
+            handleDeleteProduct(productToDelete.id);
+          }
+        }}
+        isLoading={deleteProduct.isPending}
+        title="Xác nhận xóa sản phẩm"
+        description={
+          productToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa sản phẩm{" "}
+              <span className="font-semibold">{productToDelete.name}</span>{" "}
+              không? Hành động này không thể hoàn tác.
+            </>
+          ) : null
+        }
+      />
     </div>
   );
 }

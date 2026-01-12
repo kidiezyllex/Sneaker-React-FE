@@ -26,6 +26,7 @@ import {
   useValidateVoucher,
 } from "@/hooks/voucher";
 import { CommonPagination } from "@/components/ui/common-pagination";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import { IVoucherFilter } from "@/interface/request/voucher";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ export default function VouchersPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isNotifyDialogOpen, setIsNotifyDialogOpen] = useState(false);
   const [isValidateDialogOpen, setIsValidateDialogOpen] = useState(false);
-  const [voucherToDelete, setVoucherToDelete] = useState<string | null>(null);
+  const [voucherToDelete, setVoucherToDelete] = useState<any>(null);
   const [voucherToNotify, setVoucherToNotify] = useState<string | null>(null);
   const [voucherCodeToValidate, setVoucherCodeToValidate] = useState("");
   const [orderValueToValidate, setOrderValueToValidate] = useState("");
@@ -123,6 +124,7 @@ export default function VouchersPage() {
           toast.success("Đã xóa mã giảm giá thành công");
           queryClient.invalidateQueries({ queryKey: ["vouchers"] });
           setIsDeleteDialogOpen(false);
+          setVoucherToDelete(null);
         },
       });
     } catch (error) {
@@ -486,7 +488,7 @@ export default function VouchersPage() {
                           variant="outline"
                           size="icon"
                           onClick={() => {
-                            setVoucherToDelete((voucher as any).id);
+                            setVoucherToDelete(voucher);
                             setIsDeleteDialogOpen(true);
                           }}
                           title="Xóa"
@@ -518,43 +520,29 @@ export default function VouchersPage() {
         </div>
       )}
 
-      {/* Xác nhận xóa dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Xác nhận xóa mã giảm giá</DialogTitle>
-          </DialogHeader>
-          <p className="py-4">
-            Bạn có chắc chắn muốn xóa mã giảm giá này không? Hành động này không
-            thể hoàn tác.
-          </p>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Hủy</Button>
-            </DialogClose>
-            <Button
-              variant="destructive"
-              onClick={() =>
-                voucherToDelete && handleDeleteVoucher(voucherToDelete)
-              }
-              disabled={deleteVoucher.isPending}
-            >
-              {deleteVoucher.isPending ? (
-                <>
-                  <Icon
-                    path={mdiLoading}
-                    size={0.8}
-                    className="mr-2 animate-spin"
-                  />
-                  Đang xóa...
-                </>
-              ) : (
-                "Xóa"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setVoucherToDelete(null);
+        }}
+        onConfirm={() => {
+          if (voucherToDelete) {
+            handleDeleteVoucher((voucherToDelete as any).id);
+          }
+        }}
+        isLoading={deleteVoucher.isPending}
+        title="Xác nhận xóa mã giảm giá"
+        description={
+          voucherToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa mã giảm giá{" "}
+              <span className="font-semibold">{voucherToDelete.code}</span>?
+              Hành động này không thể hoàn tác.
+            </>
+          ) : null
+        }
+      />
 
       {/* Xác nhận gửi thông báo dialog */}
       <Dialog open={isNotifyDialogOpen} onOpenChange={setIsNotifyDialogOpen}>

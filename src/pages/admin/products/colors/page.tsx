@@ -52,45 +52,57 @@ import { Label } from "@/components/ui/label";
 import namer from "color-namer";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { CommonPagination } from "@/components/ui/common-pagination";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 
 export default function ColorsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<IColorFilter>({});
+  const [filters, setFilters] = useState<IColorFilter>({
+    page: 1,
+    limit: 5,
+  });
   const { data, isLoading, isError } = useColors(filters);
   const deleteColor = useDeleteColor();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [colorToDelete, setColorToDelete] = useState<string | null>(null);
+  const [colorToDelete, setColorToDelete] = useState<any>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [colorToEdit, setColorToEdit] = useState<string | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const filteredColors = useMemo(() => {
-    if (!data?.data || !searchQuery.trim()) return data?.data;
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (searchQuery.trim()) {
+        setFilters((prev) => ({ ...prev, name: searchQuery, page: 1 }));
+      } else {
+        const { name, ...rest } = filters;
+        setFilters({ ...rest, page: 1 });
+      }
+    }, 500);
 
-    const query = searchQuery.toLowerCase().trim();
-    return data.data.filter(
-      (color) =>
-        color.name.toLowerCase().includes(query) ||
-        color.code.toLowerCase().includes(query)
-    );
-  }, [data?.data, searchQuery]);
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
 
   const handleFilterChange = (key: keyof IColorFilter, value: any) => {
     if (value === "all" || value === "") {
       const newFilters = { ...filters };
       delete newFilters[key];
-      setFilters(newFilters);
+      setFilters({ ...newFilters, page: 1 });
     } else {
-      setFilters({ ...filters, [key]: value });
+      setFilters({ ...filters, [key]: value, page: 1 });
     }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
   const handleDeleteColor = async (id: string) => {
@@ -104,6 +116,8 @@ export default function ColorsPage() {
         onSuccess: () => {
           toast.success("Đã xóa màu sắc thành công");
           queryClient.invalidateQueries({ queryKey: ["colors"] });
+          setIsDeleteDialogOpen(false);
+          setColorToDelete(null);
         },
       });
     } catch (error) {
@@ -144,9 +158,9 @@ export default function ColorsPage() {
       </div>
 
       <Card className="mb-4">
-        <CardContent className="py-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-2 gap-2">
-            <div className="relative flex-1 max-w-4xl">
+        <CardContent className="p-4 space-y-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+            <div className="relative flex-1">
               <Icon
                 path={mdiMagnify}
                 size={0.8}
@@ -155,301 +169,290 @@ export default function ColorsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên hoặc mã màu sắc..."
-                className="pl-10 pr-4 py-2 w-full border rounded-2xl"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex items-center gap-2">
-              <Select
-                value={filters.status || "all"}
-                onValueChange={(value) => handleFilterChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Tất cả trạng thái" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                  <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                  <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
-                </SelectContent>
-              </Select>
-              <Dialog
-                open={isCreateDialogOpen}
-                onOpenChange={setIsCreateDialogOpen}
-              >
-                <DialogTrigger asChild>
-                  <Button onClick={() => setIsCreateDialogOpen(true)}>
-                    <Icon path={mdiPlus} size={0.8} />
-                    Thêm màu sắc mới
-                  </Button>
-                </DialogTrigger>
-                <CreateColorDialog
-                  isOpen={isCreateDialogOpen}
-                  onClose={() => setIsCreateDialogOpen(false)}
-                />
-              </Dialog>
-            </div>
+            <Select
+              value={filters.status || "all"}
+              onValueChange={(value) => handleFilterChange("status", value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Tất cả trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+              </SelectContent>
+            </Select>
+            <Dialog
+              open={isCreateDialogOpen}
+              onOpenChange={setIsCreateDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button onClick={() => setIsCreateDialogOpen(true)}>
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm màu sắc mới
+                </Button>
+              </DialogTrigger>
+              <CreateColorDialog
+                isOpen={isCreateDialogOpen}
+                onClose={() => setIsCreateDialogOpen(false)}
+              />
+            </Dialog>
           </div>
-        </CardContent>
-      </Card>
 
-      {isLoading ? (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Màu sắc
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Mã màu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {[...Array(5)].map((_, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[80px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <Skeleton className="h-6 w-6 rounded-full mr-2" />
-                        <Skeleton className="h-4 w-[100px]" />
-                      </div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[80px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-6 w-[100px] rounded-full" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[100px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end space-x-2">
-                        <Skeleton className="h-8 w-8 rounded-2xl" />
-                        <Skeleton className="h-8 w-8 rounded-2xl" />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      ) : isError ? (
-        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
-          <p className="text-red-500">
-            Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-          </p>
-          <Button
-            variant="outline"
-            className="mt-4"
-            onClick={() =>
-              queryClient.invalidateQueries({ queryKey: ["colors"] })
-            }
-          >
-            Thử lại
-          </Button>
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Màu sắc
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Mã màu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredColors?.length ? (
-                  filteredColors.map((color, index) => {
-                    return (
-                      <TableRow
-                        key={(color as any)?.id || `color-${index}`}
-                        className="hover:bg-gray-50"
-                      >
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                          {(color as any)?.id}
+          {isLoading ? (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Màu sắc</TableHead>
+                      <TableHead>Mã màu</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[...Array(5)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[80px]" />
                         </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap">
+                        <TableCell>
                           <div className="flex items-center">
-                            <div
-                              className="w-6 h-6 rounded-full mr-2 border border-gray-200"
-                              style={{ backgroundColor: color.code }}
-                            />
-                            <div className="text-sm font-medium text-maintext">
-                              {color.name}
-                            </div>
+                            <Skeleton className="h-6 w-6 rounded-full mr-2" />
+                            <Skeleton className="h-4 w-[100px]" />
                           </div>
                         </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                          {color.code}
+                        <TableCell>
+                          <Skeleton className="h-4 w-[80px]" />
                         </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap">
-                          <span
-                            className={`px-2 py-1 text-sm rounded-full ${
-                              color.status === "ACTIVE"
-                                ? "bg-green-100 text-green-800"
-                                : "bg-red-100 text-red-800"
-                            }`}
-                          >
-                            {color.status === "ACTIVE"
-                              ? "Hoạt động"
-                              : "Không hoạt động"}
-                          </span>
+                        <TableCell>
+                          <Skeleton className="h-6 w-[100px] rounded-full" />
                         </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                          {formatDate(color.updatedAt)}
+                        <TableCell>
+                          <Skeleton className="h-4 w-[100px]" />
                         </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-right">
+                        <TableCell className="text-right">
                           <div className="flex items-center justify-end space-x-2">
-                            <Dialog
-                              open={
-                                isEditDialogOpen &&
-                                colorToEdit === (color as any)?.id
-                              }
-                              onOpenChange={(open) => {
-                                setIsEditDialogOpen(open);
-                                if (!open) setColorToEdit(null);
-                              }}
-                            >
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  title="Sửa"
-                                  onClick={() => {
-                                    setColorToEdit((color as any)?.id);
-                                    setIsEditDialogOpen(true);
-                                  }}
-                                >
-                                  <Icon path={mdiPencilCircle} size={0.8} />
-                                </Button>
-                              </DialogTrigger>
-                              {colorToEdit === (color as any)?.id && (
-                                <EditColorDialog
-                                  colorId={(color as any)?.id}
-                                  isOpen={isEditDialogOpen}
-                                  onClose={() => {
-                                    setIsEditDialogOpen(false);
-                                    setColorToEdit(null);
-                                  }}
-                                />
-                              )}
-                            </Dialog>
-                            <Dialog
-                              open={
-                                isDeleteDialogOpen &&
-                                colorToDelete === (color as any)?.id
-                              }
-                              onOpenChange={(open) => {
-                                setIsDeleteDialogOpen(open);
-                                if (!open) setColorToDelete(null);
-                              }}
-                            >
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  onClick={() => {
-                                    setColorToDelete((color as any)?.id);
-                                    setIsDeleteDialogOpen(true);
-                                  }}
-                                  title="Xóa"
-                                >
-                                  <Icon path={mdiDeleteCircle} size={0.8} />
-                                </Button>
-                              </DialogTrigger>
-                              {colorToDelete === (color as any)?.id && (
-                                <DialogContent>
-                                  <DialogHeader>
-                                    <DialogTitle>
-                                      Xác nhận xóa màu sắc
-                                    </DialogTitle>
-                                  </DialogHeader>
-                                  <p>
-                                    Bạn có chắc chắn muốn xóa màu sắc này không?
-                                  </p>
-                                  <DialogFooter>
-                                    <DialogClose asChild>
-                                      <Button
-                                        variant="outline"
-                                        onClick={() => {
-                                          setIsDeleteDialogOpen(false);
-                                          setColorToDelete(null);
-                                        }}
-                                      >
-                                        Hủy
-                                      </Button>
-                                    </DialogClose>
-                                    <Button
-                                      variant="destructive"
-                                      onClick={() => {
-                                        handleDeleteColor((color as any)?.id);
-                                        setIsDeleteDialogOpen(false);
-                                        setColorToDelete(null);
-                                      }}
-                                    >
-                                      Xóa
-                                    </Button>
-                                  </DialogFooter>
-                                </DialogContent>
-                              )}
-                            </Dialog>
+                            <Skeleton className="h-8 w-8 rounded-2xl" />
+                            <Skeleton className="h-8 w-8 rounded-2xl" />
                           </div>
                         </TableCell>
                       </TableRow>
-                    );
-                  })
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={6}
-                      className="px-4 py-8 text-center text-maintext"
-                    >
-                      Không tìm thấy màu sắc nào
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      )}
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          ) : isError ? (
+            <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+              <p className="text-red-500">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["colors"] })
+                }
+              >
+                Thử lại
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Màu sắc</TableHead>
+                      <TableHead>Mã màu</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data?.data?.length ? (
+                      data.data.map((color, index) => (
+                        <TableRow
+                          key={(color as any)?.id || `color-${index}`}
+                          className="hover:bg-gray-50"
+                        >
+                          <TableCell className="text-sm text-maintext">
+                            {(color as any)?.id}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center">
+                              <div
+                                className="w-6 h-6 rounded-full mr-2 border border-gray-200"
+                                style={{ backgroundColor: color.code }}
+                              />
+                              <div className="text-sm font-medium text-maintext">
+                                {color.name}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-sm text-maintext">
+                            {color.code}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                color.status === "ACTIVE"
+                                  ? "success"
+                                  : "destructive"
+                              }
+                            >
+                              {color.status === "ACTIVE"
+                                ? "Hoạt động"
+                                : "Không hoạt động"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-sm text-maintext">
+                            {formatDate(color.updatedAt)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <Dialog
+                                open={
+                                  isEditDialogOpen &&
+                                  colorToEdit === (color as any)?.id
+                                }
+                                onOpenChange={(open) => {
+                                  setIsEditDialogOpen(open);
+                                  if (!open) setColorToEdit(null);
+                                }}
+                              >
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    size="icon"
+                                    title="Sửa"
+                                    onClick={() => {
+                                      setColorToEdit((color as any)?.id);
+                                      setIsEditDialogOpen(true);
+                                    }}
+                                  >
+                                    <Icon path={mdiPencilCircle} size={0.8} />
+                                  </Button>
+                                </DialogTrigger>
+                                {colorToEdit === (color as any)?.id && (
+                                  <EditColorDialog
+                                    colorId={(color as any)?.id}
+                                    isOpen={isEditDialogOpen}
+                                    onClose={() => {
+                                      setIsEditDialogOpen(false);
+                                      setColorToEdit(null);
+                                    }}
+                                  />
+                                )}
+                              </Dialog>
+                              <Dialog
+                                open={
+                                  isDeleteDialogOpen &&
+                                  colorToDelete === (color as any)?.id
+                                }
+                                onOpenChange={(open) => {
+                                  setIsDeleteDialogOpen(open);
+                                  if (!open) setColorToDelete(null);
+                                }}
+                              >
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    size="icon"
+                                    onClick={() => {
+                                      setColorToDelete(color);
+                                      setIsDeleteDialogOpen(true);
+                                    }}
+                                    title="Xóa"
+                                  >
+                                    <Icon path={mdiDeleteCircle} size={0.8} />
+                                  </Button>
+                                </DialogTrigger>
+                              </Dialog>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={6}
+                          className="px-4 py-8 text-center text-maintext"
+                        >
+                          Không tìm thấy màu sắc nào
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          {data?.pagination && data.pagination.totalPages > 1 && (
+            <div className="flex items-center justify-between">
+              <div className="hidden sm:block">
+                <p className="text-sm text-maintext">
+                  Hiển thị{" "}
+                  <span className="font-medium">
+                    {(data.pagination.currentPage - 1) *
+                      data.pagination.perPage +
+                      1}
+                  </span>{" "}
+                  đến{" "}
+                  <span className="font-medium">
+                    {Math.min(
+                      data.pagination.currentPage * data.pagination.perPage,
+                      data.pagination.total
+                    )}
+                  </span>{" "}
+                  của{" "}
+                  <span className="font-medium">{data.pagination.total}</span>{" "}
+                  màu sắc
+                </p>
+              </div>
+              <CommonPagination
+                pagination={data.pagination}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setColorToDelete(null);
+        }}
+        onConfirm={() => {
+          if (colorToDelete) {
+            handleDeleteColor((colorToDelete as any).id);
+          }
+        }}
+        isLoading={deleteColor.isPending}
+        title="Xác nhận xóa màu sắc"
+        description={
+          colorToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa màu sắc{" "}
+              <strong>{colorToDelete.name}</strong> không?
+            </>
+          ) : null
+        }
+      />
     </div>
   );
 }

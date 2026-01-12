@@ -32,6 +32,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
+import "react-toastify/dist/ReactToastify.css";
 
 type DiscountType = "percentage" | "fixed";
 type DiscountStatus = "active" | "scheduled" | "expired" | "draft";
@@ -324,30 +326,24 @@ export default function DiscountsPage() {
         </CardContent>
       </Card>
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Xác nhận xóa mã giảm giá</DialogTitle>
-            <DialogDescription>
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setDiscountToDelete(null);
+        }}
+        onConfirm={confirmDeleteDiscount}
+        title="Xác nhận xóa mã giảm giá"
+        description={
+          discountToDelete ? (
+            <>
               Bạn có chắc chắn muốn xóa mã giảm giá{" "}
-              <span className="font-medium">{discountToDelete?.code}</span>?
-              Hành động này không thể hoàn tác.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
-              Hủy
-            </Button>
-            <Button variant="destructive" onClick={confirmDeleteDiscount}>
-              Xóa
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+              <span className="font-medium">{discountToDelete.code}</span>? Hành
+              động này không thể hoàn tác.
+            </>
+          ) : null
+        }
+      />
     </div>
   );
 }

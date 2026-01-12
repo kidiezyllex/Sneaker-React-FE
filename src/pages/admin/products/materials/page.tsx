@@ -63,37 +63,50 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { CommonPagination } from "@/components/ui/common-pagination";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 
 export default function MaterialsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<IMaterialFilter>({});
-  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState<IMaterialFilter>({
+    page: 1,
+    limit: 5,
+  });
   const { data, isLoading, isError } = useMaterials(filters);
   const deleteMaterial = useDeleteMaterial();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [materialToDelete, setMaterialToDelete] = useState<string | null>(null);
+  const [materialToDelete, setMaterialToDelete] = useState<any>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [materialToEdit, setMaterialToEdit] = useState<string | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
 
-  const filteredMaterials = useMemo(() => {
-    if (!data?.data || !searchQuery.trim()) return data?.data;
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (searchQuery.trim()) {
+        setFilters((prev) => ({ ...prev, name: searchQuery, page: 1 }));
+      } else {
+        const { name, ...rest } = filters;
+        setFilters({ ...rest, page: 1 });
+      }
+    }, 500);
 
-    const query = searchQuery.toLowerCase().trim();
-    return data.data.filter((material) =>
-      material.name.toLowerCase().includes(query)
-    );
-  }, [data?.data, searchQuery]);
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
 
   const handleFilterChange = (key: keyof IMaterialFilter, value: any) => {
     if (value === "all" || value === "") {
       const newFilters = { ...filters };
       delete newFilters[key];
-      setFilters(newFilters);
+      setFilters({ ...newFilters, page: 1 });
     } else {
-      setFilters({ ...filters, [key]: value });
+      setFilters({ ...filters, [key]: value, page: 1 });
     }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
   const handleDeleteMaterial = async (id: string) => {
@@ -102,6 +115,8 @@ export default function MaterialsPage() {
         onSuccess: () => {
           toast.success("Đã xóa chất liệu thành công");
           queryClient.invalidateQueries({ queryKey: ["materials"] });
+          setIsDeleteDialogOpen(false);
+          setMaterialToDelete(null);
         },
       });
     } catch (error) {
@@ -142,9 +157,9 @@ export default function MaterialsPage() {
       </div>
 
       <Card className="mb-4">
-        <CardContent className="py-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-2 gap-2">
-            <div className="relative flex-1 max-w-4xl">
+        <CardContent className="p-4 space-y-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+            <div className="relative flex-1">
               <Icon
                 path={mdiMagnify}
                 size={0.8}
@@ -153,271 +168,270 @@ export default function MaterialsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên chất liệu..."
-                className="pl-10 pr-4 py-2 w-full border rounded-2xl"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex items-center gap-2">
-              <Select
-                value={filters.status || "all"}
-                onValueChange={(value) => handleFilterChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Tất cả trạng thái" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                  <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                  <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
-                </SelectContent>
-              </Select>
-              <Dialog
-                open={isCreateDialogOpen}
-                onOpenChange={setIsCreateDialogOpen}
-              >
-                <DialogTrigger asChild>
-                  <Button onClick={() => setIsCreateDialogOpen(true)}>
-                    <Icon path={mdiPlus} size={0.8} />
-                    Thêm chất liệu mới
-                  </Button>
-                </DialogTrigger>
-                <CreateMaterialDialog
-                  isOpen={isCreateDialogOpen}
-                  onClose={() => setIsCreateDialogOpen(false)}
-                />
-              </Dialog>
-            </div>
+            <Select
+              value={filters.status || "all"}
+              onValueChange={(value) => handleFilterChange("status", value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Tất cả trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+              </SelectContent>
+            </Select>
+            <Dialog
+              open={isCreateDialogOpen}
+              onOpenChange={setIsCreateDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button onClick={() => setIsCreateDialogOpen(true)}>
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm chất liệu mới
+                </Button>
+              </DialogTrigger>
+              <CreateMaterialDialog
+                isOpen={isCreateDialogOpen}
+                onClose={() => setIsCreateDialogOpen(false)}
+              />
+            </Dialog>
           </div>
+
+          {isLoading ? (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Tên chất liệu</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[...Array(5)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[80px]" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[160px]" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-6 w-[100px] rounded-full" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[100px]" />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end space-x-2">
+                            <Skeleton className="h-8 w-8 rounded-2xl" />
+                            <Skeleton className="h-8 w-8 rounded-2xl" />
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          ) : isError ? (
+            <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+              <p className="text-red-500">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["materials"] })
+                }
+              >
+                Thử lại
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Tên chất liệu</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data?.data?.length ? (
+                      data.data.map((material, index) => (
+                        <TableRow
+                          key={(material as any)?.id || `material-${index}`}
+                          className="hover:bg-gray-50"
+                        >
+                          <TableCell className="text-sm text-maintext">
+                            {(material as any)?.id}
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-sm font-medium text-maintext">
+                              {material.name}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                material.status === "ACTIVE"
+                                  ? "success"
+                                  : "destructive"
+                              }
+                            >
+                              {material.status === "ACTIVE"
+                                ? "Hoạt động"
+                                : "Không hoạt động"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-sm text-maintext">
+                            {formatDate(material.updatedAt)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <Dialog
+                                open={
+                                  isEditDialogOpen &&
+                                  materialToEdit === (material as any)?.id
+                                }
+                                onOpenChange={(open) => {
+                                  setIsEditDialogOpen(open);
+                                  if (!open) setMaterialToEdit(null);
+                                }}
+                              >
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    size="icon"
+                                    title="Sửa"
+                                    onClick={() => {
+                                      setMaterialToEdit((material as any)?.id);
+                                      setIsEditDialogOpen(true);
+                                    }}
+                                  >
+                                    <Icon path={mdiPencilCircle} size={0.8} />
+                                  </Button>
+                                </DialogTrigger>
+                                {materialToEdit === (material as any)?.id && (
+                                  <EditMaterialDialog
+                                    materialId={(material as any)?.id}
+                                    isOpen={isEditDialogOpen}
+                                    onClose={() => {
+                                      setIsEditDialogOpen(false);
+                                      setMaterialToEdit(null);
+                                    }}
+                                  />
+                                )}
+                              </Dialog>
+                              <Dialog
+                                open={
+                                  isDeleteDialogOpen &&
+                                  materialToDelete === (material as any)?.id
+                                }
+                                onOpenChange={setIsDeleteDialogOpen}
+                              >
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    size="icon"
+                                    onClick={() => {
+                                      setMaterialToDelete(material);
+                                      setIsDeleteDialogOpen(true);
+                                    }}
+                                    title="Xóa"
+                                  >
+                                    <Icon path={mdiDeleteCircle} size={0.8} />
+                                  </Button>
+                                </DialogTrigger>
+                              </Dialog>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          className="px-4 py-8 text-center text-maintext"
+                        >
+                          Không tìm thấy chất liệu nào
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          {data?.pagination && data.pagination.totalPages > 1 && (
+            <div className="flex items-center justify-between">
+              <div className="hidden sm:block">
+                <p className="text-sm text-maintext">
+                  Hiển thị{" "}
+                  <span className="font-medium">
+                    {(data.pagination.currentPage - 1) *
+                      data.pagination.perPage +
+                      1}
+                  </span>{" "}
+                  đến{" "}
+                  <span className="font-medium">
+                    {Math.min(
+                      data.pagination.currentPage * data.pagination.perPage,
+                      data.pagination.total
+                    )}
+                  </span>{" "}
+                  của{" "}
+                  <span className="font-medium">{data.pagination.total}</span>{" "}
+                  chất liệu
+                </p>
+              </div>
+              <CommonPagination
+                pagination={data.pagination}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {isLoading ? (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Tên chất liệu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {[...Array(5)].map((_, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[80px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[160px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-6 w-[100px] rounded-full" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[100px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end space-x-2">
-                        <Skeleton className="h-8 w-8 rounded-2xl" />
-                        <Skeleton className="h-8 w-8 rounded-2xl" />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      ) : isError ? (
-        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
-          <p className="text-red-500">
-            Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-          </p>
-          <Button
-            variant="outline"
-            className="mt-4"
-            onClick={() =>
-              queryClient.invalidateQueries({ queryKey: ["materials"] })
-            }
-          >
-            Thử lại
-          </Button>
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Tên chất liệu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredMaterials?.length ? (
-                  filteredMaterials.map((material, index) => (
-                    <TableRow
-                      key={(material as any)?.id || `material-${index}`}
-                      className="hover:bg-gray-50"
-                    >
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {(material as any)?.id}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-maintext">
-                          {material.name}
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <span
-                          className={`px-2 py-1 text-sm rounded-full ${
-                            material.status === "ACTIVE"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {material.status === "ACTIVE"
-                            ? "Hoạt động"
-                            : "Không hoạt động"}
-                        </span>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {formatDate(material.updatedAt)}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Dialog
-                            open={
-                              isEditDialogOpen &&
-                              materialToEdit === (material as any)?.id
-                            }
-                            onOpenChange={(open) => {
-                              setIsEditDialogOpen(open);
-                              if (!open) setMaterialToEdit(null);
-                            }}
-                          >
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                title="Sửa"
-                                onClick={() => {
-                                  setMaterialToEdit((material as any)?.id);
-                                  setIsEditDialogOpen(true);
-                                }}
-                              >
-                                <Icon path={mdiPencilCircle} size={0.8} />
-                              </Button>
-                            </DialogTrigger>
-                            {materialToEdit === (material as any)?.id && (
-                              <EditMaterialDialog
-                                materialId={(material as any)?.id}
-                                isOpen={isEditDialogOpen}
-                                onClose={() => {
-                                  setIsEditDialogOpen(false);
-                                  setMaterialToEdit(null);
-                                }}
-                              />
-                            )}
-                          </Dialog>
-                          <Dialog
-                            open={
-                              isDeleteDialogOpen &&
-                              materialToDelete === (material as any)?.id
-                            }
-                            onOpenChange={setIsDeleteDialogOpen}
-                          >
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setMaterialToDelete((material as any)?.id);
-                                  setIsDeleteDialogOpen(true);
-                                }}
-                                title="Xóa"
-                              >
-                                <Icon path={mdiDeleteCircle} size={0.8} />
-                              </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>
-                                  Xác nhận xóa chất liệu
-                                </DialogTitle>
-                              </DialogHeader>
-                              <p>
-                                Bạn có chắc chắn muốn xóa chất liệu này không?
-                              </p>
-                              <DialogFooter>
-                                <DialogClose asChild>
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => setIsDeleteDialogOpen(false)}
-                                  >
-                                    Hủy
-                                  </Button>
-                                </DialogClose>
-                                <Button
-                                  variant="destructive"
-                                  onClick={() => {
-                                    if (materialToDelete) {
-                                      handleDeleteMaterial(materialToDelete);
-                                      setIsDeleteDialogOpen(false);
-                                    }
-                                  }}
-                                >
-                                  Xóa
-                                </Button>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="px-4 py-8 text-center text-maintext"
-                    >
-                      Không tìm thấy chất liệu nào
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      )}
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setMaterialToDelete(null);
+        }}
+        onConfirm={() => {
+          if (materialToDelete) {
+            handleDeleteMaterial((materialToDelete as any).id);
+          }
+        }}
+        isLoading={deleteMaterial.isPending}
+        title="Xác nhận xóa chất liệu"
+        description={
+          materialToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa chất liệu{" "}
+              <strong>{materialToDelete.name}</strong> không?
+            </>
+          ) : null
+        }
+      />
     </div>
   );
 }

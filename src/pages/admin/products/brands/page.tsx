@@ -52,33 +52,50 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { CommonPagination } from "@/components/ui/common-pagination";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
+
 export default function BrandsPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<IBrandFilter>({});
+  const [filters, setFilters] = useState<IBrandFilter>({
+    page: 1,
+    limit: 5,
+  });
   const { data, isLoading, isError } = useBrands(filters);
   const deleteBrand = useDeleteBrand();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [brandToDelete, setBrandToDelete] = useState<string | null>(null);
+  const [brandToDelete, setBrandToDelete] = useState<any>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [brandToEdit, setBrandToEdit] = useState<string | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
-  const filteredBrands = useMemo(() => {
-    if (!data?.data || !searchQuery.trim()) return data?.data;
-    const query = searchQuery.toLowerCase().trim();
-    return data.data.filter((brand) =>
-      brand.name.toLowerCase().includes(query)
-    );
-  }, [data?.data, searchQuery]);
+
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      if (searchQuery.trim()) {
+        setFilters((prev) => ({ ...prev, name: searchQuery, page: 1 }));
+      } else {
+        const { name, ...rest } = filters;
+        setFilters({ ...rest, page: 1 });
+      }
+    }, 500);
+
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
 
   const handleFilterChange = (key: keyof IBrandFilter, value: any) => {
     if (value === "all" || value === "") {
       const newFilters = { ...filters };
       delete newFilters[key];
-      setFilters(newFilters);
+      setFilters({ ...newFilters, page: 1 });
     } else {
-      setFilters({ ...filters, [key]: value });
+      setFilters({ ...filters, [key]: value, page: 1 });
     }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
   const handleDeleteBrand = async (id: string) => {
@@ -87,6 +104,8 @@ export default function BrandsPage() {
         onSuccess: () => {
           toast.success("Đã xóa thương hiệu thành công");
           queryClient.invalidateQueries({ queryKey: ["brands"] });
+          setIsDeleteDialogOpen(false);
+          setBrandToDelete(null);
         },
       });
     } catch (error) {
@@ -127,9 +146,9 @@ export default function BrandsPage() {
       </div>
 
       <Card className="mb-4">
-        <CardContent className="py-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-2">
-            <div className="relative flex-1 max-w-4xl">
+        <CardContent className="p-4 space-y-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+            <div className="relative flex-1">
               <Icon
                 path={mdiMagnify}
                 size={0.8}
@@ -138,271 +157,260 @@ export default function BrandsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên thương hiệu..."
-                className="pl-10 pr-4"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className="flex items-center gap-2">
-              <Select
-                value={filters.status || "all"}
-                onValueChange={(value) => handleFilterChange("status", value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Tất cả trạng thái" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                  <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                  <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
-                </SelectContent>
-              </Select>
-              <Dialog
-                open={isCreateDialogOpen}
-                onOpenChange={setIsCreateDialogOpen}
-              >
-                <DialogTrigger asChild>
-                  <Button onClick={() => setIsCreateDialogOpen(true)}>
-                    <Icon path={mdiPlus} size={0.8} />
-                    Thêm thương hiệu mới
-                  </Button>
-                </DialogTrigger>
-                <CreateBrandDialog
-                  isOpen={isCreateDialogOpen}
-                  onClose={() => setIsCreateDialogOpen(false)}
-                />
-              </Dialog>
-            </div>
+            <Select
+              value={filters.status || "all"}
+              onValueChange={(value) => handleFilterChange("status", value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Tất cả trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+              </SelectContent>
+            </Select>
+            <Dialog
+              open={isCreateDialogOpen}
+              onOpenChange={setIsCreateDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button onClick={() => setIsCreateDialogOpen(true)}>
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm thương hiệu mới
+                </Button>
+              </DialogTrigger>
+              <CreateBrandDialog
+                isOpen={isCreateDialogOpen}
+                onClose={() => setIsCreateDialogOpen(false)}
+              />
+            </Dialog>
           </div>
-        </CardContent>
-      </Card>
 
-      {isLoading ? (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Tên thương hiệu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {[...Array(5)].map((_, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[80px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[160px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-6 w-[100px] rounded-full" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap">
-                      <Skeleton className="h-4 w-[100px]" />
-                    </TableCell>
-                    <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                      <div className="flex items-center justify-end space-x-2">
-                        <Skeleton className="h-8 w-8 rounded-2xl" />
-                        <Skeleton className="h-8 w-8 rounded-2xl" />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      ) : isError ? (
-        <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
-          <p className="text-red-500">
-            Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-          </p>
-          <Button
-            variant="outline"
-            className="mt-4"
-            onClick={() =>
-              queryClient.invalidateQueries({ queryKey: ["brands"] })
-            }
-          >
-            Thử lại
-          </Button>
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Tên thương hiệu
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredBrands?.length ? (
-                  filteredBrands.map((brand) => (
-                    <TableRow
-                      key={(brand as any)?.id}
-                      className="hover:bg-gray-50"
-                    >
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {(brand as any)?.id}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-maintext">
-                          {brand.name}
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <span
-                          className={`px-2 py-1 text-sm rounded-full ${
-                            brand.status === "ACTIVE"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+          {isLoading ? (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Tên thương hiệu</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[...Array(5)].map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[80px]" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[160px]" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-6 w-[100px] rounded-full" />
+                        </TableCell>
+                        <TableCell>
+                          <Skeleton className="h-4 w-[100px]" />
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="flex items-center justify-end space-x-2">
+                            <Skeleton className="h-8 w-8 rounded-2xl" />
+                            <Skeleton className="h-8 w-8 rounded-2xl" />
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          ) : isError ? (
+            <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+              <p className="text-red-500">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["brands"] })
+                }
+              >
+                Thử lại
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Tên thương hiệu</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data?.data?.length ? (
+                      data.data.map((brand, index) => (
+                        <TableRow
+                          key={(brand as any)?.id || `brand-${index}`}
+                          className="hover:bg-gray-50"
                         >
-                          {brand.status === "ACTIVE"
-                            ? "Hoạt động"
-                            : "Không hoạt động"}
-                        </span>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {formatDate(brand.updatedAt)}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Dialog
-                            open={
-                              isEditDialogOpen &&
-                              brandToEdit === (brand as any)?.id
-                            }
-                            onOpenChange={(open) => {
-                              setIsEditDialogOpen(open);
-                              if (!open) setBrandToEdit(null);
-                            }}
-                          >
-                            <DialogTrigger asChild>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                title="Sửa"
-                                onClick={() => {
-                                  setBrandToEdit((brand as any)?.id);
-                                  setIsEditDialogOpen(true);
+                          <TableCell className="text-sm text-maintext">
+                            {(brand as any)?.id}
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-sm font-medium text-maintext">
+                              {brand.name}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                brand.status === "ACTIVE"
+                                  ? "success"
+                                  : "destructive"
+                              }
+                            >
+                              {brand.status === "ACTIVE"
+                                ? "Hoạt động"
+                                : "Không hoạt động"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-sm text-maintext">
+                            {formatDate(brand.updatedAt)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <Dialog
+                                open={
+                                  isEditDialogOpen &&
+                                  brandToEdit === (brand as any)?.id
+                                }
+                                onOpenChange={(open) => {
+                                  setIsEditDialogOpen(open);
+                                  if (!open) setBrandToEdit(null);
                                 }}
                               >
-                                <Icon path={mdiPencilCircle} size={0.8} />
-                              </Button>
-                            </DialogTrigger>
-                            {brandToEdit === (brand as any)?.id && (
-                              <EditBrandDialog
-                                brandId={(brand as any)?.id}
-                                isOpen={isEditDialogOpen}
-                                onClose={() => {
-                                  setIsEditDialogOpen(false);
-                                  setBrandToEdit(null);
-                                }}
-                              />
-                            )}
-                          </Dialog>
-                          <Dialog
-                            open={
-                              isDeleteDialogOpen &&
-                              brandToDelete === (brand as any)?.id
-                            }
-                            onOpenChange={setIsDeleteDialogOpen}
-                          >
-                            <DialogTrigger asChild>
+                                <DialogTrigger asChild>
+                                  <Button
+                                    variant="outline"
+                                    size="icon"
+                                    title="Sửa"
+                                    onClick={() => {
+                                      setBrandToEdit((brand as any)?.id);
+                                      setIsEditDialogOpen(true);
+                                    }}
+                                  >
+                                    <Icon path={mdiPencilCircle} size={0.8} />
+                                  </Button>
+                                </DialogTrigger>
+                                {brandToEdit === (brand as any)?.id && (
+                                  <EditBrandDialog
+                                    brandId={(brand as any)?.id}
+                                    isOpen={isEditDialogOpen}
+                                    onClose={() => {
+                                      setIsEditDialogOpen(false);
+                                      setBrandToEdit(null);
+                                    }}
+                                  />
+                                )}
+                              </Dialog>
                               <Button
                                 variant="outline"
                                 size="icon"
                                 onClick={() => {
-                                  setBrandToDelete((brand as any)?.id);
+                                  setBrandToDelete(brand);
                                   setIsDeleteDialogOpen(true);
                                 }}
                                 title="Xóa"
                               >
                                 <Icon path={mdiDeleteCircle} size={0.8} />
                               </Button>
-                            </DialogTrigger>
-                            <DialogContent>
-                              <DialogHeader>
-                                <DialogTitle>
-                                  Xác nhận xóa thương hiệu
-                                </DialogTitle>
-                              </DialogHeader>
-                              <p>
-                                Bạn có chắc chắn muốn xóa thương hiệu này không?
-                              </p>
-                              <DialogFooter>
-                                <DialogClose asChild>
-                                  <Button
-                                    variant="outline"
-                                    onClick={() => setIsDeleteDialogOpen(false)}
-                                  >
-                                    Hủy
-                                  </Button>
-                                </DialogClose>
-                                <Button
-                                  variant="destructive"
-                                  onClick={() => {
-                                    if (brandToDelete) {
-                                      handleDeleteBrand(brandToDelete);
-                                      setIsDeleteDialogOpen(false);
-                                    }
-                                  }}
-                                >
-                                  Xóa
-                                </Button>
-                              </DialogFooter>
-                            </DialogContent>
-                          </Dialog>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="px-4 py-8 text-center text-maintext"
-                    >
-                      Không tìm thấy thương hiệu nào
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      )}
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          className="px-4 py-8 text-center text-maintext"
+                        >
+                          Không tìm thấy thương hiệu nào
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          {data?.pagination && data.pagination.totalPages > 1 && (
+            <div className="flex items-center justify-between">
+              <div className="hidden sm:block">
+                <p className="text-sm text-maintext">
+                  Hiển thị{" "}
+                  <span className="font-medium">
+                    {(data.pagination.currentPage - 1) *
+                      data.pagination.perPage +
+                      1}
+                  </span>{" "}
+                  đến{" "}
+                  <span className="font-medium">
+                    {Math.min(
+                      data.pagination.currentPage * data.pagination.perPage,
+                      data.pagination.total
+                    )}
+                  </span>{" "}
+                  của{" "}
+                  <span className="font-medium">{data.pagination.total}</span>{" "}
+                  thương hiệu
+                </p>
+              </div>
+              <CommonPagination
+                pagination={data.pagination}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setBrandToDelete(null);
+        }}
+        onConfirm={() => {
+          if (brandToDelete) {
+            handleDeleteBrand((brandToDelete as any).id);
+          }
+        }}
+        isLoading={deleteBrand.isPending}
+        title="Xác nhận xóa thương hiệu"
+        description={
+          brandToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa thương hiệu{" "}
+              <strong>{brandToDelete.name}</strong> không?
+            </>
+          ) : null
+        }
+      />
     </div>
   );
 }
@@ -676,7 +684,7 @@ function CreateBrandDialog({ isOpen, onClose }: CreateBrandDialogProps) {
       <DialogHeader>
         <DialogTitle>Thêm thương hiệu mới</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <Label htmlFor="create-name">Tên thương hiệu</Label>
           <Input

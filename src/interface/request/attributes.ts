@@ -1,5 +1,8 @@
 export interface IBrandFilter {
+  name?: string;
   status?: 'ACTIVE' | 'INACTIVE';
+  page?: number;
+  limit?: number;
 }
 
 export interface IBrandCreate {
@@ -13,7 +16,10 @@ export interface IBrandUpdate {
 }
 
 export interface ICategoryFilter {
+  name?: string;
   status?: 'ACTIVE' | 'INACTIVE';
+  page?: number;
+  limit?: number;
 }
 
 export interface ICategoryCreate {
@@ -27,7 +33,10 @@ export interface ICategoryUpdate {
 }
 
 export interface IMaterialFilter {
+  name?: string;
   status?: 'ACTIVE' | 'INACTIVE';
+  page?: number;
+  limit?: number;
 }
 
 export interface IMaterialCreate {
@@ -41,7 +50,10 @@ export interface IMaterialUpdate {
 }
 
 export interface IColorFilter {
+  name?: string;
   status?: 'ACTIVE' | 'INACTIVE';
+  page?: number;
+  limit?: number;
 }
 
 export interface IColorCreate {
@@ -57,7 +69,10 @@ export interface IColorUpdate {
 }
 
 export interface ISizeFilter {
+  value?: number;
   status?: 'ACTIVE' | 'INACTIVE';
+  page?: number;
+  limit?: number;
 }
 
 export interface ISizeCreate {

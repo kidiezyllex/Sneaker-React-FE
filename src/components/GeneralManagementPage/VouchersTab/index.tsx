@@ -271,7 +271,7 @@ const VouchersTab = () => {
 
           {selectedVoucher && (
             <div className="space-y-4 p-4">
-              <div className="bg-primary/5 rounded-xl p-6 border border-primary/10 relative overflow-hidden">
+              <div className="bg-primary/5 rounded-xl p-4 border border-primary/10 relative overflow-hidden">
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                   <Icon path={mdiTicketPercentOutline} size={4} />
                 </div>

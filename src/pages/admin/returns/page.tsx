@@ -62,6 +62,7 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   mdiMagnify,
   mdiDownload,
@@ -91,7 +92,7 @@ export default function ReturnsPage() {
   const { data: statsData } = useReturnStats();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [returnToDelete, setReturnToDelete] = useState<string | null>(null);
+  const [returnToDelete, setReturnToDelete] = useState<any>(null);
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
   const [selectedReturn, setSelectedReturn] = useState<string | null>(null);
@@ -177,6 +178,7 @@ export default function ReturnsPage() {
           queryClient.invalidateQueries({ queryKey: ["returns"] });
           queryClient.invalidateQueries({ queryKey: ["returnStats"] });
           setIsDeleteDialogOpen(false);
+          setReturnToDelete(null);
         },
       });
     } catch (error) {
@@ -657,9 +659,7 @@ export default function ReturnsPage() {
                                   <DropdownMenuItem
                                     className="cursor-pointer text-red-600"
                                     onClick={() => {
-                                      setReturnToDelete(
-                                        (returnItem as any)?.id
-                                      );
+                                      setReturnToDelete(returnItem);
                                       setIsDeleteDialogOpen(true);
                                     }}
                                   >
@@ -726,34 +726,29 @@ export default function ReturnsPage() {
         </CardContent>
       </Card>
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent className="sm:max-w-4xl">
-          <DialogHeader>
-            <DialogTitle>Xác nhận xóa yêu cầu trả hàng</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <p>
-              Bạn có chắc chắn muốn xóa yêu cầu trả hàng này? Hành động này
-              không thể hoàn tác.
-            </p>
-          </div>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Hủy</Button>
-            </DialogClose>
-            <Button
-              variant="destructive"
-              onClick={() =>
-                returnToDelete && handleDeleteReturn(returnToDelete)
-              }
-              disabled={deleteReturn.isPending}
-            >
-              {deleteReturn.isPending ? "Đang xóa..." : "Xóa"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setReturnToDelete(null);
+        }}
+        onConfirm={() => {
+          if (returnToDelete) {
+            handleDeleteReturn(returnToDelete.id);
+          }
+        }}
+        isLoading={deleteReturn.isPending}
+        title="Xác nhận xóa yêu cầu trả hàng"
+        description={
+          returnToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa yêu cầu trả hàng{" "}
+              <span className="font-semibold">{returnToDelete.code}</span>? Hành
+              động này không thể hoàn tác.
+            </>
+          ) : null
+        }
+      />
 
       {/* Return Detail Dialog */}
       <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>

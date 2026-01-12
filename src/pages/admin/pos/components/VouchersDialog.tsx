@@ -165,7 +165,7 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
             <div className="py-0">
               {/* Header Stats */}
               <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4">
                   <div className="text-sm text-maintext">
                     <span className="font-semibold text-primary text-lg">
                       {vouchersData.data.pagination.totalItems}

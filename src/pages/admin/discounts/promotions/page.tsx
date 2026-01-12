@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePromotions, useDeletePromotion } from "@/hooks/promotion";
 import { CommonPagination } from "@/components/ui/common-pagination";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import { IPromotionFilter } from "@/interface/request/promotion";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
@@ -70,9 +71,7 @@ export default function PromotionsPage() {
   const deletePromotion = useDeletePromotion();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [promotionToDelete, setPromotionToDelete] = useState<number | null>(
-    null
-  );
+  const [promotionToDelete, setPromotionToDelete] = useState<any>(null);
 
   useEffect(() => {
     const debounce = setTimeout(() => {
@@ -112,6 +111,7 @@ export default function PromotionsPage() {
           toast.success("Đã xóa chiến dịch khuyến mãi thành công");
           queryClient.invalidateQueries({ queryKey: ["promotions"] });
           setIsDeleteDialogOpen(false);
+          setPromotionToDelete(null);
         },
       });
     } catch (error) {
@@ -440,7 +440,7 @@ export default function PromotionsPage() {
                             variant="outline"
                             size="icon"
                             onClick={() => {
-                              setPromotionToDelete(promotion.id);
+                              setPromotionToDelete(promotion);
                               setIsDeleteDialogOpen(true);
                             }}
                             title="Xóa"
@@ -482,43 +482,29 @@ export default function PromotionsPage() {
         </div>
       )}
 
-      {/* Xác nhận xóa dialog */}
-      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Xác nhận xóa chiến dịch khuyến mãi</DialogTitle>
-          </DialogHeader>
-          <p className="py-4">
-            Bạn có chắc chắn muốn xóa chiến dịch khuyến mãi này không? Hành động
-            này không thể hoàn tác.
-          </p>
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Hủy</Button>
-            </DialogClose>
-            <Button
-              variant="destructive"
-              onClick={() =>
-                promotionToDelete && handleDeletePromotion(promotionToDelete)
-              }
-              disabled={deletePromotion.isPending}
-            >
-              {deletePromotion.isPending ? (
-                <>
-                  <Icon
-                    path={mdiLoading}
-                    size={0.8}
-                    className="mr-2 animate-spin"
-                  />
-                  Đang xóa...
-                </>
-              ) : (
-                "Xóa"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setPromotionToDelete(null);
+        }}
+        onConfirm={() => {
+          if (promotionToDelete) {
+            handleDeletePromotion(promotionToDelete.id);
+          }
+        }}
+        isLoading={deletePromotion.isPending}
+        title="Xác nhận xóa chiến dịch khuyến mãi"
+        description={
+          promotionToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa chiến dịch khuyến mãi{" "}
+              <span className="font-semibold">{promotionToDelete.name}</span>?
+              Hành động này không thể hoàn tác.
+            </>
+          ) : null
+        }
+      />
     </div>
   );
 }

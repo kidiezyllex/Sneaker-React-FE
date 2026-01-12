@@ -9,10 +9,7 @@ export function Pagination({
     <nav
       role="navigation"
       aria-label="pagination"
-      className={cn(
-        "flex w-full justify-center items-center gap-2 mt-8",
-        className
-      )}
+      className={cn("flex w-full justify-center items-center gap-2", className)}
       {...props}
     >
       {children}

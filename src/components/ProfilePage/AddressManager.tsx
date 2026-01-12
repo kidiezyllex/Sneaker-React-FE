@@ -26,7 +26,9 @@ import {
 } from "@/components/ui/form";
 import { Loader2, Plus, Pencil, Trash2, Check, X } from "lucide-react";
 import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { CustomToast } from "@/components/ui/custom-toast";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   useAddAddress,
   useUpdateAddress,
@@ -517,52 +519,14 @@ export default function AddressManager() {
         </DialogContent>
       </Dialog>
 
-      {/* Confirm Delete Dialog */}
-      <Dialog
-        open={!!deleteId}
-        onOpenChange={(open) => !open && setDeleteId(null)}
-      >
-        <DialogContent className="max-w-4xl">
-          <DialogHeader>
-            <DialogTitle className="text-center">
-              Xác nhận xóa địa chỉ
-            </DialogTitle>
-            <DialogDescription className="text-center">
-              Bạn có chắc chắn muốn xóa địa chỉ này? Hành động này không thể
-              hoàn tác.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="flex justify-center gap-4 mt-4">
-            <Button
-              variant="outline"
-              onClick={() => setDeleteId(null)}
-              disabled={isDeleting}
-              className="w-32"
-            >
-              <X size={16} className="mr-2" />
-              Hủy
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={handleDelete}
-              disabled={isDeleting}
-              className="w-32"
-            >
-              {isDeleting ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Đang xóa...
-                </>
-              ) : (
-                <>
-                  <Check size={16} className="mr-2" />
-                  Xác nhận
-                </>
-              )}
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <DeleteConfirmDialog
+        isOpen={!!deleteId}
+        onClose={() => setDeleteId(null)}
+        onConfirm={handleDelete}
+        isLoading={isDeleting}
+        title="Xác nhận xóa địa chỉ"
+        description="Bạn có chắc chắn muốn xóa địa chỉ này? Hành động này không thể hoàn tác."
+      />
     </div>
   );
 }

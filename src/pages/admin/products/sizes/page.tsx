@@ -43,30 +43,65 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { getSizeLabel, getSizeValue, SIZE_MAPPINGS } from "@/utils/sizeMapping";
+import { Badge } from "@/components/ui/badge";
+import { CommonPagination } from "@/components/ui/common-pagination";
+import { Card, CardContent } from "@/components/ui/card";
+import { mdiMagnify } from "@mdi/js";
+import { useEffect } from "react";
+import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 
 export default function SizesPage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filters, setFilters] = useState<ISizeFilter>({});
+  const [filters, setFilters] = useState<ISizeFilter>({
+    page: 1,
+    limit: 5,
+  });
   const { data, isLoading, isError } = useSizes(filters);
   const deleteSizeMutation = useDeleteSize();
   const queryClient = useQueryClient();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [sizeToDelete, setSizeToDelete] = useState<any>(null);
 
-  const filteredSizes = useMemo(() => {
-    if (!data?.data || !searchQuery.trim()) return data?.data;
+  useEffect(() => {
+    const debounce = setTimeout(() => {
+      const query = searchQuery.trim();
+      if (query) {
+        const numericValue = Number(query);
+        const mappedValue = getSizeValue(query.toUpperCase());
 
-    const query = searchQuery.toLowerCase().trim();
-    const numericQuery = Number(query);
-    return data.data.filter((size) => {
-      const sizeLabel = getSizeLabel(size.value);
-      return (
-        (!isNaN(numericQuery)
-          ? size.value === numericQuery
-          : String(size.value).includes(query)) ||
-        sizeLabel.toLowerCase().includes(query)
-      );
-    });
-  }, [data?.data, searchQuery]);
+        if (!isNaN(numericValue)) {
+          setFilters((prev) => ({ ...prev, value: numericValue, page: 1 }));
+        } else if (mappedValue !== null) {
+          setFilters((prev) => ({ ...prev, value: mappedValue, page: 1 }));
+        } else {
+          // If neither, we might want to clear or keep previous.
+          // For now, let's just clear the value filter if no match found
+          const { value, ...rest } = filters;
+          setFilters({ ...rest, page: 1 });
+        }
+      } else {
+        const { value, ...rest } = filters;
+        setFilters({ ...rest, page: 1 });
+      }
+    }, 500);
+
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
+
+  const handleFilterChange = (key: keyof ISizeFilter, value: any) => {
+    if (value === "all" || value === "") {
+      const newFilters = { ...filters };
+      delete newFilters[key];
+      setFilters({ ...newFilters, page: 1 });
+    } else {
+      setFilters({ ...filters, [key]: value, page: 1 });
+    }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    setFilters((prev) => ({ ...prev, page: newPage }));
+  };
 
   const handleDeleteSize = async (sizeId: string) => {
     if (!sizeId) {
@@ -80,6 +115,8 @@ export default function SizesPage() {
         onSuccess: () => {
           toast.success("Đã xóa kích cỡ thành công");
           queryClient.invalidateQueries({ queryKey: ["sizes"] });
+          setIsDeleteDialogOpen(false);
+          setSizeToDelete(null);
         },
         onError: (error) => {
           console.error("Delete error:", error);
@@ -124,233 +161,247 @@ export default function SizesPage() {
         </Breadcrumb>
       </div>
 
-      <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        <DialogTrigger asChild>
-          <Button onClick={() => setIsCreateDialogOpen(true)}>
-            <Icon path={mdiPlus} size={0.8} />
-            Thêm kích cỡ mới
-          </Button>
-        </DialogTrigger>
-        <CreateSizeDialog
-          isOpen={isCreateDialogOpen}
-          onClose={() => setIsCreateDialogOpen(false)}
-        />
-      </Dialog>
-
-      {isLoading ? (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Kích cỡ
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Giá trị số
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="px-4 py-4">
-                      <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4">
-                      <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4">
-                      <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4">
-                      <div className="h-6 w-16 bg-gray-200 rounded-full animate-pulse"></div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4">
-                      <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
-                    </TableCell>
-                    <TableCell className="px-4 py-4">
-                      <div className="h-8 w-8 bg-gray-200 rounded animate-pulse ml-auto"></div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+      <Card className="mb-4">
+        <CardContent className="p-4 space-y-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+            <div className="relative flex-1">
+              <Icon
+                path={mdiMagnify}
+                size={0.8}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              />
+              <Input
+                placeholder="Tìm kiếm theo kích cỡ (XS, S, M...) hoặc giá trị số..."
+                className="pl-10 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Select
+              value={filters.status || "all"}
+              onValueChange={(value) => handleFilterChange("status", value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Tất cả trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+              </SelectContent>
+            </Select>
+            <Dialog
+              open={isCreateDialogOpen}
+              onOpenChange={setIsCreateDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <Button onClick={() => setIsCreateDialogOpen(true)}>
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm kích cỡ mới
+                </Button>
+              </DialogTrigger>
+              <CreateSizeDialog
+                isOpen={isCreateDialogOpen}
+                onClose={() => setIsCreateDialogOpen(false)}
+              />
+            </Dialog>
           </div>
-        </div>
-      ) : isError ? (
-        <div className="text-center py-8">
-          <p className="text-red-500">Đã xảy ra lỗi khi tải dữ liệu.</p>
-        </div>
-      ) : (
-        <div className="bg-white rounded-2xl shadow-sm overflow-visible">
-          <div className="p-4 border-b">
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1">
-                <Input
-                  placeholder="Tìm kiếm theo kích cỡ (XS, S, M, L, XL, XXL) hoặc giá trị số..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+
+          {isLoading ? (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Kích cỡ</TableHead>
+                      <TableHead>Giá trị số</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {Array.from({ length: 5 }).map((_, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="h-8 w-12 bg-gray-200 rounded-2xl animate-pulse"></div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="h-4 w-8 bg-gray-200 rounded animate-pulse"></div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="h-6 w-24 bg-gray-200 rounded-full animate-pulse"></div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <div className="h-8 w-8 bg-gray-200 rounded-2xl animate-pulse ml-auto"></div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </div>
             </div>
-          </div>
-
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    ID
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Kích cỡ
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Giá trị số
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Ngày cập nhật
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-right text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredSizes?.length ? (
-                  filteredSizes.map((size, index) => (
-                    <TableRow
-                      key={(size as any)?.id || `size-${index}`}
-                      className="hover:bg-gray-50"
-                    >
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {(size as any)?.id}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="h-8 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
-                            <span className="text-sm font-semibold">
-                              {getSizeLabel(size.value)}
-                            </span>
-                          </div>
-                        </div>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {size.value}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <span
-                          className={`px-2 py-1 text-sm rounded-full ${
-                            size.status === "ACTIVE"
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
-                        >
-                          {size.status === "ACTIVE"
-                            ? "Hoạt động"
-                            : "Không hoạt động"}
-                        </span>
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                        {formatDate(size.updatedAt)}
-                      </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <DeleteSizeDialog
-                            size={size}
-                            onDelete={() => {
-                              handleDeleteSize((size as any)?.id);
-                            }}
-                            isDeleting={deleteSizeMutation.isPending}
-                          />
-                        </div>
-                      </TableCell>
+          ) : isError ? (
+            <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+              <p className="text-red-500">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["sizes"] })
+                }
+              >
+                Thử lại
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>ID</TableHead>
+                      <TableHead>Kích cỡ</TableHead>
+                      <TableHead>Giá trị số</TableHead>
+                      <TableHead>Trạng thái</TableHead>
+                      <TableHead>Ngày cập nhật</TableHead>
+                      <TableHead className="text-right">Thao tác</TableHead>
                     </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell
-                      colSpan={6}
-                      className="text-center py-8 text-maintext"
-                    >
-                      Không có kích cỡ nào được tìm thấy.
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
-      )}
+                  </TableHeader>
+                  <TableBody>
+                    {data?.data?.length ? (
+                      data.data.map((size, index) => (
+                        <TableRow
+                          key={(size as any)?.id || `size-${index}`}
+                          className="hover:bg-gray-50"
+                        >
+                          <TableCell className="text-sm text-maintext">
+                            {(size as any)?.id}
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex items-center">
+                              <div className="h-6 w-fit px-2 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+                                <span className="text-sm font-semibold">
+                                  {getSizeLabel(size.value)}
+                                </span>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-sm text-maintext">
+                            {size.value}
+                          </TableCell>
+                          <TableCell>
+                            <Badge
+                              variant={
+                                size.status === "ACTIVE"
+                                  ? "success"
+                                  : "destructive"
+                              }
+                            >
+                              {size.status === "ACTIVE"
+                                ? "Hoạt động"
+                                : "Không hoạt động"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-sm text-maintext">
+                            {formatDate(size.updatedAt)}
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  setSizeToDelete(size);
+                                  setIsDeleteDialogOpen(true);
+                                }}
+                                title="Xóa"
+                              >
+                                <Icon path={mdiDeleteCircle} size={0.8} />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={6}
+                          className="text-center py-8 text-maintext"
+                        >
+                          Không có kích cỡ nào được tìm thấy.
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
+
+          {data?.pagination && data.pagination.totalPages > 1 && (
+            <div className="flex items-center justify-between">
+              <div className="hidden sm:block">
+                <p className="text-sm text-maintext">
+                  Hiển thị{" "}
+                  <span className="font-medium">
+                    {(data.pagination.currentPage - 1) *
+                      data.pagination.perPage +
+                      1}
+                  </span>{" "}
+                  đến{" "}
+                  <span className="font-medium">
+                    {Math.min(
+                      data.pagination.currentPage * data.pagination.perPage,
+                      data.pagination.total
+                    )}
+                  </span>{" "}
+                  của{" "}
+                  <span className="font-medium">{data.pagination.total}</span>{" "}
+                  kích cỡ
+                </p>
+              </div>
+              <CommonPagination
+                pagination={data.pagination}
+                onPageChange={handlePageChange}
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      <DeleteConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={() => {
+          setIsDeleteDialogOpen(false);
+          setSizeToDelete(null);
+        }}
+        onConfirm={() => {
+          if (sizeToDelete) {
+            handleDeleteSize((sizeToDelete as any).id);
+          }
+        }}
+        isLoading={deleteSizeMutation.isPending}
+        title="Xác nhận xóa kích cỡ"
+        description={
+          sizeToDelete ? (
+            <>
+              Bạn có chắc chắn muốn xóa kích cỡ{" "}
+              <strong>{getSizeLabel(sizeToDelete.value)}</strong> không?
+            </>
+          ) : null
+        }
+      />
     </div>
-  );
-}
-
-interface DeleteSizeDialogProps {
-  size: any;
-  onDelete: () => void;
-  isDeleting: boolean;
-}
-
-function DeleteSizeDialog({
-  size,
-  onDelete,
-  isDeleting,
-}: DeleteSizeDialogProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleDelete = () => {
-    onDelete();
-    setIsOpen(false);
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button variant="outline" size="icon" disabled={isDeleting} title="Xóa">
-          <Icon path={mdiDeleteCircle} size={0.8} />
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Xác nhận xóa kích cỡ</DialogTitle>
-        </DialogHeader>
-        <p>
-          Bạn có chắc chắn muốn xóa kích cỡ{" "}
-          <strong>{getSizeLabel(size.value)}</strong> không?
-        </p>
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline" disabled={isDeleting}>
-              Hủy
-            </Button>
-          </DialogClose>
-          <Button
-            variant="destructive"
-            onClick={handleDelete}
-            disabled={isDeleting}
-          >
-            {isDeleting ? "Đang xóa..." : "Xóa"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
   );
 }
 
