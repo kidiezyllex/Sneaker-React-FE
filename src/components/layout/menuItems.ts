@@ -7,6 +7,7 @@ import {
   mdiDesk,
   mdiOrderBoolDescendingVariant,
   mdiAccount,
+  mdiShoeSneaker,
 } from '@mdi/js';
 
 export const menuItems: MenuItem[] = [
@@ -32,7 +33,7 @@ export const menuItems: MenuItem[] = [
     id: 'products',
     name: 'Quản lý sản phẩm',
     path: '/admin/products',
-    icon: mdiHanger,
+    icon: mdiShoeSneaker,
     subMenu: [
       {
         id: 'products-list',

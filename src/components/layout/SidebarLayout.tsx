@@ -9,6 +9,8 @@ import { menuItems } from "./menuItems";
 import AdminHeader from "../Common/AdminHeader";
 import { useMenuSidebar } from "@/stores/useMenuSidebar";
 import { useStableCallback } from "@/hooks/usePerformance";
+import { useUserProfile } from "@/hooks/account";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -22,6 +24,12 @@ const SidebarLayout = memo(function SidebarLayout({
   const location = useLocation();
   const pathname = location.pathname;
   const { isOpen } = useMenuSidebar();
+  const { data: profileData } = useUserProfile();
+
+  const getAvatarUrl = () => {
+    const userId = profileData?.data.id || "default";
+    return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+  };
 
   const toggleSubMenu = useStableCallback((menuId: string) => {
     setOpenMenus((prev) => ({
@@ -77,26 +85,32 @@ const SidebarLayout = memo(function SidebarLayout({
         <div className="flex flex-col h-full">
           <div
             className={cn(
-              "p-4 border-b !max-h-16",
-              isOpen ? "" : "justify-center"
+              "p-2 border-b !max-h-[70px] h-[70px] flex items-center",
+              isOpen ? "justify-center" : "justify-center"
             )}
           >
-            {isOpen ? (
-              <a href="/" className="flex items-center">
-                <img
-                  draggable="false"
-                  src="/images/logo.png"
-                  alt="logo"
-                  width={100}
-                  height={100}
-                  className="w-auto mx-auto h-10 select-none cursor-pointer"
+            <div className="flex items-center justify-center flex-col-reverse gap-1">
+              {isOpen && (
+                <div className="flex flex-col justify-end items-end">
+                  <p className="text-sm font-medium leading-none whitespace-nowrap">
+                    Xin chào,{" "}
+                    <span className="font-semibold text-primary">
+                      {profileData?.data.fullName}
+                    </span>
+                  </p>
+                </div>
+              )}
+              <Avatar className="h-10 w-10 border border-gray-200">
+                <AvatarImage
+                  src={getAvatarUrl()}
+                  alt={profileData?.data.fullName}
                 />
-              </a>
-            ) : (
-              <h1 className="text-2xl text-primary !font-semibold select-none cursor-pointer text-center">
-                A<span className="text-extra">S</span>
-              </h1>
-            )}
+                <AvatarFallback>
+                  {profileData?.data.fullName.split(" ").pop()?.charAt(0) ||
+                    "U"}
+                </AvatarFallback>
+              </Avatar>
+            </div>
           </div>
           <nav className="flex-1 overflow-y-auto py-4">
             <ul className={cn("space-y-1", isOpen ? "px-2" : "px-1")}>
