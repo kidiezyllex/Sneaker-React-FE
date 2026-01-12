@@ -1,10 +1,20 @@
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
+import Icon from "@mdi/react";
+import {
+  mdiCheck,
+  mdiAlert,
+  mdiInformation,
+  mdiCloseCircle,
+  mdiAccount,
+  mdiCube,
+  mdiHeart,
+  mdiTag,
+} from "@mdi/js";
 
 const badgeVariants = cva(
-  "inline-flex text-nowrap items-center rounded-full border-2 px-2 py-0.5 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex text-nowrap items-center rounded-full border-2 px-2 py-0.5 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1",
   {
     variants: {
       variant: {
@@ -32,13 +42,42 @@ const badgeVariants = cva(
   }
 );
 
+const variantIcons: Record<string, string | undefined> = {
+  success: mdiCheck,
+  warning: mdiAlert,
+  info: mdiInformation,
+  destructive: mdiCloseCircle,
+  purple: mdiAccount,
+  indigo: mdiCube,
+  rose: mdiHeart,
+  outline: mdiTag,
+};
+
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  icon?: string;
+  showIcon?: boolean;
+}
 
-function Badge({ className, variant, ...props }: BadgeProps) {
+function Badge({
+  className,
+  variant,
+  icon,
+  showIcon = true,
+  children,
+  ...props
+}: BadgeProps) {
+  const defaultIcon = variant ? variantIcons[variant as string] : undefined;
+  const iconToRender = icon || defaultIcon;
+
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <div className={cn(badgeVariants({ variant }), className)} {...props}>
+      {showIcon && iconToRender && (
+        <Icon path={iconToRender} size={0.5} className="flex-shrink-0" />
+      )}
+      {children}
+    </div>
   );
 }
 
