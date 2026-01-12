@@ -20,7 +20,11 @@ import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { formatPrice, formatDate } from "@/utils/formatters";
 import { useUser } from "@/context/useUserContext";
-import { useVouchers, useValidateVoucher } from "@/hooks/voucher";
+import {
+  useVouchers,
+  useValidateVoucher,
+  useAvailableVouchersForUser,
+} from "@/hooks/voucher";
 import { IVoucher } from "@/interface/response/voucher";
 import {
   Dialog,
@@ -54,16 +58,18 @@ const VouchersListDialog = ({
   open,
   onOpenChange,
   onSelectVoucher,
+  userId,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSelectVoucher: (code: string) => void;
+  userId?: string | number;
 }) => {
   const {
     data: vouchersData,
     isLoading,
     isError,
-  } = useVouchers({ status: "ACTIVE" });
+  } = useAvailableVouchersForUser(String(userId || ""));
 
   const handleCopyCode = (code: string) => {
     navigator.clipboard
@@ -83,7 +89,9 @@ const VouchersListDialog = ({
       });
   };
 
-  const vouchers = vouchersData?.data?.vouchers;
+  const vouchers = Array.isArray(vouchersData?.data)
+    ? vouchersData.data
+    : (vouchersData?.data as any)?.vouchers;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -801,6 +809,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
         open={showVouchersDialog}
         onOpenChange={setShowVouchersDialog}
         onSelectVoucher={handleSelectVoucher}
+        userId={userId}
       />
     </>
   );

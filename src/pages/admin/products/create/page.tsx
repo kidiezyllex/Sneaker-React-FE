@@ -36,6 +36,8 @@ import {
   mdiArrowLeft,
   mdiLoading,
   mdiAutoFix,
+  mdiInformationOutline,
+  mdiPackageVariant,
 } from "@mdi/js";
 import { AnimatePresence, motion } from "framer-motion";
 import ProductVariantForm from "@/components/ProductPage/ProductVariantForm";
@@ -315,7 +317,16 @@ export default function CreateProductPage() {
           <TabsContent value="info" className="space-y-4">
             <Card>
               <CardHeader>
-                <CardTitle>Thông tin cơ bản</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <div className="p-2 rounded-full bg-primary/10">
+                    <Icon
+                      path={mdiInformationOutline}
+                      size={0.8}
+                      className="text-primary"
+                    />
+                  </div>
+                  <span>Thông tin cơ bản</span>
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-maintext">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -467,7 +478,16 @@ export default function CreateProductPage() {
             <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="flex items-center justify-between w-full">
-                  Biến thể sản phẩm
+                  <div className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Icon
+                        path={mdiPackageVariant}
+                        size={0.8}
+                        className="text-primary"
+                      />
+                    </div>
+                    <span>Biến thể sản phẩm</span>
+                  </div>
                   <div className="flex gap-2">
                     <Button
                       type="button"

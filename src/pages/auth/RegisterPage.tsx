@@ -219,12 +219,14 @@ const RegisterPage: React.FC = () => {
         >
           <Card>
             <CardHeader>
-              <CardTitle>
-                <Icon
-                  path={mdiAccountPlus}
-                  size={0.9}
-                  className="text-primary"
-                />
+              <CardTitle className="flex items-center gap-2">
+                <div className="p-2 rounded-full bg-primary/10">
+                  <Icon
+                    path={mdiAccountPlus}
+                    size={0.8}
+                    className="text-primary"
+                  />
+                </div>
                 <span className="text-primary">Đăng ký tài khoản</span>
               </CardTitle>
               <img

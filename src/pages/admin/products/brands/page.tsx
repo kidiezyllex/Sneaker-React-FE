@@ -138,7 +138,7 @@ export default function BrandsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên thương hiệu..."
-                className="pl-10 pr-4 py-2 w-full border rounded-2xl"
+                className="pl-10 pr-4"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
