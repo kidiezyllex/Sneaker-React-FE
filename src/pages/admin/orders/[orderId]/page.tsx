@@ -314,43 +314,39 @@ const OrderStatusBadge = ({ status }: { status: string }) => {
       case "CHO_XAC_NHAN":
         return {
           label: "Chờ xác nhận",
-          className: "!bg-amber-50 !text-yellow-600 !border-yellow-500",
+          variant: "warning" as const,
         };
       case "CHO_GIAO_HANG":
         return {
           label: "Chờ giao hàng",
-          className: "!bg-blue-50 !text-blue-500 !border-blue-500",
+          variant: "info" as const,
         };
       case "DANG_VAN_CHUYEN":
         return {
           label: "Đang vận chuyển",
-          className: "!bg-orange-50 !text-orange-500 !border-orange-500",
+          variant: "purple" as const,
         };
       case "DA_GIAO_HANG":
-        return {
-          label: "Đã giao hàng",
-          className: "!bg-green-50 !text-green-500 !border-green-500",
-        };
       case "HOAN_THANH":
         return {
-          label: "Hoàn thành",
-          className: "!bg-green-50 !text-green-500 !border-green-500",
+          label: status === "HOAN_THANH" ? "Hoàn thành" : "Đã giao hàng",
+          variant: "success" as const,
         };
       case "DA_HUY":
         return {
           label: "Đã hủy",
-          className: "!bg-red-50 !text-red-500 !border-red-500",
+          variant: "destructive" as const,
         };
       default:
         return {
           label: "Không xác định",
-          className: "!bg-gray-50 !text-maintext !border-gray-500",
+          variant: "outline" as const,
         };
     }
   };
 
   const config = getStatusConfig(status);
-  return <Badge className={config.className}>{config.label}</Badge>;
+  return <Badge variant={config.variant}>{config.label}</Badge>;
 };
 
 const PaymentStatusBadge = ({ status }: { status: string }) => {
@@ -359,23 +355,23 @@ const PaymentStatusBadge = ({ status }: { status: string }) => {
       case "PENDING":
         return {
           label: "Chưa thanh toán",
-          className: "!bg-amber-50 !text-yellow-600 !border-yellow-500",
+          variant: "warning" as const,
         };
       case "PAID":
         return {
           label: "Đã thanh toán",
-          className: "!bg-green-50 !text-green-500 !border-green-500",
+          variant: "success" as const,
         };
       default:
         return {
           label: "Không xác định",
-          className: "!bg-gray-50 !text-maintext !border-gray-500",
+          variant: "outline" as const,
         };
     }
   };
 
   const config = getStatusConfig(status);
-  return <Badge className={config.className}>{config.label}</Badge>;
+  return <Badge variant={config.variant}>{config.label}</Badge>;
 };
 
 const getProductInfo = (item: OrderItem): ProductInfo => {

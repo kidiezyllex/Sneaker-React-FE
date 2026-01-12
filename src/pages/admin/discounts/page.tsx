@@ -219,29 +219,13 @@ export default function DiscountsPage() {
   const getStatusBadge = (status: DiscountStatus) => {
     switch (status) {
       case "active":
-        return (
-          <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
-            Đang hoạt động
-          </Badge>
-        );
+        return <Badge variant="success">Đang hoạt động</Badge>;
       case "scheduled":
-        return (
-          <Badge className="bg-blue-100 text-blue-800 hover:bg-blue-100">
-            Lên lịch
-          </Badge>
-        );
+        return <Badge variant="info">Lên lịch</Badge>;
       case "expired":
-        return (
-          <Badge className="bg-gray-100 text-maintext hover:bg-gray-100">
-            Đã hết hạn
-          </Badge>
-        );
+        return <Badge variant="secondary">Đã hết hạn</Badge>;
       case "draft":
-        return (
-          <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-100">
-            Bản nháp
-          </Badge>
-        );
+        return <Badge variant="warning">Bản nháp</Badge>;
     }
   };
 

@@ -181,16 +181,10 @@ const ProfileTab = () => {
                         </p>
                       </div>
                       <div className="flex flex-wrap justify-center gap-2">
-                        <Badge
-                          variant="outline"
-                          className="bg-primary/5 text-primary border-primary/20"
-                        >
+                        <Badge variant="outline">
                           {userData?.role || "CUSTOMER"}
                         </Badge>
-                        <Badge
-                          variant="outline"
-                          className="bg-green-500/5 text-green-600 border-green-500/20"
-                        >
+                        <Badge variant="outline">
                           {userData?.status || "ACTIVE"}
                         </Badge>
                       </div>

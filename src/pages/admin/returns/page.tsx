@@ -232,32 +232,11 @@ export default function ReturnsPage() {
   const getReturnStatusBadge = (status: string) => {
     switch (status) {
       case "CHO_XU_LY":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-yellow-50 text-yellow-600 border-yellow-200"
-          >
-            Chờ xử lý
-          </Badge>
-        );
+        return <Badge variant="warning">Chờ xử lý</Badge>;
       case "DA_HOAN_TIEN":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-green-50 text-primary border-green-200"
-          >
-            Đã hoàn tiền
-          </Badge>
-        );
+        return <Badge variant="success">Đã hoàn tiền</Badge>;
       case "DA_HUY":
-        return (
-          <Badge
-            variant="outline"
-            className="bg-red-50 text-red-600 border-red-200"
-          >
-            Đã hủy
-          </Badge>
-        );
+        return <Badge variant="destructive">Đã hủy</Badge>;
       default:
         return <Badge variant="outline">Không xác định</Badge>;
     }
@@ -430,7 +409,7 @@ export default function ReturnsPage() {
                   {(filters.customer ||
                     filters.startDate ||
                     filters.endDate) && (
-                    <Badge className="ml-2 bg-primary h-5 w-5 p-0 flex items-center justify-center">
+                    <Badge>
                       {
                         [
                           filters.customer,
@@ -897,26 +876,11 @@ function ReturnDetailContent({
               <p className="text-sm text-maintext">Trạng thái</p>
               <div className="mt-1">
                 {returnData.status === "CHO_XU_LY" ? (
-                  <Badge
-                    variant="outline"
-                    className="bg-yellow-50 text-yellow-600 border-yellow-200"
-                  >
-                    Chờ xử lý
-                  </Badge>
+                  <Badge variant="warning">Chờ xử lý</Badge>
                 ) : returnData.status === "DA_HOAN_TIEN" ? (
-                  <Badge
-                    variant="outline"
-                    className="bg-green-50 text-primary border-green-200"
-                  >
-                    Đã hoàn tiền
-                  </Badge>
+                  <Badge variant="success">Đã hoàn tiền</Badge>
                 ) : (
-                  <Badge
-                    variant="outline"
-                    className="bg-red-50 text-red-600 border-red-200"
-                  >
-                    Đã hủy
-                  </Badge>
+                  <Badge variant="destructive">Đã hủy</Badge>
                 )}
               </div>
             </div>

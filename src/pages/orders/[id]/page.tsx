@@ -80,21 +80,6 @@ export default function OrderDetailPage() {
     fetchOrder();
   }, [params.id, user, navigate, showToast]);
 
-  const getStatusColor = (status: Order["status"]) => {
-    switch (status) {
-      case "pending":
-        return "bg-yellow-500";
-      case "processing":
-        return "bg-blue-500";
-      case "completed":
-        return "bg-green-500";
-      case "cancelled":
-        return "bg-red-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
-
   const getStatusText = (status: Order["status"]) => {
     switch (status) {
       case "pending":
@@ -165,7 +150,17 @@ export default function OrderDetailPage() {
           Chi tiết đơn hàng #{order.id.slice(-6)}
         </h1>
         <div className="flex items-center gap-4">
-          <Badge className={`${getStatusColor(order.status)} text-white`}>
+          <Badge
+            variant={
+              order.status === "pending"
+                ? "warning"
+                : order.status === "processing"
+                ? "info"
+                : order.status === "completed"
+                ? "success"
+                : "destructive"
+            }
+          >
             {getStatusText(order.status)}
           </Badge>
           {order.status === "pending" && (

@@ -146,29 +146,13 @@ export default function AccountsPage() {
   const getRoleBadge = (role: string) => {
     switch (role) {
       case "ADMIN":
-        return (
-          <Badge className="bg-purple-600 text-white hover:bg-purple-700">
-            Quản trị viên
-          </Badge>
-        );
+        return <Badge variant="purple">Quản trị viên</Badge>;
       case "STAFF":
-        return (
-          <Badge className="bg-blue-600 text-white hover:bg-blue-700">
-            Nhân viên
-          </Badge>
-        );
+        return <Badge variant="info">Nhân viên</Badge>;
       case "CUSTOMER":
-        return (
-          <Badge className="bg-slate-600 text-white hover:bg-slate-700">
-            Khách hàng
-          </Badge>
-        );
+        return <Badge variant="secondary">Khách hàng</Badge>;
       default:
-        return (
-          <Badge className="bg-gray-500 text-white hover:bg-gray-600">
-            {role}
-          </Badge>
-        );
+        return <Badge variant="outline">{role}</Badge>;
     }
   };
 
@@ -176,23 +160,11 @@ export default function AccountsPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "ACTIVE":
-        return (
-          <Badge className="bg-green-600 text-white hover:bg-green-700">
-            Hoạt động
-          </Badge>
-        );
+        return <Badge variant="success">Hoạt động</Badge>;
       case "INACTIVE":
-        return (
-          <Badge className="bg-red-600 text-white hover:bg-red-700">
-            Không hoạt động
-          </Badge>
-        );
+        return <Badge variant="destructive">Không hoạt động</Badge>;
       default:
-        return (
-          <Badge className="bg-gray-500 text-white hover:bg-gray-600">
-            {status}
-          </Badge>
-        );
+        return <Badge variant="outline">{status}</Badge>;
     }
   };
 

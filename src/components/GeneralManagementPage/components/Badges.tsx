@@ -12,7 +12,11 @@ export const OrderStatusBadge = ({ status }: { status: string }) => {
         | "destructive"
         | "outline"
         | "success"
-        | "warning";
+        | "warning"
+        | "info"
+        | "purple"
+        | "rose"
+        | "indigo";
     }
   > = {
     CHO_XAC_NHAN: {
@@ -21,11 +25,11 @@ export const OrderStatusBadge = ({ status }: { status: string }) => {
     },
     CHO_GIAO_HANG: {
       label: "Chờ giao hàng",
-      variant: "secondary",
+      variant: "info",
     },
     DANG_VAN_CHUYEN: {
       label: "Đang vận chuyển",
-      variant: "default",
+      variant: "purple",
     },
     DA_GIAO_HANG: {
       label: "Đã giao hàng",
@@ -46,11 +50,7 @@ export const OrderStatusBadge = ({ status }: { status: string }) => {
     variant: "outline",
   };
 
-  return (
-    <Badge variant={config.variant} className="rounded-[4px] font-normal">
-      {config.label}
-    </Badge>
-  );
+  return <Badge variant={config.variant as any}>{config.label}</Badge>;
 };
 
 export const ReturnStatusBadge = ({ status }: { status: string }) => {
@@ -64,7 +64,11 @@ export const ReturnStatusBadge = ({ status }: { status: string }) => {
         | "destructive"
         | "outline"
         | "success"
-        | "warning";
+        | "warning"
+        | "info"
+        | "purple"
+        | "rose"
+        | "indigo";
     }
   > = {
     CHO_XU_LY: {
@@ -86,9 +90,5 @@ export const ReturnStatusBadge = ({ status }: { status: string }) => {
     variant: "outline",
   };
 
-  return (
-    <Badge variant={config.variant} className="rounded-[4px] font-normal">
-      {config.label}
-    </Badge>
-  );
+  return <Badge variant={config.variant as any}>{config.label}</Badge>;
 };

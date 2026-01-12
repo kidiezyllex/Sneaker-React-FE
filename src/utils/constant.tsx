@@ -287,32 +287,26 @@ export const getStatusBadge = (status: string) => {
   switch (status.toLowerCase()) {
     case "planning":
     case "lập kế hoạch":
-      return (
-        <Badge className="!bg-purple-500/80 text-white">Lập kế hoạch</Badge>
-      );
+      return <Badge variant="purple">Lập kế hoạch</Badge>;
     case "in-progress":
     case "đang tiến hành":
-      return (
-        <Badge className="!bg-green-500/80 text-white">Đang tiến hành</Badge>
-      );
+      return <Badge variant="info">Đang tiến hành</Badge>;
     case "active":
     case "ongoing":
     case "đang diễn ra":
-      return (
-        <Badge className="!bg-green-500/80 text-white">Đang diễn ra</Badge>
-      );
+      return <Badge variant="success">Đang diễn ra</Badge>;
     case "completed":
     case "hoàn thành":
-      return <Badge className="!bg-blue-500/80 text-white">Hoàn thành</Badge>;
+      return <Badge variant="info">Hoàn thành</Badge>;
     case "on-hold":
     case "tạm hoãn":
-      return <Badge className="!bg-orange-500/80 text-white">Tạm hoãn</Badge>;
+      return <Badge variant="warning">Tạm hoãn</Badge>;
     case "pending":
     case "chờ xử lý":
-      return <Badge className="!bg-yellow-500/80 text-white">Chờ xử lý</Badge>;
+      return <Badge variant="warning">Chờ xử lý</Badge>;
     case "cancelled":
     case "đã hủy":
-      return <Badge className="!bg-red-500/80 text-white">Đã hủy</Badge>;
+      return <Badge variant="destructive">Đã hủy</Badge>;
     default:
       return <Badge>{status}</Badge>;
   }
