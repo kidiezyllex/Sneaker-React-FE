@@ -38,6 +38,8 @@ import {
   mdiAutoFix,
   mdiInformationOutline,
   mdiPackageVariant,
+  mdiArrowRight,
+  mdiClose,
 } from "@mdi/js";
 import { AnimatePresence, motion } from "framer-motion";
 import ProductVariantForm from "@/components/ProductPage/ProductVariantForm";
@@ -464,11 +466,18 @@ export default function CreateProductPage() {
                   type="button"
                   variant="outline"
                   onClick={() => navigate(-1)}
+                  className="flex items-center gap-2"
                 >
+                  <Icon path={mdiClose} size={0.8} />
                   Hủy
                 </Button>
-                <Button type="button" onClick={handleNextTab}>
+                <Button
+                  type="button"
+                  onClick={handleNextTab}
+                  className="flex items-center gap-2"
+                >
                   Tiếp theo
+                  <Icon path={mdiArrowRight} size={0.8} />
                 </Button>
               </CardFooter>
             </Card>
