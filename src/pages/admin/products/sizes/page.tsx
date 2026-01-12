@@ -31,7 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Icon } from "@mdi/react";
-import { mdiPlus, mdiDeleteCircle } from "@mdi/js";
+import { mdiPlus, mdiDeleteCircle, mdiLoading } from "@mdi/js";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
 import {
