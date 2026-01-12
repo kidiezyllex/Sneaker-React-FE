@@ -591,7 +591,7 @@ function EditCategoryDialog({
       <DialogHeader>
         <DialogTitle>Chỉnh sửa danh mục: {categoryData.data.name}</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <FormLabel htmlFor="name">Tên danh mục</FormLabel>
           <Input
@@ -712,7 +712,7 @@ function CreateCategoryDialog({ isOpen, onClose }: CreateCategoryDialogProps) {
       <DialogHeader>
         <DialogTitle>Thêm danh mục mới</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <FormLabel htmlFor="create-name">Tên danh mục</FormLabel>
           <Input

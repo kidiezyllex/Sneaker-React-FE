@@ -171,7 +171,7 @@ export default function SizesPage() {
                 className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
               />
               <Input
-                placeholder="Tìm kiếm theo kích cỡ (XS, S, M...) hoặc giá trị số..."
+                placeholder="Tìm kiếm theo giá trị kích cỡ (ví dụ: 38, 40.5)..."
                 className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
@@ -289,9 +289,9 @@ export default function SizesPage() {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center">
-                              <div className="h-6 w-fit px-2 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+                              <div className="h-6 w-fit px-3 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
                                 <span className="text-sm font-semibold">
-                                  {getSizeLabel(size.value)}
+                                  {size.value}
                                 </span>
                               </div>
                             </div>
@@ -396,7 +396,7 @@ export default function SizesPage() {
           sizeToDelete ? (
             <>
               Bạn có chắc chắn muốn xóa kích cỡ{" "}
-              <strong>{getSizeLabel(sizeToDelete.value)}</strong> không?
+              <strong>{sizeToDelete.value}</strong> không?
             </>
           ) : null
         }
@@ -413,6 +413,9 @@ interface CreateSizeDialogProps {
 function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
   const queryClient = useQueryClient();
   const createSize = useCreateSize();
+  const { data: existingSizesData, isLoading: isLoadingExisting } = useSizes({
+    limit: 1000,
+  });
 
   const [formData, setFormData] = useState({
     value: 0,
@@ -423,9 +426,26 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
     value: "",
   });
 
-  const handleSizeChange = (sizeLabel: string) => {
-    const sizeValue = getSizeValue(sizeLabel);
-    if (sizeValue !== null) {
+  const availableSizes = useMemo(() => {
+    if (isLoadingExisting) return [];
+
+    const shoeSizes = [];
+    for (let i = 34; i <= 46; i += 0.5) {
+      shoeSizes.push(i);
+    }
+
+    const allPotentialValues = shoeSizes;
+
+    const existingValues = existingSizesData?.data?.map((s) => s.value) || [];
+
+    return allPotentialValues.filter(
+      (val) => !existingValues.some((ex) => Math.abs(ex - val) < 0.001)
+    );
+  }, [existingSizesData, isLoadingExisting]);
+
+  const handleSizeChange = (value: string) => {
+    const sizeValue = parseFloat(value);
+    if (!isNaN(sizeValue)) {
       setFormData((prev) => ({ ...prev, value: sizeValue }));
       if (errors.value) {
         setErrors((prev) => ({ ...prev, value: "" }));
@@ -484,23 +504,16 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
     }
   };
 
-  const getCurrentSizeLabel = () => {
-    if (formData.value > 0) {
-      return getSizeLabel(formData.value);
-    }
-    return "";
-  };
-
   return (
-    <DialogContent className="sm:max-w-4xl">
+    <DialogContent className="sm:max-w-[425px]">
       <DialogHeader>
         <DialogTitle>Thêm kích cỡ mới</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <FormLabel htmlFor="create-size">Kích cỡ</FormLabel>
           <Select
-            value={getCurrentSizeLabel()}
+            value={formData.value ? String(formData.value) : ""}
             onValueChange={handleSizeChange}
           >
             <SelectTrigger
@@ -510,11 +523,22 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
               <SelectValue placeholder="Chọn kích cỡ" />
             </SelectTrigger>
             <SelectContent>
-              {SIZE_MAPPINGS.map((size) => (
-                <SelectItem key={size.value} value={size.label}>
-                  {size.label} (Giá trị: {size.value})
-                </SelectItem>
-              ))}
+              {isLoadingExisting ? (
+                <div className="flex items-center justify-center p-4">
+                  <Icon path={mdiLoading} size={0.8} className="animate-spin" />
+                  <span className="ml-2 text-sm">Đang tải dữ liệu...</span>
+                </div>
+              ) : availableSizes.length > 0 ? (
+                availableSizes.map((val) => (
+                  <SelectItem key={val} value={String(val)}>
+                    Size {val}
+                  </SelectItem>
+                ))
+              ) : (
+                <div className="p-2 text-center text-sm text-gray-500">
+                  Tất cả kích cỡ đã được thêm
+                </div>
+              )}
             </SelectContent>
           </Select>
           {errors.value && (
@@ -534,7 +558,7 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
             </SelectContent>
           </Select>
         </div>
-        <DialogFooter>
+        <DialogFooter className="p-0">
           <Button type="button" variant="outline" onClick={onClose}>
             Hủy
           </Button>

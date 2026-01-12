@@ -592,7 +592,7 @@ function EditMaterialDialog({
       <DialogHeader>
         <DialogTitle>Chỉnh sửa chất liệu: {materialData.data.name}</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <FormLabel htmlFor="name">Tên chất liệu</FormLabel>
           <Input
@@ -708,7 +708,7 @@ function CreateMaterialDialog({ isOpen, onClose }: CreateMaterialDialogProps) {
       <DialogHeader>
         <DialogTitle>Thêm chất liệu mới</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <FormLabel htmlFor="create-name">Tên chất liệu</FormLabel>
           <Input

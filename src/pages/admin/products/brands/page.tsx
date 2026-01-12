@@ -561,7 +561,7 @@ function EditBrandDialog({ brandId, isOpen, onClose }: EditBrandDialogProps) {
       <DialogHeader>
         <DialogTitle>Chỉnh sửa thương hiệu: {brandData.data.name}</DialogTitle>
       </DialogHeader>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4 p-4">
         <div className="space-y-2">
           <FormLabel htmlFor="name">Tên thương hiệu</FormLabel>
           <Input
