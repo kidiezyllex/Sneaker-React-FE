@@ -328,7 +328,7 @@ export default function CreateReturnPage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Icon path={mdiAccountSearch} size={0.9} />
+            <Icon path={mdiAccountSearch} size={0.8} />
             Chọn khách hàng
           </CardTitle>
         </CardHeader>
@@ -388,7 +388,7 @@ export default function CreateReturnPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icon path={mdiPackageVariant} size={0.9} />
+              <Icon path={mdiPackageVariant} size={0.8} />
               Chọn đơn hàng
             </CardTitle>
           </CardHeader>

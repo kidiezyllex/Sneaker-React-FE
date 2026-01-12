@@ -950,7 +950,7 @@ function ReturnDetailContent({
                         <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center">
                           <Icon
                             path={mdiMagnify}
-                            size={0.9}
+                            size={0.8}
                             className="text-maintext"
                           />
                         </div>

@@ -327,7 +327,7 @@ export default function EditOrderPage() {
                               {item.product.imageUrl && (
                                 <div className="flex-shrink-0 h-10 w-10">
                                   <img
-                                    className="h-10 w-10 rounded-2xl object-cover"
+                                    className="w-9 h-9rounded-2xl object-cover"
                                     src={item.product.imageUrl}
                                     alt={item.product.name}
                                   />

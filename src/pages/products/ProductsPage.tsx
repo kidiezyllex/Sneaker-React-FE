@@ -532,7 +532,7 @@ export default function ProductsPage() {
         </div>
       </div>
 
-      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 h-10 w-10 flex items-center justify-center">
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 w-9 h-9flex items-center justify-center">
         <CartIcon className="text-white" />
       </div>
     </div>

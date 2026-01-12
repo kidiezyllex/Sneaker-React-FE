@@ -62,9 +62,9 @@ const StatCard = ({
             </div>
           </div>
           <div
-            className={`${bgColor} w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0`}
+            className={`${bgColor} w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0`}
           >
-            <Icon path={icon} size={0.9} className={iconColor} />
+            <Icon path={icon} size={0.8} className={iconColor} />
           </div>
         </div>
       </Card>

@@ -3,23 +3,15 @@ export interface SizeMapping {
   label: string;
 }
 
-export const SIZE_MAPPINGS: SizeMapping[] = [
-  { value: 34.0, label: 'XS' },
-  { value: 36.0, label: 'S' },
-  { value: 38.0, label: 'M' },
-  { value: 40.0, label: 'L' },
-  { value: 42.0, label: 'XL' },
-  { value: 44.0, label: 'XXL' },
-];
+export const SIZE_MAPPINGS: SizeMapping[] = [];
 
 export const getSizeLabel = (value: number): string => {
-  const mapping = SIZE_MAPPINGS.find(size => Math.abs(size.value - value) < 0.001);
-  return mapping ? mapping.label : `Size ${value}`;
+  return value.toString();
 };
 
 export const getSizeValue = (label: string): number | null => {
-  const mapping = SIZE_MAPPINGS.find(size => size.label === label);
-  return mapping ? mapping.value : null;
+  const val = parseFloat(label);
+  return isNaN(val) ? null : val;
 };
 
 export const getAllSizeLabels = (): string[] => {

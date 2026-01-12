@@ -36,7 +36,7 @@ const AccountDropdown = () => {
         href="/auth/login"
         className="p-2 text-maintext hover:text-primary transition-colors"
       >
-        <Icon path={mdiAccount} size={0.9} />
+        <Icon path={mdiAccount} size={0.8} />
       </a>
     );
   }
@@ -55,7 +55,7 @@ const AccountDropdown = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="ml-4">
-          <Avatar className="h-10 w-10 border border-primary/20">
+          <Avatar className="w-9 h-9border border-primary/20">
             <AvatarImage
               src={getAvatarUrl()}
               alt={profile?.data?.fullName || "User"}

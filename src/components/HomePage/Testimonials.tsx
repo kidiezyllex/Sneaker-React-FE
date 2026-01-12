@@ -44,7 +44,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
             <Icon
               key={i}
               path={mdiStar}
-              size={0.9}
+              size={0.8}
               className="text-yellow-400"
             />
           );
@@ -53,7 +53,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
             <Icon
               key={i}
               path={mdiStarHalfFull}
-              size={0.9}
+              size={0.8}
               className="text-yellow-400"
             />
           );
@@ -62,7 +62,7 @@ const RatingStars = ({ rating }: { rating: number }) => {
             <Icon
               key={i}
               path={mdiStarOutline}
-              size={0.9}
+              size={0.8}
               className="text-gray-300"
             />
           );

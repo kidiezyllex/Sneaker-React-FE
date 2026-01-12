@@ -397,7 +397,7 @@ export default function VNPayModal({
           <div className="flex items-center justify-center py-8">
             <Icon
               path={mdiLoading}
-              size={0.9}
+              size={0.8}
               className="animate-spin text-blue-600"
             />
             <span className="ml-2">Đang tải danh sách ngân hàng...</span>
@@ -540,7 +540,7 @@ export default function VNPayModal({
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <div className="flex items-center space-x-4">
-          <Icon path={mdiCellphone} size={0.9} className="text-blue-600" />
+          <Icon path={mdiCellphone} size={0.8} className="text-blue-600" />
           <div>
             <p className="text-sm font-medium">Mã OTP đã được gửi đến</p>
             <p className="text-sm text-maintext">*******890</p>
@@ -760,7 +760,7 @@ export default function VNPayModal({
       <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
-            <Icon path={mdiBank} size={0.9} className="text-blue-600" />
+            <Icon path={mdiBank} size={0.8} className="text-blue-600" />
             <span>VNPay - Cổng thanh toán</span>
           </DialogTitle>
         </DialogHeader>

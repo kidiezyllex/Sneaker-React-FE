@@ -134,14 +134,14 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
               className="p-2 text-maintext hover:text-primary rounded-full hover:bg-gray-100 transition-colors"
               title="In hóa đơn"
             >
-              <Icon path={mdiPrinter} size={0.9} />
+              <Icon path={mdiPrinter} size={0.8} />
             </button>
             <button
               onClick={onClose}
               className="p-2 text-maintext hover:text-red-500 rounded-full hover:bg-gray-100 transition-colors"
               title="Đóng"
             >
-              <Icon path={mdiClose} size={0.9} />
+              <Icon path={mdiClose} size={0.8} />
             </button>
           </div>
         </div>

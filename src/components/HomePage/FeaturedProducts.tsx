@@ -98,22 +98,22 @@ const ProductCard = ({
           <Button
             size="icon"
             variant="secondary"
-            className="rounded-full w-10 h-10 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
+            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
           >
             <Icon
               path={mdiHeartOutline}
-              size={0.9}
+              size={0.8}
               className="text-maintext dark:text-gray-300"
             />
           </Button>
           <Button
             size="icon"
             variant="secondary"
-            className="rounded-full w-10 h-10 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
+            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
           >
             <Icon
               path={mdiCartOutline}
-              size={0.9}
+              size={0.8}
               className="text-maintext dark:text-gray-300"
             />
           </Button>
@@ -187,7 +187,7 @@ export const FeaturedProducts = () => {
             Xem tất cả sản phẩm
             <Icon
               path={mdiArrowRight}
-              size={0.9}
+              size={0.8}
               className="ml-2 group-hover:translate-x-1 transition-transform"
             />
           </Button>

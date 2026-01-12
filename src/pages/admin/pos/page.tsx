@@ -981,7 +981,7 @@ export default function POSPage() {
       <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-border">
         <div className="flex items-start justify-between mb-4">
           <h3 className="text-lg font-semibold text-maintext flex items-center gap-2">
-            <Icon path={mdiCart} size={0.9} className="text-primary" />
+            <Icon path={mdiCart} size={0.8} className="text-primary" />
             Hoá đơn chờ ({pendingCarts.length}/5)
           </h3>
           <Button
@@ -1101,7 +1101,7 @@ export default function POSPage() {
               <div className="relative flex-1">
                 <Icon
                   path={mdiMagnify}
-                  size={0.9}
+                  size={0.8}
                   className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
                 />
                 <Input
@@ -1277,7 +1277,7 @@ export default function POSPage() {
                         <div className="flex items-center gap-2 mb-4">
                           <Icon
                             path={mdiPalette}
-                            size={0.9}
+                            size={0.8}
                             className="text-primary"
                           />
                           <h3 className="text-base font-semibold text-maintext">
@@ -1318,7 +1318,7 @@ export default function POSPage() {
                               {selectedApiVariant?.colorId?.id === color.id && (
                                 <Icon
                                   path={mdiCheck}
-                                  size={0.9}
+                                  size={0.8}
                                   className="text-white drop-shadow-lg"
                                 />
                               )}
@@ -1334,7 +1334,7 @@ export default function POSPage() {
                           <div className="flex items-center gap-2">
                             <Icon
                               path={mdiRuler}
-                              size={0.9}
+                              size={0.8}
                               className="text-primary"
                             />
                             <h3 className="text-base font-semibold text-maintext">
@@ -1408,7 +1408,7 @@ export default function POSPage() {
                     <div className="flex items-center gap-2">
                       <Icon
                         path={mdiPackageVariant}
-                        size={0.9}
+                        size={0.8}
                         className="text-primary"
                       />
                       <h3 className="text-base font-semibold text-maintext">
@@ -1647,7 +1647,7 @@ export default function POSPage() {
                                     onClick={() => handleProductSelect(product)}
                                   >
                                     <div className="flex items-center gap-2">
-                                      <div className="relative h-10 w-10 rounded-2xl overflow-hidden bg-gray-50">
+                                      <div className="relative w-9 h-9rounded-2xl overflow-hidden bg-gray-50">
                                         <img
                                           src={checkImageUrl(
                                             getVariantImageUrl(firstVariant)

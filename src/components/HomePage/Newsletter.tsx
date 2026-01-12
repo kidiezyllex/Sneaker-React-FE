@@ -173,7 +173,7 @@ export const Newsletter = () => {
                         className="h-14 px-8 bg-gradient-to-r from-primary via-secondary to-primary hover:from-primary/90 hover:via-secondary/90 hover:to-primary/90 text-white font-semibold rounded-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 min-w-[160px]"
                       >
                         <span className="mr-2">Đăng ký ngay</span>
-                        <Icon path={mdiEmailFast} size={0.9} />
+                        <Icon path={mdiEmailFast} size={0.8} />
                       </Button>
                     </div>
                   </div>

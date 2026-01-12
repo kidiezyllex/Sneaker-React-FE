@@ -115,7 +115,7 @@ export const NavigationBar = () => {
           <div className="flex items-center">
             <button
               onClick={() => setIsOpen(true)}
-              className="relative h-10 w-10 flex items-center justify-center text-maintext hover:text-primary transition-colors"
+              className="relative w-9 h-9flex items-center justify-center text-maintext hover:text-primary transition-colors"
             >
               <Icon path={mdiCart} size={0.8} />
               <span className="absolute -top-1 -right-1 bg-extra text-white text-sm rounded-full h-4 w-4 flex items-center justify-center">

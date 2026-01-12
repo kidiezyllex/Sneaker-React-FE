@@ -277,7 +277,7 @@ export default function StatisticsPage() {
             <div
               className={`${bgColor} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0`}
             >
-              <Icon path={icon} size={0.9} className={iconColor} />
+              <Icon path={icon} size={0.8} className={iconColor} />
             </div>
           </div>
         </CardContent>

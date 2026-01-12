@@ -27,7 +27,7 @@ export default function ConfirmCancelModal({
     <DialogContent className="max-w-4xl">
       <DialogHeader>
         <DialogTitle className="flex items-center gap-2">
-          <Icon path={mdiAlertCircle} size={0.9} className="text-red-500" />
+          <Icon path={mdiAlertCircle} size={0.8} className="text-red-500" />
           Xác nhận hủy yêu cầu
         </DialogTitle>
       </DialogHeader>

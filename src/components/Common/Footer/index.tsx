@@ -214,7 +214,7 @@ export const Footer = () => {
                     <div className="flex items-start gap-3">
                       <Icon
                         path={mdiMapMarker}
-                        size={0.9}
+                        size={0.8}
                         className="text-primary mt-1 flex-shrink-0"
                       />
                       <span className="text-gray-300 text-sm">
@@ -225,7 +225,7 @@ export const Footer = () => {
                     <div className="flex items-center gap-3">
                       <Icon
                         path={mdiEmail}
-                        size={0.9}
+                        size={0.8}
                         className="text-primary flex-shrink-0"
                       />
                       <span className="text-gray-300 text-sm">
@@ -235,7 +235,7 @@ export const Footer = () => {
                     <div className="flex items-center gap-3">
                       <Icon
                         path={mdiPhone}
-                        size={0.9}
+                        size={0.8}
                         className="text-primary flex-shrink-0"
                       />
                       <span className="text-gray-300 text-sm">
@@ -245,7 +245,7 @@ export const Footer = () => {
                     <div className="flex items-center gap-3">
                       <Icon
                         path={mdiClockOutline}
-                        size={0.9}
+                        size={0.8}
                         className="text-primary flex-shrink-0"
                       />
                       <span className="text-gray-300 text-sm">

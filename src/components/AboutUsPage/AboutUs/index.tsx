@@ -297,7 +297,7 @@ export const AboutUs = () => {
                 >
                   <Icon
                     path={mdiCheckCircle}
-                    size={0.9}
+                    size={0.8}
                     className="text-[#2C8B3D] mr-3"
                   />
                   <span className="text-lg text-maintext dark:text-gray-300">
@@ -311,7 +311,7 @@ export const AboutUs = () => {
                 >
                   <Icon
                     path={mdiCheckCircle}
-                    size={0.9}
+                    size={0.8}
                     className="text-[#2C8B3D] mr-3"
                   />
                   <span className="text-lg text-maintext dark:text-gray-300">
@@ -325,7 +325,7 @@ export const AboutUs = () => {
                 >
                   <Icon
                     path={mdiCheckCircle}
-                    size={0.9}
+                    size={0.8}
                     className="text-[#2C8B3D] mr-3"
                   />
                   <span className="text-lg text-maintext dark:text-gray-300">

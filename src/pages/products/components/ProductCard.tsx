@@ -6,7 +6,6 @@ import { Icon } from "@mdi/react";
 import { mdiCartOutline, mdiHeartOutline, mdiEye } from "@mdi/js";
 import { checkImageUrl } from "@/lib/utils";
 import { formatPrice } from "@/utils/formatters";
-import { getSizeLabel } from "@/utils/sizeMapping";
 import { calculateProductDiscount } from "@/lib/promotions";
 
 interface ProductCardProps {
@@ -305,12 +304,11 @@ export const ProductCard = ({
                 {Array.from(
                   new Set(
                     (product.variants || []).map((v: any) =>
-                      v.size?.value
-                        ? getSizeLabel(v.size.value)
-                        : v.size?.code || v.size?.name || "Unknown"
+                      v.size?.value ? String(v.size.value) : ""
                     )
                   )
                 )
+                  .filter(Boolean)
                   .slice(0, 4)
                   .join(", ")}
               </div>

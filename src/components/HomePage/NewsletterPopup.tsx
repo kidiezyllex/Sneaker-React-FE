@@ -62,7 +62,7 @@ export const NewsletterPopup = () => {
               className="absolute top-3 right-3 z-10 text-maintext hover:text-maintext"
               onClick={handleClose}
             >
-              <Icon path={mdiClose} size={0.9} />
+              <Icon path={mdiClose} size={0.8} />
             </button>
 
             <div className="grid md:grid-cols-5">

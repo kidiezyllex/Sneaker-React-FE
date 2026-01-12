@@ -50,7 +50,6 @@ import {
   filterActivePromotions,
 } from "@/lib/promotions";
 import { formatPrice } from "@/utils/formatters";
-import { getSizeLabel } from "@/utils/sizeMapping";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
@@ -168,8 +167,8 @@ export default function ProductDetail() {
       sizeId: firstVariant.sizeId?.id || "",
       colorName: firstVariant.colorId?.name || "Default",
       sizeName: firstVariant.sizeId?.value
-        ? getSizeLabel(firstVariant.sizeId.value)
-        : firstVariant.sizeId?.name || firstVariant.sizeId?.code || "",
+        ? String(firstVariant.sizeId.value)
+        : "",
     };
 
     addToCart(cartItem, 1);
@@ -313,8 +312,8 @@ export default function ProductDetail() {
       sizeId: String(selectedVariant.size.id),
       colorName: selectedVariant.color?.name || "Default",
       sizeName: selectedVariant.size.value
-        ? getSizeLabel(selectedVariant.size.value)
-        : selectedVariant.size.name || selectedVariant.size.code || "",
+        ? String(selectedVariant.size.value)
+        : "",
     };
 
     addToCart(cartItem, quantity);
@@ -502,7 +501,7 @@ export default function ProductDetail() {
                         className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full opacity-80 hover:opacity-100 bg-white/90 hover:bg-white shadow-xl border-0 backdrop-blur-sm z-20"
                         onClick={handlePrevImage}
                       >
-                        <Icon path={mdiChevronLeft} size={0.9} />
+                        <Icon path={mdiChevronLeft} size={0.8} />
                       </Button>
                       <Button
                         variant="secondary"
@@ -510,7 +509,7 @@ export default function ProductDetail() {
                         className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full opacity-80 hover:opacity-100 bg-white/90 hover:bg-white shadow-xl border-0 backdrop-blur-sm z-20"
                         onClick={handleNextImage}
                       >
-                        <Icon path={mdiChevronRight} size={0.9} />
+                        <Icon path={mdiChevronRight} size={0.8} />
                       </Button>
                     </>
                   )}
@@ -571,7 +570,7 @@ export default function ProductDetail() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Badge variant="success">{brandName}</Badge>
-                  <Badge variant="warning">{categoryName}</Badge>
+                  <Badge variant="secondary">{categoryName}</Badge>
                 </div>
                 {/* Rating placeholder */}
                 <div className="flex items-center gap-2">
@@ -597,7 +596,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Enhanced Pricing */}
-            <Card className="p-4 bg-green-50 border-green-300">
+            <Card className="p-4 bg-white border-gray-200">
               <div className="space-y-4">
                 {/* Discount Badge */}
                 {productDiscount && productDiscount.discountPercent > 0 && (
@@ -671,7 +670,7 @@ export default function ProductDetail() {
                   <div className="flex items-center gap-2">
                     <Icon
                       path={mdiPalette}
-                      size={0.9}
+                      size={0.8}
                       className="!text-maintext"
                     />
                     <span className="font-semibold text-maintext">Màu sắc</span>
@@ -703,7 +702,7 @@ export default function ProductDetail() {
                           handleColorSelect(String(variant.color.id))
                         }
                         className={`
-                        relative group flex items-center justify-center w-10 h-10 rounded-full
+                        relative group flex items-center justify-center w-9 h-9 rounded-full
                         transition-all duration-300 border-2
                         ${
                           String(selectedColor) === String(variant.color.id)
@@ -725,7 +724,7 @@ export default function ProductDetail() {
                           String(variant.color?.id) && (
                           <Icon
                             path={mdiCheck}
-                            size={0.9}
+                            size={0.8}
                             className="text-white drop-shadow-lg"
                           />
                         )}
@@ -739,7 +738,7 @@ export default function ProductDetail() {
                   <div className="flex items-center gap-2">
                     <Icon
                       path={mdiRuler}
-                      size={0.9}
+                      size={0.8}
                       className="!text-maintext"
                     />
                     <span className="font-semibold text-maintext">
@@ -753,10 +752,8 @@ export default function ProductDetail() {
                           (v) => String(v.size.id) === String(selectedSize)
                         );
                         return sizeVariant?.size?.value
-                          ? getSizeLabel(sizeVariant.size.value)
-                          : sizeVariant?.size?.name ||
-                              sizeVariant?.size?.code ||
-                              "Size đã chọn";
+                          ? String(sizeVariant.size.value)
+                          : "Size đã chọn";
                       })()}
                     </Badge>
                   )}
@@ -783,21 +780,26 @@ export default function ProductDetail() {
 
                     return (
                       <Button
-                        variant={
-                          String(selectedSize) === sizeId
-                            ? "default"
-                            : "outline"
-                        }
                         size="icon"
+                        variant="outline"
                         key={sizeId}
                         onClick={() => handleSizeSelect(sizeId)}
                         disabled={!isAvailable}
-                        className={
-                          !isAvailable ? "opacity-50 cursor-not-allowed" : ""
-                        }
+                        className={`
+                          ${
+                            String(selectedSize) === sizeId
+                              ? "border-primary text-primary bg-primary/5 shadow-sm scale-110"
+                              : "border-gray-200 text-maintext hover:border-primary hover:text-primary hover:scale-105 bg-white"
+                          }
+                          ${
+                            !isAvailable
+                              ? "opacity-30 cursor-not-allowed bg-gray-50/50 border-gray-100"
+                              : ""
+                          }
+                        `}
                         title={!isAvailable ? "Không có sẵn cho màu này" : ""}
                       >
-                        {getSizeLabel(sizeVariant?.size?.value || 0)}
+                        {sizeVariant?.size?.value || ""}
                       </Button>
                     );
                   })}
@@ -811,7 +813,7 @@ export default function ProductDetail() {
                 <div className="flex items-center gap-2">
                   <Icon
                     path={mdiCartPlus}
-                    size={0.9}
+                    size={0.8}
                     className="!text-maintext"
                   />
                   <span className="font-semibold text-maintext">Số lượng</span>
@@ -859,7 +861,7 @@ export default function ProductDetail() {
                 size="lg"
                 onClick={() => toast.success("Đã thêm vào danh sách yêu thích")}
               >
-                <Icon path={mdiHeartOutline} size={0.9} className="mr-2" />
+                <Icon path={mdiHeartOutline} size={0.8} className="mr-2" />
                 Yêu thích
               </Button>
               <Button
@@ -867,13 +869,13 @@ export default function ProductDetail() {
                 onClick={handleAddToCart}
                 disabled={!selectedVariant || selectedVariant.stock === 0}
               >
-                <Icon path={mdiCartOutline} size={0.9} className="mr-2" />
+                <Icon path={mdiCartOutline} size={0.8} className="mr-2" />
                 Thêm vào giỏ hàng
               </Button>
             </div>
 
             {/* Enhanced Product Features */}
-            <Card className="p-4 bg-green-50 border-green-300">
+            <Card className="p-4 bg-white border-gray-200">
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
@@ -898,10 +900,10 @@ export default function ProductDetail() {
                   },
                 ].map((feature, index) => (
                   <div key={index} className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center border border-green-300">
+                    <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center border border-green-300">
                       <Icon
                         path={feature.icon}
-                        size={0.9}
+                        size={0.8}
                         className="text-primary"
                       />
                     </div>
@@ -919,11 +921,11 @@ export default function ProductDetail() {
             </Card>
 
             {/* Enhanced Product Information */}
-            <Card className="p-4 bg-green-50 border-green-300">
+            <Card className="p-4 bg-white border-gray-200">
               <h3 className="font-semibold text-maintext mb-4 flex items-center gap-2">
                 <Icon
                   path={mdiInformation}
-                  size={0.9}
+                  size={0.8}
                   className="text-primary"
                 />
                 Thông tin sản phẩm
@@ -975,7 +977,7 @@ export default function ProductDetail() {
           onAddToWishlist={handleAddToWishlistSimilar}
         />
       </div>
-      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 h-10 w-10 flex items-center justify-center">
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 w-9 h-9flex items-center justify-center">
         <CartIcon className="text-white" />
       </div>
     </div>

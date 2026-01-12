@@ -99,7 +99,7 @@ export default function StatusUpdateModal({
           <DialogTitle className="flex items-center gap-2">
             <Icon
               path={mdiAlertCircle}
-              size={0.9}
+              size={0.8}
               className="text-orange-500"
             />
             Cập nhật trạng thái yêu cầu trả hàng

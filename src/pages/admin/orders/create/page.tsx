@@ -606,7 +606,7 @@ export default function CreateOrderPage() {
                               <img
                                 src={product.images[0]}
                                 alt={product.name}
-                                className="h-10 w-10 rounded-2xl object-cover"
+                                className="w-9 h-9rounded-2xl object-cover"
                               />
                             )}
                             <div>

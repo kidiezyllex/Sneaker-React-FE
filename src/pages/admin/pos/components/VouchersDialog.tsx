@@ -94,7 +94,7 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
       <DialogContent className="sm:max-w-6xl max-h-[90vh] flex flex-col ">
         <DialogHeader className="pb-6 border-b border-border">
           <DialogTitle className="flex items-center gap-2">
-            <Icon path={mdiTag} size={0.9} className="text-primary" />
+            <Icon path={mdiTag} size={0.8} className="text-primary" />
             <span>Danh sách mã giảm giá</span>
           </DialogTitle>
         </DialogHeader>

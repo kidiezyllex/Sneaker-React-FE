@@ -100,7 +100,7 @@ const SidebarLayout = memo(function SidebarLayout({
                   </p>
                 </div>
               )}
-              <Avatar className="h-10 w-10 border border-gray-200">
+              <Avatar className="w-9 h-9border border-gray-200">
                 <AvatarImage
                   src={getAvatarUrl()}
                   alt={profileData?.data.fullName}

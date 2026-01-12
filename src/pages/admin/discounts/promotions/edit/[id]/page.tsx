@@ -276,7 +276,7 @@ export default function EditPromotionPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Icon path={mdiPercent} size={0.9} className="text-primary" />
+              <Icon path={mdiPercent} size={0.8} className="text-primary" />
               Chỉnh sửa chiến dịch khuyến mãi
             </CardTitle>
           </CardHeader>
@@ -485,7 +485,7 @@ export default function EditPromotionPage() {
                   <div className="flex items-start gap-4">
                     <Icon
                       path={mdiInformation}
-                      size={0.9}
+                      size={0.8}
                       className="text-blue-600 mt-0.5"
                     />
                     <div className="space-y-2">

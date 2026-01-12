@@ -73,7 +73,7 @@ export const SearchBox = () => {
         onClick={() => setIsOpen(true)}
         className="text-maintext hover:text-primary transition-colors"
       >
-        <Icon path={mdiMagnify} size={0.9} />
+        <Icon path={mdiMagnify} size={0.8} />
       </Button>
 
       {/* Overlay tìm kiếm */}
@@ -112,7 +112,7 @@ export const SearchBox = () => {
                   onClick={() => setIsOpen(false)}
                   className="text-maintext hover:text-maintext"
                 >
-                  <Icon path={mdiClose} size={0.9} />
+                  <Icon path={mdiClose} size={0.8} />
                 </Button>
               </div>
 
@@ -120,7 +120,7 @@ export const SearchBox = () => {
                 <div className="flex items-center border-b-2 border-primary focus-within:border-extra transition-colors">
                   <Icon
                     path={mdiMagnify}
-                    size={0.9}
+                    size={0.8}
                     className="text-maintext mr-2"
                   />
                   <Input

@@ -370,7 +370,7 @@ export default function CreatePromotionPage() {
                   <div className="flex items-start gap-4">
                     <Icon
                       path={mdiInformation}
-                      size={0.9}
+                      size={0.8}
                       className="text-blue-600 mt-0.5"
                     />
                     <div className="space-y-2">

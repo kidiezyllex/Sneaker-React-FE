@@ -161,7 +161,7 @@ export const BestSeller = () => {
             Xem tất cả
             <Icon
               path={mdiArrowLeft}
-              size={0.9}
+              size={0.8}
               className="ml-2 group-hover:translate-x-1 transition-transform transform scale-x-[-1]"
             />
           </InteractiveHoverButton>

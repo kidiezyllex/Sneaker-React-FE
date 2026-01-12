@@ -21,7 +21,7 @@ const CartIcon: React.FC<CartIconProps> = ({ className }) => {
       >
         <Icon
           path={mdiCart}
-          size={0.9}
+          size={0.8}
           className={className ? className : "text-foreground"}
         />
         {totalItems > 0 && (

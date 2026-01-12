@@ -1166,7 +1166,7 @@ const OrderDetailDialog = ({
                             <TableCell>
                               <div className="flex items-center gap-2">
                                 {item.product && item.product.imageUrl && (
-                                  <div className="w-10 h-10 rounded border overflow-hidden bg-gray-100">
+                                  <div className="w-9 h-9 rounded border overflow-hidden bg-gray-100">
                                     <img
                                       src={item.product.imageUrl}
                                       alt={item.product.name}

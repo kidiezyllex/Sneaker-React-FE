@@ -170,7 +170,7 @@ const LoginPage: React.FC = () => {
         <div className="absolute h-28 w-28 rounded-full bg-primary/70 -top-10 left-[40%]"></div>
         <div className="absolute h-12 w-12 rounded-full bg-secondary/40 top-1/2 left-[5%]"></div>
         <div className="absolute h-14 w-14 rounded-full bg-primary/80 bottom-1/3 right-[10%]"></div>
-        <div className="absolute h-10 w-10 rounded-full bg-secondary/70 top-1/4 right-[30%]"></div>
+        <div className="absolute w-9 h-9rounded-full bg-secondary/70 top-1/4 right-[30%]"></div>
         <div className="absolute h-36 w-36 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 -bottom-16 left-[30%] blur-sm"></div>
         <div className="absolute h-40 w-40 rounded-full bg-gradient-to-r from-secondary/20 to-primary/20 -top-20 right-[20%] blur-sm"></div>
       </div>

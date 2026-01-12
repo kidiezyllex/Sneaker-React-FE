@@ -249,7 +249,7 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
                 iconToShow = (
                   <Icon
                     path={step.icon}
-                    size={0.9}
+                    size={0.8}
                     className={step.colors.textClass}
                   />
                 );
@@ -258,7 +258,7 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
               iconToShow = (
                 <Icon
                   path={step.icon}
-                  size={0.9}
+                  size={0.8}
                   className="text-maintext/50 dark:text-maintext"
                 />
               );
@@ -790,7 +790,7 @@ export default function OrderDetailPage() {
                       <TableRow key={index}>
                         <TableCell>
                           <div className="flex items-center gap-2">
-                            <Skeleton className="w-10 h-10 rounded" />
+                            <Skeleton className="w-9 h-9 rounded" />
                             <div>
                               <Skeleton className="h-4 w-32 mb-1" />
                               <Skeleton className="h-3 w-20" />
@@ -1425,7 +1425,7 @@ export default function OrderDetailPage() {
                         <TableCell>
                           <div className="flex items-center gap-3">
                             {variantImage && (
-                              <div className="w-10 h-10 rounded border overflow-hidden bg-gray-100 flex-shrink-0">
+                              <div className="w-9 h-9 rounded border overflow-hidden bg-gray-100 flex-shrink-0">
                                 <img
                                   src={variantImage}
                                   alt={productInfo.name}
