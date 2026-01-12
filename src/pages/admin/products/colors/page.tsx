@@ -48,7 +48,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FormLabel } from "@/components/ui/form";
 import namer from "color-namer";
 import {
   Dialog,
@@ -635,7 +635,7 @@ function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogProps) {
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Tên màu sắc</Label>
+          <FormLabel htmlFor="name">Tên màu sắc</FormLabel>
           <Input
             id="name"
             name="name"
@@ -647,7 +647,7 @@ function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogProps) {
           {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="code">Mã màu</Label>
+          <FormLabel htmlFor="code">Mã màu</FormLabel>
           <div className="flex gap-2 items-center">
             <Input
               id="code"
@@ -675,7 +675,7 @@ function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogProps) {
           {errors.code && <p className="text-red-500 text-sm">{errors.code}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="status">Trạng thái</Label>
+          <FormLabel htmlFor="status">Trạng thái</FormLabel>
           <Select value={formData.status} onValueChange={handleStatusChange}>
             <SelectTrigger id="status">
               <SelectValue placeholder="Chọn trạng thái" />
@@ -812,7 +812,7 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="create-name">Tên màu sắc</Label>
+          <FormLabel htmlFor="create-name">Tên màu sắc</FormLabel>
           <Input
             id="create-name"
             name="name"
@@ -825,7 +825,7 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="create-code">Mã màu</Label>
+          <FormLabel htmlFor="create-code">Mã màu</FormLabel>
           <div className="flex gap-2 items-center">
             <Input
               id="create-code"
@@ -854,7 +854,7 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="create-status">Trạng thái</Label>
+          <FormLabel htmlFor="create-status">Trạng thái</FormLabel>
           <Select value={formData.status} onValueChange={handleStatusChange}>
             <SelectTrigger id="create-status">
               <SelectValue placeholder="Chọn trạng thái" />

@@ -53,7 +53,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FormLabel } from "@/components/ui/form";
 import {
   Dialog,
   DialogContent,
@@ -593,7 +593,7 @@ function EditCategoryDialog({
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="name">Tên danh mục</Label>
+          <FormLabel htmlFor="name">Tên danh mục</FormLabel>
           <Input
             id="name"
             name="name"
@@ -605,7 +605,7 @@ function EditCategoryDialog({
           {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="status">Trạng thái</Label>
+          <FormLabel htmlFor="status">Trạng thái</FormLabel>
           <Select value={formData.status} onValueChange={handleStatusChange}>
             <SelectTrigger id="status">
               <SelectValue placeholder="Chọn trạng thái" />
@@ -714,7 +714,7 @@ function CreateCategoryDialog({ isOpen, onClose }: CreateCategoryDialogProps) {
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="create-name">Tên danh mục</Label>
+          <FormLabel htmlFor="create-name">Tên danh mục</FormLabel>
           <Input
             id="create-name"
             name="name"
@@ -727,7 +727,7 @@ function CreateCategoryDialog({ isOpen, onClose }: CreateCategoryDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="create-status">Trạng thái</Label>
+          <FormLabel htmlFor="create-status">Trạng thái</FormLabel>
           <Select value={formData.status} onValueChange={handleStatusChange}>
             <SelectTrigger id="create-status">
               <SelectValue placeholder="Chọn trạng thái" />

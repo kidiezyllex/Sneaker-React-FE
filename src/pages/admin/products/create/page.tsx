@@ -23,7 +23,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FormLabel } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFormData } from "@/utils/cloudinary";
@@ -331,9 +331,9 @@ export default function CreateProductPage() {
               <CardContent className="space-y-4 text-maintext">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">
+                    <FormLabel htmlFor="name">
                       Tên sản phẩm <span className="text-red-500">*</span>
-                    </Label>
+                    </FormLabel>
                     <Input
                       id="name"
                       name="name"
@@ -345,9 +345,9 @@ export default function CreateProductPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="brand">
+                    <FormLabel htmlFor="brand">
                       Thương hiệu <span className="text-red-500">*</span>
-                    </Label>
+                    </FormLabel>
                     <Select
                       value={product.brand}
                       onValueChange={(value) =>
@@ -379,9 +379,9 @@ export default function CreateProductPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="category">
+                    <FormLabel htmlFor="category">
                       Danh mục <span className="text-red-500">*</span>
-                    </Label>
+                    </FormLabel>
                     <Select
                       value={product.category}
                       onValueChange={(value) =>
@@ -413,9 +413,9 @@ export default function CreateProductPage() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="material">
+                    <FormLabel htmlFor="material">
                       Chất liệu <span className="text-red-500">*</span>
-                    </Label>
+                    </FormLabel>
                     <Select
                       value={product.material}
                       onValueChange={(value) =>
@@ -448,7 +448,7 @@ export default function CreateProductPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Mô tả sản phẩm</Label>
+                  <FormLabel htmlFor="description">Mô tả sản phẩm</FormLabel>
                   <Textarea
                     id="description"
                     name="description"

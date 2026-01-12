@@ -5,7 +5,7 @@ import { useSizes, useDeleteSize, useCreateSize } from "@/hooks/attributes";
 import type { ISizeFilter, ISizeCreate } from "@/interface/request/attributes";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { FormLabel } from "@/components/ui/form";
 import {
   Table,
   TableBody,
@@ -498,7 +498,7 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
       </DialogHeader>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="create-size">Kích cỡ</Label>
+          <FormLabel htmlFor="create-size">Kích cỡ</FormLabel>
           <Select
             value={getCurrentSizeLabel()}
             onValueChange={handleSizeChange}
@@ -523,7 +523,7 @@ function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="create-status">Trạng thái</Label>
+          <FormLabel htmlFor="create-status">Trạng thái</FormLabel>
           <Select value={formData.status} onValueChange={handleStatusChange}>
             <SelectTrigger id="create-status">
               <SelectValue placeholder="Chọn trạng thái" />
