@@ -9,7 +9,7 @@ import {
   mdiTrendingUp,
   mdiShieldCheck,
 } from "@mdi/js";
-import { InteractiveHoverButton } from "@/components/common/InteractiveHoverButton";
+import { InteractiveHoverButton } from "@/components/Common/InteractiveHoverButton";
 export const HeroBanner = () => {
   return (
     <main className="max-w-full w-full mx-auto">
@@ -73,7 +73,7 @@ export const HeroBanner = () => {
                   className="space-y-3"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center border border-secondary/50 w-8 h-8 bg-secondary/10 rounded-full">
+                    <div className="flex items-center justify-center border border-secondary/50 w-9 h-9 bg-secondary/10 rounded-full">
                       <Icon
                         path={mdiStar}
                         size={0.8}
@@ -85,7 +85,7 @@ export const HeroBanner = () => {
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center border border-secondary/50 w-8 h-8 bg-extra/10 rounded-full">
+                    <div className="flex items-center justify-center border border-secondary/50 w-9 h-9 bg-secondary/10 rounded-full">
                       <Icon
                         path={mdiShieldCheck}
                         size={0.8}
@@ -148,10 +148,7 @@ export const HeroBanner = () => {
                     Tham gia ngay
                     <Icon path={mdiArrowRightThin} size={0.8} />
                   </InteractiveHoverButton>
-                  <Button
-                    variant="outline"
-                    className="border border-primary text-primary h-10 hover:text-primary/80"
-                  >
+                  <Button variant="outline">
                     Nhận mã giảm giá
                     <Icon path={mdiSale} size={0.8} />
                   </Button>

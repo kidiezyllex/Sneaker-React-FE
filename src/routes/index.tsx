@@ -43,7 +43,7 @@ const ProfilePage = React.lazy(() => import("@/pages/profile"));
 const OrdersPage = React.lazy(() => import("@/pages/orders"));
 const OrderDetailPage = React.lazy(() => import("@/pages/orders/detail"));
 const ReturnsPage = React.lazy(() => import("@/pages/returns"));
-const CheckoutShippingPage = React.lazy(() => import("@/pages/checkout/shipping"));
+const CheckoutShippingPage = React.lazy(() => import("@/pages/checkout"));
 const CheckoutSuccessPage = React.lazy(() => import("@/pages/checkout/success"));
 const PaymentResultPage = React.lazy(() => import("@/pages/payment/PaymentResultPage"));
 

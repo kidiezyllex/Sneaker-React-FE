@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useCartStore } from "@/stores/useCartStore";
 import { mdiCart } from "@mdi/js";
 import Icon from "@mdi/react";
-import { CartSheet } from "./CartSheet";
+import { CartSheet } from "@/pages/products/components/CartSheet";
 
 interface CartIconProps {
   className?: string;

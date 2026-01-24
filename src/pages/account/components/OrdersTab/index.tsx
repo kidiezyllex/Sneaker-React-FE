@@ -47,6 +47,17 @@ const OrdersTab = () => {
   );
   const [createReturnOpen, setCreateReturnOpen] = useState(false);
 
+  const getPaymentStatusVariant = (status: string): "success" | "warning" | "secondary" => {
+    switch (status) {
+      case "PAID":
+        return "success";
+      case "PENDING":
+        return "warning";
+      default:
+        return "secondary";
+    }
+  };
+
   const isOrderReturnable = (order: IOrder): boolean => {
     const returnableStatuses = ["DA_GIAO_HANG", "HOAN_THANH"];
     if (!returnableStatuses.includes(order.orderStatus)) return false;
@@ -113,6 +124,9 @@ const OrdersTab = () => {
               <Table className="min-w-[1200px]">
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[60px] px-3 py-2 whitespace-nowrap text-center">
+                      STT
+                    </TableHead>
                     <TableHead className="w-[120px] px-3 py-2 whitespace-nowrap">
                       Mã đơn hàng
                     </TableHead>
@@ -140,8 +154,11 @@ const OrdersTab = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {ordersData.data.orders.map((order: IOrder) => (
+                  {ordersData.data.orders.map((order: IOrder, index: number) => (
                     <TableRow key={order.id}>
+                      <TableCell className="px-3 py-2 whitespace-nowrap text-center text-maintext font-semibold">
+                        {index + 1}
+                      </TableCell>
                       <TableCell className="font-medium px-3 py-2 whitespace-nowrap text-maintext">
                         {order.code}
                       </TableCell>
@@ -191,11 +208,8 @@ const OrdersTab = () => {
                       </TableCell>
                       <TableCell className="px-3 py-2">
                         <Badge
-                          className={
-                            order.paymentStatus === "PAID"
-                              ? "!bg-emerald-400 !text-white !border-emerald-500 text-nowrap !rounded"
-                              : "!bg-extra text-nowrap text-white px-2 py-1 rounded"
-                          }
+                          variant={getPaymentStatusVariant(order.paymentStatus)}
+                          showIcon={true}
                         >
                           {getPaymentStatusName(order.paymentStatus)}
                         </Badge>

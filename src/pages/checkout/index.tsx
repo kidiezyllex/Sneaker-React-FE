@@ -600,11 +600,9 @@ export default function ShippingPage() {
       case "address":
         return !!profile.addresses?.[0]?.specificAddress;
       case "province":
-        return !!profile.addresses?.[0]?.provinceId;
       case "district":
-        return !!profile.addresses?.[0]?.districtId;
       case "ward":
-        return !!profile.addresses?.[0]?.wardId;
+        return false;
       default:
         return false;
     }
