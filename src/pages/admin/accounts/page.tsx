@@ -81,11 +81,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 
 export default function AccountsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -251,13 +251,13 @@ export default function AccountsPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="#">Quản lý người dùng</BreadcrumbLink>
+              <Link to="#" className="!text-white/80 hover:!text-white">Quản lý người dùng</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -265,12 +265,12 @@ export default function AccountsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <a href="/admin/accounts/create" className="flex items-center gap-2">
+        <Link to="/admin/accounts/create" className="flex items-center gap-2">
           <Button className="flex items-center gap-2">
             <Icon path={mdiPlus} size={0.8} />
             Thêm tài khoản mới
           </Button>
-        </a>
+        </Link>
       </div>
 
       <Card className="mb-4">
@@ -462,7 +462,7 @@ export default function AccountsPage() {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <a href={`/admin/accounts/edit/${account.id}`}>
+                              <Link to={`/admin/accounts/edit/${account.id}`}>
                                 <DropdownMenuItem className="cursor-pointer text-maintext">
                                   <Icon
                                     path={mdiPencil}
@@ -473,7 +473,7 @@ export default function AccountsPage() {
                                     Chỉnh sửa
                                   </span>
                                 </DropdownMenuItem>
-                              </a>
+                              </Link>
                               <DropdownMenuSeparator />
                               {account.status === "ACTIVE" ? (
                                 <DropdownMenuItem

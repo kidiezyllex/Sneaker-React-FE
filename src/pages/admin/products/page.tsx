@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { Link } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -148,18 +149,16 @@ export default function ProductsPage() {
         },
         onError: (error: any) => {
           toast.error(
-            `Xóa sản phẩm thất bại: ${
-              error?.response?.data?.message ||
-              error.message ||
-              "Đã có lỗi xảy ra"
+            `Xóa sản phẩm thất bại: ${error?.response?.data?.message ||
+            error.message ||
+            "Đã có lỗi xảy ra"
             }`
           );
         },
       });
     } catch (error: any) {
       toast.error(
-        `Xóa sản phẩm thất bại: ${
-          error?.response?.data?.message || error.message || "Đã có lỗi xảy ra"
+        `Xóa sản phẩm thất bại: ${error?.response?.data?.message || error.message || "Đã có lỗi xảy ra"
         }`
       );
     }
@@ -210,13 +209,13 @@ export default function ProductsPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="#">Dashboard</BreadcrumbLink>
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">Dashboard</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">
+              <Link to="/admin/products" className="!text-white/80 hover:!text-white">
                 Quản lý sản phẩm
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -243,12 +242,12 @@ export default function ProductsPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <a href="/admin/products/create">
+            <Link to="/admin/products/create">
               <Button>
                 <Icon path={mdiPlus} size={0.8} />
                 Thêm sản phẩm mới
               </Button>
-            </a>
+            </Link>
           </div>
 
           <div className="my-4 pt-4 border-t">
@@ -270,9 +269,9 @@ export default function ProductsPage() {
                     <SelectValue placeholder="Tất cả thương hiệu">
                       {filters.brand
                         ? (brandsData?.data || []).find(
-                            (brand) =>
-                              brand.id.toString() === filters.brand?.toString()
-                          )?.name || "Tất cả thương hiệu"
+                          (brand) =>
+                            brand.id.toString() === filters.brand?.toString()
+                        )?.name || "Tất cả thương hiệu"
                         : "Tất cả thương hiệu"}
                     </SelectValue>
                   </SelectTrigger>
@@ -303,10 +302,10 @@ export default function ProductsPage() {
                     <SelectValue placeholder="Tất cả danh mục">
                       {filters.category
                         ? (categoriesData?.data || []).find(
-                            (category) =>
-                              category.id.toString() ===
-                              filters.category?.toString()
-                          )?.name || "Tất cả danh mục"
+                          (category) =>
+                            category.id.toString() ===
+                            filters.category?.toString()
+                        )?.name || "Tất cả danh mục"
                         : "Tất cả danh mục"}
                     </SelectValue>
                   </SelectTrigger>
@@ -341,8 +340,8 @@ export default function ProductsPage() {
                       {filters.status === "ACTIVE"
                         ? "Hoạt động"
                         : filters.status === "INACTIVE"
-                        ? "Không hoạt động"
-                        : "Tất cả trạng thái"}
+                          ? "Không hoạt động"
+                          : "Tất cả trạng thái"}
                     </SelectValue>
                   </SelectTrigger>
                   <SelectContent>
@@ -398,8 +397,8 @@ export default function ProductsPage() {
                 </TableHeader>
                 <TableBody>
                   {data?.data &&
-                  Array.isArray(data.data) &&
-                  data.data.length > 0 ? (
+                    Array.isArray(data.data) &&
+                    data.data.length > 0 ? (
                     data.data.map((product) => (
                       <TableRow key={product.id} className="hover:bg-gray-50">
                         <TableCell className="px-4 py-4 whitespace-nowrap">
@@ -450,24 +449,23 @@ export default function ProductsPage() {
                             const basePrice = product.variants[0]?.price || 0;
                             const discount = promotionsData?.data?.promotions
                               ? calculateProductDiscount(
-                                  product.id,
-                                  basePrice,
-                                  promotionsData.data.promotions
-                                )
+                                product.id,
+                                basePrice,
+                                promotionsData.data.promotions
+                              )
                               : {
-                                  originalPrice: basePrice,
-                                  discountedPrice: basePrice,
-                                  discountPercent: 0,
-                                };
+                                originalPrice: basePrice,
+                                discountedPrice: basePrice,
+                                discountPercent: 0,
+                              };
 
                             return (
                               <div className="space-y-1">
                                 <div
-                                  className={`font-medium ${
-                                    discount.discountPercent > 0
-                                      ? "text-primary"
-                                      : "text-maintext"
-                                  }`}
+                                  className={`font-medium ${discount.discountPercent > 0
+                                    ? "text-primary"
+                                    : "text-maintext"
+                                    }`}
                                 >
                                   {new Intl.NumberFormat("vi-VN", {
                                     style: "currency",
@@ -509,19 +507,15 @@ export default function ProductsPage() {
                         </TableCell>
                         <TableCell className="px-4 py-4 whitespace-nowrap text-right">
                           <div className="flex items-center justify-end space-x-2">
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              title="Sửa"
-                              onClick={() => {
-                                window.open(
-                                  `/admin/products/edit/${product.id}`,
-                                  "_blank"
-                                );
-                              }}
-                            >
-                              <Icon path={mdiPencilCircle} size={0.8} />
-                            </Button>
+                            <Link to={`/admin/products/edit/${product.id}`}>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                title="Sửa"
+                              >
+                                <Icon path={mdiPencilCircle} size={0.8} />
+                              </Button>
+                            </Link>
                             <Button
                               variant="outline"
                               size="icon"

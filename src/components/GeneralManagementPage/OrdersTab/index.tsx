@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Icon } from "@mdi/react";
 import { mdiOrderBoolAscending, mdiEye, mdiKeyboardReturn } from "@mdi/js";
 import { format } from "date-fns";
@@ -104,7 +105,7 @@ const OrdersTab = () => {
                 Bạn chưa có đơn hàng nào.
               </p>
               <Button variant="outline" asChild>
-                <a href="/products">Mua sắm ngay</a>
+                <Link to="/products">Mua sắm ngay</Link>
               </Button>
             </div>
           ) : (

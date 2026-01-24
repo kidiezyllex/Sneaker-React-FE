@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCreateVoucher } from "@/hooks/voucher";
 import { IVoucherCreate } from "@/interface/request/voucher";
 import {
@@ -187,21 +187,21 @@ export default function CreateVoucherPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">
+              <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
                 Quản lý khuyến mãi
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts/vouchers">
+              <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
                 Mã giảm giá
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -333,9 +333,8 @@ export default function CreateVoucherPage() {
                     min={0}
                     value={voucher.value}
                     onChange={handleInputChange}
-                    className={`${errors.value ? "border-red-500" : ""} ${
-                      voucher.type === "PERCENTAGE" ? "rounded-r-none" : ""
-                    }`}
+                    className={`${errors.value ? "border-red-500" : ""} ${voucher.type === "PERCENTAGE" ? "rounded-r-none" : ""
+                      }`}
                   />
                   {voucher.type === "PERCENTAGE" && (
                     <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
@@ -394,9 +393,8 @@ export default function CreateVoucherPage() {
                           : voucher.maxDiscount
                       }
                       onChange={handleInputChange}
-                      className={`${
-                        errors.maxDiscount ? "border-red-500" : ""
-                      } rounded-r-none`}
+                      className={`${errors.maxDiscount ? "border-red-500" : ""
+                        } rounded-r-none`}
                     />
                     <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
                       VNĐ
@@ -423,9 +421,8 @@ export default function CreateVoucherPage() {
                     min={0}
                     value={voucher.minOrderValue}
                     onChange={handleInputChange}
-                    className={`${
-                      errors.minOrderValue ? "border-red-500" : ""
-                    } rounded-r-none`}
+                    className={`${errors.minOrderValue ? "border-red-500" : ""
+                      } rounded-r-none`}
                   />
                   <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
                     VNĐ

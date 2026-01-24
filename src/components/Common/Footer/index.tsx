@@ -344,18 +344,18 @@ export const Footer = () => {
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                   <div className="flex flex-wrap justify-center md:justify-start gap-4">
                     {[
-                      "Điều khoản sử dụng",
-                      "Chính sách bảo mật",
-                      "Bản quyền",
-                      "Cộng đồng",
+                      { name: "Điều khoản sử dụng", href: "/terms" },
+                      { name: "Chính sách bảo mật", href: "/privacy" },
+                      { name: "Bản quyền", href: "/copyright" },
+                      { name: "Cộng đồng", href: "/community" },
                     ].map((item, index) => (
-                      <a
+                      <Link
                         key={index}
-                        href="#"
+                        to={item.href}
                         className="text-gray-400 hover:text-primary transition-colors duration-300 text-sm"
                       >
-                        {item}
-                      </a>
+                        {item.name}
+                      </Link>
                     ))}
                   </div>
 

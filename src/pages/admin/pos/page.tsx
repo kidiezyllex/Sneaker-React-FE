@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { motion } from "framer-motion";
@@ -964,9 +965,9 @@ export default function POSPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/statistics">
+                <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                   Dashboard
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

@@ -1,6 +1,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { ProductCard } from "@/pages/products/components/ProductCard";
 import { IProduct } from "@/interface/response/product";
 
@@ -60,7 +61,7 @@ export const SimilarProducts: React.FC<SimilarProductsProps> = ({
 
       <div className="text-center mt-12">
         <Button variant="outline" size="lg" asChild>
-          <a href="/products">Xem tất cả sản phẩm</a>
+          <Link to="/products">Xem tất cả sản phẩm</Link>
         </Button>
       </div>
     </motion.div>

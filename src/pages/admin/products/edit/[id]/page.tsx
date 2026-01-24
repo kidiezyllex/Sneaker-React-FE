@@ -22,11 +22,11 @@ import {
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -134,20 +134,20 @@ export default function EditProductPage() {
           typeof product.brand === "string"
             ? product.brand
             : product.brand?.id
-            ? String(product.brand.id)
-            : "",
+              ? String(product.brand.id)
+              : "",
         category:
           typeof product.category === "string"
             ? product.category
             : product.category?.id
-            ? String(product.category.id)
-            : "",
+              ? String(product.category.id)
+              : "",
         material:
           typeof product.material === "string"
             ? product.material
             : product.material?.id
-            ? String(product.material.id)
-            : "",
+              ? String(product.material.id)
+              : "",
         description: product.description,
         status: "ACTIVE",
       });
@@ -343,13 +343,13 @@ export default function EditProductPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">Sản phẩm</BreadcrumbLink>
+              <Link to="/admin/products" className="!text-white/80 hover:!text-white">Sản phẩm</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -383,13 +383,13 @@ export default function EditProductPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">Sản phẩm</BreadcrumbLink>
+              <Link to="/admin/products" className="!text-white/80 hover:!text-white">Sản phẩm</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -450,15 +450,15 @@ export default function EditProductPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">
+              <Link to="/admin/products" className="!text-white/80 hover:!text-white">
                 Quản lý sản phẩm
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -531,21 +531,21 @@ export default function EditProductPage() {
                             <SelectValue placeholder="Chọn thương hiệu">
                               {productUpdate.brand
                                 ? filtersData?.data?.brands.find(
-                                    (b) => String(b.id) === productUpdate.brand
-                                  )?.name || "Chọn thương hiệu"
+                                  (b) => String(b.id) === productUpdate.brand
+                                )?.name || "Chọn thương hiệu"
                                 : "Chọn thương hiệu"}
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
                             {filtersData?.data?.brands
                               ? filtersData.data.brands.map((brand) => (
-                                  <SelectItem
-                                    key={brand.id}
-                                    value={String(brand.id)}
-                                  >
-                                    {brand.name}
-                                  </SelectItem>
-                                ))
+                                <SelectItem
+                                  key={brand.id}
+                                  value={String(brand.id)}
+                                >
+                                  {brand.name}
+                                </SelectItem>
+                              ))
                               : null}
                           </SelectContent>
                         </Select>
@@ -566,22 +566,22 @@ export default function EditProductPage() {
                             <SelectValue placeholder="Chọn danh mục">
                               {productUpdate.category
                                 ? filtersData?.data?.categories.find(
-                                    (c) =>
-                                      String(c.id) === productUpdate.category
-                                  )?.name || "Chọn danh mục"
+                                  (c) =>
+                                    String(c.id) === productUpdate.category
+                                )?.name || "Chọn danh mục"
                                 : "Chọn danh mục"}
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
                             {filtersData?.data?.categories
                               ? filtersData.data.categories.map((category) => (
-                                  <SelectItem
-                                    key={category.id}
-                                    value={String(category.id)}
-                                  >
-                                    {category.name}
-                                  </SelectItem>
-                                ))
+                                <SelectItem
+                                  key={category.id}
+                                  value={String(category.id)}
+                                >
+                                  {category.name}
+                                </SelectItem>
+                              ))
                               : null}
                           </SelectContent>
                         </Select>
@@ -602,22 +602,22 @@ export default function EditProductPage() {
                             <SelectValue placeholder="Chọn chất liệu">
                               {productUpdate.material
                                 ? filtersData?.data?.materials.find(
-                                    (m) =>
-                                      String(m.id) === productUpdate.material
-                                  )?.name || "Chọn chất liệu"
+                                  (m) =>
+                                    String(m.id) === productUpdate.material
+                                )?.name || "Chọn chất liệu"
                                 : "Chọn chất liệu"}
                             </SelectValue>
                           </SelectTrigger>
                           <SelectContent>
                             {filtersData?.data?.materials
                               ? filtersData.data.materials.map((material) => (
-                                  <SelectItem
-                                    key={material.id}
-                                    value={String(material.id)}
-                                  >
-                                    {material.name}
-                                  </SelectItem>
-                                ))
+                                <SelectItem
+                                  key={material.id}
+                                  value={String(material.id)}
+                                >
+                                  {material.name}
+                                </SelectItem>
+                              ))
                               : null}
                           </SelectContent>
                         </Select>
@@ -747,8 +747,8 @@ export default function EditProductPage() {
                                   className="flex-1"
                                 >
                                   {updateProductStock.isPending &&
-                                  updateProductStock.variables?.payload
-                                    .variantUpdates[0]?.variantId ===
+                                    updateProductStock.variables?.payload
+                                      .variantUpdates[0]?.variantId ===
                                     String(variant.id) ? (
                                     <Icon
                                       path={mdiLoading}

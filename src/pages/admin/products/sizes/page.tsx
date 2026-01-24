@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useSizes, useDeleteSize, useCreateSize } from "@/hooks/attributes";
 import type { ISizeFilter, ISizeCreate } from "@/interface/request/attributes";
 import { Button } from "@/components/ui/button";
@@ -143,15 +144,15 @@ export default function SizesPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">
+              <Link to="/admin/products" className="!text-white/80 hover:!text-white">
                 Quản lý sản phẩm
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>

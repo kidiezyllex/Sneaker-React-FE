@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -87,9 +87,8 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
           typeof item.product === "string"
             ? "/placeholder.jpg"
             : item.product.images?.[0] || "/placeholder.jpg",
-        variantInfo: `${item.variant?.color?.name || "N/A"} - ${
-          item.variant?.size?.name || "N/A"
-        }`,
+        variantInfo: `${item.variant?.color?.name || "N/A"} - ${item.variant?.size?.name || "N/A"
+          }`,
       }));
       setEditableItems(items);
     }
@@ -146,9 +145,9 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
       prev.map((item, i) =>
         i === index
           ? {
-              ...item,
-              quantity: Math.max(1, Math.min(newQuantity, item.maxQuantity)),
-            }
+            ...item,
+            quantity: Math.max(1, Math.min(newQuantity, item.maxQuantity)),
+          }
           : item
       )
     );
@@ -210,9 +209,9 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
     return (
       <div className="text-center py-8">
         <p className="text-red-500">Không thể tải thông tin yêu cầu trả hàng</p>
-        <a href="/admin/returns" className="mt-4">
+        <Link to="/admin/returns" className="mt-4">
           <Button className="mt-4">Quay lại danh sách</Button>
-        </a>
+        </Link>
       </div>
     );
   }
@@ -234,15 +233,15 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/returns">
+              <Link to="/admin/returns" className="!text-white/80 hover:!text-white">
                 Quản lý trả hàng
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -250,12 +249,12 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <a href="/admin/returns" className="mr-2">
+        <Link to="/admin/returns" className="mr-2">
           <Button variant="outline">
             <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
             Quay lại
           </Button>
-        </a>
+        </Link>
       </div>
 
       {!canEdit && (
@@ -512,11 +511,11 @@ export default function EditReturnPage({ params }: EditReturnPageProps) {
       {/* Actions */}
       {canEdit && (
         <div className="flex justify-end gap-4">
-          <a href="/admin/returns">
+          <Link to="/admin/returns">
             <Button variant="outline" disabled={isSubmitting}>
               Hủy
             </Button>
-          </a>
+          </Link>
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting || editableItems.length === 0}

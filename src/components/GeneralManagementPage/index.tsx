@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, createContext } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import {
@@ -34,7 +34,7 @@ import VouchersTab from "./VouchersTab";
 
 export const AccountTabContext = createContext({
   activeTab: "profile",
-  setActiveTab: (tab: string) => {},
+  setActiveTab: (tab: string) => { },
 });
 
 export default function GeneralManagementPage() {
@@ -133,12 +133,12 @@ export default function GeneralManagementPage() {
         <Breadcrumb className="mb-4">
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink
-                href="/"
+              <Link
+                to="/"
                 className="!text-maintext hover:!text-maintext"
               >
                 Trang chủ
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
             <BreadcrumbItem>
@@ -197,14 +197,13 @@ export default function GeneralManagementPage() {
                       whileHover={{ x: 5 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <a
-                        href={`#account-tabs?tab=${tab.value}`}
+                      <Link
+                        to={`#account-tabs?tab=${tab.value}`}
                         data-value={tab.value}
-                        className={`flex items-center justify-between px-4 py-3 hover:bg-muted ${
-                          activeTab === tab.value
-                            ? "bg-muted text-primary font-medium"
-                            : ""
-                        }`}
+                        className={`flex items-center justify-between px-4 py-3 hover:bg-muted ${activeTab === tab.value
+                          ? "bg-muted text-primary font-medium"
+                          : ""
+                          }`}
                         onClick={() => {
                           setActiveTab(tab.value);
                         }}
@@ -213,9 +212,8 @@ export default function GeneralManagementPage() {
                           <Icon
                             path={tab.icon}
                             size={0.8}
-                            className={`mr-3 text-maintext ${
-                              activeTab === tab.value ? "text-primary" : ""
-                            }`}
+                            className={`mr-3 text-maintext ${activeTab === tab.value ? "text-primary" : ""
+                              }`}
                           />
                           <span className="text-maintext">{tab.title}</span>
                         </div>
@@ -226,7 +224,7 @@ export default function GeneralManagementPage() {
                             className="text-primary"
                           />
                         )}
-                      </a>
+                      </Link>
                     </motion.div>
                   ))}
                 </nav>

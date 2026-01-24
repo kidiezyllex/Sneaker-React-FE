@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { useVoucherDetail, useUpdateVoucher } from "@/hooks/voucher";
 import { IVoucherUpdate } from "@/interface/request/voucher";
 import {
@@ -183,7 +183,7 @@ export default function EditVoucherPage() {
           onError: (error) => {
             toast.error(
               "Cập nhật mã giảm giá thất bại: " +
-                (error.message || "Không xác định")
+              (error.message || "Không xác định")
             );
           },
         }
@@ -226,21 +226,21 @@ export default function EditVoucherPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/statistics">
+                <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                   Dashboard
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/discounts">
+                <Link to="/admin/discounts" className="!text-white/80 hover:!text-white">
                   Quản lý khuyến mãi
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/discounts/vouchers">
+                <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
                   Mã giảm giá
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -278,21 +278,21 @@ export default function EditVoucherPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">
+              <Link to="/admin/discounts" className="!text-white/80 hover:!text-white">
                 Quản lý khuyến mãi
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts/vouchers">
+              <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
                 Mã giảm giá
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -415,9 +415,8 @@ export default function EditVoucherPage() {
                           : voucher.maxDiscount
                       }
                       onChange={handleInputChange}
-                      className={`${
-                        errors.maxDiscount ? "border-red-500" : ""
-                      } rounded-r-none`}
+                      className={`${errors.maxDiscount ? "border-red-500" : ""
+                        } rounded-r-none`}
                     />
                     <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
                       VNĐ
@@ -448,9 +447,8 @@ export default function EditVoucherPage() {
                         : voucher.minOrderValue
                     }
                     onChange={handleInputChange}
-                    className={`${
-                      errors.minOrderValue ? "border-red-500" : ""
-                    } rounded-r-none`}
+                    className={`${errors.minOrderValue ? "border-red-500" : ""
+                      } rounded-r-none`}
                   />
                   <div className="bg-gray-100 border border-l-0 px-3 py-2 rounded-r-md">
                     VNĐ
@@ -477,8 +475,8 @@ export default function EditVoucherPage() {
                     value={
                       voucher.startDate
                         ? new Date(voucher.startDate)
-                            .toISOString()
-                            .split("T")[0]
+                          .toISOString()
+                          .split("T")[0]
                         : ""
                     }
                     onChange={(e) =>

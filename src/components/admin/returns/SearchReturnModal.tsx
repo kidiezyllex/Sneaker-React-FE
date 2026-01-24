@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -222,10 +223,9 @@ export default function SearchReturnModal({
                                 {getStatusBadge(returnItem.status)}
                               </TableCell>
                               <TableCell className="text-right">
-                                <a
-                                  href={`/admin/returns/edit/${
-                                    (returnItem as any)?.id
-                                  }`}
+                                <Link
+                                  to={`/admin/returns/edit/${(returnItem as any)?.id
+                                    }`}
                                 >
                                   <Button
                                     size="icon"
@@ -234,7 +234,7 @@ export default function SearchReturnModal({
                                   >
                                     <Icon path={mdiEye} size={0.8} />
                                   </Button>
-                                </a>
+                                </Link>
                               </TableCell>
                             </TableRow>
                           ))}

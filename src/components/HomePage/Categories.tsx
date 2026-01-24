@@ -159,7 +159,7 @@ const CategoryCard = ({
       animate={isInView ? "visible" : "hidden"}
       className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 h-full"
     >
-      <a href={`/categories/${category.slug}`} className="block group h-full">
+      <Link to={`/categories/${category.slug}`} className="block group h-full">
         <div className="aspect-[4/5] relative overflow-hidden h-full">
           <Badge text={category.badge} />
           <DiscountTag discount={category.discount} />
@@ -209,7 +209,7 @@ const CategoryCard = ({
             </div>
           </div>
         </div>
-      </a>
+      </Link>
     </motion.div>
   );
 };

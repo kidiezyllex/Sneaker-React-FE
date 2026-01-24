@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -461,12 +462,12 @@ export const AboutUs = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <a
-                href="/products"
+              <Link
+                to="/products"
                 className="bg-white text-[#2C8B3D] font-semibold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
               >
                 Xem sản phẩm ngay
-              </a>
+              </Link>
             </motion.div>
           </motion.div>
         </div>

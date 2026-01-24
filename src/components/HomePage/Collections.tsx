@@ -89,7 +89,7 @@ const CollectionCard = ({
               variant="ghost"
               className="self-start mb-4 text-white hover:text-primary-foreground bg-white/10 hover:bg-primary transition-all duration-300 group rounded-full px-4 py-5"
             >
-              <a href={collection.url}>
+              <Link to={collection.url}>
                 <span className="flex items-center text-sm font-medium">
                   Khám phá ngay
                   <Icon
@@ -98,7 +98,7 @@ const CollectionCard = ({
                     className="ml-2 transition-transform duration-300 group-hover:translate-x-1"
                   />
                 </span>
-              </a>
+              </Link>
             </Button>
           </motion.div>
         </AnimatePresence>

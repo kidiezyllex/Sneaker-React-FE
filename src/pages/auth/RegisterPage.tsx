@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useUser } from "@/context/useUserContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -160,12 +160,12 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <a
-          href="/auth/login"
+        <Link
+          to="/auth/login"
           className="text-base text-primary hover:text-secondary transition-colors duration-300"
         >
           Đã có tài khoản? Đăng nhập
-        </a>
+        </Link>
       </div>
       <div className="flex justify-center flex-1 h-full items-end mt-4">
         <Button

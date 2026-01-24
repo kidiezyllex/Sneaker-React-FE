@@ -9,11 +9,11 @@ import { IProductCreate, IProductVariant } from "@/interface/request/product";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -279,15 +279,15 @@ export default function CreateProductPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/products">
+              <Link to="/admin/products" className="!text-white/80 hover:!text-white">
                 Quản lý sản phẩm
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -360,10 +360,10 @@ export default function CreateProductPage() {
                         <SelectValue placeholder="Chọn thương hiệu">
                           {product.brand
                             ? (brandsData?.data || []).find(
-                                (brand) =>
-                                  brand.id.toString() ===
-                                  product.brand?.toString()
-                              )?.name || "Chọn thương hiệu"
+                              (brand) =>
+                                brand.id.toString() ===
+                                product.brand?.toString()
+                            )?.name || "Chọn thương hiệu"
                             : "Chọn thương hiệu"}
                         </SelectValue>
                       </SelectTrigger>
@@ -394,10 +394,10 @@ export default function CreateProductPage() {
                         <SelectValue placeholder="Chọn danh mục">
                           {product.category
                             ? (categoriesData?.data || []).find(
-                                (category) =>
-                                  category.id.toString() ===
-                                  product.category?.toString()
-                              )?.name || "Chọn danh mục"
+                              (category) =>
+                                category.id.toString() ===
+                                product.category?.toString()
+                            )?.name || "Chọn danh mục"
                             : "Chọn danh mục"}
                         </SelectValue>
                       </SelectTrigger>
@@ -428,10 +428,10 @@ export default function CreateProductPage() {
                         <SelectValue placeholder="Chọn chất liệu">
                           {product.material
                             ? (materialsData?.data || []).find(
-                                (material) =>
-                                  material.id.toString() ===
-                                  product.material?.toString()
-                              )?.name || "Chọn chất liệu"
+                              (material) =>
+                                material.id.toString() ===
+                                product.material?.toString()
+                            )?.name || "Chọn chất liệu"
                             : "Chọn chất liệu"}
                         </SelectValue>
                       </SelectTrigger>

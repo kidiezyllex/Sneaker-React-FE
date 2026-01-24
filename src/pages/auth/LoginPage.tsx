@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -120,18 +120,18 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         </div>
       </div>
       <div className="flex justify-between items-center">
-        <a
-          href="/auth/register"
+        <Link
+          to="/auth/register"
           className="text-base text-primary hover:text-secondary transition-colors duration-300"
         >
           Đăng ký?
-        </a>
-        <a
-          href="/auth/forget-password"
+        </Link>
+        <Link
+          to="/auth/forget-password"
           className="text-base text-primary hover:text-secondary transition-colors duration-300"
         >
           Quên mật khẩu?
-        </a>
+        </Link>
       </div>
       <div className="flex justify-center flex-1 h-full items-end mt-4">
         <Button

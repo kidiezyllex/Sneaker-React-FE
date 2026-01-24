@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -227,9 +227,9 @@ export default function CreateReturnPage() {
       prev.map((item, i) =>
         i === index
           ? {
-              ...item,
-              quantity: Math.max(1, Math.min(newQuantity, item.maxQuantity)),
-            }
+            ...item,
+            quantity: Math.max(1, Math.min(newQuantity, item.maxQuantity)),
+          }
           : item
       )
     );
@@ -300,15 +300,15 @@ export default function CreateReturnPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/returns">
+              <Link to="/admin/returns" className="!text-white/80 hover:!text-white">
                 Quản lý trả hàng
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -316,12 +316,12 @@ export default function CreateReturnPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <a href="/admin/returns" className="mr-2">
+        <Link to="/admin/returns" className="mr-2">
           <Button variant="outline">
             <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
             Quay lại
           </Button>
-        </a>
+        </Link>
       </div>
 
       {/* Customer Selection */}
@@ -498,9 +498,9 @@ export default function CreateReturnPage() {
                                   (selected) =>
                                     selected.product === item.product.id &&
                                     selected.variant.colorId ===
-                                      item.variant.colorId &&
+                                    item.variant.colorId &&
                                     selected.variant.sizeId ===
-                                      item.variant.sizeId
+                                    item.variant.sizeId
                                 );
                                 if (selectedIndex !== -1) {
                                   handleQuantityChange(
@@ -521,9 +521,9 @@ export default function CreateReturnPage() {
                                   (selected) =>
                                     selected.product === item.product.id &&
                                     selected.variant.colorId ===
-                                      item.variant.colorId &&
+                                    item.variant.colorId &&
                                     selected.variant.sizeId ===
-                                      item.variant.sizeId
+                                    item.variant.sizeId
                                 )?.quantity || 1
                               }
                               onChange={(e) => {
@@ -531,9 +531,9 @@ export default function CreateReturnPage() {
                                   (selected) =>
                                     selected.product === item.product.id &&
                                     selected.variant.colorId ===
-                                      item.variant.colorId &&
+                                    item.variant.colorId &&
                                     selected.variant.sizeId ===
-                                      item.variant.sizeId
+                                    item.variant.sizeId
                                 );
                                 if (selectedIndex !== -1) {
                                   handleQuantityChange(
@@ -552,9 +552,9 @@ export default function CreateReturnPage() {
                                   (selected) =>
                                     selected.product === item.product.id &&
                                     selected.variant.colorId ===
-                                      item.variant.colorId &&
+                                    item.variant.colorId &&
                                     selected.variant.sizeId ===
-                                      item.variant.sizeId
+                                    item.variant.sizeId
                                 );
                                 if (selectedIndex !== -1) {
                                   handleQuantityChange(
@@ -581,7 +581,7 @@ export default function CreateReturnPage() {
                               (selected) =>
                                 selected.product === item.product.id &&
                                 selected.variant.colorId ===
-                                  item.variant.colorId &&
+                                item.variant.colorId &&
                                 selected.variant.sizeId === item.variant.sizeId
                             )?.reason || ""
                           }
@@ -590,7 +590,7 @@ export default function CreateReturnPage() {
                               (selected) =>
                                 selected.product === item.product.id &&
                                 selected.variant.colorId ===
-                                  item.variant.colorId &&
+                                item.variant.colorId &&
                                 selected.variant.sizeId === item.variant.sizeId
                             );
                             if (selectedIndex !== -1) {
@@ -672,11 +672,11 @@ export default function CreateReturnPage() {
 
       {/* Actions */}
       <div className="flex justify-end gap-4">
-        <a href="/admin/returns">
+        <Link to="/admin/returns">
           <Button variant="outline" disabled={isSubmitting}>
             Hủy
           </Button>
-        </a>
+        </Link>
         <Button
           onClick={handleSubmit}
           disabled={

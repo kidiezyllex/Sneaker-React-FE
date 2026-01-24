@@ -1,7 +1,5 @@
-"use client";
-
 import React, { useEffect, Suspense } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/solid";
 function PaymentResultContent() {
   const [searchParams] = useSearchParams();
@@ -37,19 +35,19 @@ function PaymentResultContent() {
           )}
 
           <div className="mt-8 space-y-4">
-            <a
-              href={`/orders/${orderId}`}
-              className="block w-full bg-indigo-600 text-white py-2 px-4 rounded-2xl hover:bg-indigo-700"
+            <Link
+              to={`/orders/${orderId}`}
+              className="block w-full bg-indigo-600 text-white py-2 px-4 rounded-2xl hover:bg-indigo-700 text-center"
             >
               Xem chi tiết đơn hàng
-            </a>
+            </Link>
 
-            <a
-              href="/"
-              className="block w-full bg-gray-100 text-maintext py-2 px-4 rounded-2xl hover:bg-gray-200"
+            <Link
+              to="/"
+              className="block w-full bg-gray-100 text-maintext py-2 px-4 rounded-2xl hover:bg-gray-200 text-center"
             >
               Về trang chủ
-            </a>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useMemo } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 interface RouterOptimizerProps {
   children: React.ReactNode;
@@ -196,15 +196,15 @@ export const OptimizedLink: React.FC<{
   );
 
   return (
-    <a
-      href={to}
+    <Link
+      to={to}
       className={className}
       onMouseEnter={handleMouseEnter}
       onClick={handleClick}
       {...props}
     >
       {children}
-    </a>
+    </Link>
   );
 };
 

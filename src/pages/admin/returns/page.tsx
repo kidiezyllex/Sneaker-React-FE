@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -296,9 +297,9 @@ export default function ReturnsPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -315,12 +316,12 @@ export default function ReturnsPage() {
             <Icon path={mdiDownload} size={0.8} className="mr-2" />
             Xuất CSV
           </Button>
-          <a href="/admin/returns/create" className="flex items-center gap-2">
+          <Link to="/admin/returns/create" className="flex items-center gap-2">
             <Button className="flex items-center gap-2">
               <Icon path={mdiPlus} size={0.8} />
               Tạo yêu cầu trả hàng mới
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -411,16 +412,16 @@ export default function ReturnsPage() {
                   {(filters.customer ||
                     filters.startDate ||
                     filters.endDate) && (
-                    <Badge>
-                      {
-                        [
-                          filters.customer,
-                          filters.startDate,
-                          filters.endDate,
-                        ].filter(Boolean).length
-                      }
-                    </Badge>
-                  )}
+                      <Badge>
+                        {
+                          [
+                            filters.customer,
+                            filters.startDate,
+                            filters.endDate,
+                          ].filter(Boolean).length
+                        }
+                      </Badge>
+                    )}
                 </Button>
               </div>
             </div>
@@ -619,10 +620,9 @@ export default function ReturnsPage() {
                               {returnItem.status === "CHO_XU_LY" && (
                                 <>
                                   <DropdownMenuSeparator />
-                                  <a
-                                    href={`/admin/returns/edit/${
-                                      (returnItem as any)?.id
-                                    }`}
+                                  <Link
+                                    to={`/admin/returns/edit/${(returnItem as any)?.id
+                                      }`}
                                   >
                                     <DropdownMenuItem className="cursor-pointer text-maintext">
                                       <Icon
@@ -634,7 +634,7 @@ export default function ReturnsPage() {
                                         Chỉnh sửa
                                       </span>
                                     </DropdownMenuItem>
-                                  </a>
+                                  </Link>
                                   <DropdownMenuSeparator />
                                   <DropdownMenuItem
                                     className="cursor-pointer text-green-600"
@@ -929,10 +929,10 @@ function ReturnDetailContent({
                 const product =
                   typeof item.product === "string"
                     ? {
-                        name: "Không có thông tin",
-                        code: item.product,
-                        images: [],
-                      }
+                      name: "Không có thông tin",
+                      code: item.product,
+                      images: [],
+                    }
                     : item.product;
 
                 return (

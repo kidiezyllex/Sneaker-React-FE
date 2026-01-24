@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {
   useAccount,
   useUpdateAccount,
@@ -72,8 +72,8 @@ export default function EditAccountPage() {
         account.gender === "Nam"
           ? true
           : account.gender === "Nữ"
-          ? false
-          : undefined;
+            ? false
+            : undefined;
 
       setFormData({
         fullName: account.fullName,
@@ -90,8 +90,8 @@ export default function EditAccountPage() {
         account.gender === "Nam"
           ? "Nam"
           : account.gender === "Nữ"
-          ? "Nữ"
-          : "Khác"
+            ? "Nữ"
+            : "Khác"
       );
     }
   }, [accountData]);
@@ -132,7 +132,7 @@ export default function EditAccountPage() {
           onError: (error) => {
             toast.error(
               "Cập nhật tài khoản thất bại: " +
-                (error.message || "Không xác định")
+              (error.message || "Không xác định")
             );
           },
         }
@@ -152,15 +152,14 @@ export default function EditAccountPage() {
         onSuccess: () => {
           setFormData((prev) => ({ ...prev, status: newStatus.status }));
           toast.success(
-            `Tài khoản đã được ${
-              newStatus.status === "ACTIVE" ? "kích hoạt" : "vô hiệu hóa"
+            `Tài khoản đã được ${newStatus.status === "ACTIVE" ? "kích hoạt" : "vô hiệu hóa"
             }`
           );
         },
         onError: (error) => {
           toast.error(
             "Cập nhật trạng thái thất bại: " +
-              (error.message || "Không xác định")
+            (error.message || "Không xác định")
           );
         },
       });
@@ -216,15 +215,15 @@ export default function EditAccountPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/accounts">
+              <Link to="/admin/accounts" className="!text-white/80 hover:!text-white">
                 Quản lý tài khoản
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -255,8 +254,8 @@ export default function EditAccountPage() {
             {accountData.data.role === "ADMIN"
               ? "Quản trị viên"
               : accountData.data.role === "STAFF"
-              ? "Nhân viên"
-              : "Khách hàng"}
+                ? "Nhân viên"
+                : "Khách hàng"}
           </p>
           <div className="flex items-center pt-3">
             <Switch
@@ -353,8 +352,8 @@ export default function EditAccountPage() {
                           value === "Nam"
                             ? true
                             : value === "Nữ"
-                            ? false
-                            : undefined;
+                              ? false
+                              : undefined;
                         setFormData((prev) => ({ ...prev, gender: apiGender }));
                       }}
                       className="flex space-x-4"

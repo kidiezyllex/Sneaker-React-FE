@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -75,8 +75,8 @@ export default function EditPromotionPage() {
         discountPercent: promotion.discountPercent,
         productIds: Array.isArray(promotion.productIds)
           ? promotion.productIds.map((p: any) =>
-              typeof p === "number" ? p : p.id
-            )
+            typeof p === "number" ? p : p.id
+          )
           : [],
         startDate: startDate.toISOString().slice(0, 16),
         endDate: endDate.toISOString().slice(0, 16),
@@ -235,21 +235,21 @@ export default function EditPromotionPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">
+              <Link to="/admin/discounts" className="!text-white/80 hover:!text-white">
                 Quản lý khuyến mãii
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts/promotions">
+              <Link to="/admin/discounts/promotions" className="!text-white/80 hover:!text-white">
                 Chiến dịch khuyến mãi
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -365,7 +365,7 @@ export default function EditPromotionPage() {
                     }
                     min={
                       typeof formData.startDate === "string" &&
-                      formData.startDate
+                        formData.startDate
                         ? formData.startDate
                         : new Date().toISOString().slice(0, 16)
                     }
@@ -506,8 +506,8 @@ export default function EditPromotionPage() {
                           <strong>Thời gian:</strong>{" "}
                           {formData.startDate
                             ? new Date(formData.startDate).toLocaleString(
-                                "vi-VN"
-                              )
+                              "vi-VN"
+                            )
                             : "Chưa chọn"}{" "}
                           -{" "}
                           {formData.endDate

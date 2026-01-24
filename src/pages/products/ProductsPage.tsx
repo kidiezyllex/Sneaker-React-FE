@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -40,6 +41,7 @@ import { CommonPagination } from "@/components/ui/common-pagination";
 import { ProductCard, ProductFilters } from "./components";
 
 export default function ProductsPage() {
+  const navigate = useNavigate();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [pagination, setPagination] = useState({
     page: 1,
@@ -300,9 +302,9 @@ export default function ProductsPage() {
   };
 
   const handleQuickView = (product: any) => {
-    window.location.href = `/products/${product.name
+    navigate(`/products/${product.name
       .toLowerCase()
-      .replace(/\s+/g, "-")}-${product.id}`;
+      .replace(/\s+/g, "-")}-${product.id}`);
   };
 
   const handleAddToWishlist = (product: any) => {
@@ -341,12 +343,12 @@ export default function ProductsPage() {
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/"
+            <Link
+              to="/"
               className="!text-maintext hover:!text-maintext"
             >
               Trang chủ
-            </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
           <BreadcrumbItem>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "react-toastify";
@@ -303,15 +303,13 @@ export default function ShippingPage() {
         .map(
           (item) =>
             `<tr>
-          <td style="padding: 10px; border-bottom: 1px solid #eee;">${
-            item.name
-          } (${item.size || "N/A"})</td>
-          <td style="padding: 10px; border-bottom: 1px solid #eee;">${
-            item.quantity
-          }</td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.name
+            } (${item.size || "N/A"})</td>
+          <td style="padding: 10px; border-bottom: 1px solid #eee;">${item.quantity
+            }</td>
           <td style="padding: 10px; border-bottom: 1px solid #eee; text-align: right;">${formatPrice(
-            item.price
-          )}</td>
+              item.price
+            )}</td>
         </tr>`
         )
         .join("");
@@ -325,13 +323,12 @@ export default function ShippingPage() {
           <div style="background-color: #f9f9f9; padding: 15px; margin: 20px 0;">
             <p><strong>Mã đơn hàng:</strong> ${orderData.code || orderId}</p>
             <p><strong>Ngày đặt hàng:</strong> ${new Date().toLocaleDateString(
-              "vi-VN"
-            )}</p>
-            <p><strong>Phương thức thanh toán:</strong> ${
-              orderData.paymentMethod === "COD"
-                ? "Thanh toán khi nhận hàng"
-                : "Thanh toán qua VNPay"
-            }</p>
+        "vi-VN"
+      )}</p>
+            <p><strong>Phương thức thanh toán:</strong> ${orderData.paymentMethod === "COD"
+          ? "Thanh toán khi nhận hàng"
+          : "Thanh toán qua VNPay"
+        }</p>
           </div>
           
           <h3 style="color: #333;">Chi tiết sản phẩm</h3>
@@ -350,55 +347,50 @@ export default function ShippingPage() {
               <tr>
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Tạm tính:</td>
                 <td style="padding: 10px; text-align: right;">${formatPrice(
-                  subtotal + voucherDiscount
-                )}</td>
+          subtotal + voucherDiscount
+        )}</td>
               </tr>
-              ${
-                appliedVoucher && voucherDiscount > 0
-                  ? `
+              ${appliedVoucher && voucherDiscount > 0
+          ? `
               <tr>
-                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold; color: #16a34a;">Giảm giá voucher (${
-                  appliedVoucher.code
-                }):</td>
+                <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold; color: #16a34a;">Giảm giá voucher (${appliedVoucher.code
+          }):</td>
                 <td style="padding: 10px; text-align: right; color: #16a34a;">-${formatPrice(
-                  voucherDiscount
-                )}</td>
+            voucherDiscount
+          )}</td>
               </tr>
               `
-                  : ""
-              }
+          : ""
+        }
               <tr>
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Thuế:</td>
                 <td style="padding: 10px; text-align: right;">${formatPrice(
-                  tax
-                )}</td>
+          tax
+        )}</td>
               </tr>
               <tr>
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Phí vận chuyển:</td>
                 <td style="padding: 10px; text-align: right;">${formatPrice(
-                  shipping
-                )}</td>
+          shipping
+        )}</td>
               </tr>
               <tr style="background-color: #f9f9f9;">
                 <td colspan="2" style="padding: 10px; text-align: right; font-weight: bold;">Tổng cộng:</td>
                 <td style="padding: 10px; text-align: right; font-weight: bold;">${formatPrice(
-                  total
-                )}</td>
+          total
+        )}</td>
               </tr>
             </tfoot>
           </table>
           
           <div style="margin-top: 20px;">
             <h3 style="color: #333;">Thông tin giao hàng</h3>
-            <p><strong>Người nhận:</strong> ${
-              orderData.shippingAddress.name
-            }</p>
-            <p><strong>Số điện thoại:</strong> ${
-              orderData.shippingAddress.phoneNumber
-            }</p>
-            <p><strong>Địa chỉ:</strong> ${
-              orderData.shippingAddress.specificAddress
-            }</p>
+            <p><strong>Người nhận:</strong> ${orderData.shippingAddress.name
+        }</p>
+            <p><strong>Số điện thoại:</strong> ${orderData.shippingAddress.phoneNumber
+        }</p>
+            <p><strong>Địa chỉ:</strong> ${orderData.shippingAddress.specificAddress
+        }</p>
           </div>
           
           <div style="margin-top: 30px; text-align: center; color: #777;">
@@ -631,21 +623,21 @@ export default function ShippingPage() {
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/"
+            <Link
+              to="/"
               className="!text-maintext hover:!text-maintext"
             >
               Trang chủ
-            </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
           <BreadcrumbItem>
-            <BreadcrumbLink
-              href="/products"
+            <Link
+              to="/products"
               className="!text-maintext hover:!text-maintext"
             >
               Sản phẩm
-            </BreadcrumbLink>
+            </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
           <BreadcrumbItem>
@@ -801,8 +793,8 @@ export default function ShippingPage() {
                                   !selectedProvince
                                     ? "Vui lòng chọn tỉnh/thành phố trước"
                                     : loadingDistricts
-                                    ? "Đang tải..."
-                                    : "Chọn quận/huyện"
+                                      ? "Đang tải..."
+                                      : "Chọn quận/huyện"
                                 }
                               />
                             </SelectTrigger>
@@ -847,8 +839,8 @@ export default function ShippingPage() {
                                   !selectedDistrict
                                     ? "Vui lòng chọn quận/huyện trước"
                                     : loadingWards
-                                    ? "Đang tải..."
-                                    : "Chọn phường/xã"
+                                      ? "Đang tải..."
+                                      : "Chọn phường/xã"
                                 }
                               />
                             </SelectTrigger>

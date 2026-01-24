@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -140,21 +140,21 @@ export default function CreatePromotionPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">
+              <Link to="/admin/discounts" className="!text-white/80 hover:!text-white">
                 Quản lý khuyến mãii
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts/promotions">
+              <Link to="/admin/discounts/promotions" className="!text-white/80 hover:!text-white">
                 Chiến dịch khuyến mãi
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -267,7 +267,7 @@ export default function CreatePromotionPage() {
                     }
                     min={
                       typeof formData.startDate === "string" &&
-                      formData.startDate
+                        formData.startDate
                         ? formData.startDate
                         : new Date().toISOString().slice(0, 16)
                     }
@@ -388,8 +388,8 @@ export default function CreatePromotionPage() {
                           <strong>Thời gian:</strong>{" "}
                           {formData.startDate
                             ? new Date(formData.startDate).toLocaleString(
-                                "vi-VN"
-                              )
+                              "vi-VN"
+                            )
                             : "Chưa chọn"}{" "}
                           -{" "}
                           {formData.endDate

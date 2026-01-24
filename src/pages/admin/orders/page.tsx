@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -401,9 +401,9 @@ export default function OrdersPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/statistics">
+                <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                   Dashboard
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
@@ -1024,12 +1024,12 @@ const OrderDetailDialog = ({
           <DialogTitle className="flex justify-between items-center">
             <span>Chi tiết đơn hàng: {orderDetail.orderNumber}</span>
             <div className="flex space-x-2">
-              <a href={`/admin/orders/edit/${orderId}`}>
+              <Link to={`/admin/orders/edit/${orderId}`}>
                 <Button variant="outline" size="sm">
                   <Icon path={mdiPencil} size={0.8} className="mr-2" />
                   Chỉnh sửa
                 </Button>
-              </a>
+              </Link>
               <Button variant="outline" size="sm">
                 <Icon path={mdiPrinter} size={0.8} className="mr-2" />
                 In đơn

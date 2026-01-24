@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -172,15 +173,15 @@ export default function PromotionsPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/discounts">
-                Quản lý khuyến mãii
-              </BreadcrumbLink>
+              <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
+                Quản lý khuyến mãi
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -189,15 +190,15 @@ export default function PromotionsPage() {
           </BreadcrumbList>
         </Breadcrumb>
         <div className="flex space-x-2">
-          <a
-            href="/admin/discounts/promotions/create"
+          <Link
+            to="/admin/discounts/promotions/create"
             className="flex items-center gap-2"
           >
             <Button className="flex items-center gap-2">
               <Icon path={mdiPlus} size={0.8} />
               Thêm chiến dịch khuyến mãi
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
 
@@ -224,19 +225,19 @@ export default function PromotionsPage() {
                 Object.keys(filters).filter(
                   (k) => k !== "page" && k !== "limit"
                 ).length > 0) && (
-                <Button
-                  variant="outline"
-                  className="flex items-center"
-                  onClick={handleClearFilters}
-                >
-                  <Icon
-                    path={mdiFilterRemoveOutline}
-                    size={0.8}
-                    className="mr-2"
-                  />
-                  Clear bộ lọc
-                </Button>
-              )}
+                  <Button
+                    variant="outline"
+                    className="flex items-center"
+                    onClick={handleClearFilters}
+                  >
+                    <Icon
+                      path={mdiFilterRemoveOutline}
+                      size={0.8}
+                      className="mr-2"
+                    />
+                    Clear bộ lọc
+                  </Button>
+                )}
               <Button
                 variant="outline"
                 className="flex items-center"
@@ -429,13 +430,13 @@ export default function PromotionsPage() {
                       </TableCell>
                       <TableCell className="px-4 py-4 text-sm text-right">
                         <div className="flex items-center justify-end space-x-2">
-                          <a
-                            href={`/admin/discounts/promotions/edit/${promotion.id}`}
+                          <Link
+                            to={`/admin/discounts/promotions/edit/${promotion.id}`}
                           >
                             <Button variant="outline" size="icon" title="Sửa">
                               <Icon path={mdiPencilCircle} size={0.8} />
                             </Button>
-                          </a>
+                          </Link>
                           <Button
                             variant="outline"
                             size="icon"

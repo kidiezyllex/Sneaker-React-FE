@@ -1,5 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 export function Pagination({
   className,
   children,
@@ -38,8 +39,8 @@ export function PaginationLink({
   ...props
 }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { isActive?: boolean }) {
   return (
-    <a
-      href={href || "#"}
+    <Link
+      to={href || "#"}
       className={cn(
         "px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
         isActive
@@ -61,8 +62,8 @@ export function PaginationPrevious({
 }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { disabled?: boolean }) {
   return (
     <PaginationItem>
-      <a
-        href={href || "#"}
+      <Link
+        to={href || "#"}
         className={cn(
           "px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
           disabled
@@ -74,7 +75,7 @@ export function PaginationPrevious({
         {...props}
       >
         Trước
-      </a>
+      </Link>
     </PaginationItem>
   );
 }
@@ -87,8 +88,8 @@ export function PaginationNext({
 }: React.AnchorHTMLAttributes<HTMLAnchorElement> & { disabled?: boolean }) {
   return (
     <PaginationItem>
-      <a
-        href={href || "#"}
+      <Link
+        to={href || "#"}
         className={cn(
           "px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
           disabled
@@ -100,7 +101,7 @@ export function PaginationNext({
         {...props}
       >
         Sau
-      </a>
+      </Link>
     </PaginationItem>
   );
 }

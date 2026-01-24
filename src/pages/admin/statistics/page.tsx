@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -266,9 +267,8 @@ export default function StatisticsPage() {
                   className={change >= 0 ? "text-primary" : "text-red-600"}
                 />
                 <span
-                  className={`text-sm ml-1 ${
-                    change >= 0 ? "text-primary" : "text-red-600"
-                  }`}
+                  className={`text-sm ml-1 ${change >= 0 ? "text-primary" : "text-red-600"
+                    }`}
                 >
                   {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}
                 </span>
@@ -314,46 +314,46 @@ export default function StatisticsPage() {
   const mockRevenueData = revenueData?.data?.length
     ? revenueData.data
     : [
-        {
-          date: "2024-01",
-          totalRevenue: currentMonthData.totalRevenue,
-          totalOrders: currentMonthData.totalOrders,
-        },
-        { date: "2024-02", totalRevenue: 0, totalOrders: 0 },
-        { date: "2024-03", totalRevenue: 0, totalOrders: 0 },
-      ];
+      {
+        date: "2024-01",
+        totalRevenue: currentMonthData.totalRevenue,
+        totalOrders: currentMonthData.totalOrders,
+      },
+      { date: "2024-02", totalRevenue: 0, totalOrders: 0 },
+      { date: "2024-03", totalRevenue: 0, totalOrders: 0 },
+    ];
 
   const mockTopProductsData = topProductsData?.data?.length
     ? topProductsData.data
     : [
-        {
-          product: {
-            id: "1",
-            name: "Sản phẩm mẫu 1",
-            brand: { id: "1", name: "Uniqlo" },
-          },
-          totalQuantity: 10,
-          totalRevenue: 1000000,
+      {
+        product: {
+          id: "1",
+          name: "Sản phẩm mẫu 1",
+          brand: { id: "1", name: "Uniqlo" },
         },
-        {
-          product: {
-            id: "2",
-            name: "Sản phẩm mẫu 2",
-            brand: { id: "2", name: "Prada" },
-          },
-          totalQuantity: 8,
-          totalRevenue: 800000,
+        totalQuantity: 10,
+        totalRevenue: 1000000,
+      },
+      {
+        product: {
+          id: "2",
+          name: "Sản phẩm mẫu 2",
+          brand: { id: "2", name: "Prada" },
         },
-        {
-          product: {
-            id: "3",
-            name: "Sản phẩm mẫu 3",
-            brand: { id: "3", name: "Balenciaga" },
-          },
-          totalQuantity: 5,
-          totalRevenue: 500000,
+        totalQuantity: 8,
+        totalRevenue: 800000,
+      },
+      {
+        product: {
+          id: "3",
+          name: "Sản phẩm mẫu 3",
+          brand: { id: "3", name: "Balenciaga" },
         },
-      ];
+        totalQuantity: 5,
+        totalRevenue: 500000,
+      },
+    ];
 
   return (
     <div className="space-y-4">
@@ -361,9 +361,9 @@ export default function StatisticsPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href="/admin/statistics">
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                 Dashboard
-              </BreadcrumbLink>
+              </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -585,9 +585,9 @@ export default function StatisticsPage() {
                           name: string,
                           props: any
                         ) => [
-                          `${value} sản phẩm`,
-                          props.payload.fullName || name,
-                        ]}
+                            `${value} sản phẩm`,
+                            props.payload.fullName || name,
+                          ]}
                         labelFormatter={() => "Sản phẩm bán chạy"}
                       />
                       <Legend
@@ -1034,10 +1034,10 @@ export default function StatisticsPage() {
                                 {item.type === "DAILY"
                                   ? "Ngày"
                                   : item.type === "WEEKLY"
-                                  ? "Tuần"
-                                  : item.type === "MONTHLY"
-                                  ? "Tháng"
-                                  : "Năm"}
+                                    ? "Tuần"
+                                    : item.type === "MONTHLY"
+                                      ? "Tháng"
+                                      : "Năm"}
                               </Badge>
                             </TableCell>
                             <TableCell className="text-right text-maintext">
@@ -1179,10 +1179,10 @@ export default function StatisticsPage() {
                           {statisticsDetailData.data.type === "DAILY"
                             ? "Ngày"
                             : statisticsDetailData.data.type === "WEEKLY"
-                            ? "Tuần"
-                            : statisticsDetailData.data.type === "MONTHLY"
-                            ? "Tháng"
-                            : "Năm"}
+                              ? "Tuần"
+                              : statisticsDetailData.data.type === "MONTHLY"
+                                ? "Tháng"
+                                : "Năm"}
                         </Badge>
                       </div>
                       <div className="flex justify-between">

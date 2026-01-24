@@ -62,11 +62,11 @@ import { CheckCircle, Circle } from "lucide-react";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Link } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getSizeLabel } from "@/utils/sizeMapping";
 import jsPDF from "jspdf";
@@ -631,15 +631,15 @@ export default function OrderDetailPage() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/admin/statistics">
+                  <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                     Dashboard
-                  </BreadcrumbLink>
+                  </Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/admin/orders">
+                  <Link to="/admin/orders" className="!text-white/80 hover:!text-white">
                     Quản lý đơn hàng
-                  </BreadcrumbLink>
+                  </Link>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
@@ -878,15 +878,15 @@ export default function OrderDetailPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/statistics">
+                <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
                   Dashboard
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbLink href="/admin/orders">
+                <Link to="/admin/orders" className="!text-white/80 hover:!text-white">
                   Quản lý đơn hàng
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>

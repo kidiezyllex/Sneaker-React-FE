@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -298,14 +298,14 @@ const ProfilePage: React.FC = () => {
                     Cập nhật mật khẩu mới để bảo vệ tài khoản của bạn khỏi các
                     truy cập trái phép
                   </p>
-                  <a
-                    href="/profile/change-password"
+                  <Link
+                    to="/profile/change-password"
                     className="bg-primary hover:bg-secondary transition-all duration-300"
                   >
                     <Button className="bg-primary hover:bg-secondary transition-all duration-300">
                       Đổi mật khẩu
                     </Button>
-                  </a>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
