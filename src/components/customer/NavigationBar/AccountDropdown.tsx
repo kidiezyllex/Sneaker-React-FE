@@ -71,7 +71,7 @@ const AccountDropdown = () => {
         <motion.div initial="hidden" animate="visible" exit="exit">
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">
+              <p className="text-sm font-semibold leading-none">
                 {profile?.data?.fullName || "Người dùng"}
               </p>
               <p className="text-sm leading-none text-muted-foreground">
@@ -89,7 +89,7 @@ const AccountDropdown = () => {
                   size={0.8}
                   className="mr-2 text-maintext"
                 />
-                <span className="!text-maintext">Quản lý chung</span>
+                <span className="!text-maintext font-semibold">Quản lý chung</span>
               </Link>
             </DropdownMenuItem>
           </motion.div>
@@ -118,7 +118,7 @@ const AccountDropdown = () => {
               onClick={handleLogout}
             >
               <Icon path={mdiLogout} size={0.8} className="mr-2" />
-              Đăng xuất
+              <span className="font-semibold">Đăng xuất</span>
             </DropdownMenuItem>
           </motion.div>
         </motion.div>

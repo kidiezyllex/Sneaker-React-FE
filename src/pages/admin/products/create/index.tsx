@@ -42,8 +42,8 @@ import {
   mdiClose,
 } from "@mdi/js";
 import { AnimatePresence, motion } from "framer-motion";
-import ProductVariantForm from "@/components/ProductPage/ProductVariantForm";
-import VariantGenerator from "@/components/ProductPage/VariantGenerator";
+import ProductVariantForm from "../components/ProductVariantForm";
+import VariantGenerator from "../components/VariantGenerator";
 import {
   Select,
   SelectContent,

@@ -35,7 +35,7 @@ import { useCartStore } from "@/stores/useCartStore";
 import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import VoucherForm from "@/components/ProductPage/VoucherForm";
+import VoucherForm from "@/pages/admin/products/components/VoucherForm";
 import CartIcon from "@/components/ui/CartIcon";
 import { CommonPagination } from "@/components/ui/common-pagination";
 import { ProductCard, ProductFilters } from "./components";

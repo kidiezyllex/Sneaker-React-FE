@@ -141,11 +141,10 @@ const VouchersListDialog = ({
                 return (
                   <div
                     key={voucher.id}
-                    className={`relative flex flex-col overflow-hidden border rounded-lg p-4 transition-all hover:shadow-md ${
-                      isDisabled
-                        ? "bg-muted/30 border-dashed opacity-60"
-                        : "bg-card border-primary/20 hover:border-primary/50"
-                    }`}
+                    className={`relative flex flex-col overflow-hidden border rounded-lg p-4 transition-all hover:shadow-md ${isDisabled
+                      ? "bg-muted/30 border-dashed opacity-60"
+                      : "bg-card border-primary/20 hover:border-primary/50"
+                      }`}
                   >
                     {isDisabled && (
                       <div className="absolute top-2 right-2 z-10">
@@ -153,8 +152,8 @@ const VouchersListDialog = ({
                           {isExpired
                             ? "Đã hết hạn"
                             : isOutOfStock
-                            ? "Hết lượt dùng"
-                            : "Ngừng hoạt động"}
+                              ? "Hết lượt dùng"
+                              : "Ngừng hoạt động"}
                         </Badge>
                       </div>
                     )}
@@ -527,13 +526,12 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                           <span>Thương hiệu: {item.brand}</span>
                           {item.stock !== undefined && (
                             <span
-                              className={`ml-2 text-sm px-2 py-0.5 rounded-full ${
-                                item.stock > 10
-                                  ? "bg-green-100 text-green-700"
-                                  : item.stock > 0
+                              className={`ml-2 text-sm px-2 py-0.5 rounded-full ${item.stock > 10
+                                ? "bg-green-100 text-green-700"
+                                : item.stock > 0
                                   ? "bg-yellow-100 text-yellow-700"
                                   : "bg-red-100 text-red-700"
-                              }`}
+                                }`}
                             >
                               Tồn kho: {item.stock}
                             </span>
@@ -559,11 +557,10 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                 )
                               }
                               onBlur={() => handleQuantityInputBlur(item.id)}
-                              className={`w-16 h-8 text-center border-0 focus:ring-0 text-sm ${
-                                item.stock && item.quantity >= item.stock
-                                  ? "bg-green-50 text-green-800"
-                                  : ""
-                              }`}
+                              className={`w-16 h-8 text-center border-0 focus:ring-0 text-sm ${item.stock && item.quantity >= item.stock
+                                ? "bg-green-50 text-green-800"
+                                : ""
+                                }`}
                               title={
                                 item.stock
                                   ? `Tồn kho: ${item.stock}`
@@ -815,4 +812,4 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
   );
 };
 
-export default CartSheet;
+export { CartSheet };

@@ -1,6 +1,7 @@
 import React from "react";
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { LazyComponentLoader } from "@/components/Common/LazyComponentLoader";
+import { UserProvider } from "@/context/useUserContext";
 
 // Layouts
 import RootLayout from "@/layouts/RootLayout";
@@ -16,6 +17,13 @@ const PageLoader = () => (
             </p>
         </div>
     </div>
+);
+
+// Root wrapper with UserProvider
+const RootWrapper = () => (
+    <UserProvider>
+        <Outlet />
+    </UserProvider>
 );
 
 const load = (Component: React.LazyExoticComponent<any>) => (
@@ -81,69 +89,74 @@ const NotFoundPage = React.lazy(() => import("@/pages/error"));
 
 export const router = createBrowserRouter([
     {
-        path: "/",
-        element: <RootLayout />,
+        element: <RootWrapper />,
         children: [
-            { index: true, element: load(HomePage) },
-            { path: "about-us", element: load(AboutUsPage) },
-            { path: "account", element: load(AccountPage) },
-            { path: "products", element: load(ProductsPage) },
-            { path: "products/:slug", element: load(ProductDetailPage) },
-            { path: "profile", element: load(ProfilePage) },
-            { path: "orders", element: load(OrdersPage) },
-            { path: "orders/:id", element: load(OrderDetailPage) },
-            { path: "returns", element: load(ReturnsPage) },
-            { path: "checkout/shipping", element: load(CheckoutShippingPage) },
-            { path: "checkout/success", element: load(CheckoutSuccessPage) },
-            { path: "payment-result", element: load(PaymentResultPage) },
+            {
+                path: "/",
+                element: <RootLayout />,
+                children: [
+                    { index: true, element: load(HomePage) },
+                    { path: "about-us", element: load(AboutUsPage) },
+                    { path: "account", element: load(AccountPage) },
+                    { path: "products", element: load(ProductsPage) },
+                    { path: "products/:slug", element: load(ProductDetailPage) },
+                    { path: "profile", element: load(ProfilePage) },
+                    { path: "orders", element: load(OrdersPage) },
+                    { path: "orders/:id", element: load(OrderDetailPage) },
+                    { path: "returns", element: load(ReturnsPage) },
+                    { path: "checkout/shipping", element: load(CheckoutShippingPage) },
+                    { path: "checkout/success", element: load(CheckoutSuccessPage) },
+                    { path: "payment-result", element: load(PaymentResultPage) },
+                ],
+            },
+            {
+                path: "auth",
+                children: [
+                    { path: "login", element: load(LoginPage) },
+                    { path: "register", element: load(RegisterPage) },
+                ],
+            },
+            {
+                path: "admin",
+                element: <AdminLayout />,
+                children: [
+                    { index: true, element: <Navigate to="/admin/statistics" replace /> },
+                    { path: "statistics", element: load(AdminStatisticsPage) },
+
+                    { path: "accounts", element: load(AdminAccountsPage) },
+                    { path: "accounts/create", element: load(AdminAccountCreatePage) },
+                    { path: "accounts/edit/:id", element: load(AdminAccountEditPage) },
+
+                    { path: "discounts", element: load(AdminDiscountsPage) },
+                    { path: "discounts/promotions", element: load(AdminPromotionsPage) },
+                    { path: "discounts/promotions/create", element: load(AdminPromotionCreatePage) },
+                    { path: "discounts/promotions/edit/:id", element: load(AdminPromotionEditPage) },
+                    { path: "discounts/vouchers", element: load(AdminVouchersPage) },
+                    { path: "discounts/vouchers/create", element: load(AdminVoucherCreatePage) },
+                    { path: "discounts/vouchers/edit/:id", element: load(AdminVoucherEditPage) },
+
+                    { path: "orders", element: load(AdminOrdersPage) },
+                    { path: "orders/:orderId", element: load(AdminOrderDetailPage) },
+                    { path: "orders/create", element: load(AdminOrderCreatePage) },
+                    { path: "orders/edit/:id", element: load(AdminOrderEditPage) },
+
+                    { path: "pos", element: load(AdminPosPage) },
+
+                    { path: "products", element: load(AdminProductsPage) },
+                    { path: "products/brands", element: load(AdminProductBrandsPage) },
+                    { path: "products/categories", element: load(AdminProductCategoriesPage) },
+                    { path: "products/colors", element: load(AdminProductColorsPage) },
+                    { path: "products/create", element: load(AdminProductCreatePage) },
+                    { path: "products/edit/:id", element: load(AdminProductEditPage) },
+                    { path: "products/materials", element: load(AdminProductMaterialsPage) },
+                    { path: "products/sizes", element: load(AdminProductSizesPage) },
+
+                    { path: "returns", element: load(AdminReturnsPage) },
+                    { path: "returns/create", element: load(AdminReturnCreatePage) },
+                    { path: "returns/edit/:id", element: load(AdminReturnEditPage) },
+                ],
+            },
+            { path: "*", element: load(NotFoundPage) },
         ],
     },
-    {
-        path: "auth",
-        children: [
-            { path: "login", element: load(LoginPage) },
-            { path: "register", element: load(RegisterPage) },
-        ],
-    },
-    {
-        path: "admin",
-        element: <AdminLayout />,
-        children: [
-            { index: true, element: <Navigate to="/admin/statistics" replace /> },
-            { path: "statistics", element: load(AdminStatisticsPage) },
-
-            { path: "accounts", element: load(AdminAccountsPage) },
-            { path: "accounts/create", element: load(AdminAccountCreatePage) },
-            { path: "accounts/edit/:id", element: load(AdminAccountEditPage) },
-
-            { path: "discounts", element: load(AdminDiscountsPage) },
-            { path: "discounts/promotions", element: load(AdminPromotionsPage) },
-            { path: "discounts/promotions/create", element: load(AdminPromotionCreatePage) },
-            { path: "discounts/promotions/edit/:id", element: load(AdminPromotionEditPage) },
-            { path: "discounts/vouchers", element: load(AdminVouchersPage) },
-            { path: "discounts/vouchers/create", element: load(AdminVoucherCreatePage) },
-            { path: "discounts/vouchers/edit/:id", element: load(AdminVoucherEditPage) },
-
-            { path: "orders", element: load(AdminOrdersPage) },
-            { path: "orders/:orderId", element: load(AdminOrderDetailPage) },
-            { path: "orders/create", element: load(AdminOrderCreatePage) },
-            { path: "orders/edit/:id", element: load(AdminOrderEditPage) },
-
-            { path: "pos", element: load(AdminPosPage) },
-
-            { path: "products", element: load(AdminProductsPage) },
-            { path: "products/brands", element: load(AdminProductBrandsPage) },
-            { path: "products/categories", element: load(AdminProductCategoriesPage) },
-            { path: "products/colors", element: load(AdminProductColorsPage) },
-            { path: "products/create", element: load(AdminProductCreatePage) },
-            { path: "products/edit/:id", element: load(AdminProductEditPage) },
-            { path: "products/materials", element: load(AdminProductMaterialsPage) },
-            { path: "products/sizes", element: load(AdminProductSizesPage) },
-
-            { path: "returns", element: load(AdminReturnsPage) },
-            { path: "returns/create", element: load(AdminReturnCreatePage) },
-            { path: "returns/edit/:id", element: load(AdminReturnEditPage) },
-        ],
-    },
-    { path: "*", element: load(NotFoundPage) },
 ]);

@@ -49,7 +49,7 @@ import { useCreateOrder } from "@/hooks/order";
 import { useUser } from "@/context/useUserContext";
 import { useCreateNotification } from "@/hooks/notification";
 import { useUserProfile } from "@/hooks/account";
-import VNPayModal from "@/components/VNPayPayment/VNPayModal";
+import VNPayModal from "@/components/customer/VNPayPayment/VNPayModal";
 import { getSizeLabel } from "@/utils/sizeMapping";
 import { Icon } from "@mdi/react";
 import { mdiTruckDeliveryOutline, mdiShoppingOutline } from "@mdi/js";
