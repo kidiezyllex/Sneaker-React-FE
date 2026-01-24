@@ -11,20 +11,20 @@ const routeCache = new Map<string, Promise<any>>();
 const preloadedRoutes = new Set<string>();
 
 const routeImports: Record<string, () => Promise<any>> = {
-  "/": () => import("@/pages/HomePage"),
-  "/about-us": () => import("@/pages/AboutUsPage"),
-  "/products": () => import("@/pages/ProductsPage"),
-  "/profile": () => import("@/pages/ProfilePage"),
-  "/orders": () => import("@/pages/OrdersPage"),
-  "/returns": () => import("@/pages/ReturnsPage"),
-  "/checkout/shipping": () => import("@/pages/CheckoutShippingPage"),
-  "/checkout/success": () => import("@/pages/CheckoutSuccessPage"),
-  "/auth/login": () => import("@/pages/auth/LoginPage"),
-  "/auth/register": () => import("@/pages/auth/RegisterPage"),
-  "/admin": () => import("@/pages/admin/AdminDashboardPage"),
-  "/admin/products": () => import("@/pages/admin/AdminProductsPage"),
-  "/admin/orders": () => import("@/pages/admin/AdminOrdersPage"),
-  "/admin/statistics": () => import("@/pages/admin/AdminStatisticsPage"),
+  "/": () => import("@/pages/home"),
+  "/about-us": () => import("@/pages/about-us"),
+  "/products": () => import("@/pages/products"),
+  "/profile": () => import("@/pages/profile"),
+  "/orders": () => import("@/pages/orders"),
+  "/returns": () => import("@/pages/returns"),
+  "/checkout/shipping": () => import("@/pages/checkout/shipping"),
+  "/checkout/success": () => import("@/pages/checkout/success"),
+  "/auth/login": () => import("@/pages/auth/login"),
+  "/auth/register": () => import("@/pages/auth/register"),
+  "/admin": () => import("@/pages/admin/statistics"),
+  "/admin/products": () => import("@/pages/admin/products"),
+  "/admin/orders": () => import("@/pages/admin/orders"),
+  "/admin/statistics": () => import("@/pages/admin/statistics"),
 };
 
 const preloadRoute = async (routePath: string): Promise<void> => {

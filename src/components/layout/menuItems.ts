@@ -79,7 +79,7 @@ export const menuItems: MenuItem[] = [
         path: '/admin/discounts/vouchers',
       },
       {
-        id: 'discounts-promotions', 
+        id: 'discounts-promotions',
         name: 'Đợt khuyến mãi',
         path: '/admin/discounts/promotions',
       },
@@ -90,5 +90,11 @@ export const menuItems: MenuItem[] = [
     name: 'Quản lý tài khoản',
     path: '/admin/accounts',
     icon: mdiAccount,
+  },
+  {
+    id: 'returns',
+    name: 'Trả hàng',
+    path: '/admin/returns',
+    icon: mdiRestart,
   },
 ]; 

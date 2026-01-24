@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import NavigationBar from "@/components/HomePage/NavigationBar";
+import NavigationBar from "@/components/Common/NavigationBar";
 import Footer from "@/components/Common/Footer";
 
 const RootLayout: React.FC = () => {
