@@ -405,7 +405,7 @@ export const Footer = () => {
             >
               <p className="text-gray-400 text-sm flex items-center justify-center gap-2">
                 <span>©2026 Sneaker Store. Made with</span>
-                <Icon path={mdiHeart} size={0.6} className="text-red-500" />
+                <Icon path={mdiHeart} size={0.8} className="text-red-500" />
                 <span>in Vietnam</span>
               </p>
             </motion.div>

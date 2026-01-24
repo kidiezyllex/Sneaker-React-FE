@@ -83,9 +83,8 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
               key={method.id}
               value={method}
               className={({ checked }) =>
-                `${
-                  checked ? "bg-indigo-50 border-indigo-500" : "border-gray-200"
-                } relative border rounded-2xl p-4 flex cursor-pointer focus:outline-none`
+                `${checked ? "bg-indigo-50 border-indigo-500" : "border-gray-200"
+                } relative border rounded-xl p-4 flex cursor-pointer focus:outline-none`
               }
             >
               {({ checked }) => (
@@ -108,9 +107,8 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                       </div>
                     </div>
                     <div
-                      className={`${
-                        checked ? "text-indigo-500" : "text-maintext"
-                      } flex-shrink-0`}
+                      className={`${checked ? "text-indigo-500" : "text-maintext"
+                        } flex-shrink-0`}
                     >
                       <method.icon className="w-6 h-6" />
                     </div>
@@ -125,7 +123,7 @@ export const PaymentMethods: React.FC<PaymentMethodsProps> = ({
       <button
         onClick={handlePayment}
         disabled={isProcessing}
-        className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded-2xl hover:bg-indigo-700 disabled:bg-indigo-300 disabled:cursor-not-allowed"
+        className="mt-6 w-full bg-indigo-600 text-white py-2 px-4 rounded-xl hover:bg-indigo-700 disabled:bg-indigo-300 disabled:cursor-not-allowed"
       >
         {isProcessing ? "Đang xử lý..." : "Tiến hành thanh toán"}
       </button>

@@ -111,9 +111,9 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               <SelectValue placeholder="Chọn màu sắc">
                 {variant.colorId
                   ? (colorsData?.data || []).find(
-                      (color) =>
-                        color.id.toString() === variant.colorId?.toString()
-                    )?.name || "Chọn màu sắc"
+                    (color) =>
+                      color.id.toString() === variant.colorId?.toString()
+                  )?.name || "Chọn màu sắc"
                   : "Chọn màu sắc"}
               </SelectValue>
             </SelectTrigger>
@@ -146,14 +146,14 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               <SelectValue placeholder="Chọn kích thước">
                 {variant.sizeId
                   ? (() => {
-                      const foundSize = (sizesData?.data || []).find(
-                        (size) =>
-                          size.id.toString() === variant.sizeId?.toString()
-                      );
-                      return foundSize
-                        ? getSizeLabel(foundSize.value)
-                        : "Chọn kích thước";
-                    })()
+                    const foundSize = (sizesData?.data || []).find(
+                      (size) =>
+                        size.id.toString() === variant.sizeId?.toString()
+                    );
+                    return foundSize
+                      ? getSizeLabel(foundSize.value)
+                      : "Chọn kích thước";
+                  })()
                   : "Chọn kích thước"}
               </SelectValue>
             </SelectTrigger>
@@ -253,7 +253,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.2 }}
-                    className="relative group rounded-2xl overflow-hidden border border-gray-200"
+                    className="relative group rounded-xl overflow-hidden border border-gray-200"
                     style={{ aspectRatio: "1/1" }}
                   >
                     <img
@@ -277,7 +277,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               </AnimatePresence>
             ) : (
               <div
-                className="flex items-center justify-center border border-dashed border-gray-300 rounded-2xl text-maintext"
+                className="flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-maintext"
                 style={{ aspectRatio: "1/1" }}
               >
                 <div className="flex flex-col items-center p-4">

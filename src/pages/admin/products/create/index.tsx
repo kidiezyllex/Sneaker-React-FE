@@ -552,7 +552,7 @@ export default function CreateProductPage() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.2 }}
-                      className="border p-4 rounded-2xl"
+                      className="border p-4 rounded-xl"
                     >
                       <div className="flex justify-between items-center mb-4">
                         <h3 className="text-lg font-medium">

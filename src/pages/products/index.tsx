@@ -369,7 +369,7 @@ export default function ProductsPage() {
               transition={{ duration: 0.3 }}
               className="lg:hidden w-full"
             >
-              <div className="bg-white rounded-2xl shadow-sm border p-4 mb-4">
+              <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
                 <div className="flex justify-between items-center mb-2">
                   <h2 className="font-semibold">Bộ lọc sản phẩm</h2>
                   <Button variant="ghost" size="sm" onClick={toggleFilter}>
@@ -386,22 +386,9 @@ export default function ProductsPage() {
         </AnimatePresence>
 
         <div className="hidden lg:block w-full lg:w-1/4 xl:w-1/5 ">
-          <div className="bg-white rounded-2xl shadow-md border-2 border-white p-4 sticky top-20">
+          <div className="bg-white rounded-xl shadow-md border-2 border-white p-4 sticky top-20">
             <h2 className="font-semibold mb-4">Bộ lọc sản phẩm</h2>
             <ProductFilters filters={filters} onChange={handleFilterChange} />
-
-            {data && data.data && data.data.length > 0 && (
-              <VoucherForm
-                orderValue={data.data.reduce(
-                  (sum: number, product: any) =>
-                    sum + (product.variants[0]?.price || 0),
-                  0
-                )}
-                onApplyVoucher={handleApplyVoucher}
-                onRemoveVoucher={handleRemoveVoucher}
-                appliedVoucher={appliedVoucher}
-              />
-            )}
           </div>
         </div>
 
@@ -436,7 +423,7 @@ export default function ProductsPage() {
               value={sortOption}
               onValueChange={setSortOption}
             >
-              <SelectTrigger className="w-full sm:w-[200px]">
+              <SelectTrigger className="w-full sm:w-[200px] bg-white">
                 <SelectValue placeholder="Sắp xếp theo" />
               </SelectTrigger>
               <SelectContent>
@@ -504,7 +491,7 @@ export default function ProductsPage() {
                 )}
               </div>
 
-              <div className="lg:hidden mt-8 bg-white rounded-2xl shadow-sm border p-4">
+              <div className="lg:hidden mt-8 bg-white rounded-xl shadow-sm border p-4">
                 <VoucherForm
                   orderValue={filteredProducts.reduce(
                     (sum, product) => sum + (product.variants[0]?.price || 0),

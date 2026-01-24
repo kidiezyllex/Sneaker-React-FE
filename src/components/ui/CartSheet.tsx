@@ -124,9 +124,9 @@ const VouchersListDialog = ({
               <Icon
                 path={mdiTicketPercentOutline}
                 size={2}
-                className="text-muted-foreground/20 mb-2"
+                className="text-gray-600/20 mb-2"
               />
-              <p className="text-muted-foreground">
+              <p className="text-gray-600">
                 Hiện không có phiếu giảm giá nào khả dụng.
               </p>
             </div>
@@ -171,7 +171,7 @@ const VouchersListDialog = ({
                         <h4 className="font-semibold text-primary line-clamp-1">
                           {voucher.name}
                         </h4>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-gray-600">
                           Mã:{" "}
                           <span className="font-mono bg-primary/10 px-1 rounded">
                             {voucher.code}
@@ -181,7 +181,7 @@ const VouchersListDialog = ({
 
                       <div className="space-y-2 text-sm mt-auto">
                         <div className="flex justify-between items-center">
-                          <span className="text-muted-foreground">Ưu đãi:</span>
+                          <span className="text-gray-600">Ưu đãi:</span>
                           <span className="font-bold text-primary text-xl">
                             {voucher.type === "PERCENTAGE"
                               ? `${voucher.value}%`
@@ -192,7 +192,7 @@ const VouchersListDialog = ({
                         {voucher.type === "PERCENTAGE" &&
                           voucher.maxDiscount && (
                             <div className="flex justify-between text-xs">
-                              <span className="text-muted-foreground">
+                              <span className="text-gray-600">
                                 Tối đa:
                               </span>
                               <span>{formatPrice(voucher.maxDiscount)}</span>
@@ -200,13 +200,13 @@ const VouchersListDialog = ({
                           )}
 
                         <div className="flex justify-between text-xs">
-                          <span className="text-muted-foreground">
+                          <span className="text-gray-600">
                             Đơn tối thiểu:
                           </span>
                           <span>{formatPrice(voucher.minOrderValue)}</span>
                         </div>
 
-                        <div className="flex justify-between text-[11px] text-muted-foreground pt-1 border-t border-dashed">
+                        <div className="flex justify-between text-[11px] text-gray-600 pt-1 border-t border-dashed">
                           <div className="flex flex-col">
                             <span>Hết hạn:</span>
                             <span className="font-medium text-maintext">
@@ -486,7 +486,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
           {items.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center">
-              <p className="text-muted-foreground">
+              <p className="text-gray-600">
                 Giỏ hàng của bạn đang trống
               </p>
               <Button
@@ -517,12 +517,12 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                           </h4>
                           <button
                             onClick={() => removeFromCart(item.id)}
-                            className="text-muted-foreground hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50"
+                            className="text-gray-600 hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50"
                           >
                             <Icon path={mdiDelete} size={0.8} />
                           </button>
                         </div>
-                        <div className="text-sm text-muted-foreground flex items-center justify-between mb-2">
+                        <div className="text-sm text-gray-600 flex items-center justify-between mb-2">
                           <span>Thương hiệu: {item.brand}</span>
                           {item.stock !== undefined && (
                             <span
@@ -580,7 +580,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                           <div>
                             {item.hasDiscount && item.originalPrice && (
                               <div className="text-right">
-                                <span className="text-sm line-through text-muted-foreground block">
+                                <span className="text-sm line-through text-gray-600 block">
                                   {formatPrice(item.originalPrice)}
                                 </span>
                                 <span className="font-medium text-green-600">
@@ -627,7 +627,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                               <div className="font-medium text-sm text-green-800 flex items-center gap-1.5">
                                 <Icon
                                   path={mdiTicketPercentOutline}
-                                  size={0.6}
+                                  size={0.8}
                                 />
                                 {appliedVoucher.code}
                               </div>
@@ -638,7 +638,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                           </div>
                           <button
                             onClick={handleRemoveVoucher}
-                            className="text-muted-foreground hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50 border border-red-300"
+                            className="text-gray-600 hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50 border border-red-300"
                           >
                             <Icon path={mdiClose} size={0.8} />
                           </button>
@@ -686,7 +686,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                             className="text-sm text-primary p-0 h-auto flex items-center gap-2"
                             onClick={() => setShowVouchersDialog(true)}
                           >
-                            <Icon path={mdiTicketPercentOutline} size={0.6} />
+                            <Icon path={mdiTicketPercentOutline} size={0.8} />
                             Xem danh sách mã giảm giá
                           </Button>
                         </motion.div>
@@ -696,7 +696,7 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground text-sm font-semibold">
+                      <span className="text-gray-600 text-sm font-semibold">
                         Tạm tính
                       </span>
                       <span>{formatPrice(finalSubtotal)}</span>
@@ -738,13 +738,13 @@ const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                     )}
 
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground text-sm font-semibold">
+                      <span className="text-gray-600 text-sm font-semibold">
                         Thuế VAT (5%)
                       </span>
                       <span>{formatPrice(finalTax)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground text-sm font-semibold">
+                      <span className="text-gray-600 text-sm font-semibold">
                         Phí vận chuyển
                         {finalShipping === 0 && (
                           <span className="text-green-600 ml-1">

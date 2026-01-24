@@ -74,7 +74,7 @@ const AccountDropdown = () => {
               <p className="text-sm font-semibold leading-none">
                 {profile?.data?.fullName || "Người dùng"}
               </p>
-              <p className="text-sm leading-none text-muted-foreground">
+              <p className="text-sm leading-none text-gray-600">
                 {profile?.data?.email || ""}
               </p>
             </div>

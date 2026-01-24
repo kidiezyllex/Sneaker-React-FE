@@ -81,7 +81,7 @@ const VoucherForm = ({
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -5 }}
-            className="flex items-center justify-between p-2 border border-green-200 bg-green-50 rounded-2xl"
+            className="flex items-center justify-between p-2 border border-green-200 bg-green-50 rounded-xl"
           >
             <div className="flex items-center gap-2">
               <Icon path={mdiTicket} size={0.8} className="text-primary" />

@@ -34,7 +34,7 @@ export const ProductCard = ({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <Card className="group overflow-hidden rounded-2xl hover:shadow-xl shadow-md transition-all duration-300 border-2 border-white h-full flex flex-col bg-white">
+      <Card className="group overflow-hidden rounded-xl hover:shadow-xl shadow-md transition-all duration-300 border-2 border-white h-full flex flex-col bg-white">
         {/* Image Section */}
         <div className="relative bg-[#f5f5f5] rounded-t-2xl overflow-hidden">
           <Link
@@ -148,7 +148,7 @@ export const ProductCard = ({
               }}
               aria-label="Thêm vào giỏ hàng"
             >
-              <Icon path={mdiCartOutline} size={0.7} />
+              <Icon path={mdiCartOutline} size={0.8} />
             </Button>
 
             <Button
@@ -161,7 +161,7 @@ export const ProductCard = ({
               }}
               aria-label="Yêu thích"
             >
-              <Icon path={mdiHeartOutline} size={0.7} />
+              <Icon path={mdiHeartOutline} size={0.8} />
             </Button>
 
             <Button
@@ -174,7 +174,7 @@ export const ProductCard = ({
               }}
               aria-label="Xem nhanh"
             >
-              <Icon path={mdiEye} size={0.7} />
+              <Icon path={mdiEye} size={0.8} />
             </Button>
           </motion.div>
         </div>

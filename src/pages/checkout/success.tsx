@@ -28,10 +28,10 @@ function SuccessContent() {
         </CardHeader>
         <CardContent className="space-y-2">
           <p>Cảm ơn bạn đã đặt hàng tại Sneaker Store</p>
-          <p className="text-muted-foreground">
+          <p className="text-gray-600">
             Mã đơn hàng của bạn là: <span className="font-medium text-foreground">{orderId}</span>
           </p>
-          <p className="text-muted-foreground">
+          <p className="text-gray-600">
             Chúng tôi sẽ sớm liên hệ với bạn để xác nhận đơn hàng
           </p>
         </CardContent>
@@ -52,7 +52,7 @@ export default function SuccessPage() {
   return (
     <Suspense fallback={<div>Đang tải...</div>}>
       <div className='h-screen w-full flex items-center justify-center'>
-      <SuccessContent />
+        <SuccessContent />
       </div>
     </Suspense>
   );

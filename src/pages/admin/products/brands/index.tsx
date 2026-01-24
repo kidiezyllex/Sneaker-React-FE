@@ -194,7 +194,7 @@ export default function BrandsPage() {
           </div>
 
           {isLoading ? (
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
@@ -223,8 +223,8 @@ export default function BrandsPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end space-x-2">
-                            <Skeleton className="h-8 w-8 rounded-2xl" />
-                            <Skeleton className="h-8 w-8 rounded-2xl" />
+                            <Skeleton className="h-8 w-8 rounded-xl" />
+                            <Skeleton className="h-8 w-8 rounded-xl" />
                           </div>
                         </TableCell>
                       </TableRow>
@@ -234,7 +234,7 @@ export default function BrandsPage() {
               </div>
             </div>
           ) : isError ? (
-            <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+            <div className="bg-white rounded-xl shadow-sm p-4 text-center">
               <p className="text-red-500">
                 Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
               </p>
@@ -249,7 +249,7 @@ export default function BrandsPage() {
               </Button>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>

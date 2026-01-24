@@ -32,7 +32,7 @@ export default function AdminReturnEditPage() {
                     <CardTitle>Thông tin yêu cầu trả hàng</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-12 text-gray-600">
                         <p>Trang chỉnh sửa yêu cầu trả hàng đang được phát triển</p>
                         <p className="text-sm mt-2">ID: {id}</p>
                     </div>

@@ -208,7 +208,7 @@ export default function AddressManager() {
         </div>
 
         {addresses.length === 0 ? (
-          <div className="flex flex-col items-center justify-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-2xl">
+          <div className="flex flex-col items-center justify-center p-12 border border-dashed border-gray-300 dark:border-gray-700 rounded-xl">
             <Icon path={mdiMapMarker} size={3} className="text-maintext mb-4" />
             <p className="text-maintext dark:text-maintext mb-4">
               Bạn chưa có địa chỉ nào
@@ -234,11 +234,10 @@ export default function AddressManager() {
                   transition={{ duration: 0.2 }}
                 >
                   <Card
-                    className={`overflow-hidden ${
-                      address.isDefault
-                        ? "border-primary"
-                        : "border-gray-200 dark:border-gray-700"
-                    }`}
+                    className={`overflow-hidden ${address.isDefault
+                      ? "border-primary"
+                      : "border-gray-200 dark:border-gray-700"
+                      }`}
                   >
                     <CardHeader className="p-4 pb-2 flex flex-row justify-between items-start space-y-0">
                       <div className="flex items-center gap-2">
@@ -281,7 +280,7 @@ export default function AddressManager() {
                         <p className="text-maintext dark:text-maintext">
                           {address.specificAddress}
                         </p>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-gray-600">
                           Mã KV: {address.wardId}, {address.districtId},{" "}
                           {address.provinceId}
                         </p>
@@ -462,7 +461,7 @@ export default function AddressManager() {
                     control={form.control}
                     name="isDefault"
                     render={({ field }) => (
-                      <FormItem className="flex flex-row items-center space-x-4 space-y-0 rounded-2xl border p-4">
+                      <FormItem className="flex flex-row items-center space-x-4 space-y-0 rounded-xl border p-4">
                         <FormControl>
                           <Input
                             type="checkbox"
@@ -500,7 +499,7 @@ export default function AddressManager() {
                       }
                     >
                       {addAddressMutation.isPending ||
-                      updateAddressMutation.isPending ? (
+                        updateAddressMutation.isPending ? (
                         <>
                           <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                           Đang xử lý...

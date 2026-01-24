@@ -132,7 +132,7 @@ export const CartCheckout: React.FC<CartCheckoutProps> = ({ onClose }) => {
               id="name"
               value={shippingAddress.name}
               onChange={handleInputChange}
-              className="mt-1 block w-full border-gray-300 rounded-2xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-gray-300 rounded-xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
 
@@ -149,7 +149,7 @@ export const CartCheckout: React.FC<CartCheckoutProps> = ({ onClose }) => {
               id="phoneNumber"
               value={shippingAddress.phoneNumber}
               onChange={handleInputChange}
-              className="mt-1 block w-full border-gray-300 rounded-2xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-gray-300 rounded-xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
 
@@ -166,7 +166,7 @@ export const CartCheckout: React.FC<CartCheckoutProps> = ({ onClose }) => {
               id="specificAddress"
               value={shippingAddress.specificAddress}
               onChange={handleInputChange}
-              className="mt-1 block w-full border-gray-300 rounded-2xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="mt-1 block w-full border-gray-300 rounded-xl shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
 
@@ -190,7 +190,7 @@ export const CartCheckout: React.FC<CartCheckoutProps> = ({ onClose }) => {
             <button
               onClick={handleCheckout}
               disabled={isProcessing || items.length === 0}
-              className="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-2xl shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400"
+              className="w-full flex justify-center items-center px-4 py-3 border border-transparent rounded-xl shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400"
             >
               {isProcessing ? "Đang xử lý..." : "Thanh toán"}
             </button>

@@ -964,7 +964,7 @@ export default function ShippingPage() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium text-maintext">{item.name}</h4>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-600">
                         {item.brand}
                         {item.size &&
                           ` • Size ${getSizeLabel(Number(item.size))}`}
@@ -982,7 +982,7 @@ export default function ShippingPage() {
             </CardContent>
             <CardFooter className="flex flex-col space-y-2">
               <div className="flex justify-between w-full">
-                <span className="text-muted-foreground font-semibold text-sm">
+                <span className="text-gray-600 font-semibold text-sm">
                   Tạm tính
                 </span>
                 <span className="text-maintext">
@@ -1001,13 +1001,13 @@ export default function ShippingPage() {
               )}
 
               <div className="flex justify-between w-full">
-                <span className="text-muted-foreground font-semibold text-sm">
+                <span className="text-gray-600 font-semibold text-sm">
                   Thuế
                 </span>
                 <span className="text-maintext">{formatPrice(tax)}</span>
               </div>
               <div className="flex justify-between w-full">
-                <span className="text-muted-foreground font-semibold text-sm">
+                <span className="text-gray-600 font-semibold text-sm">
                   Phí vận chuyển
                 </span>
                 <span className="text-maintext">{formatPrice(shipping)}</span>

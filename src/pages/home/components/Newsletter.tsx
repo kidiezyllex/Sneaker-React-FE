@@ -154,8 +154,8 @@ export const Newsletter = () => {
             >
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-blue-400/20 to-purple-400/20 rounded-2xl blur-xl opacity-60" />
-                  <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl p-2 shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-blue-400/20 to-purple-400/20 rounded-xl blur-xl opacity-60" />
+                  <div className="relative bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-xl p-2 shadow-2xl border border-gray-200/50 dark:border-gray-700/50">
                     <div className="flex flex-col sm:flex-row gap-2">
                       <div className="relative flex-1">
                         <Input
@@ -182,7 +182,7 @@ export const Newsletter = () => {
                 <motion.div
                   initial={{ scale: 0, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-2xl p-8 text-center"
+                  className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 rounded-xl p-8 text-center"
                 >
                   <motion.div
                     initial={{ scale: 0 }}

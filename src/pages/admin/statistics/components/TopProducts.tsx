@@ -54,7 +54,7 @@ export const TopProducts = () => {
                 className="flex items-center gap-4"
               >
                 <div
-                  className="relative h-16 w-16 overflow-hidden rounded-2xl bg-gray-100 cursor-pointer transition-transform hover:scale-105"
+                  className="relative h-16 w-16 overflow-hidden rounded-xl bg-gray-100 cursor-pointer transition-transform hover:scale-105"
                   onClick={() => openLightbox(index)}
                 >
                   <img

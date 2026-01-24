@@ -79,8 +79,8 @@ const ProfileTab = () => {
         userData?.gender === true
           ? "Nam"
           : userData?.gender === false
-          ? "Nữ"
-          : "Khác",
+            ? "Nữ"
+            : "Khác",
       citizenId: userData?.citizenId || "",
     },
   });
@@ -100,8 +100,8 @@ const ProfileTab = () => {
           userData.gender === true
             ? "Nam"
             : userData.gender === false
-            ? "Nữ"
-            : "Khác",
+              ? "Nữ"
+              : "Khác",
         citizenId: userData.citizenId || "",
       });
     }
@@ -116,8 +116,8 @@ const ProfileTab = () => {
           values.gender === "Nam"
             ? true
             : values.gender === "Nữ"
-            ? false
-            : undefined,
+              ? false
+              : undefined,
         birthday: values.birthday || undefined,
       },
       {
@@ -176,7 +176,7 @@ const ProfileTab = () => {
                         <h3 className="text-lg font-semibold">
                           {userData?.fullName}
                         </h3>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-gray-600">
                           {userData?.email}
                         </p>
                       </div>
@@ -194,7 +194,7 @@ const ProfileTab = () => {
                         className="w-full gap-2"
                         type="button"
                       >
-                        <Icon path={mdiCamera} size={0.7} />
+                        <Icon path={mdiCamera} size={0.8} />
                         Thay đổi ảnh
                       </Button>
                     </div>
@@ -202,7 +202,7 @@ const ProfileTab = () => {
                     <div className="mt-8 pt-6 border-t space-y-4">
                       <div className="flex justify-between items-center text-sm">
                         <span className="font-semibold flex items-center gap-2">
-                          <Icon path={mdiInformationOutline} size={0.6} />
+                          <Icon path={mdiInformationOutline} size={0.8} />
                           Mã tài khoản
                         </span>
                         <span className="font-medium">
@@ -211,7 +211,7 @@ const ProfileTab = () => {
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="font-semibold flex items-center gap-2">
-                          <Icon path={mdiCalendar} size={0.6} />
+                          <Icon path={mdiCalendar} size={0.8} />
                           Ngày tham gia
                         </span>
                         <span className="font-medium">
@@ -305,7 +305,7 @@ const ProfileTab = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <Icon path={mdiGenderMaleFemale} size={0.6} />
+                              <Icon path={mdiGenderMaleFemale} size={0.8} />
                               Giới tính
                             </FormLabel>
                             <Select
@@ -334,7 +334,7 @@ const ProfileTab = () => {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel className="flex items-center gap-2">
-                              <Icon path={mdiCalendar} size={0.6} />
+                              <Icon path={mdiCalendar} size={0.8} />
                               Ngày sinh
                             </FormLabel>
                             <FormControl>
@@ -354,7 +354,7 @@ const ProfileTab = () => {
                           <FormLabel className="flex items-center gap-2">
                             <Icon
                               path={mdiCardAccountDetailsOutline}
-                              size={0.6}
+                              size={0.8}
                             />
                             Số CCCD/CMND
                           </FormLabel>
@@ -375,7 +375,7 @@ const ProfileTab = () => {
                     onClick={() => form.reset()}
                     className="gap-2"
                   >
-                    <Icon path={mdiClose} size={0.7} />
+                    <Icon path={mdiClose} size={0.8} />
                     Đặt lại
                   </Button>
                   <Button
@@ -386,7 +386,7 @@ const ProfileTab = () => {
                     {updateProfileMutation.isPending ? (
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
                     ) : (
-                      <Icon path={mdiContentSaveOutline} size={0.7} />
+                      <Icon path={mdiContentSaveOutline} size={0.8} />
                     )}
                     Lưu thông tin
                   </Button>

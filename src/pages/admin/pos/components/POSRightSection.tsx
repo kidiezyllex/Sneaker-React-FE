@@ -172,7 +172,7 @@ export default function POSRightSection({
                           className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-l-md transition-colors text-gray-600"
                           onClick={() => onUpdateQuantity(item.id, -1)}
                         >
-                          <Icon path={mdiMinus} size={0.6} />
+                          <Icon path={mdiMinus} size={0.8} />
                         </button>
                         <span className="w-8 text-center text-sm font-medium">
                           {item.quantity}
@@ -182,7 +182,7 @@ export default function POSRightSection({
                           onClick={() => onUpdateQuantity(item.id, 1)}
                           disabled={item.quantity >= item.stock}
                         >
-                          <Icon path={mdiPlus} size={0.6} />
+                          <Icon path={mdiPlus} size={0.8} />
                         </button>
                       </div>
                       <div className="text-right">
@@ -222,7 +222,7 @@ export default function POSRightSection({
               <SelectContent>
                 <SelectItem value="guest">Khách vãng lai</SelectItem>
                 {usersData?.data?.accounts &&
-                usersData.data.accounts.length > 0 ? (
+                  usersData.data.accounts.length > 0 ? (
                   usersData.data.accounts.map((user: any) => (
                     <SelectItem key={user.id} value={user.id}>
                       {user.fullName} - {user.phoneNumber}

@@ -16,7 +16,7 @@ function PaymentResultContent() {
 
   return (
     <div className="min-h-screen bg-gray-100 py-12">
-      <div className="max-w-xl mx-auto bg-white rounded-2xl shadow-md p-8">
+      <div className="max-w-xl mx-auto bg-white rounded-xl shadow-md p-8">
         <div className="text-center">
           {success ? (
             <CheckCircleIcon className="mx-auto h-16 w-16 text-green-500" />
@@ -37,14 +37,14 @@ function PaymentResultContent() {
           <div className="mt-8 space-y-4">
             <Link
               to={`/orders/${orderId}`}
-              className="block w-full bg-indigo-600 text-white py-2 px-4 rounded-2xl hover:bg-indigo-700 text-center"
+              className="block w-full bg-indigo-600 text-white py-2 px-4 rounded-xl hover:bg-indigo-700 text-center"
             >
               Xem chi tiết đơn hàng
             </Link>
 
             <Link
               to="/"
-              className="block w-full bg-gray-100 text-maintext py-2 px-4 rounded-2xl hover:bg-gray-200 text-center"
+              className="block w-full bg-gray-100 text-maintext py-2 px-4 rounded-xl hover:bg-gray-200 text-center"
             >
               Về trang chủ
             </Link>

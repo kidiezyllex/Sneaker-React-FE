@@ -49,10 +49,10 @@ export const OutOfStockProducts = () => {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
-                  className="flex items-center gap-2 rounded-2xl border p-3"
+                  className="flex items-center gap-2 rounded-xl border p-3"
                 >
                   <div
-                    className="relative h-14 w-14 overflow-hidden rounded-2xl bg-gray-100 cursor-pointer transition-transform hover:scale-105"
+                    className="relative h-14 w-14 overflow-hidden rounded-xl bg-gray-100 cursor-pointer transition-transform hover:scale-105"
                     onClick={() => openLightbox(index)}
                   >
                     <img
@@ -68,7 +68,7 @@ export const OutOfStockProducts = () => {
                       <span>Hết hàng</span>
                     </div>
                   </div>
-                  <button className="rounded-2xl bg-primary px-3 py-1 text-sm font-medium text-white hover:bg-primary/80 transition-colors">
+                  <button className="rounded-xl bg-primary px-3 py-1 text-sm font-medium text-white hover:bg-primary/80 transition-colors">
                     Nhập hàng
                   </button>
                 </motion.div>

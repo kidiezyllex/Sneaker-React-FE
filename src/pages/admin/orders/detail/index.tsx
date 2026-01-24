@@ -32,7 +32,7 @@ export default function AdminOrderDetailPage() {
                     <CardTitle>Thông tin đơn hàng</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-center py-12 text-muted-foreground">
+                    <div className="text-center py-12 text-gray-600">
                         <p>Trang chi tiết đơn hàng đang được phát triển</p>
                         <p className="text-sm mt-2">Order ID: {orderId}</p>
                     </div>

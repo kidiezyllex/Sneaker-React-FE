@@ -59,7 +59,7 @@ const ReturnsTab = () => {
             !returnsData.data.returns ||
             returnsData.data.returns.length === 0 ? (
             <div className="py-8 text-center">
-              <p className="text-muted-foreground mb-4">
+              <p className="text-gray-600 mb-4">
                 Bạn chưa có đơn trả hàng nào.
               </p>
             </div>
@@ -109,7 +109,7 @@ const ReturnsTab = () => {
                               </div>
                             ))}
                           {returnItem.items.length > 2 && (
-                            <div className="text-sm text-muted-foreground">
+                            <div className="text-sm text-gray-600">
                               +{returnItem.items.length - 2} sản phẩm khác
                             </div>
                           )}
@@ -141,7 +141,7 @@ const ReturnsTab = () => {
               {returnsData.data.pagination &&
                 returnsData.data.pagination.totalPages > 1 && (
                   <div className="flex items-center justify-center space-x-2 py-4">
-                    <div className="text-sm text-muted-foreground">
+                    <div className="text-sm text-gray-600">
                       Trang {returnsData.data.pagination.currentPage} /{" "}
                       {returnsData.data.pagination.totalPages}
                     </div>

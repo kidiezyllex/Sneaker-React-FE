@@ -480,7 +480,7 @@ export default function ProductDetail() {
             transition={{ duration: 0.6 }}
           >
             {/* Main Image */}
-            <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border flex items-center justify-center">
+            <div className="relative aspect-square rounded-xl overflow-hidden bg-white border flex items-center justify-center">
               {selectedVariant &&
                 selectedVariant.images &&
                 selectedVariant.images.length > 0 ? (

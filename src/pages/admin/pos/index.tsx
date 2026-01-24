@@ -73,7 +73,7 @@ import POSRightSection from "./components/POSRightSection";
 import InvoiceDialog from "./components/InvoiceDialog";
 
 const CardSkeleton = () => (
-  <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+  <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
     <Skeleton className="h-48 w-full" />
     <div className="p-4">
       <Skeleton className="h-4 w-3/4 mb-2" />
@@ -979,7 +979,7 @@ export default function POSPage() {
       </div>
 
       {/* Phần quản lý các giỏ hàng đang chờ */}
-      <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-border">
+      <div className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-border">
         <div className="flex items-start justify-between mb-4">
           <h3 className="text-lg font-semibold text-maintext flex items-center gap-2">
             <Icon path={mdiCart} size={0.8} className="text-primary" />
@@ -1039,7 +1039,7 @@ export default function POSPage() {
                   }}
                   className="p-1 hover:bg-red-100 hover:text-red-500 rounded-full transition-colors opacity-0 group-hover:opacity-100"
                 >
-                  <Icon path={mdiClose} size={0.6} />
+                  <Icon path={mdiClose} size={0.8} />
                 </button>
               </motion.button>
             ))}
@@ -1097,7 +1097,7 @@ export default function POSPage() {
         {/* Cột trái - Danh sách sản phẩm */}
         <div className="lg:col-span-2 overflow-hidden flex flex-col">
           {/* Thanh tìm kiếm và lọc */}
-          <div className="bg-white rounded-2xl p-4 mb-4 shadow-sm border border-border hover:shadow-md transition-shadow duration-300">
+          <div className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-border hover:shadow-md transition-shadow duration-300">
             <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
               <div className="relative flex-1">
                 <Icon
@@ -1169,7 +1169,7 @@ export default function POSPage() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50 to-white border group">
+                    <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-gradient-to-br from-gray-50 to-white border group">
                       <img
                         src={checkImageUrl(
                           getVariantImageUrl(selectedApiVariant) ||
@@ -1179,7 +1179,7 @@ export default function POSPage() {
                         className="object-contain p-4 transition-transform duration-500 group-hover:scale-110"
                       />
 
-                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-xl" />
                     </div>
                     {selectedApiVariant && (
                       <motion.div
@@ -1499,7 +1499,7 @@ export default function POSPage() {
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ duration: 0.3 }}
-                              className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 group"
+                              className="bg-white rounded-xl border border-border shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 group"
                             >
                               <div
                                 className="relative h-48 w-full bg-gray-50 overflow-hidden cursor-pointer"
@@ -1598,7 +1598,7 @@ export default function POSPage() {
                     </TabsContent>
 
                     <TabsContent value="table" className="mt-0">
-                      <div className="border border-border rounded-2xl overflow-hidden">
+                      <div className="border border-border rounded-xl overflow-hidden">
                         <table className="w-full text-sm">
                           <thead>
                             <tr className="bg-muted/50">
@@ -1647,7 +1647,7 @@ export default function POSPage() {
                                     onClick={() => handleProductSelect(product)}
                                   >
                                     <div className="flex items-center gap-2">
-                                      <div className="relative w-10 h-10 rounded-2xl overflow-hidden bg-gray-50">
+                                      <div className="relative w-10 h-10 rounded-xl overflow-hidden bg-gray-50">
                                         <img
                                           src={checkImageUrl(
                                             getVariantImageUrl(firstVariant)

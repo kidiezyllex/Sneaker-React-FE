@@ -136,7 +136,7 @@ const DiscountTag = ({ discount }: { discount: number }) => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 10 }}
-        className="bg-red-medium text-white px-2 py-1 rounded-2xl text-sm font-semibold"
+        className="bg-red-medium text-white px-2 py-1 rounded-xl text-sm font-semibold"
       >
         -{discount}%
       </motion.div>
@@ -158,7 +158,7 @@ const CategoryCard = ({
       ref={ref}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 h-full"
+      className="relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-full"
     >
       <Link to={`/categories/${category.slug}`} className="block group h-full">
         <div className="aspect-[4/5] relative overflow-hidden h-full">

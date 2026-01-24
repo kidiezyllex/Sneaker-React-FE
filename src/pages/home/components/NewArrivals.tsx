@@ -130,7 +130,7 @@ export const NewArrivals = () => {
             [...Array(4)].map((_, index) => (
               <Card
                 key={index}
-                className="overflow-hidden h-full rounded-2xl border-0 bg-white shadow-md"
+                className="overflow-hidden h-full rounded-xl border-0 bg-white shadow-md"
               >
                 <div className="aspect-square w-full">
                   <Skeleton className="h-full w-full" />

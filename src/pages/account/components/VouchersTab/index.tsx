@@ -128,8 +128,8 @@ const VouchersTab = () => {
   const vouchers = Array.isArray(vouchersData?.data)
     ? vouchersData.data
     : vouchersData?.data && "vouchers" in vouchersData.data
-    ? (vouchersData.data as any).vouchers
-    : [];
+      ? (vouchersData.data as any).vouchers
+      : [];
 
   if (!vouchers || vouchers.length === 0) {
     return (
@@ -147,7 +147,7 @@ const VouchersTab = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">
+          <p className="text-gray-600">
             Bạn không có mã giảm giá nào hiện có.
           </p>
         </CardContent>
@@ -280,7 +280,7 @@ const VouchersTab = () => {
                     {selectedVoucher.name}
                   </h3>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-sm text-muted-foreground">Mã:</span>
+                    <span className="text-sm text-gray-600">Mã:</span>
                     <Badge
                       variant="secondary"
                       className="font-mono text-lg px-3 py-1"
@@ -293,7 +293,7 @@ const VouchersTab = () => {
                       className="h-8 w-8"
                       onClick={(e) => handleCopyCode(e, selectedVoucher.code)}
                     >
-                      <Icon path={mdiContentCopy} size={0.6} />
+                      <Icon path={mdiContentCopy} size={0.8} />
                     </Button>
                   </div>
                 </div>
@@ -301,8 +301,8 @@ const VouchersTab = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Icon path={mdiCurrencyUsd} size={0.6} />
+                  <div className="text-sm text-gray-600 flex items-center gap-2">
+                    <Icon path={mdiCurrencyUsd} size={0.8} />
                     Giá trị giảm
                   </div>
                   <div className="text-lg font-bold text-primary">
@@ -315,8 +315,8 @@ const VouchersTab = () => {
                 {selectedVoucher.type === "PERCENTAGE" &&
                   selectedVoucher.maxDiscount && (
                     <div className="space-y-1">
-                      <div className="text-sm text-muted-foreground flex items-center gap-2">
-                        <Icon path={mdiInformationOutline} size={0.6} />
+                      <div className="text-sm text-gray-600 flex items-center gap-2">
+                        <Icon path={mdiInformationOutline} size={0.8} />
                         Giảm tối đa
                       </div>
                       <div className="text-lg font-bold">
@@ -325,8 +325,8 @@ const VouchersTab = () => {
                     </div>
                   )}
                 <div className="space-y-1">
-                  <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Icon path={mdiClockOutline} size={0.6} />
+                  <div className="text-sm text-gray-600 flex items-center gap-2">
+                    <Icon path={mdiClockOutline} size={0.8} />
                     Đơn tối thiểu
                   </div>
                   <div className="text-lg font-bold text-foreground">
@@ -334,8 +334,8 @@ const VouchersTab = () => {
                   </div>
                 </div>
                 <div className="space-y-1">
-                  <div className="text-sm text-muted-foreground flex items-center gap-2">
-                    <Icon path={mdiCalendar} size={0.6} />
+                  <div className="text-sm text-gray-600 flex items-center gap-2">
+                    <Icon path={mdiCalendar} size={0.8} />
                     Lượt còn lại
                   </div>
                   <div className="text-lg font-bold text-blue-600">
@@ -346,19 +346,19 @@ const VouchersTab = () => {
 
               <div className="border-t pt-4 space-y-3">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Ngày bắt đầu:</span>
+                  <span className="text-gray-600">Ngày bắt đầu:</span>
                   <span className="font-medium">
                     {formatDate(selectedVoucher.startDate)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Ngày kết thúc:</span>
+                  <span className="text-gray-600">Ngày kết thúc:</span>
                   <span className="font-medium">
                     {formatDate(selectedVoucher.endDate)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">Trạng thái:</span>
+                  <span className="text-gray-600">Trạng thái:</span>
                   <span>
                     {new Date(selectedVoucher.endDate) < new Date() ? (
                       <Badge variant="destructive">Hết hạn</Badge>

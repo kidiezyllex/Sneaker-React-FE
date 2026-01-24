@@ -342,16 +342,16 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
                                   remainingQuantity <= 5
                                     ? "destructive"
                                     : remainingQuantity <= 20
-                                    ? "outline"
-                                    : "secondary"
+                                      ? "outline"
+                                      : "secondary"
                                 }
                                 className={cn(
                                   "text-sm font-semibold",
                                   remainingQuantity <= 5
                                     ? "bg-red-100 text-red-700 border-red-200"
                                     : remainingQuantity <= 20
-                                    ? "bg-yellow-100 text-yellow-700 border-yellow-200"
-                                    : "bg-green-100 text-green-700 border-green-200"
+                                      ? "bg-yellow-100 text-yellow-700 border-yellow-200"
+                                      : "bg-green-100 text-green-700 border-green-200"
                                 )}
                               >
                                 {remainingQuantity}
@@ -399,14 +399,14 @@ const VouchersDialog: React.FC<VouchersDialogProps> = ({
                                 >
                                   <Icon
                                     path={mdiContentCopy}
-                                    size={0.6}
+                                    size={0.8}
                                     className="mr-1.5"
                                   />
                                   {isExpired
                                     ? "Hết hạn"
                                     : isOutOfStock
-                                    ? "Hết lượt"
-                                    : "Chọn mã"}
+                                      ? "Hết lượt"
+                                      : "Chọn mã"}
                                 </Button>
                               </motion.div>
 

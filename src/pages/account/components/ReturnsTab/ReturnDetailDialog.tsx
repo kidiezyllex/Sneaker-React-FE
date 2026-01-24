@@ -136,27 +136,27 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                             <p className="font-medium">
                               {product?.name || "Sản phẩm không xác định"}
                             </p>
-                            <p className="text-sm text-muted-foreground">
+                            <p className="text-sm text-gray-600">
                               Số lượng: {item.quantity} | Giá:{" "}
                               {formatPrice(item.price)}
                             </p>
                             {product?.code && (
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-sm text-gray-600">
                                 Mã: {product.code}
                               </p>
                             )}
                             {color && (
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-sm text-gray-600">
                                 Màu: {color.name}
                               </p>
                             )}
                             {size && (
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-sm text-gray-600">
                                 Size: {size.value}
                               </p>
                             )}
                             {item.reason && (
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-sm text-gray-600">
                                 Lý do: {item.reason}
                               </p>
                             )}
@@ -209,7 +209,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
           </>
         ) : (
           <div className="p-8 text-center">
-            <p className="text-muted-foreground">
+            <p className="text-gray-600">
               Không tìm thấy thông tin trả hàng.
             </p>
           </div>

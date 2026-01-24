@@ -134,7 +134,7 @@ export default function OrderDetailPage() {
       <div className="container max-w-6xl py-8">
         <Card>
           <CardContent className="py-8">
-            <div className="text-center text-muted-foreground">
+            <div className="text-center text-gray-600">
               Không tìm thấy đơn hàng
             </div>
           </CardContent>
@@ -155,10 +155,10 @@ export default function OrderDetailPage() {
               order.status === "pending"
                 ? "warning"
                 : order.status === "processing"
-                ? "info"
-                : order.status === "completed"
-                ? "success"
-                : "destructive"
+                  ? "info"
+                  : order.status === "completed"
+                    ? "success"
+                    : "destructive"
             }
           >
             {getStatusText(order.status)}
@@ -180,7 +180,7 @@ export default function OrderDetailPage() {
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium">Người nhận</h3>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-gray-600 mt-1">
                   {order.shippingAddress.name}
                   <br />
                   {order.shippingAddress.phoneNumber}
@@ -188,7 +188,7 @@ export default function OrderDetailPage() {
               </div>
               <div>
                 <h3 className="font-medium">Địa chỉ</h3>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-gray-600 mt-1">
                   {order.shippingAddress.specificAddress}
                   <br />
                   {order.shippingAddress.wardId},{" "}
@@ -209,7 +209,7 @@ export default function OrderDetailPage() {
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium">Phương thức thanh toán</h3>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-gray-600 mt-1">
                   {order.paymentMethod === "COD"
                     ? "Thanh toán khi nhận hàng"
                     : "VNPay"}
@@ -217,7 +217,7 @@ export default function OrderDetailPage() {
               </div>
               <div>
                 <h3 className="font-medium">Thời gian đặt hàng</h3>
-                <p className="text-muted-foreground mt-1">
+                <p className="text-gray-600 mt-1">
                   {format(new Date(order.createdAt), "HH:mm - dd/MM/yyyy", {
                     locale: vi,
                   })}
@@ -225,7 +225,7 @@ export default function OrderDetailPage() {
               </div>
               <div className="pt-4 border-t">
                 <div className="flex justify-between mb-2">
-                  <span className="text-muted-foreground">Tạm tính</span>
+                  <span className="text-gray-600">Tạm tính</span>
                   <span>${order.subTotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between font-medium text-lg">
@@ -258,7 +258,7 @@ export default function OrderDetailPage() {
                 </div>
                 <div className="flex-1">
                   <h4 className="font-medium">{item.product.name}</h4>
-                  <div className="flex justify-between mt-2 text-muted-foreground">
+                  <div className="flex justify-between mt-2 text-gray-600">
                     <span>Số lượng: {item.quantity}</span>
                     <span>${item.price.toFixed(2)}</span>
                   </div>

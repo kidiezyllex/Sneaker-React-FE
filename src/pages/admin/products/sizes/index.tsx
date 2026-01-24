@@ -209,7 +209,7 @@ export default function SizesPage() {
           </div>
 
           {isLoading ? (
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
@@ -229,7 +229,7 @@ export default function SizesPage() {
                           <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
                         </TableCell>
                         <TableCell>
-                          <div className="h-8 w-12 bg-gray-200 rounded-2xl animate-pulse"></div>
+                          <div className="h-8 w-12 bg-gray-200 rounded-xl animate-pulse"></div>
                         </TableCell>
                         <TableCell>
                           <div className="h-4 w-8 bg-gray-200 rounded animate-pulse"></div>
@@ -241,7 +241,7 @@ export default function SizesPage() {
                           <div className="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
                         </TableCell>
                         <TableCell className="text-right">
-                          <div className="h-8 w-8 bg-gray-200 rounded-2xl animate-pulse ml-auto"></div>
+                          <div className="h-8 w-8 bg-gray-200 rounded-xl animate-pulse ml-auto"></div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -250,7 +250,7 @@ export default function SizesPage() {
               </div>
             </div>
           ) : isError ? (
-            <div className="bg-white rounded-2xl shadow-sm p-4 text-center">
+            <div className="bg-white rounded-xl shadow-sm p-4 text-center">
               <p className="text-red-500">
                 Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
               </p>
@@ -265,7 +265,7 @@ export default function SizesPage() {
               </Button>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
@@ -290,7 +290,7 @@ export default function SizesPage() {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center">
-                              <div className="h-6 w-fit px-3 rounded-2xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
+                              <div className="h-6 w-fit px-3 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
                                 <span className="text-sm font-semibold">
                                   {size.value}
                                 </span>

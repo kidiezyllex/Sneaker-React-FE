@@ -28,7 +28,7 @@ const Tab = React.memo(({ text, selected, setSelected }: TabProps) => {
       className={`${selected
         ? "text-white"
         : "text-maintext hover:text-maintext dark:hover:text-gray-100"
-        } relative rounded-2xl px-3 py-1.5 text-sm font-medium transition-colors`}
+        } relative rounded-xl px-3 py-1.5 text-sm font-medium transition-colors`}
     >
       <span className="relative z-10">{text}</span>
       {selected && (

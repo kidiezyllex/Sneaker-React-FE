@@ -285,7 +285,7 @@ export default function AccountsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên, email, số điện thoại..."
-                className="pl-10 pr-4 py-2 w-full border rounded-2xl"
+                className="pl-10 pr-4 py-2 w-full border rounded-xl"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />

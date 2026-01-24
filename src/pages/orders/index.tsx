@@ -123,7 +123,7 @@ const OrdersPage: React.FC = () => {
       {orders.length === 0 ? (
         <Card>
           <CardContent className="py-8">
-            <div className="text-center text-muted-foreground">
+            <div className="text-center text-gray-600">
               Bạn chưa có đơn hàng nào
             </div>
           </CardContent>
@@ -162,7 +162,7 @@ const OrdersPage: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <h3 className="font-medium mb-2">Thông tin giao hàng</h3>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-600">
                         {order.shippingName}
                         <br />
                         {order.shippingPhoneNumber}
@@ -172,17 +172,17 @@ const OrdersPage: React.FC = () => {
                     </div>
                     <div>
                       <h3 className="font-medium mb-2">Chi tiết thanh toán</h3>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="text-sm text-gray-600">
                         <div className="flex justify-between">
                           <span>Phương thức:</span>
                           <span>
                             {order.paymentMethod === "COD"
                               ? "Thanh toán khi nhận hàng"
                               : order.paymentMethod === "CASH"
-                              ? "Tiền mặt"
-                              : order.paymentMethod === "BANK_TRANSFER"
-                              ? "Chuyển khoản"
-                              : "Hỗn hợp"}
+                                ? "Tiền mặt"
+                                : order.paymentMethod === "BANK_TRANSFER"
+                                  ? "Chuyển khoản"
+                                  : "Hỗn hợp"}
                           </span>
                         </div>
                         <div className="flex justify-between mt-1">
@@ -223,7 +223,7 @@ const OrdersPage: React.FC = () => {
                               Size {item.variant.size.value} -{" "}
                               {item.variant.color.name}
                             </h4>
-                            <div className="flex justify-between mt-1 text-sm text-muted-foreground">
+                            <div className="flex justify-between mt-1 text-sm text-gray-600">
                               <span>x{item.quantity}</span>
                               <span>{formatPrice(item.price)}</span>
                             </div>

@@ -171,10 +171,10 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                           className="w-12 h-12 object-contain rounded"
                         />
                         <div>
-                          <p className="font-medium text-muted-foreground">
+                          <p className="font-medium text-gray-600">
                             Sản phẩm không xác định
                           </p>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-gray-600">
                             Số lượng: {item.quantity} | Giá:{" "}
                             {formatPrice(item.price)}
                           </p>
@@ -207,22 +207,22 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                         <p className="font-medium">
                           {product?.name || "Sản phẩm không xác định"}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-sm text-gray-600">
                           Số lượng: {item.quantity} | Giá:{" "}
                           {formatPrice(item.price)}
                         </p>
                         {product?.code && (
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-gray-600">
                             Mã: {product.code}
                           </p>
                         )}
                         {color && (
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-gray-600">
                             Màu: {color.name}
                           </p>
                         )}
                         {size && (
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-gray-600">
                             Size: {size.value}
                           </p>
                         )}
@@ -255,7 +255,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                   >
                     <div>
                       <p className="font-medium">{item.productName}</p>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-gray-600">
                         Số lượng: {item.quantity} | Giá:{" "}
                         {formatPrice(item.price)}
                       </p>
