@@ -7,20 +7,17 @@ import { Newsletter } from "./Newsletter";
 import { Collections } from "./Collections";
 import { NewArrivals } from "./NewArrivals";
 import { BestSeller } from "./BestSeller";
-import Footer from "../Common/Footer";
-import NavigationBar from "./NavigationBar";
+import { BestSeller } from "./BestSeller";
 
 export const HomePage = () => {
   return (
     <main className="min-h-screen bg-background">
-      <NavigationBar />
       <HeroBanner />
       <BrandLogos />
       <Categories />
       <NewArrivals />
       <BestSeller />
       <Testimonials />
-      <Footer />
     </main>
   );
 };

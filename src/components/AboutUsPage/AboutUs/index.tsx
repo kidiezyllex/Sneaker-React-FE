@@ -141,7 +141,7 @@ const testimonialData = [
     rating: 5,
     title: "Cửa hàng giày tốt nhất!",
     description:
-      "Tôi rất hài lòng với dịch vụ của AllwearStudio. Sản phẩm chất lượng, giao hàng nhanh chóng và nhân viên phục vụ rất nhiệt tình.",
+      "Tôi rất hài lòng với dịch vụ của StreetSneaker. Sản phẩm chất lượng, giao hàng nhanh chóng và nhân viên phục vụ rất nhiệt tình.",
     image:
       "https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/testimo-1-pjspfmypsvn72mv2l3cj4mhf4j0bl9ruu9jw5bh1eo.jpg",
     name: "Tom Robertson",
@@ -151,7 +151,7 @@ const testimonialData = [
     rating: 5,
     title: "Trải nghiệm tuyệt vời!",
     description:
-      "Mua sắm tại AllwearStudio là một trải nghiệm tuyệt vời. Sản phẩm đa dạng, giá cả phải chăng và dịch vụ chăm sóc khách hàng rất tốt.",
+      "Mua sắm tại StreetSneaker là một trải nghiệm tuyệt vời. Sản phẩm đa dạng, giá cả phải chăng và dịch vụ chăm sóc khách hàng rất tốt.",
     image:
       "https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/testimo-2-pjspfoue6jprpusca45s9m0cbar20nzbiiuv3ve928.jpg",
     name: "Amelia Robinson",
@@ -161,7 +161,7 @@ const testimonialData = [
     rating: 5,
     title: "Chất lượng đáng tin cậy",
     description:
-      "Những đôi giày tôi mua từ AllwearStudio luôn bền đẹp và thoải mái. Tôi đã giới thiệu cửa hàng cho tất cả bạn bè của mình.",
+      "Những đôi giày tôi mua từ StreetSneaker luôn bền đẹp và thoải mái. Tôi đã giới thiệu cửa hàng cho tất cả bạn bè của mình.",
     image:
       "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
     name: "Michael Johnson",
@@ -171,7 +171,7 @@ const testimonialData = [
     rating: 4,
     title: "Dịch vụ tận tâm",
     description:
-      "Nhân viên tại AllwearStudio luôn nhiệt tình và am hiểu về sản phẩm. Họ giúp tôi chọn được đôi giày phù hợp nhất với nhu cầu của mình.",
+      "Nhân viên tại StreetSneaker luôn nhiệt tình và am hiểu về sản phẩm. Họ giúp tôi chọn được đôi giày phù hợp nhất với nhu cầu của mình.",
     image:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
     name: "Sarah Miller",
@@ -191,7 +191,7 @@ const testimonialData = [
     rating: 5,
     title: "Sản phẩm chính hãng",
     description:
-      "Rất yên tâm khi mua sắm tại AllwearStudio vì họ chỉ bán hàng chính hãng. Giá cả hợp lý và chất lượng đảm bảo.",
+      "Rất yên tâm khi mua sắm tại StreetSneaker vì họ chỉ bán hàng chính hãng. Giá cả hợp lý và chất lượng đảm bảo.",
     image:
       "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
     name: "Emily Parker",
@@ -207,7 +207,7 @@ export const AboutUs = () => {
         <div className="absolute inset-0">
           <img
             src="https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/2022/01/hero-about.jpg"
-            alt="AllwearStudio Banner"
+            alt="StreetSneaker Banner"
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2C8B3D]/50 via-[#88C140]/50 to-[#F2A024]/70"></div>
@@ -231,7 +231,7 @@ export const AboutUs = () => {
               </span>
               <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#F2A024] to-[#88C140] font-extrabold">
-                AllwearStudio
+                StreetSneaker
               </span>
             </motion.h1>
             <motion.p
@@ -245,22 +245,6 @@ export const AboutUs = () => {
               Chúng tôi mang đến những sản phẩm chất lượng cao với giá cả phải
               chăng
             </motion.p>
-            <motion.div
-              className="inline-block"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
-              <a
-                href="#team"
-                className="flex items-center bg-transparent border border-white/80 text-white/80 font-semibold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
-              >
-                Gặp gỡ đội ngũ của chúng tôi
-                <Icon path={mdiChevronDoubleDown} size={1.5} className="ml-2" />
-              </a>
-            </motion.div>
           </motion.div>
         </div>
       </section>
@@ -279,7 +263,7 @@ export const AboutUs = () => {
                 Câu chuyện của chúng tôi
               </h2>
               <p className="text-lg text-maintext dark:text-maintext mb-8">
-                AllwearStudio được thành lập với sứ mệnh mang đến cho khách hàng
+                StreetSneaker được thành lập với sứ mệnh mang đến cho khách hàng
                 những sản phẩm giày chất lượng cao với giá cả phải chăng. Chúng
                 tôi tin rằng mỗi người đều xứng đáng được sở hữu những đôi giày
                 thoải mái và thời trang.
@@ -344,7 +328,7 @@ export const AboutUs = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-[#2C8B3D] to-[#F2A024] opacity-20"></div>
               <img
                 src="https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/about-sect-pjs7cmwyucho7hy38akr4ok276qbcwtfp44ksgi1sa.jpg"
-                alt="AllwearStudio Store"
+                alt="StreetSneaker Store"
                 className="object-cover"
               />
             </motion.div>
@@ -363,7 +347,7 @@ export const AboutUs = () => {
             transition={{ duration: 0.5 }}
           >
             <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-4">
-              Tại sao chọn AllwearStudio?
+              Tại sao chọn StreetSneaker?
             </h2>
             <p className="text-lg text-maintext dark:text-maintext max-w-2xl mx-auto">
               Chúng tôi cam kết mang đến trải nghiệm mua sắm tốt nhất cho khách
@@ -390,51 +374,6 @@ export const AboutUs = () => {
               icon={mdiStore}
               title="Mạng lưới rộng khắp"
               description="Hệ thống cửa hàng trải dài khắp các tỉnh thành, giúp khách hàng dễ dàng tiếp cận sản phẩm."
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section id="team" className="py-24">
-        <div className="container mx-auto px-4">
-          <motion.div
-            className="text-center mb-20"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-4">
-              Đội ngũ của chúng tôi
-            </h2>
-            <p className="text-lg text-maintext dark:text-maintext max-w-2xl mx-auto">
-              AllwearStudio được vận hành bởi một đội ngũ trẻ trung, năng động
-              và đầy nhiệt huyết. Chúng tôi luôn nỗ lực để mang đến những sản
-              phẩm và dịch vụ tốt nhất cho khách hàng.
-            </p>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-            <TeamMember
-              name="Dương Đức Doanh"
-              id="PH26897"
-              role="Trưởng nhóm"
-            />
-            <TeamMember name="Lý Minh Tuấn" id="PH13422" role="Frontend DEV" />
-            <TeamMember
-              name="Vương Đình Cường"
-              id="PH28631"
-              role="Backend DEV"
-            />
-            <TeamMember
-              name="Hoàng Anh Tuấn"
-              id="PH41515"
-              role="Thiết kế UI/UX"
-            />
-            <TeamMember
-              name="Hoàng Đình Giáp"
-              id="PH57655"
-              role="Quản lý dự án"
             />
           </div>
         </div>

@@ -224,9 +224,8 @@ const NavigationButton = ({
   return (
     <motion.button
       onClick={onClick}
-      className={`absolute top-1/2 z-10 -translate-y-1/2 flex items-center justify-center w-9 h-9 bg-white/50 dark:bg-gray-800/80 rounded-full shadow-md border border-primary/30 text-primary ${
-        direction === "prev" ? "left-2 md:left-5" : "right-2 md:right-5"
-      }`}
+      className={`absolute top-1/2 z-10 -translate-y-1/2 flex items-center justify-center w-10 h-10  bg-white/50 dark:bg-gray-800/80 rounded-full shadow-md border border-primary/30 text-primary ${direction === "prev" ? "left-2 md:left-5" : "right-2 md:right-5"
+        }`}
     >
       <Icon
         path={direction === "prev" ? mdiChevronLeft : mdiChevronRight}

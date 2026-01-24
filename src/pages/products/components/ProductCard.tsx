@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,8 +37,8 @@ export const ProductCard = ({
       <Card className="group overflow-hidden rounded-2xl hover:shadow-xl shadow-md transition-all duration-300 border-2 border-white h-full flex flex-col bg-white">
         {/* Image Section */}
         <div className="relative bg-[#f5f5f5] rounded-t-2xl overflow-hidden">
-          <a
-            href={`/products/${product.name
+          <Link
+            to={`/products/${product.name
               .toLowerCase()
               .replace(/\s+/g, "-")}-${product.id}`}
             className="block"
@@ -47,14 +48,14 @@ export const ProductCard = ({
                 src={
                   checkImageUrl(
                     product.variants[0]?.images?.[0]?.imageUrl ||
-                      product.variants[0]?.images?.[0]
+                    product.variants[0]?.images?.[0]
                   ) || "/placeholder.svg"
                 }
                 alt={product.name}
                 className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-          </a>
+          </Link>
 
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2 z-20">
@@ -190,8 +191,8 @@ export const ProductCard = ({
             <div className="w-1.5 h-1.5 rounded-full bg-[#00B207]"></div>
           </div>
           {/* Product Name */}
-          <a
-            href={`/products/${product.name
+          <Link
+            to={`/products/${product.name
               .toLowerCase()
               .replace(/\s+/g, "-")}-${product.id}`}
             className="hover:text-primary transition-colors flex-1"
@@ -199,7 +200,7 @@ export const ProductCard = ({
             <h3 className="font-semibold text-base mb-3 line-clamp-2 leading-tight text-maintext hover:text-primary transition-colors">
               {product.name}
             </h3>
-          </a>
+          </Link>
 
           {/* Price */}
           <div className="flex items-center gap-2 mb-4">
@@ -285,17 +286,17 @@ export const ProductCard = ({
                     )
                   )
                 ).length > 3 && (
-                  <span className="text-sm text-gray-500 font-medium">
-                    +
-                    {Array.from(
-                      new Set(
-                        (product.variants || []).map(
-                          (v: any) => v.color?.id || v.colorId
+                    <span className="text-sm text-gray-500 font-medium">
+                      +
+                      {Array.from(
+                        new Set(
+                          (product.variants || []).map(
+                            (v: any) => v.color?.id || v.colorId
+                          )
                         )
-                      )
-                    ).length - 3}
-                  </span>
-                )}
+                      ).length - 3}
+                    </span>
+                  )}
               </div>
 
               {/* Sizes */}

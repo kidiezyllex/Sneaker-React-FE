@@ -71,7 +71,7 @@ export const OrderDetail: React.FC<OrderDetailProps> = ({ order, onClose }) => {
         {history.map((item, index) => (
           <div key={index} className="flex items-start">
             <div className="relative">
-              <div className="h-9 w-9 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+              <div className="w-10 h-10  rounded-full bg-primary/10 flex items-center justify-center text-primary">
                 {index === 0 ? (
                   <Icon path={mdiTruckDeliveryOutline} size={0.8} />
                 ) : index === history.length - 1 ? (

@@ -155,7 +155,7 @@ export const HotDeals = () => {
                 href="#"
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex items-center justify-center w-9 h-9 rounded-none bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-green-500/30 transition-all duration-300"
+                className="flex items-center justify-center w-10 h-10  rounded-none bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:shadow-green-500/30 transition-all duration-300"
               >
                 <Icon path={mdiWhatsapp} size={0.8} />
               </motion.a>

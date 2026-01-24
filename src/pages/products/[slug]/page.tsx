@@ -176,9 +176,9 @@ export default function ProductDetail() {
   };
 
   const handleQuickViewSimilar = (similarProduct: any) => {
-    window.location.href = `/products/${similarProduct.name
+    navigate(`/products/${similarProduct.name
       .toLowerCase()
-      .replace(/\s+/g, "-")}-${similarProduct.id}`;
+      .replace(/\s+/g, "-")}-${similarProduct.id}`);
   };
 
   const handleAddToWishlistSimilar = () => {
@@ -318,8 +318,7 @@ export default function ProductDetail() {
 
     addToCart(cartItem, quantity);
     toast.success(
-      `Đã thêm ${quantity} sản phẩm vào giỏ hàng${
-        originalPrice ? " với giá ưu đãi" : ""
+      `Đã thêm ${quantity} sản phẩm vào giỏ hàng${originalPrice ? " với giá ưu đãi" : ""
       }`
     );
   };
@@ -446,21 +445,21 @@ export default function ProductDetail() {
           <Breadcrumb className="mb-4">
             <BreadcrumbList>
               <BreadcrumbItem>
-                <BreadcrumbLink
-                  href="/"
+                <Link
+                  to="/"
                   className="!text-maintext hover:!text-maintext transition-colors"
                 >
                   Trang chủ
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
               <BreadcrumbItem>
-                <BreadcrumbLink
-                  href="/products"
+                <Link
+                  to="/products"
                   className="!text-maintext hover:!text-maintext transition-colors"
                 >
                   Tất cả sản phẩm
-                </BreadcrumbLink>
+                </Link>
               </BreadcrumbItem>
               <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
               <BreadcrumbItem>
@@ -483,8 +482,8 @@ export default function ProductDetail() {
             {/* Main Image */}
             <div className="relative aspect-square rounded-2xl overflow-hidden bg-white border flex items-center justify-center">
               {selectedVariant &&
-              selectedVariant.images &&
-              selectedVariant.images.length > 0 ? (
+                selectedVariant.images &&
+                selectedVariant.images.length > 0 ? (
                 <>
                   <ImageZoom
                     src={checkImageUrl(
@@ -534,11 +533,10 @@ export default function ProductDetail() {
                         className={`
                       relative aspect-square rounded-xl overflow-hidden cursor-pointer
                       border-2 transition-all duration-300 hover:opacity-80
-                      ${
-                        currentImageIndex === index
-                          ? "border-primary ring-2 ring-primary/20 shadow-lg scale-105"
-                          : "border-gray-200 hover:border-gray-300"
-                      }
+                      ${currentImageIndex === index
+                            ? "border-primary ring-2 ring-primary/20 shadow-lg scale-105"
+                            : "border-gray-200 hover:border-gray-300"
+                          }
                     `}
                         whileHover={{
                           scale: currentImageIndex === index ? 1.05 : 1.02,
@@ -702,13 +700,12 @@ export default function ProductDetail() {
                           handleColorSelect(String(variant.color.id))
                         }
                         className={`
-                        relative group flex items-center justify-center w-9 h-9 rounded-full
+                        relative group flex items-center justify-center w-10 h-10  rounded-full
                         transition-all duration-300 border-2
-                        ${
-                          String(selectedColor) === String(variant.color.id)
+                        ${String(selectedColor) === String(variant.color.id)
                             ? "border-primary ring-4 ring-primary/20 scale-110"
                             : "border-gray-200 hover:border-gray-300 hover:scale-105"
-                        }
+                          }
                       `}
                         style={{ backgroundColor: variant.color?.code }}
                         title={variant.color?.name}
@@ -722,12 +719,12 @@ export default function ProductDetail() {
                       >
                         {String(selectedColor) ===
                           String(variant.color?.id) && (
-                          <Icon
-                            path={mdiCheck}
-                            size={0.8}
-                            className="text-white drop-shadow-lg"
-                          />
-                        )}
+                            <Icon
+                              path={mdiCheck}
+                              size={0.8}
+                              className="text-white drop-shadow-lg"
+                            />
+                          )}
                       </motion.button>
                     ))}
                 </div>
@@ -786,15 +783,13 @@ export default function ProductDetail() {
                         onClick={() => handleSizeSelect(sizeId)}
                         disabled={!isAvailable}
                         className={`
-                          ${
-                            String(selectedSize) === sizeId
-                              ? "border-primary text-primary bg-primary/5 shadow-sm scale-110"
-                              : "border-gray-200 text-maintext hover:border-primary hover:text-primary hover:scale-105 bg-white"
+                          ${String(selectedSize) === sizeId
+                            ? "border-primary text-primary bg-primary/5 shadow-sm scale-110"
+                            : "border-gray-200 text-maintext hover:border-primary hover:text-primary hover:scale-105 bg-white"
                           }
-                          ${
-                            !isAvailable
-                              ? "opacity-30 cursor-not-allowed bg-gray-50/50 border-gray-100"
-                              : ""
+                          ${!isAvailable
+                            ? "opacity-30 cursor-not-allowed bg-gray-50/50 border-gray-100"
+                            : ""
                           }
                         `}
                         title={!isAvailable ? "Không có sẵn cho màu này" : ""}
@@ -838,7 +833,7 @@ export default function ProductDetail() {
                 >
                   -
                 </Button>
-                <div className="w-9 h-9 flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
+                <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
                   {quantity}
                 </div>
                 <Button
@@ -900,7 +895,7 @@ export default function ProductDetail() {
                   },
                 ].map((feature, index) => (
                   <div key={index} className="flex items-center gap-4">
-                    <div className="w-9 h-9 bg-green-100 rounded-full flex items-center justify-center border border-green-300">
+                    <div className="w-10 h-10  bg-green-100 rounded-full flex items-center justify-center border border-green-300">
                       <Icon
                         path={feature.icon}
                         size={0.8}
@@ -977,7 +972,7 @@ export default function ProductDetail() {
           onAddToWishlist={handleAddToWishlistSimilar}
         />
       </div>
-      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 w-9 h-9flex items-center justify-center">
+      <div className="fixed bottom-6 right-6 z-50 shadow-lg rounded-full bg-primary p-2 hover:bg-primary/80 transition-all duration-300 w-10 h-10 flex items-center justify-center">
         <CartIcon className="text-white" />
       </div>
     </div>

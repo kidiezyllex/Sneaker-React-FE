@@ -9,6 +9,7 @@ import {
   mdiHeart,
 } from "@mdi/js";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   const socialLinks = [
@@ -267,13 +268,13 @@ export const Footer = () => {
                   <ul className="space-y-3">
                     {quickLinks.map((link, index) => (
                       <li key={index}>
-                        <a
-                          href={link.href}
+                        <Link
+                          to={link.href}
                           className="text-gray-400 hover:text-primary transition-colors duration-300 flex items-center gap-2 group"
                         >
                           <span className="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           {link.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -291,13 +292,13 @@ export const Footer = () => {
                   <ul className="space-y-3">
                     {supportLinks.map((link, index) => (
                       <li key={index}>
-                        <a
-                          href={link.href}
+                        <Link
+                          to={link.href}
                           className="text-gray-400 hover:text-primary transition-colors duration-300 flex items-center gap-2 group"
                         >
                           <span className="w-1 h-1 bg-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                           {link.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

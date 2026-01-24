@@ -1172,7 +1172,7 @@ export default function POSPage() {
                       <img
                         src={checkImageUrl(
                           getVariantImageUrl(selectedApiVariant) ||
-                            getVariantImageUrl(selectedProduct.variants[0])
+                          getVariantImageUrl(selectedProduct.variants[0])
                         )}
                         alt={selectedProduct.name}
                         className="object-contain p-4 transition-transform duration-500 group-hover:scale-110"
@@ -1348,8 +1348,8 @@ export default function POSPage() {
                                 {selectedApiVariant.sizeId.name ||
                                   (selectedApiVariant.sizeId.value
                                     ? getSizeLabel(
-                                        Number(selectedApiVariant.sizeId.value)
-                                      )
+                                      Number(selectedApiVariant.sizeId.value)
+                                    )
                                     : "N/A")}
                               </Badge>
                             )}
@@ -1360,7 +1360,7 @@ export default function POSPage() {
                                 selectedProduct.variants.find(
                                   (v) =>
                                     v.colorId?.id ===
-                                      selectedApiVariant.colorId?.id &&
+                                    selectedApiVariant.colorId?.id &&
                                     v.sizeId?.id === size.id
                                 );
                               const stockForThisSize =
@@ -1374,7 +1374,7 @@ export default function POSPage() {
                                   className={cn(
                                     "transition-all duration-300 min-w-[60px] h-auto py-2 px-4 flex flex-col items-center border-2",
                                     stockForThisSize === 0 &&
-                                      "opacity-50 cursor-not-allowed"
+                                    "opacity-50 cursor-not-allowed"
                                   )}
                                   onClick={() =>
                                     handleSizeSelectFromDetail(size.id)
@@ -1419,15 +1419,15 @@ export default function POSPage() {
                           selectedApiVariant.stock > 10
                             ? "secondary"
                             : selectedApiVariant.stock > 0
-                            ? "outline"
-                            : "destructive"
+                              ? "outline"
+                              : "destructive"
                         }
                         className={cn(
                           selectedApiVariant.stock > 10
                             ? "bg-green-100 text-green-700 border-green-200"
                             : selectedApiVariant.stock > 0
-                            ? "bg-yellow-100 text-yellow-700 border-yellow-200"
-                            : "bg-red-100 text-red-700 border-red-200"
+                              ? "bg-yellow-100 text-yellow-700 border-yellow-200"
+                              : "bg-red-100 text-red-700 border-red-200"
                         )}
                       >
                         {selectedApiVariant.stock > 0
@@ -1535,18 +1535,17 @@ export default function POSPage() {
                                 <div className="flex justify-between items-center">
                                   <div className="flex flex-col">
                                     <p
-                                      className={`font-medium ${
-                                        (product as any).hasDiscount
-                                          ? "text-primary"
-                                          : "text-primary"
-                                      }`}
+                                      className={`font-medium ${(product as any).hasDiscount
+                                        ? "text-primary"
+                                        : "text-primary"
+                                        }`}
                                     >
                                       {firstVariant
                                         ? formatCurrency(
-                                            (product as any).hasDiscount
-                                              ? (product as any).discountedPrice
-                                              : firstVariant.price
-                                          )
+                                          (product as any).hasDiscount
+                                            ? (product as any).discountedPrice
+                                            : firstVariant.price
+                                        )
                                         : "N/A"}
                                     </p>
                                     {(product as any).hasDiscount && (
@@ -1647,7 +1646,7 @@ export default function POSPage() {
                                     onClick={() => handleProductSelect(product)}
                                   >
                                     <div className="flex items-center gap-2">
-                                      <div className="relative w-9 h-9rounded-2xl overflow-hidden bg-gray-50">
+                                      <div className="relative w-10 h-10 rounded-2xl overflow-hidden bg-gray-50">
                                         <img
                                           src={checkImageUrl(
                                             getVariantImageUrl(firstVariant)
@@ -1673,19 +1672,18 @@ export default function POSPage() {
                                   >
                                     <div className="flex flex-col">
                                       <span
-                                        className={`font-medium ${
-                                          (product as any).hasDiscount
-                                            ? "text-primary"
-                                            : "text-primary"
-                                        }`}
+                                        className={`font-medium ${(product as any).hasDiscount
+                                          ? "text-primary"
+                                          : "text-primary"
+                                          }`}
                                       >
                                         {firstVariant
                                           ? formatCurrency(
-                                              (product as any).hasDiscount
-                                                ? (product as any)
-                                                    .discountedPrice
-                                                : firstVariant.price
-                                            )
+                                            (product as any).hasDiscount
+                                              ? (product as any)
+                                                .discountedPrice
+                                              : firstVariant.price
+                                          )
                                           : "N/A"}
                                       </span>
                                       {(product as any).hasDiscount && (
@@ -1747,8 +1745,8 @@ export default function POSPage() {
                                         totalStock > 10
                                           ? "secondary"
                                           : totalStock > 0
-                                          ? "outline"
-                                          : "destructive"
+                                            ? "outline"
+                                            : "destructive"
                                       }
                                       className="text-sm !flex-shrink-0"
                                     >
@@ -1756,8 +1754,8 @@ export default function POSPage() {
                                         {totalStock > 10
                                           ? "Còn hàng"
                                           : totalStock > 0
-                                          ? "Sắp hết"
-                                          : "Hết hàng"}
+                                            ? "Sắp hết"
+                                            : "Hết hàng"}
                                       </span>
                                     </Badge>
                                   </td>

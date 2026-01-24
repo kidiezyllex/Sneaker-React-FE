@@ -659,7 +659,7 @@ function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogProps) {
               className={errors.code ? "border-red-500" : ""}
             />
             <div
-              className="w-9 h-9 rounded-2xl border border-gray-200"
+              className="w-10 h-10  rounded-2xl border border-gray-200"
               style={{ backgroundColor: formData.code }}
             />
           </div>
@@ -837,7 +837,7 @@ function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
               className={errors.code ? "border-red-500" : ""}
             />
             <div
-              className="w-9 h-9 rounded-2xl border border-gray-200"
+              className="w-10 h-10  rounded-2xl border border-gray-200"
               style={{ backgroundColor: formData.code }}
             />
           </div>

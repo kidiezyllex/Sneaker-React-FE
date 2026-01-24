@@ -98,7 +98,7 @@ const ProductCard = ({
           <Button
             size="icon"
             variant="secondary"
-            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
+            className="rounded-full w-10 h-10  bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
           >
             <Icon
               path={mdiHeartOutline}
@@ -109,7 +109,7 @@ const ProductCard = ({
           <Button
             size="icon"
             variant="secondary"
-            className="rounded-full w-9 h-9 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
+            className="rounded-full w-10 h-10  bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 shadow-lg"
           >
             <Icon
               path={mdiCartOutline}

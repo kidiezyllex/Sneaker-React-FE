@@ -163,7 +163,7 @@ export const products: Product[] = [
         id: 'color-7',
         name: 'Đen',
         code: '#000000',
-        image: 'https://images.Balenciaga.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/374915/01/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-AllwearStudios',
+        image: 'https://images.Balenciaga.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/374915/01/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-StreetSneakers',
         sizes: [
           { id: 'size-25', size: '39', quantity: 9, price: 2000000 },
           { id: 'size-26', size: '40', quantity: 11, price: 2000000 },
@@ -175,7 +175,7 @@ export const products: Product[] = [
         id: 'color-8',
         name: 'Đỏ',
         code: '#DC2626',
-        image: 'https://images.Balenciaga.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/374915/05/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-AllwearStudios',
+        image: 'https://images.Balenciaga.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/374915/05/sv01/fnd/PNA/fmt/png/Suede-Classic-XXI-StreetSneakers',
         sizes: [
           { id: 'size-29', size: '39', quantity: 4, price: 2000000 },
           { id: 'size-30', size: '40', quantity: 7, price: 2000000 },

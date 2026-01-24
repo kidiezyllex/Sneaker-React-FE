@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { useLatestProducts } from "@/hooks/product";
 import { usePromotions } from "@/hooks/promotion";
@@ -17,6 +18,7 @@ export const NewArrivals = () => {
   const { data: latestProductsData, isLoading, isError } = useLatestProducts();
   const { data: promotionsData } = usePromotions({ status: "ACTIVE" });
   const { addToCart } = useCartStore();
+  const navigate = useNavigate();
 
   const handleAddToCart = (product: any) => {
     if (!product.variants?.[0]) return;
@@ -77,9 +79,9 @@ export const NewArrivals = () => {
   };
 
   const handleQuickView = (product: any) => {
-    window.location.href = `/products/${product.name
+    navigate(`/products/${product.name
       .toLowerCase()
-      .replace(/\s+/g, "-")}-${product.id}`;
+      .replace(/\s+/g, "-")}-${product.id}`);
   };
 
   const handleAddToWishlist = () => {

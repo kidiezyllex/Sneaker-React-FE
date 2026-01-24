@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { mdiAccount, mdiLogout, mdiViewDashboard } from "@mdi/js";
+import { Link } from "react-router-dom";
 
 import {
   DropdownMenu,
@@ -32,12 +33,12 @@ const AccountDropdown = () => {
   };
   if (!isAuthenticated) {
     return (
-      <a
-        href="/auth/login"
+      <Link
+        to="/auth/login"
         className="p-2 text-maintext hover:text-primary transition-colors"
       >
         <Icon path={mdiAccount} size={0.8} />
-      </a>
+      </Link>
     );
   }
 
@@ -54,8 +55,8 @@ const AccountDropdown = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="ml-4">
-          <Avatar className="w-9 h-9border border-primary/20">
+        <button className="ml-2">
+          <Avatar className="w-10 h-10  border border-primary/20">
             <AvatarImage
               src={getAvatarUrl()}
               alt={profile?.data?.fullName || "User"}
@@ -82,22 +83,22 @@ const AccountDropdown = () => {
 
           <motion.div transition={{ delay: 0.05 }}>
             <DropdownMenuItem asChild>
-              <a href="/account" className="flex items-center cursor-pointer">
+              <Link to="/account" className="flex items-center cursor-pointer">
                 <Icon
                   path={mdiAccount}
                   size={0.8}
                   className="mr-2 text-maintext"
                 />
                 <span className="!text-maintext">Quản lý chung</span>
-              </a>
+              </Link>
             </DropdownMenuItem>
           </motion.div>
 
           {profile?.data?.role === "ADMIN" && (
             <motion.div transition={{ delay: 0.07 }}>
               <DropdownMenuItem asChild>
-                <a
-                  href="/admin/statistics"
+                <Link
+                  to="/admin/statistics"
                   className="flex items-center cursor-pointer"
                 >
                   <Icon
@@ -106,7 +107,7 @@ const AccountDropdown = () => {
                     className="mr-2 text-maintext"
                   />
                   <span className="!text-maintext">Dashboard</span>
-                </a>
+                </Link>
               </DropdownMenuItem>
             </motion.div>
           )}

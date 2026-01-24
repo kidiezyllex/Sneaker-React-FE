@@ -236,7 +236,7 @@ export default function AccountsPage() {
         onError: (error) => {
           toast.error(
             "Cập nhật trạng thái tài khoản thất bại: " +
-              (error.message || "Không xác định")
+            (error.message || "Không xác định")
           );
         },
       });
@@ -413,7 +413,7 @@ export default function AccountsPage() {
                         <TableCell className="py-3 px-4">
                           <div className="flex items-center space-x-4">
                             <div className="p-0.5 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">
-                              <Avatar className="w-9 h-9border-2 border-white rounded-full">
+                              <Avatar className="w-10 h-10 border-2 border-white rounded-full">
                                 <AvatarImage
                                   src={getAvatarUrl(account.id)}
                                   alt={`${account.fullName} avatar`}

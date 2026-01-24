@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { useLocation } from "react-router-dom";
 import { mdiChevronDown, mdiChevronUp } from "@mdi/js";
+import { Link } from "react-router-dom";
 import { MenuItem, SubMenuItem } from "@/interface/types";
 import { menuItems } from "./menuItems";
 import AdminHeader from "../Common/AdminHeader";
@@ -100,7 +101,7 @@ const SidebarLayout = memo(function SidebarLayout({
                   </p>
                 </div>
               )}
-              <Avatar className="w-9 h-9border border-gray-200">
+              <Avatar className="w-10 h-10 border border-gray-200">
                 <AvatarImage
                   src={getAvatarUrl()}
                   alt={profileData?.data.fullName}
@@ -173,7 +174,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ delay: 0.1 }}
                               >
-                                <a href={subItem.path}>
+                                <Link to={subItem.path}>
                                   <div
                                     className={cn(
                                       "flex items-center rounded-md p-2 text-base transition-colors font-medium",
@@ -200,7 +201,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                       {subItem.name}
                                     </span>
                                   </div>
-                                </a>
+                                </Link>
                               </motion.li>
                             ))}
                           </motion.ul>
@@ -213,7 +214,7 @@ const SidebarLayout = memo(function SidebarLayout({
                       onMouseEnter={() => handleMouseEnter(menu.id)}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <a href={menu.path}>
+                      <Link to={menu.path || "#"}>
                         <div
                           className={cn(
                             "flex items-center rounded-md p-2 text-base font-medium transition-colors ",
@@ -235,7 +236,7 @@ const SidebarLayout = memo(function SidebarLayout({
                           />
                           {isOpen && <span>{menu.name}</span>}
                         </div>
-                      </a>
+                      </Link>
                       {!isOpen && hoverMenu === menu.id && (
                         <AnimatePresence>
                           <motion.div

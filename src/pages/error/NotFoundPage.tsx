@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NotFoundPage: React.FC = () => {
   return (
@@ -11,12 +12,12 @@ const NotFoundPage: React.FC = () => {
         <p className="text-gray-500 mb-8">
           Xin lỗi, trang bạn đang tìm kiếm không tồn tại.
         </p>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="bg-primary hover:bg-secondary text-white font-semibold py-2 px-4 rounded transition-colors duration-300"
         >
           Về trang chủ
-        </a>
+        </Link>
       </div>
     </div>
   );

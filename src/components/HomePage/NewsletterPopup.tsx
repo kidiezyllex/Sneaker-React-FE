@@ -85,7 +85,7 @@ export const NewsletterPopup = () => {
                   </h3>
                   <p className="text-maintext mb-4">
                     Đăng ký nhận thông tin để không bỏ lỡ các ưu đãi đặc biệt và
-                    sản phẩm mới nhất từ AllwearStudio.
+                    sản phẩm mới nhất từ StreetSneaker.
                   </p>
 
                   {success ? (

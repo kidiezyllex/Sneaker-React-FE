@@ -327,7 +327,7 @@ export default function EditOrderPage() {
                               {item.product.imageUrl && (
                                 <div className="flex-shrink-0 h-10 w-10">
                                   <img
-                                    className="w-9 h-9rounded-2xl object-cover"
+                                    className="w-10 h-10 rounded-2xl object-cover"
                                     src={item.product.imageUrl}
                                     alt={item.product.name}
                                   />
@@ -462,12 +462,12 @@ export default function EditOrderPage() {
                       order.paymentMethod === "CASH"
                         ? "Tiền mặt"
                         : order.paymentMethod === "BANK_TRANSFER"
-                        ? "Chuyển khoản ngân hàng"
-                        : order.paymentMethod === "COD"
-                        ? "Thanh toán khi nhận hàng"
-                        : order.paymentMethod === "MIXED"
-                        ? "Thanh toán nhiều phương thức"
-                        : "Không xác định"
+                          ? "Chuyển khoản ngân hàng"
+                          : order.paymentMethod === "COD"
+                            ? "Thanh toán khi nhận hàng"
+                            : order.paymentMethod === "MIXED"
+                              ? "Thanh toán nhiều phương thức"
+                              : "Không xác định"
                     }
                     disabled
                   />

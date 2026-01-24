@@ -22,7 +22,7 @@ export const HeroBanner = () => {
           <div className="absolute h-28 w-28 rounded-full bg-primary/70 -top-10 left-[40%]"></div>
           <div className="absolute h-12 w-12 rounded-full bg-secondary/40 top-1/2 left-[5%]"></div>
           <div className="absolute h-14 w-14 rounded-full bg-primary/80 bottom-1/3 right-[10%]"></div>
-          <div className="absolute w-9 h-9rounded-full bg-secondary/70 top-1/4 right-[30%]"></div>
+          <div className="absolute w-10 h-10 rounded-full bg-secondary/70 top-1/4 right-[30%]"></div>
           <div className="absolute h-36 w-36 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 -bottom-16 left-[30%] blur-sm"></div>
           <div className="absolute h-40 w-40 rounded-full bg-gradient-to-r from-secondary/20 to-primary/20 -top-20 right-[20%] blur-sm"></div>
         </div>
@@ -107,22 +107,22 @@ export const HeroBanner = () => {
                     <img
                       src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format"
                       alt="Customer 1"
-                      className="w-9 h-9 rounded-full border-2 border-white object-cover"
+                      className="w-10 h-10  rounded-full border-2 border-white object-cover"
                       loading="lazy"
                     />
                     <img
                       src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face&auto=format"
                       alt="Customer 2"
-                      className="w-9 h-9 rounded-full border-2 border-white object-cover"
+                      className="w-10 h-10  rounded-full border-2 border-white object-cover"
                       loading="lazy"
                     />
                     <img
                       src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face&auto=format"
                       alt="Customer 3"
-                      className="w-9 h-9 rounded-full border-2 border-white object-cover"
+                      className="w-10 h-10  rounded-full border-2 border-white object-cover"
                       loading="lazy"
                     />
-                    <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-sm border-2 border-white">
+                    <div className="w-10 h-10  rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-sm border-2 border-white">
                       +
                     </div>
                   </div>

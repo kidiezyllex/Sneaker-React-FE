@@ -50,9 +50,8 @@ const StatCard = ({
                 className={increasing ? "text-green-medium" : "text-red-medium"}
               />
               <span
-                className={`text-sm ml-1 ${
-                  increasing ? "text-green-medium" : "text-red-medium"
-                }`}
+                className={`text-sm ml-1 ${increasing ? "text-green-medium" : "text-red-medium"
+                  }`}
               >
                 {percentage} {increasing ? "tăng" : "giảm"}
               </span>
@@ -62,7 +61,7 @@ const StatCard = ({
             </div>
           </div>
           <div
-            className={`${bgColor} w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0`}
+            className={`${bgColor} w-10 h-10  rounded-full flex items-center justify-center flex-shrink-0`}
           >
             <Icon path={icon} size={0.8} className={iconColor} />
           </div>
