@@ -10,7 +10,7 @@ import {
   mdiGift,
   mdiSale,
 } from "@mdi/js";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 
 export const Newsletter = () => {
   const [email, setEmail] = useState("");

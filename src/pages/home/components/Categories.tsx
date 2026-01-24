@@ -2,7 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef, useEffect } from "react";
 import Icon from "@mdi/react";
 import { mdiChevronLeft, mdiChevronRight, mdiArrowRight } from "@mdi/js";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";

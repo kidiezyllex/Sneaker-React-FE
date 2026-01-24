@@ -26,11 +26,11 @@ import { useUser } from "@/context/useUserContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 
-import ProfileTab from "./ProfileTab";
-import PasswordTab from "./PasswordTab";
-import OrdersTab from "./OrdersTab";
-import ReturnsTab from "./ReturnsTab";
-import VouchersTab from "./VouchersTab";
+import ProfileTab from "./components/ProfileTab";
+import PasswordTab from "./components/PasswordTab";
+import OrdersTab from "./components/OrdersTab";
+import ReturnsTab from "./components/ReturnsTab";
+import VouchersTab from "./components/VouchersTab";
 
 export const AccountTabContext = createContext({
   activeTab: "profile",

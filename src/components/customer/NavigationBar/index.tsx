@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { mdiCart } from "@mdi/js";
 import { Button } from "@/components/ui/button";
+import { CartSheet } from "@/components/ui/CartSheet";
 import { useUser } from "@/context/useUserContext";
 import AccountDropdown from "./AccountDropdown";
 import { useCartStore } from "@/stores/useCartStore";
-import CartSheet from "../ui/CartSheet";
 
 const tabs = [
   { text: "Trang chủ", href: "/" },

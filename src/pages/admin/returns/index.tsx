@@ -46,8 +46,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import StatusUpdateModal from "@/components/admin/returns/StatusUpdateModal";
-import SearchReturnModal from "@/components/admin/returns/SearchReturnModal";
+import StatusUpdateModal from "@/components/admin/Returns/StatusUpdateModal";
+import SearchReturnModal from "@/components/admin/Returns/SearchReturnModal";
 import {
   DropdownMenu,
   DropdownMenuContent,

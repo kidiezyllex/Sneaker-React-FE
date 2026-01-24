@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
 import { mdiChevronDoubleRight, mdiWhatsapp, mdiStar } from "@mdi/js";
-import { InteractiveHoverButton } from "../Common/InteractiveHoverButton";
+import { InteractiveHoverButton } from "@/components/common/InteractiveHoverButton";
 
 export const HotDeals = () => {
   const sectionRef = useRef(null);

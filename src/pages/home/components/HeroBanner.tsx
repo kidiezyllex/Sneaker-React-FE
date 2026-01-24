@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import Icon from "@mdi/react";
 import {
   mdiSale,
@@ -9,7 +9,7 @@ import {
   mdiTrendingUp,
   mdiShieldCheck,
 } from "@mdi/js";
-import { InteractiveHoverButton } from "../Common/InteractiveHoverButton";
+import { InteractiveHoverButton } from "@/components/common/InteractiveHoverButton";
 export const HeroBanner = () => {
   return (
     <main className="max-w-full w-full mx-auto">

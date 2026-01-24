@@ -10,9 +10,9 @@ import { useCartStore } from "@/stores/useCartStore";
 import { toast } from "react-toastify";
 import { calculateProductDiscount } from "@/lib/promotions";
 import { getSizeLabel } from "@/utils/sizeMapping";
-import { InteractiveHoverButton } from "../Common/InteractiveHoverButton";
 import { Icon } from "@mdi/react";
 import { mdiArrowLeft } from "@mdi/js";
+import { InteractiveHoverButton } from "@/components/Common/InteractiveHoverButton";
 
 export const BestSeller = () => {
   const headerRef = useRef(null);

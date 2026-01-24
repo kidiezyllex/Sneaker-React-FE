@@ -37,7 +37,7 @@ import {
   mdiMapMarker,
 } from "@mdi/js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AddressManager from "@/components/ProfilePage/AddressManager";
+import AddressManager from "./components/AddressManager";
 import { useUpdateUserProfile, useUserProfile } from "@/hooks/account";
 
 const profileSchema = z.object({
