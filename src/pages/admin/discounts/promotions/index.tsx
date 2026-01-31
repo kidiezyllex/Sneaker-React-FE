@@ -189,23 +189,12 @@ export default function PromotionsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="flex space-x-2">
-          <Link
-            to="/admin/discounts/promotions/create"
-            className="flex items-center gap-2"
-          >
-            <Button className="flex items-center gap-2">
-              <Icon path={mdiPlus} size={0.8} />
-              Thêm chiến dịch khuyến mãi
-            </Button>
-          </Link>
-        </div>
       </div>
 
       <Card className="mb-4">
-        <CardContent className="py-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-2">
-            <div className="relative flex-1 max-w-4xl">
+        <CardContent className="p-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+            <div className="relative flex-1">
               <Icon
                 path={mdiMagnify}
                 size={0.8}
@@ -214,7 +203,7 @@ export default function PromotionsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên chiến dịch..."
-                className="pl-10 pr-4 py-2 w-full border rounded-xl"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -246,6 +235,12 @@ export default function PromotionsPage() {
                 <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
                 {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
               </Button>
+              <Link to="/admin/discounts/promotions/create">
+                <Button className="flex items-center gap-2">
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm chiến dịch mới
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -352,33 +347,26 @@ export default function PromotionsPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Mã
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Tên chiến dịch
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Giảm giá
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Sản phẩm
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Thời gian
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-center text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
+                  <TableHead className="w-[80px] text-center">STT</TableHead>
+                  <TableHead>Mã</TableHead>
+                  <TableHead>Tên chiến dịch</TableHead>
+                  <TableHead>Giảm giá</TableHead>
+                  <TableHead>Sản phẩm</TableHead>
+                  <TableHead>Thời gian</TableHead>
+                  <TableHead>Trạng thái</TableHead>
+                  <TableHead className="text-right">Thao tác</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {data?.data?.promotions?.length ? (
-                  data.data.promotions.map((promotion) => (
+                  data.data.promotions.map((promotion, index) => (
                     <TableRow key={promotion.id}>
+                      <TableCell className="text-center">
+                        {(data.data.pagination.currentPage - 1) *
+                          data.data.pagination.limit +
+                          index +
+                          1}
+                      </TableCell>
                       <TableCell className="px-4 py-4 text-sm">
                         <span className="font-mono font-medium">
                           {promotion.code}

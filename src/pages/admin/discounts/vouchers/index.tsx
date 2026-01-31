@@ -210,31 +210,12 @@ export default function VouchersPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="flex space-x-2">
-          {/* <Button
-            variant="outline"
-            onClick={() => setIsValidateDialogOpen(true)}
-            className="flex items-center gap-2"
-          >
-            <Icon path={mdiTagCheckOutline} size={0.8} />
-            Kiểm tra mã
-          </Button> */}
-          <Link
-            to="/admin/discounts/vouchers/create"
-            className="flex items-center gap-2"
-          >
-            <Button className="flex items-center gap-2">
-              <Icon path={mdiPlus} size={0.8} />
-              Thêm mã giảm giá mới
-            </Button>
-          </Link>
-        </div>
       </div>
 
       <Card className="mb-4">
-        <CardContent className="py-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-2">
-            <div className="relative flex-1 max-w-4xl">
+        <CardContent className="p-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+            <div className="relative flex-1">
               <Icon
                 path={mdiMagnify}
                 size={0.8}
@@ -243,7 +224,7 @@ export default function VouchersPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên hoặc mã voucher..."
-                className="pl-10 pr-4 py-2 w-full border rounded-xl"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -275,6 +256,14 @@ export default function VouchersPage() {
                 <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
                 {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
               </Button>
+              <Link
+                to="/admin/discounts/vouchers/create"
+              >
+                <Button className="flex items-center gap-2">
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm mã giảm giá mới
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -396,37 +385,28 @@ export default function VouchersPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Mã
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Tên
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Loại
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Giá trị
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Sử dụng
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Thời gian
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-left text-sm font-medium text-maintext">
-                    Trạng thái
-                  </TableHead>
-                  <TableHead className="px-4 py-4 text-center text-sm font-medium text-maintext">
-                    Thao tác
-                  </TableHead>
+                  <TableHead className="w-[80px] text-center">STT</TableHead>
+                  <TableHead>Mã</TableHead>
+                  <TableHead>Tên</TableHead>
+                  <TableHead>Loại</TableHead>
+                  <TableHead>Giá trị</TableHead>
+                  <TableHead>Sử dụng</TableHead>
+                  <TableHead>Thời gian</TableHead>
+                  <TableHead>Trạng thái</TableHead>
+                  <TableHead className="text-center">Thao tác</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {data?.data?.vouchers?.map((voucher) => (
+                {data?.data?.vouchers?.map((voucher, index) => (
                   <TableRow key={(voucher as any).id}>
-                    <TableCell className="px-4 py-4 text-sm">
-                      <span className="font-mono font-medium">
+                    <TableCell className="text-center">
+                      {(data.pagination.currentPage - 1) *
+                        data.pagination.perPage +
+                        index +
+                        1}
+                    </TableCell>
+                    <TableCell>
+                      <span className="font-mono font-medium text-sm">
                         {voucher.code}
                       </span>
                     </TableCell>

@@ -265,17 +265,11 @@ export default function AccountsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Link to="/admin/accounts/create" className="flex items-center gap-2">
-          <Button className="flex items-center gap-2">
-            <Icon path={mdiPlus} size={0.8} />
-            Thêm tài khoản mới
-          </Button>
-        </Link>
       </div>
 
       <Card className="mb-4">
-        <CardContent className="py-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-2">
+        <CardContent className="p-4">
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
             <div className="relative flex-1 max-w-4xl">
               <Icon
                 path={mdiMagnify}
@@ -285,19 +279,27 @@ export default function AccountsPage() {
               <Input
                 type="text"
                 placeholder="Tìm kiếm theo tên, email, số điện thoại..."
-                className="pl-10 pr-4 py-2 w-full border rounded-xl"
+                className="pl-10 w-full"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <Button
-              variant="outline"
-              className="flex items-center"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
-              {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
-            </Button>
+            <div className="flex space-x-2">
+              <Button
+                variant="outline"
+                className="flex items-center"
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
+                {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
+              </Button>
+              <Link to="/admin/accounts/create">
+                <Button className="flex items-center gap-2">
+                  <Icon path={mdiPlus} size={0.8} />
+                  Thêm tài khoản mới
+                </Button>
+              </Link>
+            </div>
           </div>
 
           <AnimatePresence>
@@ -389,6 +391,7 @@ export default function AccountsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[80px] text-center">STT</TableHead>
                     <TableHead>Tài khoản</TableHead>
                     <TableHead>Liên hệ</TableHead>
                     <TableHead>Vai trò</TableHead>
@@ -401,15 +404,18 @@ export default function AccountsPage() {
                   {data?.data.content.length === 0 ? (
                     <TableRow>
                       <TableCell
-                        colSpan={6}
+                        colSpan={7}
                         className="text-center py-8 text-maintext"
                       >
                         Không có tài khoản nào được tìm thấy
                       </TableCell>
                     </TableRow>
                   ) : (
-                    data?.data.content.map((account) => (
+                    data?.data.content.map((account, index) => (
                       <TableRow key={account.id} className="hover:bg-gray-50">
+                        <TableCell className="text-center">
+                          {(filters.page! - 1) * filters.limit! + index + 1}
+                        </TableCell>
                         <TableCell className="py-3 px-4">
                           <div className="flex items-center space-x-4">
                             <div className="p-0.5 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">

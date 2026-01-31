@@ -78,6 +78,7 @@ import {
   mdiCancel,
   mdiCheck,
 } from "@mdi/js";
+import { CommonPagination } from "@/components/ui/common-pagination";
 
 export default function ReturnsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -307,22 +308,6 @@ export default function ReturnsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setSearchModal(true)}>
-            <Icon path={mdiMagnify} size={0.8} className="mr-2" />
-            Tìm kiếm nâng cao
-          </Button>
-          <Button variant="outline" onClick={exportToCSV}>
-            <Icon path={mdiDownload} size={0.8} className="mr-2" />
-            Xuất CSV
-          </Button>
-          <Link to="/admin/returns/create" className="flex items-center gap-2">
-            <Button className="flex items-center gap-2">
-              <Icon path={mdiPlus} size={0.8} />
-              Tạo yêu cầu trả hàng mới
-            </Button>
-          </Link>
-        </div>
       </div>
 
       {statsData && (
@@ -371,9 +356,9 @@ export default function ReturnsPage() {
       )}
 
       <Card className="mb-4">
-        <CardContent className="py-4">
+        <CardContent className="p-4">
           <Tabs defaultValue="all" onValueChange={setSelectedTab}>
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
+            <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4 mb-4">
               <TabsList className="h-9">
                 <TabsTrigger value="all" className="px-4 text-maintext">
                   Tất cả
@@ -389,40 +374,56 @@ export default function ReturnsPage() {
                 </TabsTrigger>
               </TabsList>
 
-              <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2">
+              <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2 items-center">
                 <div className="relative w-full sm:w-80">
+                  <Icon
+                    path={mdiMagnify}
+                    size={0.8}
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                  />
                   <Input
                     placeholder="Tìm theo mã, tên KH, SĐT..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-10 w-full"
                   />
-                  <div className="absolute left-3 top-2.5 text-maintext">
-                    <Icon path={mdiMagnify} size={0.8} />
-                  </div>
                 </div>
 
-                <Button
-                  variant="outline"
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center"
-                >
-                  <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
-                  Bộ lọc
-                  {(filters.customer ||
-                    filters.startDate ||
-                    filters.endDate) && (
-                      <Badge>
-                        {
-                          [
-                            filters.customer,
-                            filters.startDate,
-                            filters.endDate,
-                          ].filter(Boolean).length
-                        }
-                      </Badge>
-                    )}
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowFilters(!showFilters)}
+                    className="flex items-center"
+                  >
+                    <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
+                    Bộ lọc
+                    {(filters.customer ||
+                      filters.startDate ||
+                      filters.endDate) && (
+                        <Badge className="ml-1">
+                          {
+                            [
+                              filters.customer,
+                              filters.startDate,
+                              filters.endDate,
+                            ].filter(Boolean).length
+                          }
+                        </Badge>
+                      )}
+                  </Button>
+                  <Button variant="outline" size="icon" onClick={() => setSearchModal(true)} title="Tìm kiếm nâng cao">
+                    <Icon path={mdiMagnify} size={0.8} />
+                  </Button>
+                  <Button variant="outline" size="icon" onClick={exportToCSV} title="Xuất CSV">
+                    <Icon path={mdiDownload} size={0.8} />
+                  </Button>
+                  <Link to="/admin/returns/create">
+                    <Button className="flex items-center gap-2">
+                      <Icon path={mdiPlus} size={0.8} />
+                      Tạo yêu cầu
+                    </Button>
+                  </Link>
+                </div>
               </div>
             </div>
 
@@ -559,7 +560,8 @@ export default function ReturnsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[120px]">Mã yêu cầu</TableHead>
+                      <TableHead className="w-[80px] text-center">STT</TableHead>
+                      <TableHead>Mã yêu cầu</TableHead>
                       <TableHead>Khách hàng</TableHead>
                       <TableHead>Đơn hàng gốc</TableHead>
                       <TableHead>Ngày tạo</TableHead>
@@ -569,9 +571,12 @@ export default function ReturnsPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {data?.data.returns.map((returnItem) => (
+                    {data?.data.returns.map((returnItem, index) => (
                       <TableRow key={(returnItem as any)?.id}>
-                        <TableCell className="font-medium">
+                        <TableCell className="text-center">
+                          {(filters.page! - 1) * filters.limit! + index + 1}
+                        </TableCell>
+                        <TableCell className="font-medium text-sm">
                           {returnItem.code}
                         </TableCell>
                         <TableCell>
