@@ -1,6 +1,7 @@
 "use client";
 
-import { IconLogout } from "@tabler/icons-react";
+import Icon from '@mdi/react';
+import { mdiLogout } from '@mdi/js';
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/context/useUserContext";
@@ -31,7 +32,7 @@ export default function UserMenu() {
     <div className="flex items-center gap-4">
       <Button variant="destructive" onClick={handleLogout}>
         <span>Đăng xuất</span>
-        <IconLogout size={20} />
+        <Icon path={mdiLogout} size={0.8} />
       </Button>
     </div>
   );

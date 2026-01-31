@@ -6,7 +6,8 @@ import { chatbotApi, ChatMessage as ApiChatMessage } from '@/api/chatbot';
 import { useChatStore, Message } from '@/stores/useChatStore';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
-import { IconMessage, IconLoader2, IconSearch } from '@tabler/icons-react';
+import Icon from '@mdi/react';
+import { mdiMessage, mdiLoading, mdiMagnify } from '@mdi/js';
 
 function ChatHistorySearch({ onSearch }: { onSearch: (results: ApiChatMessage[]) => void }) {
     const [query, setQuery] = useState('');
@@ -40,7 +41,7 @@ function ChatHistorySearch({ onSearch }: { onSearch: (results: ApiChatMessage[])
                 size="icon"
                 variant="outline"
             >
-                <IconSearch className="h-4 w-4" />
+                <Icon path={mdiMagnify} size={0.6} />
             </Button>
         </div>
     );
@@ -105,11 +106,11 @@ export function ChatHistory() {
             <ScrollArea className="flex-1 p-4">
                 {loading ? (
                     <div className="flex items-center justify-center h-full">
-                        <IconLoader2 className="h-6 w-6 animate-spin" />
+                        <Icon path={mdiLoading} size={1} className="animate-spin" />
                     </div>
                 ) : history.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-                        <IconMessage className="h-12 w-12 mb-4 opacity-50" />
+                        <Icon path={mdiMessage} size={2} className="mb-4 opacity-50" />
                         <p className="text-sm">Chưa có lịch sử chat</p>
                     </div>
                 ) : (

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { IconMessage, IconX, IconSend, IconLoader2, IconRobot, IconUser, IconStar, IconHistory, IconRobotFace, IconMessageChatbot } from '@tabler/icons-react';
+import Icon from '@mdi/react';
+import { mdiMessage, mdiClose, mdiSend, mdiLoading, mdiRobot, mdiAccount, mdiStar, mdiHistory, mdiMessageText } from '@mdi/js';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -39,8 +40,10 @@ function ChatRating({ chatId }: { chatId: number }) {
                     onMouseLeave={() => setHover(0)}
                     className="focus:outline-none transition-transform hover:scale-110"
                 >
-                    <IconStar
-                        className={`h-3 w-3 ${star <= (hover || rating)
+                    <Icon
+                        path={mdiStar}
+                        size={0.5}
+                        className={`${star <= (hover || rating)
                             ? 'fill-yellow-400 text-yellow-400'
                             : 'text-gray-300'
                             }`}
@@ -58,7 +61,7 @@ function ChatMessage({ message }: { message: Message }) {
         <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
             <Avatar className="h-8 w-8 flex-shrink-0">
                 <AvatarFallback className={isUser ? 'bg-primary' : 'bg-secondary'}>
-                    {isUser ? <IconUser className="h-4 w-4" /> : <IconRobot className="h-4 w-4" />}
+                    {isUser ? <Icon path={mdiAccount} size={0.6} /> : <Icon path={mdiRobot} size={0.6} />}
                 </AvatarFallback>
             </Avatar>
 
@@ -116,9 +119,9 @@ function ChatInput() {
             />
             <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon">
                 {isLoading ? (
-                    <IconLoader2 className="h-4 w-4 animate-spin" />
+                    <Icon path={mdiLoading} size={0.6} className="animate-spin" />
                 ) : (
-                    <IconSend className="h-4 w-4" />
+                    <Icon path={mdiSend} size={0.6} />
                 )}
             </Button>
         </div>
@@ -133,7 +136,7 @@ export function ChatButton() {
             onClick={() => setOpen(!isOpen)}
             className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg hover:scale-110 transition-transform z-[9999] bg-primary text-primary-foreground"
         >
-            {isOpen ? <IconX size={20} /> : <IconMessageChatbot size={20} />}
+            {isOpen ? <Icon path={mdiClose} size={0.8} /> : <Icon path={mdiMessageText} size={0.8} />}
         </Button>
     );
 }
@@ -151,27 +154,28 @@ export function ChatWindow() {
     if (!isOpen) return null;
 
     return (
-        <Card className="fixed bottom-24 right-6 w-[400px] h-[600px] shadow-2xl z-[9999] flex flex-col">
+        <Card className="fixed bottom-20 right-6 w-[400px] h-[calc(100vh-100px)] shadow-2xl z-[9999] flex flex-col">
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b">
-                <div className="flex items-center gap-2">
-                    <IconMessage className="h-5 w-5 text-primary" />
-                    <h3 className="font-semibold">AI Assistant</h3>
+            <div className="flex items-center justify-between p-3 border-b">
+                <div className="flex items-center gap-2 text-primary">
+                    <Icon path={mdiMessage} size={0.8} className="text-primary" />
+                    <h4 className="font-semibold text-sm">Trợ lý AI hỗ trợ mua sắm</h4>
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
-                    <IconX className="h-4 w-4" />
-                </Button>
+                <button onClick={() => setOpen(false)}>
+                    <Icon path={mdiClose} size={0.8} className="cursor-pointer" />
+                </button>
+
             </div>
 
             {/* Tabs */}
             <Tabs defaultValue="chat" className="flex-1 flex flex-col">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="chat">
-                        <IconMessage className="h-4 w-4 mr-2" />
+                    <TabsTrigger value="chat" className="text-muted-foreground data-[state=active]:text-primary">
+                        <Icon path={mdiMessage} size={0.6} className="mr-2" />
                         Chat
                     </TabsTrigger>
-                    <TabsTrigger value="history">
-                        <IconHistory className="h-4 w-4 mr-2" />
+                    <TabsTrigger value="history" className="text-muted-foreground data-[state=active]:text-primary">
+                        <Icon path={mdiHistory} size={0.6} className="mr-2" />
                         Lịch sử
                     </TabsTrigger>
                 </TabsList>
@@ -181,8 +185,8 @@ export function ChatWindow() {
                     <ScrollArea className="flex-1 p-4" ref={scrollRef}>
                         {messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-                                <IconMessage className="h-12 w-12 mb-4 opacity-50" />
-                                <p className="text-base">Xin chào! Tôi có thể giúp gì cho bạn?</p>
+                                <Icon path={mdiMessage} size={2} className="mb-4 opacity-50" />
+                                <p className="text-sm">Xin chào! Tôi có thể giúp gì cho bạn?</p>
                             </div>
                         ) : (
                             <div className="space-y-4">
