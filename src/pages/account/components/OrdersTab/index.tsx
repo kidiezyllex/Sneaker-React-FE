@@ -19,6 +19,14 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
   formatPrice,
   getPaymentMethodName,
   getPaymentStatusName,
@@ -32,6 +40,7 @@ const OrdersTab = () => {
   const { profile } = useUser();
   const userId = profile?.data?.id;
   const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
   const {
     data: ordersData,
     isLoading,
@@ -81,6 +90,20 @@ const OrdersTab = () => {
     setCreateReturnOpen(true);
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Get orders array
+  const orders = ordersData?.data?.orders || [];
+
+  // Pagination calculations
+  const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentOrders = orders.slice(startIndex, endIndex);
+
   return (
     <>
       <Card>
@@ -107,10 +130,7 @@ const OrdersTab = () => {
                 Đã xảy ra lỗi khi tải đơn hàng. Vui lòng thử lại sau.
               </p>
             </div>
-          ) : !ordersData ||
-            !ordersData.data ||
-            !ordersData.data.orders ||
-            ordersData.data.orders.length === 0 ? (
+          ) : orders.length === 0 ? (
             <div className="py-8 text-center">
               <p className="text-gray-600 mb-4">
                 Bạn chưa có đơn hàng nào.
@@ -154,120 +174,130 @@ const OrdersTab = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {ordersData.data.orders.map((order: IOrder, index: number) => (
-                    <TableRow key={order.id}>
-                      <TableCell className="px-3 py-2 whitespace-nowrap text-center text-maintext font-semibold">
-                        {index + 1}
-                      </TableCell>
-                      <TableCell className="font-medium px-3 py-2 whitespace-nowrap text-maintext">
-                        {order.code}
-                      </TableCell>
-                      <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
-                        {format(new Date(order.createdAt), "dd/MM/yyyy HH:mm", {
-                          locale: vi,
-                        })}
-                      </TableCell>
-                      <TableCell className="px-3 py-2">
-                        <div className="flex gap-1 flex-wrap">
-                          {order.items.slice(0, 3).map((item, index) => {
-                            const variant = (item as any).variant;
-                            const product = variant?.product;
-                            const imageUrl = variant?.images?.[0]?.imageUrl;
-
-                            return (
-                              <div key={index} className="relative">
-                                <img
-                                  src={imageUrl || "/images/white-image.png"}
-                                  alt={product?.name || "Sản phẩm"}
-                                  className="w-12 h-12 object-contain rounded border"
-                                  title={
-                                    product?.name || "Sản phẩm không xác định"
-                                  }
-                                />
-                                <span className="absolute -top-1 -right-1 bg-primary text-white text-sm rounded-full w-5 h-5 flex items-center justify-center">
-                                  {item.quantity}
-                                </span>
-                              </div>
-                            );
+                  {currentOrders.map((order: IOrder, index: number) => {
+                    const globalIndex = startIndex + index;
+                    return (
+                      <TableRow key={order.id}>
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-center text-maintext font-semibold">
+                          {globalIndex + 1}
+                        </TableCell>
+                        <TableCell className="font-medium px-3 py-2 whitespace-nowrap text-maintext">
+                          {order.code}
+                        </TableCell>
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
+                          {format(new Date(order.createdAt), "dd/MM/yyyy HH:mm", {
+                            locale: vi,
                           })}
-                          {order.items.length > 3 && (
-                            <div className="w-12 h-12 bg-muted rounded border flex items-center justify-center text-sm text-gray-600">
-                              +{order.items.length - 3}
-                            </div>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right font-medium px-3 py-2 whitespace-nowrap text-maintext">
-                        {formatPrice(parseFloat(order.total.toString()))}
-                      </TableCell>
-                      <TableCell className="px-3 py-2 ">
-                        <OrderStatusBadge status={order.orderStatus} />
-                      </TableCell>
-                      <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
-                        {getPaymentMethodName(order.paymentMethod)}
-                      </TableCell>
-                      <TableCell className="px-3 py-2">
-                        <Badge
-                          variant={getPaymentStatusVariant(order.paymentStatus)}
-                          showIcon={true}
-                        >
-                          {getPaymentStatusName(order.paymentStatus)}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-center px-3 py-2">
-                        <div className="flex items-center justify-start space-x-2">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => handleViewOrderDetails(order.id)}
-                            title="Xem chi tiết"
+                        </TableCell>
+                        <TableCell className="px-3 py-2">
+                          <div className="flex gap-1 flex-wrap">
+                            {order.items.slice(0, 3).map((item, index) => {
+                              const variant = (item as any).variant;
+                              const product = variant?.product;
+                              const imageUrl = variant?.images?.[0]?.imageUrl;
+
+                              return (
+                                <div key={index} className="relative">
+                                  <img
+                                    src={imageUrl || "/images/white-image.png"}
+                                    alt={product?.name || "Sản phẩm"}
+                                    className="w-12 h-12 object-contain rounded border"
+                                    title={
+                                      product?.name || "Sản phẩm không xác định"
+                                    }
+                                  />
+                                  <span className="absolute -top-1 -right-1 bg-primary text-white text-sm rounded-full w-5 h-5 flex items-center justify-center">
+                                    {item.quantity}
+                                  </span>
+                                </div>
+                              );
+                            })}
+                            {order.items.length > 3 && (
+                              <div className="w-12 h-12 bg-muted rounded border flex items-center justify-center text-sm text-gray-600">
+                                +{order.items.length - 3}
+                              </div>
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right font-medium px-3 py-2 whitespace-nowrap text-maintext">
+                          {formatPrice(parseFloat(order.total.toString()))}
+                        </TableCell>
+                        <TableCell className="px-3 py-2 ">
+                          <OrderStatusBadge status={order.orderStatus} />
+                        </TableCell>
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
+                          {getPaymentMethodName(order.paymentMethod)}
+                        </TableCell>
+                        <TableCell className="px-3 py-2">
+                          <Badge
+                            variant={getPaymentStatusVariant(order.paymentStatus)}
+                            showIcon={true}
                           >
-                            <Icon path={mdiEye} size={0.8} />
-                          </Button>
-                          {isOrderReturnable(order) && (
+                            {getPaymentStatusName(order.paymentStatus)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-center px-3 py-2">
+                          <div className="flex items-center justify-start space-x-2">
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() => handleCreateReturn(order.id)}
-                              title="Yêu cầu trả hàng"
+                              onClick={() => handleViewOrderDetails(order.id)}
+                              title="Xem chi tiết"
                             >
-                              <Icon path={mdiKeyboardReturn} size={0.8} />
+                              <Icon path={mdiEye} size={0.8} />
                             </Button>
-                          )}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                            {isOrderReturnable(order) && (
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handleCreateReturn(order.id)}
+                                title="Yêu cầu trả hàng"
+                              >
+                                <Icon path={mdiKeyboardReturn} size={0.8} />
+                              </Button>
+                            )}
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
 
-              {ordersData.data.pagination &&
-                ordersData.data.pagination.totalPages > 1 && (
-                  <div className="flex items-center justify-center space-x-2 py-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={currentPage === 1}
-                      onClick={() => setCurrentPage(currentPage - 1)}
-                    >
-                      Trang trước
-                    </Button>
-                    <div className="text-sm text-gray-600">
-                      Trang {currentPage} /{" "}
-                      {ordersData.data.pagination.totalPages}
-                    </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      disabled={
-                        currentPage === ordersData.data.pagination.totalPages
-                      }
-                      onClick={() => setCurrentPage(currentPage + 1)}
-                    >
-                      Trang sau
-                    </Button>
-                  </div>
-                )}
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="mt-4 flex justify-center">
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                          className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                        />
+                      </PaginationItem>
+
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                        <PaginationItem key={page}>
+                          <PaginationLink
+                            onClick={() => handlePageChange(page)}
+                            isActive={currentPage === page}
+                            className="cursor-pointer"
+                          >
+                            {page}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                          className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
             </div>
           )}
         </CardContent>

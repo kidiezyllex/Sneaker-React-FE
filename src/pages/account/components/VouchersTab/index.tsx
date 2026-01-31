@@ -39,6 +39,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { IVoucher } from "@/interface/response/voucher";
 import { formatDate } from "@/lib/utils";
 import { formatPrice } from "@/utils/formatters";
@@ -54,6 +62,8 @@ const VouchersTab = () => {
 
   const [selectedVoucher, setSelectedVoucher] = useState<IVoucher | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   const formatDiscountValue = (
     type: "PERCENTAGE" | "FIXED_AMOUNT",
@@ -131,6 +141,17 @@ const VouchersTab = () => {
       ? (vouchersData.data as any).vouchers
       : [];
 
+  // Pagination calculations
+  const totalPages = Math.ceil((vouchers?.length || 0) / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentVouchers = vouchers?.slice(startIndex, endIndex) || [];
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   if (!vouchers || vouchers.length === 0) {
     return (
       <Card>
@@ -170,14 +191,14 @@ const VouchersTab = () => {
             <span>Mã giảm giá của bạn</span>
           </CardTitle>
           <CardDescription>
-            Danh sách các mã giảm giá bạn có thể sử dụng để tiết kiệm khi mua
-            sắm.
+            Danh sách các mã giảm giá bạn có thể sử dụng để tiết kiệm khi mua sắm.
           </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead>STT</TableHead>
                 <TableHead>Mã</TableHead>
                 <TableHead>Tên</TableHead>
                 <TableHead>Giá trị giảm</TableHead>
@@ -188,9 +209,10 @@ const VouchersTab = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {vouchers.map((voucher: IVoucher) => {
+              {currentVouchers.map((voucher: IVoucher, index: number) => {
                 const isExpired = new Date(voucher.endDate) < new Date();
                 const isActive = voucher.status === "ACTIVE" && !isExpired;
+                const globalIndex = startIndex + index;
 
                 return (
                   <TableRow
@@ -198,6 +220,9 @@ const VouchersTab = () => {
                     className="cursor-pointer hover:bg-muted/50 transition-colors"
                     onClick={() => handleViewDetail(voucher)}
                   >
+                    <TableCell className="font-medium">
+                      {globalIndex + 1}
+                    </TableCell>
                     <TableCell>
                       <Badge variant="secondary" className="font-mono">
                         {voucher.code}
@@ -249,6 +274,41 @@ const VouchersTab = () => {
               })}
             </TableBody>
           </Table>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="mt-4 flex justify-center">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
+                      className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <PaginationItem key={page}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(page)}
+                        isActive={currentPage === page}
+                        className="cursor-pointer"
+                      >
+                        {page}
+                      </PaginationLink>
+                    </PaginationItem>
+                  ))}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+                      className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </CardContent>
       </Card>
 
