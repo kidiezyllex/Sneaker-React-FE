@@ -387,13 +387,13 @@ export default function AccountsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Tài khoản</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Liên hệ</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Vai trò</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Ngày tạo</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                    <TableHead>STT</TableHead>
+                    <TableHead>Tài khoản</TableHead>
+                    <TableHead>Liên hệ</TableHead>
+                    <TableHead>Vai trò</TableHead>
+                    <TableHead>Trạng thái</TableHead>
+                    <TableHead>Ngày tạo</TableHead>
+                    <TableHead>Thao tác</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -544,7 +544,7 @@ export default function AccountsPage() {
                 }}
                 onPageChange={handleChangePage}
                 itemLabel="tài khoản"
-                className="px-4 py-3 border-t mt-6"
+                className="mt-6"
               />
             </>
           )}

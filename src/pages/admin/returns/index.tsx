@@ -80,6 +80,31 @@ import {
 } from "@mdi/js";
 import { CommonPagination } from "@/components/ui/common-pagination";
 
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
+
+const formatDate = (dateString: string) => {
+  return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
+};
+
+const getReturnStatusBadge = (status: string) => {
+  switch (status) {
+    case "CHO_XU_LY":
+      return <Badge variant="warning">Chờ xử lý</Badge>;
+    case "DA_HOAN_TIEN":
+      return <Badge variant="success">Đã hoàn tiền</Badge>;
+    case "DA_HUY":
+      return <Badge variant="destructive">Đã hủy</Badge>;
+    default:
+      return <Badge variant="outline">Không xác định</Badge>;
+  }
+};
+
 export default function ReturnsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IReturnFilter>({
@@ -221,33 +246,10 @@ export default function ReturnsPage() {
     setFilters({ ...filters, page: newPage });
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-  };
-
-  const getReturnStatusBadge = (status: string) => {
-    switch (status) {
-      case "CHO_XU_LY":
-        return <Badge variant="warning">Chờ xử lý</Badge>;
-      case "DA_HOAN_TIEN":
-        return <Badge variant="success">Đã hoàn tiền</Badge>;
-      case "DA_HUY":
-        return <Badge variant="destructive">Đã hủy</Badge>;
-      default:
-        return <Badge variant="outline">Không xác định</Badge>;
-    }
-  };
 
   const exportToCSV = () => {
-    if (!data?.data.returns.length) {
+    if (!data?.data.content.length) {
       toast.error("Không có dữ liệu để xuất");
       return;
     }
@@ -262,15 +264,11 @@ export default function ReturnsPage() {
     ];
     const csvContent = [
       headers.join(","),
-      ...data.data.returns.map((returnItem) =>
+      ...data.data.content.map((returnItem) =>
         [
           returnItem.code,
-          typeof returnItem.customer === "string"
-            ? returnItem.customer
-            : returnItem.customer.fullName,
-          typeof returnItem.originalOrder === "string"
-            ? returnItem.originalOrder
-            : returnItem.originalOrder.code,
+          returnItem.customer.fullName,
+          returnItem.originalOrder.code,
           formatDate(returnItem.createdAt),
           returnItem.totalRefund,
           returnItem.status,
@@ -309,52 +307,6 @@ export default function ReturnsPage() {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-
-      {statsData && (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex flex-col">
-                <p className="text-sm text-maintext">Tổng số đơn trả</p>
-                <h3 className="text-2xl font-semibold">
-                  {statsData.data.totalReturns}
-                </h3>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex flex-col">
-                <p className="text-sm text-maintext">Đang chờ xử lý</p>
-                <h3 className="text-2xl font-semibold">
-                  {statsData.data.pendingReturns}
-                </h3>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex flex-col">
-                <p className="text-sm text-maintext">Đã hoàn tiền</p>
-                <h3 className="text-2xl font-semibold">
-                  {statsData.data.refundedReturns}
-                </h3>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex flex-col">
-                <p className="text-sm text-maintext">Tổng tiền hoàn trả</p>
-                <h3 className="text-2xl font-semibold">
-                  {formatCurrency(statsData.data.totalRefundAmount)}
-                </h3>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
-
       <Card className="mb-4">
         <CardContent className="p-4">
           <Tabs defaultValue="all" onValueChange={setSelectedTab}>
@@ -410,9 +362,6 @@ export default function ReturnsPage() {
                           }
                         </Badge>
                       )}
-                  </Button>
-                  <Button variant="outline" size="icon" onClick={() => setSearchModal(true)} title="Tìm kiếm nâng cao">
-                    <Icon path={mdiMagnify} size={0.8} />
                   </Button>
                   <Button variant="outline" size="icon" onClick={exportToCSV} title="Xuất CSV">
                     <Icon path={mdiDownload} size={0.8} />
@@ -551,7 +500,7 @@ export default function ReturnsPage() {
                   Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
                 </p>
               </div>
-            ) : data?.data.returns.length === 0 ? (
+            ) : data?.data.content.length === 0 ? (
               <div className="text-center py-10">
                 <p className="text-maintext">Không có yêu cầu trả hàng nào</p>
               </div>
@@ -571,28 +520,29 @@ export default function ReturnsPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {data?.data.returns.map((returnItem, index) => (
-                      <TableRow key={(returnItem as any)?.id}>
-                        <TableCell className="text-center">
-                          {(filters.page! - 1) * filters.limit! + index + 1}
+                    {data?.data.content.map((returnItem, index) => (
+                      <TableRow key={returnItem.id} className="hover:bg-slate-50/50 transition-colors">
+                        <TableCell className="text-center font-medium">
+                          {data.data.number * data.data.size + index + 1}
                         </TableCell>
-                        <TableCell className="font-medium text-sm">
+                        <TableCell className="font-semibold text-sm text-primary">
                           {returnItem.code}
                         </TableCell>
                         <TableCell>
-                          {typeof returnItem.customer === "string"
-                            ? returnItem.customer
-                            : returnItem.customer.fullName}
+                          <div className="flex flex-col">
+                            <span className="font-medium text-slate-700">{returnItem.customer.fullName}</span>
+                            <span className="text-xs text-slate-500">{returnItem.customer.phoneNumber}</span>
+                          </div>
                         </TableCell>
                         <TableCell>
-                          {typeof returnItem.originalOrder === "string"
-                            ? returnItem.originalOrder
-                            : returnItem.originalOrder.code}
+                          <Badge variant="outline" className="font-mono">
+                            {returnItem.originalOrder.code}
+                          </Badge>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="text-sm text-slate-600">
                           {formatDate(returnItem.createdAt)}
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="font-bold text-slate-900">
                           {formatCurrency(returnItem.totalRefund)}
                         </TableCell>
                         <TableCell>
@@ -601,68 +551,61 @@ export default function ReturnsPage() {
                         <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button size="icon" variant="outline">
-                                <Icon path={mdiDotsVertical} size={0.8} />
+                              <Button size="icon" variant="outline" className="h-8 w-8">
+                                <Icon path={mdiDotsVertical} size={0.6} />
                               </Button>
                             </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
+                            <DropdownMenuContent align="end" className="w-48">
                               <DropdownMenuItem
-                                className="cursor-pointer text-maintext"
+                                className="cursor-pointer"
                                 onClick={() => {
-                                  setSelectedReturn((returnItem as any)?.id);
+                                  setSelectedReturn(returnItem.id.toString());
                                   setIsDetailDialogOpen(true);
                                 }}
                               >
                                 <Icon
                                   path={mdiEye}
-                                  size={0.8}
-                                  className="mr-2"
+                                  size={0.6}
+                                  className="mr-2 text-slate-400"
                                 />
-                                <span className="text-maintext text-sm">
-                                  Xem chi tiết
-                                </span>
+                                <span>Xem chi tiết</span>
                               </DropdownMenuItem>
                               {returnItem.status === "CHO_XU_LY" && (
                                 <>
                                   <DropdownMenuSeparator />
                                   <Link
-                                    to={`/admin/returns/edit/${(returnItem as any)?.id
-                                      }`}
+                                    to={`/admin/returns/edit/${returnItem.id}`}
                                   >
-                                    <DropdownMenuItem className="cursor-pointer text-maintext">
+                                    <DropdownMenuItem className="cursor-pointer">
                                       <Icon
                                         path={mdiPencilCircle}
-                                        size={0.8}
+                                        size={0.6}
                                         className="mr-2 text-blue-400"
                                       />
-                                      <span className="text-maintext text-sm">
-                                        Chỉnh sửa
-                                      </span>
+                                      <span>Chỉnh sửa</span>
                                     </DropdownMenuItem>
                                   </Link>
                                   <DropdownMenuSeparator />
                                   <DropdownMenuItem
-                                    className="cursor-pointer text-green-600"
+                                    className="cursor-pointer"
                                     onClick={() =>
                                       setStatusUpdateModal({
                                         isOpen: true,
-                                        returnId: (returnItem as any)?.id,
+                                        returnId: returnItem.id.toString(),
                                         currentStatus: returnItem.status,
                                       })
                                     }
                                   >
                                     <Icon
                                       path={mdiCheckCircle}
-                                      size={0.8}
-                                      className="mr-2 text-green-400 "
+                                      size={0.6}
+                                      className="mr-2 text-green-400"
                                     />
-                                    <span className="text-sm text-maintext">
-                                      Cập nhật trạng thái
-                                    </span>
+                                    <span>Cập nhật trạng thái</span>
                                   </DropdownMenuItem>
                                   <DropdownMenuSeparator />
                                   <DropdownMenuItem
-                                    className="cursor-pointer text-red-600"
+                                    className="cursor-pointer text-red-600 focus:text-red-600"
                                     onClick={() => {
                                       setReturnToDelete(returnItem);
                                       setIsDeleteDialogOpen(true);
@@ -670,12 +613,10 @@ export default function ReturnsPage() {
                                   >
                                     <Icon
                                       path={mdiDeleteCircle}
-                                      size={0.8}
-                                      className="mr-2 text-red-400 "
+                                      size={0.6}
+                                      className="mr-2"
                                     />
-                                    <span className="text-sm text-maintext">
-                                      Xóa yêu cầu
-                                    </span>
+                                    <span>Xóa yêu cầu</span>
                                   </DropdownMenuItem>
                                 </>
                               )}
@@ -689,14 +630,14 @@ export default function ReturnsPage() {
               </div>
             )}
 
-            {data?.data?.pagination && data.data.pagination.totalPages > 1 && (
+            {data?.data && data.data.totalPages > 1 && (
               <CommonPagination
                 pagination={{
-                  total: data.data.pagination.totalItems,
-                  count: data.data.returns.length,
-                  perPage: data.data.pagination.limit,
-                  currentPage: data.data.pagination.currentPage,
-                  totalPages: data.data.pagination.totalPages,
+                  total: data.data.totalElements,
+                  count: data.data.content.length,
+                  perPage: data.data.size,
+                  currentPage: data.data.number + 1,
+                  totalPages: data.data.totalPages,
                 }}
                 onPageChange={handleChangePage}
                 itemLabel="đơn trả hàng"
@@ -808,163 +749,161 @@ function ReturnDetailContent({
   }
 
   const returnData = data.data;
-  const customer =
-    typeof returnData.customer === "string"
-      ? { fullName: "Không có thông tin", email: "", phoneNumber: "" }
-      : returnData.customer;
+  const customer = returnData.customer;
+  const order = returnData.originalOrder;
 
-  const order =
-    typeof returnData.originalOrder === "string"
-      ? { code: returnData.originalOrder }
-      : returnData.originalOrder;
+  // Parse items from JSON string
+  let returnItems: any[] = [];
+  try {
+    returnItems = JSON.parse(returnData.items);
+  } catch (e) {
+    console.error("Error parsing return items:", e);
+  }
 
-  const getReasonLabel = (reason: string) => {
-    const reasonMap: Record<string, string> = {
-      wrong_size: "Sai kích cỡ",
-      wrong_item: "Sản phẩm không đúng",
-      damaged: "Sản phẩm bị hỏng",
-      defective: "Sản phẩm bị lỗi",
-      changed_mind: "Đổi ý",
-      other: "Lý do khác",
+  // Resolve full details for returned items using original order items
+  const resolvedReturnItems = returnItems.map(retItem => {
+    const originalItem = order.items?.find((item: any) => item.variant.id === retItem.variantId);
+    return {
+      ...retItem,
+      fullDetails: originalItem
     };
-    return reasonMap[reason] || reason;
-  };
+  });
 
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Thông tin yêu cầu</h3>
-          <div className="grid grid-cols-2 gap-4">
+    <div className="space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-slate-50 p-4 rounded-xl space-y-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Thông tin yêu cầu</h3>
+          <div className="grid grid-cols-2 gap-y-4">
             <div>
-              <p className="text-sm text-maintext">Mã yêu cầu</p>
-              <p className="font-medium">{returnData.code}</p>
+              <p className="text-xs text-slate-500">Mã yêu cầu</p>
+              <p className="font-mono font-bold text-primary">{returnData.code}</p>
             </div>
             <div>
-              <p className="text-sm text-maintext">Ngày tạo</p>
-              <p className="font-medium">{formatDate(returnData.createdAt)}</p>
+              <p className="text-xs text-slate-500">Ngày tạo</p>
+              <p className="font-medium text-slate-700">{formatDate(returnData.createdAt)}</p>
             </div>
             <div>
-              <p className="text-sm text-maintext">Đơn hàng gốc</p>
-              <p className="font-medium">{order.code}</p>
+              <p className="text-xs text-slate-500">Đơn hàng gốc</p>
+              <Badge variant="outline" className="font-mono mt-0.5">{order.code}</Badge>
             </div>
             <div>
-              <p className="text-sm text-maintext">Trạng thái</p>
+              <p className="text-xs text-slate-500">Trạng thái</p>
               <div className="mt-1">
-                {returnData.status === "CHO_XU_LY" ? (
-                  <Badge variant="warning">Chờ xử lý</Badge>
-                ) : returnData.status === "DA_HOAN_TIEN" ? (
-                  <Badge variant="success">Đã hoàn tiền</Badge>
-                ) : (
-                  <Badge variant="destructive">Đã hủy</Badge>
-                )}
+                {getReturnStatusBadge(returnData.status)}
               </div>
             </div>
             <div className="col-span-2">
-              <p className="text-sm text-maintext">Tổng tiền hoàn trả</p>
-              <p className="font-medium text-lg text-primary">
+              <p className="text-xs text-slate-500">Lý do trả hàng</p>
+              <p className="font-medium text-slate-700 mt-1 italic">"{returnData.reason}"</p>
+              {returnData.note && (
+                <p className="text-xs text-slate-500 mt-1">Ghi chú: {returnData.note}</p>
+              )}
+            </div>
+            <div className="col-span-2 pt-2 border-t">
+              <p className="text-xs text-slate-500">Tổng tiền hoàn trả</p>
+              <p className="text-xl font-bold text-slate-900">
                 {formatCurrency(returnData.totalRefund)}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Thông tin khách hàng</h3>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2">
-              <p className="text-sm text-maintext">Tên khách hàng</p>
-              <p className="font-medium">{customer.fullName}</p>
-            </div>
+        <div className="bg-slate-50 p-4 rounded-xl space-y-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Thông tin khách hàng & Nhân viên</h3>
+          <div className="space-y-4">
             <div>
-              <p className="text-sm text-maintext">Email</p>
-              <p className="font-medium">{customer.email || "Không có"}</p>
+              <p className="text-xs text-slate-500 mb-1">Khách hàng</p>
+              <div className="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200">
+                <div className="flex flex-col">
+                  <span className="font-semibold text-slate-900">{customer.fullName}</span>
+                  <span className="text-xs text-slate-500">{customer.email}</span>
+                  <span className="text-xs text-slate-500">{customer.phoneNumber}</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-maintext">Số điện thoại</p>
-              <p className="font-medium">
-                {customer.phoneNumber || "Không có"}
-              </p>
-            </div>
+            {returnData.staff && (
+              <div>
+                <p className="text-xs text-slate-500 mb-1">Nhân viên xử lý</p>
+                <div className="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200">
+                  <div className="flex flex-col">
+                    <span className="font-semibold text-slate-900">{returnData.staff.fullName}</span>
+                    <span className="text-xs text-slate-500">{returnData.staff.email}</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="border-t pt-4">
-        <h3 className="text-lg font-semibold mb-4">Sản phẩm trả lại</h3>
-        <div className="overflow-x-auto">
+      <div>
+        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">Sản phẩm trả lại</h3>
+        <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[80px]">Ảnh</TableHead>
+              <TableRow className="bg-slate-50/50">
+                <TableHead className="w-[100px]">Ảnh</TableHead>
                 <TableHead>Sản phẩm</TableHead>
                 <TableHead>Biến thể</TableHead>
-                <TableHead>Số lượng</TableHead>
-                <TableHead>Giá</TableHead>
-                <TableHead>Lý do trả hàng</TableHead>
-                <TableHead>Thành tiền</TableHead>
+                <TableHead className="text-center font-semibold">Số lượng</TableHead>
+                <TableHead className="text-right font-semibold">Giá</TableHead>
+                <TableHead className="text-right font-semibold">Thành tiền</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {returnData.items.map((item: any, index: number) => {
-                const product =
-                  typeof item.product === "string"
-                    ? {
-                      name: "Không có thông tin",
-                      code: item.product,
-                      images: [],
-                    }
-                    : item.product;
+              {resolvedReturnItems.map((item: any, index: number) => {
+                const variant = item.fullDetails?.variant;
+                const imageUrl = variant?.images?.[0]?.imageUrl;
 
                 return (
-                  <TableRow key={index}>
+                  <TableRow key={index} className="hover:bg-slate-50/50">
                     <TableCell>
-                      {product.images && product.images.length > 0 ? (
-                        <div className="w-16 h-16 relative">
+                      {imageUrl ? (
+                        <div className="w-16 h-16 relative rounded-lg border overflow-hidden shadow-sm">
                           <img
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="object-cover rounded-xl"
+                            src={imageUrl}
+                            alt="Product"
+                            className="object-cover w-full h-full"
                           />
                         </div>
                       ) : (
-                        <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center">
-                          <Icon
-                            path={mdiMagnify}
-                            size={0.8}
-                            className="text-maintext"
-                          />
+                        <div className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center border">
+                          <Icon path={mdiMagnify} size={0.6} className="text-slate-400" />
                         </div>
                       )}
                     </TableCell>
-                    <TableCell className="font-medium">
-                      {product.name}
-                      <div className="text-sm text-maintext">
-                        SKU: {product.code}
+                    <TableCell className="font-medium max-w-[200px]">
+                      {item.fullDetails?.variant?.product?.name || "Chi tiết sản phẩm"}
+                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                        REF: ORD_ITEM_{item.variantId}
                       </div>
                     </TableCell>
                     <TableCell>
-                      {item.variant ? (
-                        <>
-                          <div>Màu: {item.variant.colorId}</div>
-                          <div>Size: {item.variant.sizeId}</div>
-                        </>
+                      {variant ? (
+                        <div className="flex flex-col text-xs gap-1">
+                          <div className="flex items-center gap-1.5">
+                            <div
+                              className="w-2.5 h-2.5 rounded-full border border-slate-200"
+                              style={{ backgroundColor: variant.color.code }}
+                            />
+                            <span>Màu: {variant.color.name}</span>
+                          </div>
+                          <Badge variant="secondary" className="w-fit text-[10px] px-1.5 py-0">
+                            Size: {variant.size.value}
+                          </Badge>
+                        </div>
                       ) : (
-                        "Mặc định"
+                        <span className="text-slate-400 italic">N/A</span>
                       )}
                     </TableCell>
-                    <TableCell>{item.quantity}</TableCell>
-                    <TableCell>{formatCurrency(item.price)}</TableCell>
-                    <TableCell>
-                      {item.reason ? (
-                        <Badge variant="outline">
-                          {getReasonLabel(item.reason)}
-                        </Badge>
-                      ) : (
-                        "Không có"
-                      )}
+                    <TableCell className="text-center font-bold text-slate-700">
+                      {item.quantity}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-right font-medium text-slate-600">
+                      {formatCurrency(item.price)}
+                    </TableCell>
+                    <TableCell className="text-right font-bold text-slate-900">
                       {formatCurrency(item.price * item.quantity)}
                     </TableCell>
                   </TableRow>
@@ -976,21 +915,21 @@ function ReturnDetailContent({
       </div>
 
       {returnData.status === "CHO_XU_LY" && (
-        <div className="border-t pt-4 flex justify-end space-x-2">
+        <div className="pt-4 flex justify-end gap-3 border-t">
           <Button
             variant="outline"
-            className="gap-2"
+            className="gap-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 h-10 px-6 transition-all"
             onClick={() => onUpdateStatus(returnId, "DA_HUY")}
           >
-            <Icon path={mdiCancel} size={0.8} />
-            Từ chối trả hàng
+            <Icon path={mdiCancel} size={0.7} />
+            <span className="font-semibold">Từ chối trả hàng</span>
           </Button>
           <Button
-            className="gap-2"
+            className="gap-2 bg-green-600 hover:bg-green-700 text-white h-10 px-8 transition-all shadow-md active:scale-95"
             onClick={() => onUpdateStatus(returnId, "DA_HOAN_TIEN")}
           >
-            <Icon path={mdiCheck} size={0.8} />
-            Hoàn tiền
+            <Icon path={mdiCheck} size={0.7} />
+            <span className="font-semibold">Hoàn tiền & Hoàn tất</span>
           </Button>
         </div>
       )}

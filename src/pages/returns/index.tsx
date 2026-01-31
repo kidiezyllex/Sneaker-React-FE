@@ -140,75 +140,77 @@ const ReturnsPage: React.FC = () => {
     </Card>
   );
 
-  const MyReturnCard = ({ returnItem }: { returnItem: IReturn }) => (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardContent className="p-4">
-        <div className="flex justify-between items-start mb-3">
-          <div>
-            <h3 className="font-semibold text-lg">#{returnItem.code}</h3>
-            <p className="text-sm text-maintext">
-              Đơn gốc: #
-              {typeof returnItem.originalOrder === "string"
-                ? returnItem.originalOrder
-                : returnItem.originalOrder.code}
-            </p>
-            <div className="flex items-center gap-4 text-sm text-maintext mt-1">
-              <div className="flex items-center gap-1">
-                <Icon path={mdiCalendar} size={0.8} />
-                {formatDate(returnItem.createdAt)}
-              </div>
-              <div className="flex items-center gap-1">
-                <Icon path={mdiCurrencyUsd} size={0.8} />
-                {formatCurrency(returnItem.totalRefund)}
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col gap-2 items-end">
-            {getStatusBadge(returnItem.status)}
-            <div className="flex gap-2">
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setSelectedReturn(returnItem)}
-                  >
-                    <Icon path={mdiEye} size={0.8} className="mr-1" />
-                    Chi tiết
-                  </Button>
-                </DialogTrigger>
-                <ReturnDetailModal returnItem={selectedReturn} />
-              </Dialog>
-              {returnItem.status === "CHO_XU_LY" && (
-                <Button variant="destructive" size="sm">
-                  Hủy yêu cầu
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+  const MyReturnCard = ({ returnItem }: { returnItem: IReturn }) => {
+    let returnItems: any[] = [];
+    try {
+      returnItems = JSON.parse(returnItem.items);
+    } catch (e) {
+      console.error("Error parsing return items:", e);
+    }
 
-        <div className="flex gap-2 overflow-x-auto pb-2">
-          {returnItem.items.slice(0, 3).map((item, index) => (
-            <div key={index} className="flex-shrink-0">
-              <img
-                src={"/placeholder.jpg"}
-                alt="Product"
-                width={60}
-                height={60}
-                className="rounded-md object-cover"
-              />
+    return (
+      <Card className="hover:shadow-md transition-shadow">
+        <CardContent className="p-4">
+          <div className="flex justify-between items-start mb-3">
+            <div>
+              <h3 className="font-semibold text-lg">#{returnItem.code}</h3>
+              <p className="text-sm text-maintext">
+                Đơn gốc: #{returnItem.originalOrder.code}
+              </p>
+              <div className="flex items-center gap-4 text-sm text-maintext mt-1">
+                <div className="flex items-center gap-1">
+                  <Icon path={mdiCalendar} size={0.8} />
+                  {formatDate(returnItem.createdAt)}
+                </div>
+                <div className="flex items-center gap-1">
+                  <Icon path={mdiCurrencyUsd} size={0.8} />
+                  {formatCurrency(returnItem.totalRefund)}
+                </div>
+              </div>
             </div>
-          ))}
-          {returnItem.items.length > 3 && (
-            <div className="flex-shrink-0 w-15 h-15 bg-gray-100 rounded-md flex items-center justify-center text-sm text-maintext">
-              +{returnItem.items.length - 3}
+            <div className="flex flex-col gap-2 items-end">
+              {getStatusBadge(returnItem.status)}
+              <div className="flex gap-2">
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setSelectedReturn(returnItem)}
+                    >
+                      <Icon path={mdiEye} size={0.8} className="mr-1" />
+                      Chi tiết
+                    </Button>
+                  </DialogTrigger>
+                  <ReturnDetailModal returnItem={selectedReturn} />
+                </Dialog>
+                {returnItem.status === "CHO_XU_LY" && (
+                  <Button variant="destructive" size="sm">
+                    Hủy yêu cầu
+                  </Button>
+                )}
+              </div>
             </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
+          </div>
+
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {returnItems.slice(0, 3).map((item, index) => (
+              <div key={index} className="flex-shrink-0">
+                <div className="w-[60px] h-[60px] bg-slate-100 rounded-md flex items-center justify-center border">
+                  <Icon path={mdiPackageVariant} size={0.6} className="text-slate-400" />
+                </div>
+              </div>
+            ))}
+            {returnItems.length > 3 && (
+              <div className="flex-shrink-0 w-15 h-15 bg-gray-100 rounded-md flex items-center justify-center text-sm text-maintext">
+                +{returnItems.length - 3}
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -280,15 +282,15 @@ const ReturnsPage: React.FC = () => {
                     />
                   ))}
                 </div>
-              ) : myReturns?.data.returns.length === 0 ? (
+              ) : myReturns?.data.content.length === 0 ? (
                 <div className="text-center py-8 text-maintext">
                   Bạn chưa có yêu cầu trả hàng nào
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {myReturns?.data.returns.map((returnItem) => (
+                  {myReturns?.data.content.map((returnItem) => (
                     <MyReturnCard
-                      key={(returnItem as any)?.id}
+                      key={returnItem.id}
                       returnItem={returnItem}
                     />
                   ))}

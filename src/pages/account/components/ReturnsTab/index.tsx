@@ -54,10 +54,8 @@ const ReturnsTab = () => {
                 Đã xảy ra lỗi khi tải đơn trả hàng. Vui lòng thử lại sau.
               </p>
             </div>
-          ) : !returnsData ||
-            !returnsData.data ||
-            !returnsData.data.returns ||
-            returnsData.data.returns.length === 0 ? (
+          ) : !returnsData?.data?.content ||
+            returnsData.data.content.length === 0 ? (
             <div className="py-8 text-center">
               <p className="text-gray-600 mb-4">
                 Bạn chưa có đơn trả hàng nào.
@@ -84,69 +82,72 @@ const ReturnsTab = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {returnsData.data.returns.map((returnItem: IReturn) => (
-                    <TableRow key={(returnItem as any)?.id}>
-                      <TableCell className="font-medium px-3 py-2">
-                        {returnItem.code}
-                      </TableCell>
-                      <TableCell className="px-3 py-2">
-                        {formatDate(returnItem.createdAt)}
-                      </TableCell>
-                      <TableCell className="px-3 py-2">
-                        {typeof returnItem.originalOrder === "string"
-                          ? returnItem.originalOrder
-                          : returnItem.originalOrder.code}
-                      </TableCell>
-                      <TableCell className="px-3 py-2">
-                        <div className="flex flex-col gap-1">
-                          {returnItem.items
-                            .slice(0, 2)
-                            .map((item: any, index: number) => (
-                              <div key={index} className="text-sm">
-                                {item.product?.name ||
-                                  "Sản phẩm không xác định"}{" "}
-                                x{item.quantity}
+                  {returnsData.data.content.map((returnItem: IReturn) => {
+                    let returnItems: any[] = [];
+                    try {
+                      returnItems = JSON.parse(returnItem.items);
+                    } catch (e) {
+                      console.error("Error parsing return items:", e);
+                    }
+
+                    return (
+                      <TableRow key={returnItem.id}>
+                        <TableCell className="font-medium px-3 py-2">
+                          {returnItem.code}
+                        </TableCell>
+                        <TableCell className="px-3 py-2">
+                          {formatDate(returnItem.createdAt)}
+                        </TableCell>
+                        <TableCell className="px-3 py-2">
+                          {returnItem.originalOrder.code}
+                        </TableCell>
+                        <TableCell className="px-3 py-2">
+                          <div className="flex flex-col gap-1">
+                            {returnItems
+                              .slice(0, 2)
+                              .map((item: any, index: number) => (
+                                <div key={index} className="text-sm">
+                                  ID Biến thể: {item.variantId} x{item.quantity}
+                                </div>
+                              ))}
+                            {returnItems.length > 2 && (
+                              <div className="text-sm text-gray-600">
+                                +{returnItems.length - 2} sản phẩm khác
                               </div>
-                            ))}
-                          {returnItem.items.length > 2 && (
-                            <div className="text-sm text-gray-600">
-                              +{returnItem.items.length - 2} sản phẩm khác
-                            </div>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell className="text-right font-medium px-3 py-2">
-                        {formatPrice(returnItem.totalRefund)}
-                      </TableCell>
-                      <TableCell className="px-3 py-2">
-                        <ReturnStatusBadge status={returnItem.status} />
-                      </TableCell>
-                      <TableCell className="text-center px-3 py-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() =>
-                            handleViewReturnDetails((returnItem as any)?.id)
-                          }
-                          title="Xem chi tiết"
-                        >
-                          <Icon path={mdiEye} size={0.8} />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                            )}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-right font-medium px-3 py-2">
+                          {formatPrice(returnItem.totalRefund)}
+                        </TableCell>
+                        <TableCell className="px-3 py-2">
+                          <ReturnStatusBadge status={returnItem.status} />
+                        </TableCell>
+                        <TableCell className="text-center px-3 py-2">
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() =>
+                              handleViewReturnDetails(returnItem.id.toString())
+                            }
+                            title="Xem chi tiết"
+                          >
+                            <Icon path={mdiEye} size={0.8} />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
 
-              {returnsData.data.pagination &&
-                returnsData.data.pagination.totalPages > 1 && (
-                  <div className="flex items-center justify-center space-x-2 py-4">
-                    <div className="text-sm text-gray-600">
-                      Trang {returnsData.data.pagination.currentPage} /{" "}
-                      {returnsData.data.pagination.totalPages}
-                    </div>
+              {returnsData.data.totalPages > 1 && (
+                <div className="flex items-center justify-center space-x-2 py-4 border-t mt-4">
+                  <div className="text-sm text-gray-500 font-medium">
+                    Trang <span className="text-primary">{returnsData.data.number + 1}</span> / {returnsData.data.totalPages}
                   </div>
-                )}
+                </div>
+              )}
             </div>
           )}
         </CardContent>

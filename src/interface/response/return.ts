@@ -10,54 +10,71 @@ export interface IReturnProduct {
 }
 
 export interface IReturnCustomer {
-  id: string;
+  id: number | string;
+  code?: string;
   fullName: string;
   email: string;
   phoneNumber: string;
+  gender?: boolean;
+  avatar?: string | null;
+  role?: string;
+  status?: string;
 }
 
 export interface IReturnStaff {
-  id: string;
+  id: number | string;
+  code?: string;
   fullName: string;
+  email?: string;
+  phoneNumber?: string;
+  role?: string;
 }
 
 export interface IReturnOrder {
-  id: string;
+  id: number | string;
   code: string;
+  subTotal?: number;
+  discount?: number;
+  total?: number;
+  orderStatus?: string;
+  paymentMethod?: string;
+  paymentStatus?: string;
+  items?: any[]; // Full order items for detail resolution
   createdAt?: string;
 }
 
-export interface IPopulatedReturnItem extends Omit<IReturnItem, 'product'> {
-  product: IReturnProduct;
-}
-
 export interface IReturn {
-  id: string;
+  id: number;
   code: string;
-  originalOrder: string | IReturnOrder;
-  customer: string | IReturnCustomer;
-  staff: string | IReturnStaff;
-  items: IPopulatedReturnItem[] | IReturnItem[];
+  originalOrder: IReturnOrder;
+  customer: IReturnCustomer;
+  staff: IReturnStaff | null;
+  items: string; // JSON string of items in new API
   totalRefund: number;
+  reason: string;
+  note: string;
   status: 'CHO_XU_LY' | 'DA_HOAN_TIEN' | 'DA_HUY';
   createdAt: string;
   updatedAt: string;
 }
 
-export interface IReturnResponse extends IApiResponse<IReturn> {}
+export interface IReturnResponse extends IApiResponse<IReturn> { }
 
-// Returns response với cấu trúc tương tự orders
+// Returns response matching Spring Data Pageable
 export interface IReturnsResponse {
   statusCode: number;
   message: string;
   data: {
-    pagination?: {
-      totalItems: number;
-      limit: number;
-      currentPage: number;
-      totalPages: number;
-    };
-    returns: IReturn[];
+    content: IReturn[];
+    pageable: ISpringPageable;
+    totalPages: number;
+    totalElements: number;
+    size: number;
+    number: number;
+    last: boolean;
+    first: boolean;
+    numberOfElements: number;
+    empty: boolean;
   };
   meta: {
     timestamp: string;
@@ -73,11 +90,11 @@ export interface IReturnStats {
   totalRefundAmount: number;
 }
 
-export interface IReturnStatsResponse extends IApiResponse<IReturnStats> {}
+export interface IReturnStatsResponse extends IApiResponse<IReturnStats> { }
 
-export interface IReturnSearchResponse extends IApiResponse<IReturn[]> {}
+export interface IReturnSearchResponse extends IApiResponse<IReturn[]> { }
 
-export interface IActionResponse extends IApiResponse<any> {}
+export interface IActionResponse extends IApiResponse<any> { }
 
 export interface IReturnableOrderItem {
   product: {
