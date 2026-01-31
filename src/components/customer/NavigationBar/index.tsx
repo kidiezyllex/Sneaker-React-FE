@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
-import { mdiCart } from "@mdi/js";
+import { mdiCart, mdiRobotHappyOutline } from "@mdi/js";
 import { Button } from "@/components/ui/button";
 import { CartSheet } from "@/pages/products/components/CartSheet";
 import { useUser } from "@/context/useUserContext";
 import AccountDropdown from "./AccountDropdown";
 import { useCartStore } from "@/stores/useCartStore";
+import { useChatStore } from "@/stores/useChatStore";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const tabs = [
   { text: "Trang chủ", href: "/" },
@@ -51,6 +58,7 @@ export const NavigationBar = () => {
   const [selected, setSelected] = useState<string>(initialTab);
   const { isAuthenticated, user } = useUser();
   const { totalItems } = useCartStore();
+  const { isOpen: isChatOpen, setOpen: setChatOpen } = useChatStore();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -112,18 +120,46 @@ export const NavigationBar = () => {
               </div>
             </div>
           )}
-          <div className="flex items-center">
-            <button
-              onClick={() => setIsOpen(true)}
-              className="relative w-10 h-10 border rounded-full flex items-center justify-center text-maintext hover:text-primary transition-colors"
-            >
-              <Icon path={mdiCart} size={0.8} />
-              <span className="absolute -top-1 -right-1 bg-extra text-white text-sm rounded-full h-4 w-4 flex items-center justify-center">
-                {totalItems}
-              </span>
-            </button>
-            <AccountDropdown />
-          </div>
+          <TooltipProvider>
+            <div className="flex items-center gap-3">
+              {/* AI Chat Button */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setChatOpen(!isChatOpen)}
+                    className="relative w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center transition-all"
+                  >
+                    <Icon path={mdiRobotHappyOutline} size={0.65} />
+                    {isChatOpen && (
+                      <span className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-25"></span>
+                    )}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Trợ lý AI hỗ trợ mua sắm</p>
+                </TooltipContent>
+              </Tooltip>
+
+              {/* Cart Button */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    onClick={() => setIsOpen(true)}
+                    className="relative w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center transition-all"
+                  >
+                    <Icon path={mdiCart} size={0.65} />
+                    <span className="absolute -top-1 -right-1 bg-extra text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                      {totalItems}
+                    </span>
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <p>Giỏ hàng của bạn</p>
+                </TooltipContent>
+              </Tooltip>
+              <AccountDropdown />
+            </div>
+          </TooltipProvider>
         </div>
       </div>
       <CartSheet open={isOpen} onOpenChange={setIsOpen} />

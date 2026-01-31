@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import NavigationBar from "@/components/customer/NavigationBar";
 import Footer from "@/components/customer/Footer";
-import { ChatButton, ChatWindow } from "@/components/customer/Chatbot";
+import { ChatWindow } from "@/components/customer/Chatbot";
 
 const RootLayout: React.FC = () => {
   return (
@@ -12,7 +12,6 @@ const RootLayout: React.FC = () => {
       <Footer />
 
       {/* AI Chatbot */}
-      <ChatButton />
       <ChatWindow />
     </div>
   );

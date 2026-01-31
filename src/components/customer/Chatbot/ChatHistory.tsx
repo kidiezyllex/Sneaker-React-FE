@@ -41,7 +41,7 @@ function ChatHistorySearch({ onSearch }: { onSearch: (results: ApiChatMessage[])
                 size="icon"
                 variant="outline"
             >
-                <Icon path={mdiMagnify} size={0.6} />
+                <Icon path={mdiMagnify} size={0.8} />
             </Button>
         </div>
     );
@@ -106,7 +106,7 @@ export function ChatHistory() {
             <ScrollArea className="flex-1 p-4">
                 {loading ? (
                     <div className="flex items-center justify-center h-full">
-                        <Icon path={mdiLoading} size={1} className="animate-spin" />
+                        <Icon path={mdiLoading} size={0.8} className="animate-spin" />
                     </div>
                 ) : history.length === 0 ? (
                     <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">

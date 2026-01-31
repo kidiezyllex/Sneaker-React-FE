@@ -35,7 +35,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     {...props}
   >
     {children}
-    <Icon path={mdiChevronRight} size={0.6} className="ml-auto" />
+    <Icon path={mdiChevronRight} size={0.8} className="ml-auto" />
   </DropdownMenuPrimitive.SubTrigger>
 ));
 DropdownMenuSubTrigger.displayName =
@@ -109,7 +109,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
   >
     <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
       <DropdownMenuPrimitive.ItemIndicator>
-        <Icon path={mdiCheck} size={0.6} />
+        <Icon path={mdiCheck} size={0.8} />
       </DropdownMenuPrimitive.ItemIndicator>
     </span>
     {children}

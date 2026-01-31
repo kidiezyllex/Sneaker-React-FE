@@ -1,30 +1,3 @@
-# 🤖 AI Chatbot - Tích hợp hoàn tất
-
-## ✅ Đã tích hợp thành công
-
-### Các file đã tạo:
-
-#### 1. API Layer
-- ✅ `src/api/chatbot.ts` - API client cho chatbot
-
-#### 2. State Management
-- ✅ `src/stores/useChatStore.ts` - Zustand store với persistence
-
-#### 3. Components
-- ✅ `src/components/customer/chatbot/ChatButton.tsx` - Nút floating chat
-- ✅ `src/components/customer/chatbot/ChatWindow.tsx` - Cửa sổ chat chính
-- ✅ `src/components/customer/chatbot/ChatMessage.tsx` - Component tin nhắn
-- ✅ `src/components/customer/chatbot/ChatInput.tsx` - Input gửi tin nhắn
-- ✅ `src/components/customer/chatbot/ChatHistory.tsx` - Lịch sử chat
-- ✅ `src/components/customer/chatbot/ChatHistorySearch.tsx` - Tìm kiếm lịch sử
-- ✅ `src/components/customer/chatbot/ChatRating.tsx` - Đánh giá chat
-- ✅ `src/components/customer/chatbot/index.ts` - Export file
-
-#### 4. Layout Integration
-- ✅ `src/layouts/RootLayout.tsx` - Đã tích hợp ChatButton và ChatWindow
-
----
-
 ## 🚀 Cách sử dụng
 
 ### Chatbot sẽ xuất hiện trên tất cả trang customer:

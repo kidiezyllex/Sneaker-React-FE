@@ -1,19 +1,46 @@
 import { useState, useEffect, useRef } from 'react';
 import Icon from '@mdi/react';
-import { mdiMessage, mdiClose, mdiSend, mdiLoading, mdiRobot, mdiAccount, mdiStar, mdiHistory, mdiMessageText } from '@mdi/js';
+import { mdiMessageTextFastOutline, mdiClose, mdiSend, mdiLoading, mdiRobot, mdiAccount, mdiStar, mdiHistory, mdiRobotHappyOutline, mdiRobotLoveOutline, mdiAccountSupervisorCircleOutline } from '@mdi/js';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+} from "@/components/ui/sheet";
 import { useChatStore, Message } from '@/stores/useChatStore';
 import { chatbotApi } from '@/api/chatbot';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import toast from 'react-hot-toast';
 import { ChatHistory } from './ChatHistory';
+
+function TypingIndicator() {
+    return (
+        <div className="flex gap-3 flex-row">
+            <Avatar className="h-8 w-8 flex-shrink-0">
+                <AvatarFallback className="bg-secondary">
+                    <Icon path={mdiRobotLoveOutline} size={0.8} className='text-white' />
+                </AvatarFallback>
+            </Avatar>
+
+            <div className="flex flex-col gap-1 max-w-[75%] items-start">
+                <div className="rounded-lg px-4 py-2 bg-muted">
+                    <div className="flex gap-1 items-center">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}
 
 function ChatRating({ chatId }: { chatId: number }) {
     const [rating, setRating] = useState(0);
@@ -61,7 +88,7 @@ function ChatMessage({ message }: { message: Message }) {
         <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
             <Avatar className="h-8 w-8 flex-shrink-0">
                 <AvatarFallback className={isUser ? 'bg-primary' : 'bg-secondary'}>
-                    {isUser ? <Icon path={mdiAccount} size={0.6} /> : <Icon path={mdiRobot} size={0.6} />}
+                    {isUser ? <Icon path={mdiAccountSupervisorCircleOutline} size={0.8} className='text-white' /> : <Icon path={mdiRobotLoveOutline} size={0.8} className='text-white' />}
                 </AvatarFallback>
             </Avatar>
 
@@ -118,31 +145,15 @@ function ChatInput() {
                 className="flex-1"
             />
             <Button onClick={handleSend} disabled={!input.trim() || isLoading} size="icon">
-                {isLoading ? (
-                    <Icon path={mdiLoading} size={0.6} className="animate-spin" />
-                ) : (
-                    <Icon path={mdiSend} size={0.6} />
-                )}
+                <Icon path={mdiSend} size={0.8} />
             </Button>
         </div>
     );
 }
 
-export function ChatButton() {
-    const { isOpen, setOpen } = useChatStore();
-
-    return (
-        <Button
-            onClick={() => setOpen(!isOpen)}
-            className="fixed bottom-6 right-6 h-12 w-12 rounded-full shadow-lg hover:scale-110 transition-transform z-[9999] bg-primary text-primary-foreground"
-        >
-            {isOpen ? <Icon path={mdiClose} size={0.8} /> : <Icon path={mdiMessageText} size={0.8} />}
-        </Button>
-    );
-}
 
 export function ChatWindow() {
-    const { isOpen, setOpen, messages } = useChatStore();
+    const { isOpen, setOpen, messages, isLoading } = useChatStore();
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -151,61 +162,66 @@ export function ChatWindow() {
         }
     }, [messages]);
 
-    if (!isOpen) return null;
-
     return (
-        <Card className="fixed bottom-20 right-6 w-[400px] h-[calc(100vh-100px)] shadow-2xl z-[9999] flex flex-col">
-            {/* Header */}
-            <div className="flex items-center justify-between p-3 border-b">
-                <div className="flex items-center gap-2 text-primary">
-                    <Icon path={mdiMessage} size={0.8} className="text-primary" />
-                    <h4 className="font-semibold text-sm">Trợ lý AI hỗ trợ mua sắm</h4>
+        <Sheet open={isOpen} onOpenChange={setOpen}>
+            <SheetContent className="flex flex-col h-full w-full sm:max-w-[450px] p-0 gap-0 overflow-hidden">
+                <SheetHeader className="p-3 px-4 border-b flex-shrink-0">
+                    <div className="flex items-center gap-2 text-primary">
+                        <Icon path={mdiRobotHappyOutline} size={0.8} className="text-primary" />
+                        <SheetTitle className="text-primary font-semibold text-base">
+                            Trợ lý AI hỗ trợ mua sắm
+                        </SheetTitle>
+                    </div>
+                </SheetHeader>
+
+                <div className="flex-1 flex flex-col overflow-hidden">
+                    <Tabs defaultValue="chat" className="flex-1 flex flex-col overflow-hidden">
+                        <TabsList className="grid w-full grid-cols-2 flex-shrink-0 rounded-none border-b h-auto p-0">
+                            <TabsTrigger
+                                value="chat"
+                                className="text-muted-foreground data-[state=active]:text-primary py-3 border-b-2 border-transparent data-[state=active]:border-primary rounded-none transition-all"
+                            >
+                                <Icon path={mdiMessageTextFastOutline} size={0.8} className="mr-2" />
+                                Chat
+                            </TabsTrigger>
+                            <TabsTrigger
+                                value="history"
+                                className="text-muted-foreground data-[state=active]:text-primary py-3 border-b-2 border-transparent data-[state=active]:border-primary rounded-none transition-all"
+                            >
+                                <Icon path={mdiHistory} size={0.8} className="mr-2" />
+                                Lịch sử
+                            </TabsTrigger>
+                        </TabsList>
+
+                        <TabsContent value="chat" className="flex-1 flex flex-col mt-0 overflow-hidden bg-background">
+                            <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+                                {messages.length === 0 ? (
+                                    <div className="flex flex-col items-center justify-center h-[400px] text-center text-muted-foreground">
+                                        <Icon path={mdiMessageTextFastOutline} size={2} className="mb-4 opacity-50" />
+                                        <p className="text-sm italic">Chào mừng bạn! Tôi có thể giúp gì cho bạn hôm nay?</p>
+                                    </div>
+                                ) : (
+                                    <div className="space-y-4">
+                                        {messages.map((message) => (
+                                            <ChatMessage key={message.id} message={message} />
+                                        ))}
+                                        {isLoading && <TypingIndicator />}
+                                    </div>
+                                )}
+                            </ScrollArea>
+                            <Separator className="flex-shrink-0" />
+                            <div className="flex-shrink-0 bg-background">
+                                <ChatInput />
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="history" className="flex-1 mt-0 overflow-hidden bg-background">
+                            <ChatHistory />
+                        </TabsContent>
+                    </Tabs>
                 </div>
-                <button onClick={() => setOpen(false)}>
-                    <Icon path={mdiClose} size={0.8} className="cursor-pointer" />
-                </button>
-
-            </div>
-
-            {/* Tabs */}
-            <Tabs defaultValue="chat" className="flex-1 flex flex-col">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="chat" className="text-muted-foreground data-[state=active]:text-primary">
-                        <Icon path={mdiMessage} size={0.6} className="mr-2" />
-                        Chat
-                    </TabsTrigger>
-                    <TabsTrigger value="history" className="text-muted-foreground data-[state=active]:text-primary">
-                        <Icon path={mdiHistory} size={0.6} className="mr-2" />
-                        Lịch sử
-                    </TabsTrigger>
-                </TabsList>
-
-                {/* Chat Tab */}
-                <TabsContent value="chat" className="flex-1 flex flex-col mt-0">
-                    <ScrollArea className="flex-1 p-4" ref={scrollRef}>
-                        {messages.length === 0 ? (
-                            <div className="flex flex-col items-center justify-center h-full text-center text-muted-foreground">
-                                <Icon path={mdiMessage} size={2} className="mb-4 opacity-50" />
-                                <p className="text-sm">Xin chào! Tôi có thể giúp gì cho bạn?</p>
-                            </div>
-                        ) : (
-                            <div className="space-y-4">
-                                {messages.map((message) => (
-                                    <ChatMessage key={message.id} message={message} />
-                                ))}
-                            </div>
-                        )}
-                    </ScrollArea>
-                    <Separator />
-                    <ChatInput />
-                </TabsContent>
-
-                {/* History Tab */}
-                <TabsContent value="history" className="flex-1 mt-0">
-                    <ChatHistory />
-                </TabsContent>
-            </Tabs>
-        </Card>
+            </SheetContent>
+        </Sheet>
     );
 }
 

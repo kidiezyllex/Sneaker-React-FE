@@ -319,7 +319,7 @@ const VouchersTab = () => {
             <DialogTitle className="flex items-center gap-2">
               <Icon
                 path={mdiInformationOutline}
-                size={1}
+                size={0.8}
                 className="text-primary"
               />
               Chi tiết mã giảm giá

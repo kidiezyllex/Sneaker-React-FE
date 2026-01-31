@@ -17,7 +17,7 @@ export default function AdminHeader() {
         >
           <Icon
             path={mdiMenuOpen}
-            size={1}
+            size={0.8}
             className="text-maintext"
           />
         </button>

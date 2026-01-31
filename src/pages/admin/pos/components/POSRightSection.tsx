@@ -104,7 +104,7 @@ export default function POSRightSection({
       {/* Header Giỏ hàng */}
       <div className="p-4 bg-gray-50 border-b border-border flex items-center justify-between">
         <h3 className="font-semibold text-lg flex items-center gap-2 text-maintext">
-          <Icon path={mdiCartOutline} size={1} className="text-primary" />
+          <Icon path={mdiCartOutline} size={0.8} className="text-primary" />
           {activeCartName}
           <Badge variant="secondary" className="bg-primary/10 text-primary">
             {cartItems.length}
