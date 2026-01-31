@@ -386,7 +386,7 @@ export default function ProductsPage() {
               <Table className="min-w-[1000px]">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[80px] text-center">STT</TableHead>
+                    <TableHead>STT</TableHead>
                     <TableHead>Hình ảnh</TableHead>
                     <TableHead>Sản phẩm</TableHead>
                     <TableHead>Thương hiệu</TableHead>

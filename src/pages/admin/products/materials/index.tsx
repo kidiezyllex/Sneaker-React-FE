@@ -210,11 +210,11 @@ export default function MaterialsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[50px] text-center">STT</TableHead>
+                      <TableHead>STT</TableHead>
                       <TableHead>Tên chất liệu</TableHead>
                       <TableHead>Trạng thái</TableHead>
                       <TableHead>Ngày cập nhật</TableHead>
-                      <TableHead className="text-right">Thao tác</TableHead>
+                      <TableHead>Thao tác</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -265,11 +265,11 @@ export default function MaterialsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[50px] text-center">STT</TableHead>
+                      <TableHead>STT</TableHead>
                       <TableHead>Tên chất liệu</TableHead>
                       <TableHead>Trạng thái</TableHead>
                       <TableHead>Ngày cập nhật</TableHead>
-                      <TableHead className="text-right">Thao tác</TableHead>
+                      <TableHead>Thao tác</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
