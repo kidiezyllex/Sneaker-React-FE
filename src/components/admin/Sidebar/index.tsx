@@ -39,29 +39,45 @@ const SidebarLayout = memo(function SidebarLayout({
     }));
   });
 
-  const isMenuActive = useMemo(() => {
-    const activeMenuCache = new Map<string, boolean>();
-    return (menu: MenuItem) => {
-      const cacheKey = `${menu.id}-${pathname}`;
-      if (activeMenuCache.has(cacheKey)) {
-        return activeMenuCache.get(cacheKey);
+  const isSubMenuActive = useMemo(() => {
+    return (path: string, allSubItems?: SubMenuItem[]) => {
+      if (pathname === path) return true;
+      if (path !== "/admin" && pathname.startsWith(path + "/")) {
+        if (allSubItems) {
+          return !allSubItems.some(sub =>
+            sub.path !== path &&
+            pathname.startsWith(sub.path) &&
+            sub.path.length > path.length
+          );
+        }
+        return true;
       }
-
-      let isActive = false;
-      if (menu.path && pathname === menu.path) {
-        isActive = true;
-      } else if (menu.subMenu) {
-        isActive = menu.subMenu.some((sub) => pathname === sub.path);
-      }
-
-      activeMenuCache.set(cacheKey, isActive);
-      return isActive;
+      return false;
     };
   }, [pathname]);
 
-  const isSubMenuActive = useStableCallback((path: string) => {
-    return pathname === path;
-  });
+  const isMenuActive = useMemo(() => {
+    return (menu: MenuItem) => {
+      if (menu.path && isSubMenuActive(menu.path, menu.subMenu)) return true;
+      if (menu.subMenu) {
+        return menu.subMenu.some((sub) => isSubMenuActive(sub.path, menu.subMenu));
+      }
+      return false;
+    };
+  }, [pathname, isSubMenuActive]);
+
+  // Auto-expand active menus
+  React.useEffect(() => {
+    if (isOpen) {
+      const activeMenuId = menuItems.find(menu =>
+        menu.subMenu && menu.subMenu.some(sub => isSubMenuActive(sub.path, menu.subMenu))
+      )?.id;
+
+      if (activeMenuId && !openMenus[activeMenuId]) {
+        setOpenMenus(prev => ({ ...prev, [activeMenuId]: true }));
+      }
+    }
+  }, [pathname, isOpen, isSubMenuActive]);
 
   const handleMouseEnter = useStableCallback((menuId: string) => {
     if (!isOpen) {
@@ -178,23 +194,28 @@ const SidebarLayout = memo(function SidebarLayout({
                                   <div
                                     className={cn(
                                       "flex items-center rounded-md p-2 text-base transition-colors font-medium",
-                                      isSubMenuActive(subItem.path)
-                                        ? "bg-active/10 text-active !font-medium"
+                                      isSubMenuActive(subItem.path, menu.subMenu)
+                                        ? "bg-primary/10 text-primary !font-medium"
                                         : "text-maintext hover:bg-gray-100"
                                     )}
                                   >
                                     {subItem.icon && (
                                       <Icon
                                         path={subItem.icon}
-                                        size={0.8}
-                                        className="mr-2 text-maintext"
+                                        size={0.7}
+                                        className={cn(
+                                          "mr-2",
+                                          isSubMenuActive(subItem.path, menu.subMenu)
+                                            ? "text-primary"
+                                            : "text-maintext"
+                                        )}
                                       />
                                     )}
                                     <span
                                       className={cn(
                                         "font-medium",
-                                        isSubMenuActive(subItem.path)
-                                          ? "text-active !font-medium"
+                                        isSubMenuActive(subItem.path, menu.subMenu)
+                                          ? "text-primary !font-medium"
                                           : ""
                                       )}
                                     >

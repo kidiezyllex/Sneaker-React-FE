@@ -360,32 +360,12 @@ export default function BrandsPage() {
           )}
 
           {data?.pagination && data.pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <div className="hidden sm:block">
-                <p className="text-sm text-maintext">
-                  Hiển thị{" "}
-                  <span className="font-medium">
-                    {(data.pagination.currentPage - 1) *
-                      data.pagination.perPage +
-                      1}
-                  </span>{" "}
-                  đến{" "}
-                  <span className="font-medium">
-                    {Math.min(
-                      data.pagination.currentPage * data.pagination.perPage,
-                      data.pagination.total
-                    )}
-                  </span>{" "}
-                  của{" "}
-                  <span className="font-medium">{data.pagination.total}</span>{" "}
-                  thương hiệu
-                </p>
-              </div>
-              <CommonPagination
-                pagination={data.pagination}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            <CommonPagination
+              pagination={data.pagination}
+              onPageChange={handlePageChange}
+              itemLabel="thương hiệu"
+              className="mt-6"
+            />
           )}
         </CardContent>
       </Card>

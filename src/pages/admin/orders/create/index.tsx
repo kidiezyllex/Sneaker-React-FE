@@ -244,6 +244,7 @@ export default function CreateOrderPage() {
                     <Table>
                       <TableHeader>
                         <TableRow>
+                          <TableHead className="w-[50px] text-center">STT</TableHead>
                           <TableHead>Sản phẩm</TableHead>
                           <TableHead className="text-right">Đơn giá</TableHead>
                           <TableHead className="text-center">
@@ -258,6 +259,9 @@ export default function CreateOrderPage() {
                       <TableBody>
                         {selectedProducts.map((item, index) => (
                           <TableRow key={index}>
+                            <TableCell className="text-center font-medium">
+                              {index + 1}
+                            </TableCell>
                             <TableCell>
                               {/* In a real implementation, you would display product name by fetching product details */}
                               Product {index + 1} ({item.product})

@@ -20,15 +20,17 @@ interface CommonPaginationProps {
   pagination: PaginationData;
   onPageChange: (page: number) => void;
   className?: string;
+  itemLabel?: string;
 }
 
 export function CommonPagination({
   pagination,
   onPageChange,
   className,
+  itemLabel = "mục",
 }: CommonPaginationProps) {
-  const { currentPage, totalPages } = pagination;
-  if (totalPages <= 1) return null;
+  const { currentPage, totalPages, perPage, total, count } = pagination;
+  if (totalPages <= 1 && total <= perPage) return null;
 
   const handlePageChange = (page: number, e: React.MouseEvent) => {
     e.preventDefault();
@@ -37,7 +39,11 @@ export function CommonPagination({
     }
   };
 
+  const startIdx = (currentPage - 1) * perPage + 1;
+  const endIdx = Math.min(currentPage * perPage, total);
+
   const renderPageNumbers = () => {
+    // ... (rest of the renderPageNumbers remains the same)
     const pages = [];
 
     pages.push(
@@ -104,7 +110,14 @@ export function CommonPagination({
   };
 
   return (
-    <div className={className}>
+    <div className={`flex items-center justify-between ${className}`}>
+      <div className="hidden sm:block">
+        <p className="text-sm text-maintext">
+          Hiển thị <span className="font-medium">{startIdx}</span> đến{" "}
+          <span className="font-medium">{endIdx}</span> của{" "}
+          <span className="font-medium">{total}</span> {itemLabel}
+        </p>
+      </div>
       <Pagination>
         <PaginationContent>
           <PaginationPrevious

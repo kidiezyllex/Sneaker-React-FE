@@ -783,6 +783,7 @@ export default function OrdersPage() {
           <Table>
             <TableHeader>
               <TableRow>
+                <TableHead className="w-[80px] text-center">STT</TableHead>
                 <TableHead className="w-[120px]">Mã đơn hàng</TableHead>
                 <TableHead>Khách hàng</TableHead>
                 <TableHead className="hidden md:table-cell">Ngày tạo</TableHead>
@@ -800,8 +801,11 @@ export default function OrdersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.data.orders.map((order) => (
+              {data.data.orders.map((order, index) => (
                 <TableRow key={order.id}>
+                  <TableCell className="text-center font-medium">
+                    {(filters.page! - 1) * filters.limit! + index + 1}
+                  </TableCell>
                   <TableCell className="font-medium">{order.code}</TableCell>
                   <TableCell>
                     <div>
@@ -870,6 +874,7 @@ export default function OrdersPage() {
             totalPages: data.data.pagination.totalPages,
           }}
           onPageChange={handleChangePage}
+          itemLabel="đơn hàng"
           className="mt-6"
         />
       </>

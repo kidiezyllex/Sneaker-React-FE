@@ -72,6 +72,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { CommonPagination } from "@/components/ui/common-pagination";
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IProductFilter>({
@@ -381,10 +382,11 @@ export default function ProductsPage() {
               </Button>
             </div>
           ) : (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl overflow-hidden">
               <Table className="min-w-[1000px]">
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[80px] text-center">STT</TableHead>
                     <TableHead>Hình ảnh</TableHead>
                     <TableHead>Sản phẩm</TableHead>
                     <TableHead>Thương hiệu</TableHead>
@@ -399,8 +401,11 @@ export default function ProductsPage() {
                   {data?.data &&
                     Array.isArray(data.data) &&
                     data.data.length > 0 ? (
-                    data.data.map((product) => (
+                    data.data.map((product, index) => (
                       <TableRow key={product.id} className="hover:bg-gray-50">
+                        <TableCell className="text-center font-medium">
+                          {(filters.page! - 1) * filters.limit! + index + 1}
+                        </TableCell>
                         <TableCell className="px-4 py-4 whitespace-nowrap">
                           <TooltipProvider>
                             <Tooltip>
@@ -545,77 +550,18 @@ export default function ProductsPage() {
               </Table>
 
               {data?.pagination && data.pagination.totalPages > 1 && (
-                <div className="px-4 py-3 flex items-center justify-between border-t border-gray-200">
-                  <div className="hidden sm:block">
-                    <p className="text-sm text-maintext">
-                      Hiển thị{" "}
-                      <span className="font-medium">
-                        {(data.pagination.currentPage - 1) *
-                          data.pagination.perPage +
-                          1}
-                      </span>{" "}
-                      đến{" "}
-                      <span className="font-medium">
-                        {Math.min(
-                          data.pagination.currentPage * data.pagination.perPage,
-                          data.pagination.total
-                        )}
-                      </span>{" "}
-                      của{" "}
-                      <span className="font-medium">
-                        {data.pagination.total}
-                      </span>{" "}
-                      sản phẩm
-                    </p>
-                  </div>
-                  <div className="flex space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        handleChangePage(data.pagination.currentPage - 1)
-                      }
-                      disabled={data.pagination.currentPage === 1}
-                    >
-                      Trước
-                    </Button>
-                    {[...Array(data.pagination.totalPages)]
-                      .map((_, i) => (
-                        <Button
-                          key={i}
-                          variant={
-                            data.pagination.currentPage === i + 1
-                              ? "default"
-                              : "outline"
-                          }
-                          size="sm"
-                          onClick={() => handleChangePage(i + 1)}
-                        >
-                          {i + 1}
-                        </Button>
-                      ))
-                      .slice(
-                        Math.max(0, data.pagination.currentPage - 3),
-                        Math.min(
-                          data.pagination.totalPages,
-                          data.pagination.currentPage + 2
-                        )
-                      )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() =>
-                        handleChangePage(data.pagination.currentPage + 1)
-                      }
-                      disabled={
-                        data.pagination.currentPage ===
-                        data.pagination.totalPages
-                      }
-                    >
-                      Sau
-                    </Button>
-                  </div>
-                </div>
+                <CommonPagination
+                  pagination={{
+                    total: data.pagination.total,
+                    count: data.data.length,
+                    perPage: data.pagination.perPage,
+                    currentPage: data.pagination.currentPage,
+                    totalPages: data.pagination.totalPages,
+                  }}
+                  onPageChange={handleChangePage}
+                  itemLabel="sản phẩm"
+                  className="mt-6"
+                />
               )}
             </div>
           )}
