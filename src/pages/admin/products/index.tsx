@@ -77,7 +77,7 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IProductFilter>({
     page: 1,
-    limit: 10,
+    limit: 5,
   });
   const { data: promotionsData } = usePromotions();
   const { data: rawData, isLoading, isError } = useProducts(filters);

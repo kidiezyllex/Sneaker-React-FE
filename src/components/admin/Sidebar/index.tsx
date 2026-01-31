@@ -42,13 +42,14 @@ const SidebarLayout = memo(function SidebarLayout({
   const isSubMenuActive = useMemo(() => {
     return (path: string, allSubItems?: SubMenuItem[]) => {
       if (pathname === path) return true;
+
       if (path !== "/admin" && pathname.startsWith(path + "/")) {
-        if (allSubItems) {
-          return !allSubItems.some(sub =>
+        if (allSubItems && allSubItems.length > 0) {
+          const hasMoreSpecificMatch = allSubItems.some(sub =>
             sub.path !== path &&
-            pathname.startsWith(sub.path) &&
-            sub.path.length > path.length
+            pathname.startsWith(sub.path)
           );
+          if (hasMoreSpecificMatch) return false;
         }
         return true;
       }
@@ -59,6 +60,7 @@ const SidebarLayout = memo(function SidebarLayout({
   const isMenuActive = useMemo(() => {
     return (menu: MenuItem) => {
       if (menu.path && isSubMenuActive(menu.path, menu.subMenu)) return true;
+
       if (menu.subMenu) {
         return menu.subMenu.some((sub) => isSubMenuActive(sub.path, menu.subMenu));
       }
@@ -69,12 +71,12 @@ const SidebarLayout = memo(function SidebarLayout({
   // Auto-expand active menus
   React.useEffect(() => {
     if (isOpen) {
-      const activeMenuId = menuItems.find(menu =>
+      const activeMenu = menuItems.find(menu =>
         menu.subMenu && menu.subMenu.some(sub => isSubMenuActive(sub.path, menu.subMenu))
-      )?.id;
+      );
 
-      if (activeMenuId && !openMenus[activeMenuId]) {
-        setOpenMenus(prev => ({ ...prev, [activeMenuId]: true }));
+      if (activeMenu && !openMenus[activeMenu.id]) {
+        setOpenMenus(prev => ({ ...prev, [activeMenu.id]: true }));
       }
     }
   }, [pathname, isOpen, isSubMenuActive]);

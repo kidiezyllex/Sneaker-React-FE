@@ -83,7 +83,7 @@ export default function ReturnsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IReturnFilter>({
     page: 1,
-    limit: 10,
+    limit: 5,
   });
   const [showFilters, setShowFilters] = useState(false);
   const [dateRange, setDateRange] = useState<{ from?: Date; to?: Date }>({});
@@ -522,7 +522,7 @@ export default function ReturnsPage() {
                       size="sm"
                       onClick={() => {
                         setDateRange({});
-                        setFilters({ page: 1, limit: 10 });
+                        setFilters({ page: 1, limit: 5 });
                       }}
                     >
                       Xóa bộ lọc
@@ -684,43 +684,13 @@ export default function ReturnsPage() {
               </div>
             )}
 
-            {data && data.data.pagination.totalPages > 1 && (
-              <div className="flex justify-center mt-6">
-                <div className="flex space-x-2">
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      handleChangePage(Math.max(1, filters.page || 1 - 1))
-                    }
-                    disabled={filters.page === 1}
-                  >
-                    Trước
-                  </Button>
-                  {[...Array(data.data.pagination.totalPages)].map((_, i) => (
-                    <Button
-                      key={i}
-                      variant={filters.page === i + 1 ? "default" : "outline"}
-                      onClick={() => handleChangePage(i + 1)}
-                    >
-                      {i + 1}
-                    </Button>
-                  ))}
-                  <Button
-                    variant="outline"
-                    onClick={() =>
-                      handleChangePage(
-                        Math.min(
-                          data.data.pagination.totalPages,
-                          (filters.page || 1) + 1
-                        )
-                      )
-                    }
-                    disabled={filters.page === data.data.pagination.totalPages}
-                  >
-                    Sau
-                  </Button>
-                </div>
-              </div>
+            {data?.data?.pagination && data.data.pagination.totalPages > 1 && (
+              <CommonPagination
+                pagination={data.data.pagination}
+                onPageChange={handleChangePage}
+                itemLabel="đơn trả hàng"
+                className="mt-6"
+              />
             )}
           </Tabs>
         </CardContent>

@@ -7,6 +7,7 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { cn } from "@/lib/utils";
 
 export interface PaginationData {
   total: number;
@@ -110,7 +111,7 @@ export function CommonPagination({
   };
 
   return (
-    <div className={`flex items-center justify-between ${className}`}>
+    <div className={cn("flex w-full items-center justify-between", className)}>
       <div className="hidden sm:block">
         <p className="text-sm text-maintext">
           Hiển thị <span className="font-medium">{startIdx}</span> đến{" "}
@@ -118,7 +119,7 @@ export function CommonPagination({
           <span className="font-medium">{total}</span> {itemLabel}
         </p>
       </div>
-      <Pagination>
+      <Pagination className="w-auto">
         <PaginationContent>
           <PaginationPrevious
             href="#"

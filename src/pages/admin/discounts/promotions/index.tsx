@@ -65,7 +65,7 @@ export default function PromotionsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IPromotionFilter>({
     page: 1,
-    limit: 10,
+    limit: 5,
   });
   const [showFilters, setShowFilters] = useState(false);
   const { data, isLoading, isError } = usePromotions(filters);
@@ -102,7 +102,7 @@ export default function PromotionsPage() {
 
   const handleClearFilters = () => {
     setSearchQuery("");
-    setFilters({ page: 1, limit: 10 });
+    setFilters({ page: 1, limit: 5 });
   };
 
   const handleDeletePromotion = async (id: number) => {
@@ -477,6 +477,8 @@ export default function PromotionsPage() {
                   totalPages: data.data.pagination.totalPages,
                 }}
                 onPageChange={handleChangePage}
+                itemLabel="đợt giảm giá"
+                className="mt-6"
               />
             </div>
           )}

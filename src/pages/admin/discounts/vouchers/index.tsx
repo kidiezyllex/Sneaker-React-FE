@@ -70,7 +70,7 @@ export default function VouchersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IVoucherFilter>({
     page: 1,
-    limit: 10,
+    limit: 5,
   });
   const [showFilters, setShowFilters] = useState(false);
   const { data, isLoading, isError } = useVouchers(filters);
@@ -115,7 +115,7 @@ export default function VouchersPage() {
 
   const handleClearFilters = () => {
     setSearchQuery("");
-    setFilters({ page: 1, limit: 10 });
+    setFilters({ page: 1, limit: 5 });
   };
 
   const handleDeleteVoucher = async (id: string) => {
@@ -514,6 +514,8 @@ export default function VouchersPage() {
                   totalPages: data.data.pagination.totalPages,
                 }}
                 onPageChange={handleChangePage}
+                itemLabel="phiếu giảm giá"
+                className="mt-6"
               />
             </div>
           )}

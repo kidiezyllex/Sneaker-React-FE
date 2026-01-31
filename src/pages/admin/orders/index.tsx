@@ -89,7 +89,7 @@ export default function OrdersPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IOrderFilter>({
     page: 1,
-    limit: 10,
+    limit: 5,
   });
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);

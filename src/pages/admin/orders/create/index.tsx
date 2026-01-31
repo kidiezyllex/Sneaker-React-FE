@@ -78,7 +78,7 @@ export default function CreateOrderPage() {
 
   const { data: productsData } = useProducts({
     name: searchTerm,
-    limit: 10,
+    limit: 5,
     status: "ACTIVE",
   });
 

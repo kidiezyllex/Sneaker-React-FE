@@ -91,7 +91,7 @@ export default function AccountsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IAccountFilter>({
     page: 1,
-    limit: 10,
+    limit: 5,
   });
   const [showFilters, setShowFilters] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -104,7 +104,7 @@ export default function AccountsPage() {
   const { data, isLoading, error } = useAccounts(filters);
   const deleteAccount = useDeleteAccount();
   const updateAccountStatus = useUpdateAccountStatus(
-    accountToUpdateStatus?.id || ""
+    accountToUpdateStatus?.id?.toString() || ""
   );
   const queryClient = useQueryClient();
 
@@ -193,7 +193,7 @@ export default function AccountsPage() {
     if (!accountToDelete) return;
 
     try {
-      await deleteAccount.mutateAsync(accountToDelete.id, {
+      await deleteAccount.mutateAsync(accountToDelete.id.toString(), {
         onSuccess: () => {
           toast.success("Xóa tài khoản thành công");
           setIsDeleteDialogOpen(false);
@@ -415,7 +415,7 @@ export default function AccountsPage() {
                             <div className="p-0.5 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">
                               <Avatar className="w-10 h-10 border-2 border-white rounded-full">
                                 <AvatarImage
-                                  src={getAvatarUrl(account.id)}
+                                  src={getAvatarUrl(account.id.toString())}
                                   alt={`${account.fullName} avatar`}
                                 />
                                 <AvatarFallback className="bg-gray-200 text-maintext">
@@ -536,12 +536,13 @@ export default function AccountsPage() {
                 pagination={{
                   total: data.data.totalElements,
                   count: data.data.content.length,
-                  perPage: filters.limit || 10,
+                  perPage: filters.limit || 5,
                   currentPage: data.data.number + 1,
                   totalPages: data.data.totalPages,
                 }}
                 onPageChange={handleChangePage}
-                className="px-4 py-3 border-t"
+                itemLabel="tài khoản"
+                className="px-4 py-3 border-t mt-6"
               />
             </>
           )}

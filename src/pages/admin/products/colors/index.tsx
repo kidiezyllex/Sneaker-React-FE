@@ -211,7 +211,7 @@ export default function ColorsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead className="w-[50px] text-center">STT</TableHead>
                       <TableHead>Màu sắc</TableHead>
                       <TableHead>Mã màu</TableHead>
                       <TableHead>Trạng thái</TableHead>
@@ -223,7 +223,7 @@ export default function ColorsPage() {
                     {[...Array(5)].map((_, index) => (
                       <TableRow key={index}>
                         <TableCell>
-                          <Skeleton className="h-4 w-[80px]" />
+                          <Skeleton className="h-4 w-8 mx-auto" />
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center">
@@ -273,7 +273,7 @@ export default function ColorsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead className="w-[50px] text-center">STT</TableHead>
                       <TableHead>Màu sắc</TableHead>
                       <TableHead>Mã màu</TableHead>
                       <TableHead>Trạng thái</TableHead>
@@ -288,8 +288,11 @@ export default function ColorsPage() {
                           key={(color as any)?.id || `color-${index}`}
                           className="hover:bg-gray-50"
                         >
-                          <TableCell className="text-sm text-maintext">
-                            {(color as any)?.id}
+                          <TableCell className="text-center text-sm font-medium text-maintext">
+                            {(data.pagination.currentPage - 1) *
+                              data.pagination.perPage +
+                              index +
+                              1}
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center">
@@ -402,32 +405,12 @@ export default function ColorsPage() {
           )}
 
           {data?.pagination && data.pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <div className="hidden sm:block">
-                <p className="text-sm text-maintext">
-                  Hiển thị{" "}
-                  <span className="font-medium">
-                    {(data.pagination.currentPage - 1) *
-                      data.pagination.perPage +
-                      1}
-                  </span>{" "}
-                  đến{" "}
-                  <span className="font-medium">
-                    {Math.min(
-                      data.pagination.currentPage * data.pagination.perPage,
-                      data.pagination.total
-                    )}
-                  </span>{" "}
-                  của{" "}
-                  <span className="font-medium">{data.pagination.total}</span>{" "}
-                  màu sắc
-                </p>
-              </div>
-              <CommonPagination
-                pagination={data.pagination}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            <CommonPagination
+              pagination={data.pagination}
+              onPageChange={handlePageChange}
+              itemLabel="màu sắc"
+              className="mt-6"
+            />
           )}
         </CardContent>
       </Card>

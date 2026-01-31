@@ -312,7 +312,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                                     </h4>
                                                     <button
                                                         onClick={() => removeFromCart(item.id)}
-                                                        className="text-gray-600 hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50"
+                                                        className="hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50"
                                                     >
                                                         <Icon path={mdiDelete} size={0.8} />
                                                     </button>
@@ -433,7 +433,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                                     </div>
                                                     <button
                                                         onClick={handleRemoveVoucher}
-                                                        className="text-gray-600 hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50 border border-red-300"
+                                                        className="hover:text-red-400 text-sm text-red-500 p-2 rounded-full bg-red-50 border border-red-300"
                                                     >
                                                         <Icon path={mdiClose} size={0.8} />
                                                     </button>

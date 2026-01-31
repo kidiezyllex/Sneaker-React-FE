@@ -210,7 +210,7 @@ export default function MaterialsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead className="w-[50px] text-center">STT</TableHead>
                       <TableHead>Tên chất liệu</TableHead>
                       <TableHead>Trạng thái</TableHead>
                       <TableHead>Ngày cập nhật</TableHead>
@@ -221,7 +221,7 @@ export default function MaterialsPage() {
                     {[...Array(5)].map((_, index) => (
                       <TableRow key={index}>
                         <TableCell>
-                          <Skeleton className="h-4 w-[80px]" />
+                          <Skeleton className="h-4 w-8 mx-auto" />
                         </TableCell>
                         <TableCell>
                           <Skeleton className="h-4 w-[160px]" />
@@ -265,7 +265,7 @@ export default function MaterialsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead className="w-[50px] text-center">STT</TableHead>
                       <TableHead>Tên chất liệu</TableHead>
                       <TableHead>Trạng thái</TableHead>
                       <TableHead>Ngày cập nhật</TableHead>
@@ -279,8 +279,11 @@ export default function MaterialsPage() {
                           key={(material as any)?.id || `material-${index}`}
                           className="hover:bg-gray-50"
                         >
-                          <TableCell className="text-sm text-maintext">
-                            {(material as any)?.id}
+                          <TableCell className="text-center text-sm font-medium text-maintext">
+                            {(data.pagination.currentPage - 1) *
+                              data.pagination.perPage +
+                              index +
+                              1}
                           </TableCell>
                           <TableCell>
                             <div className="text-sm font-medium text-maintext">
@@ -381,32 +384,12 @@ export default function MaterialsPage() {
           )}
 
           {data?.pagination && data.pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <div className="hidden sm:block">
-                <p className="text-sm text-maintext">
-                  Hiển thị{" "}
-                  <span className="font-medium">
-                    {(data.pagination.currentPage - 1) *
-                      data.pagination.perPage +
-                      1}
-                  </span>{" "}
-                  đến{" "}
-                  <span className="font-medium">
-                    {Math.min(
-                      data.pagination.currentPage * data.pagination.perPage,
-                      data.pagination.total
-                    )}
-                  </span>{" "}
-                  của{" "}
-                  <span className="font-medium">{data.pagination.total}</span>{" "}
-                  chất liệu
-                </p>
-              </div>
-              <CommonPagination
-                pagination={data.pagination}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            <CommonPagination
+              pagination={data.pagination}
+              onPageChange={handlePageChange}
+              itemLabel="chất liệu"
+              className="mt-6"
+            />
           )}
         </CardContent>
       </Card>

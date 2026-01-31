@@ -214,7 +214,7 @@ export default function SizesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead className="w-[50px] text-center">STT</TableHead>
                       <TableHead>Kích cỡ</TableHead>
                       <TableHead>Giá trị số</TableHead>
                       <TableHead>Trạng thái</TableHead>
@@ -225,6 +225,9 @@ export default function SizesPage() {
                   <TableBody>
                     {Array.from({ length: 5 }).map((_, index) => (
                       <TableRow key={index}>
+                        <TableCell>
+                          <div className="h-4 w-8 bg-gray-200 rounded animate-pulse mx-auto"></div>
+                        </TableCell>
                         <TableCell>
                           <div className="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
                         </TableCell>
@@ -270,7 +273,7 @@ export default function SizesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>ID</TableHead>
+                      <TableHead className="w-[50px] text-center">STT</TableHead>
                       <TableHead>Kích cỡ</TableHead>
                       <TableHead>Giá trị số</TableHead>
                       <TableHead>Trạng thái</TableHead>
@@ -285,8 +288,11 @@ export default function SizesPage() {
                           key={(size as any)?.id || `size-${index}`}
                           className="hover:bg-gray-50"
                         >
-                          <TableCell className="text-sm text-maintext">
-                            {(size as any)?.id}
+                          <TableCell className="text-center text-sm font-medium text-maintext">
+                            {(data.pagination.currentPage - 1) *
+                              data.pagination.perPage +
+                              index +
+                              1}
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center">
@@ -350,32 +356,12 @@ export default function SizesPage() {
           )}
 
           {data?.pagination && data.pagination.totalPages > 1 && (
-            <div className="flex items-center justify-between">
-              <div className="hidden sm:block">
-                <p className="text-sm text-maintext">
-                  Hiển thị{" "}
-                  <span className="font-medium">
-                    {(data.pagination.currentPage - 1) *
-                      data.pagination.perPage +
-                      1}
-                  </span>{" "}
-                  đến{" "}
-                  <span className="font-medium">
-                    {Math.min(
-                      data.pagination.currentPage * data.pagination.perPage,
-                      data.pagination.total
-                    )}
-                  </span>{" "}
-                  của{" "}
-                  <span className="font-medium">{data.pagination.total}</span>{" "}
-                  kích cỡ
-                </p>
-              </div>
-              <CommonPagination
-                pagination={data.pagination}
-                onPageChange={handlePageChange}
-              />
-            </div>
+            <CommonPagination
+              pagination={data.pagination}
+              onPageChange={handlePageChange}
+              itemLabel="kích cỡ"
+              className="mt-6"
+            />
           )}
         </CardContent>
       </Card>
