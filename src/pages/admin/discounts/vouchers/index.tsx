@@ -213,7 +213,7 @@ export default function VouchersPage() {
       </div>
 
       <Card className="mb-4">
-        <CardContent className="p-4">
+        <CardContent className="p-4 space-y-4">
           <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
             <div className="relative flex-1">
               <Icon
@@ -349,158 +349,198 @@ export default function VouchersPage() {
               </motion.div>
             )}
           </AnimatePresence>
-        </CardContent>
-      </Card>
 
-      {isLoading ? (
-        <div className="bg-white rounded-xl shadow-sm p-4 space-y-4">
-          {[...Array(5)].map((_, index) => (
-            <div key={index} className="flex items-center space-x-4">
-              <Skeleton className="h-12 w-12 rounded-xl" />
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-[250px]" />
-                <Skeleton className="h-4 w-[200px]" />
-              </div>
+          {isLoading ? (
+            <div className="bg-white rounded-xl overflow-hidden mt-4">
+              {[...Array(5)].map((_, index) => (
+                <div key={index} className="flex items-center space-x-4 p-4 border-b">
+                  <Skeleton className="h-12 w-12 rounded-xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      ) : isError ? (
-        <div className="bg-white rounded-xl shadow-sm p-4 text-center">
-          <p className="text-red-500">
-            Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-          </p>
-          <Button
-            variant="outline"
-            className="mt-4"
-            onClick={() =>
-              queryClient.invalidateQueries({ queryKey: ["vouchers"] })
-            }
-          >
-            Thử lại
-          </Button>
-        </div>
-      ) : (
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[80px] text-center">STT</TableHead>
-                  <TableHead>Mã</TableHead>
-                  <TableHead>Tên</TableHead>
-                  <TableHead>Loại</TableHead>
-                  <TableHead>Giá trị</TableHead>
-                  <TableHead>Sử dụng</TableHead>
-                  <TableHead>Thời gian</TableHead>
-                  <TableHead>Trạng thái</TableHead>
-                  <TableHead className="text-center">Thao tác</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {data?.data?.vouchers?.map((voucher, index) => (
-                  <TableRow key={(voucher as any).id}>
-                    <TableCell className="text-center">
-                      {(data.pagination.currentPage - 1) *
-                        data.pagination.perPage +
-                        index +
-                        1}
-                    </TableCell>
-                    <TableCell>
-                      <span className="font-mono font-medium text-sm">
-                        {voucher.code}
-                      </span>
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm font-medium">
-                      {voucher.name}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm">
-                      {voucher.type === "PERCENTAGE"
-                        ? "Phần trăm"
-                        : "Số tiền cố định"}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm">
-                      {voucher.type === "PERCENTAGE"
-                        ? `${voucher.value}%`
-                        : formatCurrency(voucher.value)}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm">
-                      {voucher.usedCount}/{voucher.quantity}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm">
-                      {formatDate(voucher.startDate)} -{" "}
-                      {formatDate(voucher.endDate)}
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm">
-                      <Badge
-                        variant={
-                          voucher.status === "ACTIVE"
-                            ? "default"
-                            : "destructive"
-                        }
-                      >
-                        {voucher.status === "ACTIVE"
-                          ? "Hoạt động"
-                          : "Không hoạt động"}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="px-4 py-4 text-sm text-right">
-                      <div className="flex items-center justify-end space-x-2">
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => {
-                            setVoucherToNotify((voucher as any).id);
-                            setIsNotifyDialogOpen(true);
-                          }}
-                          title="Gửi thông báo"
+          ) : isError ? (
+            <div className="bg-white rounded-xl p-4 text-center mt-4">
+              <p className="text-red-500">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </p>
+              <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() =>
+                  queryClient.invalidateQueries({ queryKey: ["vouchers"] })
+                }
+              >
+                Thử lại
+              </Button>
+            </div>
+          ) : (
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden mt-4">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Phiếu giảm giá</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Giá trị & Điều kiện</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Sử dụng</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Thời gian</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data?.data?.vouchers?.length ? (
+                      data.data.vouchers.map((voucher, index) => (
+                        <TableRow key={voucher.id} className="hover:bg-slate-50/50 transition-colors">
+                          <TableCell className="text-center font-medium">
+                            {(data.data.pagination.currentPage - 1) *
+                              data.data.pagination.limit +
+                              index +
+                              1}
+                          </TableCell>
+                          <TableCell className="px-4 py-4">
+                            <div className="flex flex-col">
+                              <span className="font-mono font-bold text-primary text-sm">
+                                {voucher.code}
+                              </span>
+                              <span className="text-sm font-medium text-slate-700 mt-0.5">
+                                {voucher.name}
+                              </span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-4 py-4">
+                            <div className="flex flex-col gap-1">
+                              <div className="flex items-center gap-1.5">
+                                <span className="font-bold text-slate-900">
+                                  {voucher.type === "PERCENTAGE"
+                                    ? `${voucher.value}%`
+                                    : formatCurrency(voucher.value)}
+                                </span>
+                                <Badge variant="outline" className="text-[10px] h-4 px-1 uppercase secondary">
+                                  {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
+                                </Badge>
+                              </div>
+                              <div className="text-[11px] text-slate-500 flex flex-col">
+                                {voucher.minOrderValue > 0 && (
+                                  <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
+                                )}
+                                {voucher.maxDiscount && (
+                                  <span>Tối đa: {formatCurrency(voucher.maxDiscount)}</span>
+                                )}
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-4 py-4">
+                            <div className="flex flex-col gap-1 w-32">
+                              <div className="flex justify-between text-[11px] font-medium">
+                                <span className="text-slate-600">Đã dùng: {voucher.usedCount}</span>
+                                <span className="text-slate-400">{Math.round((voucher.usedCount / voucher.quantity) * 100)}%</span>
+                              </div>
+                              <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-primary transition-all"
+                                  style={{ width: `${(voucher.usedCount / voucher.quantity) * 100}%` }}
+                                />
+                              </div>
+                              <span className="text-[10px] text-slate-400">Tổng: {voucher.quantity}</span>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-4 py-4">
+                            <div className="flex flex-col gap-1 text-slate-600 text-xs">
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                                <span>{formatDate(voucher.startDate)}</span>
+                              </div>
+                              <div className="flex items-center gap-1.5">
+                                <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                                <span>{formatDate(voucher.endDate)}</span>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="px-4 py-4">
+                            <Badge
+                              variant={
+                                voucher.status === "ACTIVE"
+                                  ? "default"
+                                  : "destructive"
+                              }
+                              className="font-medium"
+                            >
+                              {voucher.status === "ACTIVE"
+                                ? "Hoạt động"
+                                : "Ngừng"}
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="px-4 py-4 text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  setVoucherToNotify(voucher.id.toString());
+                                  setIsNotifyDialogOpen(true);
+                                }}
+                                title="Gửi thông báo"
+                              >
+                                <Icon path={mdiEmailFast} size={0.6} />
+                              </Button>
+                              <Link
+                                to={`/admin/discounts/vouchers/edit/${voucher.id}`}
+                              >
+                                <Button variant="outline" size="icon">
+                                  <Icon path={mdiPencilCircle} size={0.7} />
+                                </Button>
+                              </Link>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  setVoucherToDelete(voucher);
+                                  setIsDeleteDialogOpen(true);
+                                }}
+                              >
+                                <Icon path={mdiDeleteCircle} size={0.7} />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell
+                          colSpan={7}
+                          className="px-4 py-8 text-center text-maintext"
                         >
-                          <Icon path={mdiEmailFast} size={0.8} />
-                        </Button>
-                        <Link
-                          to={`/admin/discounts/vouchers/edit/${(voucher as any).id
-                            }`}
-                        >
-                          <Button variant="outline" size="icon" title="Sửa">
-                            <Icon path={mdiPencilCircle} size={0.8} />
-                          </Button>
-                        </Link>
-                        <Button
-                          variant="outline"
-                          size="icon"
-                          onClick={() => {
-                            setVoucherToDelete(voucher);
-                            setIsDeleteDialogOpen(true);
-                          }}
-                          title="Xóa"
-                        >
-                          <Icon path={mdiDeleteCircle} size={0.8} />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+                          Không tìm thấy phiếu giảm giá nào
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
 
-          {data && data.data && data.data.pagination && (
-            <div className="p-4 border-t">
-              <CommonPagination
-                pagination={{
-                  total: data.data.pagination.totalItems,
-                  count: data.data.vouchers.length,
-                  perPage: data.data.pagination.limit,
-                  currentPage: data.data.pagination.currentPage,
-                  totalPages: data.data.pagination.totalPages,
-                }}
-                onPageChange={handleChangePage}
-                itemLabel="phiếu giảm giá"
-                className="mt-6"
-              />
+              {data && data.data && data.data.pagination && (
+                <CommonPagination
+                  pagination={{
+                    total: data.data.pagination.totalItems,
+                    count: data.data.vouchers.length,
+                    perPage: data.data.pagination.limit,
+                    currentPage: data.data.pagination.currentPage,
+                    totalPages: data.data.pagination.totalPages,
+                  }}
+                  onPageChange={handleChangePage}
+                  itemLabel="phiếu giảm giá"
+                  className="mt-6"
+                />
+              )}
             </div>
           )}
-        </div>
-      )}
+        </CardContent>
+      </Card>
 
       <DeleteConfirmDialog
         isOpen={isDeleteDialogOpen}
@@ -625,7 +665,7 @@ export default function VouchersPage() {
                   <div className="flex justify-between">
                     <span className="text-maintext">Giá trị giảm:</span>
                     <span className="font-medium text-primary">
-                      {formatCurrency(validationResult.data.discountValue)}
+                      {formatCurrency(validationResult.data.discountAmount)}
                     </span>
                   </div>
                   <div className="flex justify-between">

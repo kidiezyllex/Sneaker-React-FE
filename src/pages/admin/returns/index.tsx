@@ -560,14 +560,14 @@ export default function ReturnsPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[80px] text-center">STT</TableHead>
-                      <TableHead>Mã yêu cầu</TableHead>
-                      <TableHead>Khách hàng</TableHead>
-                      <TableHead>Đơn hàng gốc</TableHead>
-                      <TableHead>Ngày tạo</TableHead>
-                      <TableHead>Số tiền hoàn trả</TableHead>
-                      <TableHead>Trạng thái</TableHead>
-                      <TableHead className="text-right">Thao tác</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Mã yêu cầu</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Khách hàng</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Đơn hàng gốc</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Ngày tạo</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Số tiền hoàn trả</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
+                      <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -691,7 +691,13 @@ export default function ReturnsPage() {
 
             {data?.data?.pagination && data.data.pagination.totalPages > 1 && (
               <CommonPagination
-                pagination={data.data.pagination}
+                pagination={{
+                  total: data.data.pagination.totalItems,
+                  count: data.data.returns.length,
+                  perPage: data.data.pagination.limit,
+                  currentPage: data.data.pagination.currentPage,
+                  totalPages: data.data.pagination.totalPages,
+                }}
                 onPageChange={handleChangePage}
                 itemLabel="đơn trả hàng"
                 className="mt-6"

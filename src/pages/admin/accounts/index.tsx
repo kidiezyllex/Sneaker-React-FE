@@ -268,7 +268,7 @@ export default function AccountsPage() {
       </div>
 
       <Card className="mb-4">
-        <CardContent className="p-4">
+        <CardContent className="p-4 space-y-4">
           <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
             <div className="relative flex-1 max-w-4xl">
               <Icon
@@ -364,11 +364,7 @@ export default function AccountsPage() {
               </motion.div>
             )}
           </AnimatePresence>
-        </CardContent>
-      </Card>
 
-      <Card>
-        <CardContent className="p-0">
           {isLoading ? (
             <div className="flex items-center justify-center h-64">
               <Icon
@@ -391,13 +387,13 @@ export default function AccountsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[80px] text-center">STT</TableHead>
-                    <TableHead>Tài khoản</TableHead>
-                    <TableHead>Liên hệ</TableHead>
-                    <TableHead>Vai trò</TableHead>
-                    <TableHead>Trạng thái</TableHead>
-                    <TableHead>Ngày tạo</TableHead>
-                    <TableHead className="text-right">Thao tác</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Tài khoản</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Liên hệ</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Vai trò</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Ngày tạo</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

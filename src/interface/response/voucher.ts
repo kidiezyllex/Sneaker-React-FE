@@ -18,7 +18,7 @@ export interface IVoucher {
   discountAmount?: number;
 }
 
-export interface IVoucherResponse extends IApiResponse<IVoucher> {}
+export interface IVoucherResponse extends IApiResponse<IVoucher> { }
 
 export interface IVouchersResponse {
   statusCode: number;
@@ -31,7 +31,7 @@ export interface IVouchersResponse {
       totalPages: number;
     };
     vouchers: IVoucher[];
-  } | IVoucher[];
+  };
   meta?: {
     timestamp: string;
     apiVersion: string;
@@ -43,8 +43,8 @@ export interface IVoucherValidationData {
   discountAmount: number;
 }
 
-export interface IVoucherValidationResponse extends IApiResponse<IVoucherValidationData> {}
+export interface IVoucherValidationResponse extends IApiResponse<IVoucherValidationData> { }
 
-export interface INotificationResponse extends IApiResponse<any> {}
+export interface INotificationResponse extends IApiResponse<any> { }
 
-export interface IActionResponse extends IApiResponse<any> {}
+export interface IActionResponse extends IApiResponse<any> { }
