@@ -214,12 +214,12 @@ export default function SizesPage() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="w-[50px] text-center">STT</TableHead>
+                      <TableHead>STT</TableHead>
                       <TableHead>Kích cỡ</TableHead>
                       <TableHead>Giá trị số</TableHead>
                       <TableHead>Trạng thái</TableHead>
                       <TableHead>Ngày cập nhật</TableHead>
-                      <TableHead className="text-right">Thao tác</TableHead>
+                      <TableHead>Thao tác</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>

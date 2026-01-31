@@ -17,7 +17,6 @@ import {
   DialogTrigger,
   DialogContent,
   DialogHeader,
-  DialogTitle,
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
@@ -29,7 +28,7 @@ import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { Icon } from "@mdi/react";
 import ConfirmCancelModal from "./ConfirmCancelModal";
-import { mdiCheckCircle, mdiClockOutline, mdiCancel } from "@mdi/js";
+import { mdiCheckCircle, mdiClockOutline, mdiCancel, mdiInformation } from "@mdi/js";
 interface ReturnDetailModalProps {
   returnItem: IReturn | null;
 }
@@ -121,11 +120,10 @@ export default function ReturnDetailModal({
           return (
             <div key={step.key} className="flex items-center gap-4">
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                  isCompleted
+                className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted
                     ? "bg-primary text-white"
                     : "bg-gray-200 text-maintext"
-                }`}
+                  }`}
               >
                 {isCompleted ? (
                   <Icon path={mdiCheckCircle} size={0.8} />
@@ -135,9 +133,8 @@ export default function ReturnDetailModal({
               </div>
               <div className="flex-1">
                 <p
-                  className={`font-medium ${
-                    isCompleted ? "text-gray-900" : "text-maintext"
-                  }`}
+                  className={`font-medium ${isCompleted ? "text-gray-900" : "text-maintext"
+                    }`}
                 >
                   {step.label}
                 </p>
@@ -175,12 +172,14 @@ export default function ReturnDetailModal({
   const returnData = detailData?.data || returnItem;
 
   return (
-    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-      <DialogHeader>
-        <DialogTitle className="flex items-center justify-between">
-          <span>Chi tiết yêu cầu trả hàng #{returnData.code}</span>
+    <DialogContent size="4xl">
+      <DialogHeader
+        title={`Chi tiết yêu cầu trả hàng #${returnData.code}`}
+        icon={mdiInformation}
+      >
+        <div className="mt-1 flex justify-start">
           {getStatusBadge(returnData.status)}
-        </DialogTitle>
+        </div>
       </DialogHeader>
 
       {isLoading ? (
@@ -275,15 +274,15 @@ export default function ReturnDetailModal({
                           <div>
                             <p className="font-medium">
                               {typeof item === "object" &&
-                              "product" in item &&
-                              typeof item.product === "object"
+                                "product" in item &&
+                                typeof item.product === "object"
                                 ? item.product.name
                                 : "Sản phẩm"}
                             </p>
                             <p className="text-sm text-maintext">
                               {typeof item === "object" &&
-                              "product" in item &&
-                              typeof item.product === "object"
+                                "product" in item &&
+                                typeof item.product === "object"
                                 ? item.product.code
                                 : ""}
                             </p>

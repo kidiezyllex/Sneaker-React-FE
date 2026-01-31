@@ -7,7 +7,6 @@ import {
     Dialog,
     DialogContent,
     DialogHeader,
-    DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -61,19 +60,11 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-auto">
-                <DialogHeader>
-                    <DialogTitle className="flex items-center gap-2">
-                        <div className="p-2 rounded-full bg-primary/10">
-                            <Icon
-                                path={mdiTicketPercentOutline}
-                                size={0.8}
-                                className="text-primary"
-                            />
-                        </div>
-                        <span>Danh sách mã giảm giá</span>
-                    </DialogTitle>
-                </DialogHeader>
+            <DialogContent size="4xl">
+                <DialogHeader
+                    title="Danh sách mã giảm giá"
+                    icon={mdiTicketPercentOutline}
+                />
                 <ScrollArea className="max-h-[60vh] overflow-y-auto p-4">
                     {isLoading ? (
                         <div className="space-y-2">

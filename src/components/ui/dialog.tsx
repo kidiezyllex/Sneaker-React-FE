@@ -6,6 +6,9 @@ import { X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
+import { cva, type VariantProps } from "class-variance-authority";
+import { Icon } from "@mdi/react";
+
 const Dialog = DialogPrimitive.Root;
 
 const DialogTrigger = DialogPrimitive.Trigger;
@@ -13,6 +16,29 @@ const DialogTrigger = DialogPrimitive.Trigger;
 const DialogPortal = DialogPrimitive.Portal;
 
 const DialogClose = DialogPrimitive.Close;
+
+const dialogContentVariants = cva(
+  "fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] border bg-background duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-xl max-h-[90vh] overflow-auto",
+  {
+    variants: {
+      size: {
+        sm: "max-w-sm",
+        md: "max-w-md",
+        lg: "max-w-lg",
+        xl: "max-w-xl",
+        "2xl": "max-w-2xl",
+        "3xl": "max-w-3xl",
+        "4xl": "max-w-4xl",
+        "5xl": "max-w-5xl",
+        "7xl": "max-w-7xl",
+        full: "max-w-[95vw]",
+      },
+    },
+    defaultVariants: {
+      size: "lg",
+    },
+  }
+);
 
 const DialogOverlay = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Overlay>,
@@ -31,16 +57,14 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> &
+  VariantProps<typeof dialogContentVariants>
+>(({ className, children, size, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
-      className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] border bg-background duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-xl",
-        className
-      )}
+      className={cn(dialogContentVariants({ size }), className)}
       {...props}
     >
       {children}
@@ -53,17 +77,37 @@ const DialogContent = React.forwardRef<
 ));
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
+interface DialogHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  title?: string;
+  icon?: string;
+}
+
 const DialogHeader = ({
   className,
+  title,
+  icon,
+  children,
   ...props
-}: React.HTMLAttributes<HTMLDivElement>) => (
+}: DialogHeaderProps) => (
   <div
     className={cn(
       "flex flex-col space-y-1.5 text-center sm:text-left !text-[#374151] border-b px-4 py-3",
       className
     )}
     {...props}
-  />
+  >
+    {(title || icon) && (
+      <DialogTitle className="flex items-center gap-2">
+        {icon && (
+          <div className="p-2 rounded-full bg-primary/10">
+            <Icon path={icon} size={0.8} className="text-primary" />
+          </div>
+        )}
+        {title && <span>{title}</span>}
+      </DialogTitle>
+    )}
+    {children}
+  </div>
 );
 DialogHeader.displayName = "DialogHeader";
 
@@ -88,7 +132,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-lg font-semibold leading-none tracking-tight !text-[#374151]",
+      "text-lg  font-semibold leading-none tracking-tight !text-[#374151]",
       className
     )}
     {...props}

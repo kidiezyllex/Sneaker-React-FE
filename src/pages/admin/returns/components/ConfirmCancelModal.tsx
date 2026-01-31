@@ -2,14 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
-import { mdiAlertCircle } from "@mdi/js";
+import { mdiAlertCircleOutline } from "@mdi/js";
 import {
-  Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
   DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 
 interface ConfirmCancelModalProps {
@@ -24,13 +21,11 @@ export default function ConfirmCancelModal({
   isLoading = false,
 }: ConfirmCancelModalProps) {
   return (
-    <DialogContent className="max-w-4xl">
-      <DialogHeader>
-        <DialogTitle className="flex items-center gap-2">
-          <Icon path={mdiAlertCircle} size={0.8} className="text-red-500" />
-          Xác nhận hủy yêu cầu
-        </DialogTitle>
-      </DialogHeader>
+    <DialogContent size="lg">
+      <DialogHeader
+        title="Xác nhận hủy yêu cầu"
+        icon={mdiAlertCircleOutline}
+      />
 
       <div className="py-4">
         <p className="text-maintext">

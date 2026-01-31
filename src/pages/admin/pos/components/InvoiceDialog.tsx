@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Icon } from "@mdi/react";
-import { mdiPrinter } from "@mdi/js";
+import { mdiPrinter, mdiFileDocument } from "@mdi/js";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import { toPng } from "html-to-image";
@@ -9,7 +9,6 @@ import {
   DialogContent,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -120,12 +119,11 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl max-h-[90vh] flex flex-col min-h-0">
-        <DialogHeader>
-          <DialogTitle className="text-maintext text-center text-2xl font-semibold">
-            Hoá đơn bán hàng
-          </DialogTitle>
-        </DialogHeader>
+      <DialogContent size="4xl">
+        <DialogHeader
+          title="Hoá đơn bán hàng"
+          icon={mdiFileDocument}
+        />
         <CustomScrollArea className="flex-1 min-h-0 p-4 overflow-y-auto">
           <div ref={invoiceRef} className="p-4 bg-white" id="invoice-content">
             <div className="w-full justify-center mb-4">

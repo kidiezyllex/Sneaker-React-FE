@@ -19,11 +19,9 @@ import {
   mdiMagnify,
   mdiFilterOutline,
   mdiEye,
-  mdiPencil,
   mdiFileExport,
-  mdiPrinter,
-  mdiCheck,
   mdiDelete,
+  mdiAlertCircleOutline,
 } from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -55,7 +53,6 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
 import {
@@ -66,18 +63,20 @@ import {
   TableCell,
   TableHead,
 } from "@/components/ui/table";
+import {
+  OrderStatusBadge,
+  PaymentStatusBadge,
+  OrderTypeBadge,
+} from "./components/OrderBadges";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import {
   CommonPagination,
-  type PaginationData,
 } from "@/components/ui/common-pagination";
 import "react-toastify/dist/ReactToastify.css";
 import {
   useOrders,
-  useOrderDetail,
-  useUpdateOrderStatus,
   useCancelOrder,
 } from "@/hooks/order";
 import type { IOrderFilter } from "@/interface/request/order";
@@ -94,16 +93,10 @@ export default function OrdersPage() {
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const [showFilters, setShowFilters] = useState(false);
   const [dateRange, setDateRange] = useState<DateRange | undefined>();
-  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
-  const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
-  const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
   const [isConfirmCancelDialogOpen, setIsConfirmCancelDialogOpen] =
     useState(false);
   const [orderToCancel, setOrderToCancel] = useState<string | null>(null);
-  const [statusToUpdate, setStatusToUpdate] = useState<string>("");
   const { data, isLoading, isError } = useOrders(filters);
-  const { data: orderDetail } = useOrderDetail(selectedOrder || "");
-  const updateOrderStatus = useUpdateOrderStatus();
   const cancelOrder = useCancelOrder();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -193,34 +186,10 @@ export default function OrdersPage() {
     }
   };
 
-  const handleViewOrder = (orderId: string) => {
+  const handleViewOrder = (orderId: string | number) => {
     navigate(`/admin/orders/${orderId}`);
   };
 
-  const handleChangeStatus = async () => {
-    if (!selectedOrder || !statusToUpdate) return;
-
-    try {
-      await updateOrderStatus.mutateAsync(
-        {
-          orderId: selectedOrder,
-          payload: { status: statusToUpdate as any },
-        },
-        {
-          onSuccess: () => {
-            toast.success("Cập nhật trạng thái đơn hàng thành công");
-            queryClient.invalidateQueries({ queryKey: ["orders"] });
-            queryClient.invalidateQueries({
-              queryKey: ["order", selectedOrder],
-            });
-            setIsStatusDialogOpen(false);
-          },
-        }
-      );
-    } catch (error) {
-      toast.error("Cập nhật trạng thái đơn hàng thất bại");
-    }
-  };
 
   const handleCancelOrder = async () => {
     if (!orderToCancel) return;
@@ -231,11 +200,6 @@ export default function OrdersPage() {
           toast.success("Hủy đơn hàng thành công");
           queryClient.invalidateQueries({ queryKey: ["orders"] });
           setIsConfirmCancelDialogOpen(false);
-          if (selectedOrder === orderToCancel) {
-            queryClient.invalidateQueries({
-              queryKey: ["order", selectedOrder],
-            });
-          }
         },
       });
     } catch (error) {
@@ -397,21 +361,19 @@ export default function OrdersPage() {
   return (
     <div className="space-y-4">
       <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-        <div className="mb-0 md:mb-0">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
-                  Dashboard
-                </Link>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Quản lý đơn hàng</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+                Dashboard
+              </Link>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Quản lý đơn hàng</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
       </div>
       <Card>
         <CardContent className="p-4">
@@ -652,84 +614,6 @@ export default function OrdersPage() {
           </Tabs>
         </CardContent>
       </Card>
-
-      <OrderDetailDialog
-        isOpen={isViewDialogOpen}
-        onClose={() => setIsViewDialogOpen(false)}
-        orderId={selectedOrder}
-        orderDetail={orderDetail?.data}
-        formatCurrency={formatCurrency}
-        formatDate={formatDate}
-        onUpdateStatus={(orderId, status) => {
-          setSelectedOrder(orderId);
-          setStatusToUpdate(status);
-          setIsStatusDialogOpen(true);
-        }}
-        onCancelOrder={(orderId) => {
-          setOrderToCancel(orderId);
-          setIsConfirmCancelDialogOpen(true);
-        }}
-      />
-
-      <Dialog open={isStatusDialogOpen} onOpenChange={setIsStatusDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Cập nhật trạng thái đơn hàng</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <Select value={statusToUpdate} onValueChange={setStatusToUpdate}>
-              <SelectTrigger>
-                <SelectValue placeholder="Chọn trạng thái" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="CHO_XAC_NHAN">Chờ xác nhận</SelectItem>
-                <SelectItem value="CHO_GIAO_HANG">Chờ giao hàng</SelectItem>
-                <SelectItem value="DANG_VAN_CHUYEN">Đang vận chuyển</SelectItem>
-                <SelectItem value="DA_GIAO_HANG">Đã giao hàng</SelectItem>
-                <SelectItem value="HOAN_THANH">Hoàn thành</SelectItem>
-                <SelectItem value="DA_HUY">Đã hủy</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsStatusDialogOpen(false)}
-            >
-              Hủy
-            </Button>
-            <Button onClick={handleChangeStatus}>Cập nhật</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={isConfirmCancelDialogOpen}
-        onOpenChange={setIsConfirmCancelDialogOpen}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Xác nhận hủy đơn hàng</DialogTitle>
-          </DialogHeader>
-          <div className="py-4">
-            <p>
-              Bạn có chắc chắn muốn hủy đơn hàng này không? Hành động này không
-              thể hoàn tác.
-            </p>
-          </div>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={() => setIsConfirmCancelDialogOpen(false)}
-            >
-              Không
-            </Button>
-            <Button variant="destructive" onClick={handleCancelOrder}>
-              Xác nhận hủy
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 
@@ -851,7 +735,7 @@ export default function OrdersPage() {
                           order.orderStatus === "HOAN_THANH"
                         }
                         onClick={() => {
-                          setOrderToCancel(order.id);
+                          setOrderToCancel(order.id.toString());
                           setIsConfirmCancelDialogOpen(true);
                         }}
                       >
@@ -882,394 +766,4 @@ export default function OrdersPage() {
   }
 }
 
-const OrderStatusBadge = ({ status }: { status: string }) => {
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case "CHO_XAC_NHAN":
-        return {
-          label: "Chờ xác nhận",
-          variant: "warning" as const,
-        };
-      case "CHO_GIAO_HANG":
-        return {
-          label: "Chờ giao hàng",
-          variant: "info" as const,
-        };
-      case "DANG_VAN_CHUYEN":
-        return {
-          label: "Đang vận chuyển",
-          variant: "outline" as const,
-        };
-      case "DA_GIAO_HANG":
-        return {
-          label: "Đã giao hàng",
-          variant: "success" as const,
-        };
-      case "HOAN_THANH":
-        return {
-          label: "Hoàn thành",
-          variant: "success" as const,
-        };
-      case "DA_HUY":
-        return {
-          label: "Đã hủy",
-          variant: "destructive" as const,
-        };
-      default:
-        return {
-          label: "Không xác định",
-          variant: "default" as const,
-        };
-    }
-  };
 
-  const config = getStatusConfig(status);
-
-  return <Badge variant={config.variant}>{config.label}</Badge>;
-};
-
-const PaymentStatusBadge = ({ status }: { status: string }) => {
-  const getStatusConfig = (status: string) => {
-    switch (status) {
-      case "PENDING":
-        return {
-          label: "Chưa thanh toán",
-          variant: "warning" as const,
-        };
-      case "PARTIAL_PAID":
-        return {
-          label: "Thanh toán một phần",
-          variant: "secondary" as const,
-        };
-      case "PAID":
-        return {
-          label: "Đã thanh toán",
-          variant: "success" as const,
-        };
-      default:
-        return {
-          label: "Không xác định",
-          variant: "default" as const,
-        };
-    }
-  };
-
-  const config = getStatusConfig(status);
-
-  return <Badge variant={config.variant}>{config.label}</Badge>;
-};
-
-const OrderTypeBadge = ({ orderCode }: { orderCode: string }) => {
-  const getOrderType = (code: string) => {
-    if (code && code.includes("POS")) {
-      return {
-        label: "Tại quầy",
-        variant: "purple" as const,
-      };
-    } else if (code && code.includes("DH")) {
-      return {
-        label: "Online",
-        variant: "info" as const,
-      };
-    } else {
-      return {
-        label: "Không xác định",
-        variant: "secondary" as const,
-      };
-    }
-  };
-
-  const config = getOrderType(orderCode);
-
-  return <Badge variant={config.variant}>{config.label}</Badge>;
-};
-
-type OrderDetailDialogProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  orderId: string | null;
-  orderDetail: any;
-  formatCurrency: (amount: number) => string;
-  formatDate: (dateString: string) => string;
-  onUpdateStatus: (orderId: string, status: string) => void;
-  onCancelOrder: (orderId: string) => void;
-};
-
-const OrderDetailDialog = ({
-  isOpen,
-  onClose,
-  orderId,
-  orderDetail,
-  formatCurrency,
-  formatDate,
-  onUpdateStatus,
-  onCancelOrder,
-}: OrderDetailDialogProps) => {
-  if (!orderId || !orderDetail) return null;
-
-  const getPaymentMethodName = (method: string) => {
-    switch (method) {
-      case "CASH":
-        return "Tiền mặt";
-      case "BANK_TRANSFER":
-        return "Chuyển khoản ngân hàng";
-      case "COD":
-        return "Thanh toán khi nhận hàng";
-      case "MIXED":
-        return "Thanh toán nhiều phương thức";
-      default:
-        return "Không xác định";
-    }
-  };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex justify-between items-center">
-            <span>Chi tiết đơn hàng: {orderDetail.orderNumber}</span>
-            <div className="flex space-x-2">
-              <Link to={`/admin/orders/edit/${orderId}`}>
-                <Button variant="outline" size="sm">
-                  <Icon path={mdiPencil} size={0.8} className="mr-2" />
-                  Chỉnh sửa
-                </Button>
-              </Link>
-              <Button variant="outline" size="sm">
-                <Icon path={mdiPrinter} size={0.8} className="mr-2" />
-                In đơn
-              </Button>
-            </div>
-          </DialogTitle>
-        </DialogHeader>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
-          <div>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-medium text-maintext">
-                  Thông tin đơn hàng
-                </h3>
-                <div className="mt-2 rounded-xl border p-4 space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">Mã đơn hàng:</span>
-                    <span className="text-sm font-medium">
-                      {orderDetail.orderNumber}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">Ngày tạo:</span>
-                    <span className="text-sm font-medium">
-                      {formatDate(orderDetail.createdAt)}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
-                      Trạng thái đơn hàng:
-                    </span>
-                    <OrderStatusBadge status={orderDetail.orderStatus} />
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
-                      Trạng thái thanh toán:
-                    </span>
-                    <PaymentStatusBadge status={orderDetail.paymentStatus} />
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
-                      Phương thức thanh toán:
-                    </span>
-                    <span className="text-sm font-medium">
-                      {getPaymentMethodName(orderDetail.paymentMethod)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-maintext">
-                  Thông tin khách hàng
-                </h3>
-                <div className="mt-2 rounded-xl border p-4 space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
-                      Tên khách hàng:
-                    </span>
-                    <span className="text-sm font-medium">
-                      {orderDetail.customer?.fullName}
-                    </span>
-                  </div>
-                  {orderDetail.customer?.email && (
-                    <div className="flex justify-between">
-                      <span className="text-sm text-maintext">Email:</span>
-                      <span className="text-sm font-medium">
-                        {orderDetail.customer.email}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
-                      Số điện thoại:
-                    </span>
-                    <span className="text-sm font-medium">
-                      {orderDetail.customer?.phoneNumber}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-maintext">
-                  Địa chỉ giao hàng
-                </h3>
-                <div className="mt-2 rounded-xl border p-4">
-                  {orderDetail.shippingAddress ? (
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">
-                        {orderDetail.shippingAddress.name}
-                      </p>
-                      <p className="text-sm">
-                        {orderDetail.shippingAddress.phoneNumber}
-                      </p>
-                      <p className="text-sm">
-                        {orderDetail.shippingAddress.specificAddress},{" "}
-                        {orderDetail.shippingAddress.wardName},{" "}
-                        {orderDetail.shippingAddress.districtName},{" "}
-                        {orderDetail.shippingAddress.provinceName}
-                      </p>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-maintext">
-                      Không có thông tin địa chỉ giao hàng
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-medium text-maintext">
-                  Sản phẩm đã đặt
-                </h3>
-                <div className="mt-2 rounded-xl">
-                  <div className="max-h-[300px] overflow-y-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Sản phẩm</TableHead>
-                          <TableHead className="text-right">Đơn giá</TableHead>
-                          <TableHead className="text-right">SL</TableHead>
-                          <TableHead className="text-right">Tổng</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {orderDetail.items.map((item: any, index: number) => (
-                          <TableRow key={index}>
-                            <TableCell>
-                              <div className="flex items-center gap-2">
-                                {item.product && item.product.imageUrl && (
-                                  <div className="w-10 h-10  rounded border overflow-hidden bg-gray-100">
-                                    <img
-                                      src={item.product.imageUrl}
-                                      alt={item.product.name}
-                                      className="w-full h-full object-contain"
-                                    />
-                                  </div>
-                                )}
-                                <div>
-                                  <div className="font-medium text-sm">
-                                    {item.product?.name}
-                                  </div>
-                                  <div className="text-sm text-maintext">
-                                    {item.variant?.colorName &&
-                                      item.variant?.sizeName &&
-                                      `${item.variant.colorName} / ${item.variant.sizeName}`}
-                                  </div>
-                                </div>
-                              </div>
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {formatCurrency(item.price)}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {item.quantity}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              {formatCurrency(item.price * item.quantity)}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-medium text-maintext">Tổng tiền</h3>
-                <div className="mt-2 rounded-xl border p-4 space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
-                      Tổng tiền hàng:
-                    </span>
-                    <span className="text-sm font-medium">
-                      {formatCurrency(orderDetail.subTotal)}
-                    </span>
-                  </div>
-                  {orderDetail.voucher && (
-                    <div className="flex justify-between">
-                      <span className="text-sm text-maintext">
-                        Mã giảm giá ({orderDetail.voucher.code}):
-                      </span>
-                      <span className="text-sm font-medium text-red-500">
-                        -{formatCurrency(orderDetail.discount)}
-                      </span>
-                    </div>
-                  )}
-                  <div className="flex justify-between border-t pt-2">
-                    <span className="text-sm font-medium">
-                      Tổng thanh toán:
-                    </span>
-                    <span className="text-base font-semibold">
-                      {formatCurrency(orderDetail.total)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action buttons */}
-              <div className="space-y-2">
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    className="w-full"
-                    disabled={["DA_HUY", "HOAN_THANH"].includes(
-                      orderDetail.orderStatus
-                    )}
-                    onClick={() =>
-                      onUpdateStatus(orderId, orderDetail.orderStatus)
-                    }
-                  >
-                    Cập nhật trạng thái
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    disabled={["DA_HUY", "HOAN_THANH"].includes(
-                      orderDetail.orderStatus
-                    )}
-                    onClick={() => onCancelOrder(orderId)}
-                  >
-                    Hủy đơn hàng
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};

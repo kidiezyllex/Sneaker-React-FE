@@ -93,10 +93,11 @@ import {
 } from "@/interface/response/product";
 import { motion } from "framer-motion";
 
-import { useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 
 export default function ProductDetail() {
   const params = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const slug = params.slug;
   const [productId, setProductId] = useState<string>("");
   const { data: productData, isLoading } = useProductDetail(productId);

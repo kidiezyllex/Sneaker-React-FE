@@ -68,7 +68,6 @@ const AdminVoucherEditPage = React.lazy(() => import("@/pages/admin/discounts/vo
 const AdminOrdersPage = React.lazy(() => import("@/pages/admin/orders"));
 const AdminOrderDetailPage = React.lazy(() => import("@/pages/admin/orders/detail"));
 const AdminOrderCreatePage = React.lazy(() => import("@/pages/admin/orders/create"));
-const AdminOrderEditPage = React.lazy(() => import("@/pages/admin/orders/edit"));
 
 const AdminPosPage = React.lazy(() => import("@/pages/admin/pos"));
 
@@ -138,7 +137,6 @@ export const router = createBrowserRouter([
                     { path: "orders", element: load(AdminOrdersPage) },
                     { path: "orders/:orderId", element: load(AdminOrderDetailPage) },
                     { path: "orders/create", element: load(AdminOrderCreatePage) },
-                    { path: "orders/edit/:id", element: load(AdminOrderEditPage) },
 
                     { path: "pos", element: load(AdminPosPage) },
 

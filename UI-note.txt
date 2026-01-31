@@ -1,4 +1,4 @@
-1. Cập nhật các <CardTitle> trong file sang Styling như mẫu sau
+1. Cập nhật các <CardTitle> trong trang http://localhost:3000/admin/orders/29 sang Styling như mẫu sau
 <CardTitle className="flex items-center gap-2">
           <div className="p-2 rounded-full bg-primary/10">
             <Icon path={mdiAccountEdit} size={0.8} className="text-primary" />
