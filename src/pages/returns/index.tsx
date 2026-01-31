@@ -184,11 +184,6 @@ const ReturnsPage: React.FC = () => {
                   </DialogTrigger>
                   <ReturnDetailModal returnItem={selectedReturn} />
                 </Dialog>
-                {returnItem.status === "CHO_XU_LY" && (
-                  <Button variant="destructive" size="sm">
-                    Hủy yêu cầu
-                  </Button>
-                )}
               </div>
             </div>
           </div>

@@ -76,6 +76,7 @@ import {
   mdiDeleteCircle,
   mdiCancel,
   mdiCheck,
+  mdiPencil,
 } from "@mdi/js";
 import { CommonPagination } from "@/components/ui/common-pagination";
 
@@ -561,40 +562,17 @@ export default function ReturnsPage() {
                               <Icon path={mdiEye} size={0.8} />
                             </Button>
 
-                            {returnItem.status === "CHO_XU_LY" && (
-                              <>
-                                <Link to={`/admin/returns/edit/${returnItem.id}`}>
-                                  <Button size="icon" variant="outline" title="Chỉnh sửa">
-                                    <Icon path={mdiPencilCircle} size={0.8} />
-                                  </Button>
-                                </Link>
-                                <Button
-                                  size="icon"
-                                  variant="outline"
-                                  onClick={() =>
-                                    setStatusUpdateModal({
-                                      isOpen: true,
-                                      returnId: returnItem.id.toString(),
-                                      currentStatus: returnItem.status,
-                                    })
-                                  }
-                                  title="Cập nhật trạng thái"
-                                >
-                                  <Icon path={mdiCheckCircle} size={0.8} />
-                                </Button>
-                                <Button
-                                  size="icon"
-                                  variant="outline"
-                                  onClick={() => {
-                                    setReturnToDelete(returnItem);
-                                    setIsDeleteDialogOpen(true);
-                                  }}
-                                  title="Xóa yêu cầu"
-                                >
-                                  <Icon path={mdiDeleteCircle} size={0.8} />
-                                </Button>
-                              </>
-                            )}
+                            <Button
+                              size="icon"
+                              variant="outline"
+                              onClick={() => {
+                                setReturnToDelete(returnItem);
+                                setIsDeleteDialogOpen(true);
+                              }}
+                              title="Xóa yêu cầu"
+                            >
+                              <Icon path={mdiDeleteCircle} size={0.8} />
+                            </Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -890,6 +868,15 @@ function ReturnDetailContent({
 
       {returnData.status === "CHO_XU_LY" && (
         <div className="pt-4 flex justify-end gap-3 border-t">
+          <Link to={`/admin/returns/edit/${returnId}`}>
+            <Button
+              variant="outline"
+              className="gap-2 h-10 px-6"
+            >
+              <Icon path={mdiPencil} size={0.7} />
+              <span className="font-semibold">Chỉnh sửa</span>
+            </Button>
+          </Link>
           <Button
             variant="outline"
             className="gap-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 h-10 px-6 transition-all"
