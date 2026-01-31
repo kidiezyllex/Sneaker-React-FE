@@ -380,7 +380,7 @@ export default function PromotionsPage() {
                               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10">
                                 <Icon
                                   path={mdiPercent}
-                                  size={0.6}
+                                  size={0.8}
                                   className="text-primary"
                                 />
                               </div>
@@ -410,7 +410,7 @@ export default function PromotionsPage() {
                                 to={`/admin/discounts/promotions/edit/${promotion.id}`}
                               >
                                 <Button variant="outline" size="icon">
-                                  <Icon path={mdiPencilCircle} size={0.7} />
+                                  <Icon path={mdiPencilCircle} size={0.8} />
                                 </Button>
                               </Link>
                               <Button
@@ -421,7 +421,7 @@ export default function PromotionsPage() {
                                   setIsDeleteDialogOpen(true);
                                 }}
                               >
-                                <Icon path={mdiDeleteCircle} size={0.7} />
+                                <Icon path={mdiDeleteCircle} size={0.8} />
                               </Button>
                             </div>
                           </TableCell>

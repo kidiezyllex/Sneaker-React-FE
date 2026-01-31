@@ -486,13 +486,13 @@ export default function VouchersPage() {
                                 }}
                                 title="Gửi thông báo"
                               >
-                                <Icon path={mdiEmailFast} size={0.6} />
+                                <Icon path={mdiEmailFast} size={0.8} />
                               </Button>
                               <Link
                                 to={`/admin/discounts/vouchers/edit/${voucher.id}`}
                               >
                                 <Button variant="outline" size="icon">
-                                  <Icon path={mdiPencilCircle} size={0.7} />
+                                  <Icon path={mdiPencilCircle} size={0.8} />
                                 </Button>
                               </Link>
                               <Button
@@ -503,7 +503,7 @@ export default function VouchersPage() {
                                   setIsDeleteDialogOpen(true);
                                 }}
                               >
-                                <Icon path={mdiDeleteCircle} size={0.7} />
+                                <Icon path={mdiDeleteCircle} size={0.8} />
                               </Button>
                             </div>
                           </TableCell>

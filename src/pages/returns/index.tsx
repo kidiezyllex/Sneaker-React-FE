@@ -197,7 +197,7 @@ const ReturnsPage: React.FC = () => {
             {returnItems.slice(0, 3).map((item, index) => (
               <div key={index} className="flex-shrink-0">
                 <div className="w-[60px] h-[60px] bg-slate-100 rounded-md flex items-center justify-center border">
-                  <Icon path={mdiPackageVariant} size={0.6} className="text-slate-400" />
+                  <Icon path={mdiPackageVariant} size={0.8} className="text-slate-400" />
                 </div>
               </div>
             ))}

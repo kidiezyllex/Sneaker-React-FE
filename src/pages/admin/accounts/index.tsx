@@ -457,76 +457,42 @@ export default function AccountsPage() {
                           {formatDate(account.createdAt)}
                         </TableCell>
                         <TableCell className="py-3 px-4 text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button size="icon" variant="outline">
-                                <Icon path={mdiDotsVertical} size={0.8} />
+                          <div className="flex justify-end gap-2">
+                            <Link to={`/admin/accounts/edit/${account.id}`}>
+                              <Button variant="outline" size="icon" title="Chỉnh sửa">
+                                <Icon path={mdiPencil} size={0.8} />
                               </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                              <Link to={`/admin/accounts/edit/${account.id}`}>
-                                <DropdownMenuItem className="cursor-pointer text-maintext">
-                                  <Icon
-                                    path={mdiPencil}
-                                    size={0.8}
-                                    className="mr-2"
-                                  />
-                                  <span className="text-maintext">
-                                    Chỉnh sửa
-                                  </span>
-                                </DropdownMenuItem>
-                              </Link>
-                              <DropdownMenuSeparator />
-                              {account.status === "ACTIVE" ? (
-                                <DropdownMenuItem
-                                  className="cursor-pointer text-maintext"
-                                  onClick={() =>
-                                    handleUpdateStatus(account, "INACTIVE")
-                                  }
-                                >
-                                  <Icon
-                                    path={mdiLock}
-                                    size={0.8}
-                                    className="mr-2"
-                                  />
-                                  <span className="text-maintext">
-                                    Vô hiệu hóa
-                                  </span>
-                                </DropdownMenuItem>
-                              ) : (
-                                <DropdownMenuItem
-                                  className="cursor-pointer text-maintext"
-                                  onClick={() =>
-                                    handleUpdateStatus(account, "ACTIVE")
-                                  }
-                                >
-                                  <Icon
-                                    path={mdiLockReset}
-                                    size={0.8}
-                                    className="mr-2"
-                                  />
-                                  <span className="text-maintext">
-                                    Kích hoạt
-                                  </span>
-                                </DropdownMenuItem>
-                              )}
+                            </Link>
 
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                className="cursor-pointer text-red-600"
-                                onClick={() => handleDeleteAccount(account)}
+                            {account.status === "ACTIVE" ? (
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handleUpdateStatus(account, "INACTIVE")}
+                                title="Vô hiệu hóa"
                               >
-                                <Icon
-                                  path={mdiDelete}
-                                  size={0.8}
-                                  className="mr-2"
-                                />
-                                <span className="text-red-600">
-                                  Xóa tài khoản
-                                </span>
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                                <Icon path={mdiLock} size={0.8} />
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => handleUpdateStatus(account, "ACTIVE")}
+                                title="Kích hoạt"
+                              >
+                                <Icon path={mdiLockReset} size={0.8} />
+                              </Button>
+                            )}
+
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleDeleteAccount(account)}
+                              title="Xóa tài khoản"
+                            >
+                              <Icon path={mdiDelete} size={0.8} />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))

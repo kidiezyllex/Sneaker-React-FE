@@ -204,7 +204,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                     {subItem.icon && (
                                       <Icon
                                         path={subItem.icon}
-                                        size={0.7}
+                                        size={0.8}
                                         className={cn(
                                           "mr-2",
                                           isSubMenuActive(subItem.path, menu.subMenu)

@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
@@ -549,79 +548,54 @@ export default function ReturnsPage() {
                           {getReturnStatusBadge(returnItem.status)}
                         </TableCell>
                         <TableCell className="text-right">
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <Button size="icon" variant="outline" className="h-8 w-8">
-                                <Icon path={mdiDotsVertical} size={0.6} />
-                              </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end" className="w-48">
-                              <DropdownMenuItem
-                                className="cursor-pointer"
-                                onClick={() => {
-                                  setSelectedReturn(returnItem.id.toString());
-                                  setIsDetailDialogOpen(true);
-                                }}
-                              >
-                                <Icon
-                                  path={mdiEye}
-                                  size={0.6}
-                                  className="mr-2 text-slate-400"
-                                />
-                                <span>Xem chi tiết</span>
-                              </DropdownMenuItem>
-                              {returnItem.status === "CHO_XU_LY" && (
-                                <>
-                                  <DropdownMenuSeparator />
-                                  <Link
-                                    to={`/admin/returns/edit/${returnItem.id}`}
-                                  >
-                                    <DropdownMenuItem className="cursor-pointer">
-                                      <Icon
-                                        path={mdiPencilCircle}
-                                        size={0.6}
-                                        className="mr-2 text-blue-400"
-                                      />
-                                      <span>Chỉnh sửa</span>
-                                    </DropdownMenuItem>
-                                  </Link>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem
-                                    className="cursor-pointer"
-                                    onClick={() =>
-                                      setStatusUpdateModal({
-                                        isOpen: true,
-                                        returnId: returnItem.id.toString(),
-                                        currentStatus: returnItem.status,
-                                      })
-                                    }
-                                  >
-                                    <Icon
-                                      path={mdiCheckCircle}
-                                      size={0.6}
-                                      className="mr-2 text-green-400"
-                                    />
-                                    <span>Cập nhật trạng thái</span>
-                                  </DropdownMenuItem>
-                                  <DropdownMenuSeparator />
-                                  <DropdownMenuItem
-                                    className="cursor-pointer text-red-600 focus:text-red-600"
-                                    onClick={() => {
-                                      setReturnToDelete(returnItem);
-                                      setIsDeleteDialogOpen(true);
-                                    }}
-                                  >
-                                    <Icon
-                                      path={mdiDeleteCircle}
-                                      size={0.6}
-                                      className="mr-2"
-                                    />
-                                    <span>Xóa yêu cầu</span>
-                                  </DropdownMenuItem>
-                                </>
-                              )}
-                            </DropdownMenuContent>
-                          </DropdownMenu>
+                          <div className="flex justify-end gap-2">
+                            <Button
+                              size="icon"
+                              variant="outline"
+                              onClick={() => {
+                                setSelectedReturn(returnItem.id.toString());
+                                setIsDetailDialogOpen(true);
+                              }}
+                              title="Xem chi tiết"
+                            >
+                              <Icon path={mdiEye} size={0.8} />
+                            </Button>
+
+                            {returnItem.status === "CHO_XU_LY" && (
+                              <>
+                                <Link to={`/admin/returns/edit/${returnItem.id}`}>
+                                  <Button size="icon" variant="outline" title="Chỉnh sửa">
+                                    <Icon path={mdiPencilCircle} size={0.8} />
+                                  </Button>
+                                </Link>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() =>
+                                    setStatusUpdateModal({
+                                      isOpen: true,
+                                      returnId: returnItem.id.toString(),
+                                      currentStatus: returnItem.status,
+                                    })
+                                  }
+                                  title="Cập nhật trạng thái"
+                                >
+                                  <Icon path={mdiCheckCircle} size={0.8} />
+                                </Button>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => {
+                                    setReturnToDelete(returnItem);
+                                    setIsDeleteDialogOpen(true);
+                                  }}
+                                  title="Xóa yêu cầu"
+                                >
+                                  <Icon path={mdiDeleteCircle} size={0.8} />
+                                </Button>
+                              </>
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -869,7 +843,7 @@ function ReturnDetailContent({
                         </div>
                       ) : (
                         <div className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center border">
-                          <Icon path={mdiMagnify} size={0.6} className="text-slate-400" />
+                          <Icon path={mdiMagnify} size={0.8} className="text-slate-400" />
                         </div>
                       )}
                     </TableCell>
@@ -921,14 +895,14 @@ function ReturnDetailContent({
             className="gap-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 h-10 px-6 transition-all"
             onClick={() => onUpdateStatus(returnId, "DA_HUY")}
           >
-            <Icon path={mdiCancel} size={0.7} />
+            <Icon path={mdiCancel} size={0.8} />
             <span className="font-semibold">Từ chối trả hàng</span>
           </Button>
           <Button
             className="gap-2 bg-green-600 hover:bg-green-700 text-white h-10 px-8 transition-all shadow-md active:scale-95"
             onClick={() => onUpdateStatus(returnId, "DA_HOAN_TIEN")}
           >
-            <Icon path={mdiCheck} size={0.7} />
+            <Icon path={mdiCheck} size={0.8} />
             <span className="font-semibold">Hoàn tiền & Hoàn tất</span>
           </Button>
         </div>
