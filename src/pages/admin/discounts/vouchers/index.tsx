@@ -420,11 +420,11 @@ export default function VouchersPage() {
                                     ? `${voucher.value}%`
                                     : formatCurrency(voucher.value)}
                                 </span>
-                                <Badge variant="outline" className="text-[10px] h-4 px-1 uppercase secondary">
+                                <Badge variant="outline" className="text-xs h-4 px-1 uppercase secondary">
                                   {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
                                 </Badge>
                               </div>
-                              <div className="text-[11px] text-slate-500 flex flex-col">
+                              <div className="text-xs text-slate-500 flex flex-col">
                                 {voucher.minOrderValue > 0 && (
                                   <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
                                 )}
@@ -436,7 +436,7 @@ export default function VouchersPage() {
                           </TableCell>
                           <TableCell className="px-4 py-4">
                             <div className="flex flex-col gap-1 w-32">
-                              <div className="flex justify-between text-[11px] font-medium">
+                              <div className="flex justify-between text-xs font-medium">
                                 <span className="text-slate-600">Đã dùng: {voucher.usedCount}</span>
                                 <span className="text-slate-400">{Math.round((voucher.usedCount / voucher.quantity) * 100)}%</span>
                               </div>
@@ -446,7 +446,7 @@ export default function VouchersPage() {
                                   style={{ width: `${(voucher.usedCount / voucher.quantity) * 100}%` }}
                                 />
                               </div>
-                              <span className="text-[10px] text-slate-400">Tổng: {voucher.quantity}</span>
+                              <span className="text-xs text-slate-400">Tổng: {voucher.quantity}</span>
                             </div>
                           </TableCell>
                           <TableCell className="px-4 py-4">

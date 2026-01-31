@@ -310,7 +310,7 @@ export default function POSRightSection({
                   {appliedVoucher && (
                     <Badge
                       variant="outline"
-                      className="text-[10px] h-4 px-1 border-green-200 bg-green-50"
+                      className="text-xs h-4 px-1 border-green-200 bg-green-50"
                     >
                       {appliedVoucher.code}
                     </Badge>

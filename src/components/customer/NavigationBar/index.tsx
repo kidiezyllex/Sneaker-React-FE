@@ -148,7 +148,7 @@ export const NavigationBar = () => {
                     className="relative w-9 h-9 bg-primary text-white rounded-full flex items-center justify-center transition-all"
                   >
                     <Icon path={mdiCart} size={0.65} />
-                    <span className="absolute -top-1 -right-1 bg-extra text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                    <span className="absolute -top-1 -right-1 bg-extra text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
                       {totalItems}
                     </span>
                   </button>
