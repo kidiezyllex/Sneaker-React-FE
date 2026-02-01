@@ -24,6 +24,7 @@ interface ChatStore {
     sessionId: string;
     isLoading: boolean;
     isOpen: boolean;
+    activeTab: 'chat' | 'history';
 
     // Actions
     addMessage: (role: 'user' | 'assistant', content: string, chatId?: number) => void;
@@ -32,6 +33,7 @@ interface ChatStore {
     setOpen: (open: boolean) => void;
     loadSession: (messages: Message[], sessionId: string) => void;
     createNewSession: () => void;
+    setActiveTab: (tab: 'chat' | 'history') => void;
 }
 
 export const useChatStore = create<ChatStore>()(
@@ -42,6 +44,7 @@ export const useChatStore = create<ChatStore>()(
             sessionId: generateUUID(),
             isLoading: false,
             isOpen: false,
+            activeTab: 'chat',
 
             // Actions
             addMessage: (role, content, chatId) =>
@@ -72,13 +75,17 @@ export const useChatStore = create<ChatStore>()(
                 set({
                     messages,
                     sessionId,
+                    activeTab: 'chat',
                 }),
 
             createNewSession: () =>
                 set({
                     messages: [],
                     sessionId: generateUUID(),
+                    activeTab: 'chat',
                 }),
+
+            setActiveTab: (tab) => set({ activeTab: tab }),
         }),
         {
             name: 'chat-storage',

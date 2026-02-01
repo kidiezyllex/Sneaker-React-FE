@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
     Sheet,
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/sheet";
 import { useChatStore, Message } from '@/stores/useChatStore';
 import { chatbotApi } from '@/api/chatbot';
+import { useUser } from '@/context/useUserContext';
 import { format } from 'date-fns';
 import { vi } from 'date-fns/locale';
 import toast from 'react-hot-toast';
@@ -24,9 +25,7 @@ function TypingIndicator() {
     return (
         <div className="flex gap-3 flex-row">
             <Avatar className="h-8 w-8 flex-shrink-0">
-                <AvatarFallback className="bg-secondary">
-                    <Icon path={mdiRobotLoveOutline} size={0.8} className='text-white' />
-                </AvatarFallback>
+                <AvatarImage src="https://api.dicebear.com/7.x/avataaars/svg?seed=bot" />
             </Avatar>
 
             <div className="flex flex-col gap-1 max-w-[75%] items-start">
@@ -83,13 +82,20 @@ function ChatRating({ chatId }: { chatId: number }) {
 
 function ChatMessage({ message }: { message: Message }) {
     const isUser = message.role === 'user';
+    const { profile } = useUser();
+
+    const getAvatarUrl = () => {
+        if (isUser) {
+            const userId = profile?.data?.id || 'user';
+            return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
+        }
+        return `https://api.dicebear.com/7.x/avataaars/svg?seed=bot`;
+    };
 
     return (
         <div className={`flex gap-3 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
             <Avatar className="h-8 w-8 flex-shrink-0">
-                <AvatarFallback className={isUser ? 'bg-primary' : 'bg-secondary'}>
-                    {isUser ? <Icon path={mdiAccountSupervisorCircleOutline} size={0.8} className='text-white' /> : <Icon path={mdiRobotLoveOutline} size={0.8} className='text-white' />}
-                </AvatarFallback>
+                <AvatarImage src={getAvatarUrl()} />
             </Avatar>
 
             <div className={`flex flex-col gap-1 max-w-[75%] ${isUser ? 'items-end' : 'items-start'}`}>
@@ -153,7 +159,7 @@ function ChatInput() {
 
 
 export function ChatWindow() {
-    const { isOpen, setOpen, messages, isLoading } = useChatStore();
+    const { isOpen, setOpen, messages, isLoading, activeTab, setActiveTab } = useChatStore();
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -175,7 +181,11 @@ export function ChatWindow() {
                 </SheetHeader>
 
                 <div className="flex-1 flex flex-col overflow-hidden">
-                    <Tabs defaultValue="chat" className="flex-1 flex flex-col overflow-hidden">
+                    <Tabs
+                        value={activeTab}
+                        onValueChange={(val) => setActiveTab(val as 'chat' | 'history')}
+                        className="flex-1 flex flex-col overflow-hidden"
+                    >
                         <TabsList className="grid w-full grid-cols-2 flex-shrink-0 rounded-none border-b h-auto p-0">
                             <TabsTrigger
                                 value="chat"

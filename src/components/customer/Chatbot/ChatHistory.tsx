@@ -118,10 +118,10 @@ export function ChatHistory() {
                         {history.map((chat) => (
                             <div
                                 key={chat.id}
-                                className="p-3 border rounded-lg hover:bg-muted/50 cursor-pointer transition-colors"
+                                className="p-3 border rounded-lg bg-green-50 hover:bg-green-100 border-green-500 cursor-pointer transition-colors"
                                 onClick={() => handleLoadSession(chat.sessionId)}
                             >
-                                <p className="text-sm font-medium line-clamp-1">{chat.userMessage}</p>
+                                <p className="text-sm line-clamp-1 text-primary font-semibold">{chat.userMessage}</p>
                                 <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
                                     {chat.botResponse}
                                 </p>
