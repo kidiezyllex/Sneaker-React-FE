@@ -255,7 +255,7 @@ export default function AdminReturnDetailPage() {
                 <p className="text-red-500 text-lg mb-4">Không thể tải thông tin yêu cầu trả hàng</p>
                 <Link to="/admin/returns">
                     <Button variant="outline">
-                        <Icon path={mdiArrowLeft} size={0.7} className="mr-2" />
+                        <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
                         Quay lại danh sách
                     </Button>
                 </Link>
@@ -577,7 +577,7 @@ export default function AdminReturnDetailPage() {
                                     onClick={() => setIsApproveOpen(true)}
                                     disabled={isSubmitting}
                                 >
-                                    <Icon path={mdiCheckCircle} size={0.7} className="mr-2" />
+                                    <Icon path={mdiCheckCircle} size={0.8} />
                                     Phê duyệt hoàn tiền
                                 </Button>
                                 <Button
@@ -586,7 +586,7 @@ export default function AdminReturnDetailPage() {
                                     onClick={() => setIsRejectOpen(true)}
                                     disabled={isSubmitting}
                                 >
-                                    <Icon path={mdiCancel} size={0.7} className="mr-2" />
+                                    <Icon path={mdiCancel} size={0.8} />
                                     Từ chối yêu cầu
                                 </Button>
                                 <div className="pt-4 border-t mt-4 flex gap-3">
@@ -595,7 +595,7 @@ export default function AdminReturnDetailPage() {
                                         onClick={() => setIsSaveOpen(true)}
                                         disabled={isSubmitting || editableItems.length === 0}
                                     >
-                                        <Icon path={mdiContentSave} size={0.6} className="mr-2" />
+                                        <Icon path={mdiContentSave} size={0.8} />
                                         Lưu thay đổi
                                     </Button>
                                 </div>

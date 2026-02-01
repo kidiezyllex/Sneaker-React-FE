@@ -545,7 +545,7 @@ export default function EditPromotionPage() {
                                         <>
                                             <Icon
                                                 path={mdiLoading}
-                                                size={0.7}
+                                                size={0.8}
                                                 className="mr-2 animate-spin"
                                             />
                                             Đang cập nhật...

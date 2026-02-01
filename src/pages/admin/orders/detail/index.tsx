@@ -613,7 +613,7 @@ export default function OrderDetailPage() {
                         variant="outline"
                         onClick={() => setIsInvoiceDialogOpen(true)}
                     >
-                        <Icon path={mdiFileDocument} size={0.7} className="mr-2" />
+                        <Icon path={mdiFileDocument} size={0.8} className="mr-2" />
                         Xem hóa đơn
                     </Button>
                     <Button
@@ -621,7 +621,7 @@ export default function OrderDetailPage() {
                         disabled={["DA_HUY", "HOAN_THANH"].includes(order.orderStatus)}
                         onClick={() => setIsConfirmCancelDialogOpen(true)}
                     >
-                        <Icon path={mdiDelete} size={0.7} className="mr-2" />
+                        <Icon path={mdiDelete} size={0.8} className="mr-2" />
                         Hủy đơn hàng
                     </Button>
                     <Button

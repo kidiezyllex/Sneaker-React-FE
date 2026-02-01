@@ -296,7 +296,7 @@ export default function EditProductPage() {
                         onClick={() => navigate(-1)}
                         className="flex items-center gap-2"
                     >
-                        <Icon path={mdiArrowLeft} size={0.7} />
+                        <Icon path={mdiArrowLeft} size={0.8} />
                         Quay lại
                     </Button>
                 </div>
@@ -478,7 +478,7 @@ export default function EditProductPage() {
                                         <>
                                             <Icon
                                                 path={mdiLoading}
-                                                size={0.7}
+                                                size={0.8}
                                                 className="animate-spin"
                                             />
                                             Đang cập nhật...
@@ -558,7 +558,7 @@ export default function EditProductPage() {
                                                             variant.id.toString() ? (
                                                             <Icon
                                                                 path={mdiLoading}
-                                                                size={0.7}
+                                                                size={0.8}
                                                                 className="animate-spin"
                                                             />
                                                         ) : (
@@ -603,14 +603,14 @@ export default function EditProductPage() {
                                                             <>
                                                                 <Icon
                                                                     path={mdiLoading}
-                                                                    size={0.7}
+                                                                    size={0.8}
                                                                     className="animate-spin"
                                                                 />
                                                                 Đang tải...
                                                             </>
                                                         ) : (
                                                             <>
-                                                                <Icon path={mdiUpload} size={0.7} />
+                                                                <Icon path={mdiUpload} size={0.8} />
                                                                 Tải lên hình ảnh
                                                             </>
                                                         )}
@@ -644,13 +644,13 @@ export default function EditProductPage() {
                                                                         {updateProductImages.isPending ? (
                                                                             <Icon
                                                                                 path={mdiLoading}
-                                                                                size={0.7}
+                                                                                size={0.8}
                                                                                 className="animate-spin"
                                                                             />
                                                                         ) : (
                                                                             <Icon
                                                                                 path={mdiTrashCanOutline}
-                                                                                size={0.7}
+                                                                                size={0.8}
                                                                             />
                                                                         )}
                                                                     </Button>
