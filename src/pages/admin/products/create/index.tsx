@@ -295,29 +295,21 @@ export default function CreateProductPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-        <Button
-          variant="outline"
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2"
-        >
-          <Icon path={mdiArrowLeft} size={0.8} />
-          Quay lại
-        </Button>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="border bg-white rounded-lg">
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
           className="space-y-4"
         >
           <TabsList className="grid w-full md:w-[400px] grid-cols-2">
-            <TabsTrigger value="info">Thông tin cơ bản</TabsTrigger>
-            <TabsTrigger value="variants">Biến thể sản phẩm</TabsTrigger>
+            <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>
+            <TabsTrigger value="variants" className="px-4 text-maintext/70">Biến thể sản phẩm</TabsTrigger>
           </TabsList>
 
           <TabsContent value="info" className="space-y-4">
-            <Card>
+            <Card className="border-none">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <div className="p-2 rounded-full bg-primary/10">
@@ -484,7 +476,7 @@ export default function CreateProductPage() {
           </TabsContent>
 
           <TabsContent value="variants" className="space-y-4">
-            <Card>
+            <Card className="border-none">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-2">

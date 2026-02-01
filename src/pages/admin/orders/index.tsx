@@ -23,7 +23,7 @@ import {
   mdiDelete,
   mdiAlertCircleOutline,
 } from "@mdi/js";
-import { format } from "date-fns";
+import { format, startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import { vi } from "date-fns/locale";
 import {
   DropdownMenu,
@@ -50,12 +50,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import {
   Table,
   TableHeader,
   TableBody,
@@ -68,6 +62,7 @@ import {
   PaymentStatusBadge,
   OrderTypeBadge,
 } from "./components/OrderBadges";
+import { ConfirmCancelDialog } from "./components/ConfirmCancelDialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
@@ -103,75 +98,49 @@ export default function OrdersPage() {
 
   useEffect(() => {
     const debounce = setTimeout(() => {
-      if (searchQuery.trim()) {
-        setFilters((prev) => ({ ...prev, search: searchQuery, page: 1 }));
-      } else {
-        if (filters.search !== undefined) {
-          const { search, ...rest } = filters;
-          setFilters({ ...rest, page: 1 });
+      setFilters((prev) => {
+        if (searchQuery.trim()) {
+          return { ...prev, search: searchQuery, page: 1 };
+        } else {
+          const { search, ...rest } = prev;
+          return { ...rest, page: 1 };
         }
-      }
+      });
     }, 500);
 
     return () => clearTimeout(debounce);
   }, [searchQuery]);
 
   useEffect(() => {
-    const newFilters: Partial<IOrderFilter> = { page: 1 };
-    const today = new Date();
-    const currentDay = today.getDay();
-    const startOfWeek = new Date(today);
-    startOfWeek.setDate(
-      today.getDate() - currentDay + (currentDay === 0 ? -6 : 1)
-    );
-    startOfWeek.setHours(0, 0, 0, 0);
+    setFilters((prev) => {
+      const { startDate, endDate, ...restExisting } = prev;
+      const newFilters: any = { ...restExisting, page: 1 };
+      const today = new Date();
 
-    const endOfWeek = new Date(startOfWeek);
-    endOfWeek.setDate(startOfWeek.getDate() + 6);
-    endOfWeek.setHours(23, 59, 59, 999);
-
-    const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    startOfMonth.setHours(0, 0, 0, 0);
-    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-    endOfMonth.setHours(23, 59, 59, 999);
-
-    today.setHours(0, 0, 0, 0);
-    const endOfToday = new Date();
-    endOfToday.setHours(23, 59, 59, 999);
-
-    if (selectedTab === "today") {
-      newFilters.startDate = today.toISOString().split("T")[0];
-      newFilters.endDate = endOfToday.toISOString().split("T")[0];
-    } else if (selectedTab === "week") {
-      newFilters.startDate = startOfWeek.toISOString().split("T")[0];
-      newFilters.endDate = endOfWeek.toISOString().split("T")[0];
-    } else if (selectedTab === "month") {
-      newFilters.startDate = startOfMonth.toISOString().split("T")[0];
-      newFilters.endDate = endOfMonth.toISOString().split("T")[0];
-    } else {
-      if (!dateRange?.from && !dateRange?.to) {
-        const { startDate, endDate, ...restExisting } = filters;
-        setFilters((prev) => ({ ...restExisting, ...newFilters }));
-        return;
+      if (selectedTab === "today") {
+        newFilters.startDate = format(today, "yyyy-MM-dd");
+        newFilters.endDate = format(today, "yyyy-MM-dd");
+      } else if (selectedTab === "week") {
+        newFilters.startDate = format(startOfWeek(today, { weekStartsOn: 1 }), "yyyy-MM-dd");
+        newFilters.endDate = format(endOfWeek(today, { weekStartsOn: 1 }), "yyyy-MM-dd");
+      } else if (selectedTab === "month") {
+        newFilters.startDate = format(startOfMonth(today), "yyyy-MM-dd");
+        newFilters.endDate = format(endOfMonth(today), "yyyy-MM-dd");
+      } else if (selectedTab === "all") {
+        if (dateRange?.from && dateRange?.to) {
+          newFilters.startDate = format(dateRange.from, "yyyy-MM-dd");
+          newFilters.endDate = format(dateRange.to, "yyyy-MM-dd");
+        }
       }
-    }
 
-    if (selectedTab === "all" && dateRange?.from && dateRange?.to) {
-      newFilters.startDate = dateRange.from.toISOString().split("T")[0];
-      newFilters.endDate = dateRange.to.toISOString().split("T")[0];
-    } else if (
-      dateRange?.from &&
-      dateRange?.to &&
-      selectedTab !== "today" &&
-      selectedTab !== "week" &&
-      selectedTab !== "month"
-    ) {
-      newFilters.startDate = dateRange.from.toISOString().split("T")[0];
-      newFilters.endDate = dateRange.to.toISOString().split("T")[0];
-    }
-
-    setFilters((prev) => ({ ...prev, ...newFilters }));
+      return newFilters;
+    });
   }, [selectedTab, dateRange]);
+
+  const handleTabChange = (value: string) => {
+    setSelectedTab(value);
+    setDateRange(undefined); // Reset khoảng ngày khi chọn các tab mặc định
+  };
 
   const handleFilterChange = (
     key: keyof IOrderFilter,
@@ -378,49 +347,33 @@ export default function OrdersPage() {
       <Card>
         <CardContent className="p-4">
           <Tabs
-            defaultValue="all"
+            value={selectedTab}
             className="w-full"
-            onValueChange={setSelectedTab}
+            onValueChange={handleTabChange}
           >
             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
               <TabsList className="h-9">
                 <TabsTrigger
                   value="all"
                   className="px-4 text-maintext/70"
-                  onClick={() => {
-                    setDateRange(undefined);
-                    setSelectedTab("all");
-                  }}
                 >
                   Tất cả
                 </TabsTrigger>
                 <TabsTrigger
                   value="today"
                   className="px-4 text-maintext/70"
-                  onClick={() => {
-                    setDateRange(undefined);
-                    setSelectedTab("today");
-                  }}
                 >
                   Hôm nay
                 </TabsTrigger>
                 <TabsTrigger
                   value="week"
                   className="px-4 text-maintext/70"
-                  onClick={() => {
-                    setDateRange(undefined);
-                    setSelectedTab("week");
-                  }}
                 >
                   Tuần này
                 </TabsTrigger>
                 <TabsTrigger
                   value="month"
                   className="px-4 text-maintext/70"
-                  onClick={() => {
-                    setDateRange(undefined);
-                    setSelectedTab("month");
-                  }}
                 >
                   Tháng này
                 </TabsTrigger>
@@ -614,6 +567,7 @@ export default function OrdersPage() {
           </Tabs>
         </CardContent>
       </Card>
+
     </div>
   );
 
@@ -663,6 +617,12 @@ export default function OrdersPage() {
 
     return (
       <>
+        <ConfirmCancelDialog
+          open={isConfirmCancelDialogOpen}
+          onOpenChange={setIsConfirmCancelDialogOpen}
+          onConfirm={handleCancelOrder}
+          isPending={cancelOrder.isPending}
+        />
         <div className="overflow-hidden">
           <Table>
             <TableHeader>

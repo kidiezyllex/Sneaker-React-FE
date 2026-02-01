@@ -5,9 +5,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
   DialogFooter,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
@@ -36,23 +34,19 @@ export function DeleteConfirmDialog({
 }: DeleteConfirmDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-        </DialogHeader>
+      <DialogContent size="xl">
+        <DialogHeader title={title} icon={mdiDelete} />
         <div className="p-4 text-sm text-maintext">{description}</div>
-        <DialogFooter className="gap-2 sm:gap-0">
-          <DialogClose asChild>
-            <Button
-              variant="outline"
-              disabled={isLoading}
-              onClick={onClose}
-              className="flex items-center gap-2"
-            >
-              <Icon path={mdiClose} size={0.8} />
-              {cancelText}
-            </Button>
-          </DialogClose>
+        <DialogFooter>
+          <Button
+            variant="outline"
+            disabled={isLoading}
+            onClick={onClose}
+            className="flex items-center gap-2"
+          >
+            <Icon path={mdiClose} size={0.8} />
+            {cancelText}
+          </Button>
           <Button
             variant="destructive"
             onClick={onConfirm}

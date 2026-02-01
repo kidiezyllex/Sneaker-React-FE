@@ -5,3 +5,13 @@
           </div>
           <span>Thông tin cá nhân</span>
         </CardTitle>
+
+        2. Button
+
+ <Button
+                        variant="outline"
+                        onClick={() => onOpenChange(false)}
+                    >
+                        <Icon path={mdiClose} size={0.8} />
+                        Đóng
+                    </Button>

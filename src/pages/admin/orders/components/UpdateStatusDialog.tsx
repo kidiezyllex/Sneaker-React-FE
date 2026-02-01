@@ -13,7 +13,8 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { mdiPencil } from "@mdi/js";
+import { mdiClose, mdiPencil } from "@mdi/js";
+import Icon from "@mdi/react";
 
 interface UpdateStatusDialogProps {
     open: boolean;
@@ -103,12 +104,14 @@ export const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({
                 </div>
                 <DialogFooter>
                     <Button variant="outline" onClick={() => onOpenChange(false)}>
+                        <Icon path={mdiClose} size={0.8} />
                         Hủy
                     </Button>
                     <Button
                         onClick={() => onUpdate(status, paymentStatus)}
                         disabled={isUpdating}
                     >
+                        <Icon path={mdiPencil} size={0.8} />
                         {isUpdating ? "Đang cập nhật..." : "Cập nhật"}
                     </Button>
                 </DialogFooter>

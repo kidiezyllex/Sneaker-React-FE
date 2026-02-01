@@ -981,10 +981,15 @@ export default function POSPage() {
       {/* Phần quản lý các giỏ hàng đang chờ */}
       <div className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-border">
         <div className="flex items-start justify-between mb-4">
-          <h3 className="text-lg font-semibold text-maintext flex items-center gap-2">
-            <Icon path={mdiCart} size={0.8} className="text-primary" />
-            Hoá đơn chờ ({pendingCarts.length}/5)
-          </h3>
+          <div className="space-y-1">
+            <h3 className="text-lg font-semibold text-maintext flex items-center gap-2">
+              <Icon path={mdiCart} size={0.8} className="text-primary" />
+              Hoá đơn chờ ({pendingCarts.length}/5)
+            </h3>
+            <p className="text-sm text-maintext/60">
+              Lưu trữ tạm thời các đơn hàng đang phục vụ để luân chuyển nhanh chóng (Tối đa 5 hoá đơn chờ cùng lúc)
+            </p>
+          </div>
           <Button
             onClick={handleCreateNewCart}
             disabled={pendingCarts.length >= 5}

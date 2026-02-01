@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import {
     Dialog,
     DialogContent,
@@ -7,7 +7,10 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
-import { mdiFileDocument, mdiPrinter } from "@mdi/js";
+import { mdiClose, mdiFileDocument, mdiPrinter } from "@mdi/js";
+import { toast } from "react-toastify";
+import jsPDF from "jspdf";
+import { toPng } from "html-to-image";
 import {
     Table,
     TableHeader,
@@ -32,6 +35,9 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
     onOpenChange,
     order,
 }) => {
+    const [isProcessing, setIsProcessing] = useState(false);
+    const invoiceRef = useRef<HTMLDivElement>(null);
+
     if (!order) return null;
 
     const formatCurrency = (amount: number) => {
@@ -76,6 +82,39 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
         }
     };
 
+    const handlePrintToPdf = async () => {
+        try {
+            setIsProcessing(true);
+            const input = invoiceRef.current;
+            if (!input) throw new Error("Invoice element not found");
+
+            const canvas = await toPng(input, {
+                quality: 0.95,
+                pixelRatio: 2,
+                cacheBust: true,
+            });
+
+            const pdf = new jsPDF({
+                orientation: "portrait",
+                unit: "mm",
+                format: "a4",
+            });
+
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const imgProps = pdf.getImageProperties(canvas);
+            const imgHeight = (imgProps.height * pageWidth) / imgProps.width;
+
+            pdf.addImage(canvas, "PNG", 0, 0, pageWidth, imgHeight);
+            pdf.save(`HoaDon_${order.code}.pdf`);
+            toast.success("Đã tải xuống hóa đơn PDF!");
+        } catch (error) {
+            console.error(error);
+            toast.error("Lỗi khi tạo file PDF");
+        } finally {
+            setIsProcessing(false);
+        }
+    };
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent size="4xl">
@@ -83,7 +122,7 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                     title={`Hóa đơn đơn hàng #${order.code}`}
                     icon={mdiFileDocument}
                 />
-                <div className="p-4">
+                <div className="p-4" ref={invoiceRef}>
                     <div className="border-b pb-4 mb-4">
                         <div className="flex justify-between items-start">
                             <div>
@@ -208,11 +247,16 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                         variant="outline"
                         onClick={() => onOpenChange(false)}
                     >
+                        <Icon path={mdiClose} size={0.8} />
                         Đóng
                     </Button>
-                    <Button>
-                        <Icon path={mdiPrinter} size={0.7} className="mr-2" />
-                        In hóa đơn
+                    <Button
+                        onClick={handlePrintToPdf}
+                        disabled={isProcessing}
+                        className="flex items-center gap-2"
+                    >
+                        <Icon path={mdiPrinter} size={0.8} />
+                        {isProcessing ? "Đang xử lý..." : "Lưu PDF & In"}
                     </Button>
                 </DialogFooter>
             </DialogContent>
