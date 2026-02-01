@@ -58,7 +58,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
@@ -417,9 +417,6 @@ export default function AccountsPage() {
                                   src={getAvatarUrl(account.id.toString())}
                                   alt={`${account.fullName} avatar`}
                                 />
-                                <AvatarFallback className="bg-gray-200 text-maintext">
-                                  {getInitials(account.fullName)}
-                                </AvatarFallback>
                               </Avatar>
                             </div>
                             <div>

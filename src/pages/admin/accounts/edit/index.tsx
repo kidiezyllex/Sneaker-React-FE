@@ -35,7 +35,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
 import { mdiArrowLeft, mdiLoading } from "@mdi/js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 export default function AdminAccountEditPage() {
     const { id } = useParams();
@@ -149,14 +149,9 @@ export default function AdminAccountEditPage() {
         }
     };
 
-    const getInitials = (name: string) => {
-        if (!name) return "??";
-        return name
-            .split(" ")
-            .map((word) => word[0])
-            .join("")
-            .toUpperCase()
-            .substring(0, 2);
+    const getAvatarUrl = () => {
+        const userId = accountData?.data.id || "default";
+        return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;
     };
 
     if (isLoading) {
@@ -205,10 +200,7 @@ export default function AdminAccountEditPage() {
 
             <div className="flex items-center space-x-4 bg-white p-8 rounded-[6px] shadow-md">
                 <Avatar className="w-24 h-24 border-2 border-primary">
-                    <AvatarImage src={formData.avatar} />
-                    <AvatarFallback className="text-2xl">
-                        {getInitials(formData.fullName || "")}
-                    </AvatarFallback>
+                    <AvatarImage src={formData.avatar || getAvatarUrl()} />
                 </Avatar>
                 <div className="space-y-1">
                     <h2 className="text-3xl font-bold">{formData.fullName}</h2>

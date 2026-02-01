@@ -208,7 +208,6 @@ export default function CreateVoucherPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
       <form onSubmit={handleSubmit}>
         <Card>
           <CardHeader>

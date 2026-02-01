@@ -11,7 +11,7 @@ import AdminHeader from "../Header";
 import { useMenuSidebar } from "@/stores/useMenuSidebar";
 import { useStableCallback } from "@/hooks/usePerformance";
 import { useUserProfile } from "@/hooks/account";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
@@ -124,10 +124,6 @@ const SidebarLayout = memo(function SidebarLayout({
                   src={getAvatarUrl()}
                   alt={profileData?.data.fullName}
                 />
-                <AvatarFallback>
-                  {profileData?.data.fullName.split(" ").pop()?.charAt(0) ||
-                    "U"}
-                </AvatarFallback>
               </Avatar>
             </div>
           </div>

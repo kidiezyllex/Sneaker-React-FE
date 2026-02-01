@@ -28,7 +28,6 @@ import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { useUser } from "@/context/useUserContext";
 import { motion } from "framer-motion";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Icon } from "@mdi/react";
 import {
   mdiAccount,
@@ -39,6 +38,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AddressManager from "./components/AddressManager";
 import { useUpdateUserProfile, useUserProfile } from "@/hooks/account";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 const profileSchema = z.object({
   fullName: z.string().min(3, "Tên đầy đủ phải có ít nhất 3 ký tự"),
@@ -112,11 +112,6 @@ function ProfileForm() {
         <div className="flex justify-center mb-4">
           <Avatar className="w-24 h-24 border-4 border-primary/20">
             <AvatarImage src={getAvatarUrl()} alt="Avatar" />
-            <AvatarFallback className="bg-primary/10 text-primary text-2xl">
-              {form.getValues("fullName")?.charAt(0)?.toUpperCase() || (
-                <Icon path={mdiAccount} size={1.5} />
-              )}
-            </AvatarFallback>
           </Avatar>
         </div>
 

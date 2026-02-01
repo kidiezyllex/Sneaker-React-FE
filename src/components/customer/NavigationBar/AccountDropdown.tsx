@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUser } from "@/context/useUserContext";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 const dropdownAnimation = {
   hidden: { opacity: 0, y: -5 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
@@ -61,9 +61,6 @@ const AccountDropdown = () => {
               src={getAvatarUrl()}
               alt={profile?.data?.fullName || "User"}
             />
-            <AvatarFallback className="bg-primary/10 text-primary font-medium">
-              {getInitials()}
-            </AvatarFallback>
           </Avatar>
         </button>
       </DropdownMenuTrigger>
