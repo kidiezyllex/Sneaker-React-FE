@@ -195,32 +195,25 @@ export default function CreateOrderPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
-                Dashboard
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <Link to="/admin/orders" className="!text-white/80 hover:!text-white">
-                Quản lý đơn hàng
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Tạo đơn hàng mới</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <Button variant="outline" onClick={() => navigate(-1)}>
-          <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
-          Quay lại
-        </Button>
-      </div>
-
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              Dashboard
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/admin/orders" className="!text-white/80 hover:!text-white">
+              Quản lý đơn hàng
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Tạo đơn hàng mới</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <form onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2 space-y-4">

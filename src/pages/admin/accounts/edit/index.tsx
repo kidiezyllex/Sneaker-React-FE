@@ -183,35 +183,25 @@ export default function AdminAccountEditPage() {
 
     return (
         <div className="space-y-4">
-            <div className="flex justify-between items-start">
-                <Breadcrumb>
-                    <BreadcrumbList>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink asChild>
-                                <Link to="/admin/statistics">Dashboard</Link>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbLink asChild>
-                                <Link to="/admin/accounts">Quản lý người dùng</Link>
-                            </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>Chỉnh sửa tài khoản</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-                <Button
-                    variant="outline"
-                    onClick={() => navigate(-1)}
-                    className="flex items-center gap-2"
-                >
-                    <Icon path={mdiArrowLeft} size={0.8} />
-                    Quay lại
-                </Button>
-            </div>
+            <Breadcrumb>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link to="/admin/statistics">Dashboard</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link to="/admin/accounts">Quản lý người dùng</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chỉnh sửa tài khoản</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
 
             <div className="flex items-center space-x-4 bg-white p-8 rounded-[6px] shadow-md">
                 <Avatar className="w-24 h-24 border-2 border-primary">

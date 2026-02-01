@@ -247,26 +247,23 @@ export default function AccountsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
-                Dashboard
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <Link to="#" className="!text-white/80 hover:!text-white">Quản lý người dùng</Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Danh sách tài khoản</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
-
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              Dashboard
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="#" className="!text-white/80 hover:!text-white">Quản lý người dùng</Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Danh sách tài khoản</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <Card className="mb-4">
         <CardContent className="p-4 space-y-4">
           <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">

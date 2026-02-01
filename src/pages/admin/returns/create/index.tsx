@@ -296,34 +296,25 @@ export default function CreateReturnPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
-                Dashboard
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <Link to="/admin/returns" className="!text-white/80 hover:!text-white">
-                Quản lý trả hàng
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Tạo yêu cầu trả hàng mới</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <Link to="/admin/returns" className="mr-2">
-          <Button variant="outline">
-            <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
-            Quay lại
-          </Button>
-        </Link>
-      </div>
-
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              Dashboard
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/admin/returns" className="!text-white/80 hover:!text-white">
+              Quản lý trả hàng
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Tạo yêu cầu trả hàng mới</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       {/* Customer Selection */}
       <Card>
         <CardHeader>

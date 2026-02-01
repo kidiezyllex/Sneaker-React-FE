@@ -183,41 +183,31 @@ export default function CreateVoucherPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
-                Dashboard
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
-                Quản lý khuyến mãi
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
-                Mã giảm giá
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Thêm mã giảm giá mới</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <Button
-          variant="outline"
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2"
-        >
-          <Icon path={mdiArrowLeft} size={0.8} />
-          Quay lại
-        </Button>
-      </div>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              Dashboard
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
+              Quản lý khuyến mãi
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/admin/discounts/vouchers" className="!text-white/80 hover:!text-white">
+              Mã giảm giá
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Thêm mã giảm giá mới</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <form onSubmit={handleSubmit}>
         <Card>

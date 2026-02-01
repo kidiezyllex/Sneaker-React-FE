@@ -206,7 +206,6 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -224,7 +223,6 @@ export default function ProductsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-      </div>
 
       <Card className="mb-4">
         <CardContent className="p-4">

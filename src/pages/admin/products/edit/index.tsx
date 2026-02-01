@@ -317,33 +317,31 @@ export default function EditProductPage() {
 
     return (
         <div className="space-y-4">
-            <div className="flex justify-between items-start">
-                <Breadcrumb>
-                    <BreadcrumbList>
-                        <BreadcrumbItem>
-                            <Link
-                                to="/admin/statistics"
-                                className="!text-white/80 hover:!text-white"
-                            >
-                                Dashboard
-                            </Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <Link
-                                to="/admin/products"
-                                className="!text-white/80 hover:!text-white"
-                            >
-                                Quản lý sản phẩm
-                            </Link>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator />
-                        <BreadcrumbItem>
-                            <BreadcrumbPage>Chỉnh sửa sản phẩm</BreadcrumbPage>
-                        </BreadcrumbItem>
-                    </BreadcrumbList>
-                </Breadcrumb>
-            </div>
+            <Breadcrumb>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <Link
+                            to="/admin/statistics"
+                            className="!text-white/80 hover:!text-white"
+                        >
+                            Dashboard
+                        </Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <Link
+                            to="/admin/products"
+                            className="!text-white/80 hover:!text-white"
+                        >
+                            Quản lý sản phẩm
+                        </Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chỉnh sửa sản phẩm</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 bg-white rounded-lg border">
                 <TabsList className="grid w-full md:w-[500px] grid-cols-3">
                     <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>

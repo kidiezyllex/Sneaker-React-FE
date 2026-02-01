@@ -275,21 +275,19 @@ export default function ReturnsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
-                Dashboard
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Quản lý trả hàng</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-      </div>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              Dashboard
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Quản lý trả hàng</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <Card className="mb-4">
         <CardContent className="p-4">
           <Tabs defaultValue="all" onValueChange={setSelectedTab}>

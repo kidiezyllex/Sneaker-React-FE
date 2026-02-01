@@ -130,7 +130,6 @@ export default function ColorsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-start">
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -150,7 +149,6 @@ export default function ColorsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-      </div>
 
       <Card className="mb-4">
         <CardContent className="p-4 space-y-4">

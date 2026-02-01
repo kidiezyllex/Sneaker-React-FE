@@ -227,59 +227,6 @@ export default function EditVoucherPage() {
     if (isError || !voucherData) {
         return (
             <div className="space-y-4">
-                <div className="flex justify-between items-start">
-                    <Breadcrumb>
-                        <BreadcrumbList>
-                            <BreadcrumbItem>
-                                <BreadcrumbLink asChild>
-                                    <Link to="/admin/statistics">Dashboard</Link>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbLink asChild>
-                                    <Link to="/admin/discounts">Quản lý Đợt khuyến mãi</Link>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbLink asChild>
-                                    <Link to="/admin/discounts/vouchers">Mã giảm giá</Link>
-                                </BreadcrumbLink>
-                            </BreadcrumbItem>
-                            <BreadcrumbSeparator />
-                            <BreadcrumbItem>
-                                <BreadcrumbPage>Chỉnh sửa mã giảm giá</BreadcrumbPage>
-                            </BreadcrumbItem>
-                        </BreadcrumbList>
-                    </Breadcrumb>
-                    <Button
-                        variant="outline"
-                        onClick={() => navigate(-1)}
-                        className="flex items-center gap-2"
-                    >
-                        <Icon path={mdiArrowLeft} size={0.8} />
-                        Quay lại
-                    </Button>
-                </div>
-
-                <Card>
-                    <CardContent className="p-4 text-center">
-                        <p className="text-red-500 mb-4">
-                            Đã xảy ra lỗi khi tải thông tin mã giảm giá. Vui lòng thử lại sau.
-                        </p>
-                        <Button variant="outline" onClick={() => navigate(-1)}>
-                            Quay lại
-                        </Button>
-                    </CardContent>
-                </Card>
-            </div>
-        );
-    }
-
-    return (
-        <div className="space-y-4">
-            <div className="flex justify-between items-start">
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
@@ -305,15 +252,47 @@ export default function EditVoucherPage() {
                         </BreadcrumbItem>
                     </BreadcrumbList>
                 </Breadcrumb>
-                <Button
-                    variant="outline"
-                    onClick={() => navigate(-1)}
-                    className="flex items-center gap-2"
-                >
-                    <Icon path={mdiArrowLeft} size={0.8} />
-                    Quay lại
-                </Button>
+                <Card>
+                    <CardContent className="p-4 text-center">
+                        <p className="text-red-500 mb-4">
+                            Đã xảy ra lỗi khi tải thông tin mã giảm giá. Vui lòng thử lại sau.
+                        </p>
+                        <Button variant="outline" onClick={() => navigate(-1)}>
+                            Quay lại
+                        </Button>
+                    </CardContent>
+                </Card>
             </div>
+        );
+    }
+
+    return (
+        <div className="space-y-4">
+            <Breadcrumb>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link to="/admin/statistics">Dashboard</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link to="/admin/discounts">Quản lý Đợt khuyến mãi</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbLink asChild>
+                            <Link to="/admin/discounts/vouchers">Mã giảm giá</Link>
+                        </BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Chỉnh sửa mã giảm giá</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
 
             <form onSubmit={handleSubmit}>
                 <Card>

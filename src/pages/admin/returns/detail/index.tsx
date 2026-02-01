@@ -542,8 +542,8 @@ export default function AdminReturnDetailPage() {
 
                                 <div className="pt-2 space-y-2">
                                     <p className="text-xs font-bold uppercase text-maintext tracking-widest">Số tiền hoàn (Dự kiến)</p>
-                                    <div className="bg-red-50/50 border border-red-100 p-4 rounded-xl text-center">
-                                        <p className="text-3xl font-black text-red-600">{formatCurrency(getTotalRefund())}</p>
+                                    <div className="bg-green-50/50 border border-green-200 p-4 rounded-xl text-center">
+                                        <p className="text-3xl font-black text-primary">{formatCurrency(getTotalRefund())}</p>
                                     </div>
                                 </div>
 
