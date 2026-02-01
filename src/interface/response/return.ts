@@ -10,37 +10,51 @@ export interface IReturnProduct {
 }
 
 export interface IReturnCustomer {
-  id: number | string;
-  code?: string;
+  id: number;
+  code: string;
   fullName: string;
-  email: string;
   phoneNumber: string;
+  email: string;
+  birthday?: string;
   gender?: boolean;
   avatar?: string | null;
   role?: string;
+  citizenId?: string;
   status?: string;
+  addresses?: any[];
 }
 
 export interface IReturnStaff {
-  id: number | string;
-  code?: string;
+  id: number;
+  code: string;
   fullName: string;
-  email?: string;
   phoneNumber?: string;
+  email?: string;
+  birthday?: string;
+  gender?: boolean;
+  avatar?: string | null;
   role?: string;
+  citizenId?: string;
 }
 
 export interface IReturnOrder {
-  id: number | string;
+  id: number;
   code: string;
-  subTotal?: number;
-  discount?: number;
-  total?: number;
-  orderStatus?: string;
-  paymentMethod?: string;
-  paymentStatus?: string;
-  items?: any[]; // Full order items for detail resolution
-  createdAt?: string;
+  subTotal: number;
+  discount: number;
+  total: number;
+  shippingName?: string;
+  shippingPhoneNumber?: string;
+  shippingProvinceId?: string;
+  shippingDistrictId?: string;
+  shippingWardId?: string;
+  shippingSpecificAddress?: string;
+  paymentMethod: string;
+  paymentStatus: string;
+  orderStatus: string;
+  items?: any[];
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface IReturn {

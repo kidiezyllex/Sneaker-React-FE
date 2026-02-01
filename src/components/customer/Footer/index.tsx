@@ -398,7 +398,7 @@ export const Footer = () => {
 
             {/* Mobile footer bottom */}
             <motion.div
-              className="sm:hidden mt-8 pt-6 border-t border-white/20 text-center"
+              className="sm:hidden mt-8 pt-4 border-t border-white/20 text-center"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.6 }}

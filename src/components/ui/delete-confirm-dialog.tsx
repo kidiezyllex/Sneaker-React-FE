@@ -34,7 +34,7 @@ export function DeleteConfirmDialog({
 }: DeleteConfirmDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent size="xl">
+      <DialogContent size="md">
         <DialogHeader title={title} icon={mdiDelete} />
         <div className="p-4 text-sm text-maintext">{description}</div>
         <DialogFooter>

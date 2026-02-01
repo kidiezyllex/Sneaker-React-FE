@@ -21,7 +21,7 @@ export default function ConfirmCancelModal({
   isLoading = false,
 }: ConfirmCancelModalProps) {
   return (
-    <DialogContent size="lg">
+    <DialogContent size="md">
       <DialogHeader
         title="Xác nhận hủy yêu cầu"
         icon={mdiAlertCircleOutline}

@@ -424,7 +424,7 @@ export default function VouchersPage() {
                                   {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
                                 </Badge>
                               </div>
-                              <div className="text-xs text-slate-500 flex flex-col">
+                              <div className="text-xs text-maintext flex flex-col">
                                 {voucher.minOrderValue > 0 && (
                                   <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
                                 )}

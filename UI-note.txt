@@ -1,11 +1,14 @@
 1. Cập nhật các <CardTitle> trong trang http://localhost:3000/admin/orders/29 sang Styling như mẫu sau
-<CardTitle className="flex items-center gap-2">
-          <div className="p-2 rounded-full bg-primary/10">
-            <Icon path={mdiAccountEdit} size={0.8} className="text-primary" />
-          </div>
-          <span>Thông tin cá nhân</span>
-        </CardTitle>
-
+Styling CardHeader, CardTitle phải theo mẫu sau, giống cả className và format
+<CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <div className="p-2 rounded-full bg-primary/10">
+                                        <Icon path={mdiCash} size={0.8} className="text-primary" />
+                                    </div>
+                                    <span>Tổng quan đơn hàng</span>
+                                </CardTitle>
+                            </CardHeader>
+Chỉ được phép thay đổi Icon và title-text. Cấm thêm và thay đổi bất kì thứ gì khác
         2. Button
 
  <Button

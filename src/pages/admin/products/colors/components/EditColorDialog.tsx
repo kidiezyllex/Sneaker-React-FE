@@ -137,9 +137,9 @@ export function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogPro
 
     if (isLoading) {
         return (
-            <DialogContent size="xl">
+            <DialogContent size="md">
                 <DialogHeader title="Đang tải..." icon={mdiPencil} />
-                <div className="space-y-4 p-6">
+                <div className="space-y-4 p-4">
                     <div className="space-y-2">
                         <Skeleton className="h-4 w-[100px]" />
                         <Skeleton className="h-10 w-full" />
@@ -159,7 +159,7 @@ export function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogPro
 
     if (isError || !colorData) {
         return (
-            <DialogContent size="xl">
+            <DialogContent size="md">
                 <DialogHeader title="Lỗi" icon={mdiPencil} />
                 <div className="py-8 text-center">
                     <p className="text-red-500 mb-6">
@@ -184,7 +184,7 @@ export function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogPro
     }
 
     return (
-        <DialogContent size="xl">
+        <DialogContent size="md">
             <DialogHeader
                 title={`Chỉnh sửa màu sắc: ${colorData.data.name}`}
                 icon={mdiPencil}

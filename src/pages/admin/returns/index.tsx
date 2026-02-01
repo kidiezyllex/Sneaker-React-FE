@@ -47,21 +47,6 @@ import {
 } from "@/components/ui/popover";
 import StatusUpdateModal from "@/components/admin/Returns/StatusUpdateModal";
 import SearchReturnModal from "@/components/admin/Returns/SearchReturnModal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-} from "@/components/ui/dialog";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   mdiMagnify,
@@ -121,8 +106,6 @@ export default function ReturnsPage() {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [returnToDelete, setReturnToDelete] = useState<any>(null);
   const [selectedTab, setSelectedTab] = useState<string>("all");
-  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
-  const [selectedReturn, setSelectedReturn] = useState<string | null>(null);
   const [statusUpdateModal, setStatusUpdateModal] = useState<{
     isOpen: boolean;
     returnId: string;
@@ -531,7 +514,7 @@ export default function ReturnsPage() {
                         <TableCell>
                           <div className="flex flex-col">
                             <span className="font-medium text-slate-700">{returnItem.customer.fullName}</span>
-                            <span className="text-xs text-slate-500">{returnItem.customer.phoneNumber}</span>
+                            <span className="text-xs text-maintext">{returnItem.customer.phoneNumber}</span>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -550,17 +533,15 @@ export default function ReturnsPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Button
-                              size="icon"
-                              variant="outline"
-                              onClick={() => {
-                                setSelectedReturn(returnItem.id.toString());
-                                setIsDetailDialogOpen(true);
-                              }}
-                              title="Xem chi tiết"
-                            >
-                              <Icon path={mdiEye} size={0.8} />
-                            </Button>
+                            <Link to={`/admin/returns/${returnItem.id}`}>
+                              <Button
+                                size="icon"
+                                variant="outline"
+                                title="Xem chi tiết"
+                              >
+                                <Icon path={mdiEye} size={0.8} />
+                              </Button>
+                            </Link>
 
                             <Button
                               size="icon"
@@ -624,20 +605,6 @@ export default function ReturnsPage() {
         }
       />
 
-      {/* Return Detail Dialog */}
-      <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-        <DialogContent className="sm:max-w-[90%] max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Chi tiết yêu cầu trả hàng</DialogTitle>
-          </DialogHeader>
-          <ReturnDetailContent
-            returnId={selectedReturn || ""}
-            formatCurrency={formatCurrency}
-            formatDate={formatDate}
-            onUpdateStatus={handleUpdateStatus}
-          />
-        </DialogContent>
-      </Dialog>
 
       {/* Status Update Modal */}
       <StatusUpdateModal
@@ -664,236 +631,3 @@ export default function ReturnsPage() {
   );
 }
 
-import { useReturnDetail } from "@/hooks/return";
-
-function ReturnDetailContent({
-  returnId,
-  formatCurrency,
-  formatDate,
-  onUpdateStatus,
-}: {
-  returnId: string;
-  formatCurrency: (amount: number) => string;
-  formatDate: (date: string) => string;
-  onUpdateStatus: (
-    id: string,
-    status: "CHO_XU_LY" | "DA_HOAN_TIEN" | "DA_HUY"
-  ) => Promise<void>;
-}) {
-  const { data, isLoading, isError } = useReturnDetail(returnId);
-
-  if (isLoading) {
-    return (
-      <div className="space-y-4 p-4">
-        <Skeleton className="h-8 w-[200px]" />
-        <Skeleton className="h-20 w-full" />
-        <Skeleton className="h-40 w-full" />
-      </div>
-    );
-  }
-
-  if (isError || !data) {
-    return (
-      <p className="text-red-500 p-4">
-        Đã xảy ra lỗi khi tải thông tin chi tiết.
-      </p>
-    );
-  }
-
-  const returnData = data.data;
-  const customer = returnData.customer;
-  const order = returnData.originalOrder;
-
-  // Parse items from JSON string
-  let returnItems: any[] = [];
-  try {
-    returnItems = JSON.parse(returnData.items);
-  } catch (e) {
-    console.error("Error parsing return items:", e);
-  }
-
-  // Resolve full details for returned items using original order items
-  const resolvedReturnItems = returnItems.map(retItem => {
-    const originalItem = order.items?.find((item: any) => item.variant.id === retItem.variantId);
-    return {
-      ...retItem,
-      fullDetails: originalItem
-    };
-  });
-
-  return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-slate-50 p-4 rounded-xl space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Thông tin yêu cầu</h3>
-          <div className="grid grid-cols-2 gap-y-4">
-            <div>
-              <p className="text-xs text-slate-500">Mã yêu cầu</p>
-              <p className="font-mono font-bold text-primary">{returnData.code}</p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-500">Ngày tạo</p>
-              <p className="font-medium text-slate-700">{formatDate(returnData.createdAt)}</p>
-            </div>
-            <div>
-              <p className="text-xs text-slate-500">Đơn hàng gốc</p>
-              <Badge variant="outline" className="font-mono mt-0.5">{order.code}</Badge>
-            </div>
-            <div>
-              <p className="text-xs text-slate-500">Trạng thái</p>
-              <div className="mt-1">
-                {getReturnStatusBadge(returnData.status)}
-              </div>
-            </div>
-            <div className="col-span-2">
-              <p className="text-xs text-slate-500">Lý do trả hàng</p>
-              <p className="font-medium text-slate-700 mt-1 italic">"{returnData.reason}"</p>
-              {returnData.note && (
-                <p className="text-xs text-slate-500 mt-1">Ghi chú: {returnData.note}</p>
-              )}
-            </div>
-            <div className="col-span-2 pt-2 border-t">
-              <p className="text-xs text-slate-500">Tổng tiền hoàn trả</p>
-              <p className="text-xl font-bold text-slate-900">
-                {formatCurrency(returnData.totalRefund)}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-slate-50 p-4 rounded-xl space-y-4">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500">Thông tin khách hàng & Nhân viên</h3>
-          <div className="space-y-4">
-            <div>
-              <p className="text-xs text-slate-500 mb-1">Khách hàng</p>
-              <div className="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200">
-                <div className="flex flex-col">
-                  <span className="font-semibold text-slate-900">{customer.fullName}</span>
-                  <span className="text-xs text-slate-500">{customer.email}</span>
-                  <span className="text-xs text-slate-500">{customer.phoneNumber}</span>
-                </div>
-              </div>
-            </div>
-            {returnData.staff && (
-              <div>
-                <p className="text-xs text-slate-500 mb-1">Nhân viên xử lý</p>
-                <div className="flex items-center gap-3 bg-white p-3 rounded-lg border border-slate-200">
-                  <div className="flex flex-col">
-                    <span className="font-semibold text-slate-900">{returnData.staff.fullName}</span>
-                    <span className="text-xs text-slate-500">{returnData.staff.email}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <h3 className="text-sm font-bold uppercase tracking-wider text-slate-500 mb-3">Sản phẩm trả lại</h3>
-        <div className="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-slate-50/50">
-                <TableHead className="w-[100px]">Ảnh</TableHead>
-                <TableHead>Sản phẩm</TableHead>
-                <TableHead>Biến thể</TableHead>
-                <TableHead className="text-center font-semibold">Số lượng</TableHead>
-                <TableHead className="text-right font-semibold">Giá</TableHead>
-                <TableHead className="text-right font-semibold">Thành tiền</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {resolvedReturnItems.map((item: any, index: number) => {
-                const variant = item.fullDetails?.variant;
-                const imageUrl = variant?.images?.[0]?.imageUrl;
-
-                return (
-                  <TableRow key={index} className="hover:bg-slate-50/50">
-                    <TableCell>
-                      {imageUrl ? (
-                        <div className="w-16 h-16 relative rounded-lg border overflow-hidden shadow-sm">
-                          <img
-                            src={imageUrl}
-                            alt="Product"
-                            className="object-cover w-full h-full"
-                          />
-                        </div>
-                      ) : (
-                        <div className="w-16 h-16 bg-slate-100 rounded-lg flex items-center justify-center border">
-                          <Icon path={mdiMagnify} size={0.8} className="text-slate-400" />
-                        </div>
-                      )}
-                    </TableCell>
-                    <TableCell className="font-medium max-w-[200px]">
-                      {item.fullDetails?.variant?.product?.name || "Chi tiết sản phẩm"}
-                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                        REF: ORD_ITEM_{item.variantId}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {variant ? (
-                        <div className="flex flex-col text-xs gap-1">
-                          <div className="flex items-center gap-1.5">
-                            <div
-                              className="w-2.5 h-2.5 rounded-full border border-slate-200"
-                              style={{ backgroundColor: variant.color.code }}
-                            />
-                            <span>Màu: {variant.color.name}</span>
-                          </div>
-                          <Badge variant="secondary" className="w-fit text-[10px] px-1.5 py-0">
-                            Size: {variant.size.value}
-                          </Badge>
-                        </div>
-                      ) : (
-                        <span className="text-slate-400 italic">N/A</span>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center font-bold text-slate-700">
-                      {item.quantity}
-                    </TableCell>
-                    <TableCell className="text-right font-medium text-slate-600">
-                      {formatCurrency(item.price)}
-                    </TableCell>
-                    <TableCell className="text-right font-bold text-slate-900">
-                      {formatCurrency(item.price * item.quantity)}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
-      </div>
-
-      {returnData.status === "CHO_XU_LY" && (
-        <div className="pt-4 flex justify-end gap-3 border-t">
-          <Link to={`/admin/returns/edit/${returnId}`}>
-            <Button
-              variant="outline"
-              className="gap-2 h-10 px-6"
-            >
-              <Icon path={mdiPencil} size={0.7} />
-              <span className="font-semibold">Chỉnh sửa</span>
-            </Button>
-          </Link>
-          <Button
-            variant="outline"
-            className="gap-2 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 h-10 px-6 transition-all"
-            onClick={() => onUpdateStatus(returnId, "DA_HUY")}
-          >
-            <Icon path={mdiCancel} size={0.8} />
-            <span className="font-semibold">Từ chối trả hàng</span>
-          </Button>
-          <Button
-            className="gap-2 bg-green-600 hover:bg-green-700 text-white h-10 px-8 transition-all shadow-md active:scale-95"
-            onClick={() => onUpdateStatus(returnId, "DA_HOAN_TIEN")}
-          >
-            <Icon path={mdiCheck} size={0.8} />
-            <span className="font-semibold">Hoàn tiền & Hoàn tất</span>
-          </Button>
-        </div>
-      )}
-    </div>
-  );
-}

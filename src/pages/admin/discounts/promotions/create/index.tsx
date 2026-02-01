@@ -366,7 +366,7 @@ export default function CreatePromotionPage() {
 
               {/* Thông tin tóm tắt */}
               <Card className="bg-blue-50 border-blue-200">
-                <CardContent className="pt-6">
+                <CardContent className="pt-4">
                   <div className="flex items-start gap-4">
                     <Icon
                       path={mdiInformation}
@@ -409,7 +409,7 @@ export default function CreatePromotionPage() {
               </Card>
 
               {/* Buttons */}
-              <div className="flex justify-end space-x-4 pt-6">
+              <div className="flex justify-end space-x-4 pt-4">
                 <Button
                   type="button"
                   variant="outline"

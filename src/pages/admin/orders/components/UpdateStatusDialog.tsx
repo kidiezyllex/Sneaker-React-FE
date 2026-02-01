@@ -60,7 +60,7 @@ export const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent size="xl">
+            <DialogContent size="md">
                 <DialogHeader
                     title="Cập nhật trạng thái"
                     icon={mdiPencil}

@@ -154,9 +154,9 @@ const ProfileTab = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               {/* Cột trái: Avatar và Thông tin trạng thái */}
-              <div className="md:col-span-4 space-y-6">
+              <div className="md:col-span-4 space-y-4">
                 <Card>
-                  <CardContent className="pt-6">
+                  <CardContent className="pt-4">
                     <div className="flex flex-col items-center text-center space-y-4">
                       <div className="relative group">
                         <img
@@ -199,7 +199,7 @@ const ProfileTab = () => {
                       </Button>
                     </div>
 
-                    <div className="mt-8 pt-6 border-t space-y-4">
+                    <div className="mt-8 pt-4 border-t space-y-4">
                       <div className="flex justify-between items-center text-sm">
                         <span className="font-semibold flex items-center gap-2">
                           <Icon path={mdiInformationOutline} size={0.8} />
@@ -226,7 +226,7 @@ const ProfileTab = () => {
               </div>
 
               {/* Cột phải: Form cập nhật */}
-              <div className="md:col-span-8 space-y-6">
+              <div className="md:col-span-8 space-y-4">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-primary">

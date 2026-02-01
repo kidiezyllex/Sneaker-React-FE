@@ -110,9 +110,9 @@ export function EditBrandDialog({ brandId, isOpen, onClose }: EditBrandDialogPro
 
     if (isLoading) {
         return (
-            <DialogContent size="xl">
+            <DialogContent size="md">
                 <DialogHeader title="Đang tải..." icon={mdiPencil} />
-                <div className="space-y-4 p-6">
+                <div className="space-y-4 p-4">
                     <div className="space-y-2">
                         <Skeleton className="h-4 w-[100px]" />
                         <Skeleton className="h-10 w-full" />
@@ -132,7 +132,7 @@ export function EditBrandDialog({ brandId, isOpen, onClose }: EditBrandDialogPro
 
     if (isError || !brandData) {
         return (
-            <DialogContent size="xl">
+            <DialogContent size="md">
                 <DialogHeader title="Lỗi" icon={mdiPencil} />
                 <div className="py-8 text-center">
                     <p className="text-red-500 mb-6">
@@ -157,7 +157,7 @@ export function EditBrandDialog({ brandId, isOpen, onClose }: EditBrandDialogPro
     }
 
     return (
-        <DialogContent size="xl">
+        <DialogContent size="md">
             <DialogHeader
                 title={`Chỉnh sửa thương hiệu: ${brandData.data.name}`}
                 icon={mdiPencil}

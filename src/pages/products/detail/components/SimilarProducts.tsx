@@ -60,7 +60,7 @@ export const SimilarProducts: React.FC<SimilarProductsProps> = ({
       </div>
 
       <div className="text-center mt-12">
-        <Button variant="outline" size="lg" asChild>
+        <Button variant="outline" size="md" asChild>
           <Link to="/products">Xem tất cả sản phẩm</Link>
         </Button>
       </div>

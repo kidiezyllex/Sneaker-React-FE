@@ -82,7 +82,7 @@ const AdminProductSizesPage = React.lazy(() => import("@/pages/admin/products/si
 
 const AdminReturnsPage = React.lazy(() => import("@/pages/admin/returns"));
 const AdminReturnCreatePage = React.lazy(() => import("@/pages/admin/returns/create"));
-const AdminReturnEditPage = React.lazy(() => import("@/pages/admin/returns/edit"));
+const AdminReturnDetailPage = React.lazy(() => import("@/pages/admin/returns/detail"));
 
 const NotFoundPage = React.lazy(() => import("@/pages/error"));
 
@@ -151,7 +151,7 @@ export const router = createBrowserRouter([
 
                     { path: "returns", element: load(AdminReturnsPage) },
                     { path: "returns/create", element: load(AdminReturnCreatePage) },
-                    { path: "returns/edit/:id", element: load(AdminReturnEditPage) },
+                    { path: "returns/:id", element: load(AdminReturnDetailPage) },
                 ],
             },
             { path: "*", element: load(NotFoundPage) },

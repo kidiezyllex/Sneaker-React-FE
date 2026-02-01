@@ -77,7 +77,7 @@ export default function SuccessModal({
             </p>
           </CardContent>
 
-          <CardFooter className="flex flex-col space-y-4 pt-6">
+          <CardFooter className="flex flex-col space-y-4 pt-4">
             <Button
               onClick={handleViewOrder}
               className="w-full"

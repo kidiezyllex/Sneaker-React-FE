@@ -23,7 +23,7 @@ export const ConfirmCancelDialog: React.FC<ConfirmCancelDialogProps> = ({
 }) => {
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
-            <DialogContent size="xl">
+            <DialogContent size="md">
                 <DialogHeader
                     title="Xác nhận hủy đơn hàng"
                     icon={mdiAlertCircleOutline}

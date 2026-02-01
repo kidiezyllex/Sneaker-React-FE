@@ -92,7 +92,7 @@ export function CreateMaterialDialog({ isOpen, onClose }: CreateMaterialDialogPr
     };
 
     return (
-        <DialogContent size="xl">
+        <DialogContent size="md">
             <DialogHeader title="Thêm chất liệu mới" icon={mdiPlus} />
             <form onSubmit={handleSubmit} className="space-y-6 pt-2 pb-4 px-4">
                 <div className="space-y-2">
