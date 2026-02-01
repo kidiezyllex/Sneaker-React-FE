@@ -1,6 +1,6 @@
 import React from "react";
 import { Icon } from "@mdi/react";
-import { mdiCancel, mdiEye } from "@mdi/js";
+import { mdiCancel, mdiEye, mdiCash, mdiOrderBoolAscending, mdiPackageVariant, mdiClose } from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { toast } from "react-toastify";
@@ -70,29 +70,25 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
           </div>
         ) : returnData && returnData.data ? (
           <>
-            <DialogHeader>
-              <DialogTitle>
+            <DialogHeader className="border-b pb-4">
+              <DialogTitle className="flex items-center gap-2">
                 Chi tiết trả hàng #{returnData.data.code}
-              </DialogTitle>
-              <DialogDescription>
-                Ngày tạo:{" "}
-                {format(
-                  new Date(returnData.data.createdAt),
-                  "dd/MM/yyyy HH:mm",
-                  { locale: vi }
-                )}
-              </DialogDescription>
-              <div className="mt-2">
                 <ReturnStatusBadge status={returnData.data.status} />
-              </div>
+              </DialogTitle>
+              <DialogDescription className="mt-2">
+                Ngày tạo: {format(new Date(returnData.data.createdAt), "dd/MM/yyyy HH:mm", { locale: vi })}
+              </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-4">
+            <div className="space-y-4 p-4">
               {/* Thông tin đơn hàng gốc */}
               <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">
-                    Thông tin đơn hàng gốc
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Icon path={mdiEye} size={0.8} className="text-primary" />
+                    </div>
+                    <span>Thông tin đơn hàng gốc</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -108,71 +104,92 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
               </Card>
 
               <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">Sản phẩm trả hàng</CardTitle>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Icon path={mdiEye} size={0.8} className="text-primary" />
+                    </div>
+                    <span>Sản phẩm trả hàng</span>
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    {returnData.data.items.map((item: any, index: number) => {
-                      const variant = item.variant;
-                      const product = variant?.product || item.product;
-                      const imageUrl =
-                        variant?.images?.[0]?.imageUrl ||
-                        product?.variants?.[0]?.images?.[0];
-                      const color = variant?.color;
-                      const size = variant?.size;
+                    {(() => {
+                      try {
+                        const items = typeof returnData.data.items === 'string'
+                          ? JSON.parse(returnData.data.items)
+                          : returnData.data.items;
 
-                      return (
-                        <div
-                          key={index}
-                          className="flex items-center space-x-3 p-3 border rounded-lg"
-                        >
-                          <img
-                            src={imageUrl || "/images/white-image.png"}
-                            alt={product?.name || "Sản phẩm"}
-                            className="w-12 h-12 object-contain rounded"
-                          />
-                          <div className="flex-1">
-                            <p className="font-medium">
-                              {product?.name || "Sản phẩm không xác định"}
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              Số lượng: {item.quantity} | Giá:{" "}
-                              {formatPrice(item.price)}
-                            </p>
-                            {product?.code && (
-                              <p className="text-sm text-gray-600">
-                                Mã: {product.code}
-                              </p>
-                            )}
-                            {color && (
-                              <p className="text-sm text-gray-600">
-                                Màu: {color.name}
-                              </p>
-                            )}
-                            {size && (
-                              <p className="text-sm text-gray-600">
-                                Size: {size.value}
-                              </p>
-                            )}
-                            {item.reason && (
-                              <p className="text-sm text-gray-600">
-                                Lý do: {item.reason}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+                        if (!Array.isArray(items)) return null;
+
+                        return items.map((item: any, index: number) => {
+                          const variant = item.variant;
+                          const product = variant?.product || item.product;
+                          const imageUrl =
+                            variant?.images?.[0]?.imageUrl ||
+                            product?.variants?.[0]?.images?.[0];
+                          const color = variant?.color;
+                          const size = variant?.size;
+
+                          return (
+                            <div
+                              key={index}
+                              className="flex items-center space-x-3 p-3 border rounded-lg"
+                            >
+                              <img
+                                src={imageUrl || "/images/white-image.png"}
+                                alt={product?.name || "Sản phẩm"}
+                                className="w-12 h-12 object-contain rounded"
+                              />
+                              <div className="flex-1">
+                                <p className="font-medium">
+                                  {product?.name || "Sản phẩm không xác định"}
+                                </p>
+                                <p className="text-sm text-gray-600">
+                                  Số lượng: {item.quantity} | Giá:{" "}
+                                  {formatPrice(item.price)}
+                                </p>
+                                {product?.code && (
+                                  <p className="text-sm text-gray-600">
+                                    Mã: {product.code}
+                                  </p>
+                                )}
+                                {color && (
+                                  <p className="text-sm text-gray-600">
+                                    Màu: {color.name}
+                                  </p>
+                                )}
+                                {size && (
+                                  <p className="text-sm text-gray-600">
+                                    Size: {size.value}
+                                  </p>
+                                )}
+                                {item.reason && (
+                                  <p className="text-sm text-gray-600">
+                                    Lý do: {item.reason}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        });
+                      } catch (e) {
+                        console.error("Error parsing return items:", e);
+                        return <p className="text-sm text-red-500">Lỗi hiển thị danh sách sản phẩm</p>;
+                      }
+                    })()}
                   </div>
                 </CardContent>
               </Card>
 
               {/* Tổng tiền hoàn */}
               <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base">
-                    Thông tin hoàn tiền
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Icon path={mdiEye} size={0.8} className="text-primary" />
+                    </div>
+                    <span>Thông tin hoàn tiền</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -203,6 +220,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                 </Button>
               )}
               <Button variant="outline" onClick={() => onOpenChange(false)}>
+                <Icon path={mdiClose} size={0.8} className="mr-2" />
                 Đóng
               </Button>
             </DialogFooter>

@@ -10,6 +10,7 @@ import {
   mdiCheckCircle,
   mdiTruck,
   mdiCancel,
+  mdiClose,
 } from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -267,25 +268,22 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
         ) : orderData && orderData.data ? (
           <>
             <DialogHeader className="border-b pb-4">
-              <DialogTitle>
+              <DialogTitle className="flex items-center gap-2">
                 Chi tiết đơn hàng #{(orderData.data as any)?.code}
-              </DialogTitle>
-              <DialogDescription className="mt-2">
-                Ngày đặt: {formatDate(orderData.data.createdAt)}
-              </DialogDescription>
-              <div className="mt-2">
                 <OrderStatusBadge status={orderData.data.orderStatus} />
-              </div>
+              </DialogTitle>
             </DialogHeader>
 
-            <div className="py-4 space-y-4">
+            <div className="p-4 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Thông tin giao hàng */}
                 <Card>
-                  <CardHeader className="pb-3">
+                  <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Icon path={mdiMapMarker} size={0.8} className="mr-2" />
-                      Địa chỉ giao hàng
+                      <div className="p-2 rounded-full bg-primary/10">
+                        <Icon path={mdiMapMarker} size={0.8} className="text-primary" />
+                      </div>
+                      <span>Địa chỉ giao hàng</span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
@@ -322,14 +320,16 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                 </Card>
                 {/* Thông tin thanh toán */}
                 <Card>
-                  <CardHeader className="pb-3">
+                  <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Icon
-                        path={mdiCreditCardOutline}
-                        size={0.8}
-                        className="mr-2"
-                      />
-                      Thông tin thanh toán
+                      <div className="p-2 rounded-full bg-primary/10">
+                        <Icon
+                          path={mdiCreditCardOutline}
+                          size={0.8}
+                          className="text-primary"
+                        />
+                      </div>
+                      <span>Thông tin thanh toán</span>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
@@ -358,10 +358,10 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </span>
                       <span>
                         <Badge
-                          className={
+                          variant={
                             orderData.data.paymentStatus === "PAID"
-                              ? "bg-green-100 text-green-800 border-green-200"
-                              : "!bg-extra text-white"
+                              ? "success"
+                              : "warning"
                           }
                         >
                           {getPaymentStatusName(orderData.data.paymentStatus)}
@@ -373,14 +373,16 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
               </div>
               {/* Thông tin đơn hàng */}
               <Card>
-                <CardHeader className="pb-3">
+                <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Icon
-                      path={mdiOrderBoolAscending}
-                      size={0.8}
-                      className="mr-2"
-                    />
-                    Chi tiết đơn hàng
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Icon
+                        path={mdiOrderBoolAscending}
+                        size={0.8}
+                        className="text-primary"
+                      />
+                    </div>
+                    <span>Chi tiết đơn hàng</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -502,12 +504,14 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
               <Card className="overflow-hidden">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <Icon
-                      path={mdiTruck}
-                      size={0.8}
-                      className="mr-3 text-primary"
-                    />
-                    Tiến trình đơn hàng
+                    <div className="p-2 rounded-full bg-primary/10">
+                      <Icon
+                        path={mdiTruck}
+                        size={0.8}
+                        className="text-primary"
+                      />
+                    </div>
+                    <span>Tiến trình đơn hàng</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4">
@@ -571,6 +575,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
 
             <DialogFooter className="border-t pt-4">
               <Button variant="outline" onClick={() => onOpenChange(false)}>
+                <Icon path={mdiClose} size={0.8} />
                 Đóng
               </Button>
             </DialogFooter>
