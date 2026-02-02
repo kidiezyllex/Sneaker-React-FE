@@ -156,7 +156,8 @@ export default function OrdersPage() {
   };
 
   const handleViewOrder = (orderId: string | number) => {
-    navigate(`/admin/orders/${orderId}`);
+    const basePath = location.pathname.startsWith('/staff') ? '/staff' : '/admin';
+    navigate(`${basePath}/orders/${orderId}`);
   };
 
 
@@ -333,7 +334,7 @@ export default function OrdersPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
                 Dashboard
               </Link>
             </BreadcrumbItem>

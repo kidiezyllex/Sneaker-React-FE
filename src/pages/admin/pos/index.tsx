@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { motion } from "framer-motion";
@@ -238,6 +238,7 @@ const convertProductToApiProduct = (product: any): ApiProduct => {
 };
 
 export default function POSPage() {
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedProduct, setSelectedProduct] = useState<ApiProduct | null>(
     null
@@ -965,7 +966,7 @@ export default function POSPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+                <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
                   Dashboard
                 </Link>
               </BreadcrumbItem>
@@ -1220,7 +1221,7 @@ export default function POSPage() {
                           {getBrandName(selectedProduct.brand)}
                         </Badge>
                         <Badge variant="outline" className="text-maintext">
-                          Admin POS
+                          {location.pathname.startsWith('/staff') ? 'Staff POS' : 'Admin POS'}
                         </Badge>
                         {(selectedProduct as any).hasDiscount && (
                           <Badge variant="destructive" className="bg-green-500">

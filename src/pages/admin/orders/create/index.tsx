@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,6 +55,7 @@ interface OrderItemType {
 }
 
 export default function CreateOrderPage() {
+  const location = useLocation();
   const navigate = useNavigate();
   const createOrder = useCreateOrder();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -175,7 +176,7 @@ export default function CreateOrderPage() {
       await createOrder.mutateAsync(orderData as any, {
         onSuccess: () => {
           toast.success("Tạo đơn hàng thành công");
-          navigate("/admin/orders");
+          navigate(location.pathname.startsWith('/staff') ? '/staff/orders' : '/admin/orders');
         },
       });
     } catch (error) {
@@ -198,13 +199,13 @@ export default function CreateOrderPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
               Dashboard
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="/admin/orders" className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/orders' : '/admin/orders'} className="!text-white/80 hover:!text-white">
               Quản lý đơn hàng
             </Link>
           </BreadcrumbItem>

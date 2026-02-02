@@ -206,23 +206,23 @@ export default function ProductsPage() {
 
   return (
     <div className="space-y-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">Dashboard</Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <Link to="/admin/products" className="!text-white/80 hover:!text-white">
-                Quản lý sản phẩm
-              </Link>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Sản phẩm</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+      <Breadcrumb>
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">Dashboard</Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link to="/admin/products" className="!text-white/80 hover:!text-white">
+              Quản lý sản phẩm
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Sản phẩm</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
 
       <Card className="mb-4">
         <CardContent className="p-4">
@@ -484,9 +484,9 @@ export default function ProductsPage() {
                                   </div>
                                 )}
                                 {discount.discountPercent > 0 && (
-                                  <div className="inline-flex items-center px-2 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                  <Badge variant="success" showIcon={false}>
                                     -{discount.discountPercent}% KM
-                                  </div>
+                                  </Badge>
                                 )}
                               </div>
                             );

@@ -56,6 +56,8 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         });
         if ((response.data as any)?.account?.role === "ADMIN") {
           navigate("/admin/statistics");
+        } else if ((response.data as any)?.account?.role === "STAFF") {
+          navigate("/staff/pos");
         } else {
           onSuccess();
         }

@@ -106,7 +106,7 @@ export default function POSRightSection({
         <h3 className="font-semibold text-lg flex items-center gap-2 text-maintext">
           <Icon path={mdiCartOutline} size={0.8} className="text-primary" />
           {activeCartName}
-          <Badge variant="secondary" className="bg-primary/10 text-primary">
+          <Badge variant="default" showIcon={false}>
             {cartItems.length}
           </Badge>
         </h3>
@@ -308,10 +308,7 @@ export default function POSRightSection({
                 <div className="flex items-center gap-1">
                   <span>Giảm giá</span>
                   {appliedVoucher && (
-                    <Badge
-                      variant="outline"
-                      className="text-xs h-4 px-1 border-green-200 bg-green-50"
-                    >
+                    <Badge variant="success" showIcon={false}>
                       {appliedVoucher.code}
                     </Badge>
                   )}

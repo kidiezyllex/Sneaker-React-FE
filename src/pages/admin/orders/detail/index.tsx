@@ -569,7 +569,7 @@ export default function OrderDetailPage() {
                     <Button
                         variant="outline"
                         className="mt-4"
-                        onClick={() => navigate("/admin/orders")}
+                        onClick={() => navigate(location.pathname.startsWith('/staff') ? '/staff/orders' : '/admin/orders')}
                     >
                         Quay lại danh sách đơn hàng
                     </Button>
@@ -586,7 +586,7 @@ export default function OrderDetailPage() {
                         <BreadcrumbList>
                             <BreadcrumbItem>
                                 <Link
-                                    to="/admin/statistics"
+                                    to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}
                                 >
                                     Dashboard
                                 </Link>
@@ -594,7 +594,7 @@ export default function OrderDetailPage() {
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
                                 <Link
-                                    to="/admin/orders"
+                                    to={location.pathname.startsWith('/staff') ? '/staff/orders' : '/admin/orders'}
                                 >
                                     Quản lý đơn hàng
                                 </Link>

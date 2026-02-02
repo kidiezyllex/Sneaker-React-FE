@@ -13,6 +13,7 @@ import {
     mdiStar,
     mdiStore,
     mdiTruck,
+    mdiArrowLeft,
 } from "@mdi/js";
 
 const FeatureCard = ({
@@ -25,22 +26,26 @@ const FeatureCard = ({
     description: string;
 }) => (
     <motion.div
-        className="bg-white backdrop-blur-md p-8 rounded-xl transition-all duration-300 border border-white/20"
-        whileHover={{ y: -10, scale: 1.02 }}
+        className="group bg-white dark:bg-slate-800 p-8 rounded-3xl transition-all duration-500 border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-primary/10"
+        whileHover={{ y: -10 }}
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
     >
-        <div className="flex items-center mb-5">
-            <div className="p-4 rounded-full bg-gradient-to-r from-[#2C8B3D] to-[#88C140] mr-5">
-                <Icon path={icon} size={1.5} className="text-white" />
+        <div className="flex flex-col items-start gap-4">
+            <div className="p-4 rounded-2xl bg-primary/5 group-hover:bg-primary/10 transition-colors duration-500">
+                <Icon path={icon} size={1.5} className="text-primary" />
             </div>
-            <h3 className="text-xl font-semibold text-maintext dark:text-white">
-                {title}
-            </h3>
+            <div className="space-y-3">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                    {title}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                    {description}
+                </p>
+            </div>
         </div>
-        <p className="text-maintext dark:text-maintext">{description}</p>
     </motion.div>
 );
 
@@ -60,41 +65,39 @@ const TestimonialCard = ({
     role: string;
 }) => (
     <motion.div
-        className="bg-white/15 backdrop-blur-md p-8 rounded-xl shadow-lg transition-all duration-300 border border-white/20 h-full"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        className="bg-white dark:bg-slate-800 p-10 rounded-3xl shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 h-full flex flex-col"
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
     >
-        <div className="flex justify-center mb-4">
+        <div className="flex gap-1 mb-6">
             {[...Array(rating)].map((_, i) => (
                 <Icon
                     key={i}
                     path={mdiStar}
-                    size={1.5}
-                    className="text-yellow-400 mx-1"
+                    size={0.8}
+                    className="text-amber-400"
                 />
             ))}
         </div>
-        <h3 className="text-2xl font-semibold text-center text-white mb-4">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
             {title}
         </h3>
-        <p className="text-white/80 text-center mb-8 text-lg italic">
+        <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg leading-relaxed flex-grow italic">
             "{description}"
         </p>
-        <div className="flex items-center justify-center">
-            <div className="w-16 h-16 rounded-full overflow-hidden mr-4 border-2 border-white/30">
+        <div className="flex items-center gap-4 pt-6 border-t border-slate-50 dark:border-slate-700">
+            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-primary/20 p-0.5">
                 <img
                     src={image}
                     alt={name}
-                    width={64}
-                    height={64}
-                    className="object-cover"
+                    className="w-full h-full object-cover rounded-full"
                 />
             </div>
             <div>
-                <h4 className="text-lg font-semibold text-white">{name}</h4>
-                <p className="text-white/80">{role}</p>
+                <h4 className="text-base font-bold text-slate-900 dark:text-white">{name}</h4>
+                <p className="text-sm text-slate-500 dark:text-slate-500">{role}</p>
             </div>
         </div>
     </motion.div>
@@ -103,270 +106,277 @@ const TestimonialCard = ({
 const testimonialData = [
     {
         rating: 5,
-        title: "Cửa hàng giày tốt nhất!",
-        description: "Tôi rất hài lòng với dịch vụ của StreetSneaker. Sản phẩm chất lượng, giao hàng nhanh chóng và nhân viên phục vụ rất nhiệt tình.",
+        title: "Dịch vụ đẳng cấp nhất",
+        description: "Tôi chưa từng thấy cửa hàng giày nào có tâm như StreetSneaker. Từ khâu tư vấn đến hậu mãi đều cực kỳ chuyên nghiệp và chu đáo.",
         image: "https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/testimo-1-pjspfmypsvn72mv2l3cj4mhf4j0bl9ruu9jw5bh1eo.jpg",
         name: "Tom Robertson",
-        role: "Cầu thủ bóng đá",
+        role: "Cầu thủ bóng đá chuyên nghiệp",
     },
     {
         rating: 5,
-        title: "Trải nghiệm tuyệt vời!",
-        description: "Mua sắm tại StreetSneaker là một trải nghiệm tuyệt vời. Sản phẩm đa dạng, giá cả phải chăng và dịch vụ chăm sóc khách hàng rất tốt.",
+        title: "Sản phẩm cực kỳ chất lượng",
+        description: "Cầm đôi giày trên tay là thấy ngay sự khác biệt. Hàng mới, full box, tem mác đầy đủ và check uy tín 100%. Rất xứng đáng đầu tư.",
         image: "https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/testimo-2-pjspfoue6jprpusca45s9m0cbar20nzbiiuv3ve928.jpg",
         name: "Amelia Robinson",
-        role: "Cầu thủ bóng đá",
+        role: "Vận động viên điền kinh",
     },
     {
         rating: 5,
-        title: "Chất lượng đáng tin cậy",
-        description: "Những đôi giày tôi mua từ StreetSneaker luôn bền đẹp và thoải mái. Tôi đã giới thiệu cửa hàng cho tất cả bạn bè của mình.",
-        image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
+        title: "Đáng tin cậy và minh bạch",
+        description: "StreetSneaker luôn làm tôi yên tâm khi mua sắm online. Hình ảnh thực tế, thông tin rõ ràng và chính sách bảo hành cực tốt.",
+        image: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=600&auto=format&fit=crop&q=60",
         name: "Michael Johnson",
-        role: "Huấn luyện viên thể thao",
-    },
-    {
-        rating: 4,
-        title: "Dịch vụ tận tâm",
-        description: "Nhân viên tại StreetSneaker luôn nhiệt tình và am hiểu về sản phẩm. Họ giúp tôi chọn được đôi giày phù hợp nhất với nhu cầu của mình.",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
-        name: "Sarah Miller",
-        role: "Người yêu thể thao",
-    },
-    {
-        rating: 5,
-        title: "Giao hàng nhanh chóng",
-        description: "Tôi đặt hàng online và nhận được sản phẩm chỉ sau 2 ngày. Đóng gói cẩn thận và sản phẩm đúng như mô tả trên website.",
-        image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8dXNlcnxlbnwwfHwwfHx8MA%3D%3D",
-        name: "David Thompson",
-        role: "Doanh nhân",
-    },
-    {
-        rating: 5,
-        title: "Sản phẩm chính hãng",
-        description: "Rất yên tâm khi mua sắm tại StreetSneaker vì họ chỉ bán hàng chính hãng. Giá cả hợp lý và chất lượng đảm bảo.",
-        image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-        name: "Emily Parker",
-        role: "Người mẫu",
+        role: "Huấn luyện viên thể hình",
     },
 ];
 
 const AboutUsPage = () => {
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="min-h-screen bg-white dark:bg-slate-950">
             {/* Hero Section */}
-            <section className="relative h-[80vh] flex items-center overflow-hidden">
+            <section className="relative h-[90vh] flex items-center overflow-hidden">
                 <div className="absolute inset-0">
                     <img
                         src="https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/2022/01/hero-about.jpg"
                         alt="StreetSneaker Banner"
-                        className="object-cover"
+                        className="w-full h-full object-cover scale-110 motion-safe:animate-[subtle-zoom_20s_infinite_alternate]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#2C8B3D]/50 via-[#88C140]/50 to-[#F2A024]/70"></div>
-                    <div className="absolute inset-0 bg-black/50"></div>
+                    <div className="absolute inset-0 bg-slate-950/60 backdrop-blur-[2px]"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-slate-950/40"></div>
                 </div>
-                <div className="container mx-auto px-4 relative z-10">
+
+                <div className="container mx-auto px-4 relative z-10 pb-8">
                     <motion.div
                         className="max-w-4xl mx-auto text-center"
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        transition={{ duration: 1 }}
                     >
-                        <motion.h1
-                            className="text-5xl md:text-7xl font-normal text-white mb-4 leading-tight"
-                            initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
                             transition={{ delay: 0.2, duration: 0.8 }}
+                            className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
                         >
-                            <span className="bg-clip-text text-white/80 font-light tracking-widest uppercase text-nowrap">
-                                Khám Phá Thế Giới
+                            <span className="text-xs font-bold text-primary uppercase tracking-[0.2em]">
+                                Về chúng tôi
                             </span>
-                            <br />
-                            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#F2A024] to-[#88C140] font-extrabold">
-                                StreetSneaker
-                            </span>
-                        </motion.h1>
-                        <motion.p
-                            className="text-xl md:text-2xl text-white/80 mb-10 font-light"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                        </motion.div>
+
+                        <motion.h1
+                            className="text-4xl md:text-7xl font-thin text-white mb-8 tracking-wider leading-[0.9]"
+                            initial={{ opacity: 0, x: -50 }}
+                            animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4, duration: 0.8 }}
                         >
-                            Nơi kết nối đam mê, nơi định nghĩa phong cách
+                            Định nghĩa lại
                             <br />
-                            Chúng tôi mang đến những sản phẩm chất lượng cao với giá cả phải
-                            chăng
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-emerald-400">
+                                Phong cách
+                            </span>
+                        </motion.h1>
+
+                        <motion.p
+                            className="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl mx-auto leading-relaxed font-medium"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.6, duration: 1 }}
+                        >
+                            StreetSneaker không chỉ bán giày, chúng tôi mang tới những giá trị văn hóa và phong cách sống hiện đại.
                         </motion.p>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.8, duration: 0.8 }}
+                        >
+                            <Link
+                                to="/products"
+                                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-primary text-white font-bold rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95"
+                            >
+                                <span>Khám phá ngay</span>
+                                <Icon path={mdiArrowLeft} size={0.8} className="rotate-180 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </motion.div>
                     </motion.div>
                 </div>
             </section>
 
-            {/* About Section */}
-            <section className="py-24">
+            {/* Stats Section */}
+            <section className="relative -mt-16 z-20 pb-24">
                 <div className="container mx-auto px-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+                        {[
+                            { label: "Khách hàng", value: "50k+" },
+                            { label: "Chi nhánh", value: "15+" },
+                            { label: "Mẫu mã", value: "1200+" },
+                            { label: "Đối tác", value: "24+" },
+                        ].map((stat, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-center"
+                            >
+                                <p className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-1 tracking-tight">
+                                    {stat.value}
+                                </p>
+                                <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
+                                    {stat.label}
+                                </p>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* About Section */}
+            <section className="py-24 overflow-hidden">
+                <div className="container mx-auto px-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
                         <motion.div
                             initial={{ opacity: 0, x: -50 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
+                            className="space-y-8"
                         >
-                            <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-8">
-                                Câu chuyện của chúng tôi
-                            </h2>
-                            <p className="text-lg text-maintext dark:text-maintext mb-8">
-                                StreetSneaker được thành lập với sứ mệnh mang đến cho khách hàng
-                                những sản phẩm giày chất lượng cao với giá cả phải chăng. Chúng
-                                tôi tin rằng mỗi người đều xứng đáng được sở hữu những đôi giày
-                                thoải mái và thời trang.
+                            <div className="space-y-4">
+                                <h2 className="text-sm font-bold text-primary uppercase tracking-[0.3em]">
+                                    Sứ mệnh
+                                </h2>
+                                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tighter leading-tight">
+                                    Kiến tạo phong cách từ nền tảng chất lượng
+                                </h3>
+                            </div>
+
+                            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                                StreetSneaker ra đời từ khao khát kết nối những người yêu giày với những sản phẩm tốt nhất. Chúng tôi không chỉ cung cấp giày dép, chúng tôi cung cấp phương tiện để bạn thể hiện bản thân.
                             </p>
-                            <p className="text-lg text-maintext dark:text-maintext mb-8">
-                                Với hơn 5 năm kinh nghiệm trong ngành, chúng tôi đã xây dựng
-                                được mạng lưới cung cấp sản phẩm rộng khắp, đảm bảo luôn có sẵn
-                                các mẫu giày mới nhất và phổ biến nhất trên thị trường.
-                            </p>
-                            <div className="flex flex-wrap gap-4">
-                                <motion.div
-                                    className="flex items-center"
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    <Icon
-                                        path={mdiCheckCircle}
-                                        size={0.8}
-                                        className="text-[#2C8B3D] mr-3"
-                                    />
-                                    <span className="text-lg text-maintext dark:text-gray-300">
-                                        Sản phẩm chính hãng
-                                    </span>
-                                </motion.div>
-                                <motion.div
-                                    className="flex items-center"
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    <Icon
-                                        path={mdiCheckCircle}
-                                        size={0.8}
-                                        className="text-[#2C8B3D] mr-3"
-                                    />
-                                    <span className="text-lg text-maintext dark:text-gray-300">
-                                        Giao hàng nhanh chóng
-                                    </span>
-                                </motion.div>
-                                <motion.div
-                                    className="flex items-center"
-                                    whileHover={{ x: 5 }}
-                                    transition={{ type: "spring", stiffness: 300 }}
-                                >
-                                    <Icon
-                                        path={mdiCheckCircle}
-                                        size={0.8}
-                                        className="text-[#2C8B3D] mr-3"
-                                    />
-                                    <span className="text-lg text-maintext dark:text-gray-300">
-                                        Hỗ trợ 24/7
-                                    </span>
-                                </motion.div>
+
+                            <div className="space-y-4">
+                                {[
+                                    "Tuyển chọn gắt gao từng đôi giày từ các thương hiệu lớn.",
+                                    "Dịch vụ chăm sóc khách hàng cá nhân hóa độc bản.",
+                                    "Cập nhật xu hướng sneaker toàn cầu mỗi ngày.",
+                                ].map((item, i) => (
+                                    <div key={i} className="flex items-start gap-4">
+                                        <div className="mt-1 p-1 rounded-full bg-primary/10">
+                                            <Icon path={mdiCheckCircle} size={0.6} className="text-primary" />
+                                        </div>
+                                        <p className="font-bold text-slate-800 dark:text-slate-200">{item}</p>
+                                    </div>
+                                ))}
                             </div>
                         </motion.div>
+
                         <motion.div
-                            className="relative h-[500px] overflow-hidden"
-                            initial={{ opacity: 0, x: 50 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            className="relative group"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.8 }}
                         >
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#2C8B3D] to-[#F2A024] opacity-20"></div>
-                            <img
-                                src="https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/about-sect-pjs7cmwyucho7hy38akr4ok276qbcwtfp44ksgi1sa.jpg"
-                                alt="StreetSneaker Store"
-                                className="object-cover"
-                            />
+                            <div className="absolute -inset-4 bg-gradient-to-tr from-primary/30 to-emerald-400/30 blur-2xl rounded-[3rem] opacity-50 group-hover:opacity-100 transition duration-700"></div>
+                            <div className="relative aspect-square md:aspect-[4/5] rounded-[2.5rem] overflow-hidden border-8 border-white dark:border-slate-900 shadow-2xl">
+                                <img
+                                    src="https://templatekits.themewarrior.com/champz/wp-content/uploads/sites/45/elementor/thumbs/about-sect-pjs7cmwyucho7hy38akr4ok276qbcwtfp44ksgi1sa.jpg"
+                                    alt="StreetSneaker Store"
+                                    className="w-full h-full object-cover transition duration-700 group-hover:scale-110"
+                                />
+                            </div>
                         </motion.div>
                     </div>
                 </div>
             </section>
 
             {/* Features Section */}
-            <section className="py-24 bg-gradient-to-br from-[#2C8B3D]/10 to-[#F2A024]/10">
+            <section className="py-24 bg-slate-50 dark:bg-slate-900/50">
                 <div className="container mx-auto px-4">
                     <motion.div
-                        className="text-center mb-20"
+                        className="text-center max-w-3xl mx-auto mb-20 space-y-4"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2 className="text-4xl font-semibold text-maintext dark:text-white mb-4">
-                            Tại sao chọn StreetSneaker?
+                        <h2 className="text-sm font-bold text-primary uppercase tracking-[0.3em]">
+                            Giá trị cốt lõi
                         </h2>
-                        <p className="text-lg text-maintext dark:text-maintext max-w-2xl mx-auto">
-                            Chúng tôi cam kết mang đến trải nghiệm mua sắm tốt nhất cho khách
-                            hàng với những dịch vụ và sản phẩm chất lượng cao.
+                        <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tighter">
+                            Tại sao chọn chúng tôi?
+                        </h3>
+                        <p className="text-slate-600 dark:text-slate-400 text-lg">
+                            Mỗi đôi giày tại StreetSneaker đều mang trong mình sự tận tâm và cam kết tuyệt đối về trải nghiệm người dùng.
                         </p>
                     </motion.div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                         <FeatureCard
                             icon={mdiCheckCircle}
-                            title="Sản phẩm chính hãng"
-                            description="Tất cả sản phẩm đều được nhập khẩu trực tiếp từ các nhà sản xuất uy tín, đảm bảo chất lượng và độ bền."
+                            title="Chính hãng 100%"
+                            description="Tuyệt đối nói không với hàng giả, hàng nhái. Mỗi sản phẩm đều đầy đủ giấy tờ."
                         />
                         <FeatureCard
                             icon={mdiTruck}
-                            title="Giao hàng nhanh chóng"
-                            description="Hệ thống logistics hiện đại giúp chúng tôi giao hàng nhanh chóng đến mọi nơi trên toàn quốc."
+                            title="Giao hỏa tốc"
+                            description="Hợp tác với các đơn vị vận chuyển hàng đầu, đảm bảo giày đến tay bạn nhanh nhất."
                         />
                         <FeatureCard
                             icon={mdiShieldCheck}
-                            title="Bảo hành uy tín"
-                            description="Chính sách bảo hành rõ ràng, minh bạch, hỗ trợ khách hàng trong suốt quá trình sử dụng sản phẩm."
+                            title="Bảo hành trọn đời"
+                            description="Dịch vụ bảo hành keo chỉ trọn đời cho tất cả các sản phẩm mua tại cửa hàng."
                         />
                         <FeatureCard
                             icon={mdiStore}
-                            title="Mạng lưới rộng khắp"
-                            description="Hệ thống cửa hàng trải dài khắp các tỉnh thành, giúp khách hàng dễ dàng tiếp cận sản phẩm."
+                            title="Trải nghiệm Offline"
+                            description="Hệ thống cửa hàng hiện đại tại các trung tâm lớn để khách hàng trải nghiệm thực tế."
                         />
                     </div>
                 </div>
             </section>
 
             {/* Testimonials Section */}
-            <section className="py-24 bg-gradient-to-r from-[#2C8B3D] to-[#88C140]">
-                <div className="container mx-auto px-4">
+            <section className="py-24 bg-primary overflow-hidden relative">
+                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-emerald-400/20 rounded-full blur-[80px] translate-y-1/2 -translate-x-1/2"></div>
+
+                <div className="container mx-auto px-4 relative z-10">
                     <motion.div
-                        className="text-center mb-20"
+                        className="text-center mb-20 space-y-4"
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2 className="text-4xl font-semibold text-white mb-4">
-                            Khách hàng nói gì về chúng tôi?
+                        <h2 className="text-sm font-bold text-white/70 uppercase tracking-[0.3em]">
+                            Đánh giá
                         </h2>
-                        <p className="text-xl text-white/80 max-w-2xl mx-auto">
-                            Những phản hồi từ khách hàng là động lực để chúng tôi không ngừng
-                            cải thiện và phát triển.
-                        </p>
+                        <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
+                            Cảm nhận khách hàng
+                        </h3>
                     </motion.div>
 
                     <Swiper
                         modules={[Pagination, Autoplay, Navigation]}
                         spaceBetween={30}
                         slidesPerView={1}
-                        pagination={{ clickable: true }}
+                        pagination={{
+                            clickable: true,
+                            dynamicBullets: true,
+                        }}
                         autoplay={{ delay: 5000 }}
-                        navigation={true}
                         loop={true}
                         breakpoints={{
-                            640: { slidesPerView: 1, spaceBetween: 20 },
-                            768: { slidesPerView: 2, spaceBetween: 30 },
-                            1024: { slidesPerView: 3, spaceBetween: 30 },
+                            768: { slidesPerView: 2, spaceBetween: 24 },
+                            1024: { slidesPerView: 3, spaceBetween: 32 },
                         }}
-                        className="testimonial-swiper py-10"
+                        className="testimonial-swiper !pb-16"
                     >
                         {testimonialData.map((testimonial, index) => (
-                            <SwiperSlide key={index}>
+                            <SwiperSlide key={index} className="h-auto">
                                 <TestimonialCard
                                     rating={testimonial.rating}
                                     title={testimonial.title}
@@ -378,40 +388,6 @@ const AboutUsPage = () => {
                             </SwiperSlide>
                         ))}
                     </Swiper>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-24">
-                <div className="container mx-auto px-4">
-                    <motion.div
-                        className="bg-gradient-to-r from-[#2C8B3D] via-[#88C140] to-[#F2A024] rounded-xl p-16 text-center relative overflow-hidden"
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="absolute inset-0 bg-[url('/images/pattern.png')] opacity-10"></div>
-                        <h2 className="text-4xl font-semibold text-white mb-8 relative z-10">
-                            Sẵn sàng khám phá bộ sưu tập của chúng tôi?
-                        </h2>
-                        <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto relative z-10">
-                            Hãy ghé thăm cửa hàng của chúng tôi hoặc mua sắm trực tuyến để tìm
-                            cho mình đôi giày phù hợp nhất.
-                        </p>
-                        <motion.div
-                            className="inline-block relative z-10"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <Link
-                                to="/products"
-                                className="bg-white text-[#2C8B3D] font-semibold py-4 px-10 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg"
-                            >
-                                Xem sản phẩm ngay
-                            </Link>
-                        </motion.div>
-                    </motion.div>
                 </div>
             </section>
         </div>

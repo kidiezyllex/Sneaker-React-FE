@@ -6,6 +6,7 @@ import { UserProvider } from "@/context/useUserContext";
 // Layouts
 import RootLayout from "@/layouts/RootLayout";
 import AdminLayout from "@/layouts/AdminLayout";
+import StaffLayout from "@/layouts/StaffLayout";
 
 // Loading Component
 const PageLoader = () => (
@@ -149,6 +150,20 @@ export const router = createBrowserRouter([
                     { path: "products/materials", element: load(AdminProductMaterialsPage) },
                     { path: "products/sizes", element: load(AdminProductSizesPage) },
 
+                    { path: "returns", element: load(AdminReturnsPage) },
+                    { path: "returns/create", element: load(AdminReturnCreatePage) },
+                    { path: "returns/:id", element: load(AdminReturnDetailPage) },
+                ],
+            },
+            {
+                path: "staff",
+                element: <StaffLayout />,
+                children: [
+                    { index: true, element: <Navigate to="/staff/pos" replace /> },
+                    { path: "pos", element: load(AdminPosPage) },
+                    { path: "orders", element: load(AdminOrdersPage) },
+                    { path: "orders/:orderId", element: load(AdminOrderDetailPage) },
+                    { path: "orders/create", element: load(AdminOrderCreatePage) },
                     { path: "returns", element: load(AdminReturnsPage) },
                     { path: "returns/create", element: load(AdminReturnCreatePage) },
                     { path: "returns/:id", element: load(AdminReturnDetailPage) },

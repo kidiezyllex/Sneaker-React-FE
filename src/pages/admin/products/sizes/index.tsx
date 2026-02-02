@@ -290,11 +290,9 @@ export default function SizesPage() {
                           </TableCell>
                           <TableCell>
                             <div className="flex items-center">
-                              <div className="h-6 w-fit px-3 rounded-xl bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
-                                <span className="text-sm font-semibold">
-                                  {size.value}
-                                </span>
-                              </div>
+                              <Badge variant="indigo" showIcon={false}>
+                                {size.value}
+                              </Badge>
                             </div>
                           </TableCell>
                           <TableCell className="text-sm text-maintext">

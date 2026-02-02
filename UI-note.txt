@@ -1,4 +1,4 @@
-1. Cập nhật các <CardTitle> trong trang http://localhost:3000/admin/orders/29 sang Styling như mẫu sau
+1.
 Styling CardHeader, CardTitle phải theo mẫu sau, giống cả className và format
 <CardHeader>
                                 <CardTitle className="flex items-center gap-2">

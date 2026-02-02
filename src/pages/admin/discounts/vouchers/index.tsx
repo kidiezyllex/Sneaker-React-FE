@@ -417,11 +417,11 @@ export default function VouchersPage() {
                                     ? `${voucher.value}%`
                                     : formatCurrency(voucher.value)}
                                 </span>
-                                <Badge variant="outline" className="text-xs h-4 px-1 uppercase secondary">
+                                <Badge variant={voucher.type === "PERCENTAGE" ? "purple" : "info"} showIcon={false}>
                                   {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
                                 </Badge>
                               </div>
-                              <div className="text-xs text-maintext flex flex-col">
+                              <div className="text-sm text-maintext flex flex-col">
                                 {voucher.minOrderValue > 0 && (
                                   <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
                                 )}
@@ -433,7 +433,7 @@ export default function VouchersPage() {
                           </TableCell>
                           <TableCell className="px-4 py-4">
                             <div className="flex flex-col gap-1 w-32">
-                              <div className="flex justify-between text-xs font-medium">
+                              <div className="flex justify-between text-sm font-medium">
                                 <span className="text-slate-600">Đã dùng: {voucher.usedCount}</span>
                                 <span className="text-slate-400">{Math.round((voucher.usedCount / voucher.quantity) * 100)}%</span>
                               </div>
@@ -443,11 +443,11 @@ export default function VouchersPage() {
                                   style={{ width: `${(voucher.usedCount / voucher.quantity) * 100}%` }}
                                 />
                               </div>
-                              <span className="text-xs text-slate-400">Tổng: {voucher.quantity}</span>
+                              <span className="text-sm text-slate-400">Tổng: {voucher.quantity}</span>
                             </div>
                           </TableCell>
                           <TableCell className="px-4 py-4">
-                            <div className="flex flex-col gap-1 text-slate-600 text-xs">
+                            <div className="flex flex-col gap-1 text-slate-600 text-sm">
                               <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                                 <span>{formatDate(voucher.startDate)}</span>
@@ -462,10 +462,9 @@ export default function VouchersPage() {
                             <Badge
                               variant={
                                 voucher.status === "ACTIVE"
-                                  ? "default"
+                                  ? "success"
                                   : "destructive"
                               }
-                              className="font-medium"
                             >
                               {voucher.status === "ACTIVE"
                                 ? "Hoạt động"

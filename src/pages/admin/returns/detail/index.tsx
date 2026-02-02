@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,6 +60,7 @@ interface EditableItem {
 }
 
 export default function AdminReturnDetailPage() {
+    const location = useLocation();
     const { id } = useParams();
     const navigate = useNavigate();
     const [editableItems, setEditableItems] = useState<EditableItem[]>([]);
@@ -253,7 +254,7 @@ export default function AdminReturnDetailPage() {
         return (
             <div className="text-center py-12">
                 <p className="text-red-500 text-lg mb-4">Không thể tải thông tin yêu cầu trả hàng</p>
-                <Link to="/admin/returns">
+                <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'}>
                     <Button variant="outline">
                         <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
                         Quay lại danh sách
@@ -274,13 +275,13 @@ export default function AdminReturnDetailPage() {
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">Dashboard</Link>
+                            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">Dashboard</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link to="/admin/returns" className="!text-white/80 hover:!text-white">Quản lý trả hàng</Link>
+                            <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'} className="!text-white/80 hover:!text-white">Quản lý trả hàng</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
@@ -426,7 +427,7 @@ export default function AdminReturnDetailPage() {
                                         {canEdit && (
                                             <div className="absolute top-0 right-0 w-1 h-full bg-primary/0 group-hover:bg-primary/40 transition-all" />
                                         )}
-                                        <div className="flex flex-col sm:flex-row items-start gap-5">
+                                        <div className="flex flex-col sm:flex-row items-start gap-4">
                                             <div className="relative">
                                                 <img
                                                     src={item.productImage}
@@ -553,7 +554,7 @@ export default function AdminReturnDetailPage() {
                                             <span className="text-maintext font-medium">Tiền hoàn gốc:</span>
                                             <span className="font-semibold text-slate-700 line-through opacity-60">{formatCurrency(returnInfo.totalRefund)}</span>
                                         </div>
-                                        <p className="text-[9px] text-slate-400 mt-2 text-right italic">* Số tiền thay đổi sau khi điều chỉnh số lượng</p>
+                                        <p className="text-xs text-slate-400 mt-2 text-right italic">* Số tiền thay đổi sau khi điều chỉnh số lượng</p>
                                     </div>
                                 )}
                             </div>

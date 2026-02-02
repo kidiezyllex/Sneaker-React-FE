@@ -716,15 +716,16 @@ export default function VNPayModal({
       <div className="flex space-x-4 pt-4">
         {(currentStep === "account-input" ||
           currentStep === "otp-verification") && (
-          <Button variant="outline" onClick={goBack} className="w-32">
-            <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
-            Quay lại
-          </Button>
-        )}
+            <Button variant="outline" onClick={goBack} className="w-32">
+              <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
+              Quay lại
+            </Button>
+          )}
 
         <div className="w-full flex justify-end">
           {currentStep === "bank-selection" && (
-            <Button variant="default" onClick={handleClose} className="w-32">
+            <Button variant="default" onClick={handleClose}>
+              <Icon path={mdiClose} size={0.8} />
               Hủy
             </Button>
           )}
@@ -764,9 +765,11 @@ export default function VNPayModal({
             <span>VNPay - Cổng thanh toán</span>
           </DialogTitle>
         </DialogHeader>
+        <div className="p-4">
+          {renderStepContent()}
+          {renderActionButtons()}
+        </div>
 
-        {renderStepContent()}
-        {renderActionButtons()}
       </DialogContent>
     </Dialog>
   );

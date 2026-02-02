@@ -99,37 +99,9 @@ export default function GeneralManagementPage() {
     return null;
   }
 
-  const tabs = [
-    {
-      title: "Thông tin cá nhân",
-      icon: mdiAccountEdit,
-      value: "profile",
-    },
-    {
-      title: "Đổi mật khẩu",
-      icon: mdiLock,
-      value: "password",
-    },
-    {
-      title: "Đơn hàng của bạn",
-      icon: mdiOrderBoolAscending,
-      value: "orders",
-    },
-    {
-      title: "Trả hàng",
-      icon: mdiKeyboardReturn,
-      value: "returns",
-    },
-    {
-      title: "Mã giảm giá",
-      icon: mdiTicketPercentOutline,
-      value: "vouchers",
-    },
-  ];
-
   return (
     <AccountTabContext.Provider value={{ activeTab, setActiveTab }}>
-      <div className="p-8 relative">
+      <div className="p-8 relative py-4">
         <Breadcrumb className="mb-4">
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -143,7 +115,7 @@ export default function GeneralManagementPage() {
             <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
             <BreadcrumbItem>
               <BreadcrumbPage className="!text-maintext hover:!text-maintext">
-                Quản lý chung
+                Quản lý tài khoản
               </BreadcrumbPage>
             </BreadcrumbItem>
           </BreadcrumbList>
@@ -164,7 +136,7 @@ export default function GeneralManagementPage() {
                       className="text-primary"
                     />
                   </div>
-                  <span>Quản lý chung</span>
+                  <span>Quản lý tài khoản</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
@@ -177,7 +149,7 @@ export default function GeneralManagementPage() {
                     },
                     { title: "Đổi mật khẩu", icon: mdiLock, value: "password" },
                     {
-                      title: "Đơn hàng của bạn",
+                      title: "Đơn hàng đã đặt",
                       icon: mdiOrderBoolAscending,
                       value: "orders",
                     },

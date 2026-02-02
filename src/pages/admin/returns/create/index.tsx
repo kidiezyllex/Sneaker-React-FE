@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -90,6 +90,7 @@ interface SelectedItem {
 }
 
 export default function CreateReturnPage() {
+  const location = useLocation();
   const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
     null
   );
@@ -286,7 +287,7 @@ export default function CreateReturnPage() {
 
       await createReturn.mutateAsync(payload);
       toast.success("Tạo yêu cầu trả hàng thành công");
-      navigate("/admin/returns");
+      navigate(location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns');
     } catch (error) {
       toast.error("Tạo yêu cầu trả hàng thất bại");
     } finally {
@@ -299,13 +300,13 @@ export default function CreateReturnPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
               Dashboard
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="/admin/returns" className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'} className="!text-white/80 hover:!text-white">
               Quản lý trả hàng
             </Link>
           </BreadcrumbItem>
@@ -663,7 +664,7 @@ export default function CreateReturnPage() {
 
       {/* Actions */}
       <div className="flex justify-end gap-4">
-        <Link to="/admin/returns">
+        <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'}>
           <Button variant="outline" disabled={isSubmitting}>
             Hủy
           </Button>

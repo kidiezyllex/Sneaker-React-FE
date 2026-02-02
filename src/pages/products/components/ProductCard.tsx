@@ -36,7 +36,7 @@ export const ProductCard = ({
     >
       <Card className="group overflow-hidden rounded-xl hover:shadow-xl shadow-md transition-all duration-300 border-2 border-white h-full flex flex-col bg-white">
         {/* Image Section */}
-        <div className="relative bg-[#f5f5f5] rounded-t-2xl overflow-hidden">
+        <div className="relative bg-white rounded-t-2xl overflow-hidden border-b-2 border-b-gray-200">
           <Link
             to={`/products/${product.name
               .toLowerCase()
@@ -180,7 +180,7 @@ export const ProductCard = ({
         </div>
 
         {/* Content Section */}
-        <div className="p-3 flex flex-col flex-grow bg-white">
+        <div className="p-3 flex flex-col flex-grow bg-gray-50">
           {/* Brand */}
           <div className="flex items-center gap-2 mb-2">
             <span className="text-sm font-semibold text-gray-500 uppercase tracking-wide">

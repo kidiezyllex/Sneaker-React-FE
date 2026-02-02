@@ -86,7 +86,7 @@ const AccountDropdown = () => {
                   size={0.8}
                   className="mr-2 text-maintext"
                 />
-                <span className="!text-maintext font-semibold">Quản lý chung</span>
+                <span className="!text-maintext font-semibold">Quản lý tài khoản</span>
               </Link>
             </DropdownMenuItem>
           </motion.div>

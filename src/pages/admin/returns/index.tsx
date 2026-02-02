@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
@@ -91,6 +91,7 @@ const getReturnStatusBadge = (status: string) => {
 };
 
 export default function ReturnsPage() {
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IReturnFilter>({
     page: 1,
@@ -278,7 +279,7 @@ export default function ReturnsPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
               Dashboard
             </Link>
           </BreadcrumbItem>
@@ -347,7 +348,7 @@ export default function ReturnsPage() {
                   <Button variant="outline" size="icon" onClick={exportToCSV} title="Xuất CSV">
                     <Icon path={mdiDownload} size={0.8} />
                   </Button>
-                  <Link to="/admin/returns/create">
+                  <Link to={location.pathname.startsWith('/staff') ? '/staff/returns/create' : '/admin/returns/create'}>
                     <Button className="flex items-center gap-2">
                       <Icon path={mdiPlus} size={0.8} />
                       Tạo yêu cầu
@@ -531,7 +532,7 @@ export default function ReturnsPage() {
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex justify-end gap-2">
-                            <Link to={`/admin/returns/${returnItem.id}`}>
+                            <Link to={location.pathname.startsWith('/staff') ? `/staff/returns/${returnItem.id}` : `/admin/returns/${returnItem.id}`}>
                               <Button
                                 size="icon"
                                 variant="outline"

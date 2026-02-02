@@ -15,10 +15,12 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 interface SidebarLayoutProps {
   children: React.ReactNode;
+  items?: MenuItem[];
 }
 
 const SidebarLayout = memo(function SidebarLayout({
   children,
+  items,
 }: SidebarLayoutProps) {
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const [hoverMenu, setHoverMenu] = useState<string | null>(null);
@@ -26,6 +28,8 @@ const SidebarLayout = memo(function SidebarLayout({
   const pathname = location.pathname;
   const { isOpen } = useMenuSidebar();
   const { data: profileData } = useUserProfile();
+
+  const currentMenuItems = items || menuItems;
 
   const getAvatarUrl = () => {
     const userId = profileData?.data.id || "default";
@@ -71,7 +75,7 @@ const SidebarLayout = memo(function SidebarLayout({
   // Auto-expand active menus
   React.useEffect(() => {
     if (isOpen) {
-      const activeMenu = menuItems.find(menu =>
+      const activeMenu = currentMenuItems.find(menu =>
         menu.subMenu && menu.subMenu.some(sub => isSubMenuActive(sub.path, menu.subMenu))
       );
 
@@ -91,7 +95,7 @@ const SidebarLayout = memo(function SidebarLayout({
     setHoverMenu(null);
   });
 
-  const memoizedMenuItems = useMemo(() => menuItems, []);
+  const memoizedMenuItems = useMemo(() => currentMenuItems, [currentMenuItems]);
 
   return (
     <div className="flex flex-row min-h-screen w-full">

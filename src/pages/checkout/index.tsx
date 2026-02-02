@@ -617,7 +617,7 @@ export default function ShippingPage() {
   }
 
   return (
-    <div className="p-8 relative">
+    <div className="p-8 relative py-4">
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
