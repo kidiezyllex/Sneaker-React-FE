@@ -77,9 +77,6 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.8
         version: 1.2.7(@types/react-dom@18.3.7(@types/react@18.3.23))(@types/react@18.3.23)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@tabler/icons-react':
-        specifier: ^3.31.0
-        version: 3.34.0(react@18.3.1)
       '@tanstack/react-query':
         specifier: ^5.71.1
         version: 5.80.7(react@18.3.1)
@@ -1523,14 +1520,6 @@ packages:
 
   '@standard-schema/utils@0.3.0':
     resolution: {integrity: sha512-e7Mew686owMaPJVNNLs55PUvgz371nKgwsc4vxE49zsODpJEnxgxRo2y/OKrqueavXgZNMDVj3DdHFlaSAeU8g==}
-
-  '@tabler/icons-react@3.34.0':
-    resolution: {integrity: sha512-OpEIR2iZsIXECtAIMbn1zfKfQ3zKJjXyIZlkgOGUL9UkMCFycEiF2Y8AVfEQsyre/3FnBdlWJvGr0NU47n2TbQ==}
-    peerDependencies:
-      react: '>= 16'
-
-  '@tabler/icons@3.34.0':
-    resolution: {integrity: sha512-jtVqv0JC1WU2TTEBN32D9+R6mc1iEBuPwLnBsWaR02SIEciu9aq5806AWkCHuObhQ4ERhhXErLEK7Fs+tEZxiA==}
 
   '@tanstack/query-core@5.80.7':
     resolution: {integrity: sha512-s09l5zeUKC8q7DCCCIkVSns8zZrK4ZDT6ryEjxNBFi68G4z2EBobBS7rdOY3r6W1WbUDpc1fe5oY+YO/+2UVUg==}
@@ -5254,13 +5243,6 @@ snapshots:
     optional: true
 
   '@standard-schema/utils@0.3.0': {}
-
-  '@tabler/icons-react@3.34.0(react@18.3.1)':
-    dependencies:
-      '@tabler/icons': 3.34.0
-      react: 18.3.1
-
-  '@tabler/icons@3.34.0': {}
 
   '@tanstack/query-core@5.80.7': {}
 
