@@ -1,0 +1,144 @@
+================================================================================
+        CÁC USE CASE CỦA HỆ THỐNG BÁN GIÀY THỂ THAO TÍCH HỢP CHATBOT AI
+================================================================================
+
+Actor: Nhân viên
+
+================================================================================
+NHÓM 1: ĐĂNG NHẬP
+================================================================================
+
+1. ĐĂNG NHẬP
+   - Mô tả: Nhân viên đăng nhập vào hệ thống quản trị để thực hiện nghiệp vụ
+   - Tiền điều kiện: Nhân viên được cấp tài khoản bởi Admin
+   - Luồng chính:
+     + Nhập thông tin đăng nhập (email/username, password)
+     + Hệ thống xác thực quyền "STAFF"
+     + Truy cập vào giao diện quản trị/vận hành
+   - Include: Không có
+   - Extend:
+     + Đăng xuất
+   - Quan hệ:
+     + Phải thực hiện trước khi vào các nhóm Quản lý đơn hàng, Thanh toán, Trả hàng
+
+================================================================================
+NHÓM 2: ĐĂNG XUẤT
+================================================================================
+
+2. ĐĂNG XUẤT
+   - Mô tả: Nhân viên đăng xuất khỏi hệ thống
+   - Tiền điều kiện: Nhân viên đang đăng nhập
+   - Luồng chính:
+     + Chọn chức năng đăng xuất
+     + Xác nhận kết thúc phiên làm việc
+   - Include: Không có
+   - Extend: Không có
+   - Quan hệ: Extend từ "Đăng nhập"
+
+================================================================================
+NHÓM 3: QUẢN LÝ ĐƠN HÀNG (POS)
+================================================================================
+
+3. QUẢN LÝ ĐƠN HÀNG (POS)
+   - Mô tả: Nhân viên quản lý các đơn hàng tại quầy và đơn hàng trực tuyến
+   - Tiền điều kiện: Nhân viên đã đăng nhập
+   - Luồng chính:
+     + Truy cập module quản lý đơn hàng
+     + Thực hiện các thao tác tạo đơn hoặc cập nhật
+   - Include:
+     + Đăng nhập
+   - Extend:
+     + Tạo đơn hàng POS
+     + Xem danh sách đơn hàng
+     + Xem chi tiết đơn hàng
+     + Cập nhật đơn hàng
+
+   3.1. TẠO ĐƠN HÀNG POS (Extend)
+       - Mô tả: Tạo đơn hàng trực tiếp cho khách mua tại cửa hàng
+       - Chức năng: Chọn sản phẩm, chọn size/màu, tính tiền, in hóa đơn
+
+   3.2. XEM DANH SÁCH ĐƠN HÀNG (Extend)
+       - Mô tả: Xem danh sách các đơn hàng trong hệ thống
+       - Hiển thị: Mã đơn, tên khách, ngày đặt, trạng thái, tổng tiền
+
+   3.3. XEM CHI TIẾT ĐƠN HÀNG (Extend)
+       - Mô tả: Xem thông tin đầy đủ của một đơn hàng cụ thể
+       - Chi tiết: Danh sách sản phẩm, giá bán, thông tin thanh toán, địa chỉ
+
+   3.4. CẬP NHẬT ĐƠN HÀNG (Extend)
+       - Mô tả: Thay đổi trạng thái hoặc thông tin đơn hàng
+       - Chức năng: Xác nhận đơn, chuyển trạng thái giao hàng, thành công
+
+================================================================================
+NHÓM 4: QUẢN LÝ THANH TOÁN
+================================================================================
+
+4. QUẢN LÝ THANH TOÁN
+   - Mô tả: Nhân viên quản lý các giao dịch thanh toán và hóa đơn
+   - Tiền điều kiện: Nhân viên đã đăng nhập
+   - Luồng chính:
+     + Truy cập module thanh toán
+     + Kiểm soát các luồng tiền và chứng từ hóa đơn
+   - Include:
+     + Đăng nhập
+   - Extend:
+     + Xem danh sách thanh toán
+     + Xem chi tiết thanh toán, hoá đơn
+     + Xoá thanh toán, hoá đơn
+     + Xem thống kê thanh toán, hoá đơn
+
+   4.1. XEM DANH SÁCH THANH TOÁN (Extend)
+       - Mô tả: Hiển thị danh sách các lượt thanh toán trong ngày/tuần/tháng
+       - Thông tin: Mã giao dịch, phương thức (Cash/Bank), số tiền
+
+   4.2. XEM CHI TIẾT THANH TOÁN, HOÁ ĐƠN (Extend)
+       - Mô tả: Xem chi tiết chứng từ của một giao dịch thanh toán cụ thể
+
+   4.3. XOÁ THANH TOÁN, HOÁ ĐƠN (Extend)
+       - Mô tả: Loại bỏ các bản ghi thanh toán sai hoặc bị lỗi (cần quyền hạn)
+
+   4.4. XEM THỐNG KÊ THANH TOÁN, HOÁ ĐƠN (Extend)
+       - Mô tả: Xem báo cáo tổng hợp về dòng tiền và doanh thu theo hóa đơn
+
+================================================================================
+NHÓM 5: QUẢN LÝ TRẢ HÀNG
+================================================================================
+
+5. QUẢN LÝ TRẢ HÀNG
+   - Mô tả: Nhân viên xử lý các yêu cầu đổi trả hàng từ phía khách hàng
+   - Tiền điều kiện: Nhân viên đã đăng nhập
+   - Luồng chính:
+     + Truy cập module quản lý trả hàng
+     + Xử lý các khiếu nại hoặc hoàn hàng
+   - Include:
+     + Đăng nhập
+     + Xem danh sách đơn trả hàng
+   - Extend:
+     + Tạo đơn trả hàng
+     + Tìm kiếm đơn trả hàng
+     + Xem chi tiết đơn trả hàng
+     + Cập nhật đơn trả hàng
+     + Xoá đơn trả hàng
+     + Xem thống kê đơn trả hàng
+
+   5.1. TẠO ĐƠN TRẢ HÀNG (Extend)
+       - Mô tả: Khởi tạo phiếu trả hàng khi nhận hàng hoàn lại từ khách
+
+   5.2. XEM DANH SÁCH ĐƠN TRẢ HÀNG (Include)
+       - Mô tả: Hiển thị danh sách các yêu cầu trả hàng cần xử lý
+       - Lưu ý: Đây là hành động bắt buộc (Include) khi vào module Quản lý trả hàng
+
+   5.3. TÌM KIẾM ĐƠN TRẢ HÀNG (Extend)
+       - Mô tả: Tìm nhanh đơn trả theo mã đơn hoặc số điện thoại khách
+
+   5.4. XEM CHI TIẾT ĐƠN TRẢ HÀNG (Extend)
+       - Mô tả: Xem lý do trả, ảnh minh chứng sản phẩm lỗi/không vừa từ khách
+
+   5.5. CÂP NHẬT ĐƠN TRẢ HÀNG (Extend)
+       - Mô tả: Phê duyệt hoặc từ chối yêu cầu trả hàng; cập nhật trạng thái hoàn tiền
+
+   5.6. XOÁ ĐƠN TRẢ HÀNG (Extend)
+       - Mô tả: Xóa các yêu cầu trả hàng không hợp lệ
+
+   5.7. XEM THỐNG KÊ ĐƠN TRẢ HÀNG (Extend)
+       - Mô tả: Thống kê tỷ lệ hoàn hàng, lý do trả hàng phổ biến

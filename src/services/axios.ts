@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://sneaker-springboot-be.onrender.com/api',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -13,7 +13,7 @@ axiosInstance.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -30,7 +30,7 @@ axiosInstance.interceptors.response.use(
 
       try {
         const refreshToken = localStorage.getItem('refreshToken');
-        
+
         if (!refreshToken) {
           window.location.href = '/login';
           return Promise.reject(error);

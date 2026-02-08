@@ -367,7 +367,7 @@ export default function PromotionsPage() {
                                 {promotion.name}
                               </span>
                               {promotion.description && (
-                                <span className="text-xs text-maintext mt-1 line-clamp-2 max-w-[400px]">
+                                <span className="text-sm text-maintext mt-1 line-clamp-2 max-w-[400px]">
                                   {promotion.description}
                                 </span>
                               )}

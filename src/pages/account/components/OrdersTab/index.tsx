@@ -116,7 +116,7 @@ const OrdersTab = () => {
                 className="text-primary"
               />
             </div>
-            <span>Đơn hàng của bạn</span>
+            <span>Đơn hàng đã đặt</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
