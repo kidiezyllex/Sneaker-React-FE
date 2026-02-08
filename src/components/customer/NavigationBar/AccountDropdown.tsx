@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { mdiAccount, mdiLogout, mdiViewDashboard } from "@mdi/js";
@@ -16,37 +15,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUser } from "@/context/useUserContext";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
-const dropdownAnimation = {
-  hidden: { opacity: 0, y: -5 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.2 } },
-  exit: { opacity: 0, y: -5, transition: { duration: 0.1 } },
-};
 
-const itemAnimation = {
-  hidden: { opacity: 0, x: -5 },
-  visible: { opacity: 1, x: 0 },
-};
 const AccountDropdown = () => {
-  const { isAuthenticated, logoutUser, profile } = useUser();
+  const { logoutUser, profile } = useUser();
   const handleLogout = () => {
     logoutUser();
   };
-  if (!isAuthenticated) {
-    return (
-      <Link
-        to="/auth/login"
-        className="p-2 text-maintext hover:text-primary transition-colors"
-      >
-        <Icon path={mdiAccount} size={0.8} />
-      </Link>
-    );
-  }
-
-  const getInitials = () => {
-    const name = profile?.data?.fullName || "U";
-    return name.charAt(0).toUpperCase();
-  };
-
   const getAvatarUrl = () => {
     const userId = profile?.data?.id || "default";
     return `https://api.dicebear.com/7.x/avataaars/svg?seed=${userId}`;

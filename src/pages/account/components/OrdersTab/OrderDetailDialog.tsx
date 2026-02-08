@@ -410,7 +410,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                               <img
                                 src={imageUrl || "/images/white-image.png"}
                                 alt={product?.name || ""}
-                                className="w-16 h-16 object-contain rounded-md"
+                                className="w-16 h-16 object-contain rounded-lg"
                               />
                             </TableCell>
                             <TableCell className="font-medium">

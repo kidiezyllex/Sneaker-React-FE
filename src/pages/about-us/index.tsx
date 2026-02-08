@@ -264,7 +264,7 @@ const AboutUsPage = () => {
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-start gap-4">
                                         <div className="mt-1 p-1 rounded-full bg-primary/10">
-                                            <Icon path={mdiCheckCircle} size={0.6} className="text-primary" />
+                                            <Icon path={mdiCheckCircle} size={0.8} className="text-primary" />
                                         </div>
                                         <p className="font-bold text-slate-800 dark:text-slate-200">{item}</p>
                                     </div>

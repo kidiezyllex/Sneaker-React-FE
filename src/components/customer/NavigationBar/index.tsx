@@ -42,7 +42,7 @@ const Tab = React.memo(({ text, selected, setSelected }: TabProps) => {
         <motion.span
           layoutId="tab"
           transition={{ type: "spring", duration: 0.4 }}
-          className="absolute inset-0 z-0 rounded-md bg-primary/80"
+          className="absolute inset-0 z-0 rounded-lg bg-primary/80"
         ></motion.span>
       )}
     </button>
@@ -92,22 +92,13 @@ export const NavigationBar = () => {
         <div className="flex items-center gap-2">
           {!isAuthenticated ? (
             <div className="hidden md:flex items-center gap-2">
-              <Link
-                to="/auth/login"
-                className="border border-primary text-primary hover:text-primary/80 rounded-md"
-              >
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border border-primary text-primary hover:text-primary/80 rounded-md"
-                >
+              <Link to="/auth/login">
+                <Button variant="outline" size="sm">
                   Đăng nhập
                 </Button>
               </Link>
-              <Link to="/auth/register" className="rounded-md bg-primary/80">
-                <Button size="sm" className="rounded-md bg-primary/80">
-                  Đăng ký
-                </Button>
+              <Link to="/auth/register">
+                <Button size="sm">Đăng ký</Button>
               </Link>
             </div>
           ) : (
@@ -157,7 +148,7 @@ export const NavigationBar = () => {
                   <p>Giỏ hàng của bạn</p>
                 </TooltipContent>
               </Tooltip>
-              <AccountDropdown />
+              {isAuthenticated && <AccountDropdown />}
             </div>
           </TooltipProvider>
         </div>

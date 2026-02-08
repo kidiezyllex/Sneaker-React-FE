@@ -1,49 +1,12 @@
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
 import { mdiChevronDoubleRight, mdiWhatsapp, mdiStar } from "@mdi/js";
-import { InteractiveHoverButton } from "@/components/common/InteractiveHoverButton";
+import { InteractiveHoverButton } from "@/components/Common/InteractiveHoverButton";
 
 export const HotDeals = () => {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true });
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.7,
-        ease: [0.25, 0.1, 0.25, 1.0],
-      },
-    },
-  };
-
-  const imageVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.8,
-        ease: [0.25, 0.1, 0.25, 1.0],
-      },
-    },
-  };
-
   return (
     <section
       ref={sectionRef}

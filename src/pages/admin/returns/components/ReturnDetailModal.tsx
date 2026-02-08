@@ -121,8 +121,8 @@ export default function ReturnDetailModal({
             <div key={step.key} className="flex items-center gap-4">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted
-                    ? "bg-primary text-white"
-                    : "bg-gray-200 text-maintext"
+                  ? "bg-primary text-white"
+                  : "bg-gray-200 text-maintext"
                   }`}
               >
                 {isCompleted ? (
@@ -269,7 +269,7 @@ export default function ReturnDetailModal({
                             alt="Product"
                             width={50}
                             height={50}
-                            className="rounded-md object-cover"
+                            className="rounded-lg object-cover"
                           />
                           <div>
                             <p className="font-medium">

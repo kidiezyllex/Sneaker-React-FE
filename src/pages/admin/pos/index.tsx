@@ -1010,7 +1010,7 @@ export default function POSPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 className={cn(
-                  "relative flex items-center gap-2 p-2 rounded-md border-2 transition-all duration-200 min-w-[140px] group",
+                  "relative flex items-center gap-2 p-2 rounded-lg border-2 transition-all duration-200 min-w-[140px] group",
                   activeCartId === cart.id
                     ? "border-primary bg-primary/5 text-primary shadow-md"
                     : "border-border bg-white text-maintext hover:border-primary/50 hover:bg-primary/5"

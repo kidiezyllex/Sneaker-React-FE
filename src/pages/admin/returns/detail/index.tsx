@@ -462,7 +462,7 @@ export default function AdminReturnDetailPage() {
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-7 w-7 rounded-md hover:bg-white transition-colors"
+                                                                    className="h-7 w-7 rounded-lg hover:bg-white transition-colors"
                                                                     onClick={() => handleQuantityChange(index, item.quantity - 1)}
                                                                     disabled={item.quantity <= 1}
                                                                 >
@@ -477,7 +477,7 @@ export default function AdminReturnDetailPage() {
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-7 w-7 rounded-md hover:bg-white transition-colors"
+                                                                    className="h-7 w-7 rounded-lg hover:bg-white transition-colors"
                                                                     onClick={() => handleQuantityChange(index, item.quantity + 1)}
                                                                     disabled={item.quantity >= item.maxQuantity}
                                                                 >

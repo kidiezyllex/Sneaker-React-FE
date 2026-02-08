@@ -73,9 +73,8 @@ export default function CreateReturnRequestModal({
         price: item.price,
         productName: item.product.name,
         productImage: item.product.images[0] || "/placeholder.jpg",
-        variantInfo: `${item.variant.color?.name || ""} - ${
-          item.variant.size?.name || ""
-        }`,
+        variantInfo: `${item.variant.color?.name || ""} - ${item.variant.size?.name || ""
+          }`,
       };
       setSelectedItems((prev) => [...prev, newItem]);
     } else {
@@ -97,9 +96,9 @@ export default function CreateReturnRequestModal({
       prev.map((item, i) =>
         i === index
           ? {
-              ...item,
-              quantity: Math.max(1, Math.min(newQuantity, item.maxQuantity)),
-            }
+            ...item,
+            quantity: Math.max(1, Math.min(newQuantity, item.maxQuantity)),
+          }
           : item
       )
     );
@@ -213,7 +212,7 @@ export default function CreateReturnRequestModal({
                       alt={item.product.name}
                       width={80}
                       height={80}
-                      className="rounded-md object-cover"
+                      className="rounded-lg object-cover"
                     />
                     <div className="flex-1">
                       <h4 className="font-medium">{item.product.name}</h4>
@@ -237,9 +236,9 @@ export default function CreateReturnRequestModal({
                                 (selected) =>
                                   selected.product === item.product?.id &&
                                   selected.variant.colorId ===
-                                    item.variant.colorId &&
+                                  item.variant.colorId &&
                                   selected.variant.sizeId ===
-                                    item.variant.sizeId
+                                  item.variant.sizeId
                               );
                               if (selectedIndex !== -1) {
                                 handleQuantityChange(
@@ -260,9 +259,9 @@ export default function CreateReturnRequestModal({
                                 (selected) =>
                                   selected.product === item.product?.id &&
                                   selected.variant.colorId ===
-                                    item.variant.colorId &&
+                                  item.variant.colorId &&
                                   selected.variant.sizeId ===
-                                    item.variant.sizeId
+                                  item.variant.sizeId
                               )?.quantity || 1
                             }
                             onChange={(e) => {
@@ -270,9 +269,9 @@ export default function CreateReturnRequestModal({
                                 (selected) =>
                                   selected.product === item.product?.id &&
                                   selected.variant.colorId ===
-                                    item.variant.colorId &&
+                                  item.variant.colorId &&
                                   selected.variant.sizeId ===
-                                    item.variant.sizeId
+                                  item.variant.sizeId
                               );
                               if (selectedIndex !== -1) {
                                 handleQuantityChange(
@@ -291,9 +290,9 @@ export default function CreateReturnRequestModal({
                                 (selected) =>
                                   selected.product === item.product?.id &&
                                   selected.variant.colorId ===
-                                    item.variant.colorId &&
+                                  item.variant.colorId &&
                                   selected.variant.sizeId ===
-                                    item.variant.sizeId
+                                  item.variant.sizeId
                               );
                               if (selectedIndex !== -1) {
                                 handleQuantityChange(

@@ -834,7 +834,7 @@ export default function ProductDetail() {
                 >
                   -
                 </Button>
-                <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
+                <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-lg">
                   {quantity}
                 </div>
                 <Button

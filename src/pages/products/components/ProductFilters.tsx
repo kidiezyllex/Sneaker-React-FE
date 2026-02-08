@@ -8,6 +8,8 @@ import { getSizeLabel } from "@/utils/sizeMapping";
 import { useProducts } from "@/hooks/product";
 import type { IProductFilter } from "@/interface/request/product";
 import { toast } from "react-toastify";
+import { Icon } from "@mdi/react";
+import { mdiRefresh } from "@mdi/js";
 
 interface ProductFiltersProps {
   filters: IProductFilter;
@@ -207,126 +209,185 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
 
   if (productsQuery.isLoading) {
     return (
-      <div className="space-y-4">
-        <Skeleton className="h-20 w-full" />
-        <Skeleton className="h-40 w-full" />
-        <Skeleton className="h-40 w-full" />
+      <div className="bg-white rounded-xl shadow-md p-4 space-y-4 w-52 max-w-52">
+        <div className="border-b pb-2">
+          <Skeleton className="h-5 w-32" />
+        </div>
+
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-10" />
+          <Skeleton className="h-2 w-full" />
+          <div className="flex justify-between">
+            <Skeleton className="h-3 w-16" />
+            <Skeleton className="h-3 w-16" />
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-24" />
+          <div className="grid grid-cols-2 gap-2">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded" />
+                <Skeleton className="h-3 w-16" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-20" />
+          <div className="space-y-2">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="flex items-center gap-2">
+                <Skeleton className="h-4 w-4 rounded" />
+                <Skeleton className="h-3 w-20" />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Colors Skeleton */}
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-16" />
+          <div className="flex flex-wrap gap-2">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton key={i} className="h-8 w-8 rounded-full" />
+            ))}
+          </div>
+        </div>
+
+        {/* Sizes Skeleton */}
+        <div className="space-y-3">
+          <Skeleton className="h-4 w-16" />
+          <div className="flex flex-wrap gap-2">
+            {[...Array(8)].map((_, i) => (
+              <Skeleton key={i} className="h-8 w-10 rounded" />
+            ))}
+          </div>
+        </div>
+
+        <Skeleton className="h-10 w-full rounded-lg" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h3 className="text-sm font-semibold mb-3">Giá</h3>
-        <div className="px-2">
-          <Slider
-            defaultValue={[priceRange.min, priceRange.max]}
-            min={priceRange.min}
-            max={priceRange.max}
-            step={100000}
-            value={selectedPriceRange}
-            onValueChange={(value) =>
-              handlePriceChange(value as [number, number])
-            }
-          />
-          <div className="flex justify-between mt-2 text-sm text-maintext">
-            <span>{formatPrice(selectedPriceRange[0])}</span>
-            <span>{formatPrice(selectedPriceRange[1])}</span>
+    <div className="bg-white rounded-xl shadow-md w-52 max-w-52">
+      <div className="flex items-center gap-2 py-2 border-b px-4">
+        <h3 className="font-semibold text-sm">Bộ lọc sản phẩm</h3>
+      </div>
+      <div className="p-4 flex flex-col gap-4">
+        <div>
+          <h3 className="text-sm font-semibold mb-3">Giá</h3>
+          <div>
+            <Slider
+              defaultValue={[priceRange.min, priceRange.max]}
+              min={priceRange.min}
+              max={priceRange.max}
+              step={100000}
+              value={selectedPriceRange}
+              onValueChange={(value) =>
+                handlePriceChange(value as [number, number])
+              }
+            />
+            <div className="flex justify-between mt-2 text-sm text-maintext">
+              <span>{formatPrice(selectedPriceRange[0])}</span>
+              <span>{formatPrice(selectedPriceRange[1])}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-sm font-semibold mb-3">Thương hiệu</h3>
-        <div className="space-y-2 max-h-48 grid grid-cols-2 overflow-y-auto">
-          {brands.map((brand) => (
-            <div key={(brand as any)?.id} className="flex items-center gap-2">
-              <Checkbox
-                id={`brand-${(brand as any)?.id}`}
-                checked={selectedBrand === String((brand as any)?.id)}
-                onCheckedChange={() =>
-                  handleBrandChange(String((brand as any)?.id))
-                }
-              />
-              <label
-                htmlFor={`brand-${(brand as any)?.id}`}
-                className="text-sm"
-              >
-                {brand.name}
-              </label>
-            </div>
-          ))}
+        <div>
+          <h3 className="text-sm font-semibold mb-3">Thương hiệu</h3>
+          <div className="space-y-2 max-h-48 grid grid-cols-2 overflow-y-auto">
+            {brands.map((brand) => (
+              <div key={(brand as any)?.id} className="flex items-center gap-2">
+                <Checkbox
+                  id={`brand-${(brand as any)?.id}`}
+                  checked={selectedBrand === String((brand as any)?.id)}
+                  onCheckedChange={() =>
+                    handleBrandChange(String((brand as any)?.id))
+                  }
+                />
+                <label
+                  htmlFor={`brand-${(brand as any)?.id}`}
+                  className="text-sm"
+                >
+                  {brand.name}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-sm font-semibold mb-3">Danh mục</h3>
-        <div className="space-y-2 max-h-48 overflow-y-auto">
-          {categories.map((category) => (
-            <div
-              key={(category as any)?.id}
-              className="flex items-center gap-2"
-            >
-              <Checkbox
-                id={`category-${(category as any)?.id}`}
-                checked={selectedCategory === String((category as any)?.id)}
-                onCheckedChange={() =>
-                  handleCategoryChange(String((category as any)?.id))
-                }
-              />
-              <label
-                htmlFor={`category-${(category as any)?.id}`}
-                className="text-sm"
+        <div>
+          <h3 className="text-sm font-semibold mb-3">Danh mục</h3>
+          <div className="space-y-2 max-h-48 overflow-y-auto">
+            {categories.map((category) => (
+              <div
+                key={(category as any)?.id}
+                className="flex items-center gap-2"
               >
-                {category.name}
-              </label>
-            </div>
-          ))}
+                <Checkbox
+                  id={`category-${(category as any)?.id}`}
+                  checked={selectedCategory === String((category as any)?.id)}
+                  onCheckedChange={() =>
+                    handleCategoryChange(String((category as any)?.id))
+                  }
+                />
+                <label
+                  htmlFor={`category-${(category as any)?.id}`}
+                  className="text-sm"
+                >
+                  {category.name}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-sm font-semibold mb-3">Màu sắc</h3>
-        <div className="flex flex-wrap gap-2">
-          {colors.map((color) => (
-            <button
-              key={color.id}
-              className={`w-8 h-8 rounded-full border overflow-hidden relative transition-all duration-300 ${
-                filters.color === String(color.id)
+        <div>
+          <h3 className="text-sm font-semibold mb-3">Màu sắc</h3>
+          <div className="flex flex-wrap gap-2">
+            {colors.map((color) => (
+              <button
+                key={color.id}
+                className={`w-8 h-8 rounded-full border overflow-hidden relative transition-all duration-300 ${filters.color === String(color.id)
                   ? "ring-2 ring-primary ring-offset-2"
                   : "border-gray-300"
-              }`}
-              style={{ backgroundColor: color.code }}
-              title={color.name}
-              onClick={() => handleColorChange(String(color.id))}
-            />
-          ))}
+                  }`}
+                style={{ backgroundColor: color.code }}
+                title={color.name}
+                onClick={() => handleColorChange(String(color.id))}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <h3 className="text-sm font-semibold mb-3">Kích cỡ</h3>
-        <div className="flex flex-wrap gap-2">
-          {sizes.map((size) => (
-            <button
-              key={size.id}
-              className={`px-2 py-1 border rounded text-sm transition-all duration-300 ${
-                filters.size === String(size.id)
+        <div>
+          <h3 className="text-sm font-semibold mb-3">Kích cỡ</h3>
+          <div className="flex flex-wrap gap-2">
+            {sizes.map((size) => (
+              <button
+                key={size.id}
+                className={`px-2 py-1 border rounded text-sm transition-all duration-300 ${filters.size === String(size.id)
                   ? "bg-primary text-white border-primary"
                   : "border-gray-300 hover:border-primary"
-              }`}
-              onClick={() => handleSizeChange(String(size.id))}
-            >
-              {size.value ? getSizeLabel(size.value) : size.name || size.id}
-            </button>
-          ))}
+                  }`}
+                onClick={() => handleSizeChange(String(size.id))}
+              >
+                {size.value ? getSizeLabel(size.value) : size.name || size.id}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <Button variant="outline" className="w-full" onClick={handleResetFilters}>
-        Đặt lại bộ lọc
-      </Button>
+        <Button variant="outline" className="w-full flex items-center justify-center gap-2" onClick={handleResetFilters}>
+          <Icon path={mdiRefresh} size={0.8} />
+          Đặt lại bộ lọc
+        </Button>
+      </div>
     </div>
   );
 };

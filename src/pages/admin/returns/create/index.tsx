@@ -457,7 +457,7 @@ export default function CreateReturnPage() {
                       alt={item.product.name}
                       width={80}
                       height={80}
-                      className="rounded-md object-cover"
+                      className="rounded-lg object-cover"
                     />
                     <div className="flex-1">
                       <h4 className="font-medium">{item.product.name}</h4>

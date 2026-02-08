@@ -127,7 +127,7 @@ export default function POSRightSection({
                   key={item.id}
                   className="flex gap-3 bg-white p-3 rounded-lg border border-border hover:shadow-md transition-all duration-200 group relative"
                 >
-                  <div className="relative h-20 w-20 rounded-md overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
+                  <div className="relative h-20 w-20 rounded-lg overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
                     <img
                       src={item.image}
                       alt={item.name}
@@ -167,7 +167,7 @@ export default function POSRightSection({
                       </div>
                     </div>
                     <div className="flex justify-between items-end mt-2">
-                      <div className="flex items-center gap-2 border rounded-md bg-gray-50 h-8">
+                      <div className="flex items-center gap-2 border rounded-lg bg-gray-50 h-8">
                         <button
                           className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-l-md transition-colors text-gray-600"
                           onClick={() => onUpdateQuantity(item.id, -1)}

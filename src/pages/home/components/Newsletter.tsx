@@ -127,7 +127,7 @@ export const Newsletter = () => {
               {benefits.map((benefit, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-center justify-center gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-md p-4 shadow-lg border border-gray-200/50 dark:border-gray-700/50"
+                  className="flex items-center justify-center gap-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-lg p-4 shadow-lg border border-gray-200/50 dark:border-gray-700/50"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.6 + index * 0.1 }}
@@ -138,7 +138,7 @@ export const Newsletter = () => {
                     size={1.2}
                     className="text-primary"
                   />
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                     {benefit.text}
                   </span>
                 </motion.div>
@@ -163,14 +163,14 @@ export const Newsletter = () => {
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Nhập email của bạn để nhận ưu đãi..."
-                          className="w-full h-14 px-6 rounded-md border-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 text-lg"
+                          className="w-full h-14 px-6 rounded-lg border-0 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/50 text-lg"
                           required
                         />
                       </div>
 
                       <Button
                         type="submit"
-                        className="h-14 px-8 bg-gradient-to-r from-primary via-secondary to-primary hover:from-primary/90 hover:via-secondary/90 hover:to-primary/90 text-white font-semibold rounded-md shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 min-w-[160px]"
+                        className="h-14 px-8 bg-gradient-to-r from-primary via-secondary to-primary hover:from-primary/90 hover:via-secondary/90 hover:to-primary/90 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 min-w-[160px]"
                       >
                         <span className="mr-2">Đăng ký ngay</span>
                         <Icon path={mdiEmailFast} size={0.8} />

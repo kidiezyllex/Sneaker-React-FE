@@ -140,7 +140,7 @@ const SidebarLayout = memo(function SidebarLayout({
                       <button
                         onClick={() => toggleSubMenu(menu.id)}
                         className={cn(
-                          "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-base transition-colors",
+                          "flex items-center font-medium justify-between w-full rounded-lg p-2 text-left text-base transition-colors",
                           isMenuActive(menu)
                             ? "bg-primary/10 text-primary !font-medium"
                             : "hover:bg-gray-100"
@@ -195,7 +195,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                 <Link to={subItem.path}>
                                   <div
                                     className={cn(
-                                      "flex items-center rounded-md p-2 text-base transition-colors font-medium",
+                                      "flex items-center rounded-lg p-2 text-base transition-colors font-medium",
                                       isSubMenuActive(subItem.path, menu.subMenu)
                                         ? "bg-primary/10 text-primary !font-medium"
                                         : "text-maintext hover:bg-gray-100"
@@ -240,7 +240,7 @@ const SidebarLayout = memo(function SidebarLayout({
                       <Link to={menu.path || "#"}>
                         <div
                           className={cn(
-                            "flex items-center rounded-md p-2 text-base font-medium transition-colors ",
+                            "flex items-center rounded-lg p-2 text-base font-medium transition-colors ",
                             isMenuActive(menu)
                               ? "bg-primary/10 text-primary !font-medium"
                               : "text-maintext hover:bg-gray-100",
@@ -267,7 +267,7 @@ const SidebarLayout = memo(function SidebarLayout({
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -5 }}
                             transition={{ duration: 0.2 }}
-                            className="fixed ml-16 mt-[-30px] bg-white border border-primary/20 text-main-text text-sm py-1.5 px-3 rounded-md shadow-light-grey z-50 whitespace-nowrap flex items-center"
+                            className="fixed ml-16 mt-[-30px] bg-white border border-primary/20 text-main-text text-sm py-1.5 px-3 rounded-lg shadow-light-grey z-50 whitespace-nowrap flex items-center"
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
                             <span className="font-medium">{menu.name}</span>

@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Icon } from "@mdi/react";
-import { mdiFilterOutline, mdiClose, mdiMagnify } from "@mdi/js";
+import { mdiFilterOutline, mdiMagnify } from "@mdi/js";
 import { useProducts, useSearchProducts } from "@/hooks/product";
 import { usePromotions } from "@/hooks/promotion";
 import {
@@ -24,7 +24,6 @@ import type { IProductFilter } from "@/interface/request/product";
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -34,7 +33,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCartStore } from "@/stores/useCartStore";
 import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
-import { motion, AnimatePresence } from "framer-motion";
 import VoucherForm from "@/pages/admin/products/components/VoucherForm";
 import CartIcon from "@/components/ui/CartIcon";
 import { CommonPagination } from "@/components/ui/common-pagination";
@@ -359,40 +357,7 @@ export default function ProductsPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="flex flex-col lg:flex-row gap-4 items-start">
-        {/* Filters - Mobile */}
-        <AnimatePresence>
-          {isFilterOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="lg:hidden w-full"
-            >
-              <div className="bg-white rounded-xl shadow-sm border p-4 mb-4">
-                <div className="flex justify-between items-center mb-2">
-                  <h2 className="font-semibold">Bộ lọc sản phẩm</h2>
-                  <Button variant="ghost" size="sm" onClick={toggleFilter}>
-                    <Icon path={mdiClose} size={0.8} />
-                  </Button>
-                </div>
-                <ProductFilters
-                  filters={filters}
-                  onChange={handleFilterChange}
-                />
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div className="hidden lg:block w-full lg:w-1/4 xl:w-1/5 ">
-          <div className="bg-white rounded-xl shadow-md border-2 border-white p-4 sticky top-20">
-            <h2 className="font-semibold mb-4">Bộ lọc sản phẩm</h2>
-            <ProductFilters filters={filters} onChange={handleFilterChange} />
-          </div>
-        </div>
-
-        {/* Products */}
+        <ProductFilters filters={filters} onChange={handleFilterChange} />
         <div className="w-full lg:w-3/4 xl:w-4/5">
           <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
             <div className="flex gap-2 flex-1">
@@ -438,15 +403,34 @@ export default function ProductsPage() {
 
           {isLoading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {[...Array(9)].map((_, index) => (
-                <Card key={index} className="overflow-hidden h-full">
-                  <div className="aspect-square w-full">
+              {[...Array(8)].map((_, index) => (
+                <Card key={index} className="overflow-hidden h-full border-none shadow-sm rounded-2xl bg-white">
+                  {/* Image Skeleton */}
+                  <div className="relative aspect-[4/5] w-full overflow-hidden">
                     <Skeleton className="h-full w-full" />
+                    <div className="absolute top-3 left-3">
+                      <Skeleton className="h-6 w-14 rounded-full" />
+                    </div>
+                    <div className="absolute top-3 right-3 flex flex-col gap-2">
+                      <Skeleton className="h-8 w-8 rounded-full" />
+                      <Skeleton className="h-8 w-8 rounded-full" />
+                    </div>
                   </div>
-                  <div className="p-4 space-y-2">
-                    <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-6 w-1/2" />
-                    <Skeleton className="h-10 w-full" />
+
+                  {/* Content Skeleton */}
+                  <div className="p-4 space-y-3">
+                    <div className="space-y-1">
+                      <Skeleton className="h-3 w-20" />
+                      <Skeleton className="h-5 w-full" />
+                    </div>
+
+                    <div className="flex items-center justify-between pt-2">
+                      <div className="space-y-1">
+                        <Skeleton className="h-5 w-24" />
+                        <Skeleton className="h-3 w-16" />
+                      </div>
+                      <Skeleton className="h-10 w-10 rounded-xl" />
+                    </div>
                   </div>
                 </Card>
               ))}

@@ -126,12 +126,12 @@ const ReturnsPage: React.FC = () => {
                 alt={item.product.name}
                 width={60}
                 height={60}
-                className="rounded-md object-cover"
+                className="rounded-lg object-cover"
               />
             </div>
           ))}
           {order.items.length > 3 && (
-            <div className="flex-shrink-0 w-15 h-15 bg-gray-100 rounded-md flex items-center justify-center text-sm text-maintext">
+            <div className="flex-shrink-0 w-15 h-15 bg-gray-100 rounded-lg flex items-center justify-center text-sm text-maintext">
               +{order.items.length - 3}
             </div>
           )}
@@ -191,13 +191,13 @@ const ReturnsPage: React.FC = () => {
           <div className="flex gap-2 overflow-x-auto pb-2">
             {returnItems.slice(0, 3).map((item, index) => (
               <div key={index} className="flex-shrink-0">
-                <div className="w-[60px] h-[60px] bg-slate-100 rounded-md flex items-center justify-center border">
+                <div className="w-[60px] h-[60px] bg-slate-100 rounded-lg flex items-center justify-center border">
                   <Icon path={mdiPackageVariant} size={0.8} className="text-slate-400" />
                 </div>
               </div>
             ))}
             {returnItems.length > 3 && (
-              <div className="flex-shrink-0 w-15 h-15 bg-gray-100 rounded-md flex items-center justify-center text-sm text-maintext">
+              <div className="flex-shrink-0 w-15 h-15 bg-gray-100 rounded-lg flex items-center justify-center text-sm text-maintext">
                 +{returnItems.length - 3}
               </div>
             )}
