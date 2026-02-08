@@ -45,8 +45,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import StatusUpdateModal from "@/components/admin/Returns/StatusUpdateModal";
-import SearchReturnModal from "@/components/admin/Returns/SearchReturnModal";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   mdiMagnify,
@@ -602,29 +600,6 @@ export default function ReturnsPage() {
             </>
           ) : null
         }
-      />
-
-
-      {/* Status Update Modal */}
-      <StatusUpdateModal
-        isOpen={statusUpdateModal.isOpen}
-        onClose={() =>
-          setStatusUpdateModal({
-            isOpen: false,
-            returnId: "",
-            currentStatus: "",
-          })
-        }
-        onConfirm={handleUpdateStatus}
-        returnId={statusUpdateModal.returnId}
-        currentStatus={statusUpdateModal.currentStatus}
-        isLoading={updateStatus.isPending}
-      />
-
-      {/* Search Modal */}
-      <SearchReturnModal
-        isOpen={searchModal}
-        onClose={() => setSearchModal(false)}
       />
     </div>
   );
