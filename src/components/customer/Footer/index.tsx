@@ -132,7 +132,7 @@ export const Footer = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <div className="flex items-start gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                <div className="flex items-start gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-md border border-white/10">
                   <Icon
                     path={mdiMapMarker}
                     size={1.2}
@@ -144,7 +144,7 @@ export const Footer = () => {
                   </p>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-md border border-white/10">
                   <Icon
                     path={mdiEmail}
                     size={1.2}
@@ -153,7 +153,7 @@ export const Footer = () => {
                   <p className="text-gray-300 text-sm">streetstore@gmail.com</p>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-md border border-white/10">
                   <Icon
                     path={mdiPhone}
                     size={1.2}
@@ -162,7 +162,7 @@ export const Footer = () => {
                   <p className="text-gray-300 text-sm">+84 123 456 789</p>
                 </div>
 
-                <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10">
+                <div className="flex items-center gap-3 p-3 bg-white/5 backdrop-blur-sm rounded-md border border-white/10">
                   <Icon
                     path={mdiClockOutline}
                     size={1.2}
@@ -319,7 +319,7 @@ export const Footer = () => {
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
-                    className={`p-3 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 transition-all duration-300 ${link.hoverColor} hover:scale-110 hover:border-white/40 group`}
+                    className={`p-3 bg-white/10 backdrop-blur-sm rounded-md border border-white/20 transition-all duration-300 ${link.hoverColor} hover:scale-110 hover:border-white/40 group`}
                     whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.95 }}
                   >
@@ -381,7 +381,7 @@ export const Footer = () => {
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
-                  className="p-2 bg-white/10 backdrop-blur-sm rounded-lg border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-110"
+                  className="p-2 bg-white/10 backdrop-blur-sm rounded-md border border-white/20 transition-all duration-300 hover:bg-white/20 hover:scale-110"
                   whileHover={{ y: -2 }}
                   whileTap={{ scale: 0.95 }}
                 >

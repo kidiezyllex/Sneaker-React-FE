@@ -411,7 +411,7 @@ export default function EditPromotionPage() {
                                         transition={{ duration: 0.3 }}
                                         className="space-y-4"
                                     >
-                                        <div className="border rounded-lg p-4 max-h-96 overflow-y-auto">
+                                        <div className="border rounded-md p-4 max-h-96 overflow-y-auto">
                                             <div className="space-y-3">
                                                 {productsData?.data?.map((product) => (
                                                     <div

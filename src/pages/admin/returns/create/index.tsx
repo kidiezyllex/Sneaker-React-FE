@@ -326,7 +326,7 @@ export default function CreateReturnPage() {
         </CardHeader>
         <CardContent>
           {selectedCustomer ? (
-            <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-md">
               <div>
                 <h3 className="font-semibold">{selectedCustomer.fullName}</h3>
                 <p className="text-sm text-maintext">
@@ -354,7 +354,7 @@ export default function CreateReturnPage() {
               </div>
 
               {customers.length > 0 && (
-                <div className="border rounded-lg max-h-60 overflow-y-auto">
+                <div className="border rounded-md max-h-60 overflow-y-auto">
                   {customers.map((customer) => (
                     <div
                       key={customer.id}
@@ -386,7 +386,7 @@ export default function CreateReturnPage() {
           </CardHeader>
           <CardContent>
             {selectedOrder ? (
-              <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-md">
                 <div>
                   <h3 className="font-semibold">#{selectedOrder.code}</h3>
                   <p className="text-sm text-maintext">
@@ -444,7 +444,7 @@ export default function CreateReturnPage() {
           <CardContent>
             <div className="space-y-4">
               {selectedOrder.items.map((item, index) => (
-                <div key={index} className="border rounded-lg p-4">
+                <div key={index} className="border rounded-md p-4">
                   <div className="flex items-start gap-4">
                     <Checkbox
                       checked={isItemSelected(item)}
@@ -457,7 +457,7 @@ export default function CreateReturnPage() {
                       alt={item.product.name}
                       width={80}
                       height={80}
-                      className="rounded-lg object-cover"
+                      className="rounded-md object-cover"
                     />
                     <div className="flex-1">
                       <h4 className="font-medium">{item.product.name}</h4>

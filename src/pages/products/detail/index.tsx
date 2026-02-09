@@ -388,7 +388,7 @@ export default function ProductDetail() {
               {[...Array(5)].map((_, index) => (
                 <Skeleton
                   key={index}
-                  className="aspect-square w-full rounded-lg"
+                  className="aspect-square w-full rounded-md"
                 />
               ))}
             </div>
@@ -624,7 +624,7 @@ export default function ProductDetail() {
                       : selectedVariant && formatPrice(selectedVariant.price)}
                   </motion.div>
                   {productDiscount && productDiscount.discountPercent > 0 && (
-                    <div className="text-xl text-maintext line-through font-medium bg-gray-100 px-3 py-2 rounded-lg">
+                    <div className="text-xl text-maintext line-through font-medium bg-gray-100 px-3 py-2 rounded-md">
                       {formatPrice(productDiscount.originalPrice)}
                     </div>
                   )}
@@ -834,7 +834,7 @@ export default function ProductDetail() {
                 >
                   -
                 </Button>
-                <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-lg">
+                <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
                   {quantity}
                 </div>
                 <Button

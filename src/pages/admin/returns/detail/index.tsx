@@ -458,11 +458,11 @@ export default function AdminReturnDetailPage() {
                                                     <div className="flex items-center gap-4 pt-4">
                                                         <div className="space-y-1.5">
                                                             <p className="text-xs font-bold uppercase text-maintext tracking-wider">Số lượng trả</p>
-                                                            <div className="flex items-center bg-slate-100 rounded-lg p-1 border">
+                                                            <div className="flex items-center bg-slate-100 rounded-md p-1 border">
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-7 w-7 rounded-lg hover:bg-white transition-colors"
+                                                                    className="h-7 w-7 rounded-md hover:bg-white transition-colors"
                                                                     onClick={() => handleQuantityChange(index, item.quantity - 1)}
                                                                     disabled={item.quantity <= 1}
                                                                 >
@@ -477,7 +477,7 @@ export default function AdminReturnDetailPage() {
                                                                 <Button
                                                                     variant="ghost"
                                                                     size="icon"
-                                                                    className="h-7 w-7 rounded-lg hover:bg-white transition-colors"
+                                                                    className="h-7 w-7 rounded-md hover:bg-white transition-colors"
                                                                     onClick={() => handleQuantityChange(index, item.quantity + 1)}
                                                                     disabled={item.quantity >= item.maxQuantity}
                                                                 >
@@ -490,7 +490,7 @@ export default function AdminReturnDetailPage() {
                                                             <p className="text-xs font-bold uppercase text-maintext tracking-wider">Lý do cụ thể</p>
                                                             <Input
                                                                 placeholder="Nhập lý do riêng cho sp này..."
-                                                                className="h-9 text-sm rounded-lg"
+                                                                className="h-9 text-sm rounded-md"
                                                                 value={item.reason || ""}
                                                                 onChange={(e) => handleReasonChange(index, e.target.value)}
                                                             />
@@ -499,7 +499,7 @@ export default function AdminReturnDetailPage() {
                                                 )}
 
                                                 {!canEdit && item.reason && (
-                                                    <div className="mt-3 bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                                                    <div className="mt-3 bg-slate-50 p-2.5 rounded-md border border-slate-100">
                                                         <p className="text-xs font-bold uppercase text-maintext tracking-wider mb-1">Lý do trả hàng</p>
                                                         <p className="text-xs text-slate-600 italic">"{item.reason}"</p>
                                                     </div>
@@ -550,7 +550,7 @@ export default function AdminReturnDetailPage() {
 
                                 {getTotalRefund() !== returnInfo.totalRefund && (
                                     <div className="pt-2">
-                                        <div className="bg-slate-50 border border-slate-100 p-3 rounded-lg flex justify-between items-center text-xs">
+                                        <div className="bg-slate-50 border border-slate-100 p-3 rounded-md flex justify-between items-center text-xs">
                                             <span className="text-maintext font-medium">Tiền hoàn gốc:</span>
                                             <span className="font-semibold text-slate-700 line-through opacity-60">{formatCurrency(returnInfo.totalRefund)}</span>
                                         </div>

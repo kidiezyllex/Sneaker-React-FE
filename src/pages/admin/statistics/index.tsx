@@ -848,7 +848,7 @@ export default function StatisticsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div className="p-4 bg-blue-50 rounded-lg">
+                <div className="p-4 bg-blue-50 rounded-md">
                   <h4 className="text-lg font-semibold text-blue-700 mb-2">
                     Tổng số lượng bán
                   </h4>
@@ -860,7 +860,7 @@ export default function StatisticsPage() {
                     sản phẩm
                   </p>
                 </div>
-                <div className="p-4 bg-green-50 rounded-lg">
+                <div className="p-4 bg-green-50 rounded-md">
                   <h4 className="text-lg font-semibold text-green-700 mb-2">
                     Tổng doanh thu
                   </h4>
@@ -1133,7 +1133,7 @@ export default function StatisticsPage() {
             ) : statisticsDetailData?.data ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="p-4 bg-blue-50 rounded-lg">
+                  <div className="p-4 bg-blue-50 rounded-md">
                     <h4 className="text-sm font-medium text-blue-700">
                       Tổng đơn hàng
                     </h4>
@@ -1141,7 +1141,7 @@ export default function StatisticsPage() {
                       {statisticsDetailData.data.totalOrders}
                     </p>
                   </div>
-                  <div className="p-4 bg-green-50 rounded-lg">
+                  <div className="p-4 bg-green-50 rounded-md">
                     <h4 className="text-sm font-medium text-green-700">
                       Doanh thu
                     </h4>
@@ -1149,7 +1149,7 @@ export default function StatisticsPage() {
                       {formatCurrency(statisticsDetailData.data.totalRevenue)}
                     </p>
                   </div>
-                  <div className="p-4 bg-purple-50 rounded-lg">
+                  <div className="p-4 bg-purple-50 rounded-md">
                     <h4 className="text-sm font-medium text-purple-700">
                       Lợi nhuận
                     </h4>
@@ -1157,7 +1157,7 @@ export default function StatisticsPage() {
                       {formatCurrency(statisticsDetailData.data.totalProfit)}
                     </p>
                   </div>
-                  <div className="p-4 bg-yellow-50 rounded-lg">
+                  <div className="p-4 bg-yellow-50 rounded-md">
                     <h4 className="text-sm font-medium text-yellow-700">
                       Khách hàng mới
                     </h4>
@@ -1168,7 +1168,7 @@ export default function StatisticsPage() {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="p-4 border rounded-lg">
+                  <div className="p-4 border rounded-md">
                     <h4 className="text-lg font-semibold mb-2">
                       Thông tin thống kê
                     </h4>
@@ -1200,7 +1200,7 @@ export default function StatisticsPage() {
                     </div>
                   </div>
 
-                  <div className="p-4 border rounded-lg">
+                  <div className="p-4 border rounded-md">
                     <h4 className="text-lg font-semibold mb-2">
                       Thông tin bổ sung
                     </h4>

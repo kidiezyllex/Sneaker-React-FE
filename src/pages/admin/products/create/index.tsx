@@ -295,7 +295,7 @@ export default function CreateProductPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <form onSubmit={handleSubmit} className="border bg-white rounded-lg">
+      <form onSubmit={handleSubmit} className="border bg-white rounded-md">
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}

@@ -149,7 +149,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="bg-white rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden p-0">
+      <DialogContent className="bg-white rounded-md max-w-6xl w-full max-h-[90vh] overflow-hidden p-0">
         <Card className="border-0 shadow-none">
           <CardHeader className="flex flex-row items-center justify-between border-b">
             <CardTitle className="flex items-center justify-between w-full">
@@ -190,11 +190,10 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ delay: index * 0.02 }}
                         className={`
-                          border rounded-lg p-4 transition-all
-                          ${
-                            variant.selected
-                              ? "border-primary bg-primary/5"
-                              : "border-gray-200 bg-gray-50"
+                          border rounded-md p-4 transition-all
+                          ${variant.selected
+                            ? "border-primary bg-primary/5"
+                            : "border-gray-200 bg-gray-50"
                           }
                         `}
                       >

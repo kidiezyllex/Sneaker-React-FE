@@ -342,7 +342,7 @@ export default function EditProductPage() {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 bg-white rounded-lg border">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 bg-white rounded-md border">
                 <TabsList className="grid w-full md:w-[500px] grid-cols-3">
                     <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>
                     <TabsTrigger value="variants" className="px-4 text-maintext/70">Biến thể</TabsTrigger>

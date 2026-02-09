@@ -134,7 +134,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                           return (
                             <div
                               key={index}
-                              className="flex items-center space-x-3 p-3 border rounded-lg"
+                              className="flex items-center space-x-3 p-3 border rounded-md"
                             >
                               <img
                                 src={imageUrl || "/images/white-image.png"}

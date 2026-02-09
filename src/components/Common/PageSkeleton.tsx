@@ -29,7 +29,7 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({
             {[...Array(8)].map((_, i) => (
               <div
                 key={i}
-                className="bg-white rounded-lg overflow-hidden shadow"
+                className="bg-white rounded-md overflow-hidden shadow"
               >
                 <div className="aspect-square bg-gray-200"></div>
                 <div className="p-4 space-y-3">
@@ -51,7 +51,7 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Image Gallery Skeleton */}
           <div className="space-y-4">
-            <div className="aspect-square bg-gray-200 rounded-lg"></div>
+            <div className="aspect-square bg-gray-200 rounded-md"></div>
             <div className="grid grid-cols-4 gap-2">
               {[...Array(4)].map((_, i) => (
                 <div
@@ -83,7 +83,7 @@ export const PageSkeleton: React.FC<PageSkeletonProps> = ({
     <div className="animate-pulse p-8">
       <div className="space-y-4">
         {[...Array(5)].map((_, i) => (
-          <div key={i} className="bg-white p-4 rounded-lg shadow">
+          <div key={i} className="bg-white p-4 rounded-md shadow">
             <div className="flex gap-4">
               <div className="w-24 h-24 bg-gray-200 rounded"></div>
               <div className="flex-1 space-y-2">

@@ -199,7 +199,7 @@ export default function CreateReturnRequestModal({
             <h3 className="font-semibold mb-4">Chọn sản phẩm cần trả</h3>
             <div className="space-y-4">
               {order.items.map((item, index) => (
-                <div key={index} className="border rounded-lg p-4">
+                <div key={index} className="border rounded-md p-4">
                   <div className="flex items-start gap-4">
                     <Checkbox
                       checked={isItemSelected(item)}
@@ -212,7 +212,7 @@ export default function CreateReturnRequestModal({
                       alt={item.product.name}
                       width={80}
                       height={80}
-                      className="rounded-lg object-cover"
+                      className="rounded-md object-cover"
                     />
                     <div className="flex-1">
                       <h4 className="font-medium">{item.product.name}</h4>

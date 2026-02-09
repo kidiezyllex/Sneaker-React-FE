@@ -187,7 +187,7 @@ export default function ReturnDetailModal({
           {[1, 2, 3].map((i) => (
             <div
               key={i}
-              className="h-32 bg-gray-100 rounded-lg animate-pulse"
+              className="h-32 bg-gray-100 rounded-md animate-pulse"
             />
           ))}
         </div>
@@ -269,7 +269,7 @@ export default function ReturnDetailModal({
                             alt="Product"
                             width={50}
                             height={50}
-                            className="rounded-lg object-cover"
+                            className="rounded-md object-cover"
                           />
                           <div>
                             <p className="font-medium">

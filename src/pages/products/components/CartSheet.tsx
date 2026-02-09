@@ -410,7 +410,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                                     initial={{ opacity: 0, y: 5 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     exit={{ opacity: 0, y: -5 }}
-                                                    className="flex items-center justify-between p-3 border border-green-200 bg-green-50 rounded-lg"
+                                                    className="flex items-center justify-between p-3 border border-green-200 bg-green-50 rounded-md"
                                                 >
                                                     <div className="flex items-center gap-2">
                                                         <Icon

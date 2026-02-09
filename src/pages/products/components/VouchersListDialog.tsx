@@ -98,7 +98,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                 return (
                                     <div
                                         key={voucher.id}
-                                        className={`relative flex flex-col overflow-hidden border rounded-lg p-4 transition-all hover:shadow-md ${isDisabled
+                                        className={`relative flex flex-col overflow-hidden border rounded-md p-4 transition-all hover:shadow-md ${isDisabled
                                             ? "bg-muted/30 border-dashed opacity-60"
                                             : "bg-card border-primary/20 hover:border-primary/50"
                                             }`}

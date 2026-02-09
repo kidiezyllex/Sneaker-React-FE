@@ -162,7 +162,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                   return (
                     <div
                       key={index}
-                      className="flex items-center justify-between p-3 border rounded-lg bg-muted/50"
+                      className="flex items-center justify-between p-3 border rounded-md bg-muted/50"
                     >
                       <div className="flex items-center space-x-3">
                         <img
@@ -195,7 +195,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                 return (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 border rounded-lg"
+                    className="flex items-center justify-between p-3 border rounded-md"
                   >
                     <div className="flex items-center space-x-3">
                       <img
@@ -251,7 +251,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                 {selectedItems.map((item, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between p-3 bg-muted rounded-lg"
+                    className="flex items-center justify-between p-3 bg-muted rounded-md"
                   >
                     <div>
                       <p className="font-medium">{item.productName}</p>

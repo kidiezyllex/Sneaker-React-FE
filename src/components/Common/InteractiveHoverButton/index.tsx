@@ -10,7 +10,7 @@ export const InteractiveHoverButton = ({
     <motion.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className={`!h-10 relative inline-flex items-center justify-center px-4 py-3 overflow-hidden font-medium text-white bg-primary rounded-lg group ${className ?? ""
+      className={`!h-10 relative inline-flex items-center justify-center px-4 py-3 overflow-hidden font-medium text-white bg-primary rounded-md group ${className ?? ""
         }`}
     >
       <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary to-extra opacity-50 group-hover:opacity-70 transition-opacity duration-300 -z-10"></span>

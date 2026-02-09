@@ -409,7 +409,7 @@ export default function ProductsPage() {
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <div
-                                  className="relative w-full aspect-square rounded-lg overflow-hidden bg-gray-100 cursor-pointer group"
+                                  className="relative w-full aspect-square rounded-md overflow-hidden bg-gray-100 cursor-pointer group"
                                   onClick={() =>
                                     handleOpenLightbox(product, 0, 0)
                                   }

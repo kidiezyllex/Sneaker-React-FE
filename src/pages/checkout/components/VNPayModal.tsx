@@ -403,7 +403,7 @@ export default function VNPayModal({
             <span className="ml-2">Đang tải danh sách ngân hàng...</span>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto border rounded-lg p-2">
+          <div className="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto border rounded-md p-2">
             {filteredBanks.length === 0 ? (
               <div className="text-center py-8 text-maintext">
                 Không tìm thấy ngân hàng nào
@@ -412,7 +412,7 @@ export default function VNPayModal({
               filteredBanks.map((bank) => (
                 <div
                   key={bank.code}
-                  className="border rounded-lg p-3 cursor-pointer transition-all hover:border-blue-300 hover:bg-blue-50"
+                  className="border rounded-md p-3 cursor-pointer transition-all hover:border-blue-300 hover:bg-blue-50"
                   onClick={() => handleBankSelect(bank)}
                 >
                   <div className="flex items-center space-x-4">
@@ -538,7 +538,7 @@ export default function VNPayModal({
 
       {renderOrderInfo()}
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+      <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
         <div className="flex items-center space-x-4">
           <Icon path={mdiCellphone} size={0.8} className="text-blue-600" />
           <div>
@@ -599,7 +599,7 @@ export default function VNPayModal({
       </div>
       <h3 className="text-lg font-semibold mb-2">Đang xử lý thanh toán</h3>
       <p className="text-maintext mb-4">Vui lòng không đóng cửa sổ này</p>
-      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+      <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
         <p className="text-sm text-yellow-800">
           Đang kết nối với ngân hàng {selectedBank?.shortName}...
         </p>

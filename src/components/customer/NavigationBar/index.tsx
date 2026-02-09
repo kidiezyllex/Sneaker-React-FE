@@ -42,7 +42,7 @@ const Tab = React.memo(({ text, selected, setSelected }: TabProps) => {
         <motion.span
           layoutId="tab"
           transition={{ type: "spring", duration: 0.4 }}
-          className="absolute inset-0 z-0 rounded-lg bg-primary/80"
+          className="absolute inset-0 z-0 rounded-md bg-primary/80"
         ></motion.span>
       )}
     </button>

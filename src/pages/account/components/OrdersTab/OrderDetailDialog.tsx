@@ -410,7 +410,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                               <img
                                 src={imageUrl || "/images/white-image.png"}
                                 alt={product?.name || ""}
-                                className="w-16 h-16 object-contain rounded-lg"
+                                className="w-16 h-16 object-contain rounded-md"
                               />
                             </TableCell>
                             <TableCell className="font-medium">
@@ -543,7 +543,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                         </div>
 
                         {/* Content */}
-                        <div className="flex-1 min-w-0 bg-white rounded-lg border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
+                        <div className="flex-1 min-w-0 bg-white rounded-md border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
                           <div className="flex items-center justify-between mb-2">
                             <h4 className="text-sm font-semibold text-maintext">
                               {step.title}

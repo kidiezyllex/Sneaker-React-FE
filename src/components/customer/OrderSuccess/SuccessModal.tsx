@@ -64,7 +64,7 @@ export default function SuccessModal({
             <p className="text-maintext">
               Cảm ơn bạn đã đặt hàng tại Sneaker Store
             </p>
-            <div className="bg-gray-50 rounded-lg p-4">
+            <div className="bg-gray-50 rounded-md p-4">
               <p className="text-sm text-maintext mb-1">
                 Mã đơn hàng của bạn là:
               </p>

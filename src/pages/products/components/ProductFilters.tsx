@@ -267,7 +267,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
           </div>
         </div>
 
-        <Skeleton className="h-10 w-full rounded-lg" />
+        <Skeleton className="h-10 w-full rounded-md" />
       </div>
     );
   }
