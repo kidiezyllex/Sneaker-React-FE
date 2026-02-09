@@ -1119,7 +1119,7 @@ export default function StatisticsPage() {
 
       {/* Statistics Detail Modal */}
       <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent size="4xl">
           <DialogHeader>
             <DialogTitle>Chi tiết thống kê</DialogTitle>
           </DialogHeader>

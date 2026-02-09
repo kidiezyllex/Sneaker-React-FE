@@ -758,7 +758,7 @@ export default function VNPayModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent size="4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
             <Icon path={mdiBank} size={0.8} className="text-blue-600" />

@@ -335,7 +335,7 @@ const VouchersTab = () => {
 
       {/* Voucher Detail Dialog */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent size="4xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Icon

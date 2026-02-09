@@ -156,7 +156,7 @@ export default function CreateReturnRequestModal({
   if (!order) return null;
 
   return (
-    <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+    <DialogContent size="4xl">
       <DialogHeader>
         <DialogTitle>Tạo yêu cầu trả hàng</DialogTitle>
       </DialogHeader>

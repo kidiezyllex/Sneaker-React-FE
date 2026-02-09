@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Dialog,
     DialogContent,
@@ -38,7 +38,7 @@ export const UpdateStatusDialog: React.FC<UpdateStatusDialogProps> = ({
     const [status, setStatus] = React.useState(currentStatus);
     const [paymentStatus, setPaymentStatus] = React.useState(currentPaymentStatus || "PENDING");
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (open) {
             setStatus(currentStatus);
             setPaymentStatus(currentPaymentStatus || "PENDING");

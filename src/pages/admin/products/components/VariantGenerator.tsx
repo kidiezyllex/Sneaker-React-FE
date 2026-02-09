@@ -149,7 +149,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="bg-white rounded-md max-w-6xl w-full max-h-[90vh] overflow-hidden p-0">
+      <DialogContent size="6xl">
         <Card className="border-0 shadow-none">
           <CardHeader className="flex flex-row items-center justify-between border-b">
             <CardTitle className="flex items-center justify-between w-full">

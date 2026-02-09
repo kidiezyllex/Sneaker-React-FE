@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Icon } from "@mdi/react";
@@ -69,7 +69,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
     const validateVoucherMutation = useValidateVoucher();
 
-    React.useEffect(() => {
+    useEffect(() => {
         const newInputs: { [key: string]: string } = {};
         items.forEach((item) => {
             if (!quantityInputs[item.id]) {

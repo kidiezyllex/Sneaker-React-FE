@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export const measureWebVitals = () => {
   if (typeof window !== 'undefined' && 'performance' in window) {
@@ -88,7 +88,7 @@ export const cleanupMemory = () => {
     });
   }
 
-  const oldKeys = Object.keys(localStorage).filter(key => 
+  const oldKeys = Object.keys(localStorage).filter(key =>
     key.includes('temp-') || key.includes('cache-')
   );
   oldKeys.forEach(key => localStorage.removeItem(key));
@@ -97,7 +97,7 @@ export const cleanupMemory = () => {
 export const analyzeBundleSize = () => {
   if (process.env.NODE_ENV === 'development') {
     console.group('📊 Bundle Analysis');
-    
+
     const scripts = document.querySelectorAll('script[src]');
     scripts.forEach(script => {
       const src = script.getAttribute('src');
@@ -106,20 +106,20 @@ export const analyzeBundleSize = () => {
           .then(response => {
             const size = response.headers.get('content-length');
           })
-          .catch(() => {});
+          .catch(() => { });
       }
     });
-    
+
     console.groupEnd();
   }
 };
 
 export const monitorPerformanceBudget = () => {
   const budgets = {
-    FCP: 2000, 
-    LCP: 2500, 
-    FID: 100,  
-    CLS: 0.1   
+    FCP: 2000,
+    LCP: 2500,
+    FID: 100,
+    CLS: 0.1
   };
 
   const observer = new PerformanceObserver((list) => {
@@ -147,15 +147,15 @@ export const monitorPerformanceBudget = () => {
     }
   });
 
-  observer.observe({ 
-    entryTypes: ['paint', 'largest-contentful-paint', 'first-input'] 
+  observer.observe({
+    entryTypes: ['paint', 'largest-contentful-paint', 'first-input']
   });
 };
 
 export const initPerformanceOptimizations = () => {
   addResourceHints();
   optimizeImages();
-  
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       measureWebVitals();
@@ -167,10 +167,10 @@ export const initPerformanceOptimizations = () => {
     monitorPerformanceBudget();
     analyzeBundleSize();
   }
-  
+
   window.addEventListener('load', () => {
     registerServiceWorker();
-    
+
     setTimeout(cleanupMemory, 5 * 60 * 1000);
   });
 };
@@ -183,7 +183,7 @@ export const usePerformanceMonitor = () => {
     cls?: number;
   }>({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     const observer = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         if (entry.entryType === 'paint' && entry.name === 'first-contentful-paint') {
@@ -197,8 +197,8 @@ export const usePerformanceMonitor = () => {
       }
     });
 
-    observer.observe({ 
-      entryTypes: ['paint', 'largest-contentful-paint', 'first-input'] 
+    observer.observe({
+      entryTypes: ['paint', 'largest-contentful-paint', 'first-input']
     });
 
     return () => observer.disconnect();
