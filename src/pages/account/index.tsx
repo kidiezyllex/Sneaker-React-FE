@@ -107,14 +107,13 @@ export default function GeneralManagementPage() {
             <BreadcrumbItem>
               <Link
                 to="/"
-                className="!text-maintext hover:!text-maintext"
               >
                 Trang chủ
               </Link>
             </BreadcrumbItem>
-            <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
+            <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbPage className="!text-maintext hover:!text-maintext">
+              <BreadcrumbPage>
                 Quản lý tài khoản
               </BreadcrumbPage>
             </BreadcrumbItem>

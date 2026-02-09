@@ -19,6 +19,7 @@ export interface IApiPagination {
 
 // Base response for single item
 export interface IApiResponse<T> {
+  success: boolean;
   statusCode: number;
   message: string;
   data: T;
@@ -27,6 +28,7 @@ export interface IApiResponse<T> {
 
 // Base response for list/paginated items
 export interface IApiListResponse<T> {
+  success: boolean;
   statusCode: number;
   message: string;
   data: T[];

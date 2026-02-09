@@ -140,13 +140,13 @@ export default function CreateAccountPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+            <Link to="/admin/statistics">
               Dashboard
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="/admin/accounts" className="!text-white/80 hover:!text-white">
+            <Link to="/admin/accounts">
               Quản lý tài khoản
             </Link>
           </BreadcrumbItem>

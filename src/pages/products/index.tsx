@@ -343,14 +343,13 @@ export default function ProductsPage() {
           <BreadcrumbItem>
             <Link
               to="/"
-              className="!text-maintext hover:!text-maintext"
             >
               Trang chủ
             </Link>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="!text-maintext hover:!text-maintext">
+            <BreadcrumbPage>
               Tất cả sản phẩm
             </BreadcrumbPage>
           </BreadcrumbItem>

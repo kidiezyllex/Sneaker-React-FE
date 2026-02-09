@@ -140,19 +140,19 @@ export default function CreatePromotionPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              <Link to="/admin/statistics">
                 Dashboard
               </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <Link to="/admin/discounts" className="!text-white/80 hover:!text-white">
+              <Link to="/admin/discounts">
                 Quản lý khuyến mãii
               </Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <Link to="/admin/discounts/promotions" className="!text-white/80 hover:!text-white">
+              <Link to="/admin/discounts/promotions">
                 Chiến dịch khuyến mãi
               </Link>
             </BreadcrumbItem>

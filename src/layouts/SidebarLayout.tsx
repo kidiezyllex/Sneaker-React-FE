@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { Icon } from "@mdi/react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { mdiChevronDown, mdiChevronUp, mdiLogout, mdiMenuOpen } from "@mdi/js";
+import { mdiChevronDown, mdiChevronUp, mdiLogout, mdiMenu } from "@mdi/js";
 import { Link } from "react-router-dom";
 import { MenuItem, SubMenuItem } from "@/interface/types";
 import { menuItems } from "@/constants/adminMenuItems";
@@ -119,8 +119,9 @@ const SidebarLayout = memo(function SidebarLayout({
             >
                 <div className="flex flex-col h-full">
                     <div
+                        style={{ height: 75 }}
                         className={cn(
-                            "p-2 border-b !max-h-[70px] h-[70px] flex items-center",
+                            "p-2 border-b flex items-center",
                             isOpen ? "justify-center" : "justify-center"
                         )}
                     >
@@ -296,14 +297,14 @@ const SidebarLayout = memo(function SidebarLayout({
             </div>
             {/* Main content */}
             <div className="flex-1 flex flex-col bg-[#1C2B38] min-w-0 overflow-hidden">
-                <header className="h-[70px] border-b bg-white flex items-center justify-between pr-6 shadow-sm">
+                <header style={{ height: 75 }} className="border-b bg-white flex items-center justify-between pr-6 shadow-sm">
                     <div className="flex items-center">
                         <button
                             onClick={toggle}
-                            className="w-10 h-10  flex items-center justify-center rounded-full hover:bg-gray-100"
+                            className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-gray-100"
                         >
                             <Icon
-                                path={mdiMenuOpen}
+                                path={mdiMenu}
                                 size={0.8}
                                 className="text-maintext"
                             />
@@ -318,7 +319,7 @@ const SidebarLayout = memo(function SidebarLayout({
                         </div>
                     </div>
                 </header>
-                <main className="flex-1 p-4 min-h-[calc(100vh-66px)] pr-6 overflow-y-auto overflow-x-hidden">
+                <main className="flex-1 bg-gray-100 p-4 min-h-[calc(100vh-66px)] pr-6 overflow-y-auto overflow-x-hidden">
                     <div className="relative z-[2] w-full">{children}</div>
                 </main>
             </div>

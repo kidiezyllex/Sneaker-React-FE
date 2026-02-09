@@ -250,13 +250,13 @@ export default function AccountsPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+            <Link to="/admin/statistics">
               Dashboard
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="#" className="!text-white/80 hover:!text-white">Quản lý người dùng</Link>
+            <Link to="/admin/accounts">Quản lý người dùng</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>

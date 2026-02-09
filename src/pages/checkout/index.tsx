@@ -344,15 +344,15 @@ export default function ShippingPage() {
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/" className="text-maintext hover:text-maintext">Trang chủ</Link>
+            <Link to="/">Trang chủ</Link>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="text-maintext hover:text-maintext" />
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="/products" className="text-maintext hover:text-maintext">Sản phẩm</Link>
+            <Link to="/products">Sản phẩm</Link>
           </BreadcrumbItem>
-          <BreadcrumbSeparator className="text-maintext hover:text-maintext" />
+          <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage className="text-maintext hover:text-maintext">Thanh toán đơn hàng</BreadcrumbPage>
+            <BreadcrumbPage>Thanh toán đơn hàng</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

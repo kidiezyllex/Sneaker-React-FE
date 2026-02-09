@@ -209,11 +209,11 @@ export default function ProductsPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">Dashboard</Link>
+            <Link to="/admin/statistics">Dashboard</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="/admin/products" className="!text-white/80 hover:!text-white">
+            <Link to="/admin/products">
               Quản lý sản phẩm
             </Link>
           </BreadcrumbItem>

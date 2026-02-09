@@ -46,17 +46,17 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       const response = await signInMutation.mutateAsync(formData);
       if (
         response &&
-        (response.success || (response as any).statusCode === 200) &&
+        (response.success || response.statusCode === 200) &&
         response.data?.token &&
-        (response.data as any)?.account
+        response.data?.account
       ) {
-        loginUser((response.data as any)?.account, response.data?.token);
+        loginUser(response.data.account, response.data.token);
         toast.success(<CustomToast title="Đăng nhập thành công" />, {
           icon: false,
         });
-        if ((response.data as any)?.account?.role === "ADMIN") {
+        if (response.data.account.role === "ADMIN") {
           navigate("/admin/statistics");
-        } else if ((response.data as any)?.account?.role === "STAFF") {
+        } else if (response.data.account.role === "STAFF") {
           navigate("/staff/pos");
         } else {
           onSuccess();
@@ -135,10 +135,10 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
           Quên mật khẩu?
         </Link>
       </div>
-      <div className="flex justify-center flex-1 h-full items-end mt-4">
+      <div className="flex justify-center flex-1 h-full items-end">
         <Button
           type="submit"
-          className="bg-primary hover:bg-secondary transition-all duration-300 text-base font-medium w-full py-4"
+          className="w-full"
           disabled={signInMutation.isPending}
         >
           {signInMutation.isPending ? (
@@ -178,12 +178,11 @@ const LoginPage: React.FC = () => {
       </div>
 
       <div className="w-full flex justify-center items-center relative z-10">
-        {/* Form đăng nhập bên phải */}
         <motion.div
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="h-full w-[500px]"
+          className="h-full w-[450px]"
         >
           <Card>
             <CardHeader>
@@ -202,7 +201,7 @@ const LoginPage: React.FC = () => {
                 className="w-auto mx-auto h-20 select-none cursor-pointer"
               />
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <LoginForm onSuccess={handleSuccess} />
             </CardContent>
           </Card>

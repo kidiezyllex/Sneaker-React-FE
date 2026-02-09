@@ -167,7 +167,7 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
           Đã có tài khoản? Đăng nhập
         </Link>
       </div>
-      <div className="flex justify-center flex-1 h-full items-end mt-4">
+      <div className="flex justify-center flex-1 h-full items-end">
         <Button
           type="submit"
           className="bg-primary hover:bg-secondary transition-all duration-300 text-base font-medium w-full py-4"
@@ -215,7 +215,7 @@ const RegisterPage: React.FC = () => {
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="h-full w-[500px]"
+          className="h-full w-[450px]"
         >
           <Card>
             <CardHeader>
@@ -238,7 +238,7 @@ const RegisterPage: React.FC = () => {
                 className="w-auto mx-auto h-20 select-none cursor-pointer"
               />
             </CardHeader>
-            <CardContent>
+            <CardContent className="pt-0">
               <RegisterForm onSuccess={handleSuccess} />
             </CardContent>
           </Card>

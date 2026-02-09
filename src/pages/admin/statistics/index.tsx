@@ -361,7 +361,7 @@ export default function StatisticsPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link to="/admin/statistics" className="!text-white/80 hover:!text-white">
+              <Link to="/admin/statistics">
                 Dashboard
               </Link>
             </BreadcrumbItem>

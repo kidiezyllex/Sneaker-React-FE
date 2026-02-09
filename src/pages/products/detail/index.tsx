@@ -448,23 +448,21 @@ export default function ProductDetail() {
               <BreadcrumbItem>
                 <Link
                   to="/"
-                  className="!text-maintext hover:!text-maintext transition-colors"
                 >
                   Trang chủ
                 </Link>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
+              <BreadcrumbSeparator />
               <BreadcrumbItem>
                 <Link
                   to="/products"
-                  className="!text-maintext hover:!text-maintext transition-colors"
                 >
                   Tất cả sản phẩm
                 </Link>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="!text-maintext hover:!text-maintext" />
+              <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage className="!text-maintext hover:!text-maintext">
+                <BreadcrumbPage>
                   {product.name}
                 </BreadcrumbPage>
               </BreadcrumbItem>

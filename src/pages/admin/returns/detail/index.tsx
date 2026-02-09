@@ -286,7 +286,7 @@ export default function AdminReturnDetailPage() {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage className="text-white font-semibold">{canEdit ? "Chỉnh sửa" : "Chi tiết"} yêu cầu trả hàng</BreadcrumbPage>
+                        <BreadcrumbPage>{canEdit ? "Chỉnh sửa" : "Chi tiết"} yêu cầu trả hàng</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
