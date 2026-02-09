@@ -164,7 +164,7 @@ export function CreateColorDialog({ isOpen, onClose }: CreateColorDialogProps) {
                         className="w-full"
                         onClick={generateRandomColor}
                     >
-                        <Icon path={mdiRefresh} size={0.8} className="mr-2" />
+                        <Icon path={mdiRefresh} size={0.8} />
                         Random Color
                     </Button>
                     {errors.code && <p className="text-red-500 text-sm">{errors.code}</p>}

@@ -140,7 +140,7 @@ export function EditBrandDialog({ brandId, isOpen, onClose }: EditBrandDialogPro
                     </p>
                     <div className="flex justify-center space-x-4">
                         <Button variant="outline" onClick={onClose}>
-                            <Icon path={mdiClose} size={0.8} className="mr-2" />
+                            <Icon path={mdiClose} size={0.8} />
                             Đóng
                         </Button>
                         <Button

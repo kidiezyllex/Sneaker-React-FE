@@ -9,6 +9,10 @@ import {
   mdiCalendar,
   mdiCurrencyUsd,
   mdiClockOutline,
+  mdiTagOutline,
+  mdiClose,
+  mdiTrophyOutline,
+  mdiCartOutline,
 } from "@mdi/js";
 import { toast } from "react-toastify";
 import { useUser } from "@/context/useUserContext";
@@ -211,9 +215,6 @@ const VouchersTab = () => {
             </div>
             <span>Mã giảm giá của bạn</span>
           </CardTitle>
-          <CardDescription>
-            Danh sách các mã giảm giá bạn có thể sử dụng để tiết kiệm khi mua sắm.
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -335,128 +336,133 @@ const VouchersTab = () => {
 
       {/* Voucher Detail Dialog */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-        <DialogContent size="4xl">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Icon
-                path={mdiInformationOutline}
-                size={0.8}
-                className="text-primary"
-              />
-              Chi tiết mã giảm giá
-            </DialogTitle>
-            <DialogDescription>
-              Thông tin chi tiết về mã giảm giá {selectedVoucher?.code}
-            </DialogDescription>
-          </DialogHeader>
-
+        <DialogContent size="4xl" className="p-0 overflow-hidden border-none">
           {selectedVoucher && (
-            <div className="space-y-4 p-4">
-              <div className="bg-primary/5 rounded-xl p-4 border border-primary/10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-10">
-                  <Icon path={mdiTicketPercentOutline} size={4} />
+            <div className="flex flex-col md:flex-row h-full">
+              {/* Left side - Coupon Decoration */}
+              <div className="bg-primary p-8 flex flex-col items-center justify-center text-white relative min-w-[240px] md:rounded-l-lg overflow-hidden">
+                {/* Decorative circles for coupon effect */}
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-white rounded-full hidden md:block"></div>
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-white rounded-full hidden md:block"></div>
+
+                <div className="p-4 bg-white/20 rounded-full mb-4 backdrop-blur-sm">
+                  <Icon path={mdiTicketPercentOutline} size={3} />
                 </div>
-                <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-primary mb-1">
-                    {selectedVoucher.name}
-                  </h3>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-sm text-gray-600">Mã:</span>
-                    <Badge
-                      variant="secondary"
-                      className="font-mono text-lg px-3 py-1"
-                    >
-                      {selectedVoucher.code}
-                    </Badge>
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8"
-                      onClick={(e) => handleCopyCode(e, selectedVoucher.code)}
-                    >
-                      <Icon path={mdiContentCopy} size={0.8} />
-                    </Button>
+                <div className="text-center space-y-1">
+                  <span className="text-sm font-medium opacity-80 uppercase tracking-wider">Mã giảm giá</span>
+                  <div className="text-3xl font-black">
+                    {formatDiscountValue(selectedVoucher.type, selectedVoucher.value)}
                   </div>
+                  <p className="text-xs opacity-70 italic">Chi tiêu tối thiểu {formatPrice(selectedVoucher.minOrderValue || 0)}</p>
                 </div>
+
+                {/* Vertical Dashed Line Divider for MD+ */}
+                <div className="absolute right-0 top-0 bottom-0 w-px border-r border-dashed border-white/30 hidden md:block"></div>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <div className="text-sm text-gray-600 flex items-center gap-2">
-                    <Icon path={mdiCurrencyUsd} size={0.8} />
-                    Giá trị giảm
-                  </div>
-                  <div className="text-lg font-bold text-primary">
-                    {formatDiscountValue(
-                      selectedVoucher.type,
-                      selectedVoucher.value
-                    )}
-                  </div>
-                </div>
-                {selectedVoucher.type === "PERCENTAGE" &&
-                  selectedVoucher.maxDiscount && (
-                    <div className="space-y-1">
-                      <div className="text-sm text-gray-600 flex items-center gap-2">
-                        <Icon path={mdiInformationOutline} size={0.8} />
-                        Giảm tối đa
+              {/* Right side - Details */}
+              <div className="flex-1 bg-white p-4 flex flex-col justify-between">
+                <div className="space-y-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <div className="flex items-center gap-2 mb-4">
+                        <h2 className="text-2xl font-bold text-gray-900 leading-tight">
+                          {selectedVoucher.name}
+                        </h2>
+                        {new Date(selectedVoucher.endDate) < new Date() ? (
+                          <Badge variant="destructive" className="animate-pulse">Hết hạn</Badge>
+                        ) : selectedVoucher.status === "ACTIVE" ? (
+                          <Badge variant="default">Đang hoạt động</Badge>
+                        ) : (
+                          <Badge variant="secondary">Ngừng hoạt động</Badge>
+                        )}
                       </div>
-                      <div className="text-lg font-bold">
-                        {formatPrice(selectedVoucher.maxDiscount)}
+                      <div className="flex items-center gap-2 mt-3">
+                        <div className="bg-gray-100 flex items-center px-4 h-10 rounded-md border border-dashed border-gray-300">
+                          <span className="font-mono text-lg font-bold text-gray-700 tracking-wider">
+                            {selectedVoucher.code}
+                          </span>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={(e) => handleCopyCode(e, selectedVoucher.code)}
+                        >
+                          <Icon path={mdiContentCopy} size={0.8} />
+                          Sao chép
+                        </Button>
                       </div>
                     </div>
-                  )}
-                <div className="space-y-1">
-                  <div className="text-sm text-gray-600 flex items-center gap-2">
-                    <Icon path={mdiClockOutline} size={0.8} />
-                    Đơn tối thiểu
                   </div>
-                  <div className="text-lg font-bold text-foreground">
-                    {formatPrice(selectedVoucher.minOrderValue || 0)}
-                  </div>
-                </div>
-                <div className="space-y-1">
-                  <div className="text-sm text-gray-600 flex items-center gap-2">
-                    <Icon path={mdiCalendar} size={0.8} />
-                    Lượt còn lại
-                  </div>
-                  <div className="text-lg font-bold text-blue-600">
-                    {selectedVoucher.quantity - selectedVoucher.usedCount}
-                  </div>
-                </div>
-              </div>
 
-              <div className="border-t pt-4 space-y-3">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-600">Ngày bắt đầu:</span>
-                  <span className="font-medium">
-                    {formatDate(selectedVoucher.startDate)}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-600">Ngày kết thúc:</span>
-                  <span className="font-medium">
-                    {formatDate(selectedVoucher.endDate)}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-600">Trạng thái:</span>
-                  <span>
-                    {new Date(selectedVoucher.endDate) < new Date() ? (
-                      <Badge variant="destructive">Hết hạn</Badge>
-                    ) : selectedVoucher.status === "ACTIVE" ? (
-                      <Badge>Hoạt động</Badge>
-                    ) : (
-                      <Badge variant="secondary">Ngừng hoạt động</Badge>
-                    )}
-                  </span>
+                  <div className="grid grid-cols-2 gap-y-6 gap-x-8 pt-2">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-blue-50 rounded-lg">
+                        <Icon path={mdiTrophyOutline} size={0.8} className="text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Giảm tối đa</p>
+                        <p className="font-bold text-gray-900">
+                          {selectedVoucher.type === "PERCENTAGE" && selectedVoucher.maxDiscount
+                            ? formatPrice(selectedVoucher.maxDiscount)
+                            : "Không giới hạn"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-orange-50 rounded-lg">
+                        <Icon path={mdiCartOutline} size={0.8} className="text-orange-600" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Lượt sử dụng còn</p>
+                        <p className="font-bold text-gray-900">
+                          {selectedVoucher.quantity - (selectedVoucher.usedCount || 0)} / {selectedVoucher.quantity}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-green-50 rounded-lg">
+                        <Icon path={mdiCalendar} size={0.8} className="text-green-600" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Hạn sử dụng</p>
+                        <p className="font-bold text-gray-900">
+                          {formatDate(selectedVoucher.endDate)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-purple-50 rounded-lg">
+                        <Icon path={mdiClockOutline} size={0.8} className="text-purple-600" />
+                      </div>
+                      <div>
+                        <p className="text-xs text-gray-500 font-medium">Ngày bắt đầu</p>
+                        <p className="font-bold text-gray-900">
+                          {formatDate(selectedVoucher.startDate)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="bg-amber-50 rounded-lg p-4 border border-amber-100">
+                    <div className="flex items-center gap-2 text-amber-800 font-semibold text-sm mb-1">
+                      <Icon path={mdiInformationOutline} size={0.8} />
+                      Điều kiện áp dụng
+                    </div>
+                    <ul className="text-xs text-amber-700/80 space-y-1 list-disc list-inside ml-1">
+                      <li>Áp dụng cho đơn hàng có giá trị từ {formatPrice(selectedVoucher.minOrderValue || 0)}</li>
+                      <li>Mỗi khách hàng chỉ được sử dụng tối đa 1 lần</li>
+                      {selectedVoucher.type === "PERCENTAGE" && <li>Giảm tối đa {formatPrice(selectedVoucher.maxDiscount || 0)} cho mỗi đơn hàng</li>}
+                      <li>Voucher không có giá trị quy đổi thành tiền mặt</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
           )}
-
-          <DialogFooter>
-            <Button onClick={() => setIsDetailOpen(false)}>Đóng</Button>
-          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>

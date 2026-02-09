@@ -717,7 +717,7 @@ export default function VNPayModal({
         {(currentStep === "account-input" ||
           currentStep === "otp-verification") && (
             <Button variant="outline" onClick={goBack} className="w-32">
-              <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
+              <Icon path={mdiArrowLeft} size={0.8} />
               Quay lại
             </Button>
           )}

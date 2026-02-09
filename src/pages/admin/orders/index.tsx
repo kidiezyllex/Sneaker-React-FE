@@ -439,7 +439,7 @@ export default function OrdersPage() {
                   className="flex items-center"
                   onClick={() => setShowFilters(!showFilters)}
                 >
-                  <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
+                  <Icon path={mdiFilterOutline} size={0.8} />
                   {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
                 </Button>
                 <div className="flex flex-col sm:flex-row gap-2">

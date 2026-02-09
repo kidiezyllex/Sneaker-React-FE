@@ -78,7 +78,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
               </DialogTitle>
             </DialogHeader>
 
-            <div className="space-y-4 p-4">
+            <div className="space-y-4 p-4 bg-gray-100">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Thông tin đơn hàng gốc */}
                 <Card>
@@ -266,13 +266,12 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
               </Card>
             </div>
 
-            <DialogFooter>
+            <DialogFooter className="bg-gray-100 flex gap-2">
               {returnData.data.status === "CHO_XU_LY" && (
                 <Button
                   variant="destructive"
                   onClick={handleCancelReturn}
                   disabled={cancelReturnMutation.isPending}
-                  className="gap-2"
                 >
                   {cancelReturnMutation.isPending ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
@@ -283,7 +282,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                 </Button>
               )}
               <Button variant="outline" onClick={() => onOpenChange(false)}>
-                <Icon path={mdiClose} size={0.8} className="mr-2" />
+                <Icon path={mdiClose} size={0.8} />
                 Đóng
               </Button>
             </DialogFooter>

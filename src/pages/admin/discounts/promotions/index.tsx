@@ -230,7 +230,7 @@ export default function PromotionsPage() {
                 className="flex items-center"
                 onClick={() => setShowFilters(!showFilters)}
               >
-                <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
+                <Icon path={mdiFilterOutline} size={0.8} />
                 {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
               </Button>
               <Link to="/admin/discounts/promotions/create">

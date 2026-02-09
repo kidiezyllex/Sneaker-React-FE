@@ -256,7 +256,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
             Đóng
           </Button>
           <Button onClick={handlePrintToPdf} disabled={isProcessing}>
-            <Icon path={mdiPrinter} size={0.8} className="mr-2" />
+            <Icon path={mdiPrinter} size={0.8} />
             {isProcessing ? "Đang xử lý..." : "Lưu PDF & In"}
           </Button>
         </DialogFooter>

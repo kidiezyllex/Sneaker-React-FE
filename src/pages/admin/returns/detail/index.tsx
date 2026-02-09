@@ -256,7 +256,7 @@ export default function AdminReturnDetailPage() {
                 <p className="text-red-500 text-lg mb-4">Không thể tải thông tin yêu cầu trả hàng</p>
                 <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'}>
                     <Button variant="outline">
-                        <Icon path={mdiArrowLeft} size={0.8} className="mr-2" />
+                        <Icon path={mdiArrowLeft} size={0.8} />
                         Quay lại danh sách
                     </Button>
                 </Link>

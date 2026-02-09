@@ -854,18 +854,16 @@ export default function ProductDetail() {
             <div className="grid grid-cols-2 gap-4">
               <Button
                 variant="outline"
-                size="md"
                 onClick={() => toast.success("Đã thêm vào danh sách yêu thích")}
               >
-                <Icon path={mdiHeartOutline} size={0.8} className="mr-2" />
+                <Icon path={mdiHeartOutline} size={0.8} />
                 Yêu thích
               </Button>
               <Button
-                size="md"
                 onClick={handleAddToCart}
                 disabled={!selectedVariant || selectedVariant.stock === 0}
               >
-                <Icon path={mdiCartOutline} size={0.8} className="mr-2" />
+                <Icon path={mdiCartOutline} size={0.8} />
                 Thêm vào giỏ hàng
               </Button>
             </div>

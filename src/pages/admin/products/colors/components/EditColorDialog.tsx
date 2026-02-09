@@ -167,7 +167,7 @@ export function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogPro
                     </p>
                     <div className="flex justify-center space-x-4">
                         <Button variant="outline" onClick={onClose}>
-                            <Icon path={mdiClose} size={0.8} className="mr-2" />
+                            <Icon path={mdiClose} size={0.8} />
                             Đóng
                         </Button>
                         <Button
@@ -225,7 +225,7 @@ export function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogPro
                         className="w-full"
                         onClick={generateRandomColor}
                     >
-                        <Icon path={mdiRefresh} size={0.8} className="mr-2" />
+                        <Icon path={mdiRefresh} size={0.8} />
                         Random Color
                     </Button>
                     {errors.code && <p className="text-red-500 text-sm">{errors.code}</p>}

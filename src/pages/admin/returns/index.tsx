@@ -327,7 +327,7 @@ export default function ReturnsPage() {
                     onClick={() => setShowFilters(!showFilters)}
                     className="flex items-center"
                   >
-                    <Icon path={mdiFilterOutline} size={0.8} className="mr-2" />
+                    <Icon path={mdiFilterOutline} size={0.8} />
                     Bộ lọc
                     {(filters.customer ||
                       filters.startDate ||

@@ -222,7 +222,7 @@ export default function CreateOrderPage() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Sản phẩm</CardTitle>
                 <Button type="button" onClick={() => setProductListOpen(true)}>
-                  <Icon path={mdiPlus} size={0.8} className="mr-2" />
+                  <Icon path={mdiPlus} size={0.8} />
                   Thêm sản phẩm
                 </Button>
               </CardHeader>

@@ -378,7 +378,7 @@ export default function StatisticsPage() {
         >
           <DialogTrigger asChild>
             <Button variant="outline">
-              <Icon path={mdiSync} size={0.8} className="mr-2" />
+              <Icon path={mdiSync} size={0.8} />
               Tạo thống kê
             </Button>
           </DialogTrigger>

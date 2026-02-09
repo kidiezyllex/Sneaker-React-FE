@@ -287,7 +287,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
               </DialogTitle>
             </DialogHeader>
 
-            <div className="p-4 space-y-4">
+            <div className="p-4 space-y-4 bg-gray-100">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Thông tin giao hàng */}
                 <Card>
@@ -584,7 +584,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
               </Card>
             </div>
 
-            <DialogFooter className="border-t pt-4">
+            <DialogFooter className="bg-gray-100">
               <Button variant="outline" onClick={() => onOpenChange(false)}>
                 <Icon path={mdiClose} size={0.8} />
                 Đóng
