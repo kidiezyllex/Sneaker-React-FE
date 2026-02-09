@@ -182,13 +182,11 @@ export const FeaturedProducts = () => {
         >
           <Button
             variant="outline"
-            className="group border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300"
           >
             Xem tất cả sản phẩm
             <Icon
               path={mdiArrowRight}
               size={0.8}
-              className="ml-2 group-hover:translate-x-1 transition-transform"
             />
           </Button>
         </motion.div>

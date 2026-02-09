@@ -65,7 +65,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                     title="Danh sách mã giảm giá"
                     icon={mdiTicketPercentOutline}
                 />
-                <ScrollArea className="max-h-[60vh] overflow-y-auto p-4">
+                <ScrollArea className="overflow-y-auto p-4 bg-gray-100">
                     {isLoading ? (
                         <div className="space-y-2">
                             {[...Array(5)].map((_, i) => (
@@ -98,7 +98,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                 return (
                                     <div
                                         key={voucher.id}
-                                        className={`relative flex flex-col overflow-hidden border rounded-md p-4 transition-all hover:shadow-md ${isDisabled
+                                        className={`relative flex flex-col overflow-hidden border rounded-xl p-4 transition-all hover:shadow-md ${isDisabled
                                             ? "bg-muted/30 border-dashed opacity-60"
                                             : "bg-card border-primary/20 hover:border-primary/50"
                                             }`}

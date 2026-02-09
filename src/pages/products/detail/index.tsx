@@ -435,7 +435,7 @@ export default function ProductDetail() {
       : product.material.name;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50/50 to-white">
+    <div className="min-h-screen">
       <div className="p-8">
         {/* Enhanced Breadcrumb */}
         <motion.div
@@ -559,7 +559,7 @@ export default function ProductDetail() {
 
           {/* Enhanced Product Information Section */}
           <motion.div
-            className="w-full space-y-4"
+            className="w-full space-y-4 bg-gray-100"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -595,7 +595,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Enhanced Pricing */}
-            <Card className="p-4 bg-white border-gray-200">
+            <Card className="p-4 bg-white">
               <div className="space-y-4">
                 {/* Discount Badge */}
                 {productDiscount && productDiscount.discountPercent > 0 && (
@@ -614,15 +614,11 @@ export default function ProductDetail() {
 
                 {/* Price Display */}
                 <div className="flex items-center gap-4">
-                  <motion.div
-                    className="text-4xl font-semibold text-primary"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ duration: 0.2 }}
-                  >
+                  <div className="text-4xl font-semibold text-primary">
                     {productDiscount && productDiscount.discountPercent > 0
                       ? formatPrice(productDiscount.discountedPrice)
                       : selectedVariant && formatPrice(selectedVariant.price)}
-                  </motion.div>
+                  </div>
                   {productDiscount && productDiscount.discountPercent > 0 && (
                     <div className="text-xl text-maintext line-through font-medium bg-gray-100 px-3 py-2 rounded-md">
                       {formatPrice(productDiscount.originalPrice)}
@@ -662,214 +658,211 @@ export default function ProductDetail() {
                   )}
               </div>
             </Card>
-            <div className="grid grid-cols-2 gap-4">
-              {/* Enhanced Color Selection */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Icon
-                      path={mdiPalette}
-                      size={0.8}
-                      className="!text-maintext"
-                    />
-                    <span className="font-semibold text-maintext">Màu sắc</span>
+            <Card className="bg-white p-4 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                {/* Enhanced Color Selection */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                      <Icon
+                        path={mdiPalette}
+                        size={0.8}
+                      />
+                      Màu sắc
+                    </h3>
+                    {selectedColor && (
+                      <Badge variant="success">
+                        {(() => {
+                          const colorVariant = product.variants.find(
+                            (v) => String(v.color.id) === String(selectedColor)
+                          );
+                          return colorVariant?.color?.name || "Màu sắc đã chọn";
+                        })()}
+                      </Badge>
+                    )}
                   </div>
-                  {selectedColor && (
-                    <Badge variant="success">
-                      {(() => {
-                        const colorVariant = product.variants.find(
-                          (v) => String(v.color.id) === String(selectedColor)
+                  <div className="flex flex-wrap gap-4">
+                    {product.variants
+                      .filter((variant, index, self) => {
+                        const colorId = variant.color.id;
+                        return (
+                          colorId &&
+                          index === self.findIndex((v) => v.color.id === colorId)
                         );
-                        return colorVariant?.color?.name || "Màu sắc đã chọn";
-                      })()}
-                    </Badge>
-                  )}
-                </div>
-                <div className="flex flex-wrap gap-4">
-                  {product.variants
-                    .filter((variant, index, self) => {
-                      const colorId = variant.color.id;
-                      return (
-                        colorId &&
-                        index === self.findIndex((v) => v.color.id === colorId)
-                      );
-                    })
-                    .map((variant) => (
-                      <motion.button
-                        key={variant.color?.id}
-                        onClick={() =>
-                          handleColorSelect(String(variant.color.id))
-                        }
-                        className={`
+                      })
+                      .map((variant) => (
+                        <motion.button
+                          key={variant.color?.id}
+                          onClick={() =>
+                            handleColorSelect(String(variant.color.id))
+                          }
+                          className={`
                         relative group flex items-center justify-center w-10 h-10  rounded-full
                         transition-all duration-300 border-2
                         ${String(selectedColor) === String(variant.color.id)
-                            ? "border-primary ring-4 ring-primary/20 scale-110"
-                            : "border-gray-200 hover:border-gray-300 hover:scale-105"
-                          }
+                              ? "border-primary ring-4 ring-primary/20 scale-110"
+                              : "border-gray-200 hover:border-gray-300 hover:scale-105"
+                            }
                       `}
-                        style={{ backgroundColor: variant.color?.code }}
-                        title={variant.color?.name}
-                        whileHover={{
-                          scale:
-                            String(selectedColor) === String(variant.color?.id)
-                              ? 1.1
-                              : 1.05,
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {String(selectedColor) ===
-                          String(variant.color?.id) && (
-                            <Icon
-                              path={mdiCheck}
-                              size={0.8}
-                              className="text-white drop-shadow-lg"
-                            />
-                          )}
-                      </motion.button>
-                    ))}
+                          style={{ backgroundColor: variant.color?.code }}
+                          title={variant.color?.name}
+                          whileHover={{
+                            scale:
+                              String(selectedColor) === String(variant.color?.id)
+                                ? 1.1
+                                : 1.05,
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          {String(selectedColor) ===
+                            String(variant.color?.id) && (
+                              <Icon
+                                path={mdiCheck}
+                                size={0.8}
+                                className="text-white drop-shadow-lg"
+                              />
+                            )}
+                        </motion.button>
+                      ))}
+                  </div>
+                </div>
+                {/* Enhanced Size Selection */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
+                      <Icon
+                        path={mdiRuler}
+                        size={0.8}
+                      />
+                      Kích thước
+                    </h3>
+                    {selectedSize && (
+                      <Badge variant="success">
+                        {(() => {
+                          const sizeVariant = product.variants.find(
+                            (v) => String(v.size.id) === String(selectedSize)
+                          );
+                          return sizeVariant?.size?.value
+                            ? String(sizeVariant.size.value)
+                            : "Size đã chọn";
+                        })()}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap gap-4">
+                    {Array.from(
+                      new Set(
+                        product.variants
+                          .map((v) => String(v.size.id))
+                          .filter(Boolean)
+                      )
+                    ).map((sizeId) => {
+                      const sizeVariant = product.variants.find(
+                        (v) => String(v.size.id) === sizeId
+                      );
+                      const variantForColorAndSize = product.variants.find(
+                        (v) =>
+                          String(v.color.id) === String(selectedColor) &&
+                          String(v.size.id) === sizeId
+                      );
+                      const isAvailable =
+                        !!variantForColorAndSize &&
+                        variantForColorAndSize.stock > 0;
+
+                      return (
+                        <Button
+                          size="icon"
+                          variant="outline"
+                          key={sizeId}
+                          onClick={() => handleSizeSelect(sizeId)}
+                          disabled={!isAvailable}
+                          className={`
+                          ${String(selectedSize) === sizeId
+                              ? "border-primary text-primary bg-primary/5 shadow-sm scale-110"
+                              : "border-gray-200 text-maintext hover:border-primary hover:text-primary hover:scale-105 bg-white"
+                            }
+                          ${!isAvailable
+                              ? "opacity-30 cursor-not-allowed bg-gray-50/50 border-gray-100"
+                              : ""
+                            }
+                        `}
+                          title={!isAvailable ? "Không có sẵn cho màu này" : ""}
+                        >
+                          {sizeVariant?.size?.value || ""}
+                        </Button>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-              {/* Enhanced Size Selection */}
+
+              {/* Enhanced Quantity Selection */}
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
+                  <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
                     <Icon
-                      path={mdiRuler}
+                      path={mdiCartPlus}
                       size={0.8}
-                      className="!text-maintext"
                     />
-                    <span className="font-semibold text-maintext">
-                      Kích thước
+                    Số lượng
+                  </h3>
+
+                  {selectedVariant && (
+                    <span className="text-sm !text-maintext">
+                      Còn{" "}
+                      <span className="font-semibold text-primary">
+                        {selectedVariant.stock}
+                      </span>{" "}
+                      sản phẩm
                     </span>
-                  </div>
-                  {selectedSize && (
-                    <Badge variant="success">
-                      {(() => {
-                        const sizeVariant = product.variants.find(
-                          (v) => String(v.size.id) === String(selectedSize)
-                        );
-                        return sizeVariant?.size?.value
-                          ? String(sizeVariant.size.value)
-                          : "Size đã chọn";
-                      })()}
-                    </Badge>
                   )}
                 </div>
-                <div className="flex flex-wrap gap-4">
-                  {Array.from(
-                    new Set(
-                      product.variants
-                        .map((v) => String(v.size.id))
-                        .filter(Boolean)
-                    )
-                  ).map((sizeId) => {
-                    const sizeVariant = product.variants.find(
-                      (v) => String(v.size.id) === sizeId
-                    );
-                    const variantForColorAndSize = product.variants.find(
-                      (v) =>
-                        String(v.color.id) === String(selectedColor) &&
-                        String(v.size.id) === sizeId
-                    );
-                    const isAvailable =
-                      !!variantForColorAndSize &&
-                      variantForColorAndSize.stock > 0;
-
-                    return (
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        key={sizeId}
-                        onClick={() => handleSizeSelect(sizeId)}
-                        disabled={!isAvailable}
-                        className={`
-                          ${String(selectedSize) === sizeId
-                            ? "border-primary text-primary bg-primary/5 shadow-sm scale-110"
-                            : "border-gray-200 text-maintext hover:border-primary hover:text-primary hover:scale-105 bg-white"
-                          }
-                          ${!isAvailable
-                            ? "opacity-30 cursor-not-allowed bg-gray-50/50 border-gray-100"
-                            : ""
-                          }
-                        `}
-                        title={!isAvailable ? "Không có sẵn cho màu này" : ""}
-                      >
-                        {sizeVariant?.size?.value || ""}
-                      </Button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* Enhanced Quantity Selection */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Icon
-                    path={mdiCartPlus}
-                    size={0.8}
-                    className="!text-maintext"
-                  />
-                  <span className="font-semibold text-maintext">Số lượng</span>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleQuantityChange(quantity - 1)}
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </Button>
+                  <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
+                    {quantity}
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => handleQuantityChange(quantity + 1)}
+                    disabled={
+                      !selectedVariant || quantity >= (selectedVariant.stock || 0)
+                    }
+                  >
+                    +
+                  </Button>
                 </div>
-
-                {selectedVariant && (
-                  <span className="text-sm !text-maintext">
-                    Còn{" "}
-                    <span className="font-semibold text-primary">
-                      {selectedVariant.stock}
-                    </span>{" "}
-                    sản phẩm
-                  </span>
-                )}
               </div>
-              <div className="flex items-center gap-2">
+
+              {/* Enhanced Action Buttons */}
+              <div className="grid grid-cols-2 gap-4">
                 <Button
                   variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(quantity - 1)}
-                  disabled={quantity <= 1}
+                  onClick={() => toast.success("Đã thêm vào danh sách yêu thích")}
                 >
-                  -
+                  <Icon path={mdiHeartOutline} size={0.8} />
+                  Yêu thích
                 </Button>
-                <div className="w-10 h-10  flex items-center justify-center border text-center text-lg font-semibold bg-gray-50 rounded-md">
-                  {quantity}
-                </div>
                 <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleQuantityChange(quantity + 1)}
-                  disabled={
-                    !selectedVariant || quantity >= (selectedVariant.stock || 0)
-                  }
+                  onClick={handleAddToCart}
+                  disabled={!selectedVariant || selectedVariant.stock === 0}
                 >
-                  +
+                  <Icon path={mdiCartOutline} size={0.8} />
+                  Thêm vào giỏ hàng
                 </Button>
               </div>
-            </div>
-
-            {/* Enhanced Action Buttons */}
-            <div className="grid grid-cols-2 gap-4">
-              <Button
-                variant="outline"
-                onClick={() => toast.success("Đã thêm vào danh sách yêu thích")}
-              >
-                <Icon path={mdiHeartOutline} size={0.8} />
-                Yêu thích
-              </Button>
-              <Button
-                onClick={handleAddToCart}
-                disabled={!selectedVariant || selectedVariant.stock === 0}
-              >
-                <Icon path={mdiCartOutline} size={0.8} />
-                Thêm vào giỏ hàng
-              </Button>
-            </div>
+            </Card>
 
             {/* Enhanced Product Features */}
-            <Card className="p-4 bg-white border-gray-200">
+            <Card className="p-4 bg-white">
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
@@ -915,12 +908,11 @@ export default function ProductDetail() {
             </Card>
 
             {/* Enhanced Product Information */}
-            <Card className="p-4 bg-white border-gray-200">
-              <h3 className="font-semibold text-maintext mb-4 flex items-center gap-2">
+            <Card className="p-4 bg-white">
+              <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
                 <Icon
                   path={mdiInformation}
                   size={0.8}
-                  className="text-primary"
                 />
                 Thông tin sản phẩm
               </h3>

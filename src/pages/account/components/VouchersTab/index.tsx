@@ -7,10 +7,7 @@ import {
   mdiEye,
   mdiInformationOutline,
   mdiCalendar,
-  mdiCurrencyUsd,
   mdiClockOutline,
-  mdiTagOutline,
-  mdiClose,
   mdiTrophyOutline,
   mdiCartOutline,
 } from "@mdi/js";
@@ -20,7 +17,6 @@ import { useAvailableVouchersForUser } from "@/hooks/voucher";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -35,10 +31,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

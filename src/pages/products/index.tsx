@@ -337,7 +337,7 @@ export default function ProductsPage() {
   }, [data]);
 
   return (
-    <div className="relative bg-[#F6F8F7] p-8 py-4">
+    <div className="relative bg-gray-100 p-8 py-4">
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>

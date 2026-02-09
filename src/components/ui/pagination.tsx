@@ -42,7 +42,7 @@ export function PaginationLink({
     <Link
       to={href || "#"}
       className={cn(
-        "px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
+        "min-w-9 px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
         isActive
           ? "bg-primary text-white border-primary shadow"
           : "bg-white text-maintext border-gray-300 hover:bg-primary/10 hover:text-primary",
@@ -65,7 +65,7 @@ export function PaginationPrevious({
       <Link
         to={href || "#"}
         className={cn(
-          "px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
+          "min-w-9 px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
           disabled
             ? "bg-gray-100 text-maintext border-gray-200 cursor-not-allowed"
             : "bg-white text-maintext border-gray-300 hover:bg-primary/10 hover:text-primary"
@@ -91,7 +91,7 @@ export function PaginationNext({
       <Link
         to={href || "#"}
         className={cn(
-          "px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
+          "min-w-9 px-3 h-9 flex items-center justify-center rounded border text-sm font-medium transition-colors",
           disabled
             ? "bg-gray-100 text-maintext border-gray-200 cursor-not-allowed"
             : "bg-white text-maintext border-gray-300 hover:bg-primary/10 hover:text-primary"

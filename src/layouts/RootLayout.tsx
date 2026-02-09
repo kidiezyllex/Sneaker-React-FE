@@ -6,7 +6,7 @@ import NavigationBar from "@/components/Common/NavigationBar";
 
 const RootLayout: React.FC = () => {
   return (
-    <div className="bg-[#F6F8F7] min-h-screen">
+    <div className="bg-gray-100 min-h-screen">
       <NavigationBar />
       <Outlet />
       <Footer />

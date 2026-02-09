@@ -343,7 +343,6 @@ const OrdersTab = () => {
         </CardContent>
       </Card>
 
-      {/* Dialog chi tiết đơn hàng */}
       <OrderDetailDialog
         orderId={selectedOrderId}
         open={orderDetailOpen}

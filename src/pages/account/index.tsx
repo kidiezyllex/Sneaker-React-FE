@@ -173,7 +173,7 @@ export default function GeneralManagementPage() {
                         to={`#account-tabs?tab=${tab.value}`}
                         data-value={tab.value}
                         className={`flex items-center justify-between px-4 py-3 hover:bg-green-50 ${activeTab === tab.value
-                          ? "bg-green-50 text-primary font-medium"
+                          ? "bg-green-50 text-primary font-semibold"
                           : ""
                           }`}
                         onClick={() => {
@@ -184,10 +184,12 @@ export default function GeneralManagementPage() {
                           <Icon
                             path={tab.icon}
                             size={0.8}
-                            className={`mr-3 text-maintext ${activeTab === tab.value ? "text-primary" : ""
+                            className={`mr-2 text-maintext -mt-1 ${activeTab === tab.value ? "text-primary" : ""
                               }`}
                           />
-                          <span className="text-maintext">{tab.title}</span>
+                          <span className={`${activeTab === tab.value ? "text-primary font-semibold" : "text-maintext"}`}>
+                            {tab.title}
+                          </span>
                         </div>
                         {activeTab === tab.value && (
                           <Icon

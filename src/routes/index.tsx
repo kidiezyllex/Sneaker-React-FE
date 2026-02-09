@@ -40,10 +40,6 @@ const AboutUsPage = React.lazy(() => import("@/pages/about-us"));
 const AccountPage = React.lazy(() => import("@/pages/account"));
 const ProductsPage = React.lazy(() => import("@/pages/products"));
 const ProductDetailPage = React.lazy(() => import("@/pages/products/detail"));
-const ProfilePage = React.lazy(() => import("@/pages/profile"));
-const OrdersPage = React.lazy(() => import("@/pages/orders"));
-const OrderDetailPage = React.lazy(() => import("@/pages/orders/detail"));
-const ReturnsPage = React.lazy(() => import("@/pages/returns"));
 const CheckoutShippingPage = React.lazy(() => import("@/pages/checkout"));
 const PaymentResultPage = React.lazy(() => import("@/pages/payment/PaymentResultPage"));
 
@@ -99,10 +95,6 @@ export const router = createBrowserRouter([
                     { path: "account", element: load(AccountPage) },
                     { path: "products", element: load(ProductsPage) },
                     { path: "products/:slug", element: load(ProductDetailPage) },
-                    { path: "profile", element: load(ProfilePage) },
-                    { path: "orders", element: load(OrdersPage) },
-                    { path: "orders/:id", element: load(OrderDetailPage) },
-                    { path: "returns", element: load(ReturnsPage) },
                     { path: "checkout/shipping", element: load(CheckoutShippingPage) },
                     { path: "payment-result", element: load(PaymentResultPage) },
                 ],
