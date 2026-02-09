@@ -26,6 +26,7 @@ import {
   useNotifyVoucher,
   useValidateVoucher,
 } from "@/hooks/voucher";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 import { CommonPagination } from "@/components/ui/common-pagination";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import { IVoucherFilter } from "@/interface/request/voucher";
@@ -150,21 +151,7 @@ export default function VouchersPage() {
     setFilters({ ...filters, page: newPage });
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
-  const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
-  };
 
   const handleValidateVoucher = async () => {
     try {

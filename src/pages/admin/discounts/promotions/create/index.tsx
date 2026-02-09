@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCreatePromotion } from "@/hooks/promotion";
 import { useProducts } from "@/hooks/product";
+import { formatDateTime } from "@/utils/formatters";
 import { IPromotionCreate } from "@/interface/request/promotion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
@@ -127,11 +128,6 @@ export default function CreatePromotionPage() {
     } catch (error) {
       toast.error("Tạo chiến dịch khuyến mãi thất bại");
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
-    return new Date(dateString).toISOString().split("T")[0];
   };
 
   return (
@@ -387,13 +383,11 @@ export default function CreatePromotionPage() {
                         <p>
                           <strong>Thời gian:</strong>{" "}
                           {formData.startDate
-                            ? new Date(formData.startDate).toLocaleString(
-                              "vi-VN"
-                            )
+                            ? formatDateTime(formData.startDate)
                             : "Chưa chọn"}{" "}
                           -{" "}
                           {formData.endDate
-                            ? new Date(formData.endDate).toLocaleString("vi-VN")
+                            ? formatDateTime(formData.endDate)
                             : "Chưa chọn"}
                         </p>
                         <p>

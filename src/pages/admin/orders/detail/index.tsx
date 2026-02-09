@@ -23,9 +23,12 @@ import {
     mdiInformation,
     mdiAlertCircleOutline,
 } from "@mdi/js";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
+import {
+    formatCurrency,
+    formatDateTime,
+    getPaymentMethodName
+} from "@/utils/formatters";
 import {
     Dialog,
     DialogContent,
@@ -297,17 +300,7 @@ export default function OrderDetailPage() {
         }
     };
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-            maximumFractionDigits: 0,
-        }).format(amount);
-    };
 
-    const formatDate = (dateString: string) => {
-        return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-    };
 
     // Helper function to get variant image for both online and POS orders
     const getVariantImage = (item: any) => {
@@ -326,20 +319,7 @@ export default function OrderDetailPage() {
         return checkImageUrl(null);
     };
 
-    const getPaymentMethodName = (method: string) => {
-        switch (method) {
-            case "CASH":
-                return "Tiền mặt";
-            case "BANK_TRANSFER":
-                return "Chuyển khoản ngân hàng";
-            case "COD":
-                return "Thanh toán khi nhận hàng";
-            case "MIXED":
-                return "Thanh toán nhiều phương thức";
-            default:
-                return "Không xác định";
-        }
-    };
+
 
     if (isLoading) {
         return (
@@ -352,7 +332,6 @@ export default function OrderDetailPage() {
                                 <BreadcrumbItem>
                                     <Link
                                         to="/admin/statistics"
-                                        className="!text-white/80 hover:!text-white"
                                     >
                                         Dashboard
                                     </Link>
@@ -361,7 +340,6 @@ export default function OrderDetailPage() {
                                 <BreadcrumbItem>
                                     <Link
                                         to="/admin/orders"
-                                        className="!text-white/80 hover:!text-white"
                                     >
                                         Quản lý đơn hàng
                                     </Link>
@@ -658,7 +636,7 @@ export default function OrderDetailPage() {
                                 <div className="flex justify-between items-center">
                                     <span className="text-maintext">Ngày tạo:</span>
                                     <span className="text-maintext">
-                                        {formatDate(order.createdAt)}
+                                        {formatDateTime(order.createdAt)}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">

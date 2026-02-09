@@ -24,8 +24,7 @@ import { useMyReturnDetail, useCancelMyReturn } from "@/hooks/return";
 import { IReturn } from "@/interface/response/return";
 import { toast } from "react-toastify";
 import { useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
+import { formatCurrency, formatDateTime } from "@/utils/formatters";
 import { Icon } from "@mdi/react";
 import ConfirmCancelModal from "./ConfirmCancelModal";
 import { mdiCheckCircle, mdiClockOutline, mdiCancel, mdiInformation } from "@mdi/js";
@@ -43,17 +42,7 @@ export default function ReturnDetailModal({
   const cancelReturn = useCancelMyReturn();
   const queryClient = useQueryClient();
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-  };
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -140,7 +129,7 @@ export default function ReturnDetailModal({
                 </p>
                 {step.date && (
                   <p className="text-sm text-maintext">
-                    {formatDate(step.date)}
+                    {formatDateTime(step.date)}
                   </p>
                 )}
               </div>
@@ -216,7 +205,7 @@ export default function ReturnDetailModal({
                 <div>
                   <span className="text-maintext">Ngày tạo:</span>
                   <span className="ml-2 font-medium">
-                    {formatDate(returnData.createdAt)}
+                    {formatDateTime(returnData.createdAt)}
                   </span>
                 </div>
                 <div>

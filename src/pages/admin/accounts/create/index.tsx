@@ -6,11 +6,9 @@ import { IAccountCreate } from "@/interface/request/account";
 
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +30,7 @@ import {
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiLoading } from "@mdi/js";
+import { mdiLoading } from "@mdi/js";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useRegister } from "@/hooks/authentication";
 import { Eye, EyeOff } from "lucide-react";

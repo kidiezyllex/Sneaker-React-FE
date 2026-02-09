@@ -295,11 +295,11 @@ export default function CreateProductPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <form onSubmit={handleSubmit} className="border bg-white rounded-md">
+      <form onSubmit={handleSubmit} className="border bg-white rounded-xl">
         <Tabs
           value={activeTab}
           onValueChange={setActiveTab}
-          className="space-y-4"
+          className="space-y-4 rounded-xl p-4 pt-2 bg-white"
         >
           <TabsList className="grid w-full md:w-[400px] grid-cols-2">
             <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>

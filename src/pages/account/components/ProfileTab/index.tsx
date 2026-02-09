@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -9,10 +9,8 @@ import {
   mdiInformationOutline,
   mdiCalendar,
   mdiGenderMaleFemale,
-  mdiCardAccountDetailsOutline,
-  mdiClose,
-  mdiContentSaveOutline,
-  mdiRefresh,
+  mdiCardAccountDetailsOutline, mdiContentSaveOutline,
+  mdiRefresh
 } from "@mdi/js";
 import { format } from "date-fns";
 import { useUser } from "@/context/useUserContext";

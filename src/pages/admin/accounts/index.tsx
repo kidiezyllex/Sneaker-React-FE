@@ -5,43 +5,24 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Icon } from "@mdi/react";
 import {
   mdiMagnify,
   mdiPlus,
   mdiPencil,
-  mdiDelete,
-  mdiAccountKey,
-  mdiCheck,
-  mdiClose,
-  mdiLock,
-  mdiLockReset,
-  mdiEmail,
-  mdiPhone,
+  mdiDelete, mdiCheck, mdiLock,
+  mdiLockReset, mdiPhone,
   mdiFilterOutline,
-  mdiLoading,
-  mdiDotsVertical,
+  mdiLoading
 } from "@mdi/js";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
+  DialogTitle, DialogClose
 } from "@/components/ui/dialog";
 import {
   Select,
@@ -63,14 +44,14 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
-  CommonPagination,
-  type PaginationData,
+  CommonPagination
 } from "@/components/ui/common-pagination";
 import {
   useAccounts,
   useDeleteAccount,
   useUpdateAccountStatus,
 } from "@/hooks/account";
+import { formatDateTime } from "@/utils/formatters";
 import {
   IAccountFilter,
   IAccountStatusUpdate,
@@ -138,12 +119,6 @@ export default function AccountsPage() {
     setFilters({ ...filters, page: newPage });
   };
 
-  // Format date
-  const formatDate = (dateString?: string) => {
-    if (!dateString) return "Chưa xác định";
-    return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-  };
-
   // Get role badge
   const getRoleBadge = (role: string) => {
     switch (role) {
@@ -168,16 +143,6 @@ export default function AccountsPage() {
       default:
         return <Badge variant="outline">{status}</Badge>;
     }
-  };
-
-  // Get initials for avatar fallback
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((word) => word[0])
-      .join("")
-      .toUpperCase()
-      .substring(0, 2);
   };
 
   const getAvatarUrl = (accountId: string) => {
@@ -448,7 +413,7 @@ export default function AccountsPage() {
                           {getStatusBadge(account.status)}
                         </TableCell>
                         <TableCell className="py-3 px-4 text-sm text-maintext">
-                          {formatDate(account.createdAt)}
+                          {account.createdAt ? formatDateTime(account.createdAt) : "Chưa xác định"}
                         </TableCell>
                         <TableCell className="py-3 px-4 text-right">
                           <div className="flex justify-end gap-2">

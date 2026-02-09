@@ -74,6 +74,12 @@ import {
   useOrders,
   useCancelOrder,
 } from "@/hooks/order";
+import {
+  formatCurrency,
+  formatDateTime,
+  getOrderStatusName,
+  getPaymentStatusName
+} from "@/utils/formatters";
 import type { IOrderFilter } from "@/interface/request/order";
 import { useQueryClient } from "@tanstack/react-query";
 import * as XLSX from "xlsx";
@@ -177,17 +183,7 @@ export default function OrdersPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
-  const formatDate = (dateString: string) => {
-    return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-  };
 
   const handleChangePage = (newPage: number) => {
     setFilters((prev) => ({ ...prev, page: newPage }));
@@ -211,7 +207,7 @@ export default function OrdersPage() {
       "Khách hàng": order.customer?.fullName || order.shippingName || "N/A",
       "Số điện thoại":
         order.customer?.phoneNumber || order.shippingPhoneNumber || "N/A",
-      "Ngày tạo": formatDate(order.createdAt),
+      "Ngày tạo": formatDateTime(order.createdAt),
       "Tổng tiền": formatCurrency(order.total),
       "Trạng thái đơn hàng": order.orderStatus, // Consider mapping to readable status like in Badge
       "Trạng thái thanh toán": order.paymentStatus, // Consider mapping to readable status
@@ -245,37 +241,7 @@ export default function OrdersPage() {
       floatPrecision: 16,
     });
 
-    const getOrderStatusLabelLocal = (status: string): string => {
-      switch (status) {
-        case "CHO_XAC_NHAN":
-          return "Chờ xác nhận";
-        case "CHO_GIAO_HANG":
-          return "Chờ giao hàng";
-        case "DANG_VAN_CHUYEN":
-          return "Đang vận chuyển";
-        case "DA_GIAO_HANG":
-          return "Đã giao hàng";
-        case "HOAN_THANH":
-          return "Hoàn thành";
-        case "DA_HUY":
-          return "Đã hủy";
-        default:
-          return status;
-      }
-    };
 
-    const getPaymentStatusLabelLocal = (status: string): string => {
-      switch (status) {
-        case "PENDING":
-          return "Chưa thanh toán";
-        case "PARTIAL_PAID":
-          return "Thanh toán một phần";
-        case "PAID":
-          return "Đã thanh toán";
-        default:
-          return status;
-      }
-    };
 
     doc.setFontSize(18);
     doc.text("Danh sách Đơn hàng", 14, 22);
@@ -293,10 +259,10 @@ export default function OrdersPage() {
     const tableRows = ordersToExport.map((order) => [
       order.code || "N/A",
       order.customer?.fullName || order.shippingName || "N/A",
-      formatDate(order.createdAt),
+      formatDateTime(order.createdAt),
       formatCurrency(order.total),
-      getOrderStatusLabelLocal(order.orderStatus),
-      getPaymentStatusLabelLocal(order.paymentStatus),
+      getOrderStatusName(order.orderStatus),
+      getPaymentStatusName(order.paymentStatus),
     ]);
 
     autoTable(doc, {
@@ -334,7 +300,7 @@ export default function OrdersPage() {
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
+              <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}>
                 Dashboard
               </Link>
             </BreadcrumbItem>
@@ -665,7 +631,7 @@ export default function OrdersPage() {
                     </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {formatDate(order.createdAt)}
+                    {formatDateTime(order.createdAt)}
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
                     <OrderTypeBadge orderCode={order.code} />

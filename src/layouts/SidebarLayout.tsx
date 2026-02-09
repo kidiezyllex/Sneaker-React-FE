@@ -297,7 +297,7 @@ const SidebarLayout = memo(function SidebarLayout({
             </div>
             {/* Main content */}
             <div className="flex-1 flex flex-col bg-[#1C2B38] min-w-0 overflow-hidden">
-                <header style={{ height: 75 }} className="border-b bg-white flex items-center justify-between pr-6 shadow-sm">
+                <header style={{ height: 75 }} className="border-b bg-white flex items-center justify-between pr-4 shadow-sm">
                     <div className="flex items-center">
                         <button
                             onClick={toggle}
@@ -319,7 +319,7 @@ const SidebarLayout = memo(function SidebarLayout({
                         </div>
                     </div>
                 </header>
-                <main className="flex-1 bg-gray-100 p-4 min-h-[calc(100vh-66px)] pr-6 overflow-y-auto overflow-x-hidden">
+                <main className="flex-1 bg-gray-100 p-4 min-h-[calc(100vh-66px)] overflow-y-auto overflow-x-hidden">
                     <div className="relative z-[2] w-full">{children}</div>
                 </main>
             </div>

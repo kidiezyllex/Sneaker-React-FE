@@ -73,6 +73,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { CommonPagination } from "@/components/ui/common-pagination";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState<IProductFilter>({
@@ -169,13 +170,7 @@ export default function ProductsPage() {
     setFilters({ ...filters, page: newPage });
   };
 
-  const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
-  };
+
 
   const handleOpenLightbox = (
     product: any,
@@ -470,17 +465,11 @@ export default function ProductsPage() {
                                     : "text-maintext"
                                     }`}
                                 >
-                                  {new Intl.NumberFormat("vi-VN", {
-                                    style: "currency",
-                                    currency: "VND",
-                                  }).format(discount.discountedPrice)}
+                                  {formatCurrency(discount.discountedPrice)}
                                 </div>
                                 {discount.discountPercent > 0 && (
                                   <div className="text-sm text-maintext line-through">
-                                    {new Intl.NumberFormat("vi-VN", {
-                                      style: "currency",
-                                      currency: "VND",
-                                    }).format(discount.originalPrice)}
+                                    {formatCurrency(discount.originalPrice)}
                                   </div>
                                 )}
                                 {discount.discountPercent > 0 && (

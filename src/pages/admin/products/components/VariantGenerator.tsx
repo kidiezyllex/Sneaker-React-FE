@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogClose } from "@/components/ui/dialog";
 import { useColors, useSizes } from "@/hooks/attributes";
 import { motion, AnimatePresence } from "framer-motion";
 import { getSizeLabel } from "@/utils/sizeMapping";
+import { formatCurrency } from "@/utils/formatters";
 interface VariantGeneratorProps {
   baseVariant: IProductVariant;
   onGenerate: (variants: IProductVariant[]) => void;
@@ -135,13 +136,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
   const selectedCount = generatedVariants.filter((v) => v.selected).length;
   const totalCount = generatedVariants.length;
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
+
 
   const getColorById = (colorId: string) => {
     return colorsData?.data?.find((c) => c.id === colorId);
@@ -230,7 +225,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
                             <div className="text-maintext">•</div>
 
                             <div className="font-semibold text-primary">
-                              {formatPrice(variant.price)}
+                              {formatCurrency(variant.price)}
                             </div>
                           </div>
 

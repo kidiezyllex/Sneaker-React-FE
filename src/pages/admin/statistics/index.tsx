@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,45 +11,33 @@ import {
   mdiPackageVariantClosed,
   mdiAccountGroup,
   mdiTrendingUp,
-  mdiCalendarRange,
   mdiChartBar,
-  mdiSync,
-  mdiFilterOutline,
-  mdiLoading,
   mdiEye,
 } from "@mdi/js";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   useStatistics,
   useRevenueReport,
   useTopProducts,
-  useGenerateDailyStatistics,
   useStatisticsDetail,
 } from "@/hooks/statistics";
-import { useAccounts } from "@/hooks/account";
+import { formatDate, formatCurrency } from "@/utils/formatters";
 import {
-  IStatisticsFilter,
   IRevenueReportFilter,
   ITopProductsFilter,
 } from "@/interface/request/statistics";
-import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
+  DialogTitle
 } from "@/components/ui/dialog";
 import {
   Table,
@@ -96,13 +84,12 @@ const COLORS = [
 ];
 
 export default function StatisticsPage() {
-  const [statisticsFilters, setStatisticsFilters] = useState<IStatisticsFilter>(
-    {
-      type: "MONTHLY",
-      page: 1,
-      limit: 10,
-    }
-  );
+  const {
+    data: statisticsData,
+    isLoading: statisticsLoading,
+    isError: statisticsError,
+  } = useStatistics({});
+
   const [revenueFilters, setRevenueFilters] = useState<IRevenueReportFilter>({
     type: "MONTHLY",
     startDate: new Date(new Date().getFullYear(), new Date().getMonth() - 5, 1)
@@ -122,37 +109,12 @@ export default function StatisticsPage() {
       endDate: new Date().toISOString().split("T")[0],
       limit: 10,
     });
-  const [isGenerateDialogOpen, setIsGenerateDialogOpen] = useState(false);
-  const [generateDate, setGenerateDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
   const [activeTab, setActiveTab] = useState("overview");
   const [selectedStatisticsId, setSelectedStatisticsId] = useState<
     string | null
   >(null);
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
 
-  const queryClient = useQueryClient();
-
-  const overviewFilters: IStatisticsFilter = {
-    type: "MONTHLY",
-    startDate: new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-      .toISOString()
-      .split("T")[0],
-    endDate: new Date().toISOString().split("T")[0],
-    limit: 1,
-  };
-
-  const {
-    data: statisticsData,
-    isLoading: statisticsLoading,
-    isError: statisticsError,
-  } = useStatistics(statisticsFilters);
-  const {
-    data: overviewStatistics,
-    isLoading: overviewLoading,
-    isError: overviewError,
-  } = useStatistics(overviewFilters);
   const {
     data: revenueData,
     isLoading: revenueLoading,
@@ -163,8 +125,6 @@ export default function StatisticsPage() {
     isLoading: topProductsLoading,
     isError: topProductsError,
   } = useTopProducts(topProductsFilters);
-  const generateDailyStatistics = useGenerateDailyStatistics();
-  const { data: accountsData } = useAccounts({ role: "CUSTOMER" });
   const { data: statisticsDetailData, isLoading: isDetailLoading } =
     useStatisticsDetail(selectedStatisticsId || "");
 
@@ -182,56 +142,9 @@ export default function StatisticsPage() {
     setTopProductsFilters({ ...topProductsFilters, [key]: value });
   };
 
-  const handleChangePage = (newPage: number) => {
-    setStatisticsFilters({ ...statisticsFilters, page: newPage });
-  };
-
   const handleViewDetail = (statisticsId: string) => {
     setSelectedStatisticsId(statisticsId);
     setIsDetailModalOpen(true);
-  };
-
-  const handleGenerateStatistics = async () => {
-    try {
-      await generateDailyStatistics.mutateAsync(
-        { date: generateDate },
-        {
-          onSuccess: () => {
-            toast.success("Đã tạo thống kê thành công");
-            queryClient.invalidateQueries({ queryKey: ["statistics"] });
-            queryClient.invalidateQueries({ queryKey: ["revenueReport"] });
-            queryClient.invalidateQueries({ queryKey: ["topProducts"] });
-            setIsGenerateDialogOpen(false);
-          },
-        }
-      );
-    } catch (error) {
-      toast.error("Tạo thống kê thất bại");
-    }
-  };
-
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
-  };
-
-  const formatPercentChange = (value: number) => {
-    return value > 0 ? (
-      <span className="text-primary">+{value.toFixed(2)}%</span>
-    ) : (
-      <span className="text-red-600">{value.toFixed(2)}%</span>
-    );
   };
 
   interface StatCardProps {
@@ -240,7 +153,7 @@ export default function StatisticsPage() {
     icon: string;
     iconColor: string;
     bgColor: string;
-    change: number;
+    change?: number;
   }
 
   const StatCard = ({
@@ -260,19 +173,21 @@ export default function StatisticsPage() {
               <h3 className="text-2xl font-semibold mt-2 text-maintext">
                 {value}
               </h3>
-              <div className="flex items-center mt-2">
-                <Icon
-                  path={change >= 0 ? mdiTrendingUp : mdiTrendingUp}
-                  size={0.8}
-                  className={change >= 0 ? "text-primary" : "text-red-600"}
-                />
-                <span
-                  className={`text-sm ml-1 ${change >= 0 ? "text-primary" : "text-red-600"
-                    }`}
-                >
-                  {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}
-                </span>
-              </div>
+              {typeof change === "number" && change !== 0 && (
+                <div className="flex items-center mt-2">
+                  <Icon
+                    path={mdiTrendingUp}
+                    size={0.8}
+                    className={change >= 0 ? "text-primary" : "text-red-600"}
+                  />
+                  <span
+                    className={`text-sm ml-1 ${change >= 0 ? "text-primary" : "text-red-600"
+                      }`}
+                  >
+                    {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}
+                  </span>
+                </div>
+              )}
             </div>
             <div
               className={`${bgColor} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0`}
@@ -285,75 +200,22 @@ export default function StatisticsPage() {
     );
   };
 
-  const currentMonthData = statisticsData?.data?.statistics?.[0] || {
+  const currentMonthData = statisticsData?.data || {
     totalOrders: 0,
     totalRevenue: 0,
     totalProfit: 0,
+    newCustomers: 0,
+    averageOrderValue: 0,
   };
 
-  const totalRevenue =
-    revenueData?.data?.reduce(
-      (sum: number, item: any) => sum + item.totalRevenue,
-      0
-    ) ||
+  const totalRevenueValue =
+    revenueData?.data?.reduce((sum, item) => sum + item.totalRevenue, 0) ||
     currentMonthData.totalRevenue ||
     0;
 
-  const newCustomersCount =
-    accountsData?.data?.accounts?.filter((account) => {
-      const accountDate = new Date(account.createdAt);
-      const currentDate = new Date();
-      const currentMonth = currentDate.getMonth();
-      const currentYear = currentDate.getFullYear();
-      return (
-        accountDate.getMonth() === currentMonth &&
-        accountDate.getFullYear() === currentYear
-      );
-    }).length || 0;
+  const currentRevenueHistory = revenueData?.data || [];
 
-  const mockRevenueData = revenueData?.data?.length
-    ? revenueData.data
-    : [
-      {
-        date: "2024-01",
-        totalRevenue: currentMonthData.totalRevenue,
-        totalOrders: currentMonthData.totalOrders,
-      },
-      { date: "2024-02", totalRevenue: 0, totalOrders: 0 },
-      { date: "2024-03", totalRevenue: 0, totalOrders: 0 },
-    ];
-
-  const mockTopProductsData = topProductsData?.data?.length
-    ? topProductsData.data
-    : [
-      {
-        product: {
-          id: "1",
-          name: "Sản phẩm mẫu 1",
-          brand: { id: "1", name: "Uniqlo" },
-        },
-        totalQuantity: 10,
-        totalRevenue: 1000000,
-      },
-      {
-        product: {
-          id: "2",
-          name: "Sản phẩm mẫu 2",
-          brand: { id: "2", name: "Prada" },
-        },
-        totalQuantity: 8,
-        totalRevenue: 800000,
-      },
-      {
-        product: {
-          id: "3",
-          name: "Sản phẩm mẫu 3",
-          brand: { id: "3", name: "Balenciaga" },
-        },
-        totalQuantity: 5,
-        totalRevenue: 500000,
-      },
-    ];
+  const topProducts = topProductsData?.data || [];
 
   return (
     <div className="space-y-4">
@@ -371,70 +233,12 @@ export default function StatisticsPage() {
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>
-
-        <Dialog
-          open={isGenerateDialogOpen}
-          onOpenChange={setIsGenerateDialogOpen}
-        >
-          <DialogTrigger asChild>
-            <Button variant="outline">
-              <Icon path={mdiSync} size={0.8} />
-              Tạo thống kê
-            </Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Tạo thống kê thủ công</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="generateDate">Chọn ngày cần tạo thống kê</Label>
-                <Input
-                  id="generateDate"
-                  type="date"
-                  value={generateDate}
-                  onChange={(e) => setGenerateDate(e.target.value)}
-                />
-              </div>
-              <p className="text-sm text-maintext">
-                Lưu ý: Chức năng này thường được hệ thống tự động thực hiện. Chỉ
-                sử dụng khi cần thiết.
-              </p>
-            </div>
-            <DialogFooter>
-              <Button
-                variant="outline"
-                onClick={() => setIsGenerateDialogOpen(false)}
-              >
-                Hủy
-              </Button>
-              <Button
-                onClick={handleGenerateStatistics}
-                disabled={generateDailyStatistics.isPending}
-              >
-                {generateDailyStatistics.isPending ? (
-                  <>
-                    <Icon
-                      path={mdiLoading}
-                      size={0.8}
-                      className="mr-2 animate-spin"
-                    />
-                    Đang xử lý...
-                  </>
-                ) : (
-                  "Tạo thống kê"
-                )}
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
       </div>
-
       <Tabs
         defaultValue="overview"
         value={activeTab}
         onValueChange={setActiveTab}
-        className="space-y-4"
+        className="space-y-4 rounded-xl p-4 pt-2 bg-white"
       >
         <TabsList className="grid grid-cols-4 w-full max-w-6xl">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
@@ -445,7 +249,7 @@ export default function StatisticsPage() {
 
         {/* Tổng quan */}
         <TabsContent value="overview" className="space-y-4">
-          {statisticsLoading || revenueLoading || overviewLoading ? (
+          {statisticsLoading || revenueLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               {[...Array(4)].map((_, index) => (
                 <Card key={index} className="h-full">
@@ -457,7 +261,7 @@ export default function StatisticsPage() {
                 </Card>
               ))}
             </div>
-          ) : statisticsError || revenueError || overviewError ? (
+          ) : statisticsError || revenueError ? (
             <Card className="p-4">
               <p className="text-red-600">Lỗi khi tải dữ liệu thống kê</p>
             </Card>
@@ -465,11 +269,10 @@ export default function StatisticsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
               <StatCard
                 title="Tổng doanh thu"
-                value={formatCurrency(totalRevenue)}
+                value={formatCurrency(totalRevenueValue)}
                 icon={mdiCashMultiple}
                 iconColor="text-primary"
                 bgColor="bg-green-100"
-                change={0}
               />
               <StatCard
                 title="Số đơn hàng"
@@ -477,7 +280,6 @@ export default function StatisticsPage() {
                 icon={mdiPackageVariantClosed}
                 iconColor="text-blue-600"
                 bgColor="bg-blue-100"
-                change={5.3}
               />
               <StatCard
                 title="Lợi nhuận"
@@ -485,15 +287,20 @@ export default function StatisticsPage() {
                 icon={mdiTrendingUp}
                 iconColor="text-purple-600"
                 bgColor="bg-purple-100"
-                change={7.8}
               />
               <StatCard
                 title="Khách hàng mới"
-                value={newCustomersCount.toString()}
+                value={currentMonthData?.newCustomers?.toString() || "0"}
                 icon={mdiAccountGroup}
                 iconColor="text-amber-600"
                 bgColor="bg-amber-100"
-                change={3.2}
+              />
+              <StatCard
+                title="Giá trị TB đơn"
+                value={formatCurrency(currentMonthData?.averageOrderValue || 0)}
+                icon={mdiChartBar}
+                iconColor="text-blue-500"
+                bgColor="bg-blue-50"
               />
             </div>
           )}
@@ -507,14 +314,14 @@ export default function StatisticsPage() {
                 <div className="w-full h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart
-                      data={mockRevenueData.map((item) => ({
-                        date: item.date,
+                      data={currentRevenueHistory.map((item) => ({
+                        period: item.period,
                         revenue: item.totalRevenue,
                       }))}
                       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
                       <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="date" />
+                      <XAxis dataKey="period" />
                       <YAxis />
                       <Tooltip
                         formatter={(value: number) => formatCurrency(value)}
@@ -541,17 +348,16 @@ export default function StatisticsPage() {
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
-                        data={mockTopProductsData
+                        data={topProducts
                           .slice(0, 5)
-                          .map((item, index) => ({
-                            name: item.product?.name
-                              ? item.product.name.length > 20
-                                ? `${item.product.name.substring(0, 20)}...`
-                                : item.product.name
-                              : `Sản phẩm ${index + 1}`,
-                            fullName:
-                              item.product?.name || `Sản phẩm ${index + 1}`,
-                            quantity: item.totalQuantity,
+                          .map((item) => ({
+                            name: item.productName
+                              ? item.productName.length > 20
+                                ? `${item.productName.substring(0, 20)}...`
+                                : item.productName
+                              : "N/A",
+                            fullName: item.productName || "N/A",
+                            quantity: item.totalSold,
                             revenue: item.totalRevenue,
                           }))}
                         cx="50%"
@@ -572,7 +378,7 @@ export default function StatisticsPage() {
                         }
                         labelLine={false}
                       >
-                        {mockTopProductsData.slice(0, 5).map((entry, index) => (
+                        {topProducts.slice(0, 5).map((_entry, index) => (
                           <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}
@@ -665,7 +471,7 @@ export default function StatisticsPage() {
                       Tổng doanh thu
                     </h3>
                     <p className="text-2xl font-semibold text-green-500 mt-2">
-                      {formatCurrency(totalRevenue)}
+                      {formatCurrency(totalRevenueValue)}
                     </p>
                   </div>
                   <div className="text-center">
@@ -673,7 +479,7 @@ export default function StatisticsPage() {
                       Số đơn hàng
                     </h3>
                     <p className="text-2xl font-semibold mt-2 text-blue-500">
-                      {mockRevenueData.reduce(
+                      {currentRevenueHistory.reduce(
                         (sum: number, item) => sum + (item.totalOrders || 0),
                         0
                       )}
@@ -685,14 +491,14 @@ export default function StatisticsPage() {
               <div className="w-full h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
-                    data={mockRevenueData.map((item) => ({
-                      date: item.date,
+                    data={currentRevenueHistory.map((item) => ({
+                      period: item.period,
                       revenue: item.totalRevenue,
                     }))}
                     margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="date" />
+                    <XAxis dataKey="period" />
                     <YAxis />
                     <Tooltip
                       formatter={(value: number) => formatCurrency(value)}
@@ -716,9 +522,9 @@ export default function StatisticsPage() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {mockRevenueData.map((item, index) => (
+                      {currentRevenueHistory.map((item, index) => (
                         <TableRow key={index}>
-                          <TableCell>{item.date}</TableCell>
+                          <TableCell>{item.period}</TableCell>
                           <TableCell className="text-right">
                             {formatCurrency(item.totalRevenue)}
                           </TableCell>
@@ -787,17 +593,16 @@ export default function StatisticsPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
-                      data={mockTopProductsData
+                      data={topProducts
                         .slice(0, topProductsFilters.limit || 10)
-                        .map((item, index) => ({
-                          name: item.product?.name
-                            ? item.product.name.length > 20
-                              ? `${item.product.name.substring(0, 20)}...`
-                              : item.product.name
-                            : `Sản phẩm ${index + 1}`,
-                          fullName:
-                            item.product?.name || `Sản phẩm ${index + 1}`,
-                          quantity: item.totalQuantity,
+                        .map((item) => ({
+                          name: item.productName
+                            ? item.productName.length > 20
+                              ? `${item.productName.substring(0, 20)}...`
+                              : item.productName
+                            : "N/A",
+                          fullName: item.productName || "N/A",
+                          quantity: item.totalSold,
                           revenue: item.totalRevenue,
                         }))}
                       cx="50%"
@@ -818,9 +623,9 @@ export default function StatisticsPage() {
                       }
                       labelLine={false}
                     >
-                      {mockTopProductsData
+                      {topProducts
                         .slice(0, topProductsFilters.limit || 10)
-                        .map((entry, index) => (
+                        .map((_entry, index) => (
                           <Cell
                             key={`cell-${index}`}
                             fill={COLORS[index % COLORS.length]}
@@ -853,8 +658,8 @@ export default function StatisticsPage() {
                     Tổng số lượng bán
                   </h4>
                   <p className="text-2xl font-semibold text-blue-600">
-                    {mockTopProductsData.reduce(
-                      (sum: number, item: any) => sum + item.totalQuantity,
+                    {topProducts.reduce(
+                      (sum: number, item: any) => sum + item.totalSold,
                       0
                     )}{" "}
                     sản phẩm
@@ -866,7 +671,7 @@ export default function StatisticsPage() {
                   </h4>
                   <p className="text-2xl font-semibold text-green-600">
                     {formatCurrency(
-                      mockTopProductsData.reduce(
+                      topProducts.reduce(
                         (sum: number, item) => sum + item.totalRevenue,
                         0
                       )
@@ -886,16 +691,16 @@ export default function StatisticsPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {mockTopProductsData.map((item, index) => (
+                    {topProducts.map((item, index) => (
                       <TableRow key={index}>
                         <TableCell className="font-medium text-maintext">
-                          {item.product?.name || `Sản phẩm ${index + 1}`}
+                          {item.productName || "N/A"}
                         </TableCell>
                         <TableCell className="text-maintext">
-                          {item.product?.brand?.name || "Uniqlo"}
+                          {item.productCode}
                         </TableCell>
                         <TableCell className="text-right text-maintext">
-                          {item.totalQuantity}
+                          {item.totalSold}
                         </TableCell>
                         <TableCell className="text-right text-maintext">
                           {formatCurrency(item.totalRevenue)}
@@ -916,88 +721,13 @@ export default function StatisticsPage() {
               <CardTitle>Lịch sử thống kê</CardTitle>
             </CardHeader>
             <CardContent className="p-4">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                <div>
-                  <Label htmlFor="statsType">Loại thống kê</Label>
-                  <Select
-                    value={statisticsFilters.type || ""}
-                    onValueChange={(value) =>
-                      setStatisticsFilters({
-                        ...statisticsFilters,
-                        type: value as any,
-                      })
-                    }
-                  >
-                    <SelectTrigger id="statsType">
-                      <SelectValue placeholder="Chọn loại thống kê" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="">Tất cả</SelectItem>
-                      <SelectItem value="DAILY">Theo ngày</SelectItem>
-                      <SelectItem value="WEEKLY">Theo tuần</SelectItem>
-                      <SelectItem value="MONTHLY">Theo tháng</SelectItem>
-                      <SelectItem value="YEARLY">Theo năm</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="statsStartDate">Từ ngày</Label>
-                  <Input
-                    id="statsStartDate"
-                    type="date"
-                    value={statisticsFilters.startDate || ""}
-                    onChange={(e) =>
-                      setStatisticsFilters({
-                        ...statisticsFilters,
-                        startDate: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="statsEndDate">Đến ngày</Label>
-                  <Input
-                    id="statsEndDate"
-                    type="date"
-                    value={statisticsFilters.endDate || ""}
-                    onChange={(e) =>
-                      setStatisticsFilters({
-                        ...statisticsFilters,
-                        endDate: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="statsLimit">Số lượng mỗi trang</Label>
-                  <Select
-                    value={statisticsFilters.limit?.toString() || "10"}
-                    onValueChange={(value) =>
-                      setStatisticsFilters({
-                        ...statisticsFilters,
-                        limit: parseInt(value),
-                        page: 1,
-                      })
-                    }
-                  >
-                    <SelectTrigger id="statsLimit">
-                      <SelectValue placeholder="Số lượng mỗi trang" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="10">10 mục</SelectItem>
-                      <SelectItem value="20">20 mục</SelectItem>
-                      <SelectItem value="50">50 mục</SelectItem>
-                      <SelectItem value="100">100 mục</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+
 
               {statisticsLoading ? (
                 <Skeleton className="h-80 w-full" />
               ) : statisticsError ? (
                 <p className="text-red-600">Lỗi khi tải dữ liệu thống kê</p>
-              ) : !statisticsData?.data?.statistics?.length ? (
+              ) : !statisticsData?.data ? (
                 <div className="flex items-center justify-center h-80 text-maintext">
                   <p>Không có dữ liệu thống kê</p>
                 </div>
@@ -1024,92 +754,56 @@ export default function StatisticsPage() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {statisticsData?.data?.statistics?.map((item) => (
-                          <TableRow key={item.id || item.date}>
-                            <TableCell className="font-medium text-maintext">
-                              {formatDate(item.date)}
-                            </TableCell>
-                            <TableCell className="text-maintext">
-                              <Badge variant="outline">
-                                {item.type === "DAILY"
-                                  ? "Ngày"
-                                  : item.type === "WEEKLY"
-                                    ? "Tuần"
-                                    : item.type === "MONTHLY"
-                                      ? "Tháng"
-                                      : "Năm"}
-                              </Badge>
-                            </TableCell>
-                            <TableCell className="text-right text-maintext">
-                              {item.totalOrders}
-                            </TableCell>
-                            <TableCell className="text-right text-maintext">
-                              {formatCurrency(item.totalRevenue)}
-                            </TableCell>
-                            <TableCell className="text-right text-maintext">
-                              {formatCurrency(item.totalProfit)}
-                            </TableCell>
-                            <TableCell className="text-center">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() =>
-                                  handleViewDetail(item.id || item.date)
-                                }
-                              >
-                                <Icon
-                                  path={mdiEye}
-                                  size={0.8}
-                                  className="mr-1"
-                                />
-                                Chi tiết
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ))}
+                        {statisticsData?.data &&
+                          (Array.isArray(statisticsData.data)
+                            ? statisticsData.data
+                            : [statisticsData.data]
+                          ).map((item, idx) => (
+                            <TableRow key={idx}>
+                              <TableCell className="font-medium text-maintext">
+                                {formatDate(item.date)}
+                              </TableCell>
+                              <TableCell className="text-maintext">
+                                <Badge variant="outline">
+                                  {item.type === "DAILY"
+                                    ? "Ngày"
+                                    : item.type === "WEEKLY"
+                                      ? "Tuần"
+                                      : item.type === "MONTHLY"
+                                        ? "Tháng"
+                                        : "Năm"}
+                                </Badge>
+                              </TableCell>
+                              <TableCell className="text-right text-maintext">
+                                {item.totalOrders}
+                              </TableCell>
+                              <TableCell className="text-right text-maintext">
+                                {formatCurrency(item.totalRevenue)}
+                              </TableCell>
+                              <TableCell className="text-right text-maintext">
+                                {formatCurrency(item.totalProfit)}
+                              </TableCell>
+                              <TableCell className="text-center">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() =>
+                                    handleViewDetail(item.id || item.date)
+                                  }
+                                >
+                                  <Icon
+                                    path={mdiEye}
+                                    size={0.8}
+                                    className="mr-1"
+                                  />
+                                  Chi tiết
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          ))}
                       </TableBody>
                     </Table>
                   </div>
-
-                  {/* Pagination */}
-                  {statisticsData &&
-                    statisticsData.data.pagination.totalPages > 1 && (
-                      <div className="flex justify-center items-center gap-2 mt-4">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            handleChangePage(
-                              statisticsData.data.pagination.currentPage - 1
-                            )
-                          }
-                          disabled={
-                            statisticsData.data.pagination.currentPage <= 1
-                          }
-                        >
-                          Trước
-                        </Button>
-                        <span className="text-sm text-maintext">
-                          Trang {statisticsData.data.pagination.currentPage} /{" "}
-                          {statisticsData.data.pagination.totalPages}
-                        </span>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            handleChangePage(
-                              statisticsData.data.pagination.currentPage + 1
-                            )
-                          }
-                          disabled={
-                            statisticsData.data.pagination.currentPage >=
-                            statisticsData.data.pagination.totalPages
-                          }
-                        >
-                          Sau
-                        </Button>
-                      </div>
-                    )}
                 </>
               )}
             </CardContent>

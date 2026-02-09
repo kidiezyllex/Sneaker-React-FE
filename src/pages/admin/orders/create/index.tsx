@@ -18,6 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { Icon } from "@mdi/react";
 import { mdiArrowLeft, mdiPlus, mdiTrashCanOutline } from "@mdi/js";
 import { useCreateOrder } from "@/hooks/order";
+import { formatCurrency } from "@/utils/formatters";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -186,26 +187,20 @@ export default function CreateOrderPage() {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+
 
   return (
     <div className="space-y-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}>
               Dashboard
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to={location.pathname.startsWith('/staff') ? '/staff/orders' : '/admin/orders'} className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/orders' : '/admin/orders'}>
               Quản lý đơn hàng
             </Link>
           </BreadcrumbItem>

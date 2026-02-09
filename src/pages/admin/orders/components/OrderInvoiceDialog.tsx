@@ -20,9 +20,12 @@ import {
     TableHead,
 } from "@/components/ui/table";
 import { OrderStatusBadge } from "./OrderBadges";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
 import { checkImageUrl } from "@/lib/utils";
+import {
+    formatCurrency,
+    formatDateTime,
+    getPaymentMethodName
+} from "@/utils/formatters";
 
 interface OrderInvoiceDialogProps {
     open: boolean;
@@ -40,18 +43,6 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
 
     if (!order) return null;
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-            maximumFractionDigits: 0,
-        }).format(amount);
-    };
-
-    const formatDate = (dateString: string) => {
-        return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-    };
-
     const getVariantImage = (item: any) => {
         if (item.variant?.images?.[0]?.imageUrl) {
             return checkImageUrl(item.variant.images[0].imageUrl);
@@ -67,20 +58,7 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
         return checkImageUrl(null);
     };
 
-    const getPaymentMethodName = (method: string) => {
-        switch (method) {
-            case "CASH":
-                return "Tiền mặt";
-            case "BANK_TRANSFER":
-                return "Chuyển khoản ngân hàng";
-            case "COD":
-                return "Thanh toán khi nhận hàng";
-            case "MIXED":
-                return "Thanh toán nhiều phương thức";
-            default:
-                return "Không xác định";
-        }
-    };
+
 
     const handlePrintToPdf = async () => {
         try {
@@ -129,7 +107,7 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                                 <h3 className="font-bold text-xl mb-2">STREET SNEAKER</h3>
                                 <p className="text-sm text-maintext">Hóa đơn bán hàng</p>
                                 <p className="text-sm text-maintext">
-                                    Ngày: {formatDate(order.createdAt)}
+                                    Ngày: {formatDateTime(order.createdAt)}
                                 </p>
                             </div>
                             <div className="text-right">

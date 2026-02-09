@@ -7,11 +7,9 @@ import { toast } from "react-toastify";
 import { useMyReturnDetail, useCancelMyReturn } from "@/hooks/return";
 import {
   Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
+  DialogContent, DialogHeader,
   DialogTitle,
-  DialogFooter,
+  DialogFooter
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";

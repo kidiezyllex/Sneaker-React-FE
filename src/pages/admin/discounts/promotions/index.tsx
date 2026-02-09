@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePromotions, useDeletePromotion } from "@/hooks/promotion";
+import { formatDateTime } from "@/utils/formatters";
 import { CommonPagination } from "@/components/ui/common-pagination";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import { IPromotionFilter } from "@/interface/request/promotion";
@@ -122,16 +123,6 @@ export default function PromotionsPage() {
 
   const handleChangePage = (newPage: number) => {
     setFilters({ ...filters, page: newPage });
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    const day = String(date.getUTCDate()).padStart(2, "0");
-    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
-    const year = date.getUTCFullYear();
-    const hours = String(date.getUTCHours()).padStart(2, "0");
-    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
-    return `${hours}:${minutes} ${day}/${month}/${year}`;
   };
 
   const getPromotionStatusBadge = (promotion: any) => {
@@ -391,11 +382,11 @@ export default function PromotionsPage() {
                             <div className="flex flex-col gap-1 text-slate-600">
                               <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                <span>{formatDate(promotion.startDate)}</span>
+                                <span>{formatDateTime(promotion.startDate)}</span>
                               </div>
                               <div className="flex items-center gap-1.5">
                                 <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                                <span>{formatDate(promotion.endDate)}</span>
+                                <span>{formatDateTime(promotion.endDate)}</span>
                               </div>
                             </div>
                           </TableCell>

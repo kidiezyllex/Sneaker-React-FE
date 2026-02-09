@@ -20,6 +20,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 
 interface CreateReturnRequestModalProps {
   order: IReturnableOrder | null;
@@ -55,13 +56,7 @@ export default function CreateReturnRequestModal({
     }
   }, [order]);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+
 
   const handleItemSelect = (item: any, checked: boolean) => {
     if (checked) {
@@ -180,7 +175,7 @@ export default function CreateReturnRequestModal({
               <div>
                 <span className="text-maintext">Ngày đặt:</span>
                 <span className="ml-2 font-medium">
-                  {new Date(order.createdAt).toLocaleDateString("vi-VN")}
+                  {formatDate(order.createdAt)}
                 </span>
               </div>
               <div>

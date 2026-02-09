@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { topProducts } from "./mockData";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { formatCurrency } from "@/utils/formatters";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
@@ -12,13 +13,7 @@ export const TopProducts = () => {
   const [open, setOpen] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
 
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(value);
-  };
+
 
   const lightboxImages = topProducts.map((product) => ({
     src: product.image,

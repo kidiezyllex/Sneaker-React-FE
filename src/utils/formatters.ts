@@ -46,13 +46,13 @@ export const slugify = (text: string): string => {
 
 export const formatPhoneNumber = (phone: string): string => {
   const cleaned = phone.replace(/\D/g, '');
-  
+
   if (cleaned.length === 10) {
     return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
   } else if (cleaned.length === 11) {
     return cleaned.replace(/(\d{4})(\d{3})(\d{4})/, '$1 $2 $3');
   }
-  
+
   return phone;
 };
 
@@ -80,9 +80,11 @@ export const formatDiscountValue = (
 
 export const getPaymentMethodName = (method: string): string => {
   const methods: Record<string, string> = {
+    CASH: 'Tiền mặt',
+    BANK_TRANSFER: 'Chuyển khoản ngân hàng',
     COD: 'Thanh toán khi nhận hàng',
     VNPAY: 'Thanh toán qua VNPay',
-    BANK_TRANSFER: 'Chuyển khoản ngân hàng',
+    MIXED: 'Thanh toán nhiều phương thức',
   };
   return methods[method] || method;
 };
@@ -93,6 +95,7 @@ export const getPaymentStatusName = (status: string): string => {
     PAID: 'Đã thanh toán',
     FAILED: 'Thanh toán thất bại',
     REFUNDED: 'Đã hoàn tiền',
+    PARTIAL_PAID: 'Thanh toán một phần',
   };
   return statuses[status] || status;
 };

@@ -14,8 +14,6 @@ import {
   mdiDelete,
   mdiCalendarClock,
 } from "@mdi/js";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -32,6 +30,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -187,19 +186,6 @@ export default function DiscountsPage() {
     null
   );
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
-
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return format(date, "dd/MM/yyyy", { locale: vi });
-  };
-
   const filteredDiscounts = mockDiscounts.filter((discount) => {
     if (selectedTab !== "all" && discount.status !== selectedTab) {
       return false;
@@ -289,8 +275,6 @@ export default function DiscountsPage() {
             <TabsContent value="all" className="mt-0">
               <DiscountTable
                 discounts={filteredDiscounts}
-                formatCurrency={formatCurrency}
-                formatDate={formatDate}
                 getStatusBadge={getStatusBadge}
                 onDelete={handleDeleteDiscount}
               />
@@ -298,8 +282,6 @@ export default function DiscountsPage() {
             <TabsContent value="active" className="mt-0">
               <DiscountTable
                 discounts={filteredDiscounts}
-                formatCurrency={formatCurrency}
-                formatDate={formatDate}
                 getStatusBadge={getStatusBadge}
                 onDelete={handleDeleteDiscount}
               />
@@ -307,8 +289,6 @@ export default function DiscountsPage() {
             <TabsContent value="scheduled" className="mt-0">
               <DiscountTable
                 discounts={filteredDiscounts}
-                formatCurrency={formatCurrency}
-                formatDate={formatDate}
                 getStatusBadge={getStatusBadge}
                 onDelete={handleDeleteDiscount}
               />
@@ -316,8 +296,6 @@ export default function DiscountsPage() {
             <TabsContent value="expired" className="mt-0">
               <DiscountTable
                 discounts={filteredDiscounts}
-                formatCurrency={formatCurrency}
-                formatDate={formatDate}
                 getStatusBadge={getStatusBadge}
                 onDelete={handleDeleteDiscount}
               />
@@ -350,16 +328,12 @@ export default function DiscountsPage() {
 
 interface DiscountTableProps {
   discounts: Discount[];
-  formatCurrency: (amount: number) => string;
-  formatDate: (dateString: string) => string;
   getStatusBadge: (status: DiscountStatus) => React.ReactNode;
   onDelete: (discount: Discount) => void;
 }
 
 const DiscountTable: React.FC<DiscountTableProps> = ({
   discounts,
-  formatCurrency,
-  formatDate,
   getStatusBadge,
   onDelete,
 }) => {

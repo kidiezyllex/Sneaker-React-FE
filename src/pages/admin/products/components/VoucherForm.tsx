@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import { mdiTicket, mdiClose, mdiLoading, mdiCheck } from "@mdi/js";
+import { formatCurrency } from "@/utils/formatters";
 interface VoucherFormProps {
   orderValue: number;
   onApplyVoucher: (voucherData: {
@@ -89,10 +90,7 @@ const VoucherForm = ({
                 <div className="font-medium text-sm">{appliedVoucher.code}</div>
                 <div className="text-sm text-maintext">
                   Giảm{" "}
-                  {new Intl.NumberFormat("vi-VN", {
-                    style: "currency",
-                    currency: "VND",
-                  }).format(appliedVoucher.discount)}
+                  {formatCurrency(appliedVoucher.discount)}
                 </div>
               </div>
             </div>

@@ -57,6 +57,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { formatCurrency } from "@/utils/formatters";
 
 export default function EditProductPage() {
     const navigate = useNavigate();
@@ -322,7 +323,7 @@ export default function EditProductPage() {
                     <BreadcrumbItem>
                         <Link
                             to="/admin/statistics"
-                            className="!text-white/80 hover:!text-white"
+
                         >
                             Dashboard
                         </Link>
@@ -331,7 +332,7 @@ export default function EditProductPage() {
                     <BreadcrumbItem>
                         <Link
                             to="/admin/products"
-                            className="!text-white/80 hover:!text-white"
+
                         >
                             Quản lý sản phẩm
                         </Link>
@@ -513,11 +514,7 @@ export default function EditProductPage() {
                                                 </h3>
                                                 <p className="text-sm text-maintext">
                                                     Giá:{" "}
-                                                    {new Intl.NumberFormat("vi-VN", {
-                                                        style: "currency",
-                                                        currency: "VND",
-                                                        maximumFractionDigits: 0,
-                                                    }).format(variant.price)}
+                                                    {formatCurrency(variant.price)}
                                                 </p>
                                             </div>
                                         </div>

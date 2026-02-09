@@ -46,6 +46,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { mdiMagnify } from "@mdi/js";
 import { useEffect } from "react";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
+import { formatDate } from "@/utils/formatters";
 
 export default function SizesPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -126,13 +127,7 @@ export default function SizesPage() {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
-  };
+
 
   return (
     <div className="space-y-4">

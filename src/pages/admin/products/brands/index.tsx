@@ -52,6 +52,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CommonPagination } from "@/components/ui/common-pagination";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
+import { formatDate } from "@/utils/formatters";
 
 export default function BrandsPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -110,13 +111,7 @@ export default function BrandsPage() {
     }
   };
 
-  const formatDate = (dateString: string) => {
-    return new Intl.DateTimeFormat("vi-VN", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-    }).format(new Date(dateString));
-  };
+
 
   return (
     <div className="space-y-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, createContext } from "react";
+import { useEffect, useState, createContext } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
@@ -16,11 +16,9 @@ import {
 
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { useUser } from "@/context/useUserContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

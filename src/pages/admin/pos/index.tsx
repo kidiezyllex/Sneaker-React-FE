@@ -69,6 +69,7 @@ import { Input } from "@/components/ui/input";
 import { useAccounts } from "@/hooks/account";
 import { useVouchers, useValidateVoucher } from "@/hooks/voucher";
 import { useCreatePOSOrder } from "@/hooks/order";
+import { formatCurrency } from "@/utils/formatters";
 import POSRightSection from "./components/POSRightSection";
 import InvoiceDialog from "./components/InvoiceDialog";
 
@@ -830,13 +831,7 @@ export default function POSPage() {
     addItemToCorrectCart(selectedProduct, selectedApiVariant, true);
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -966,7 +961,7 @@ export default function POSPage() {
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
-                <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
+                <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}>
                   Dashboard
                 </Link>
               </BreadcrumbItem>

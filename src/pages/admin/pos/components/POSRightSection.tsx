@@ -29,6 +29,7 @@ import { cn } from "@/lib/utils";
 import { POSCartItem } from "@/stores/usePOSCartStore";
 import { PendingCart } from "@/stores/usePendingCartsStore";
 import { Loader2 } from "lucide-react";
+import { formatCurrency } from "@/utils/formatters";
 
 interface POSRightSectionProps {
   cartItems: POSCartItem[];
@@ -59,13 +60,7 @@ interface POSRightSectionProps {
   pendingCarts: PendingCart[];
 }
 
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-    maximumFractionDigits: 0,
-  }).format(amount);
-};
+
 
 export default function POSRightSection({
   cartItems,

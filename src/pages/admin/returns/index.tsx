@@ -62,18 +62,7 @@ import {
   mdiPencil,
 } from "@mdi/js";
 import { CommonPagination } from "@/components/ui/common-pagination";
-
-const formatCurrency = (amount: number) => {
-  return new Intl.NumberFormat("vi-VN", {
-    style: "currency",
-    currency: "VND",
-    maximumFractionDigits: 0,
-  }).format(amount);
-};
-
-const formatDate = (dateString: string) => {
-  return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-};
+import { formatCurrency, formatDateTime } from "@/utils/formatters";
 
 const getReturnStatusBadge = (status: string) => {
   switch (status) {
@@ -251,7 +240,7 @@ export default function ReturnsPage() {
           returnItem.code,
           returnItem.customer.fullName,
           returnItem.originalOrder.code,
-          formatDate(returnItem.createdAt),
+          formatDateTime(returnItem.createdAt),
           returnItem.totalRefund,
           returnItem.status,
         ].join(",")
@@ -277,7 +266,7 @@ export default function ReturnsPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}>
               Dashboard
             </Link>
           </BreadcrumbItem>
@@ -520,7 +509,7 @@ export default function ReturnsPage() {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-sm text-slate-600">
-                          {formatDate(returnItem.createdAt)}
+                          {formatDateTime(returnItem.createdAt)}
                         </TableCell>
                         <TableCell className="font-bold text-slate-900">
                           {formatCurrency(returnItem.totalRefund)}

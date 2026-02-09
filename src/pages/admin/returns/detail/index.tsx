@@ -23,8 +23,7 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
+import { formatDateTime, formatCurrency } from "@/utils/formatters";
 import { useReturnDetail, useUpdateReturn, useUpdateReturnStatus } from "@/hooks/return";
 import { IReturnUpdate } from "@/interface/request/return";
 import { toast } from "react-toastify";
@@ -117,17 +116,7 @@ export default function AdminReturnDetailPage() {
         }
     }, [returnData]);
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-            maximumFractionDigits: 0,
-        }).format(amount);
-    };
 
-    const formatDate = (dateString: string) => {
-        return format(new Date(dateString), "dd/MM/yyyy HH:mm", { locale: vi });
-    };
 
     const getStatusBadge = (status: string) => {
         switch (status) {
@@ -275,13 +264,13 @@ export default function AdminReturnDetailPage() {
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">Dashboard</Link>
+                            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}>Dashboard</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild>
-                            <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'} className="!text-white/80 hover:!text-white">Quản lý trả hàng</Link>
+                            <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'}>Quản lý trả hàng</Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
@@ -325,7 +314,7 @@ export default function AdminReturnDetailPage() {
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center py-1">
                                             <span className="text-sm text-maintext">Ngày tạo hệ thống</span>
-                                            <span className="text-sm font-semibold text-slate-900">{formatDate(returnInfo.createdAt)}</span>
+                                            <span className="text-sm font-semibold text-slate-900">{formatDateTime(returnInfo.createdAt)}</span>
                                         </div>
                                         <div className="flex justify-between items-center py-1">
                                             <span className="text-sm text-maintext">Mã đơn hàng gốc</span>

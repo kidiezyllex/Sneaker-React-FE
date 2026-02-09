@@ -32,6 +32,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { formatCurrency, formatDate } from "@/utils/formatters";
 import { useCreateReturn } from "@/hooks/return";
 import { IReturnCreate } from "@/interface/request/return";
 import { toast } from "react-toastify";
@@ -172,17 +173,7 @@ export default function CreateReturnPage() {
     }
   }, [selectedCustomer]);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("vi-VN");
-  };
 
   const handleCustomerSelect = (customer: Customer) => {
     setSelectedCustomer(customer);
@@ -300,13 +291,13 @@ export default function CreateReturnPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'} className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/pos' : '/admin/statistics'}>
               Dashboard
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'} className="!text-white/80 hover:!text-white">
+            <Link to={location.pathname.startsWith('/staff') ? '/staff/returns' : '/admin/returns'}>
               Quản lý trả hàng
             </Link>
           </BreadcrumbItem>
