@@ -45,7 +45,6 @@ const OrdersPage = React.lazy(() => import("@/pages/orders"));
 const OrderDetailPage = React.lazy(() => import("@/pages/orders/detail"));
 const ReturnsPage = React.lazy(() => import("@/pages/returns"));
 const CheckoutShippingPage = React.lazy(() => import("@/pages/checkout"));
-const CheckoutSuccessPage = React.lazy(() => import("@/pages/checkout/success"));
 const PaymentResultPage = React.lazy(() => import("@/pages/payment/PaymentResultPage"));
 
 // Auth
@@ -105,7 +104,6 @@ export const router = createBrowserRouter([
                     { path: "orders/:id", element: load(OrderDetailPage) },
                     { path: "returns", element: load(ReturnsPage) },
                     { path: "checkout/shipping", element: load(CheckoutShippingPage) },
-                    { path: "checkout/success", element: load(CheckoutSuccessPage) },
                     { path: "payment-result", element: load(PaymentResultPage) },
                 ],
             },

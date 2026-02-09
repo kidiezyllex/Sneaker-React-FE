@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { formatDate } from "@/lib/utils";
 import { formatPrice } from "@/utils/formatters";
 import { IReturn } from "@/interface/response/return";
@@ -45,8 +46,33 @@ const ReturnsTab = () => {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full w-10 h-10  border-t-2 border-b-2 border-primary"></div>
+            <div className="space-y-4">
+              <div className="border rounded-md">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead><Skeleton className="h-4 w-20" /></TableHead>
+                      <TableHead><Skeleton className="h-4 w-20" /></TableHead>
+                      <TableHead><Skeleton className="h-4 w-20" /></TableHead>
+                      <TableHead><Skeleton className="h-4 w-20" /></TableHead>
+                      <TableHead className="text-right"><Skeleton className="h-4 w-20 ml-auto" /></TableHead>
+                      <TableHead><Skeleton className="h-4 w-20" /></TableHead>
+                      <TableHead className="text-center"><Skeleton className="h-4 w-20 mx-auto" /></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[...Array(5)].map((_, i) => (
+                      <TableRow key={i}>
+                        {[...Array(7)].map((_, j) => (
+                          <TableCell key={j}>
+                            <Skeleton className="h-10 w-full" />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           ) : isError ? (
             <div className="py-8 text-center">
@@ -62,8 +88,8 @@ const ReturnsTab = () => {
               </p>
             </div>
           ) : (
-            <div>
-              <Table>
+            <div className="overflow-x-auto">
+              <Table className="min-w-[1000px]">
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[120px] px-3 py-2">
@@ -83,13 +109,6 @@ const ReturnsTab = () => {
                 </TableHeader>
                 <TableBody>
                   {returnsData.data.content.map((returnItem: IReturn) => {
-                    let returnItems: any[] = [];
-                    try {
-                      returnItems = JSON.parse(returnItem.items);
-                    } catch (e) {
-                      console.error("Error parsing return items:", e);
-                    }
-
                     return (
                       <TableRow key={returnItem.id}>
                         <TableCell className="font-medium px-3 py-2">
@@ -102,19 +121,45 @@ const ReturnsTab = () => {
                           {returnItem.originalOrder.code}
                         </TableCell>
                         <TableCell className="px-3 py-2">
-                          <div className="flex flex-col gap-1">
-                            {returnItems
-                              .slice(0, 2)
-                              .map((item: any, index: number) => (
-                                <div key={index} className="text-sm">
-                                  ID Biến thể: {item.variantId} x{item.quantity}
+                          <div className="flex gap-1 flex-wrap">
+                            {(() => {
+                              const returnItemsList = typeof returnItem.items === 'string'
+                                ? (() => { try { return JSON.parse(returnItem.items); } catch { return []; } })()
+                                : returnItem.items;
+
+                              return returnItemsList.slice(0, 3).map((item: any, index: number) => {
+                                const orderItem = returnItem.originalOrder.items?.find(
+                                  (oi: any) => oi.variant?.id === item.variantId
+                                );
+                                const variant = orderItem?.variant;
+                                const product = variant?.product;
+                                const imageUrl = variant?.images?.[0]?.imageUrl;
+
+                                return (
+                                  <div key={index} className="relative">
+                                    <img
+                                      src={imageUrl || "/images/white-image.png"}
+                                      alt={product?.name || "Sản phẩm"}
+                                      className="w-12 h-12 object-contain rounded border"
+                                      title={product?.name || "Sản phẩm"}
+                                    />
+                                    <span className="absolute -top-1 -right-1 bg-primary text-white text-sm rounded-full w-5 h-5 flex items-center justify-center">
+                                      {item.quantity}
+                                    </span>
+                                  </div>
+                                );
+                              });
+                            })()}
+                            {(() => {
+                              const returnItemsList = typeof returnItem.items === 'string'
+                                ? (() => { try { return JSON.parse(returnItem.items); } catch { return []; } })()
+                                : returnItem.items;
+                              return returnItemsList.length > 3 && (
+                                <div className="w-12 h-12 bg-muted rounded border flex items-center justify-center text-sm text-gray-600">
+                                  +{returnItemsList.length - 3}
                                 </div>
-                              ))}
-                            {returnItems.length > 2 && (
-                              <div className="text-sm text-gray-600">
-                                +{returnItems.length - 2} sản phẩm khác
-                              </div>
-                            )}
+                              );
+                            })()}
                           </div>
                         </TableCell>
                         <TableCell className="text-right font-medium px-3 py-2">

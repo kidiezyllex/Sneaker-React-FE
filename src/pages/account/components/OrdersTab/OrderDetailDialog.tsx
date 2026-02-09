@@ -55,6 +55,19 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
 }) => {
   const { data: orderData, isLoading, isError } = useOrderDetail(orderId || "");
 
+  const getPaymentMethodVariant = (method: string): "default" | "secondary" | "outline" | "success" | "warning" => {
+    switch (method) {
+      case "VNPAY":
+        return "success";
+      case "BANK_TRANSFER":
+        return "warning";
+      case "COD":
+        return "secondary";
+      default:
+        return "outline";
+    }
+  };
+
   const getShippingProgress = (orderStatus: string, createdAt: string) => {
     const orderDate = new Date(createdAt);
 
@@ -287,8 +300,8 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
-                    <div className="flex items-start">
-                      <span className="text-gray-600 w-32">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 w-32 font-semibold">
                         Người nhận:
                       </span>
                       <span className="font-medium">
@@ -297,8 +310,8 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                           "Chưa cập nhật"}
                       </span>
                     </div>
-                    <div className="flex items-start">
-                      <span className="text-gray-600 w-32">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 w-32 font-semibold">
                         Số điện thoại:
                       </span>
                       <span>
@@ -307,11 +320,11 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                           "Chưa cập nhật"}
                       </span>
                     </div>
-                    <div className="flex items-start">
-                      <span className="text-gray-600 w-32">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 w-32 font-semibold">
                         Địa chỉ:
                       </span>
-                      <span>
+                      <span className="text-end">
                         {(orderData.data as any).shippingSpecificAddress ||
                           "Chưa cập nhật địa chỉ giao hàng"}
                       </span>
@@ -333,27 +346,25 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
-                    <div className="flex items-start">
-                      <span className="text-gray-600 w-32">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 w-32 font-semibold">
                         Phương thức:
                       </span>
                       <div className="flex items-center">
-                        <Icon
-                          path={
+                        <Badge
+                          variant={getPaymentMethodVariant(orderData.data.paymentMethod)}
+                          icon={
                             orderData.data.paymentMethod === "COD"
                               ? mdiCashMultiple
                               : mdiCreditCardOutline
                           }
-                          size={0.8}
-                          className="mr-2 text-primary"
-                        />
-                        <span>
+                        >
                           {getPaymentMethodName(orderData.data.paymentMethod)}
-                        </span>
+                        </Badge>
                       </div>
                     </div>
-                    <div className="flex items-start">
-                      <span className="text-gray-600 w-32">
+                    <div className="flex items-center justify-between">
+                      <span className="text-gray-600 w-32 font-semibold">
                         Trạng thái:
                       </span>
                       <span>
@@ -458,7 +469,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
 
                   <div className="mt-6 space-y-4 border-t pt-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Tạm tính:</span>
+                      <span className="text-gray-600 font-semibold text-sm">Tạm tính:</span>
                       <span>
                         {formatPrice(
                           parseFloat(orderData.data.subTotal.toString())
@@ -467,7 +478,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                     </div>
                     {parseFloat(orderData.data.discount.toString()) > 0 && (
                       <div className="flex justify-between items-center text-green-600">
-                        <span>Giảm giá:</span>
+                        <span className="font-semibold text-sm">Giảm giá:</span>
                         <span>
                           -
                           {formatPrice(
@@ -477,7 +488,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </div>
                     )}
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600">
+                      <span className="text-gray-600 font-semibold text-sm">
                         Phí vận chuyển:
                       </span>
                       <span>
@@ -488,8 +499,8 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                         )}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center text-lg font-semibold border-t pt-3">
-                      <span>Tổng tiền:</span>
+                    <div className="flex justify-between items-center text-base font-semibold border-t pt-3">
+                      <span className="text-gray-600 text-sm">Tổng tiền:</span>
                       <span className="text-primary">
                         {formatPrice(
                           parseFloat(orderData.data.total.toString())

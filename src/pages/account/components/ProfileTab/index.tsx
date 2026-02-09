@@ -12,6 +12,7 @@ import {
   mdiCardAccountDetailsOutline,
   mdiClose,
   mdiContentSaveOutline,
+  mdiRefresh,
 } from "@mdi/js";
 import { format } from "date-fns";
 import { useUser } from "@/context/useUserContext";
@@ -37,9 +38,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ProfileTab = () => {
-  const { profile } = useUser();
+  const { profile, isLoadingProfile } = useUser();
   const userData = profile?.data;
   const { showToast } = useToast();
   const updateProfileMutation = useUpdateUserProfile();
@@ -139,6 +141,62 @@ const ProfileTab = () => {
     );
   };
 
+  if (isLoadingProfile) {
+    return (
+      <Card className="border-none shadow-none bg-transparent">
+        <CardHeader className="px-0 pt-0">
+          <CardTitle className="flex items-center gap-2">
+            <Skeleton className="h-8 w-48" />
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 bg-white">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+            <div className="md:col-span-4 space-y-4">
+              <Card>
+                <CardContent className="pt-4 flex flex-col items-center space-y-4">
+                  <Skeleton className="h-32 w-32 rounded-full" />
+                  <Skeleton className="h-6 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <div className="flex gap-2">
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-6 w-16" />
+                  </div>
+                  <Skeleton className="h-10 w-full" />
+                </CardContent>
+              </Card>
+            </div>
+            <div className="md:col-span-8 space-y-4">
+              <Card>
+                <CardHeader>
+                  <Skeleton className="h-6 w-32" />
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                  <Skeleton className="h-10 w-full" />
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader>
+                  <Skeleton className="h-6 w-32" />
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <Skeleton className="h-10 w-full" />
+                    <Skeleton className="h-10 w-full" />
+                  </div>
+                  <Skeleton className="h-10 w-full" />
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="border-none shadow-none bg-transparent">
       <CardHeader className="px-0 pt-0">
@@ -191,7 +249,7 @@ const ProfileTab = () => {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="w-full gap-2"
+                        className="w-full"
                         type="button"
                       >
                         <Icon path={mdiCamera} size={0.8} />
@@ -199,7 +257,7 @@ const ProfileTab = () => {
                       </Button>
                     </div>
 
-                    <div className="mt-8 pt-4 border-t space-y-4">
+                    <div className="mt-8 pt-4 border-t space-y-4  text-gray-600">
                       <div className="flex justify-between items-center text-sm">
                         <span className="font-semibold flex items-center gap-2">
                           <Icon path={mdiInformationOutline} size={0.8} />
@@ -229,11 +287,11 @@ const ProfileTab = () => {
               <div className="md:col-span-8 space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-primary">
+                    <CardTitle className="text-primary text-base">
                       Thông tin cơ bản
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
+                  <CardContent className="space-y-4 text-gray-600">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -293,12 +351,12 @@ const ProfileTab = () => {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-primary">
+                    <CardTitle className="text-primary text-base">
                       Chi tiết cá nhân
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <CardContent className="space-y-4 text-gray-600">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600">
                       <FormField
                         control={form.control}
                         name="gender"
@@ -370,18 +428,16 @@ const ProfileTab = () => {
 
                 <div className="flex justify-end gap-3 pt-2">
                   <Button
-                    variant="ghost"
+                    variant="outline"
                     type="button"
                     onClick={() => form.reset()}
-                    className="gap-2"
                   >
-                    <Icon path={mdiClose} size={0.8} />
+                    <Icon path={mdiRefresh} size={0.8} />
                     Đặt lại
                   </Button>
                   <Button
                     type="submit"
                     disabled={updateProfileMutation.isPending}
-                    className="gap-2 px-8 shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95"
                   >
                     {updateProfileMutation.isPending ? (
                       <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />

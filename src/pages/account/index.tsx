@@ -172,8 +172,8 @@ export default function GeneralManagementPage() {
                       <Link
                         to={`#account-tabs?tab=${tab.value}`}
                         data-value={tab.value}
-                        className={`flex items-center justify-between px-4 py-3 hover:bg-muted ${activeTab === tab.value
-                          ? "bg-muted text-primary font-medium"
+                        className={`flex items-center justify-between px-4 py-3 hover:bg-green-50 ${activeTab === tab.value
+                          ? "bg-green-50 text-primary font-medium"
                           : ""
                           }`}
                         onClick={() => {

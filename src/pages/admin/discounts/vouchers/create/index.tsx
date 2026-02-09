@@ -26,7 +26,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiLoading } from "@mdi/js";
+import { mdiArrowLeft, mdiLoading, mdiRefresh } from "@mdi/js";
 import {
   Select,
   SelectContent,
@@ -512,6 +512,7 @@ export default function CreateVoucherPage() {
                 onClick={() => setVoucher(initialVoucher)}
                 disabled={createVoucher.isPending}
               >
+                <Icon path={mdiRefresh} size={0.8} />
                 Đặt lại bộ lọc
               </Button>
               <Button type="submit" disabled={createVoucher.isPending}>

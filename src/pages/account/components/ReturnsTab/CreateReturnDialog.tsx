@@ -35,7 +35,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
   const { data: returnableOrdersData } = useReturnableOrders();
   const { profile } = useUser();
   const userId = profile?.data?.id;
-  const { data: ordersData } = useOrdersByUser(userId || "");
+  const { data: ordersData } = useOrdersByUser((userId || "").toString());
 
   const [selectedItems, setSelectedItems] = useState<
     Array<{
@@ -49,10 +49,10 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
   >([]);
   const [reason, setReason] = useState("");
 
-  const returnableOrder = returnableOrdersData?.data?.orders?.find(
-    (o) => o.id === orderId
+  const returnableOrder = returnableOrdersData?.data?.content?.find(
+    (o) => o.id.toString() === orderId
   );
-  const displayOrder = ordersData?.data?.orders?.find((o) => o.id === orderId);
+  const displayOrder = ordersData?.data?.orders?.find((o) => o.id.toString() === orderId);
   const order = displayOrder || returnableOrder;
 
   const handleAddItem = (item: any) => {

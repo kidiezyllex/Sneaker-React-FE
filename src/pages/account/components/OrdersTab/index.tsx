@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Pagination,
   PaginationContent,
@@ -67,6 +68,19 @@ const OrdersTab = () => {
     }
   };
 
+  const getPaymentMethodVariant = (method: string): "default" | "secondary" | "outline" | "success" | "warning" => {
+    switch (method) {
+      case "VNPAY":
+        return "success";
+      case "BANK_TRANSFER":
+        return "warning";
+      case "COD":
+        return "secondary";
+      default:
+        return "outline";
+    }
+  };
+
   const isOrderReturnable = (order: IOrder): boolean => {
     const returnableStatuses = ["DA_GIAO_HANG", "HOAN_THANH"];
     if (!returnableStatuses.includes(order.orderStatus)) return false;
@@ -80,13 +94,13 @@ const OrdersTab = () => {
     return daysSinceOrder <= 7;
   };
 
-  const handleViewOrderDetails = (orderId: string) => {
-    setSelectedOrderId(orderId);
+  const handleViewOrderDetails = (orderId: string | number) => {
+    setSelectedOrderId(orderId.toString());
     setOrderDetailOpen(true);
   };
 
-  const handleCreateReturn = (orderId: string) => {
-    setCreateReturnOrderId(orderId);
+  const handleCreateReturn = (orderId: string | number) => {
+    setCreateReturnOrderId(orderId.toString());
     setCreateReturnOpen(true);
   };
 
@@ -121,8 +135,32 @@ const OrdersTab = () => {
         </CardHeader>
         <CardContent>
           {isLoading ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="animate-spin rounded-full w-10 h-10  border-t-2 border-b-2 border-primary"></div>
+            <div className="space-y-4">
+              <Skeleton className="h-10 w-full" />
+              <div className="border rounded-md">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      {[...Array(9)].map((_, i) => (
+                        <TableHead key={i}>
+                          <Skeleton className="h-4 w-16" />
+                        </TableHead>
+                      ))}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[...Array(5)].map((_, i) => (
+                      <TableRow key={i}>
+                        {[...Array(9)].map((_, j) => (
+                          <TableCell key={j}>
+                            <Skeleton className="h-10 w-full" />
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           ) : isError ? (
             <div className="py-8 text-center">
@@ -168,7 +206,7 @@ const OrdersTab = () => {
                     <TableHead className="w-[140px] px-3 py-2 whitespace-nowrap">
                       Trạng thái thanh toán
                     </TableHead>
-                    <TableHead className="w-[120px] text-center px-3 py-2 whitespace-nowrap">
+                    <TableHead className="text-center px-3 py-2 whitespace-nowrap w-fit">
                       Thao tác
                     </TableHead>
                   </TableRow>
@@ -226,7 +264,9 @@ const OrdersTab = () => {
                           <OrderStatusBadge status={order.orderStatus} />
                         </TableCell>
                         <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
-                          {getPaymentMethodName(order.paymentMethod)}
+                          <Badge variant={getPaymentMethodVariant(order.paymentMethod)}>
+                            {getPaymentMethodName(order.paymentMethod)}
+                          </Badge>
                         </TableCell>
                         <TableCell className="px-3 py-2">
                           <Badge

@@ -123,7 +123,15 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                         if (!Array.isArray(items)) return null;
 
                         return items.map((item: any, index: number) => {
-                          const variant = item.variant;
+                          const orderItems = typeof returnData.data.originalOrder !== 'string'
+                            ? returnData.data.originalOrder.items
+                            : [];
+
+                          const orderItem = orderItems?.find(
+                            (oi: any) => oi.variant?.id === item.variantId
+                          );
+
+                          const variant = item.variant || orderItem?.variant;
                           const product = variant?.product || item.product;
                           const imageUrl =
                             variant?.images?.[0]?.imageUrl ||
