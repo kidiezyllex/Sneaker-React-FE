@@ -36,14 +36,17 @@ export const ProductCard = ({
     >
       <Card className="group overflow-hidden rounded-xl hover:shadow-xl shadow-md transition-all duration-300 border-2 border-white h-full flex flex-col bg-white">
         {/* Image Section */}
-        <div className="relative bg-white rounded-t-2xl overflow-hidden border-b-2 border-b-gray-200">
+        <div className="relative bg-white rounded-t-2xl overflow-hidden border-b border-b-slate-100 group">
           <Link
             to={`/products/${product.name
               .toLowerCase()
               .replace(/\s+/g, "-")}-${product.id}`}
             className="block"
           >
-            <div className="aspect-square relative flex items-center justify-center p-4">
+            <div className="aspect-square relative flex items-center justify-center p-8 overflow-hidden">
+              {/* Decorative Background Pattern */}
+              <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)', backgroundSize: '16px 16px' }}></div>
+
               <img
                 src={
                   checkImageUrl(
@@ -52,8 +55,56 @@ export const ProductCard = ({
                   ) || "/placeholder.svg"
                 }
                 alt={product.name}
-                className="object-contain w-full h-full transition-transform duration-300 group-hover:scale-105"
+                className="object-contain w-full h-full transition-all duration-700 group-hover:scale-110 z-10"
               />
+
+              {/* Luxury SVG Frame Overlay */}
+              <div className="absolute inset-0 pointer-events-none z-20 p-2">
+                <svg
+                  className="w-full h-full"
+                  viewBox="0 0 400 400"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="cardGoldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#22C55E" />
+                      <stop offset="100%" stopColor="#15803D" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Corner Accents */}
+                  <g stroke="url(#cardGoldGradient)" strokeWidth="3" strokeLinecap="round">
+                    <path d="M30 15H15V30" />
+                    <path d="M370 15H385V40" />
+                    <path d="M30 385H15V370" />
+                    <path d="M370 385H385V370" />
+                  </g>
+
+                  {/* Fine Lines */}
+                  <rect x="12" y="12" width="376" height="376" rx="12" stroke="url(#cardGoldGradient)" strokeWidth="0.5" opacity="0.15" />
+
+                  {/* Top Decorative Seal */}
+                  <g transform="translate(200, 15)">
+                    <rect
+                      x="-10"
+                      y="-10"
+                      width="20"
+                      height="20"
+                      rx="2"
+                      fill="white"
+                      stroke="url(#cardGoldGradient)"
+                      strokeWidth="2"
+                      transform="rotate(45)"
+                    />
+                    <circle r="4" fill="url(#cardGoldGradient)" />
+                    <circle r="1.5" fill="white" opacity="0.8" />
+                  </g>
+
+                  {/* Small Info Dots */}
+                  <circle cx="200" cy="385" r="2" fill="url(#cardGoldGradient)" />
+                </svg>
+              </div>
             </div>
           </Link>
 

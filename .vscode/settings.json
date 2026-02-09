@@ -4,6 +4,8 @@
         "source.fixAll.eslint": "explicit"
     },
     "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
     "eslint.validate": [
         "javascript",
         "javascriptreact",

@@ -54,6 +54,7 @@ import POSRightSection from "./components/POSRightSection";
 import InvoiceDialog from "./components/InvoiceDialog";
 import ProductTableView from "./components/ProductTableView";
 import ProductGridView from "./components/ProductGridView";
+import ProductDetailDialog from "./components/ProductDetailDialog";
 import { Button } from "@/components/ui/button";
 
 const CardSkeleton = () => (
@@ -275,6 +276,10 @@ export default function POSPage() {
   const [cashReceived, setCashReceived] = useState<number | string>(0);
   const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false);
   const [createdOrder, setCreatedOrder] = useState<any>(null);
+
+  // State for Product Detail Dialog
+  const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
+  const [selectedProductForDetail, setSelectedProductForDetail] = useState<any>(null);
 
   const { data: usersData } = useAccounts({ limit: 100 });
   const validateVoucherMutation = useValidateVoucher();
@@ -676,7 +681,8 @@ export default function POSPage() {
   const addItemToCorrectCart = (
     product: any,
     variant: any,
-    isAlreadyConverted = false
+    isAlreadyConverted = false,
+    quantityToAdd = 1
   ) => {
     const convertedProduct = isAlreadyConverted
       ? product
@@ -727,7 +733,7 @@ export default function POSPage() {
       originalPrice: originalPrice,
       discountPercent: discountPercent,
       hasDiscount: hasDiscount,
-      quantity: 1,
+      quantity: quantityToAdd,
       image: getVariantImageUrl(convertedVariant) || "/placeholder.svg",
       stock: convertedVariant.stock,
       actualColorId: convertedVariant.colorId?.id || "",
@@ -741,8 +747,8 @@ export default function POSPage() {
         "Giỏ hàng";
 
       if (existingItem) {
-        if (existingItem.quantity < convertedVariant.stock) {
-          updateItemQuantityInPendingCart(activeCartId, cartItemId, 1);
+        if (existingItem.quantity + quantityToAdd <= convertedVariant.stock) {
+          updateItemQuantityInPendingCart(activeCartId, cartItemId, quantityToAdd);
           toast.success(
             <CustomToast
               title={`Đã cập nhật số lượng sản phẩm trong ${activeCartName}.`}
@@ -768,8 +774,8 @@ export default function POSPage() {
     } else {
       const existingItem = mainCartItems.find((item) => item.id === cartItemId);
       if (existingItem) {
-        if (existingItem.quantity < convertedVariant.stock) {
-          updateQuantityStore(cartItemId, 1);
+        if (existingItem.quantity + quantityToAdd <= convertedVariant.stock) {
+          updateQuantityStore(cartItemId, quantityToAdd);
           toast.success(
             <CustomToast title="Đã cập nhật số lượng sản phẩm." />,
             { icon: false }
@@ -911,6 +917,11 @@ export default function POSPage() {
         { icon: false }
       );
     }
+  };
+
+  const handleOpenDetailDialog = (product: any) => {
+    setSelectedProductForDetail(product);
+    setIsDetailDialogOpen(true);
   };
 
   return (
@@ -1160,6 +1171,7 @@ export default function POSPage() {
                     <ProductGridView
                       processedProducts={processedProducts}
                       handleProductSelect={handleProductSelect}
+                      handleOpenDetailDialog={handleOpenDetailDialog}
                       getBrandName={getBrandName}
                       getVariantImageUrl={getVariantImageUrl}
                     />
@@ -1169,6 +1181,7 @@ export default function POSPage() {
                     <ProductTableView
                       processedProducts={processedProducts}
                       handleProductSelect={handleProductSelect}
+                      handleOpenDetailDialog={handleOpenDetailDialog}
                       addItemToCorrectCart={addItemToCorrectCart}
                       getBrandName={getBrandName}
                       getVariantImageUrl={getVariantImageUrl}
@@ -1234,6 +1247,13 @@ export default function POSPage() {
           order={createdOrder}
         />
       )}
+      {/* Dialog chi tiết sản phẩm POS */}
+      <ProductDetailDialog
+        isOpen={isDetailDialogOpen}
+        onClose={() => setIsDetailDialogOpen(false)}
+        product={selectedProductForDetail}
+        addItemToCorrectCart={addItemToCorrectCart}
+      />
     </div>
   );
 }

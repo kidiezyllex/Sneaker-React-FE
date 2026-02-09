@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
-import { mdiEye } from "@mdi/js";
+import { mdiCartPlus } from "@mdi/js";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { checkImageUrl } from "@/lib/utils";
@@ -9,6 +9,7 @@ import { formatCurrency } from "@/utils/formatters";
 interface ProductGridViewProps {
     processedProducts: any[];
     handleProductSelect: (product: any) => void;
+    handleOpenDetailDialog: (product: any) => void;
     getBrandName: (brand: any) => string;
     getVariantImageUrl: (variant: any) => string;
 }
@@ -16,6 +17,7 @@ interface ProductGridViewProps {
 const ProductGridView = ({
     processedProducts,
     handleProductSelect,
+    handleOpenDetailDialog,
     getBrandName,
     getVariantImageUrl,
 }: ProductGridViewProps) => {
@@ -51,6 +53,7 @@ const ProductGridView = ({
                                 )}
                                 alt={product.name}
                                 className="object-contain transition-transform duration-300 group-hover:scale-105"
+                                style={{ width: '100%', height: '100%' }}
                             />
                             <div className="absolute top-2 right-2 flex flex-col gap-1">
                                 {(product as any).hasDiscount && (
@@ -117,14 +120,14 @@ const ProductGridView = ({
                             </div>
                             <Button
                                 variant="outline"
-                                className="w-full mt-3 flex items-center justify-center gap-2"
-                                onClick={() => window.open(`/products/${product.name.toLowerCase().replace(/\s+/g, "-")}-${product.id}`, "_blank")}
+                                className="w-full mt-3"
                                 disabled={product.variants.every(
                                     (v: any) => v.stock === 0
                                 )}
+                                onClick={() => handleOpenDetailDialog(product)}
                             >
-                                <Icon path={mdiEye} size={0.8} />
-                                Xem chi tiết
+                                <Icon path={mdiCartPlus} size={0.8} />
+                                Thêm vào giỏ hàng
                             </Button>
                         </div>
                     </motion.div>

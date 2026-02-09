@@ -1,8 +1,6 @@
 "use client";
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
@@ -10,9 +8,7 @@ import {
   mdiCashMultiple,
   mdiPackageVariantClosed,
   mdiAccountGroup,
-  mdiTrendingUp,
-  mdiChartBar,
-  mdiEye,
+  mdiTrendingUp, mdiEye
 } from "@mdi/js";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -73,6 +69,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+
+import StatCard from "./components/StatCard";
 
 const COLORS = [
   "#0088FE",
@@ -147,58 +145,6 @@ export default function StatisticsPage() {
     setIsDetailModalOpen(true);
   };
 
-  interface StatCardProps {
-    title: string;
-    value: string | number;
-    icon: string;
-    iconColor: string;
-    bgColor: string;
-    change?: number;
-  }
-
-  const StatCard = ({
-    title,
-    value,
-    icon,
-    iconColor,
-    bgColor,
-    change,
-  }: StatCardProps) => {
-    return (
-      <Card className="h-full">
-        <CardContent className="p-4">
-          <div className="flex justify-between items-start">
-            <div>
-              <p className="text-base text-maintext">{title}</p>
-              <h3 className="text-2xl font-semibold mt-2 text-maintext">
-                {value}
-              </h3>
-              {typeof change === "number" && change !== 0 && (
-                <div className="flex items-center mt-2">
-                  <Icon
-                    path={mdiTrendingUp}
-                    size={0.8}
-                    className={change >= 0 ? "text-primary" : "text-red-600"}
-                  />
-                  <span
-                    className={`text-sm ml-1 ${change >= 0 ? "text-primary" : "text-red-600"
-                      }`}
-                  >
-                    {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}
-                  </span>
-                </div>
-              )}
-            </div>
-            <div
-              className={`${bgColor} w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0`}
-            >
-              <Icon path={icon} size={0.8} className={iconColor} />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    );
-  };
 
   const currentMonthData = statisticsData?.data || {
     totalOrders: 0,
@@ -294,13 +240,6 @@ export default function StatisticsPage() {
                 icon={mdiAccountGroup}
                 iconColor="text-amber-600"
                 bgColor="bg-amber-100"
-              />
-              <StatCard
-                title="Giá trị TB đơn"
-                value={formatCurrency(currentMonthData?.averageOrderValue || 0)}
-                icon={mdiChartBar}
-                iconColor="text-blue-500"
-                bgColor="bg-blue-50"
               />
             </div>
           )}

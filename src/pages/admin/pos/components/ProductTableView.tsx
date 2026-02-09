@@ -16,14 +16,13 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { toast } from "react-toastify";
-import { CustomToast } from "@/components/ui/custom-toast";
 import { checkImageUrl } from "@/lib/utils";
 import { formatCurrency } from "@/utils/formatters";
 
 interface ProductTableViewProps {
     processedProducts: any[];
     handleProductSelect: (product: any) => void;
+    handleOpenDetailDialog: (product: any) => void;
     addItemToCorrectCart: (product: any, variant: any, isAlreadyConverted?: boolean) => void;
     getBrandName: (brand: any) => string;
     getVariantImageUrl: (variant: any) => string;
@@ -32,6 +31,7 @@ interface ProductTableViewProps {
 const ProductTableView = ({
     processedProducts,
     handleProductSelect,
+    handleOpenDetailDialog,
     addItemToCorrectCart,
     getBrandName,
     getVariantImageUrl,
@@ -222,27 +222,7 @@ const ProductTableView = ({
                                                         disabled={product.variants.every(
                                                             (v: any) => v.stock === 0
                                                         )}
-                                                        onClick={() => {
-                                                            const firstAvailableVariant =
-                                                                product.variants.find(
-                                                                    (v: any) => v.stock > 0
-                                                                );
-                                                            if (firstAvailableVariant) {
-                                                                addItemToCorrectCart(
-                                                                    product,
-                                                                    firstAvailableVariant,
-                                                                    false
-                                                                );
-                                                            } else {
-                                                                toast.warn(
-                                                                    <CustomToast
-                                                                        title="Sản phẩm này đã hết hàng."
-                                                                        type="warning"
-                                                                    />,
-                                                                    { icon: false }
-                                                                );
-                                                            }
-                                                        }}
+                                                        onClick={() => handleOpenDetailDialog(product)}
                                                     >
                                                         <Icon path={mdiCartPlus} size={0.8} />
                                                     </Button>
