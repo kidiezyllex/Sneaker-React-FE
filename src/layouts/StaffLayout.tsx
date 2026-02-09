@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import SidebarLayout from '@/components/admin/Sidebar'
-import { staffMenuItems } from '@/components/admin/Sidebar/staffMenuItems'
+import SidebarLayout from './SidebarLayout'
+import { staffMenuItems } from '@/constants/staffMenuItems'
 
 const StaffLayout: React.FC = () => {
     return (

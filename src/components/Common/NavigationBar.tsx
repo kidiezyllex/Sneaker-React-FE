@@ -6,7 +6,6 @@ import { mdiCart, mdiRobotHappyOutline } from "@mdi/js";
 import { Button } from "@/components/ui/button";
 import { CartSheet } from "@/pages/products/components/CartSheet";
 import { useUser } from "@/context/useUserContext";
-import AccountDropdown from "./AccountDropdown";
 import { useCartStore } from "@/stores/useCartStore";
 import { useChatStore } from "@/stores/useChatStore";
 import {
@@ -15,6 +14,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import AccountDropdown from "@/components/Common/AccountDropdown";
 
 const tabs = [
   { text: "Trang chủ", href: "/" },
