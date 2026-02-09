@@ -1,0 +1,59 @@
+DANH SÁCH ĐƯỜNG DẪN (ROUTES) TRONG PROJECT SNEAKER STORE
+
+--- CLIENT (KHÁCH HÀNG) ---
+/                               : Trang chủ
+/about-us                      : Về chúng tôi
+/account                       : Tài khoản (Giao diện tab)
+/products                      : Danh sách sản phẩm
+/products/:slug                : Chi tiết sản phẩm
+/profile                       : Thông tin cá nhân
+/orders                        : Lịch sử đơn hàng
+/orders/:id                    : Chi tiết đơn hàng
+/returns                       : Quản lý đổi trả
+/checkout/shipping             : Thanh toán & Giao hàng
+/checkout/success              : Đặt hàng thành công
+/payment-result                : Kết quả thanh toán (VNPay)
+
+--- AUTHENTICATION ---
+/auth/login                    : Đăng nhập
+/auth/register                 : Đăng ký
+
+--- ADMIN (QUẢN TRỊ) ---
+/admin/statistics              : Thống kê doanh thu, sản phẩm
+/admin/accounts                : Quản lý tài khoản người dùng
+/admin/accounts/create         : Tạo tài khoản mới
+/admin/accounts/edit/:id       : Chỉnh sửa tài khoản
+/admin/discounts               : Quản lý giảm giá chung
+/admin/discounts/promotions     : Danh sách đợt khuyến mãi
+/admin/discounts/promotions/create : Tạo đợt khuyến mãi
+/admin/discounts/promotions/edit/:id : Sửa đợt khuyến mãi
+/admin/discounts/vouchers       : Danh sách voucher
+/admin/discounts/vouchers/create : Tạo voucher mới
+/admin/discounts/vouchers/edit/:id : Sửa voucher
+/admin/orders                  : Quản lý tất cả đơn hàng
+/admin/orders/:orderId         : Chi tiết đơn hàng admin
+/admin/orders/create           : Tạo đơn hàng mới (tài quầy/online)
+/admin/pos                     : Bán hàng tại quầy (Point of Sale)
+/admin/products                : Quản lý danh sách sản phẩm
+/admin/products/brands         : Quản lý thương hiệu
+/admin/products/categories     : Quản lý danh mục
+/admin/products/colors         : Quản lý màu sắc
+/admin/products/create         : Thêm sản phẩm mới
+/admin/products/edit/:id       : Chỉnh sửa sản phẩm
+/admin/products/materials      : Quản lý chất liệu
+/admin/products/sizes          : Quản lý kích thước
+/admin/returns                 : Quản lý yêu cầu trả hàng
+/admin/returns/create          : Tạo phiếu trả hàng mới
+/admin/returns/:id             : Chi tiết phiếu trả hàng
+
+--- STAFF (NHÂN VIÊN) ---
+/staff/pos                     : Bán hàng tại quầy
+/staff/orders                  : Xem & Xử lý đơn hàng
+/staff/orders/:orderId         : Chi tiết đơn hàng
+/staff/orders/create           : Tạo đơn hàng cho khách
+/staff/returns                 : Xử lý đổi trả
+/staff/returns/create          : Tạo phiếu trả hàng
+/staff/returns/:id             : Chi tiết phiếu trả hàng
+
+--- OTHERS ---
+*                              : Trang lỗi 404 Not Found
