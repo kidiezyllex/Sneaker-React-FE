@@ -6,12 +6,10 @@ DANH SÁCH ĐƯỜNG DẪN (ROUTES) TRONG PROJECT SNEAKER STORE
 /account                       : Tài khoản (Giao diện tab)
 /products                      : Danh sách sản phẩm
 /products/:slug                : Chi tiết sản phẩm
-/profile                       : Thông tin cá nhân
 /orders                        : Lịch sử đơn hàng
 /orders/:id                    : Chi tiết đơn hàng
 /returns                       : Quản lý đổi trả
 /checkout/shipping             : Thanh toán & Giao hàng
-/checkout/success              : Đặt hàng thành công
 /payment-result                : Kết quả thanh toán (VNPay)
 
 --- AUTHENTICATION ---
