@@ -189,7 +189,7 @@ export function EditColorDialog({ colorId, isOpen, onClose }: EditColorDialogPro
                 title={`Chỉnh sửa màu sắc: ${colorData.data.name}`}
                 icon={mdiPencil}
             />
-            <form onSubmit={handleSubmit} className="space-y-6 pt-2 pb-4 px-4">
+            <form onSubmit={handleSubmit} className="space-y-4 pt-2 pb-4 px-4">
                 <div className="space-y-2">
                     <FormLabel htmlFor="name">Tên màu sắc</FormLabel>
                     <Input

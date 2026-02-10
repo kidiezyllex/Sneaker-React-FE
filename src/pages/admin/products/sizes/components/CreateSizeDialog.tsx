@@ -117,7 +117,7 @@ export function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
     return (
         <DialogContent size="md">
             <DialogHeader title="Thêm kích cỡ mới" icon={mdiPlus} />
-            <form onSubmit={handleSubmit} className="space-y-6 pt-2 pb-4 px-4">
+            <form onSubmit={handleSubmit} className="space-y-4 pt-2 pb-4 px-4">
                 <div className="space-y-2">
                     <FormLabel htmlFor="create-size">Kích cỡ</FormLabel>
                     <Select

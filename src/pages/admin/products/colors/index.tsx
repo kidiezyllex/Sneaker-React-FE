@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,8 +10,7 @@ import {
   mdiMagnify,
   mdiPlus,
   mdiPencilCircle,
-  mdiDeleteCircle,
-  mdiRefresh,
+  mdiDeleteCircle
 } from "@mdi/js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,11 +25,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Table,
@@ -48,8 +45,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { FormLabel } from "@/components/ui/form";
-import namer from "color-namer";
 import {
   Dialog,
   DialogTrigger,
@@ -120,9 +115,6 @@ export default function ColorsPage() {
       toast.error("Xóa màu sắc thất bại");
     }
   };
-
-
-
   return (
     <div className="space-y-4">
       <Breadcrumb>
@@ -427,4 +419,3 @@ export default function ColorsPage() {
     </div>
   );
 }
-

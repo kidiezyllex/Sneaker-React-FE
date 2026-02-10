@@ -4,15 +4,12 @@ import {
     mdiCartPlus,
     mdiCheck,
     mdiClose,
-    mdiPalette,
-    mdiRuler
+    mdiPalette, mdiRuler
 } from "@mdi/js";
 import {
     Dialog,
     DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
+    DialogHeader, DialogFooter
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +23,7 @@ interface ProductDetailDialogProps {
     onClose: () => void;
     product: any;
     addItemToCorrectCart: (product: any, variant: any, isAlreadyConverted?: boolean, quantity?: number) => void;
+    activeCartName?: string;
 }
 
 const ProductDetailDialog = ({
@@ -33,6 +31,7 @@ const ProductDetailDialog = ({
     onClose,
     product,
     addItemToCorrectCart,
+    activeCartName = "Checkout",
 }: ProductDetailDialogProps) => {
     const [selectedColor, setSelectedColor] = useState<string>("");
     const [selectedSize, setSelectedSize] = useState<string>("");
@@ -111,138 +110,158 @@ const ProductDetailDialog = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                    <div className="flex justify-between items-center">
-                        <DialogTitle className="text-2xl font-bold text-primary">Chi tiết sản phẩm POS</DialogTitle>
-                    </div>
-                </DialogHeader>
+            <DialogContent size="md">
+                <DialogHeader title="Chi tiết sản phẩm POS" icon={mdiCartPlus} />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
-                    {/* Left: Product Image */}
-                    <div className="space-y-4">
-                        <div className="aspect-square bg-gray-50 rounded-xl border overflow-hidden flex items-center justify-center relative">
-                            <img
-                                src={checkImageUrl(selectedVariant?.images?.[0]?.imageUrl || selectedVariant?.images?.[0] || product.variants?.[0]?.images?.[0]?.imageUrl)}
-                                alt={product.name}
-                                className="object-contain w-full h-full p-4"
-                            />
-                            {product.hasDiscount && (
-                                <Badge variant="success" className="absolute top-4 right-4 text-lg px-3 py-1">
-                                    -{product.discountPercent}%
-                                </Badge>
-                            )}
-                        </div>
-                    </div>
+                <div className="space-y-4 py-2 px-4">
+                    {/* content start */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Left Column: Image & Basic Info */}
+                        <div className="space-y-4">
+                            <div className="relative group aspect-square bg-slate-50 rounded-2xl border border-slate-100 overflow-hidden flex items-center justify-center transition-all duration-300 hover:shadow-inner">
+                                <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, currentColor 1px, transparent 0)', backgroundSize: '16px 16px' }}></div>
 
-                    {/* Right: Product Selection */}
-                    <div className="space-y-6">
-                        <div>
-                            <h2 className="text-2xl font-bold text-maintext mb-1">{product.name}</h2>
-                            <p className="text-muted-foreground uppercase tracking-widest text-xs font-bold">Mã SP: {product.code}</p>
-                        </div>
+                                <img
+                                    src={checkImageUrl(selectedVariant?.images?.[0]?.imageUrl || selectedVariant?.images?.[0] || product.variants?.[0]?.images?.[0]?.imageUrl)}
+                                    alt={product.name}
+                                    className="object-contain w-full h-full p-2 transition-transform duration-500 group-hover:scale-105 z-10"
+                                />
 
-                        <div className="flex items-center gap-4">
-                            <span className="text-3xl font-bold text-primary">
-                                {formatCurrency(product.hasDiscount ? product.discountedPrice : selectedVariant?.price || 0)}
-                            </span>
-                            {product.hasDiscount && (
-                                <span className="text-xl text-muted-foreground line-through">
-                                    {formatCurrency(product.originalPrice)}
-                                </span>
-                            )}
-                        </div>
+                                {product.hasDiscount && (
+                                    <div className="absolute top-3 right-3 z-20">
+                                        <Badge variant="success" className="text-sm font-bold shadow-lg bg-[#00B207] ring-2 ring-white">
+                                            -{product.discountPercent}%
+                                        </Badge>
+                                    </div>
+                                )}
 
-                        {/* Color Selection */}
-                        <div className="space-y-3">
-                            <h3 className="font-semibold text-maintext flex items-center gap-2">
-                                <Icon path={mdiPalette} size={0.7} /> Chọn màu sắc
-                            </h3>
-                            <div className="flex flex-wrap gap-3">
-                                {colors.map((color: any) => (
-                                    <button
-                                        key={color.id}
-                                        onClick={() => handleColorSelect(color.id)}
-                                        className={`w-10 h-10 rounded-full border-2 flex items-center justify-center transition-all ${String(selectedColor) === String(color.id)
-                                            ? "border-primary ring-2 ring-primary/20 scale-110 shadow-md"
-                                            : "border-gray-200 hover:border-gray-300"
-                                            }`}
-                                        style={{ backgroundColor: color.code }}
-                                        title={color.name}
-                                    >
-                                        {String(selectedColor) === String(color.id) && (
-                                            <Icon path={mdiCheck} size={0.6} className="text-white drop-shadow-md" />
-                                        )}
-                                    </button>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Size Selection */}
-                        <div className="space-y-3">
-                            <h3 className="font-semibold text-maintext flex items-center gap-2">
-                                <Icon path={mdiRuler} size={0.7} /> Chọn kích thước
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                                {sizes?.map((size: any) => {
-                                    const variant = product.variants.find((v: any) => {
-                                        const cId = v.colorId?.id || v.color?.id;
-                                        const sId = v.sizeId?.id || v.size?.id;
-                                        return String(cId) === String(selectedColor) && String(sId) === String(size.id);
-                                    });
-                                    const isOutOfStock = !variant || variant.stock <= 0;
-
-                                    return (
-                                        <Button
-                                            key={size.id}
-                                            variant={String(selectedSize) === String(size.id) ? "default" : "outline"}
-                                            disabled={isOutOfStock}
-                                            onClick={() => setSelectedSize(size.id)}
-                                            className={`min-w-[60px] ${String(selectedSize) === String(size.id)
-                                                ? "bg-primary text-white shadow-md"
-                                                : "hover:border-primary hover:text-primary"
-                                                }`}
-                                        >
-                                            {size.value || size.name}
-                                        </Button>
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        {/* Quantity Selection */}
-                        <div className="space-y-3">
-                            <h3 className="font-semibold text-maintext flex items-center gap-2">
-                                Chọn số lượng
-                            </h3>
-                            <div className="flex items-center gap-4">
-                                <div className="flex items-center border rounded-lg overflow-hidden h-10">
-                                    <button
-                                        onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                                        className="px-4 hover:bg-gray-100 border-r"
-                                    >-</button>
-                                    <div className="px-6 font-semibold">{quantity}</div>
-                                    <button
-                                        onClick={() => setQuantity(prev => Math.min(selectedVariant?.stock || 1, prev + 1))}
-                                        className="px-4 hover:bg-gray-100 border-l"
-                                    >+</button>
+                                {/* Corner Accents Overlay (SVG) */}
+                                <div className="absolute inset-0 pointer-events-none z-20 p-2 opacity-40">
+                                    <svg className="w-full h-full" viewBox="0 0 100 100" fill="none">
+                                        <path d="M10 5H5V10" stroke="currentColor" strokeWidth="1" className="text-primary" />
+                                        <path d="M90 5H95V10" stroke="currentColor" strokeWidth="1" className="text-primary" />
+                                        <path d="M10 95H5V90" stroke="currentColor" strokeWidth="1" className="text-primary" />
+                                        <path d="M90 95H95V90" stroke="currentColor" strokeWidth="1" className="text-primary" />
+                                    </svg>
                                 </div>
-                                <span className="text-sm text-gray-500">
-                                    Kho còn: <span className="font-bold text-primary">{selectedVariant?.stock || 0}</span> sản phẩm
-                                </span>
+                            </div>
+
+                            <div className="space-y-1">
+                                <h2 className="text-xl font-bold text-primary">{product.name}</h2>
+                                <div className="flex flex-col items-start gap-2">
+                                    <Badge variant="secondary">Mã: {product.code}</Badge>
+                                    <Badge variant="success">
+                                        Giá bán:
+                                        {formatCurrency(product.hasDiscount ? product.discountedPrice : selectedVariant?.price || 0)}
+                                        {product.hasDiscount && (
+                                            formatCurrency(product.originalPrice)
+                                        )}
+                                    </Badge>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Right Column: Selection Options */}
+                        <div className="space-y-4">
+                            {/* Color Selection */}
+                            <div className="space-y-3">
+                                <h3 className="text-sm font-bold text-primary flex items-center gap-1">
+                                    <Icon path={mdiPalette} size={0.8} /> Màu sắc
+                                </h3>
+                                <div className="flex flex-wrap gap-2.5">
+                                    {colors.map((color: any) => (
+                                        <button
+                                            key={color.id}
+                                            onClick={() => handleColorSelect(color.id)}
+                                            className={`group relative w-8 h-8 rounded-full transition-all duration-300 ${String(selectedColor) === String(color.id)
+                                                ? "ring-2 ring-primary ring-offset-2 shadow-lg"
+                                                : "hover:scale-105 ring-2 ring-gray-100"
+                                                }`}
+                                            style={{ backgroundColor: color.code }}
+                                            title={color.name}
+                                        >
+                                            <div className={`absolute inset-0 rounded-full border border-black/5 ${String(selectedColor) === String(color.id) ? "opacity-100" : "opacity-0"}`}></div>
+                                            {String(selectedColor) === String(color.id) && (
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <Icon path={mdiCheck} size={0.8} className="text-white drop-shadow-md" />
+                                                </div>
+                                            )}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Size Selection */}
+                            <div className="space-y-3">
+                                <h3 className="text-sm font-bold text-primary flex items-center gap-1">
+                                    <Icon path={mdiRuler} size={0.8} /> Kích thước
+                                </h3>
+                                <div className="flex flex-wrap gap-2">
+                                    {sizes?.map((size: any) => {
+                                        const variant = product.variants.find((v: any) => {
+                                            const cId = v.colorId?.id || v.color?.id;
+                                            const sId = v.sizeId?.id || v.size?.id;
+                                            return String(cId) === String(selectedColor) && String(sId) === String(size.id);
+                                        });
+                                        const isOutOfStock = !variant || variant.stock <= 0;
+
+                                        return (
+                                            <button
+                                                key={size.id}
+                                                disabled={isOutOfStock}
+                                                onClick={() => setSelectedSize(size.id)}
+                                                className={`min-w-[48px] h-9 px-3 rounded-lg text-sm font-bold transition-all border ${String(selectedSize) === String(size.id)
+                                                    ? "bg-primary text-white border-primary shadow-md transform -translate-y-0.5"
+                                                    : isOutOfStock
+                                                        ? "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
+                                                        : "bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary"
+                                                    }`}
+                                            >
+                                                {size.value || size.name}
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            {/* Quantity Selection */}
+                            <div className="space-y-3">
+                                <h3 className="text-sm font-bold text-primary flex items-center gap-1">
+                                    <Icon path={mdiCartPlus} size={0.8} /> Số lượng
+                                </h3>
+                                <div className="space-y-1">
+                                    <p className="text-xs text-muted-foreground">Kho còn: <span className="text-primary font-black">{selectedVariant?.stock || 0}</span></p>
+                                </div>
+
+                                <div className="flex items-center bg-white rounded-xl border border-primary/60 w-fit h-10">
+                                    <button
+                                        className="min-w-10"
+                                        onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                                    >
+                                        <span className="text-primary text-lg font-bold">−</span>
+                                    </button>
+                                    <div className="w-8 text-center font-bold text-black">{quantity}</div>
+                                    <button
+                                        className="min-w-10"
+                                        onClick={() => setQuantity(prev => Math.min(selectedVariant?.stock || 1, prev + 1))}
+                                    >
+                                        <span className="text-primary text-lg font-bold">+</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    {/* content end */}
                 </div>
 
-                <DialogFooter className="gap-2 sm:gap-0">
+                <DialogFooter className="mt-2">
                     <Button variant="outline" onClick={onClose}>
                         <Icon path={mdiClose} size={0.8} />
                         Hủy
                     </Button>
                     <Button onClick={handleAddToCart}>
                         <Icon path={mdiCartPlus} size={0.8} />
-                        Thêm vào giỏ hàng
+                        Thêm vào {activeCartName}
                     </Button>
                 </DialogFooter>
             </DialogContent>

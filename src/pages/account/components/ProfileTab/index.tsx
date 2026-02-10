@@ -207,7 +207,7 @@ const ProfileTab = () => {
       </CardHeader>
       <CardContent className="px-4 bg-white">
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
               {/* Cột trái: Avatar và Thông tin trạng thái */}
               <div className="md:col-span-4 space-y-4">

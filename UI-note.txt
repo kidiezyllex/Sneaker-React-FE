@@ -18,3 +18,8 @@ Chỉ được phép thay đổi Icon và title-text. Cấm thêm và thay đổ
                         <Icon path={mdiClose} size={0.8} />
                         Đóng
                     </Button>
+
+Luật UI:
+1. Không được thêm className vào <Button> trừ "flex-1" hoặc "w-full"
+2. Icon sử dụng luôn là size={0.8}
+3. Không sử dụng text-[10px], bé nhất phải là text-xs

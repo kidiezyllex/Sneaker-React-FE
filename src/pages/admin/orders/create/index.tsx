@@ -16,18 +16,16 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiPlus, mdiTrashCanOutline } from "@mdi/js";
+import { mdiPlus, mdiTrashCanOutline } from "@mdi/js";
 import { useCreateOrder } from "@/hooks/order";
 import { formatCurrency } from "@/utils/formatters";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { useProducts } from "@/hooks/product";
 import {
@@ -152,8 +150,6 @@ export default function CreateOrderPage() {
     setIsSubmitting(true);
 
     try {
-      // In a real implementation, you would first create/get the customer ID
-      // For simplicity, we're using a placeholder
       const customerID = "64f720fb93a46d138d413045"; // This would be obtained from API
 
       const orderData = {

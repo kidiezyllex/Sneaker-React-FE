@@ -326,12 +326,10 @@ const VouchersTab = () => {
         </CardContent>
       </Card>
 
-      {/* Voucher Detail Dialog */}
       <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
         <DialogContent size="4xl" className="p-0 overflow-hidden border-none">
           {selectedVoucher && (
             <div className="flex flex-col md:flex-row h-full">
-              {/* Left side - Coupon Decoration */}
               <div className="bg-primary p-8 flex flex-col items-center justify-center text-white relative min-w-[240px] md:rounded-l-lg overflow-hidden">
                 {/* Decorative circles for coupon effect */}
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-white rounded-full hidden md:block"></div>
@@ -354,7 +352,7 @@ const VouchersTab = () => {
 
               {/* Right side - Details */}
               <div className="flex-1 bg-white p-4 flex flex-col justify-between">
-                <div className="space-y-6">
+                <div className="space-y-4">
                   <div className="flex justify-between items-start">
                     <div>
                       <div className="flex items-center gap-2 mb-4">

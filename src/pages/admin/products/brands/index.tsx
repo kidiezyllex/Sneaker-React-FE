@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
-import { mdiMagnify, mdiPlus, mdiPencilCircle, mdiDeleteCircle, mdiClose, mdiPencil } from "@mdi/js";
+import { mdiMagnify, mdiPlus, mdiPencilCircle, mdiDeleteCircle } from "@mdi/js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -20,11 +20,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Table,
@@ -43,11 +41,7 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTrigger,
+  Dialog, DialogTrigger
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { CommonPagination } from "@/components/ui/common-pagination";
@@ -387,4 +381,3 @@ export default function BrandsPage() {
     </div>
   );
 }
-

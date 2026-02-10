@@ -14,7 +14,7 @@ import {
 } from "@mdi/js";
 
 const badgeVariants = cva(
-  "inline-flex text-nowrap items-center rounded-full border-2 px-2 py-0.5 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1",
+  "inline-flex text-nowrap items-center rounded-full border px-2 py-0.5 text-xs font-bold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 gap-1",
   {
     variants: {
       variant: {
@@ -55,7 +55,7 @@ const variantIcons: Record<string, string | undefined> = {
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {
+  VariantProps<typeof badgeVariants> {
   icon?: string;
   showIcon?: boolean;
 }

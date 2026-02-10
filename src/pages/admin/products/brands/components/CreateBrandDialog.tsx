@@ -9,8 +9,7 @@ import { Input } from "@/components/ui/input";
 import { FormLabel } from "@/components/ui/form";
 import {
     DialogContent,
-    DialogHeader,
-    DialogFooter,
+    DialogHeader
 } from "@/components/ui/dialog";
 import {
     Select,
@@ -103,7 +102,7 @@ export function CreateBrandDialog({ isOpen, onClose }: CreateBrandDialogProps) {
     return (
         <DialogContent size="md">
             <DialogHeader title="Thêm thương hiệu mới" icon={mdiPlus} />
-            <form onSubmit={handleSubmit} className="space-y-6 pt-2 pb-4 px-4">
+            <form onSubmit={handleSubmit} className="space-y-4 pt-2 pb-4 px-4">
                 <div className="space-y-2">
                     <FormLabel htmlFor="create-name">Tên thương hiệu</FormLabel>
                     <Input

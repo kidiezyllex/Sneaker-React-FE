@@ -5,16 +5,7 @@ import { useParams, useNavigate, Link, useLocation } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -506,7 +497,7 @@ export default function AdminReturnDetailPage() {
                     </Card>
                 </div>
 
-                <div className="space-y-6">
+                <div className="space-y-4">
                     {/* Summary Card */}
                     <Card className="shadow-sm border border-slate-200 bg-white overflow-hidden">
                         <CardHeader>

@@ -21,63 +21,46 @@ import {
   TableCell,
   TableHead,
 } from "@/components/ui/table";
-
-interface InvoiceShopInfo {
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-}
-
-interface InvoiceCustomerInfo {
-  name: string;
-  phone: string;
-}
-
-interface InvoiceItem {
-  name: string;
-  quantity: number;
-  price: number;
-  total: number;
-  color: string;
-  size: string;
-}
-
-interface InvoiceData {
-  shopInfo: InvoiceShopInfo;
-  customerInfo: InvoiceCustomerInfo;
-  orderId: string;
-  employee: string;
-  createdAt: string;
-  items: InvoiceItem[];
-  subTotal: number;
-  discount: number;
-  voucherCode?: string;
-  total: number;
-  cashReceived: number;
-  changeGiven: number;
-  paymentMethod: string;
-}
+import { formatCurrency, formatDateTime } from "@/utils/formatters";
 
 interface InvoiceDialogProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-  invoiceData: InvoiceData | null;
-  formatCurrency: (amount: number) => string;
-  formatDateTimeForInvoice: (dateString: string) => string;
+  isOpen: boolean;
+  onClose: () => void;
+  order: any;
 }
 
+const SHOP_INFO = {
+  name: "SNEAKER STORE",
+  address: "123 Đường Giày Sneaker, Quận 1, TP. HCM",
+  phone: "0123 456 789",
+  email: "contact@sneakerstore.vn",
+};
+
 const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
-  open,
-  onOpenChange,
-  invoiceData,
-  formatCurrency,
-  formatDateTimeForInvoice,
+  isOpen,
+  onClose,
+  order,
 }) => {
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const invoiceRef = useRef<HTMLDivElement>(null);
 
-  if (!invoiceData) return null;
+  if (!order) return null;
+
+  // Extract data from order object (backend structure)
+  const orderId = order.code || order.id || "N/A";
+  const createdAt = order.createdAt || new Date().toISOString();
+  const customerInfo = {
+    name: order.customerName || order.account?.fullName || "Khách vãng lai",
+    phone: order.customerPhone || order.account?.phoneNumber || "N/A",
+  };
+  const employeeName = order.employee?.fullName || order.employeeName || "Nhân viên POS";
+  const items = order.orderItems || order.items || [];
+  const subTotal = order.subTotal || order.totalAmount || 0;
+  const discountAmount = order.discountAmount || 0;
+  const totalAmount = order.totalAmount || order.total || 0;
+  const cashReceived = order.cashReceived || totalAmount;
+  const changeGiven = Math.max(0, cashReceived - totalAmount);
+  const paymentMethodName = order.paymentMethod === "cash" ? "Tiền mặt" : "Chuyển khoản";
 
   const handlePrintToPdf = async () => {
     try {
@@ -106,7 +89,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
 
       pdf.addImage(canvas, "PNG", 0, 0, pageWidth, imgHeight);
       pdf.save(
-        `HoaDon_${invoiceData.orderId.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`
+        `HoaDon_${orderId.replace(/[^a-zA-Z0-9]/g, "_")}.pdf`
       );
 
       toast.success("Đã lưu hoá đơn PDF thành công!");
@@ -118,141 +101,144 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent size="4xl">
         <DialogHeader
           title="Hoá đơn bán hàng"
           icon={mdiFileDocument}
         />
-        <CustomScrollArea className="flex-1 min-h-0 p-4 overflow-y-auto">
-          <div ref={invoiceRef} className="p-4 bg-white" id="invoice-content">
-            <div className="w-full justify-center mb-4">
+        <CustomScrollArea className="flex-1 min-h-0 p-4">
+          <div ref={invoiceRef} className="p-8 bg-white" id="invoice-content">
+            <div className="w-full justify-center mb-6">
               <img
                 draggable="false"
                 src="/images/logo.png"
                 alt="logo"
-                width={100}
-                height={100}
-                className="w-auto mx-auto h-20"
+                className="w-auto mx-auto h-24 object-contain"
               />
             </div>
-            <div className="text-center mb-4">
-              <h2 className="text-xl font-semibold">
-                {invoiceData.shopInfo.name}
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-bold uppercase text-primary">
+                {SHOP_INFO.name}
               </h2>
-              <p className="text-sm">{invoiceData.shopInfo.address}</p>
-              <p className="text-sm">
-                ĐT: {invoiceData.shopInfo.phone} - Email:{" "}
-                {invoiceData.shopInfo.email}
+              <p className="text-sm text-gray-600">{SHOP_INFO.address}</p>
+              <p className="text-sm text-gray-600">
+                ĐT: {SHOP_INFO.phone} - Email: {SHOP_INFO.email}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-              <div>
+            <Separator className="mb-6" />
+
+            <div className="grid grid-cols-2 gap-8 mb-8 text-sm">
+              <div className="space-y-1">
                 <p>
-                  <strong>Mã HĐ:</strong> {invoiceData.orderId}
+                  <span className="font-semibold">Mã HĐ:</span> {orderId}
                 </p>
                 <p>
-                  <strong>Ngày:</strong>{" "}
-                  {formatDateTimeForInvoice(invoiceData.createdAt)}
+                  <span className="font-semibold">Ngày:</span>{" "}
+                  {formatDateTime(createdAt)}
                 </p>
                 <p>
-                  <strong>Nhân viên:</strong> {invoiceData.employee}
+                  <span className="font-semibold">Nhân viên:</span> {employeeName}
                 </p>
               </div>
-              <div className="text-right">
+              <div className="text-right space-y-1">
                 <p>
-                  <strong>Khách hàng:</strong> {invoiceData.customerInfo.name}
+                  <span className="font-semibold">Khách hàng:</span> {customerInfo.name}
                 </p>
                 <p>
-                  <strong>Điện thoại:</strong> {invoiceData.customerInfo.phone}
+                  <span className="font-semibold">Điện thoại:</span> {customerInfo.phone}
                 </p>
               </div>
             </div>
 
-            <Table className="mb-4 text-sm">
-              <TableHeader>
+            <Table className="mb-8 border">
+              <TableHeader className="bg-slate-50">
                 <TableRow>
-                  <TableHead className="w-[40px] text-center">STT</TableHead>
-                  <TableHead>Tên sản phẩm</TableHead>
-                  <TableHead className="text-sm">Màu/Size</TableHead>
-                  <TableHead className="text-right w-[50px]">SL</TableHead>
-                  <TableHead className="text-right w-[100px]">
-                    Đơn giá
-                  </TableHead>
-                  <TableHead className="text-right w-[100px]">
-                    Thành tiền
-                  </TableHead>
+                  <TableHead className="w-[60px] text-center font-bold text-black border">STT</TableHead>
+                  <TableHead className="font-bold text-black border">Tên sản phẩm</TableHead>
+                  <TableHead className="text-center font-bold text-black border">Màu/Size</TableHead>
+                  <TableHead className="text-right w-[80px] font-bold text-black border">SL</TableHead>
+                  <TableHead className="text-right w-[120px] font-bold text-black border">Đơn giá</TableHead>
+                  <TableHead className="text-right w-[140px] font-bold text-black border">Thành tiền</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {invoiceData.items.map((item, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="text-center">{index + 1}</TableCell>
-                    <TableCell className="font-medium">{item.name}</TableCell>
-                    <TableCell className="text-sm">
-                      {item.color} / {item.size}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {item.quantity}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      {formatCurrency(item.price)}
-                    </TableCell>
-                    <TableCell className="text-right font-semibold">
-                      {formatCurrency(item.total)}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {items.map((item: any, index: number) => {
+                  const variant = item.productVariant || item.variant || {};
+                  const price = item.price || 0;
+                  const qty = item.quantity || 0;
+                  const name = item.productName || variant.product?.name || item.name || "Sản phẩm";
+                  const color = variant.color?.name || item.colorName || "N/A";
+                  const size = variant.size?.name || variant.size?.value || item.sizeName || "N/A";
+
+                  return (
+                    <TableRow key={index}>
+                      <TableCell className="text-center border">{index + 1}</TableCell>
+                      <TableCell className="font-medium border">{name}</TableCell>
+                      <TableCell className="text-center border">
+                        {color} / {size}
+                      </TableCell>
+                      <TableCell className="text-right border">{qty}</TableCell>
+                      <TableCell className="text-right border">
+                        {formatCurrency(price)}
+                      </TableCell>
+                      <TableCell className="text-right font-semibold border">
+                        {formatCurrency(price * qty)}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
 
-            <div className="flex justify-end mb-4">
-              <div className="w-full max-w-sm space-y-1.5 text-sm">
-                <div className="flex justify-between">
-                  <span>Tổng tiền hàng:</span>
-                  <span>{formatCurrency(invoiceData.subTotal)}</span>
+            <div className="flex justify-end mb-8">
+              <div className="w-full max-w-sm space-y-2 text-sm">
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Tổng tiền hàng:</span>
+                  <span className="font-medium">{formatCurrency(subTotal)}</span>
                 </div>
-                {invoiceData.discount > 0 && (
-                  <div className="flex justify-between text-red-600">
-                    <span>Giảm giá ({invoiceData.voucherCode || "KM"}):</span>
-                    <span>-{formatCurrency(invoiceData.discount)}</span>
+                {discountAmount > 0 && (
+                  <div className="flex justify-between items-center text-red-600">
+                    <span className="flex items-center gap-1">
+                      Giảm giá:
+                    </span>
+                    <span className="font-medium">-{formatCurrency(discountAmount)}</span>
                   </div>
                 )}
                 <Separator />
-                <div className="flex justify-between font-semibold text-base">
-                  <span>TỔNG THANH TOÁN:</span>
+                <div className="flex justify-between items-center font-bold text-lg">
+                  <span className="text-black">TỔNG THANH TOÁN:</span>
                   <span className="text-primary">
-                    {formatCurrency(invoiceData.total)}
+                    {formatCurrency(totalAmount)}
                   </span>
                 </div>
                 <Separator />
-                <div className="flex justify-between">
-                  <span>Phương thức:</span>
-                  <span>{invoiceData.paymentMethod}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Tiền khách đưa:</span>
-                  <span>{formatCurrency(invoiceData.cashReceived)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>Tiền thừa:</span>
-                  <span>{formatCurrency(invoiceData.changeGiven)}</span>
+                <div className="space-y-1 pt-2 text-gray-600">
+                  <div className="flex justify-between">
+                    <span>Hình thức thanh toán:</span>
+                    <span className="text-black font-medium">{paymentMethodName}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Tiền khách đưa:</span>
+                    <span className="text-black font-medium">{formatCurrency(cashReceived)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>Tiền thừa trả khách:</span>
+                    <span className="text-primary font-bold">{formatCurrency(changeGiven)}</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <p className="text-center text-sm mt-8">
-              Cảm ơn Quý khách và hẹn gặp lại!
-            </p>
-            <p className="text-center text-sm mt-1">
-              Website:{" "}
-              {invoiceData.shopInfo.name.toLowerCase().replace(/ /g, "")}.vn
-            </p>
+            <div className="text-center space-y-2 mt-12">
+              <p className="font-bold text-lg italic">Cảm ơn Quý khách và hẹn gặp lại!</p>
+              <p className="text-xs text-gray-500 underline">www.sneakerstore.vn</p>
+            </div>
           </div>
         </CustomScrollArea>
-        <DialogFooter className="mt-4">
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <DialogFooter className="p-4 bg-slate-50 border-t">
+          <Button variant="outline" onClick={onClose}>
             Đóng
           </Button>
           <Button onClick={handlePrintToPdf} disabled={isProcessing}>

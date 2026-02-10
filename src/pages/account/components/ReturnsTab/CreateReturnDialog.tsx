@@ -147,7 +147,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6">
+        <div className="space-y-4">
           <div>
             <h4 className="font-medium mb-3">Sản phẩm trong đơn hàng:</h4>
             <div className="space-y-2 max-h-60 overflow-y-auto">

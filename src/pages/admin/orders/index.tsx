@@ -20,18 +20,15 @@ import {
   mdiFilterOutline,
   mdiEye,
   mdiFileExport,
-  mdiDelete,
-  mdiAlertCircleOutline,
+  mdiDelete
 } from "@mdi/js";
-import { format, startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
-import { vi } from "date-fns/locale";
+import { format, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
@@ -43,11 +40,9 @@ import { cn } from "@/lib/utils";
 import { CalendarIcon } from "lucide-react";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Table,
@@ -692,5 +687,3 @@ export default function OrdersPage() {
     );
   }
 }
-
-

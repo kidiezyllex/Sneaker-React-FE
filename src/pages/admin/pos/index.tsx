@@ -337,22 +337,30 @@ export default function POSPage() {
     if (cartItems.length === 0) return;
 
     const orderData = {
-      accountId: selectedUserId !== "guest" ? selectedUserId : undefined,
-      customerName:
-        selectedUserId === "guest" && customerName ? customerName : undefined,
-      customerPhone:
-        selectedUserId === "guest" && customerPhone ? customerPhone : undefined,
-      voucherId: appliedVoucher?.id,
-      paymentMethod,
+      customer: selectedUserId !== "guest" ? selectedUserId : (customerName || "Khách lẻ"),
       items: cartItems.map((item) => ({
-        variantId: item.variantId,
+        product: item.productId,
         quantity: item.quantity,
         price: item.price,
+        variant: {
+          colorId: item.actualColorId,
+          sizeId: item.actualSizeId,
+        },
       })),
-      totalAmount: total,
       subTotal: subtotal,
-      discountAmount: discount,
-      cashReceived: paymentMethod === "cash" ? Number(cashReceived) : total,
+      total: total,
+      discount: discount,
+      voucher: appliedVoucher?.code,
+      paymentMethod: paymentMethod.toUpperCase(),
+      orderStatus: "HOAN_THANH",
+      shippingAddress: {
+        name: customerName || "Tại quầy",
+        phoneNumber: customerPhone || "N/A",
+        provinceId: "",
+        districtId: "",
+        wardId: "",
+        specificAddress: "Bán tại quầy",
+      }
     };
 
     try {
@@ -388,7 +396,7 @@ export default function POSPage() {
   const onUserSelect = (id: string) => {
     setSelectedUserId(id);
     if (id !== "guest") {
-      const user = usersData?.data?.accounts?.find((u: any) => u.id === id);
+      const user = usersData?.data?.content?.find((u: any) => u.id === id);
       if (user) {
         setCustomerName(user.fullName || "");
         setCustomerPhone(user.phoneNumber || "");
@@ -952,7 +960,7 @@ export default function POSPage() {
             <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
               <Icon path={mdiInvoiceListOutline} size={0.8} />
               <span>Hoá đơn chờ</span>
-              <div className="bg-green-50 px-3 py-1 rounded-full text-sm text-primary">({pendingCarts.length}/5)</div>
+              <div className="bg-green-50 px-3 py-0.5 rounded-full text-sm text-primary">({pendingCarts.length}/5)</div>
             </h3>
             <p className="text-base text-gray-600">
               Lưu trữ tạm thời các đơn hàng đang phục vụ để luân chuyển nhanh chóng (Tối đa 5 hoá đơn chờ cùng lúc)
@@ -969,7 +977,7 @@ export default function POSPage() {
 
         {/* Danh sách các giỏ hàng đang chờ */}
         {pendingCarts.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          <div className="flex gap-2 overflow-x-auto">
             {pendingCarts.slice(0, 5).map((cart, index) => (
               <motion.button
                 key={cart.id}
@@ -1253,6 +1261,7 @@ export default function POSPage() {
         onClose={() => setIsDetailDialogOpen(false)}
         product={selectedProductForDetail}
         addItemToCorrectCart={addItemToCorrectCart}
+        activeCartName={activeCartId ? pendingCarts.find(c => c.id === activeCartId)?.name : "Giỏ hàng"}
       />
     </div>
   );

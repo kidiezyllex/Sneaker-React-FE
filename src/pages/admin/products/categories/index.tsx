@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
 import {
@@ -21,19 +21,15 @@ import {
 import { EditCategoryDialog } from "./components/EditCategoryDialog";
 import { CreateCategoryDialog } from "./components/CreateCategoryDialog";
 import {
-  ICategoryFilter,
-  ICategoryCreate,
-  ICategoryUpdate,
+  ICategoryFilter
 } from "@/interface/request/attributes";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Table,
@@ -51,7 +47,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-import { FormLabel } from "@/components/ui/form";
 import {
   Dialog,
   DialogTrigger,
@@ -117,9 +112,6 @@ export default function CategoriesPage() {
       toast.error("Xóa danh mục thất bại");
     }
   };
-
-
-
   return (
     <div className="space-y-4">
       <Breadcrumb>
@@ -404,4 +396,3 @@ export default function CategoriesPage() {
     </div>
   );
 }
-

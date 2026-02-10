@@ -5,9 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
 import {
-    mdiPrinter,
-    mdiPencil,
-    mdiArrowLeft,
     mdiFileDocument,
     mdiDelete,
     mdiFileSign,
@@ -20,21 +17,13 @@ import {
     mdiMapMarker,
     mdiPackageVariant,
     mdiCash,
-    mdiInformation,
-    mdiAlertCircleOutline,
+    mdiInformation
 } from "@mdi/js";
-import { Badge } from "@/components/ui/badge";
 import {
     formatCurrency,
     formatDateTime,
     getPaymentMethodName
 } from "@/utils/formatters";
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogFooter,
-} from "@/components/ui/dialog";
 import { UpdateStatusDialog } from "../components/UpdateStatusDialog";
 import { ConfirmCancelDialog } from "../components/ConfirmCancelDialog";
 import { OrderInvoiceDialog } from "../components/OrderInvoiceDialog";
@@ -63,11 +52,9 @@ import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 import {
     Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
+    BreadcrumbItem, BreadcrumbList,
     BreadcrumbPage,
-    BreadcrumbSeparator,
+    BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Skeleton } from "@/components/ui/skeleton";
 import { checkImageUrl } from "@/lib/utils";
