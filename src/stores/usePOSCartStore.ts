@@ -34,6 +34,10 @@ interface POSCartState {
   setCouponCode: (code: string) => void;
   calculateSubtotal: () => number;
   calculateTotal: () => number;
+  cashReceived: number;
+  changeDue: number;
+  setCashReceived: (amount: number) => void;
+  setChangeDue: (amount: number) => void;
 }
 
 export const usePOSCartStore = create(
@@ -43,6 +47,8 @@ export const usePOSCartStore = create(
       appliedDiscount: 0,
       appliedVoucher: null,
       couponCode: '',
+      cashReceived: 0,
+      changeDue: 0,
 
       addToCart: (newItem) => {
         const currentItems = [...get().items];
@@ -92,7 +98,9 @@ export const usePOSCartStore = create(
           items: [],
           appliedDiscount: 0,
           appliedVoucher: null,
-          couponCode: ''
+          couponCode: '',
+          cashReceived: 0,
+          changeDue: 0
         });
       },
 
@@ -115,6 +123,14 @@ export const usePOSCartStore = create(
       calculateTotal: () => {
         const subtotal = get().calculateSubtotal();
         return subtotal - get().appliedDiscount;
+      },
+
+      setCashReceived: (amount) => {
+        set({ cashReceived: amount });
+      },
+
+      setChangeDue: (amount) => {
+        set({ changeDue: amount });
       }
     }),
     {

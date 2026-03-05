@@ -22,6 +22,7 @@ import {
   TableHead,
 } from "@/components/ui/table";
 import { formatCurrency, formatDateTime, getOrderStatusName, getPaymentStatusName } from "@/utils/formatters";
+import { usePOSCartStore } from "@/stores/usePOSCartStore";
 
 interface InvoiceDialogProps {
   isOpen: boolean;
@@ -44,6 +45,8 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const invoiceRef = useRef<HTMLDivElement>(null);
 
+  const { cashReceived: storeCashReceived, changeDue: storeChangeDue } = usePOSCartStore();
+
   if (!order) return null;
 
   // Extract data from order object (backend structure)
@@ -59,8 +62,10 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
   const subTotal = order.subTotal || order.totalAmount || 0;
   const discountAmount = order.discount || order.discountAmount || 0;
   const totalAmount = order.total || order.totalAmount || 0;
-  const cashReceived = order.cashReceived || totalAmount;
-  const changeGiven = Math.max(0, cashReceived - totalAmount);
+
+  // Use values from store if not provided by backend (POS Case)
+  const cashReceived = order.cashReceived || storeCashReceived || totalAmount;
+  const changeGiven = order.changeDue !== undefined ? order.changeDue : (storeChangeDue || Math.max(0, cashReceived - totalAmount));
   const orderStatus = getOrderStatusName(order.orderStatus);
   const paymentStatus = getPaymentStatusName(order.paymentStatus);
   const paymentMethodName = (order.paymentMethod || "").toUpperCase() === "CASH" ? "Tiền mặt" : (order.paymentMethod || "Chuyển khoản");

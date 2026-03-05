@@ -29,6 +29,7 @@ import { PendingCart } from "@/stores/usePendingCartsStore";
 import { Loader2 } from "lucide-react";
 import { formatCurrency } from "@/utils/formatters";
 import { useAccounts } from "@/hooks/account";
+import { toast } from "react-toastify";
 
 interface POSRightSectionProps {
   cartItems: POSCartItem[];
@@ -90,6 +91,18 @@ export default function POSRightSection({
   const activeCartName =
     pendingCarts.find((c) => c.id === activeCartId)?.name ||
     "Giỏ hàng hiện tại";
+
+  const handleCheckout = () => {
+    if (!customerName?.trim()) {
+      toast.warning("Vui lòng nhập tên khách hàng");
+      return;
+    }
+    if (!customerPhone?.trim()) {
+      toast.warning("Vui lòng nhập số điện thoại khách hàng");
+      return;
+    }
+    onCheckout();
+  };
 
   return (
     <div className="flex flex-col h-full bg-white rounded-xl shadow-lg border border-border/50 overflow-hidden">
@@ -368,7 +381,7 @@ export default function POSRightSection({
 
           <Button
             className="w-full"
-            onClick={onCheckout}
+            onClick={handleCheckout}
             disabled={
               checkoutIsLoading ||
               cartItems.length === 0 ||

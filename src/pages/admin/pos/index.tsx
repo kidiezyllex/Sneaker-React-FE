@@ -248,6 +248,8 @@ export default function POSPage() {
     addToCart: addToCartStore,
     clearCart: clearCartStore,
     updateQuantity: updateQuantityStore,
+    setCashReceived: setCashReceivedStore,
+    setChangeDue: setChangeDueStore,
   } = usePOSCartStore();
 
   const activeCart = getActiveCart();
@@ -365,6 +367,10 @@ export default function POSPage() {
     try {
       const response = await createPOSOrderMutation.mutateAsync(orderData);
       if (response && response.data) {
+        // Save cash info to store for InvoiceDialog
+        setCashReceivedStore(typeof cashReceived === 'number' ? cashReceived : parseFloat(cashReceived) || 0);
+        setChangeDueStore(changeDue);
+
         setCreatedOrder(response.data);
         setIsInvoiceDialogOpen(true);
         toast.success("Thanh toán đơn hàng thành công!");
