@@ -128,7 +128,7 @@ const SidebarLayout = memo(function SidebarLayout({
                         <div className="flex items-center justify-center flex-col-reverse gap-1">
                             {isOpen && (
                                 <div className="flex flex-col justify-end items-end">
-                                    <p className="text-sm font-medium leading-none whitespace-nowrap">
+                                    <p className="text-base font-medium leading-none whitespace-nowrap">
                                         Xin chào,{" "}
                                         <span className="font-medium text-primary">
                                             {profileData?.data.fullName}
@@ -153,7 +153,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                             <button
                                                 onClick={() => toggleSubMenu(menu.id)}
                                                 className={cn(
-                                                    "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-sm transition-colors",
+                                                    "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-base transition-colors",
                                                     isMenuActive(menu)
                                                         ? "bg-primary/10 text-primary"
                                                         : "hover:bg-gray-100"
@@ -196,7 +196,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                         animate={{ height: "auto", opacity: 1 }}
                                                         exit={{ height: 0, opacity: 0 }}
                                                         transition={{ duration: 0.2 }}
-                                                        className="ml-4 space-y-1 overflow-hidden"
+                                                        className="ml-9 space-y-1 overflow-hidden list-none"
                                                     >
                                                         {menu.subMenu.map((subItem: SubMenuItem) => (
                                                             <motion.li
@@ -208,7 +208,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                                 <Link to={subItem.path}>
                                                                     <div
                                                                         className={cn(
-                                                                            "flex items-center rounded-md p-2 text-sm transition-colors font-medium",
+                                                                            "flex items-center ml-2 rounded-md p-2 pl-4 text-base transition-colors font-medium group/sub",
                                                                             isSubMenuActive(subItem.path, menu.subMenu)
                                                                                 ? "bg-primary/10 text-primary !font-medium"
                                                                                 : "text-maintext hover:bg-gray-100"
@@ -217,12 +217,12 @@ const SidebarLayout = memo(function SidebarLayout({
                                                                         {subItem.icon && (
                                                                             <Icon
                                                                                 path={subItem.icon}
-                                                                                size={0.8}
+                                                                                size={0.65}
                                                                                 className={cn(
                                                                                     "mr-2",
                                                                                     isSubMenuActive(subItem.path, menu.subMenu)
                                                                                         ? "text-primary"
-                                                                                        : "text-maintext"
+                                                                                        : "text-maintext/70"
                                                                                 )}
                                                                             />
                                                                         )}
@@ -253,7 +253,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                             <Link to={menu.path || "#"}>
                                                 <div
                                                     className={cn(
-                                                        "flex items-center rounded-md p-2 text-sm font-medium transition-colors ",
+                                                        "flex items-center rounded-md p-2 text-base font-medium transition-colors ",
                                                         isMenuActive(menu)
                                                             ? "bg-primary/10 text-primary"
                                                             : "text-gray-600 hover:bg-gray-100",
@@ -280,7 +280,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                         animate={{ opacity: 1, x: 0 }}
                                                         exit={{ opacity: 0, x: -5 }}
                                                         transition={{ duration: 0.2 }}
-                                                        className="fixed ml-16 mt-[-30px] bg-white border border-primary/20 text-main-text text-sm py-1.5 px-3 rounded-md shadow-light-grey z-50 whitespace-nowrap flex items-center"
+                                                        className="fixed ml-16 mt-[-30px] bg-white border border-primary/20 text-main-text text-base py-1.5 px-3 rounded-md shadow-light-grey z-50 whitespace-nowrap flex items-center"
                                                     >
                                                         <span className="w-1.5 h-1.5 rounded-full bg-primary mr-1.5"></span>
                                                         <span className="font-medium">{menu.name}</span>
