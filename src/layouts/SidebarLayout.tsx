@@ -13,7 +13,6 @@ import { useUserProfile } from "@/hooks/account";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useUser } from "@/context/useUserContext";
-import { CustomToast } from "@/components/ui/custom-toast";
 import { toast } from "react-toastify";
 
 interface SidebarLayoutProps {
@@ -38,9 +37,7 @@ const SidebarLayout = memo(function SidebarLayout({
 
     const handleLogout = () => {
         logoutUser();
-        toast.success(<CustomToast title="Đăng xuất thành công" />, {
-            icon: false,
-        });
+        toast.success("Đăng xuất thành công");
         navigate("/auth/login");
     };
     const getAvatarUrl = () => {

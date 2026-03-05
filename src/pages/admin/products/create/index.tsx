@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useCreateProduct } from "@/hooks/product";
@@ -32,14 +32,12 @@ import { CustomToast } from "@/components/ui/custom-toast";
 import { Icon } from "@mdi/react";
 import {
   mdiPlus,
-  mdiTrashCanOutline,
-  mdiArrowLeft,
-  mdiLoading,
+  mdiTrashCanOutline, mdiLoading,
   mdiAutoFix,
   mdiInformationOutline,
   mdiPackageVariant,
   mdiArrowRight,
-  mdiClose,
+  mdiClose
 } from "@mdi/js";
 import { AnimatePresence, motion } from "framer-motion";
 import ProductVariantForm from "../components/ProductVariantForm";
@@ -53,10 +51,7 @@ import {
 } from "@/components/ui/select";
 import {
   useBrands,
-  useCategories,
-  useColors,
-  useMaterials,
-  useSizes,
+  useCategories, useMaterials
 } from "@/hooks/attributes";
 
 const initialProduct: IProductCreate = {
@@ -138,9 +133,7 @@ export default function CreateProductPage() {
       ];
 
       setProduct({ ...product, variants: newVariants });
-      toast.success(<CustomToast title="Tải lên hình ảnh thành công" />, {
-        icon: false,
-      });
+      toast.success("Tải lên hình ảnh thành công");
     } catch (error) {
       toast.error(
         <CustomToast title="Tải lên hình ảnh thất bại" type="error" />,
@@ -189,9 +182,7 @@ export default function CreateProductPage() {
     try {
       await createProduct.mutateAsync(product, {
         onSuccess: () => {
-          toast.success(<CustomToast title="Tạo sản phẩm thành công" />, {
-            icon: false,
-          });
+          toast.success("Tạo sản phẩm thành công");
           navigate("/admin/products");
         },
         onError: (error) => {

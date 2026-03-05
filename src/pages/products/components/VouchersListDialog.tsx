@@ -40,9 +40,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
         navigator.clipboard
             .writeText(code)
             .then(() => {
-                toast.success(<CustomToast title={`Đã sao chép mã: ${code}`} />, {
-                    icon: false,
-                });
+                toast.success(`Đã sao chép mã: ${code}`);
                 onSelectVoucher(code);
                 onOpenChange(false);
             })

@@ -235,9 +235,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
     const handleRemoveVoucher = () => {
         removeVoucher();
-        toast.success(<CustomToast title="Đã xóa mã giảm giá" type="success" />, {
-            icon: false,
-        });
+        toast.success("Đã xóa mã giảm giá");
     };
 
     const handleSelectVoucher = (code: string) => {

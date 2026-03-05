@@ -49,9 +49,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         response.data?.account
       ) {
         loginUser(response.data.account, response.data.token);
-        toast.success(<CustomToast title="Đăng nhập thành công" />, {
-          icon: false,
-        });
+        toast.success("Đăng nhập thành công");
         if (response.data.account.role === "ADMIN") {
           navigate("/admin/statistics");
         } else if (response.data.account.role === "STAFF") {

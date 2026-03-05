@@ -294,9 +294,7 @@ export default function ProductsPage() {
     };
 
     addToCart(cartItem, 1);
-    toast.success(<CustomToast title="Đã thêm sản phẩm vào giỏ hàng" />, {
-      icon: false,
-    });
+    toast.success("Đã thêm sản phẩm vào giỏ hàng");
   };
 
   const handleQuickView = (product: any) => {
@@ -306,10 +304,7 @@ export default function ProductsPage() {
   };
 
   const handleAddToWishlist = (product: any) => {
-    toast.success(
-      <CustomToast title="Đã thêm sản phẩm vào danh sách yêu thích" />,
-      { icon: false }
-    );
+    toast.success("Đã thêm sản phẩm vào danh sách yêu thích");
   };
 
   const handleApplyVoucher = (voucherData: {

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Icon } from "@mdi/react";
-import { mdiPrinter, mdiFileDocument } from "@mdi/js";
+import { mdiPrinter, mdiFileDocument, mdiClose } from "@mdi/js";
 import { toast } from "react-toastify";
 import jsPDF from "jspdf";
 import { toPng } from "html-to-image";
@@ -21,7 +21,7 @@ import {
   TableCell,
   TableHead,
 } from "@/components/ui/table";
-import { formatCurrency, formatDateTime } from "@/utils/formatters";
+import { formatCurrency, formatDateTime, getOrderStatusName, getPaymentStatusName } from "@/utils/formatters";
 
 interface InvoiceDialogProps {
   isOpen: boolean;
@@ -47,20 +47,23 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
   if (!order) return null;
 
   // Extract data from order object (backend structure)
-  const orderId = order.code || order.id || "N/A";
+  const orderId = order.code || order.id || "(Đơn mới)";
   const createdAt = order.createdAt || new Date().toISOString();
   const customerInfo = {
-    name: order.customerName || order.account?.fullName || "Khách vãng lai",
-    phone: order.customerPhone || order.account?.phoneNumber || "N/A",
+    name: order.shippingName || order.customerName || order.account?.fullName || "Khách lẻ",
+    phone: order.shippingPhoneNumber || order.customerPhone || order.account?.phoneNumber || "Chưa có SĐT",
+    address: order.shippingSpecificAddress || "Bán tại quầy",
   };
   const employeeName = order.employee?.fullName || order.employeeName || "Nhân viên POS";
-  const items = order.orderItems || order.items || [];
+  const items = order.items || order.orderItems || [];
   const subTotal = order.subTotal || order.totalAmount || 0;
-  const discountAmount = order.discountAmount || 0;
-  const totalAmount = order.totalAmount || order.total || 0;
+  const discountAmount = order.discount || order.discountAmount || 0;
+  const totalAmount = order.total || order.totalAmount || 0;
   const cashReceived = order.cashReceived || totalAmount;
   const changeGiven = Math.max(0, cashReceived - totalAmount);
-  const paymentMethodName = order.paymentMethod === "cash" ? "Tiền mặt" : "Chuyển khoản";
+  const orderStatus = getOrderStatusName(order.orderStatus);
+  const paymentStatus = getPaymentStatusName(order.paymentStatus);
+  const paymentMethodName = (order.paymentMethod || "").toUpperCase() === "CASH" ? "Tiền mặt" : (order.paymentMethod || "Chuyển khoản");
 
   const handlePrintToPdf = async () => {
     try {
@@ -149,35 +152,65 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
                 <p>
                   <span className="font-semibold">Điện thoại:</span> {customerInfo.phone}
                 </p>
+                {customerInfo.address && customerInfo.address !== "Bán tại quầy" && customerInfo.address !== "Trống" && (
+                  <p>
+                    <span className="font-semibold">Địa chỉ:</span> {customerInfo.address}
+                  </p>
+                )}
+                <div className="flex justify-end gap-2 mt-2">
+                  <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] uppercase font-bold">
+                    HĐ: {orderStatus}
+                  </span>
+                  <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[10px] uppercase font-bold">
+                    TT: {paymentStatus}
+                  </span>
+                </div>
               </div>
             </div>
 
             <Table className="mb-8 border">
               <TableHeader className="bg-slate-50">
                 <TableRow>
-                  <TableHead className="w-[60px] text-center font-bold text-black border">STT</TableHead>
-                  <TableHead className="font-bold text-black border">Tên sản phẩm</TableHead>
-                  <TableHead className="text-center font-bold text-black border">Màu/Size</TableHead>
-                  <TableHead className="text-right w-[80px] font-bold text-black border">SL</TableHead>
+                  <TableHead className="w-[50px] text-center font-bold text-black border">STT</TableHead>
+                  <TableHead className="w-[80px] text-center font-bold text-black border">Ảnh</TableHead>
+                  <TableHead className="font-bold text-black border">Sản phẩm</TableHead>
+                  <TableHead className="text-right w-[60px] font-bold text-black border">SL</TableHead>
                   <TableHead className="text-right w-[120px] font-bold text-black border">Đơn giá</TableHead>
-                  <TableHead className="text-right w-[140px] font-bold text-black border">Thành tiền</TableHead>
+                  <TableHead className="text-right w-[130px] font-bold text-black border">Thành tiền</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {items.map((item: any, index: number) => {
-                  const variant = item.productVariant || item.variant || {};
+                  const variant = item.variant || item.productVariant || {};
                   const price = item.price || 0;
                   const qty = item.quantity || 0;
                   const name = item.productName || variant.product?.name || item.name || "Sản phẩm";
-                  const color = variant.color?.name || item.colorName || "N/A";
-                  const size = variant.size?.name || variant.size?.value || item.sizeName || "N/A";
+                  const color = variant.color?.name || item.colorName || "Mặc định";
+                  const size = variant.size?.value || variant.size?.name || item.sizeName || "Tiêu chuẩn";
+                  const imageUrl = variant.images?.[0]?.imageUrl || "/images/placeholder.png";
 
                   return (
                     <TableRow key={index}>
                       <TableCell className="text-center border">{index + 1}</TableCell>
-                      <TableCell className="font-medium border">{name}</TableCell>
-                      <TableCell className="text-center border">
-                        {color} / {size}
+                      <TableCell className="text-center border p-1">
+                        <div className="w-12 h-12 mx-auto overflow-hidden rounded-md border border-gray-100">
+                          <img
+                            src={imageUrl}
+                            alt={name}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              (e.target as HTMLImageElement).src = "/images/placeholder.png";
+                            }}
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell className="border">
+                        <div className="flex flex-col">
+                          <span className="font-semibold text-primary">{name}</span>
+                          <span className="text-[11px] text-gray-500">
+                            Phân loại: {color} / {size}
+                          </span>
+                        </div>
                       </TableCell>
                       <TableCell className="text-right border">{qty}</TableCell>
                       <TableCell className="text-right border">
@@ -239,6 +272,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
         </CustomScrollArea>
         <DialogFooter className="p-4 bg-slate-50 border-t">
           <Button variant="outline" onClick={onClose}>
+            <Icon path={mdiClose} size={0.8} />
             Đóng
           </Button>
           <Button onClick={handlePrintToPdf} disabled={isProcessing}>

@@ -50,9 +50,7 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
 
           if (token && account) {
             loginUser(account, token);
-            toast.success(<CustomToast title="Đăng ký thành công!" />, {
-              icon: false,
-            });
+            toast.success("Đăng ký thành công!");
             navigate("/");
           } else {
             toast.success(

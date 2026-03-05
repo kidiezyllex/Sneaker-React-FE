@@ -110,7 +110,7 @@ const ProductDetailDialog = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent size="xl">
+            <DialogContent size="2xl">
                 <DialogHeader title="Chi tiết sản phẩm POS" icon={mdiCartPlus} />
 
                 <div className="space-y-4 py-2 px-4">
@@ -147,7 +147,7 @@ const ProductDetailDialog = ({
                             </div>
 
                             <div className="space-y-1">
-                                <h2 className="text-xl font-bold text-primary">{product.name}</h2>
+                                <h2 className="text-xl font-bold text-primary line-clamp-2">{product.name}</h2>
                                 <div className="flex flex-col items-start gap-2">
                                     <Badge variant="secondary">Mã: {product.code}</Badge>
                                     <Badge variant="success">

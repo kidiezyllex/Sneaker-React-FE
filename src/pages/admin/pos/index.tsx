@@ -367,9 +367,7 @@ export default function POSPage() {
       if (response && response.data) {
         setCreatedOrder(response.data);
         setIsInvoiceDialogOpen(true);
-        toast.success(<CustomToast title="Thanh toán đơn hàng thành công!" />);
-
-        // Reset state after success
+        toast.success("Thanh toán đơn hàng thành công!");
         if (activeCartId) {
           clearPendingCartItems(activeCartId);
         } else {
@@ -383,12 +381,7 @@ export default function POSPage() {
         setCashReceived(0);
       }
     } catch (error: any) {
-      toast.error(
-        <CustomToast
-          title={error?.response?.data?.message || "Thanh toán thất bại"}
-          type="error"
-        />
-      );
+      toast.error(error?.response?.data?.message || "Thanh toán thất bại");
     }
   };
 
@@ -413,7 +406,7 @@ export default function POSPage() {
     }
     setAppliedVoucher(null);
     setCouponCode("");
-    toast.success(<CustomToast title="Đã làm mới giỏ hàng." />);
+    toast.success("Đã làm mới giỏ hàng.");
   };
 
   const onRemoveCartItem = (id: string) => {
@@ -795,9 +788,7 @@ export default function POSPage() {
         }
       } else {
         addToCartStore(newItem);
-        toast.success(<CustomToast title="Đã thêm sản phẩm vào giỏ hàng" />, {
-          icon: false,
-        });
+        toast.success("Đã thêm sản phẩm vào giỏ hàng");
       }
     }
   };
