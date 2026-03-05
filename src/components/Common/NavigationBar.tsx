@@ -19,7 +19,6 @@ import AccountDropdown from "@/components/Common/AccountDropdown";
 const tabs = [
   { text: "Trang chủ", href: "/" },
   { text: "Sản phẩm", href: "/products" },
-  { text: "Giới thiệu", href: "/about-us" },
 ];
 
 interface TabProps {
