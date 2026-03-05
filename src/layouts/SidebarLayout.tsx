@@ -153,7 +153,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                             <button
                                                 onClick={() => toggleSubMenu(menu.id)}
                                                 className={cn(
-                                                    "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-base transition-colors",
+                                                    "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-sm transition-colors",
                                                     isMenuActive(menu)
                                                         ? "bg-primary/10 text-primary"
                                                         : "hover:bg-gray-100"
@@ -208,7 +208,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                                 <Link to={subItem.path}>
                                                                     <div
                                                                         className={cn(
-                                                                            "flex items-center rounded-md p-2 text-base transition-colors font-medium",
+                                                                            "flex items-center rounded-md p-2 text-sm transition-colors font-medium",
                                                                             isSubMenuActive(subItem.path, menu.subMenu)
                                                                                 ? "bg-primary/10 text-primary !font-medium"
                                                                                 : "text-maintext hover:bg-gray-100"
@@ -253,7 +253,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                             <Link to={menu.path || "#"}>
                                                 <div
                                                     className={cn(
-                                                        "flex items-center rounded-md p-2 text-base font-medium transition-colors ",
+                                                        "flex items-center rounded-md p-2 text-sm font-medium transition-colors ",
                                                         isMenuActive(menu)
                                                             ? "bg-primary/10 text-primary"
                                                             : "text-gray-600 hover:bg-gray-100",

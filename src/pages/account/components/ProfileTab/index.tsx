@@ -285,7 +285,7 @@ const ProfileTab = () => {
               <div className="md:col-span-8 space-y-4">
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-primary text-base">
+                    <CardTitle className="text-primary text-sm">
                       Thông tin cơ bản
                     </CardTitle>
                   </CardHeader>
@@ -349,7 +349,7 @@ const ProfileTab = () => {
 
                 <Card>
                   <CardHeader>
-                    <CardTitle className="text-primary text-base">
+                    <CardTitle className="text-primary text-sm">
                       Chi tiết cá nhân
                     </CardTitle>
                   </CardHeader>

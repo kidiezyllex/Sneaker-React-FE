@@ -162,7 +162,7 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="flex justify-between items-center">
         <Link
           to="/auth/login"
-          className="text-base text-primary hover:text-secondary transition-colors duration-300"
+          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
         >
           Đã có tài khoản? Đăng nhập
         </Link>
@@ -170,7 +170,7 @@ function RegisterForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="flex justify-center flex-1 h-full items-end">
         <Button
           type="submit"
-          className="bg-primary hover:bg-secondary transition-all duration-300 text-base font-medium w-full py-4"
+          className="bg-primary hover:bg-secondary transition-all duration-300 text-sm font-medium w-full py-4"
           disabled={isLoading}
         >
           {isLoading ? (

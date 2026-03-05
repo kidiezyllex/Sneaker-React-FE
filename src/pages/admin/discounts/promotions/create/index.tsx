@@ -9,19 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Icon } from "@mdi/react";
 import { toast } from "react-toastify";
@@ -33,7 +24,7 @@ import { IPromotionCreate } from "@/interface/request/promotion";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-import { mdiArrowLeft, mdiPercent, mdiInformation, mdiLoading } from "@mdi/js";
+import { mdiArrowLeft, mdiInformation, mdiLoading } from "@mdi/js";
 export default function CreatePromotionPage() {
   const navigate = useNavigate();
   const createPromotion = useCreatePromotion();
@@ -274,7 +265,7 @@ export default function CreatePromotionPage() {
 
               {/* Áp dụng sản phẩm */}
               <div className="space-y-4">
-                <Label className="text-base font-semibold">
+                <Label className="text-sm font-semibold">
                   Áp dụng cho sản phẩm
                 </Label>
 

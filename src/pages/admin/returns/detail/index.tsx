@@ -313,7 +313,7 @@ export default function AdminReturnDetailPage() {
                                         </div>
                                         <div className="flex justify-between items-center py-1 pt-3 border-t border-slate-50">
                                             <span className="text-sm font-bold text-slate-700">Giá trị đơn hàng</span>
-                                            <span className="text-base font-bold text-slate-900">{formatCurrency(order.total)}</span>
+                                            <span className="text-sm font-bold text-slate-900">{formatCurrency(order.total)}</span>
                                         </div>
                                     </div>
 
@@ -348,7 +348,7 @@ export default function AdminReturnDetailPage() {
                                                 />
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="font-bold text-slate-900 text-base">{customer.fullName}</p>
+                                                <p className="font-bold text-slate-900 text-sm">{customer.fullName}</p>
                                                 <p className="text-maintext text-sm flex items-center gap-1">
                                                     {customer.email}
                                                 </p>

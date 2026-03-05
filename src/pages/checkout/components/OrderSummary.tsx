@@ -97,7 +97,7 @@ export const OrderSummary = () => {
                     </span>
                     <span className="text-maintext">{formatPrice(shipping)}</span>
                 </div>
-                <div className="flex justify-between w-full text-base font-semibold text-maintext pt-2 border-t">
+                <div className="flex justify-between w-full text-sm font-semibold text-maintext pt-2 border-t">
                     <span>Tổng cộng</span>
                     <span className="text-lg text-primary font-semibold">
                         {formatPrice(total)}

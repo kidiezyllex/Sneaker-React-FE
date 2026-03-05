@@ -552,7 +552,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                         <Separator />
                                         <div className="flex justify-between font-medium">
                                             <span className="text-sm font-semibold">Tổng</span>
-                                            <span className="text-base font-semibold">
+                                            <span className="text-sm font-semibold">
                                                 {formatPrice(finalTotal)}
                                             </span>
                                         </div>

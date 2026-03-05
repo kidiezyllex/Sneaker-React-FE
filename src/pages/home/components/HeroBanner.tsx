@@ -4,10 +4,8 @@ import Icon from "@mdi/react";
 import {
   mdiSale,
   mdiArrowRightThin,
-  mdiStar,
-  mdiHeart,
-  mdiTrendingUp,
-  mdiShieldCheck,
+  mdiStar, mdiTrendingUp,
+  mdiShieldCheck
 } from "@mdi/js";
 import { InteractiveHoverButton } from "@/components/Common/InteractiveHoverButton";
 export const HeroBanner = () => {
@@ -137,7 +135,7 @@ export const HeroBanner = () => {
                         />
                       ))}
                     </div>
-                    <p className="text-base text-gray-600 mt-1 italic">
+                    <p className="text-sm text-gray-600 mt-1 italic">
                       "Laptop chất lượng, giá tốt, hỗ trợ tận tình!"
                     </p>
                   </div>

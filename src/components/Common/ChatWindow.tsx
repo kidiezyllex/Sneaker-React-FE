@@ -174,7 +174,7 @@ export function ChatWindow() {
                 <SheetHeader className="p-3 px-4 border-b flex-shrink-0">
                     <div className="flex items-center gap-2 text-primary">
                         <Icon path={mdiRobotHappyOutline} size={0.8} className="text-primary" />
-                        <SheetTitle className="text-primary font-semibold text-base">
+                        <SheetTitle className="text-primary font-semibold text-sm">
                             Trợ lý AI hỗ trợ mua sắm
                         </SheetTitle>
                     </div>

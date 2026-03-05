@@ -95,7 +95,7 @@ const TestimonialCard = ({
                 />
             </div>
             <div>
-                <h4 className="text-base font-bold text-slate-900 dark:text-white">{name}</h4>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">{name}</h4>
                 <p className="text-sm text-slate-500 dark:text-slate-500">{role}</p>
             </div>
         </div>

@@ -254,7 +254,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                       })()}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center text-base font-bold border-t pt-3">
+                  <div className="flex justify-between items-center text-sm font-bold border-t pt-3">
                     <span className="text-gray-600 text-sm">Tổng tiền hoàn:</span>
                     <span className="text-primary text-xl">
                       {formatPrice(returnData.data.totalRefund)}

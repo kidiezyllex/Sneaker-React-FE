@@ -129,7 +129,7 @@ export default function POSRightSection({
                   <div className="flex-1 min-w-0 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start">
-                        <h4 className="font-semibold text-base text-primary text-wrap line-clamp-2">
+                        <h4 className="font-semibold text-sm text-primary text-wrap line-clamp-2">
                           {item.name}
                         </h4>
                         <button
@@ -287,8 +287,8 @@ export default function POSRightSection({
         <div className="space-y-4">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between text-gray-500">
-              <span className="font-semibold text-base">Tạm tính</span>
-              <span className="font-semibold text-maintext text-base">
+              <span className="font-semibold text-sm">Tạm tính</span>
+              <span className="font-semibold text-maintext text-sm">
                 {formatCurrency(subtotal)}
               </span>
             </div>

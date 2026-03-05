@@ -388,7 +388,7 @@ export default function EditPromotionPage() {
 
                             {/* Áp dụng sản phẩm */}
                             <div className="space-y-4">
-                                <Label className="text-base font-semibold">
+                                <Label className="text-sm font-semibold">
                                     Áp dụng cho sản phẩm
                                 </Label>
 

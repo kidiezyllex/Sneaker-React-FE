@@ -958,7 +958,7 @@ export default function POSPage() {
               <span>Hoá đơn chờ</span>
               <div className="bg-green-50 px-3 py-0.5 rounded-full text-sm text-primary">({pendingCarts.length}/5)</div>
             </h3>
-            <p className="text-base text-gray-600">
+            <p className="text-sm text-gray-600">
               Lưu trữ tạm thời các đơn hàng đang phục vụ để luân chuyển nhanh chóng (Tối đa 5 hoá đơn chờ cùng lúc)
             </p>
           </div>
@@ -1001,9 +1001,9 @@ export default function POSPage() {
                         : "text-maintext/50"
                     )}
                   />
-                  <span className="text-base font-medium truncate">
+                  <span className="text-sm font-medium truncate">
                     {cart.name}{" "}
-                    <span className="text-base text-maintext/70 font-semibold">
+                    <span className="text-sm text-maintext/70 font-semibold">
                       (
                       {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
                       )
@@ -1139,7 +1139,7 @@ export default function POSPage() {
                   </TabsTrigger>
                 </TabsList>
 
-                <div className="text-base text-maintext">
+                <div className="text-sm text-maintext">
                   Hiển thị{" "}
                   {apiIsLoading ? (
                     <Skeleton className="h-4 w-5 inline-block" />

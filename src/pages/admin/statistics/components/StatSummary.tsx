@@ -39,7 +39,7 @@ const StatCard = ({
       <Card className="p-4 h-full">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-base text-maintext">{title}</p>
+            <p className="text-sm text-maintext">{title}</p>
             <h3 className={`text-xl font-semibold mt-2 ${iconColor}`}>
               {value}
             </h3>

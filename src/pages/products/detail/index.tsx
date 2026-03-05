@@ -565,7 +565,7 @@ export default function ProductDetail() {
                 </div>
                 {/* Rating placeholder */}
                 <div className="flex items-center gap-2">
-                  <span className="text-base !text-maintext">
+                  <span className="text-sm !text-maintext">
                     128 đánh giá •
                   </span>
                   <div className="flex items-center">
@@ -637,7 +637,7 @@ export default function ProductDetail() {
 
               {(!productDiscount || productDiscount.discountPercent === 0) &&
                 selectedVariant && (
-                  <div className="text-base text-maintext">
+                  <div className="text-sm text-maintext">
                     <strong>Giá bán:</strong>{" "}
                     {formatPrice(selectedVariant.price)}
                   </div>

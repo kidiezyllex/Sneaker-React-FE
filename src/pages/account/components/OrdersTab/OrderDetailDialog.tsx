@@ -496,7 +496,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                         )}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center text-base font-semibold border-t pt-3">
+                    <div className="flex justify-between items-center text-sm font-semibold border-t pt-3">
                       <span className="text-gray-600 text-sm">Tổng tiền:</span>
                       <span className="text-primary">
                         {formatPrice(

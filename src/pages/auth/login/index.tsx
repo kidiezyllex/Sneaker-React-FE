@@ -122,13 +122,13 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
       <div className="flex justify-between items-center">
         <Link
           to="/auth/register"
-          className="text-base text-primary hover:text-secondary transition-colors duration-300"
+          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
         >
           Đăng ký?
         </Link>
         <Link
           to="/auth/forget-password"
-          className="text-base text-primary hover:text-secondary transition-colors duration-300"
+          className="text-sm text-primary hover:text-secondary transition-colors duration-300"
         >
           Quên mật khẩu?
         </Link>
