@@ -367,7 +367,7 @@ export default function POSRightSection({
           )}
 
           <Button
-            className="w-full h-12 text-base font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all"
+            className="w-full"
             onClick={onCheckout}
             disabled={
               checkoutIsLoading ||

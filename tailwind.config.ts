@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const plugin = require('tailwindcss/plugin')
 
@@ -27,11 +27,10 @@ const config: Config = {
     extend: {
       fontFamily: {
         sans: [
-          'var(--font-manrope)',
-          'Amazon Ember',
+          'Inter',
           ...fontFamily.sans
         ],
-        manrope: ['var(--font-manrope)'],
+        inter: ['Inter'],
       },
 
       fontWeight: {

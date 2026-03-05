@@ -130,7 +130,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                 <div className="flex flex-col justify-end items-end">
                                     <p className="text-sm font-medium leading-none whitespace-nowrap">
                                         Xin chào,{" "}
-                                        <span className="font-semibold text-primary">
+                                        <span className="font-medium text-primary">
                                             {profileData?.data.fullName}
                                         </span>
                                     </p>
@@ -155,7 +155,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                 className={cn(
                                                     "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-base transition-colors",
                                                     isMenuActive(menu)
-                                                        ? "bg-primary/10 text-primary !font-medium"
+                                                        ? "bg-primary/10 text-primary"
                                                         : "hover:bg-gray-100"
                                                 )}
                                             >
@@ -255,8 +255,8 @@ const SidebarLayout = memo(function SidebarLayout({
                                                     className={cn(
                                                         "flex items-center rounded-md p-2 text-base font-medium transition-colors ",
                                                         isMenuActive(menu)
-                                                            ? "bg-primary/10 text-primary !font-medium"
-                                                            : "text-maintext hover:bg-gray-100",
+                                                            ? "bg-primary/10 text-primary"
+                                                            : "text-gray-600 hover:bg-gray-100",
                                                         !isOpen && "justify-center"
                                                     )}
                                                 >

@@ -958,7 +958,7 @@ export default function POSPage() {
               <span>Hoá đơn chờ</span>
               <div className="bg-green-50 px-3 py-0.5 rounded-full text-sm text-primary">({pendingCarts.length}/5)</div>
             </h3>
-            <p className="text-base text-gray-700 font-medium">
+            <p className="text-base text-gray-600">
               Lưu trữ tạm thời các đơn hàng đang phục vụ để luân chuyển nhanh chóng (Tối đa 5 hoá đơn chờ cùng lúc)
             </p>
           </div>
@@ -985,7 +985,6 @@ export default function POSPage() {
                 )}
                 onClick={() => handleSwitchCart(cart.id)}
               >
-                {/* Hiển thị thông tin giỏ hàng */}
                 <div className="flex items-center gap-1 flex-1">
                   <div
                     className={cn(
@@ -1120,7 +1119,6 @@ export default function POSPage() {
             </Tabs>
           </div>
 
-          {/* Khu vực hiển thị sản phẩm */}
           <div className="bg-white rounded-xl p-4 flex-1 shadow-lg border border-border/50 hover:shadow-xl transition-all duration-300 min-h-[400px] pt-2">
             <Tabs defaultValue="grid" className="w-full">
               <div className="flex justify-between items-center mb-4">
@@ -1141,7 +1139,7 @@ export default function POSPage() {
                   </TabsTrigger>
                 </TabsList>
 
-                <div className="text-sm text-maintext">
+                <div className="text-base text-maintext">
                   Hiển thị{" "}
                   {apiIsLoading ? (
                     <Skeleton className="h-4 w-5 inline-block" />
@@ -1153,7 +1151,7 @@ export default function POSPage() {
               </div>
 
               {apiIsLoading ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
                   {[...Array(pagination.limit)].map((_, index) => (
                     <CardSkeleton key={index} />
                   ))}
