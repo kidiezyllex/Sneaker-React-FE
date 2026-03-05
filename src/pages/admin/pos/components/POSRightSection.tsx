@@ -9,7 +9,10 @@ import {
   mdiMinus,
   mdiPlus,
   mdiCartOutline,
+  mdiCheck,
+  mdiTicketPercentOutline, mdiClose
 } from "@mdi/js";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,6 +33,8 @@ import { Loader2 } from "lucide-react";
 import { formatCurrency } from "@/utils/formatters";
 import { useAccounts } from "@/hooks/account";
 import { toast } from "react-toastify";
+import { VouchersListDialog } from "@/pages/products/components/VouchersListDialog";
+import { useState } from "react";
 
 interface POSRightSectionProps {
   cartItems: POSCartItem[];
@@ -57,6 +62,7 @@ interface POSRightSectionProps {
   checkoutIsLoading: boolean;
   activeCartId: string | null;
   pendingCarts: PendingCart[];
+  onRemoveVoucher: () => void;
 }
 
 export default function POSRightSection({
@@ -85,8 +91,10 @@ export default function POSRightSection({
   checkoutIsLoading,
   activeCartId,
   pendingCarts,
+  onRemoveVoucher,
 }: POSRightSectionProps) {
   const { data: usersData } = useAccounts({ limit: 100, role: 'CUSTOMER' });
+  const [showVouchersDialog, setShowVouchersDialog] = useState(false);
 
   const activeCartName =
     pendingCarts.find((c) => c.id === activeCartId)?.name ||
@@ -102,6 +110,10 @@ export default function POSRightSection({
       return;
     }
     onCheckout();
+  };
+
+  const handleSelectVoucher = (code: string) => {
+    setCouponCode(code);
   };
 
   return (
@@ -269,33 +281,89 @@ export default function POSRightSection({
             <Icon path={mdiTag} size={0.8} />
             Mã giảm giá
           </div>
-          <div className="flex gap-2">
-            <div className="relative flex-1">
-              <Icon
-                path={mdiContentCopy}
-                size={0.8}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              />
-              <Input
-                placeholder="Nhập mã giảm giá"
-                className="pl-9 h-10"
-                value={couponCode}
-                onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
-              />
-            </div>
-            <Button
-              onClick={onApplyCoupon}
-              disabled={!couponCode}
-              variant="secondary"
-              className="text-primary bg-primary/10 hover:bg-primary/20 border border-primary/20"
-            >
-              Áp dụng
-            </Button>
-          </div>
+
+          <AnimatePresence mode="wait">
+            {appliedVoucher ? (
+              <motion.div
+                key="applied-voucher"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                className="flex items-center justify-between p-3 border border-green-200 bg-green-50 rounded-md"
+              >
+                <div className="flex items-center gap-2">
+                  <Icon path={mdiCheck} size={0.8} className="text-green-600" />
+                  <div>
+                    <div className="font-medium text-sm text-primary flex items-center gap-1.5">
+                      <Icon path={mdiTicketPercentOutline} size={0.8} />
+                      {appliedVoucher.code}
+                    </div>
+                    <div className="text-[11px] text-green-600 font-semibold">
+                      Đã giảm {formatCurrency(discount)}
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={onRemoveVoucher}
+                  className="hover:text-red-400 text-sm text-red-500 p-1.5 rounded-full bg-red-50 border border-red-100"
+                >
+                  <Icon path={mdiClose} size={0.7} />
+                </button>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="voucher-input"
+                initial={{ opacity: 0, y: 5 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -5 }}
+                className="space-y-2"
+              >
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Icon
+                      path={mdiContentCopy}
+                      size={0.8}
+                      className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+                    />
+                    <Input
+                      placeholder="Nhập mã giảm giá"
+                      className="pl-9 h-10"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                      onKeyPress={(e) => {
+                        if (e.key === "Enter" && couponCode) {
+                          onApplyCoupon();
+                        }
+                      }}
+                    />
+                  </div>
+                  <Button
+                    onClick={onApplyCoupon}
+                    disabled={!couponCode}
+                  >
+                    Áp dụng
+                  </Button>
+                </div>
+                <Button
+                  variant="link"
+                  className="text-sm text-primary p-0 h-auto flex items-center gap-1 opacity-80 hover:opacity-100"
+                  onClick={() => setShowVouchersDialog(true)}
+                >
+                  <Icon path={mdiTicketPercentOutline} size={0.7} />
+                  Xem danh sách mã giảm giá
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
+        <VouchersListDialog
+          open={showVouchersDialog}
+          onOpenChange={setShowVouchersDialog}
+          onSelectVoucher={handleSelectVoucher}
+          userId={selectedUserId !== "guest" ? selectedUserId : undefined}
+        />
         <Separator />
-
         {/* Thanh toán */}
         <div className="space-y-4">
           <div className="space-y-2 text-sm">

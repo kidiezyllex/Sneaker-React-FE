@@ -55,6 +55,7 @@ import ProductTableView from "./components/ProductTableView";
 import ProductGridView from "./components/ProductGridView";
 import ProductDetailDialog from "./components/ProductDetailDialog";
 import { Button } from "@/components/ui/button";
+import { formatCurrency } from "@/utils/formatters";
 
 const CardSkeleton = () => (
   <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
@@ -292,11 +293,14 @@ export default function POSPage() {
 
   const discount = useMemo(() => {
     if (!appliedVoucher) return 0;
+    const value = parseFloat(appliedVoucher.value?.toString()) || 0;
+    const maxDiscount = appliedVoucher.maxDiscount ? parseFloat(appliedVoucher.maxDiscount.toString()) : null;
+
     if (appliedVoucher.type === "PERCENTAGE") {
-      const calculated = (subtotal * appliedVoucher.value) / 100;
-      return Math.min(calculated, appliedVoucher.maxDiscount || calculated);
+      const calculated = (subtotal * value) / 100;
+      return Math.min(calculated, maxDiscount || calculated);
     }
-    return Math.min(appliedVoucher.value, subtotal);
+    return Math.min(value, subtotal);
   }, [subtotal, appliedVoucher]);
 
   const total = useMemo(() => subtotal - discount, [subtotal, discount]);
@@ -318,9 +322,12 @@ export default function POSPage() {
         userId: selectedUserId !== "guest" ? selectedUserId : undefined,
       });
       if (response && response.data) {
-        setAppliedVoucher(response.data);
+        const voucherData = response.data.voucher || response.data;
+        const discountAmt = response.data.discountAmount || 0;
+
+        setAppliedVoucher(voucherData);
         toast.success(
-          <CustomToast title="Đã áp dụng mã giảm giá thành công!" />
+          `Áp dụng mã ${couponCode} thành công! Giảm ${formatCurrency(discountAmt)}`
         );
       }
     } catch (error: any) {
@@ -332,6 +339,12 @@ export default function POSPage() {
       );
       setAppliedVoucher(null);
     }
+  };
+
+  const onRemoveVoucher = () => {
+    setAppliedVoucher(null);
+    setCouponCode("");
+    toast.success("Đã xóa mã giảm giá");
   };
 
   const onCheckout = async () => {
@@ -1227,6 +1240,7 @@ export default function POSPage() {
             checkoutIsLoading={createPOSOrderMutation.isPending}
             activeCartId={activeCartId}
             pendingCarts={pendingCarts}
+            onRemoveVoucher={onRemoveVoucher}
           />
         </div>
       </div>
