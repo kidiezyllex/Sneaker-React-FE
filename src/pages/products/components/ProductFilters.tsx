@@ -273,11 +273,11 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
   }
 
   return (
-    <div className="bg-white rounded-xl shadow-md w-52 max-w-52">
+    <div className="bg-white rounded-xl shadow-md w-60 max-w-60">
       <div className="flex items-center gap-2 py-2 border-b px-4">
         <h3 className="font-semibold text-sm">Bộ lọc sản phẩm</h3>
       </div>
-      <div className="p-4 flex flex-col gap-4">
+      <div className="p-4 flex flex-col gap-2 overflow-hidden">
         <div>
           <h3 className="text-sm font-semibold mb-3">Giá</h3>
           <div>
@@ -300,7 +300,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
 
         <div>
           <h3 className="text-sm font-semibold mb-3">Thương hiệu</h3>
-          <div className="space-y-2 max-h-48 grid grid-cols-2 overflow-y-auto">
+          <div className="space-y-2 max-h-48 grid grid-cols-2 overflow-y-auto overflow-x-hidden">
             {brands.map((brand) => (
               <div key={(brand as any)?.id} className="flex items-center gap-2">
                 <Checkbox
