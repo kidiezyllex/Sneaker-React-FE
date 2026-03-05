@@ -52,7 +52,7 @@ const StatCard = ({
                                     className={change >= 0 ? "text-green-600" : "text-red-600"}
                                 />
                                 <span
-                                    className={`text-xs ml-1 font-semibold ${change >= 0 ? "text-green-600" : "text-red-600"
+                                    className={`text-sm ml-1 font-semibold ${change >= 0 ? "text-green-600" : "text-red-600"
                                         }`}
                                 >
                                     {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}

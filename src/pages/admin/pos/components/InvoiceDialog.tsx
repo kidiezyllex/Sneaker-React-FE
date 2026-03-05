@@ -233,7 +233,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
 
             <div className="text-center space-y-2 mt-12">
               <p className="font-bold text-lg italic">Cảm ơn Quý khách và hẹn gặp lại!</p>
-              <p className="text-xs text-gray-500 underline">www.sneakerstore.vn</p>
+              <p className="text-sm text-gray-500 underline">www.sneakerstore.vn</p>
             </div>
           </div>
         </CustomScrollArea>

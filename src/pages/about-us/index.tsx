@@ -157,7 +157,7 @@ const AboutUsPage = () => {
                             transition={{ delay: 0.2, duration: 0.8 }}
                             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
                         >
-                            <span className="text-xs font-bold text-primary uppercase tracking-[0.2em]">
+                            <span className="text-sm font-bold text-primary uppercase tracking-[0.2em]">
                                 Về chúng tôi
                             </span>
                         </motion.div>

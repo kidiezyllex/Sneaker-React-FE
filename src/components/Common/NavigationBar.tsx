@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Icon } from "@mdi/react";
@@ -139,7 +139,7 @@ export const NavigationBar = () => {
                     className="relative w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center transition-all"
                   >
                     <Icon path={mdiCart} size={0.65} />
-                    <span className="absolute -top-1 -right-1 bg-extra text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                    <span className="absolute -top-1 -right-1 bg-extra text-white text-sm rounded-full h-4 w-4 flex items-center justify-center font-bold">
                       {totalItems}
                     </span>
                   </button>

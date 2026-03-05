@@ -23,7 +23,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiLoading, mdiPercent, mdiInformation } from "@mdi/js";
+import { mdiLoading, mdiPercent, mdiInformation } from "@mdi/js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { usePromotionDetail, useUpdatePromotion } from "@/hooks/promotion";
@@ -435,7 +435,7 @@ export default function EditPromotionPage() {
                                                             >
                                                                 {product.name}
                                                             </Label>
-                                                            <div className="text-xs text-maintext">
+                                                            <div className="text-sm text-maintext">
                                                                 Mã: {product.code} | Thương hiệu:{" "}
                                                                 {product.brand.name}
                                                             </div>
@@ -459,7 +459,7 @@ export default function EditPromotionPage() {
                                                             <Badge
                                                                 key={productId}
                                                                 variant="secondary"
-                                                                className="text-xs"
+                                                                className="text-sm"
                                                             >
                                                                 {product.name}
                                                             </Badge>

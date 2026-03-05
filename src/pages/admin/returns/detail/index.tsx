@@ -319,7 +319,7 @@ export default function AdminReturnDetailPage() {
 
                                     <div className="space-y-4 pt-2">
                                         <div className="space-y-2">
-                                            <p className="text-xs font-bold uppercase text-maintext tracking-widest">Lý do hoàn trả</p>
+                                            <p className="text-sm font-bold uppercase text-maintext tracking-widest">Lý do hoàn trả</p>
                                             <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl text-sm text-slate-700 leading-relaxed italic">
                                                 "{returnInfo.reason || "Không có lý do chi tiết"}"
                                             </div>
@@ -327,7 +327,7 @@ export default function AdminReturnDetailPage() {
 
                                         {returnInfo.note && (
                                             <div className="space-y-2">
-                                                <p className="text-xs font-bold uppercase text-maintext tracking-widest">Ghi chú bổ sung</p>
+                                                <p className="text-sm font-bold uppercase text-maintext tracking-widest">Ghi chú bổ sung</p>
                                                 <div className="bg-blue-50/30 border border-blue-100/50 p-4 rounded-xl text-sm text-slate-600">
                                                     {returnInfo.note}
                                                 </div>
@@ -338,7 +338,7 @@ export default function AdminReturnDetailPage() {
 
                                 <div className="p-4 space-y-8">
                                     <div className="space-y-4">
-                                        <p className="text-xs font-bold uppercase text-maintext tracking-widest">Thông tin khách hàng</p>
+                                        <p className="text-sm font-bold uppercase text-maintext tracking-widest">Thông tin khách hàng</p>
                                         <div className="flex items-center gap-4">
                                             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-slate-100 bg-slate-50 shadow-sm">
                                                 <img
@@ -359,17 +359,17 @@ export default function AdminReturnDetailPage() {
 
                                     {order.shippingName && (
                                         <div className="space-y-3 pt-4 border-t border-slate-50">
-                                            <p className="text-xs font-bold uppercase text-maintext tracking-widest">Địa chỉ đơn hàng gốc</p>
+                                            <p className="text-sm font-bold uppercase text-maintext tracking-widest">Địa chỉ đơn hàng gốc</p>
                                             <div className="space-y-1.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
                                                 <p className="text-sm font-bold text-slate-800">{order.shippingName} <span className="text-slate-400 font-normal mx-1">|</span> {order.shippingPhoneNumber}</p>
-                                                <p className="text-xs text-slate-600 leading-relaxed">{order.shippingSpecificAddress}</p>
+                                                <p className="text-sm text-slate-600 leading-relaxed">{order.shippingSpecificAddress}</p>
                                             </div>
                                         </div>
                                     )}
 
                                     {returnInfo.staff && (
                                         <div className="space-y-3 pt-4 border-t border-slate-50">
-                                            <p className="text-xs font-bold uppercase text-maintext tracking-widest">Nhân viên phụ trách</p>
+                                            <p className="text-sm font-bold uppercase text-maintext tracking-widest">Nhân viên phụ trách</p>
                                             <div className="flex items-center gap-3 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200 bg-white">
                                                     <img
@@ -380,7 +380,7 @@ export default function AdminReturnDetailPage() {
                                                 </div>
                                                 <div>
                                                     <p className="font-bold text-slate-900 text-sm leading-tight">{returnInfo.staff.fullName}</p>
-                                                    <p className="text-maintext text-xs font-medium uppercase tracking-tighter mt-0.5">{returnInfo.staff.role || "Quản trị viên"}</p>
+                                                    <p className="text-maintext text-sm font-medium uppercase tracking-tighter mt-0.5">{returnInfo.staff.role || "Quản trị viên"}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -423,7 +423,7 @@ export default function AdminReturnDetailPage() {
                                                 <div className="flex justify-between items-start">
                                                     <div>
                                                         <h4 className="font-bold text-slate-900">{item.productName}</h4>
-                                                        <p className="text-xs font-mono text-maintext">SKU: {item.productCode}</p>
+                                                        <p className="text-sm font-mono text-maintext">SKU: {item.productCode}</p>
                                                     </div>
                                                     <p className="font-bold text-slate-900">{formatCurrency(item.price)}</p>
                                                 </div>
@@ -437,7 +437,7 @@ export default function AdminReturnDetailPage() {
                                                 {canEdit && (
                                                     <div className="flex items-center gap-4 pt-4">
                                                         <div className="space-y-1.5">
-                                                            <p className="text-xs font-bold uppercase text-maintext tracking-wider">Số lượng trả</p>
+                                                            <p className="text-sm font-bold uppercase text-maintext tracking-wider">Số lượng trả</p>
                                                             <div className="flex items-center bg-slate-100 rounded-md p-1 border">
                                                                 <Button
                                                                     variant="ghost"
@@ -467,7 +467,7 @@ export default function AdminReturnDetailPage() {
                                                         </div>
 
                                                         <div className="flex-1 space-y-1.5">
-                                                            <p className="text-xs font-bold uppercase text-maintext tracking-wider">Lý do cụ thể</p>
+                                                            <p className="text-sm font-bold uppercase text-maintext tracking-wider">Lý do cụ thể</p>
                                                             <Input
                                                                 placeholder="Nhập lý do riêng cho sp này..."
                                                                 className="h-9 text-sm rounded-md"
@@ -480,14 +480,14 @@ export default function AdminReturnDetailPage() {
 
                                                 {!canEdit && item.reason && (
                                                     <div className="mt-3 bg-slate-50 p-2.5 rounded-md border border-slate-100">
-                                                        <p className="text-xs font-bold uppercase text-maintext tracking-wider mb-1">Lý do trả hàng</p>
-                                                        <p className="text-xs text-slate-600 italic">"{item.reason}"</p>
+                                                        <p className="text-sm font-bold uppercase text-maintext tracking-wider mb-1">Lý do trả hàng</p>
+                                                        <p className="text-sm text-slate-600 italic">"{item.reason}"</p>
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
                                         <div className="mt-4 pt-3 border-t border-dashed flex justify-between items-center bg-slate-50/30 -mx-5 px-5">
-                                            <span className="text-xs text-maintext font-medium uppercase tracking-wider">Thành tiền hoàn</span>
+                                            <span className="text-sm text-maintext font-medium uppercase tracking-wider">Thành tiền hoàn</span>
                                             <span className="font-bold text-slate-900">{formatCurrency(item.price * item.quantity)}</span>
                                         </div>
                                     </div>
@@ -522,7 +522,7 @@ export default function AdminReturnDetailPage() {
                                 </div>
 
                                 <div className="pt-2 space-y-2">
-                                    <p className="text-xs font-bold uppercase text-maintext tracking-widest">Số tiền hoàn (Dự kiến)</p>
+                                    <p className="text-sm font-bold uppercase text-maintext tracking-widest">Số tiền hoàn (Dự kiến)</p>
                                     <div className="bg-green-50/50 border border-green-200 p-4 rounded-xl text-center">
                                         <p className="text-3xl font-black text-primary">{formatCurrency(getTotalRefund())}</p>
                                     </div>
@@ -530,11 +530,11 @@ export default function AdminReturnDetailPage() {
 
                                 {getTotalRefund() !== returnInfo.totalRefund && (
                                     <div className="pt-2">
-                                        <div className="bg-slate-50 border border-slate-100 p-3 rounded-md flex justify-between items-center text-xs">
+                                        <div className="bg-slate-50 border border-slate-100 p-3 rounded-md flex justify-between items-center text-sm">
                                             <span className="text-maintext font-medium">Tiền hoàn gốc:</span>
                                             <span className="font-semibold text-slate-700 line-through opacity-60">{formatCurrency(returnInfo.totalRefund)}</span>
                                         </div>
-                                        <p className="text-xs text-slate-400 mt-2 text-right italic">* Số tiền thay đổi sau khi điều chỉnh số lượng</p>
+                                        <p className="text-sm text-slate-400 mt-2 text-right italic">* Số tiền thay đổi sau khi điều chỉnh số lượng</p>
                                     </div>
                                 )}
                             </div>

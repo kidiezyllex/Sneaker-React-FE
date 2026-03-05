@@ -122,10 +122,10 @@ export function ChatHistory() {
                                 onClick={() => handleLoadSession(chat.sessionId)}
                             >
                                 <p className="text-sm line-clamp-1 text-primary font-semibold">{chat.userMessage}</p>
-                                <p className="text-xs text-muted-foreground line-clamp-2 mt-1">
+                                <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
                                     {chat.botResponse}
                                 </p>
-                                <p className="text-xs text-muted-foreground mt-2">
+                                <p className="text-sm text-muted-foreground mt-2">
                                     {format(new Date(chat.createdAt || ''), 'dd/MM/yyyy HH:mm', {
                                         locale: vi,
                                     })}

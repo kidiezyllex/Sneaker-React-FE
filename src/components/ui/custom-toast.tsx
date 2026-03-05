@@ -58,7 +58,7 @@ export const CustomToast = ({
       {description && (
         <p className="text-sm text-gray-600 pl-7">{description}</p>
       )}
-      {subText && <p className="text-xs text-gray-500 pl-7">{subText}</p>}
+      {subText && <p className="text-sm text-gray-500 pl-7">{subText}</p>}
     </div>
   );
 };

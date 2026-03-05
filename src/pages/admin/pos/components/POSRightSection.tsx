@@ -1,4 +1,3 @@
-import React from "react";
 import { Icon } from "@mdi/react";
 import {
   mdiAccount,
@@ -25,11 +24,11 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 import { POSCartItem } from "@/stores/usePOSCartStore";
 import { PendingCart } from "@/stores/usePendingCartsStore";
 import { Loader2 } from "lucide-react";
 import { formatCurrency } from "@/utils/formatters";
+import { useAccounts } from "@/hooks/account";
 
 interface POSRightSectionProps {
   cartItems: POSCartItem[];
@@ -47,8 +46,7 @@ interface POSRightSectionProps {
   customerPhone: string;
   setCustomerPhone: (phone: string) => void;
   selectedUserId: string;
-  onUserSelect: (id: string) => void;
-  usersData: any;
+  onUserSelect: (id: string, user?: any) => void;
   paymentMethod: string;
   setPaymentMethod: (method: string) => void;
   cashReceived: number | string;
@@ -59,8 +57,6 @@ interface POSRightSectionProps {
   activeCartId: string | null;
   pendingCarts: PendingCart[];
 }
-
-
 
 export default function POSRightSection({
   cartItems,
@@ -79,7 +75,6 @@ export default function POSRightSection({
   setCustomerPhone,
   selectedUserId,
   onUserSelect,
-  usersData,
   paymentMethod,
   setPaymentMethod,
   cashReceived,
@@ -90,6 +85,8 @@ export default function POSRightSection({
   activeCartId,
   pendingCarts,
 }: POSRightSectionProps) {
+  const { data: usersData } = useAccounts({ limit: 100, role: 'CUSTOMER' });
+
   const activeCartName =
     pendingCarts.find((c) => c.id === activeCartId)?.name ||
     "Giỏ hàng hiện tại";
@@ -98,8 +95,8 @@ export default function POSRightSection({
     <div className="flex flex-col h-full bg-white rounded-xl shadow-lg border border-border/50 overflow-hidden">
       {/* Header Giỏ hàng */}
       <div className="p-4 bg-gray-50 border-b border-border flex items-center justify-between">
-        <h3 className="font-semibold text-lg flex items-center gap-2 text-maintext">
-          <Icon path={mdiCartOutline} size={0.8} className="text-primary" />
+        <h3 className="font-semibold text-lg flex items-center gap-2 text-primary">
+          <Icon path={mdiCartOutline} size={0.8} />
           {activeCartName}
           <Badge variant="default" showIcon={false}>
             {cartItems.length}
@@ -132,7 +129,7 @@ export default function POSRightSection({
                   <div className="flex-1 min-w-0 flex flex-col justify-between">
                     <div>
                       <div className="flex justify-between items-start">
-                        <h4 className="font-medium text-sm text-maintext line-clamp-2 pr-6">
+                        <h4 className="font-semibold text-base text-primary text-wrap line-clamp-2">
                           {item.name}
                         </h4>
                         <button
@@ -143,16 +140,8 @@ export default function POSRightSection({
                         </button>
                       </div>
                       <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
-                        <Badge
-                          variant="outline"
-                          className="h-5 px-1.5 font-normal"
-                        >
-                          Size: {item.sizeName}
-                        </Badge>
-                        <Badge
-                          variant="outline"
-                          className="h-5 px-1.5 font-normal flex items-center gap-1"
-                        >
+                        <Badge variant="outline">Size: {item.sizeName}</Badge>
+                        <Badge variant="outline">
                           <span
                             className="w-2 h-2 rounded-full border border-gray-300"
                             style={{ backgroundColor: item.colorCode }}
@@ -161,37 +150,38 @@ export default function POSRightSection({
                         </Badge>
                       </div>
                     </div>
-                    <div className="flex justify-between items-end mt-2">
-                      <div className="flex items-center gap-2 border rounded-md bg-gray-50 h-8">
-                        <button
-                          className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-l-md transition-colors text-gray-600"
-                          onClick={() => onUpdateQuantity(item.id, -1)}
-                        >
-                          <Icon path={mdiMinus} size={0.8} />
-                        </button>
-                        <span className="w-8 text-center text-sm font-medium">
-                          {item.quantity}
-                        </span>
-                        <button
-                          className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-r-md transition-colors text-gray-600"
-                          onClick={() => onUpdateQuantity(item.id, 1)}
-                          disabled={item.quantity >= item.stock}
-                        >
-                          <Icon path={mdiPlus} size={0.8} />
-                        </button>
+                    <div className="mt-2 flex flex-col gap-2">
+                      <div className="flex gap-1 items-center justify-between">
+                        <span className="font-semibold text-sm">Số lượng: </span>
+                        <div className="flex items-center gap-2 border rounded-md bg-gray-50 h-8">
+                          <button
+                            className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-l-md transition-colors text-gray-600"
+                            onClick={() => onUpdateQuantity(item.id, -1)}
+                          >
+                            <Icon path={mdiMinus} size={0.8} />
+                          </button>
+                          <span className="w-8 text-center text-sm font-medium">
+                            {item.quantity}
+                          </span>
+                          <button
+                            className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-r-md transition-colors text-gray-600"
+                            onClick={() => onUpdateQuantity(item.id, 1)}
+                            disabled={item.quantity >= item.stock}
+                          >
+                            <Icon path={mdiPlus} size={0.8} />
+                          </button>
+                        </div>
                       </div>
-                      <div className="text-right">
+                      <div className="flex gap-1 items-center justify-between">
+                        <span className="font-semibold text-sm">Giá tiền: </span>
                         <div className="font-semibold text-primary">
                           {formatCurrency(item.price * item.quantity)}
                         </div>
-                        {item.price !== item.originalPrice &&
-                          item.originalPrice && (
-                            <div className="text-sm text-gray-400 line-through">
-                              {formatCurrency(
-                                item.originalPrice * item.quantity
-                              )}
-                            </div>
-                          )}
+                        {item.price !== item.originalPrice && item.originalPrice && (
+                          <div className="text-sm text-gray-400 line-through">
+                            {formatCurrency(item.originalPrice * item.quantity)}
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -202,23 +192,30 @@ export default function POSRightSection({
         </ScrollArea>
       </div>
 
-      {/* Thông tin khách hàng */}
       <div className="p-4 bg-white border-t border-border space-y-4">
         <div className="space-y-3">
-          <div className="flex items-center gap-2 font-medium text-maintext">
-            <Icon path={mdiAccount} size={0.8} className="text-primary" />
+          <div className="flex items-center gap-1 font-semibold text-primary">
+            <Icon path={mdiAccount} size={0.8} />
             Thông tin khách hàng
           </div>
           <div className="grid grid-cols-1 gap-3">
-            <Select value={selectedUserId} onValueChange={onUserSelect}>
-              <SelectTrigger className="w-full">
+            <Select
+              value={selectedUserId}
+              onValueChange={(val) => {
+                const user = usersData?.data?.content?.find((u: any) => u.id === val);
+                onUserSelect(val, user);
+              }}
+            >
+              <SelectTrigger className="w-full h-10">
                 <SelectValue placeholder="Chọn khách hàng (Không bắt buộc)" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="guest">Khách vãng lai</SelectItem>
-                {usersData?.data?.accounts &&
-                  usersData.data.accounts.length > 0 ? (
-                  usersData.data.accounts.map((user: any) => (
+                <SelectItem value="guest" className="font-semibold text-primary">
+                  Khách vãng lai (Nhập tay)
+                </SelectItem>
+                <Separator className="my-1" />
+                {usersData?.data?.content && usersData.data.content.length > 0 ? (
+                  usersData.data.content.map((user: any) => (
                     <SelectItem key={user.id} value={user.id}>
                       {user.fullName} - {user.phoneNumber}
                     </SelectItem>
@@ -230,25 +227,23 @@ export default function POSRightSection({
                 )}
               </SelectContent>
             </Select>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="space-y-1">
-                <Input
-                  className="h-9 text-sm"
-                  placeholder="Họ tên khách hàng"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                  disabled={selectedUserId !== "guest"}
-                />
-              </div>
-              <div className="space-y-1">
-                <Input
-                  className="h-9 text-sm"
-                  placeholder="Số điện thoại"
-                  value={customerPhone}
-                  onChange={(e) => setCustomerPhone(e.target.value)}
-                  disabled={selectedUserId !== "guest"}
-                />
-              </div>
+            <div className="flex items-center gap-1">
+              <Label>Họ tên: </Label>
+              <Input
+                placeholder="Họ tên khách hàng"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+                disabled={selectedUserId !== "guest"}
+              />
+            </div>
+            <div className="flex items-center gap-1">
+              <Label>Số điện thoại: </Label>
+              <Input
+                placeholder="Số điện thoại"
+                value={customerPhone}
+                onChange={(e) => setCustomerPhone(e.target.value)}
+                disabled={selectedUserId !== "guest"}
+              />
             </div>
           </div>
         </div>
@@ -257,8 +252,8 @@ export default function POSRightSection({
 
         {/* Mã giảm giá */}
         <div className="space-y-3">
-          <div className="flex items-center gap-2 font-medium text-maintext">
-            <Icon path={mdiTag} size={0.8} className="text-primary" />
+          <div className="flex items-center gap-1 font-semibold text-primary">
+            <Icon path={mdiTag} size={0.8} />
             Mã giảm giá
           </div>
           <div className="flex gap-2">
@@ -292,8 +287,8 @@ export default function POSRightSection({
         <div className="space-y-4">
           <div className="space-y-2 text-sm">
             <div className="flex justify-between text-gray-500">
-              <span>Tạm tính</span>
-              <span className="font-medium text-maintext">
+              <span className="font-semibold text-base">Tạm tính</span>
+              <span className="font-semibold text-maintext text-base">
                 {formatCurrency(subtotal)}
               </span>
             </div>
@@ -344,8 +339,8 @@ export default function POSRightSection({
           {paymentMethod === "cash" && (
             <div className="space-y-3 bg-gray-50 p-3 rounded-md border border-border/50">
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-500 uppercase">
-                  Tiền khách đưa
+                <Label>
+                  Tiền khách đưa:
                 </Label>
                 <div className="relative">
                   <Input
@@ -361,9 +356,9 @@ export default function POSRightSection({
                 </div>
               </div>
               <div className="flex justify-between items-center pt-2 border-t border-gray-200">
-                <span className="text-sm font-medium text-gray-500">
+                <Label>
                   Tiền thừa
-                </span>
+                </Label>
                 <span className="font-semibold text-lg text-primary">
                   {formatCurrency(changeDue)}
                 </span>
@@ -377,8 +372,7 @@ export default function POSRightSection({
             disabled={
               checkoutIsLoading ||
               cartItems.length === 0 ||
-              (paymentMethod === "cash" &&
-                (Number(cashReceived) < total || !cashReceived))
+              (paymentMethod === "cash" && (Number(cashReceived) < total || !cashReceived))
             }
           >
             {checkoutIsLoading ? (

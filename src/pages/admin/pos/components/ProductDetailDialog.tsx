@@ -110,7 +110,7 @@ const ProductDetailDialog = ({
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
-            <DialogContent size="md">
+            <DialogContent size="xl">
                 <DialogHeader title="Chi tiết sản phẩm POS" icon={mdiCartPlus} />
 
                 <div className="space-y-4 py-2 px-4">
@@ -230,7 +230,7 @@ const ProductDetailDialog = ({
                                     <Icon path={mdiCartPlus} size={0.8} /> Số lượng
                                 </h3>
                                 <div className="space-y-1">
-                                    <p className="text-xs text-muted-foreground">Kho còn: <span className="text-primary font-black">{selectedVariant?.stock || 0}</span></p>
+                                    <p className="text-sm text-muted-foreground">Kho còn: <span className="text-primary font-black">{selectedVariant?.stock || 0}</span></p>
                                 </div>
 
                                 <div className="flex items-center bg-white rounded-xl border border-primary/60 w-fit h-10">

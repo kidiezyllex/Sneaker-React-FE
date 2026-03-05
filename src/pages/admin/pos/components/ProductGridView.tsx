@@ -68,18 +68,18 @@ const ProductGridView = ({
                         </div>
                         <div className="p-4">
                             <h3
-                                className="font-medium text-maintext group-hover:text-primary transition-colors truncate cursor-pointer"
+                                className="font-semibold text-maintext group-hover:text-primary transition-colors line-clamp-1 cursor-pointer mb-1"
                                 onClick={() => handleProductSelect(product)}
                                 title={product.name}
                             >
                                 {product.name}
                             </h3>
-                            <p className="text-maintext text-sm mb-2 truncate">
+                            <Badge variant="outline" showIcon>
                                 {getBrandName(product.brand)}
-                            </p>
-                            <div className="flex justify-between items-center">
+                            </Badge>
+                            <div className="flex justify-between items-center mt-1">
                                 <div className="flex flex-col">
-                                    <p className="font-medium text-primary">
+                                    <p className="font-semibold text-primary text-xl">
                                         {firstVariant
                                             ? formatCurrency(
                                                 (product as any).hasDiscount
@@ -111,7 +111,7 @@ const ProductGridView = ({
                                                 />
                                             ))}
                                         {productColors.length > 3 && (
-                                            <div className="h-5 w-5 rounded-full bg-gray-100 border border-slate-200 flex items-center justify-center text-[10px] font-bold text-maintext shadow-sm">
+                                            <div className="h-5 w-5 rounded-full bg-gray-100 border border-slate-200 flex items-center justify-center text-sm font-bold text-maintext shadow-sm">
                                                 +{productColors.length - 3}
                                             </div>
                                         )}

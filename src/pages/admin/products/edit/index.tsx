@@ -18,11 +18,9 @@ import {
 } from "@/interface/request/product";
 import {
     Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
+    BreadcrumbItem, BreadcrumbList,
     BreadcrumbPage,
-    BreadcrumbSeparator,
+    BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
@@ -659,7 +657,7 @@ export default function EditProductPage() {
                                                         >
                                                             <div className="flex flex-col items-center p-4">
                                                                 <Icon path={mdiImageOutline} size={1.5} />
-                                                                <p className="text-xs mt-2">Chưa có hình ảnh</p>
+                                                                <p className="text-sm mt-2">Chưa có hình ảnh</p>
                                                             </div>
                                                         </div>
                                                     )}

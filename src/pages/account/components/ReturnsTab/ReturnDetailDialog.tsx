@@ -188,7 +188,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                                   alt={product?.name || "Sản phẩm"}
                                   className="w-16 h-16 object-contain rounded border bg-white"
                                 />
-                                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                                <span className="absolute -top-2 -right-2 bg-primary text-white text-sm rounded-full w-5 h-5 flex items-center justify-center font-bold">
                                   {item.quantity}
                                 </span>
                               </div>
@@ -198,16 +198,16 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                                 </p>
                                 <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
                                   {color && (
-                                    <span className="text-xs text-gray-500 flex items-center">
+                                    <span className="text-sm text-gray-500 flex items-center">
                                       Màu: <span className="font-medium text-gray-700 ml-1">{color.name}</span>
                                     </span>
                                   )}
                                   {size && (
-                                    <span className="text-xs text-gray-500 flex items-center">
+                                    <span className="text-sm text-gray-500 flex items-center">
                                       Size: <span className="font-medium text-gray-700 ml-1">{size.value}</span>
                                     </span>
                                   )}
-                                  <span className="text-xs text-gray-500 flex items-center">
+                                  <span className="text-sm text-gray-500 flex items-center">
                                     Đơn giá: <span className="font-medium text-gray-700 ml-1">{formatPrice(item.price)}</span>
                                   </span>
                                 </div>

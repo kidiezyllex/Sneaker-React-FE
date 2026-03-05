@@ -25,7 +25,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiLoading } from "@mdi/js";
+import { mdiLoading } from "@mdi/js";
 import {
     Select,
     SelectContent,
@@ -310,7 +310,7 @@ export default function EditVoucherPage() {
                                 <div className="p-2.5 border rounded-[6px] bg-gray-50 mt-1">
                                     {originalVoucher.code}
                                 </div>
-                                <p className="text-xs text-maintext mt-1">
+                                <p className="text-sm text-maintext mt-1">
                                     Mã voucher không thể thay đổi sau khi tạo
                                 </p>
                             </div>
@@ -324,7 +324,7 @@ export default function EditVoucherPage() {
                                         ? "Phần trăm (%)"
                                         : "Số tiền cố định (VNĐ)"}
                                 </div>
-                                <p className="text-xs text-maintext mt-1">
+                                <p className="text-sm text-maintext mt-1">
                                     Loại voucher không thể thay đổi sau khi tạo
                                 </p>
                             </div>
@@ -339,7 +339,7 @@ export default function EditVoucherPage() {
                                         {originalVoucher.type === "PERCENTAGE" ? "%" : "VNĐ"}
                                     </span>
                                 </div>
-                                <p className="text-xs text-maintext mt-1">
+                                <p className="text-sm text-maintext mt-1">
                                     Giá trị không thể thay đổi sau khi tạo
                                 </p>
                             </div>
@@ -378,7 +378,7 @@ export default function EditVoucherPage() {
                                 {errors.quantity && (
                                     <p className="text-red-500 text-sm">{errors.quantity}</p>
                                 )}
-                                <p className="text-xs text-maintext">
+                                <p className="text-sm text-maintext">
                                     Đã sử dụng: {originalVoucher.usedCount}/{voucher.quantity}{" "}
                                     voucher
                                 </p>
@@ -409,7 +409,7 @@ export default function EditVoucherPage() {
                                     {errors.maxDiscount && (
                                         <p className="text-red-500 text-sm">{errors.maxDiscount}</p>
                                     )}
-                                    <p className="text-xs text-maintext">
+                                    <p className="text-sm text-maintext">
                                         Giới hạn số tiền giảm tối đa (để trống nếu không giới hạn)
                                     </p>
                                 </div>
@@ -439,7 +439,7 @@ export default function EditVoucherPage() {
                                 {errors.minOrderValue && (
                                     <p className="text-red-500 text-sm">{errors.minOrderValue}</p>
                                 )}
-                                <p className="text-xs text-maintext">
+                                <p className="text-sm text-maintext">
                                     Giá trị đơn hàng tối thiểu để áp dụng voucher (0 = không giới
                                     hạn)
                                 </p>
@@ -513,7 +513,7 @@ export default function EditVoucherPage() {
                                 {errors.status && (
                                     <p className="text-red-500 text-sm">{errors.status}</p>
                                 )}
-                                <p className="text-xs text-maintext">
+                                <p className="text-sm text-maintext">
                                     Trạng thái của voucher (người dùng chỉ có thể sử dụng voucher
                                     đang hoạt động)
                                 </p>

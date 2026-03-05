@@ -343,7 +343,7 @@ const VouchersTab = () => {
                   <div className="text-3xl font-black">
                     {formatDiscountValue(selectedVoucher.type, selectedVoucher.value)}
                   </div>
-                  <p className="text-xs opacity-70 italic">Chi tiêu tối thiểu {formatPrice(selectedVoucher.minOrderValue || 0)}</p>
+                  <p className="text-sm opacity-70 italic">Chi tiêu tối thiểu {formatPrice(selectedVoucher.minOrderValue || 0)}</p>
                 </div>
 
                 {/* Vertical Dashed Line Divider for MD+ */}
@@ -391,7 +391,7 @@ const VouchersTab = () => {
                         <Icon path={mdiTrophyOutline} size={0.8} className="text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Giảm tối đa</p>
+                        <p className="text-sm text-gray-500 font-medium">Giảm tối đa</p>
                         <p className="font-bold text-gray-900">
                           {selectedVoucher.type === "PERCENTAGE" && selectedVoucher.maxDiscount
                             ? formatPrice(selectedVoucher.maxDiscount)
@@ -405,7 +405,7 @@ const VouchersTab = () => {
                         <Icon path={mdiCartOutline} size={0.8} className="text-orange-600" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Lượt sử dụng còn</p>
+                        <p className="text-sm text-gray-500 font-medium">Lượt sử dụng còn</p>
                         <p className="font-bold text-gray-900">
                           {selectedVoucher.quantity - (selectedVoucher.usedCount || 0)} / {selectedVoucher.quantity}
                         </p>
@@ -417,7 +417,7 @@ const VouchersTab = () => {
                         <Icon path={mdiCalendar} size={0.8} className="text-green-600" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Hạn sử dụng</p>
+                        <p className="text-sm text-gray-500 font-medium">Hạn sử dụng</p>
                         <p className="font-bold text-gray-900">
                           {formatDate(selectedVoucher.endDate)}
                         </p>
@@ -429,7 +429,7 @@ const VouchersTab = () => {
                         <Icon path={mdiClockOutline} size={0.8} className="text-purple-600" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 font-medium">Ngày bắt đầu</p>
+                        <p className="text-sm text-gray-500 font-medium">Ngày bắt đầu</p>
                         <p className="font-bold text-gray-900">
                           {formatDate(selectedVoucher.startDate)}
                         </p>
@@ -442,7 +442,7 @@ const VouchersTab = () => {
                       <Icon path={mdiInformationOutline} size={0.8} />
                       Điều kiện áp dụng
                     </div>
-                    <ul className="text-xs text-amber-700/80 space-y-1 list-disc list-inside ml-1">
+                    <ul className="text-sm text-amber-700/80 space-y-1 list-disc list-inside ml-1">
                       <li>Áp dụng cho đơn hàng có giá trị từ {formatPrice(selectedVoucher.minOrderValue || 0)}</li>
                       <li>Mỗi khách hàng chỉ được sử dụng tối đa 1 lần</li>
                       {selectedVoucher.type === "PERCENTAGE" && <li>Giảm tối đa {formatPrice(selectedVoucher.maxDiscount || 0)} cho mỗi đơn hàng</li>}

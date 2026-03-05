@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Icon from '@mdi/react';
-import { mdiMessageTextFastOutline, mdiClose, mdiSend, mdiLoading, mdiRobot, mdiAccount, mdiStar, mdiHistory, mdiRobotHappyOutline, mdiRobotLoveOutline, mdiAccountSupervisorCircleOutline } from '@mdi/js';
+import { mdiMessageTextFastOutline, mdiSend, mdiStar, mdiHistory, mdiRobotHappyOutline } from '@mdi/js';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -104,7 +104,7 @@ function ChatMessage({ message }: { message: Message }) {
                 </div>
 
                 <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-sm text-muted-foreground">
                         {format(new Date(message.timestamp), 'HH:mm', { locale: vi })}
                     </span>
                     {!isUser && message.chatId && <ChatRating chatId={message.chatId} />}
@@ -234,4 +234,3 @@ export function ChatWindow() {
         </Sheet>
     );
 }
-

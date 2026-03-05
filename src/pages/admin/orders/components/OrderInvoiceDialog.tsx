@@ -170,7 +170,7 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                                                     <div className="font-medium text-sm">
                                                         {item.product?.name || "Sản phẩm không rõ"}
                                                     </div>
-                                                    <div className="text-xs text-maintext/70 mt-0.5">
+                                                    <div className="text-sm text-maintext/70 mt-0.5">
                                                         {item.variant?.color?.name} /{" "}
                                                         {item.variant?.size?.value}
                                                     </div>

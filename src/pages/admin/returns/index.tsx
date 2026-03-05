@@ -12,19 +12,16 @@ import {
   useReturns,
   useDeleteReturn,
   useUpdateReturnStatus,
-  useReturnStats,
-  useSearchReturn,
+  useReturnStats
 } from "@/hooks/return";
 import { IReturnFilter } from "@/interface/request/return";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Table,
@@ -37,8 +34,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { format } from "date-fns";
-import { vi } from "date-fns/locale";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -51,15 +47,7 @@ import {
   mdiDownload,
   mdiPlus,
   mdiFilterOutline,
-  mdiCalendar,
-  mdiDotsVertical,
-  mdiEye,
-  mdiPencilCircle,
-  mdiCheckCircle,
-  mdiDeleteCircle,
-  mdiCancel,
-  mdiCheck,
-  mdiPencil,
+  mdiCalendar, mdiEye, mdiDeleteCircle
 } from "@mdi/js";
 import { CommonPagination } from "@/components/ui/common-pagination";
 import { formatCurrency, formatDateTime } from "@/utils/formatters";
@@ -500,7 +488,7 @@ export default function ReturnsPage() {
                         <TableCell>
                           <div className="flex flex-col">
                             <span className="font-medium text-slate-700">{returnItem.customer.fullName}</span>
-                            <span className="text-xs text-maintext">{returnItem.customer.phoneNumber}</span>
+                            <span className="text-sm text-maintext">{returnItem.customer.phoneNumber}</span>
                           </div>
                         </TableCell>
                         <TableCell>
@@ -593,4 +581,3 @@ export default function ReturnsPage() {
     </div>
   );
 }
-

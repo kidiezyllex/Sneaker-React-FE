@@ -102,7 +102,7 @@ const ProductTableView = ({
                                             >
                                                 {product.name}
                                             </span>
-                                            <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
+                                            <span className="text-sm text-muted-foreground uppercase tracking-widest font-bold">
                                                 ID: {product.id}
                                             </span>
                                         </div>
@@ -135,7 +135,7 @@ const ProductTableView = ({
                                                 : "N/A"}
                                         </span>
                                         {(product as any).hasDiscount && (
-                                            <span className="text-[10px] text-muted-foreground line-through">
+                                            <span className="text-sm text-muted-foreground line-through">
                                                 {formatCurrency(
                                                     (product as any).originalPrice
                                                 )}

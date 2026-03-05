@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CustomToast } from "@/components/ui/custom-toast";
-import { motion } from "framer-motion";
+
 import { Icon } from "@mdi/react";
 import {
   mdiMagnify, mdiInvoicePlus,
@@ -47,7 +47,6 @@ import { usePendingCartsStore } from "@/stores/usePendingCartsStore";
 import { getSizeLabel } from "@/utils/sizeMapping";
 
 import { Input } from "@/components/ui/input";
-import { useAccounts } from "@/hooks/account";
 import { useValidateVoucher } from "@/hooks/voucher";
 import { useCreatePOSOrder } from "@/hooks/order";
 import POSRightSection from "./components/POSRightSection";
@@ -281,7 +280,7 @@ export default function POSPage() {
   const [isDetailDialogOpen, setIsDetailDialogOpen] = useState(false);
   const [selectedProductForDetail, setSelectedProductForDetail] = useState<any>(null);
 
-  const { data: usersData } = useAccounts({ limit: 100 });
+
   const validateVoucherMutation = useValidateVoucher();
   const createPOSOrderMutation = useCreatePOSOrder();
 
@@ -393,14 +392,11 @@ export default function POSPage() {
     }
   };
 
-  const onUserSelect = (id: string) => {
+  const onUserSelect = (id: string, user?: any) => {
     setSelectedUserId(id);
-    if (id !== "guest") {
-      const user = usersData?.data?.content?.find((u: any) => u.id === id);
-      if (user) {
-        setCustomerName(user.fullName || "");
-        setCustomerPhone(user.phoneNumber || "");
-      }
+    if (id !== "guest" && user) {
+      setCustomerName(user.fullName || "");
+      setCustomerPhone(user.phoneNumber || "");
     } else {
       setCustomerName("");
       setCustomerPhone("");
@@ -962,7 +958,7 @@ export default function POSPage() {
               <span>Hoá đơn chờ</span>
               <div className="bg-green-50 px-3 py-0.5 rounded-full text-sm text-primary">({pendingCarts.length}/5)</div>
             </h3>
-            <p className="text-base text-gray-600">
+            <p className="text-base text-gray-700 font-medium">
               Lưu trữ tạm thời các đơn hàng đang phục vụ để luân chuyển nhanh chóng (Tối đa 5 hoá đơn chờ cùng lúc)
             </p>
           </div>
@@ -979,11 +975,8 @@ export default function POSPage() {
         {pendingCarts.length > 0 && (
           <div className="flex gap-2 overflow-x-auto">
             {pendingCarts.slice(0, 5).map((cart, index) => (
-              <motion.button
+              <button
                 key={cart.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
                 className={cn(
                   "relative flex items-center gap-2 p-2 rounded-md border-2 transition-all duration-200 min-w-[140px] group",
                   activeCartId === cart.id
@@ -1002,16 +995,16 @@ export default function POSPage() {
                   />
                   <Icon
                     path={mdiCart}
-                    size={0.6}
+                    size={0.8}
                     className={cn(
                       activeCartId === cart.id
                         ? "text-primary"
                         : "text-maintext/50"
                     )}
                   />
-                  <span className="text-sm font-medium truncate">
+                  <span className="text-base font-medium truncate">
                     {cart.name}{" "}
-                    <span className="text-sm text-maintext/70 font-semibold">
+                    <span className="text-base text-maintext/70 font-semibold">
                       (
                       {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
                       )
@@ -1031,7 +1024,7 @@ export default function POSPage() {
                 >
                   <Icon path={mdiClose} size={0.8} />
                 </button>
-              </motion.button>
+              </button>
             ))}
 
             {pendingCarts.length > 5 && (
@@ -1230,7 +1223,6 @@ export default function POSPage() {
             setCustomerPhone={setCustomerPhone}
             selectedUserId={selectedUserId}
             onUserSelect={onUserSelect}
-            usersData={usersData}
             paymentMethod={paymentMethod}
             setPaymentMethod={setPaymentMethod}
             cashReceived={cashReceived}
@@ -1255,7 +1247,6 @@ export default function POSPage() {
           order={createdOrder}
         />
       )}
-      {/* Dialog chi tiết sản phẩm POS */}
       <ProductDetailDialog
         isOpen={isDetailDialogOpen}
         onClose={() => setIsDetailDialogOpen(false)}
