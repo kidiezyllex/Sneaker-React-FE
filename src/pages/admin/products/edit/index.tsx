@@ -34,7 +34,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { createFormData } from "@/utils/cloudinary";
 import { toast } from "react-toastify";
@@ -46,6 +45,11 @@ import {
     mdiLoading,
     mdiUpload,
     mdiImageOutline,
+    mdiInformationOutline,
+    mdiPackageVariant,
+    mdiCheck,
+    mdiArrowRight,
+    mdiClose
 } from "@mdi/js";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -327,19 +331,13 @@ export default function EditProductPage() {
             <Breadcrumb>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <Link
-                            to="/admin/statistics"
-
-                        >
+                        <Link to="/admin/statistics">
                             Dashboard
                         </Link>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <Link
-                            to="/admin/products"
-
-                        >
+                        <Link to="/admin/products">
                             Quản lý sản phẩm
                         </Link>
                     </BreadcrumbItem>
@@ -349,355 +347,412 @@ export default function EditProductPage() {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 bg-white rounded-md border">
-                <TabsList className="grid w-full md:w-[500px] grid-cols-3">
-                    <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>
-                    <TabsTrigger value="variants" className="px-4 text-maintext/70">Biến thể</TabsTrigger>
-                    <TabsTrigger value="status" className="px-4 text-maintext/70">Trạng thái</TabsTrigger>
-                </TabsList>
 
-                <TabsContent value="info" className="space-y-4 text-maintext">
-                    <Card className="mb-4 border-none">
-                        <CardHeader>
-                            <CardTitle>Thông tin cơ bản</CardTitle>
-                        </CardHeader>
-                        <form onSubmit={handleUpdateInfo}>
-                            <CardContent className="space-y-4 text-maintext">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="name">Tên sản phẩm</Label>
-                                        <Input
-                                            id="name"
-                                            name="name"
-                                            value={productUpdate.name || ""}
-                                            onChange={handleInputChange}
-                                            placeholder="Nhập tên sản phẩm"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="brand">Thương hiệu</Label>
-                                        <Select
-                                            value={productUpdate.brandId || ""}
-                                            onValueChange={(value) =>
-                                                setProductUpdate({ ...productUpdate, brandId: value })
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Chọn thương hiệu" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {(brandsData?.data || []).map((brand) => (
-                                                    <SelectItem key={brand.id} value={brand.id.toString()}>
-                                                        {brand.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="category">Danh mục</Label>
-                                        <Select
-                                            value={productUpdate.categoryId || ""}
-                                            onValueChange={(value) =>
-                                                setProductUpdate({ ...productUpdate, categoryId: value })
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Chọn danh mục" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {(categoriesData?.data || []).map((category) => (
-                                                    <SelectItem key={category.id} value={category.id.toString()}>
-                                                        {category.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="material">Chất liệu</Label>
-                                        <Select
-                                            value={productUpdate.materialId || ""}
-                                            onValueChange={(value) =>
-                                                setProductUpdate({ ...productUpdate, materialId: value })
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Chọn chất liệu" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {(materialsData?.data || []).map((material) => (
-                                                    <SelectItem key={material.id} value={material.id.toString()}>
-                                                        {material.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label htmlFor="weight">Trọng lượng (gram)</Label>
-                                        <Input
-                                            id="weight"
-                                            name="weight"
-                                            type="number"
-                                            min="0"
-                                            value={productUpdate.weight || ""}
-                                            onChange={handleInputChange}
-                                            placeholder="Nhập trọng lượng"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <Label htmlFor="description">Mô tả sản phẩm</Label>
-                                    <Textarea
-                                        id="description"
-                                        name="description"
-                                        value={productUpdate.description || ""}
-                                        onChange={handleInputChange}
-                                        placeholder="Nhập mô tả sản phẩm"
-                                        rows={5}
-                                    />
-                                </div>
-                            </CardContent>
-                            <CardFooter className="flex justify-end">
-                                <Button
-                                    type="submit"
-                                    disabled={updateProduct.isPending}
-                                    className="flex items-center gap-2"
-                                >
-                                    {updateProduct.isPending ? (
-                                        <>
+            <form onSubmit={handleUpdateInfo} className="border bg-white rounded-xl overflow-hidden">
+                <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 rounded-xl p-4 pt-2 bg-white">
+                    <TabsList className="grid w-full md:w-[400px] grid-cols-2">
+                        <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>
+                        <TabsTrigger value="variants" className="px-4 text-maintext/70">Biến thể sản phẩm</TabsTrigger>
+                    </TabsList>
+                    <div>
+                        <TabsContent value="info" className="space-y-4 text-maintext mt-0">
+                            <Card>
+                                <CardHeader className="px-0 pt-0">
+                                    <CardTitle className="flex items-center gap-2">
+                                        <div className="p-2 rounded-full bg-primary/10">
                                             <Icon
-                                                path={mdiLoading}
+                                                path={mdiInformationOutline}
                                                 size={0.8}
-                                                className="animate-spin"
+                                                className="text-primary"
                                             />
-                                            Đang cập nhật...
-                                        </>
-                                    ) : (
-                                        "Cập nhật thông tin"
-                                    )}
-                                </Button>
-                            </CardFooter>
-                        </form>
-                    </Card>
-                </TabsContent>
-
-                <TabsContent value="variants" className="space-y-4 text-maintext">
-                    <Card className="mb-4 border-none">
-                        <CardHeader>
-                            <CardTitle>Biến thể sản phẩm</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <AnimatePresence>
-                                {product.variants.map((variant) => (
-                                    <motion.div
-                                        key={variant.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="border p-4 rounded-[6px]"
-                                    >
-                                        <div className="flex justify-between items-center mb-4">
-                                            <div>
-                                                <h3 className="text-lg font-medium">
-                                                    {variant.color.name} -{" "}
-                                                    {variant.size.name || variant.size.value}
-                                                </h3>
-                                                <p className="text-sm text-maintext">
-                                                    Giá:{" "}
-                                                    {formatCurrency(variant.price)}
-                                                </p>
-                                            </div>
                                         </div>
-
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                                            <div className="space-y-2">
-                                                <Label
-                                                    htmlFor={`stock-${variant.id}`}
-                                                    className="text-maintext"
-                                                >
-                                                    Số lượng tồn kho
-                                                </Label>
-                                                <div className="flex gap-2">
-                                                    <Input
-                                                        id={`stock-${variant.id}`}
-                                                        type="number"
-                                                        min="0"
-                                                        defaultValue={variant.stock}
-                                                        placeholder="Nhập số lượng tồn kho"
-                                                    />
-                                                    <Button
-                                                        type="button"
-                                                        onClick={(e) => {
-                                                            const input = e.currentTarget
-                                                                .previousElementSibling as HTMLInputElement;
-                                                            handleUpdateStock(
-                                                                variant.id,
-                                                                parseInt(input.value) || 0
-                                                            );
-                                                        }}
-                                                        disabled={updateProductStock.isPending}
-                                                    >
-                                                        {updateProductStock.isPending &&
-                                                            updateProductStock.variables?.payload
-                                                                .variantUpdates[0]?.variantId ===
-                                                            variant.id.toString() ? (
-                                                            <Icon
-                                                                path={mdiLoading}
-                                                                size={0.8}
-                                                                className="animate-spin"
-                                                            />
-                                                        ) : (
-                                                            "Cập nhật"
-                                                        )}
-                                                    </Button>
-                                                </div>
-                                            </div>
+                                        <span>Thông tin cơ bản</span>
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-6 text-maintext px-0">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="name">Tên sản phẩm <span className="text-red-500">*</span></Label>
+                                            <Input
+                                                id="name"
+                                                name="name"
+                                                value={productUpdate.name || ""}
+                                                onChange={handleInputChange}
+                                                placeholder="Nhập tên sản phẩm"
+                                                required
+                                            />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label className="text-maintext">Hình ảnh sản phẩm</Label>
-                                            <div className="flex flex-col gap-4">
-                                                <div className="flex items-center gap-2">
-                                                    <Input
-                                                        type="file"
-                                                        id={`file-upload-${variant.id}`}
-                                                        onChange={(e) => {
-                                                            const files = e.target.files;
-                                                            if (files && files.length > 0) {
-                                                                handleImageUpload(files[0], variant.id);
-                                                                e.target.value = "";
-                                                            }
-                                                        }}
-                                                        accept="image/*"
-                                                        className="hidden"
-                                                    />
-                                                    <Button
-                                                        type="button"
-                                                        variant="outline"
-                                                        onClick={() =>
-                                                            document
-                                                                .getElementById(`file-upload-${variant.id}`)
-                                                                ?.click()
-                                                        }
-                                                        disabled={
-                                                            uploading || updateProductImages.isPending
-                                                        }
-                                                        className="flex items-center gap-2"
-                                                    >
-                                                        {uploading ? (
-                                                            <>
-                                                                <Icon
-                                                                    path={mdiLoading}
-                                                                    size={0.8}
-                                                                    className="animate-spin"
-                                                                />
-                                                                Đang tải...
-                                                            </>
-                                                        ) : (
-                                                            <>
-                                                                <Icon path={mdiUpload} size={0.8} />
-                                                                Tải lên hình ảnh
-                                                            </>
-                                                        )}
-                                                    </Button>
-                                                </div>
-
-                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
-                                                    {variant.images.length > 0 ? (
-                                                        variant.images.map((image, index) => (
-                                                            <div
-                                                                key={index}
-                                                                className="relative group rounded-[6px] overflow-hidden border border-gray-200"
-                                                                style={{ aspectRatio: "1/1" }}
-                                                            >
-                                                                <img
-                                                                    src={image.imageUrl}
-                                                                    alt={`Variant image ${index + 1}`}
-                                                                    className="object-cover w-full h-full"
-                                                                />
-                                                                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
-                                                                    <Button
-                                                                        type="button"
-                                                                        variant="destructive"
-                                                                        size="icon"
-                                                                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                                                                        onClick={() =>
-                                                                            handleRemoveImage(variant.id, index)
-                                                                        }
-                                                                        disabled={updateProductImages.isPending}
-                                                                    >
-                                                                        {updateProductImages.isPending ? (
-                                                                            <Icon
-                                                                                path={mdiLoading}
-                                                                                size={0.8}
-                                                                                className="animate-spin"
-                                                                            />
-                                                                        ) : (
-                                                                            <Icon
-                                                                                path={mdiTrashCanOutline}
-                                                                                size={0.8}
-                                                                            />
-                                                                        )}
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-                                                        ))
-                                                    ) : (
-                                                        <div
-                                                            className="flex items-center justify-center border border-dashed border-gray-300 rounded-[6px] text-maintext"
-                                                            style={{ aspectRatio: "1/1" }}
-                                                        >
-                                                            <div className="flex flex-col items-center p-4">
-                                                                <Icon path={mdiImageOutline} size={1.5} />
-                                                                <p className="text-sm mt-2">Chưa có hình ảnh</p>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <Label htmlFor="brand">Thương hiệu <span className="text-red-500">*</span></Label>
+                                            <Select
+                                                value={productUpdate.brandId || ""}
+                                                onValueChange={(value) =>
+                                                    setProductUpdate({ ...productUpdate, brandId: value })
+                                                }
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Chọn thương hiệu">
+                                                        {productUpdate.brandId
+                                                            ? (brandsData?.data || []).find(
+                                                                (brand) =>
+                                                                    brand.id.toString() ===
+                                                                    productUpdate.brandId?.toString()
+                                                            )?.name || "Chọn thương hiệu"
+                                                            : "Chọn thương hiệu"}
+                                                    </SelectValue>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {(brandsData?.data || []).map((brand) => (
+                                                        <SelectItem key={brand.id} value={brand.id.toString()}>
+                                                            {brand.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                         </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
 
-                <TabsContent value="status" className="space-y-4 text-maintext">
-                    <Card className="mb-4 border-none">
-                        <CardHeader>
-                            <CardTitle>Trạng thái sản phẩm</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between px-4 py-3 border rounded-[6px]">
-                                <div>
-                                    <h3 className="font-medium text-maintext">
-                                        Trạng thái hoạt động
-                                    </h3>
-                                    <p className="text-sm text-maintext">
-                                        {productUpdate.status === "ACTIVE"
-                                            ? "Sản phẩm đang được hiển thị và có thể mua"
-                                            : "Sản phẩm đang bị ẩn và không thể mua"}
-                                    </p>
-                                </div>
-                                <Switch
-                                    checked={productUpdate.status === "ACTIVE"}
-                                    onCheckedChange={handleStatusChange}
-                                    disabled={updateProductStatus.isPending}
-                                    className="data-[state=checked]:bg-green-600"
-                                />
-                            </div>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="category">Danh mục <span className="text-red-500">*</span></Label>
+                                            <Select
+                                                value={productUpdate.categoryId || ""}
+                                                onValueChange={(value) =>
+                                                    setProductUpdate({ ...productUpdate, categoryId: value })
+                                                }
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Chọn danh mục">
+                                                        {productUpdate.categoryId
+                                                            ? (categoriesData?.data || []).find(
+                                                                (category) =>
+                                                                    category.id.toString() ===
+                                                                    productUpdate.categoryId?.toString()
+                                                            )?.name || "Chọn danh mục"
+                                                            : "Chọn danh mục"}
+                                                    </SelectValue>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {(categoriesData?.data || []).map((category) => (
+                                                        <SelectItem key={category.id} value={category.id.toString()}>
+                                                            {category.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="material">Chất liệu <span className="text-red-500">*</span></Label>
+                                            <Select
+                                                value={productUpdate.materialId || ""}
+                                                onValueChange={(value) =>
+                                                    setProductUpdate({ ...productUpdate, materialId: value })
+                                                }
+                                            >
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Chọn chất liệu">
+                                                        {productUpdate.materialId
+                                                            ? (materialsData?.data || []).find(
+                                                                (material) =>
+                                                                    material.id.toString() ===
+                                                                    productUpdate.materialId?.toString()
+                                                            )?.name || "Chọn chất liệu"
+                                                            : "Chọn chất liệu"}
+                                                    </SelectValue>
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    {(materialsData?.data || []).map((material) => (
+                                                        <SelectItem key={material.id} value={material.id.toString()}>
+                                                            {material.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="weight">Trọng lượng (gram)</Label>
+                                            <Input
+                                                id="weight"
+                                                name="weight"
+                                                type="number"
+                                                min="0"
+                                                value={productUpdate.weight || ""}
+                                                onChange={handleInputChange}
+                                                placeholder="Nhập trọng lượng"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="description">Mô tả sản phẩm</Label>
+                                        <Textarea
+                                            id="description"
+                                            name="description"
+                                            value={productUpdate.description || ""}
+                                            onChange={handleInputChange}
+                                            placeholder="Nhập mô tả sản phẩm"
+                                            rows={5}
+                                        />
+                                    </div>
+                                </CardContent>
+                                <CardFooter className="flex justify-between mt-6 px-0 pb-0">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => navigate(-1)}
+                                        className="gap-2"
+                                    >
+                                        <Icon path={mdiClose} size={0.8} />
+                                        Hủy
+                                    </Button>
+                                    <div className="flex gap-3">
+                                        <Button
+                                            type="submit"
+                                            disabled={updateProduct.isPending}
+                                            className="gap-2"
+                                        >
+                                            {updateProduct.isPending ? (
+                                                <>
+                                                    <Icon
+                                                        path={mdiLoading}
+                                                        size={0.8}
+                                                        className="animate-spin"
+                                                    />
+                                                    Đang xử lý...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <Icon path={mdiCheck} size={0.8} />
+                                                    Cập nhật thông tin
+                                                </>
+                                            )}
+                                        </Button>
+                                        <Button
+                                            type="button"
+                                            onClick={() => setActiveTab("variants")}
+                                            className="gap-2"
+                                        >
+                                            Tiếp theo
+                                            <Icon path={mdiArrowRight} size={0.8} />
+                                        </Button>
+                                    </div>
+                                </CardFooter>
+                            </Card>
+                        </TabsContent>
+
+                        <TabsContent value="variants" className="space-y-4 text-maintext mt-0">
+                            <Card>
+                                <CardHeader className="px-0 pt-0">
+                                    <CardTitle className="flex items-center gap-2">
+                                        <div className="p-2 rounded-full bg-primary/10">
+                                            <Icon
+                                                path={mdiPackageVariant}
+                                                size={0.8}
+                                                className="text-primary"
+                                            />
+                                        </div>
+                                        <span>Biến thể sản phẩm</span>
+                                    </CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4 px-0 pb-0">
+                                    <AnimatePresence>
+                                        {product.variants.map((variant, index) => (
+                                            <motion.div
+                                                key={variant.id}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.2 }}
+                                                className="border p-5 rounded-xl bg-gray-50/30"
+                                            >
+                                                <div className="flex justify-between items-center mb-6">
+                                                    <h3 className="text-lg font-semibold">
+                                                        Biến thể #{index + 1}: {variant.color.name} - {variant.size.name || variant.size.value}
+                                                    </h3>
+                                                    <p className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-bold">
+                                                        {formatCurrency(variant.price)}
+                                                    </p>
+                                                </div>
+
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                                    <div className="space-y-2">
+                                                        <Label
+                                                            htmlFor={`stock-${variant.id}`}
+                                                            className="text-maintext font-medium"
+                                                        >
+                                                            Số lượng tồn kho
+                                                        </Label>
+                                                        <div className="flex gap-2">
+                                                            <Input
+                                                                id={`stock-${variant.id}`}
+                                                                type="number"
+                                                                min="0"
+                                                                defaultValue={variant.stock}
+                                                                placeholder="Nhập số lượng tồn kho"
+                                                                className="flex-1 bg-white"
+                                                            />
+                                                            <Button
+                                                                type="button"
+                                                                variant="default"
+                                                                onClick={(e) => {
+                                                                    const input = e.currentTarget
+                                                                        .previousElementSibling as HTMLInputElement;
+                                                                    handleUpdateStock(
+                                                                        variant.id,
+                                                                        parseInt(input.value) || 0
+                                                                    );
+                                                                }}
+                                                                disabled={updateProductStock.isPending}
+                                                                className="gap-2 shrink-0"
+                                                            >
+                                                                {updateProductStock.isPending &&
+                                                                    updateProductStock.variables?.payload
+                                                                        .variantUpdates[0]?.variantId ===
+                                                                    variant.id.toString() ? (
+                                                                    <Icon
+                                                                        path={mdiLoading}
+                                                                        size={0.8}
+                                                                        className="animate-spin"
+                                                                    />
+                                                                ) : (
+                                                                    <>
+                                                                        <Icon path={mdiCheck} size={0.8} />
+                                                                        Cập nhật
+                                                                    </>
+                                                                )}
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div className="space-y-3">
+                                                    <Label className="text-maintext font-medium">Hình ảnh sản phẩm</Label>
+                                                    <div className="flex flex-col gap-4">
+                                                        <div className="flex items-center gap-2">
+                                                            <Input
+                                                                type="file"
+                                                                id={`file-upload-${variant.id}`}
+                                                                onChange={(e) => {
+                                                                    const files = e.target.files;
+                                                                    if (files && files.length > 0) {
+                                                                        handleImageUpload(files[0], variant.id);
+                                                                        e.target.value = "";
+                                                                    }
+                                                                }}
+                                                                accept="image/*"
+                                                                className="hidden"
+                                                            />
+                                                            <Button
+                                                                type="button"
+                                                                variant="outline"
+                                                                onClick={() =>
+                                                                    document
+                                                                        .getElementById(`file-upload-${variant.id}`)
+                                                                        ?.click()
+                                                                }
+                                                                disabled={
+                                                                    uploading || updateProductImages.isPending
+                                                                }
+                                                                className="gap-2 bg-white"
+                                                            >
+                                                                {uploading ? (
+                                                                    <>
+                                                                        <Icon
+                                                                            path={mdiLoading}
+                                                                            size={0.8}
+                                                                            className="animate-spin"
+                                                                        />
+                                                                        Đang tải...
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <Icon path={mdiUpload} size={0.8} />
+                                                                        Tải lên hình ảnh
+                                                                    </>
+                                                                )}
+                                                            </Button>
+                                                        </div>
+
+                                                        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mt-2">
+                                                            {variant.images.length > 0 ? (
+                                                                <AnimatePresence>
+                                                                    {variant.images.map((image, i) => (
+                                                                        <motion.div
+                                                                            key={i}
+                                                                            initial={{ opacity: 0, scale: 0.8 }}
+                                                                            animate={{ opacity: 1, scale: 1 }}
+                                                                            exit={{ opacity: 0, scale: 0.8 }}
+                                                                            transition={{ duration: 0.2 }}
+                                                                            className="relative group rounded-xl overflow-hidden border border-gray-200 bg-white shadow-sm"
+                                                                            style={{ aspectRatio: "1/1" }}
+                                                                        >
+                                                                            <img
+                                                                                src={image.imageUrl}
+                                                                                alt={`Variant image ${i + 1}`}
+                                                                                className="object-cover w-full h-full"
+                                                                            />
+                                                                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
+                                                                                <Button
+                                                                                    type="button"
+                                                                                    variant="destructive"
+                                                                                    size="icon"
+                                                                                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                                                                                    onClick={() =>
+                                                                                        handleRemoveImage(variant.id, i)
+                                                                                    }
+                                                                                    disabled={updateProductImages.isPending}
+                                                                                >
+                                                                                    {updateProductImages.isPending ? (
+                                                                                        <Icon
+                                                                                            path={mdiLoading}
+                                                                                            size={0.8}
+                                                                                            className="animate-spin"
+                                                                                        />
+                                                                                    ) : (
+                                                                                        <Icon
+                                                                                            path={mdiTrashCanOutline}
+                                                                                            size={0.8}
+                                                                                        />
+                                                                                    )}
+                                                                                </Button>
+                                                                            </div>
+                                                                        </motion.div>
+                                                                    ))}
+                                                                </AnimatePresence>
+                                                            ) : (
+                                                                <div
+                                                                    className="flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-maintext bg-white"
+                                                                    style={{ aspectRatio: "1/1" }}
+                                                                >
+                                                                    <div className="flex flex-col items-center p-4">
+                                                                        <Icon path={mdiImageOutline} size={1.2} className="text-gray-400" />
+                                                                        <p className="text-xs mt-2 text-gray-400 text-center">Chưa có hình ảnh</p>
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        ))}
+                                    </AnimatePresence>
+                                </CardContent>
+                                <CardFooter className="flex justify-between mt-6 px-0 pb-0">
+                                    <Button
+                                        type="button"
+                                        variant="outline"
+                                        onClick={() => setActiveTab("info")}
+                                        className="gap-2"
+                                    >
+                                        <Icon path={mdiArrowLeft} size={0.8} />
+                                        Quay lại
+                                    </Button>
+                                </CardFooter>
+                            </Card>
+                        </TabsContent>
+                    </div>
+                </Tabs>
+            </form>
         </div>
     );
 }

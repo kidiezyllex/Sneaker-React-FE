@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import Icon from "@mdi/react";
+import { mdiChevronLeft, mdiChevronRight } from "@mdi/js";
 export function Pagination({
   className,
   children,
@@ -74,6 +76,7 @@ export function PaginationPrevious({
         tabIndex={disabled ? -1 : 0}
         {...props}
       >
+        <Icon path={mdiChevronLeft} size={0.8} />
         Trước
       </Link>
     </PaginationItem>
@@ -101,6 +104,7 @@ export function PaginationNext({
         {...props}
       >
         Sau
+        <Icon path={mdiChevronRight} size={0.8} />
       </Link>
     </PaginationItem>
   );
