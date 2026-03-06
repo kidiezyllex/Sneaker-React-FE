@@ -496,7 +496,7 @@ export default function EditProductPage() {
                                         />
                                     </div>
                                 </CardContent>
-                                <CardFooter className="flex justify-between mt-6 px-0 pb-0">
+                                <CardFooter className="flex justify-between px-0 pb-0">
                                     <Button
                                         type="button"
                                         variant="outline"
@@ -737,7 +737,7 @@ export default function EditProductPage() {
                                         ))}
                                     </AnimatePresence>
                                 </CardContent>
-                                <CardFooter className="flex justify-between mt-6 px-0 pb-0">
+                                <CardFooter className="flex justify-between mt-4 px-0 pb-0">
                                     <Button
                                         type="button"
                                         variant="outline"
