@@ -3,9 +3,7 @@ import { mdiShoppingOutline } from "@mdi/js";
 import {
     Card,
     CardHeader,
-    CardTitle,
-    CardContent,
-    CardFooter,
+    CardTitle, CardFooter
 } from "@/components/ui/card";
 import { checkImageUrl } from "@/lib/utils";
 import { getSizeLabel } from "@/utils/sizeMapping";
@@ -37,35 +35,33 @@ export const OrderSummary = () => {
                     <span>Đơn hàng của bạn</span>
                 </CardTitle>
             </CardHeader>
-            <CardContent>
-                <div className="space-y-4">
-                    {items.map((item) => (
-                        <div key={item.id} className="flex gap-4">
-                            <div className="w-20 h-20 bg-muted rounded relative overflow-hidden">
-                                <img
-                                    src={checkImageUrl(item.image)}
-                                    alt={item.name}
-                                    className="object-contain w-full h-full"
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <h4 className="font-medium text-maintext">{item.name}</h4>
-                                <p className="text-sm text-gray-600">
-                                    {item.brand}
-                                    {item.size &&
-                                        ` • Size ${getSizeLabel(Number(item.size))}`}
-                                </p>
-                                <div className="flex justify-between mt-2 text-maintext">
-                                    <span>x{item.quantity}</span>
-                                    <span className="text-maintext">
-                                        {formatPrice(item.price)}
-                                    </span>
-                                </div>
+            <div className="space-y-4 my-4">
+                {items.map((item) => (
+                    <div key={item.id} className="flex gap-4">
+                        <div className="w-20 h-20 border bg-muted rounded relative overflow-hidden">
+                            <img
+                                src={checkImageUrl(item.image)}
+                                alt={item.name}
+                                className="object-contain w-full h-full"
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <h4 className="font-medium text-maintext">{item.name}</h4>
+                            <p className="text-sm text-gray-600">
+                                {item.brand}
+                                {item.size &&
+                                    ` • Size ${getSizeLabel(Number(item.size))}`}
+                            </p>
+                            <div className="flex justify-between mt-2 text-maintext">
+                                <span>x{item.quantity}</span>
+                                <span className="text-maintext">
+                                    {formatPrice(item.price)}
+                                </span>
                             </div>
                         </div>
-                    ))}
-                </div>
-            </CardContent>
+                    </div>
+                ))}
+            </div>
             <CardFooter className="flex flex-col space-y-2">
                 <div className="flex justify-between w-full">
                     <span className="text-gray-600 font-semibold text-sm">

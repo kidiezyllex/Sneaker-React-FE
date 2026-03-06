@@ -144,7 +144,7 @@ export default function POSRightSection({
                   key={item.id}
                   className="flex gap-3 bg-white p-3 rounded-md border border-border hover:shadow-md transition-all duration-200 group relative"
                 >
-                  <div className="relative h-20 w-20 rounded-md overflow-hidden bg-gray-50 border border-gray-100 flex-shrink-0">
+                  <div className="relative h-20 w-20 rounded-md overflow-hidden bg-gray-50 border flex-shrink-0">
                     <img
                       src={item.image}
                       alt={item.name}

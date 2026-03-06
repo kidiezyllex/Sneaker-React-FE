@@ -301,7 +301,6 @@ export const ShippingInfo = ({
                                     <Input
                                         placeholder="Số nhà, tên đường..."
                                         {...field}
-                                        disabled={isFieldDisabled("address")}
                                     />
                                 </FormControl>
                                 <FormMessage />
