@@ -61,8 +61,8 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
           );
           variants.push({
             id: `${color.id}-${size.id}`,
-            colorId: color.id,
-            sizeId: size.id,
+            colorId: color.id.toString(),
+            sizeId: size.id.toString(),
             price: calculatedPrice,
             stock: 10,
             images: baseVariant.images ? [...baseVariant.images] : [],
@@ -139,12 +139,12 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
 
 
   const getColorById = (colorId: string) => {
-    return colorsData?.data?.find((c) => c.id === colorId);
+    return colorsData?.data?.find((c) => c.id.toString() === colorId);
   };
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent size="6xl">
+      <DialogContent size="4xl">
         <Card className="border-0 shadow-none">
           <CardHeader className="flex flex-row items-center justify-between border-b">
             <CardTitle className="flex items-center justify-between w-full">

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { useNavigate, Link } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -307,227 +307,225 @@ export default function OrdersPage() {
         </Breadcrumb>
       </div>
       <Card>
-        <CardContent className="p-4">
-          <Tabs
-            value={selectedTab}
-            className="w-full"
-            onValueChange={handleTabChange}
-          >
-            <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
-              <TabsList className="h-9">
-                <TabsTrigger
-                  value="all"
-                  className="px-4 text-maintext/70"
-                >
-                  Tất cả
-                </TabsTrigger>
-                <TabsTrigger
-                  value="today"
-                  className="px-4 text-maintext/70"
-                >
-                  Hôm nay
-                </TabsTrigger>
-                <TabsTrigger
-                  value="week"
-                  className="px-4 text-maintext/70"
-                >
-                  Tuần này
-                </TabsTrigger>
-                <TabsTrigger
-                  value="month"
-                  className="px-4 text-maintext/70"
-                >
-                  Tháng này
-                </TabsTrigger>
-              </TabsList>
-            </div>
+        <Tabs
+          value={selectedTab}
+          className="w-full"
+          onValueChange={handleTabChange}
+        >
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
+            <TabsList className="h-9">
+              <TabsTrigger
+                value="all"
+                className="px-4 text-maintext/70"
+              >
+                Tất cả
+              </TabsTrigger>
+              <TabsTrigger
+                value="today"
+                className="px-4 text-maintext/70"
+              >
+                Hôm nay
+              </TabsTrigger>
+              <TabsTrigger
+                value="week"
+                className="px-4 text-maintext/70"
+              >
+                Tuần này
+              </TabsTrigger>
+              <TabsTrigger
+                value="month"
+                className="px-4 text-maintext/70"
+              >
+                Tháng này
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-            <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-4">
-              <div className="relative w-full md:w-106">
-                <Icon
-                  path={mdiMagnify}
-                  size={0.8}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
-                />
-                <Input
-                  type="text"
-                  placeholder="Tìm kiếm theo mã đơn, tên khách hàng, số điện thoại..."
-                  className="pl-10 w-full"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <div className="flex gap-2 w-full md:w-auto">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-full justify-start text-left font-normal text-primary",
-                        !dateRange && "text-gray-600"
-                      )}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
-                      {dateRange?.from ? (
-                        dateRange.to ? (
-                          <>
-                            {format(dateRange.from, "dd/MM/yyyy")} -{" "}
-                            {format(dateRange.to, "dd/MM/yyyy")}
-                          </>
-                        ) : (
-                          format(dateRange.from, "dd/MM/yyyy")
-                        )
+          <div className="flex flex-col md:flex-row justify-between items-start mb-4 gap-4">
+            <div className="relative w-full md:w-106">
+              <Icon
+                path={mdiMagnify}
+                size={0.8}
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              />
+              <Input
+                type="text"
+                placeholder="Tìm kiếm theo mã đơn, tên khách hàng, số điện thoại..."
+                className="pl-10 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2 w-full md:w-auto">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-full justify-start text-left font-normal text-primary",
+                      !dateRange && "text-gray-600"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4 text-primary" />
+                    {dateRange?.from ? (
+                      dateRange.to ? (
+                        <>
+                          {format(dateRange.from, "dd/MM/yyyy")} -{" "}
+                          {format(dateRange.to, "dd/MM/yyyy")}
+                        </>
                       ) : (
-                        <span className="text-primary">
-                          Chọn khoảng thời gian
-                        </span>
-                      )}
+                        format(dateRange.from, "dd/MM/yyyy")
+                      )
+                    ) : (
+                      <span className="text-primary">
+                        Chọn khoảng thời gian
+                      </span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="end">
+                  <Calendar
+                    initialFocus
+                    mode="range"
+                    defaultMonth={dateRange?.from}
+                    selected={dateRange}
+                    onSelect={setDateRange}
+                    numberOfMonths={2}
+                  />
+                </PopoverContent>
+              </Popover>
+              <Button
+                variant="outline"
+                className="flex items-center"
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <Icon path={mdiFilterOutline} size={0.8} />
+                {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
+              </Button>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline">
+                      <Icon
+                        path={mdiFileExport}
+                        size={0.8}
+                        className="mr-2"
+                      />
+                      Xuất dữ liệu
                     </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="end">
-                    <Calendar
-                      initialFocus
-                      mode="range"
-                      defaultMonth={dateRange?.from}
-                      selected={dateRange}
-                      onSelect={setDateRange}
-                      numberOfMonths={2}
-                    />
-                  </PopoverContent>
-                </Popover>
-                <Button
-                  variant="outline"
-                  className="flex items-center"
-                  onClick={() => setShowFilters(!showFilters)}
-                >
-                  <Icon path={mdiFilterOutline} size={0.8} />
-                  {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
-                </Button>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="outline">
-                        <Icon
-                          path={mdiFileExport}
-                          size={0.8}
-                          className="mr-2"
-                        />
-                        Xuất dữ liệu
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={handleExportExcel}>
-                        Xuất Excel
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={handleExportPDF}>
-                        Xuất PDF
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>In danh sách</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </div>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleExportExcel}>
+                      Xuất Excel
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleExportPDF}>
+                      Xuất PDF
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>In danh sách</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
+          </div>
 
-            <AnimatePresence>
-              {showFilters && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="mb-4 border-t pt-4"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium mb-1">
-                        Trạng thái đơn hàng
-                      </label>
-                      <Select
-                        value={filters.orderStatus || "all"}
-                        onValueChange={(value) =>
-                          handleFilterChange("orderStatus", value)
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Tất cả trạng thái" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                          <SelectItem value="CHO_XAC_NHAN">
-                            Chờ xác nhận
-                          </SelectItem>
-                          <SelectItem value="CHO_GIAO_HANG">
-                            Chờ giao hàng
-                          </SelectItem>
-                          <SelectItem value="DANG_VAN_CHUYEN">
-                            Đang vận chuyển
-                          </SelectItem>
-                          <SelectItem value="DA_GIAO_HANG">
-                            Đã giao hàng
-                          </SelectItem>
-                          <SelectItem value="HOAN_THANH">Hoàn thành</SelectItem>
-                          <SelectItem value="DA_HUY">Đã hủy</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">
-                        Trạng thái thanh toán
-                      </label>
-                      <Select
-                        value={filters.paymentStatus || "all"}
-                        onValueChange={(value) =>
-                          handleFilterChange("paymentStatus", value)
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Tất cả trạng thái" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                          <SelectItem value="PENDING">
-                            Chưa thanh toán
-                          </SelectItem>
-                          <SelectItem value="PARTIAL_PAID">
-                            Thanh toán một phần
-                          </SelectItem>
-                          <SelectItem value="PAID">Đã thanh toán</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-1">
-                        Khách hàng
-                      </label>
-                      <Input
-                        type="text"
-                        value={filters.customer || ""}
-                        onChange={(e) =>
-                          handleFilterChange("customer", e.target.value)
-                        }
-                        placeholder="Tìm theo tên khách hàng"
-                      />
-                    </div>
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mb-4 border-t pt-4"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Trạng thái đơn hàng
+                    </label>
+                    <Select
+                      value={filters.orderStatus || "all"}
+                      onValueChange={(value) =>
+                        handleFilterChange("orderStatus", value)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Tất cả trạng thái" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                        <SelectItem value="CHO_XAC_NHAN">
+                          Chờ xác nhận
+                        </SelectItem>
+                        <SelectItem value="CHO_GIAO_HANG">
+                          Chờ giao hàng
+                        </SelectItem>
+                        <SelectItem value="DANG_VAN_CHUYEN">
+                          Đang vận chuyển
+                        </SelectItem>
+                        <SelectItem value="DA_GIAO_HANG">
+                          Đã giao hàng
+                        </SelectItem>
+                        <SelectItem value="HOAN_THANH">Hoàn thành</SelectItem>
+                        <SelectItem value="DA_HUY">Đã hủy</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Trạng thái thanh toán
+                    </label>
+                    <Select
+                      value={filters.paymentStatus || "all"}
+                      onValueChange={(value) =>
+                        handleFilterChange("paymentStatus", value)
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Tất cả trạng thái" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                        <SelectItem value="PENDING">
+                          Chưa thanh toán
+                        </SelectItem>
+                        <SelectItem value="PARTIAL_PAID">
+                          Thanh toán một phần
+                        </SelectItem>
+                        <SelectItem value="PAID">Đã thanh toán</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">
+                      Khách hàng
+                    </label>
+                    <Input
+                      type="text"
+                      value={filters.customer || ""}
+                      onChange={(e) =>
+                        handleFilterChange("customer", e.target.value)
+                      }
+                      placeholder="Tìm theo tên khách hàng"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            <TabsContent value="all" className="mt-0">
-              {renderOrdersList()}
-            </TabsContent>
-            <TabsContent value="today" className="mt-0">
-              {renderOrdersList()}
-            </TabsContent>
-            <TabsContent value="week" className="mt-0">
-              {renderOrdersList()}
-            </TabsContent>
-            <TabsContent value="month" className="mt-0">
-              {renderOrdersList()}
-            </TabsContent>
-          </Tabs>
-        </CardContent>
+          <TabsContent value="all" className="mt-0">
+            {renderOrdersList()}
+          </TabsContent>
+          <TabsContent value="today" className="mt-0">
+            {renderOrdersList()}
+          </TabsContent>
+          <TabsContent value="week" className="mt-0">
+            {renderOrdersList()}
+          </TabsContent>
+          <TabsContent value="month" className="mt-0">
+            {renderOrdersList()}
+          </TabsContent>
+        </Tabs>
       </Card>
 
     </div>

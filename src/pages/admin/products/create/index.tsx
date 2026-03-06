@@ -16,11 +16,9 @@ import {
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardFooter,
+  Card, CardFooter,
   CardHeader,
-  CardTitle,
+  CardTitle
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { FormLabel } from "@/components/ui/form";
@@ -56,9 +54,9 @@ import {
 
 const initialProduct: IProductCreate = {
   name: "",
-  brand: "",
-  category: "",
-  material: "",
+  brandId: "",
+  categoryId: "",
+  materialId: "",
   description: "",
   variants: [
     {
@@ -155,7 +153,7 @@ export default function CreateProductPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!product.name || !product.brand || !product.category) {
+    if (!product.name || !product.brandId || !product.categoryId) {
       toast.error(
         <CustomToast
           title="Vui lòng điền đầy đủ thông tin sản phẩm"
@@ -202,7 +200,7 @@ export default function CreateProductPage() {
 
   const isFormValid = () => {
     const isBasicInfoValid =
-      !!product.name && !!product.brand && !!product.category;
+      !!product.name && !!product.brandId && !!product.categoryId;
     const areVariantsValid = product.variants.every(
       (v) => !!v.colorId && !!v.sizeId && v.price > 0
     );
@@ -215,13 +213,13 @@ export default function CreateProductPage() {
     if (!product.name.trim()) {
       missingFields.push("Tên sản phẩm");
     }
-    if (!product.brand) {
+    if (!product.brandId) {
       missingFields.push("Thương hiệu");
     }
-    if (!product.category) {
+    if (!product.categoryId) {
       missingFields.push("Danh mục");
     }
-    if (!product.material) {
+    if (!product.materialId) {
       missingFields.push("Chất liệu");
     }
 
@@ -298,7 +296,7 @@ export default function CreateProductPage() {
           </TabsList>
 
           <TabsContent value="info" className="space-y-4">
-            <Card className="border-none">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <div className="p-2 rounded-full bg-primary/10">
@@ -311,138 +309,136 @@ export default function CreateProductPage() {
                   <span>Thông tin cơ bản</span>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 text-maintext">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <FormLabel htmlFor="name">
-                      Tên sản phẩm <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <Input
-                      id="name"
-                      name="name"
-                      value={product.name}
-                      onChange={handleInputChange}
-                      placeholder="Nhập tên sản phẩm"
-                      required
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <FormLabel htmlFor="brand">
-                      Thương hiệu <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <Select
-                      value={product.brand}
-                      onValueChange={(value) =>
-                        setProduct({ ...product, brand: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Chọn thương hiệu">
-                          {product.brand
-                            ? (brandsData?.data || []).find(
-                              (brand) =>
-                                brand.id.toString() ===
-                                product.brand?.toString()
-                            )?.name || "Chọn thương hiệu"
-                            : "Chọn thương hiệu"}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {(brandsData?.data || []).map((brand) => (
-                          <SelectItem
-                            key={brand.id}
-                            value={brand.id.toString()}
-                          >
-                            {brand.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <FormLabel htmlFor="category">
-                      Danh mục <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <Select
-                      value={product.category}
-                      onValueChange={(value) =>
-                        setProduct({ ...product, category: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Chọn danh mục">
-                          {product.category
-                            ? (categoriesData?.data || []).find(
-                              (category) =>
-                                category.id.toString() ===
-                                product.category?.toString()
-                            )?.name || "Chọn danh mục"
-                            : "Chọn danh mục"}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {(categoriesData?.data || []).map((category) => (
-                          <SelectItem
-                            key={category.id}
-                            value={category.id.toString()}
-                          >
-                            {category.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <FormLabel htmlFor="material">
-                      Chất liệu <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <Select
-                      value={product.material}
-                      onValueChange={(value) =>
-                        setProduct({ ...product, material: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Chọn chất liệu">
-                          {product.material
-                            ? (materialsData?.data || []).find(
-                              (material) =>
-                                material.id.toString() ===
-                                product.material?.toString()
-                            )?.name || "Chọn chất liệu"
-                            : "Chọn chất liệu"}
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent>
-                        {(materialsData?.data || []).map((material) => (
-                          <SelectItem
-                            key={material.id}
-                            value={material.id.toString()}
-                          >
-                            {material.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <div className="space-y-2">
+                  <FormLabel htmlFor="name">
+                    Tên sản phẩm <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <Input
+                    id="name"
+                    name="name"
+                    value={product.name}
+                    onChange={handleInputChange}
+                    placeholder="Nhập tên sản phẩm"
+                    required
+                  />
                 </div>
 
                 <div className="space-y-2">
-                  <FormLabel htmlFor="description">Mô tả sản phẩm</FormLabel>
-                  <Textarea
-                    id="description"
-                    name="description"
-                    value={product.description}
-                    onChange={handleInputChange}
-                    placeholder="Nhập mô tả sản phẩm"
-                    rows={5}
-                  />
+                  <FormLabel htmlFor="brand">
+                    Thương hiệu <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <Select
+                    value={product.brandId}
+                    onValueChange={(value) =>
+                      setProduct({ ...product, brandId: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Chọn thương hiệu">
+                        {product.brandId
+                          ? (brandsData?.data || []).find(
+                            (brand) =>
+                              brand.id.toString() ===
+                              product.brandId?.toString()
+                          )?.name || "Chọn thương hiệu"
+                          : "Chọn thương hiệu"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(brandsData?.data || []).map((brand) => (
+                        <SelectItem
+                          key={brand.id}
+                          value={brand.id.toString()}
+                        >
+                          {brand.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
+
+                <div className="space-y-2">
+                  <FormLabel htmlFor="category">
+                    Danh mục <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <Select
+                    value={product.categoryId}
+                    onValueChange={(value) =>
+                      setProduct({ ...product, categoryId: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Chọn danh mục">
+                        {product.categoryId
+                          ? (categoriesData?.data || []).find(
+                            (category) =>
+                              category.id.toString() ===
+                              product.categoryId?.toString()
+                          )?.name || "Chọn danh mục"
+                          : "Chọn danh mục"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(categoriesData?.data || []).map((category) => (
+                        <SelectItem
+                          key={category.id}
+                          value={category.id.toString()}
+                        >
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <FormLabel htmlFor="material">
+                    Chất liệu <span className="text-red-500">*</span>
+                  </FormLabel>
+                  <Select
+                    value={product.materialId}
+                    onValueChange={(value) =>
+                      setProduct({ ...product, materialId: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Chọn chất liệu">
+                        {product.materialId
+                          ? (materialsData?.data || []).find(
+                            (material) =>
+                              material.id.toString() ===
+                              product.materialId?.toString()
+                          )?.name || "Chọn chất liệu"
+                          : "Chọn chất liệu"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {(materialsData?.data || []).map((material) => (
+                        <SelectItem
+                          key={material.id}
+                          value={material.id.toString()}
+                        >
+                          {material.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="space-y-2 mt-4">
+                <FormLabel htmlFor="description">Mô tả sản phẩm</FormLabel>
+                <Textarea
+                  id="description"
+                  name="description"
+                  value={product.description}
+                  onChange={handleInputChange}
+                  placeholder="Nhập mô tả sản phẩm"
+                  rows={5}
+                />
+              </div>
+              <CardFooter className="flex justify-between mt-4">
                 <Button
                   type="button"
                   variant="outline"
@@ -465,7 +461,7 @@ export default function CreateProductPage() {
           </TabsContent>
 
           <TabsContent value="variants" className="space-y-4">
-            <Card className="border-none">
+            <Card>
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="flex items-center justify-between w-full">
                   <div className="flex items-center gap-2">
@@ -524,7 +520,7 @@ export default function CreateProductPage() {
                   </div>
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4 text-maintext">
+              <div className="space-y-4 my-4">
                 <AnimatePresence>
                   {product.variants.map((variant, index) => (
                     <motion.div
@@ -567,7 +563,8 @@ export default function CreateProductPage() {
                     </motion.div>
                   ))}
                 </AnimatePresence>
-              </CardContent>
+              </div>
+
               <CardFooter className="flex justify-between">
                 <Button
                   type="button"

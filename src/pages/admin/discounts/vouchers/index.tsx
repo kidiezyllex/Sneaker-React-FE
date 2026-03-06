@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
 import {
@@ -13,9 +13,7 @@ import {
   mdiDeleteCircle,
   mdiFilterOutline,
   mdiLoading,
-  mdiEmailFast,
-  mdiTagCheckOutline,
-  mdiFilterRemoveOutline,
+  mdiEmailFast, mdiFilterRemoveOutline
 } from "@mdi/js";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
@@ -34,11 +32,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import {
   Table,
@@ -196,333 +192,331 @@ export default function VouchersPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Card className="mb-4">
-        <CardContent className="p-4 space-y-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
-            <div className="relative flex-1">
-              <Icon
-                path={mdiMagnify}
-                size={0.8}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
-              />
-              <Input
-                type="text"
-                placeholder="Tìm kiếm theo tên hoặc mã voucher..."
-                className="pl-10 w-full"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="flex space-x-2">
-              {(showFilters ||
-                searchQuery ||
-                Object.keys(filters).filter(
-                  (k) => k !== "page" && k !== "limit"
-                ).length > 0) && (
-                  <Button
-                    variant="outline"
-                    className="flex items-center"
-                    onClick={handleClearFilters}
-                  >
-                    <Icon
-                      path={mdiFilterRemoveOutline}
-                      size={0.8}
-                      className="mr-2"
-                    />
-                    Clear bộ lọc
-                  </Button>
-                )}
-              <Button
-                variant="outline"
-                className="flex items-center"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <Icon path={mdiFilterOutline} size={0.8} />
-                {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
-              </Button>
-              <Link
-                to="/admin/discounts/vouchers/create"
-              >
-                <Button className="flex items-center gap-2">
-                  <Icon path={mdiPlus} size={0.8} />
-                  Thêm mã giảm giá mới
-                </Button>
-              </Link>
-            </div>
+      <Card className="mb-4 space-y-4">
+        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+          <div className="relative flex-1">
+            <Icon
+              path={mdiMagnify}
+              size={0.8}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+            />
+            <Input
+              type="text"
+              placeholder="Tìm kiếm theo tên hoặc mã voucher..."
+              className="pl-10 w-full"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+          <div className="flex space-x-2">
+            {(showFilters ||
+              searchQuery ||
+              Object.keys(filters).filter(
+                (k) => k !== "page" && k !== "limit"
+              ).length > 0) && (
+                <Button
+                  variant="outline"
+                  className="flex items-center"
+                  onClick={handleClearFilters}
+                >
+                  <Icon
+                    path={mdiFilterRemoveOutline}
+                    size={0.8}
+                    className="mr-2"
+                  />
+                  Clear bộ lọc
+                </Button>
+              )}
+            <Button
+              variant="outline"
+              className="flex items-center"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Icon path={mdiFilterOutline} size={0.8} />
+              {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
+            </Button>
+            <Link
+              to="/admin/discounts/vouchers/create"
+            >
+              <Button className="flex items-center gap-2">
+                <Icon path={mdiPlus} size={0.8} />
+                Thêm mã giảm giá mới
+              </Button>
+            </Link>
+          </div>
+        </div>
 
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-4 pt-4 border-t"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Mã voucher
-                    </label>
-                    <Input
-                      type="text"
-                      value={filters.code || ""}
-                      onChange={(e) =>
-                        handleFilterChange("code", e.target.value)
-                      }
-                      placeholder="Nhập mã voucher"
-                      className="w-full"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Trạng thái
-                    </label>
-                    <Select
-                      value={filters.status || ""}
-                      onValueChange={(value) =>
-                        handleFilterChange(
-                          "status",
-                          value === "all" ? undefined : value
-                        )
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Tất cả trạng thái" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                        <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                        <SelectItem value="INACTIVE">
-                          Không hoạt động
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Thời gian
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div>
-                        <Input
-                          type="date"
-                          value={filters.startDate || ""}
-                          onChange={(e) =>
-                            handleFilterChange("startDate", e.target.value)
-                          }
-                          className="w-full"
-                          placeholder="Từ ngày"
-                        />
-                      </div>
-                      <div>
-                        <Input
-                          type="date"
-                          value={filters.endDate || ""}
-                          onChange={(e) =>
-                            handleFilterChange("endDate", e.target.value)
-                          }
-                          className="w-full"
-                          placeholder="Đến ngày"
-                        />
-                      </div>
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 pt-4 border-t"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                    Mã voucher
+                  </label>
+                  <Input
+                    type="text"
+                    value={filters.code || ""}
+                    onChange={(e) =>
+                      handleFilterChange("code", e.target.value)
+                    }
+                    placeholder="Nhập mã voucher"
+                    className="w-full"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                    Trạng thái
+                  </label>
+                  <Select
+                    value={filters.status || ""}
+                    onValueChange={(value) =>
+                      handleFilterChange(
+                        "status",
+                        value === "all" ? undefined : value
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Tất cả trạng thái" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                      <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                      <SelectItem value="INACTIVE">
+                        Không hoạt động
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                    Thời gian
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <div>
+                      <Input
+                        type="date"
+                        value={filters.startDate || ""}
+                        onChange={(e) =>
+                          handleFilterChange("startDate", e.target.value)
+                        }
+                        className="w-full"
+                        placeholder="Từ ngày"
+                      />
+                    </div>
+                    <div>
+                      <Input
+                        type="date"
+                        value={filters.endDate || ""}
+                        onChange={(e) =>
+                          handleFilterChange("endDate", e.target.value)
+                        }
+                        className="w-full"
+                        placeholder="Đến ngày"
+                      />
                     </div>
                   </div>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          {isLoading ? (
-            <div className="bg-white rounded-xl overflow-hidden mt-4">
-              {[...Array(5)].map((_, index) => (
-                <div key={index} className="flex items-center space-x-4 p-4 border-b">
-                  <Skeleton className="h-12 w-12 rounded-xl" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                  </div>
+        {isLoading ? (
+          <div className="bg-white rounded-xl overflow-hidden mt-4">
+            {[...Array(5)].map((_, index) => (
+              <div key={index} className="flex items-center space-x-4 p-4 border-b">
+                <Skeleton className="h-12 w-12 rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
                 </div>
-              ))}
-            </div>
-          ) : isError ? (
-            <div className="bg-white rounded-xl p-4 text-center mt-4">
-              <p className="text-red-500">
-                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-              </p>
-              <Button
-                variant="outline"
-                className="mt-4"
-                onClick={() =>
-                  queryClient.invalidateQueries({ queryKey: ["vouchers"] })
-                }
-              >
-                Thử lại
-              </Button>
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden mt-4">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Phiếu giảm giá</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Giá trị & Điều kiện</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Sử dụng</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Thời gian</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data?.data?.vouchers?.length ? (
-                      data.data.vouchers.map((voucher, index) => (
-                        <TableRow key={voucher.id} className="hover:bg-slate-50/50 transition-colors">
-                          <TableCell className="text-center font-medium">
-                            {(data.data.pagination.currentPage - 1) *
-                              data.data.pagination.limit +
-                              index +
-                              1}
-                          </TableCell>
-                          <TableCell className="px-4 py-4">
-                            <div className="flex flex-col">
-                              <span className="font-mono font-bold text-primary text-sm">
-                                {voucher.code}
+              </div>
+            ))}
+          </div>
+        ) : isError ? (
+          <div className="bg-white rounded-xl p-4 text-center mt-4">
+            <p className="text-red-500">
+              Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() =>
+                queryClient.invalidateQueries({ queryKey: ["vouchers"] })
+              }
+            >
+              Thử lại
+            </Button>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden mt-4">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Phiếu giảm giá</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Giá trị & Điều kiện</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Sử dụng</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Thời gian</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {data?.data?.vouchers?.length ? (
+                    data.data.vouchers.map((voucher, index) => (
+                      <TableRow key={voucher.id} className="hover:bg-slate-50/50 transition-colors">
+                        <TableCell className="text-center font-medium">
+                          {(data.data.pagination.currentPage - 1) *
+                            data.data.pagination.limit +
+                            index +
+                            1}
+                        </TableCell>
+                        <TableCell className="px-4 py-4">
+                          <div className="flex flex-col">
+                            <span className="font-mono font-bold text-primary text-sm">
+                              {voucher.code}
+                            </span>
+                            <span className="text-sm font-medium text-slate-700 mt-0.5">
+                              {voucher.name}
+                            </span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="px-4 py-4">
+                          <div className="flex flex-col gap-1">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-slate-900">
+                                {voucher.type === "PERCENTAGE"
+                                  ? `${voucher.value}%`
+                                  : formatCurrency(voucher.value)}
                               </span>
-                              <span className="text-sm font-medium text-slate-700 mt-0.5">
-                                {voucher.name}
-                              </span>
+                              <Badge variant={voucher.type === "PERCENTAGE" ? "purple" : "info"} showIcon={false}>
+                                {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
+                              </Badge>
                             </div>
-                          </TableCell>
-                          <TableCell className="px-4 py-4">
-                            <div className="flex flex-col gap-1">
-                              <div className="flex items-center gap-1.5">
-                                <span className="font-bold text-slate-900">
-                                  {voucher.type === "PERCENTAGE"
-                                    ? `${voucher.value}%`
-                                    : formatCurrency(voucher.value)}
-                                </span>
-                                <Badge variant={voucher.type === "PERCENTAGE" ? "purple" : "info"} showIcon={false}>
-                                  {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
-                                </Badge>
-                              </div>
-                              <div className="text-sm text-maintext flex flex-col">
-                                {voucher.minOrderValue > 0 && (
-                                  <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
-                                )}
-                                {voucher.maxDiscount && (
-                                  <span>Tối đa: {formatCurrency(voucher.maxDiscount)}</span>
-                                )}
-                              </div>
+                            <div className="text-sm text-maintext flex flex-col">
+                              {voucher.minOrderValue > 0 && (
+                                <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
+                              )}
+                              {voucher.maxDiscount && (
+                                <span>Tối đa: {formatCurrency(voucher.maxDiscount)}</span>
+                              )}
                             </div>
-                          </TableCell>
-                          <TableCell className="px-4 py-4">
-                            <div className="flex flex-col gap-1 w-32">
-                              <div className="flex justify-between text-sm font-medium">
-                                <span className="text-slate-600">Đã dùng: {voucher.usedCount}</span>
-                                <span className="text-slate-400">{Math.round((voucher.usedCount / voucher.quantity) * 100)}%</span>
-                              </div>
-                              <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-primary transition-all"
-                                  style={{ width: `${(voucher.usedCount / voucher.quantity) * 100}%` }}
-                                />
-                              </div>
-                              <span className="text-sm text-slate-400">Tổng: {voucher.quantity}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="px-4 py-4">
+                          <div className="flex flex-col gap-1 w-32">
+                            <div className="flex justify-between text-sm font-medium">
+                              <span className="text-slate-600">Đã dùng: {voucher.usedCount}</span>
+                              <span className="text-slate-400">{Math.round((voucher.usedCount / voucher.quantity) * 100)}%</span>
                             </div>
-                          </TableCell>
-                          <TableCell className="px-4 py-4">
-                            <div className="flex flex-col gap-1 text-slate-600 text-sm">
-                              <div className="flex items-center gap-1.5">
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
-                                <span>{formatDate(voucher.startDate)}</span>
-                              </div>
-                              <div className="flex items-center gap-1.5">
-                                <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                                <span>{formatDate(voucher.endDate)}</span>
-                              </div>
+                            <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-primary transition-all"
+                                style={{ width: `${(voucher.usedCount / voucher.quantity) * 100}%` }}
+                              />
                             </div>
-                          </TableCell>
-                          <TableCell className="px-4 py-4">
-                            <Badge
-                              variant={
-                                voucher.status === "ACTIVE"
-                                  ? "success"
-                                  : "destructive"
-                              }
+                            <span className="text-sm text-slate-400">Tổng: {voucher.quantity}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="px-4 py-4">
+                          <div className="flex flex-col gap-1 text-slate-600 text-sm">
+                            <div className="flex items-center gap-1.5">
+                              <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
+                              <span>{formatDate(voucher.startDate)}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                              <span>{formatDate(voucher.endDate)}</span>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell className="px-4 py-4">
+                          <Badge
+                            variant={
+                              voucher.status === "ACTIVE"
+                                ? "success"
+                                : "destructive"
+                            }
+                          >
+                            {voucher.status === "ACTIVE"
+                              ? "Hoạt động"
+                              : "Ngừng"}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="px-4 py-4 text-right">
+                          <div className="flex items-center justify-end space-x-2">
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                setVoucherToNotify(voucher.id.toString());
+                                setIsNotifyDialogOpen(true);
+                              }}
+                              title="Gửi thông báo"
                             >
-                              {voucher.status === "ACTIVE"
-                                ? "Hoạt động"
-                                : "Ngừng"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="px-4 py-4 text-right">
-                            <div className="flex items-center justify-end space-x-2">
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setVoucherToNotify(voucher.id.toString());
-                                  setIsNotifyDialogOpen(true);
-                                }}
-                                title="Gửi thông báo"
-                              >
-                                <Icon path={mdiEmailFast} size={0.8} />
+                              <Icon path={mdiEmailFast} size={0.8} />
+                            </Button>
+                            <Link
+                              to={`/admin/discounts/vouchers/edit/${voucher.id}`}
+                            >
+                              <Button variant="outline" size="icon">
+                                <Icon path={mdiPencilCircle} size={0.8} />
                               </Button>
-                              <Link
-                                to={`/admin/discounts/vouchers/edit/${voucher.id}`}
-                              >
-                                <Button variant="outline" size="icon">
-                                  <Icon path={mdiPencilCircle} size={0.8} />
-                                </Button>
-                              </Link>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => {
-                                  setVoucherToDelete(voucher);
-                                  setIsDeleteDialogOpen(true);
-                                }}
-                              >
-                                <Icon path={mdiDeleteCircle} size={0.8} />
-                              </Button>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell
-                          colSpan={7}
-                          className="px-4 py-8 text-center text-maintext"
-                        >
-                          Không tìm thấy phiếu giảm giá nào
+                            </Link>
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => {
+                                setVoucherToDelete(voucher);
+                                setIsDeleteDialogOpen(true);
+                              }}
+                            >
+                              <Icon path={mdiDeleteCircle} size={0.8} />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-
-              {data && data.data && data.data.pagination && (
-                <CommonPagination
-                  pagination={{
-                    total: data.data.pagination.totalItems,
-                    count: data.data.vouchers.length,
-                    perPage: data.data.pagination.limit,
-                    currentPage: data.data.pagination.currentPage,
-                    totalPages: data.data.pagination.totalPages,
-                  }}
-                  onPageChange={handleChangePage}
-                  itemLabel="phiếu giảm giá"
-                  className="mt-6"
-                />
-              )}
+                    ))
+                  ) : (
+                    <TableRow>
+                      <TableCell
+                        colSpan={7}
+                        className="px-4 py-8 text-center text-maintext"
+                      >
+                        Không tìm thấy phiếu giảm giá nào
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
             </div>
-          )}
-        </CardContent>
+
+            {data && data.data && data.data.pagination && (
+              <CommonPagination
+                pagination={{
+                  total: data.data.pagination.totalItems,
+                  count: data.data.vouchers.length,
+                  perPage: data.data.pagination.limit,
+                  currentPage: data.data.pagination.currentPage,
+                  totalPages: data.data.pagination.totalPages,
+                }}
+                onPageChange={handleChangePage}
+                itemLabel="phiếu giảm giá"
+                className="mt-6"
+              />
+            )}
+          </div>
+        )}
       </Card>
 
       <DeleteConfirmDialog

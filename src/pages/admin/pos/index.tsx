@@ -56,6 +56,7 @@ import ProductGridView from "./components/ProductGridView";
 import ProductDetailDialog from "./components/ProductDetailDialog";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/utils/formatters";
+import { Card } from "@/components/ui/card";
 
 const CardSkeleton = () => (
   <div className="bg-white rounded-xl border border-border shadow-sm overflow-hidden">
@@ -960,7 +961,7 @@ export default function POSPage() {
       </div>
 
       {/* Phần quản lý các giỏ hàng đang chờ */}
-      <div className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-border">
+      <Card>
         <div className="flex items-start justify-between mb-4">
           <div className="space-y-1">
             <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
@@ -980,7 +981,6 @@ export default function POSPage() {
             Thêm mới
           </Button>
         </div>
-
         {/* Danh sách các giỏ hàng đang chờ */}
         {pendingCarts.length > 0 && (
           <div className="flex gap-2 overflow-x-auto">
@@ -1081,14 +1081,14 @@ export default function POSPage() {
             )}
           </div>
         )}
-      </div>
+      </Card>
 
       {/* Layout chính chia làm 2 cột */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-4">
         {/* Cột trái - Danh sách sản phẩm */}
-        <div className="lg:col-span-2 overflow-hidden flex flex-col">
+        <div className="lg:col-span-2 overflow-hidden flex flex-col gap-4">
           {/* Thanh tìm kiếm và lọc */}
-          <div className="bg-white rounded-xl p-4 mb-4 shadow-sm border border-border hover:shadow-md transition-shadow duration-300">
+          <Card>
             <div className="flex flex-col md:flex-row md:items-center gap-4 mb-4">
               <div className="relative flex-1">
                 <Icon
@@ -1106,7 +1106,6 @@ export default function POSPage() {
                 />
               </div>
             </div>
-
             <Tabs
               value={activeCategoryName}
               onValueChange={(value) => {
@@ -1127,9 +1126,9 @@ export default function POSPage() {
                 ))}
               </TabsList>
             </Tabs>
-          </div>
+          </Card>
 
-          <div className="bg-white rounded-xl p-4 flex-1 shadow-lg border border-border/50 hover:shadow-xl transition-all duration-300 min-h-[400px] pt-2">
+          <Card>
             <Tabs defaultValue="grid" className="w-full">
               <div className="flex justify-between items-center mb-4">
                 <TabsList>
@@ -1210,7 +1209,7 @@ export default function POSPage() {
                 </>
               )}
             </Tabs>
-          </div>
+          </Card>
         </div>
 
         <div className="lg:col-span-1">

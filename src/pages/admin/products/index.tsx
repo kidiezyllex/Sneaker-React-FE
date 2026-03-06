@@ -3,17 +3,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
 import {
   mdiMagnify,
-  mdiPlus,
-  mdiEmailFast,
-  mdiPencilCircle,
-  mdiDeleteCircle,
+  mdiPlus, mdiPencilCircle,
+  mdiDeleteCircle
 } from "@mdi/js";
-import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useProducts, useDeleteProduct } from "@/hooks/product";
@@ -28,11 +25,9 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { checkImageUrl } from "@/lib/utils";
 import {
@@ -56,15 +51,6 @@ import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import Download from "yet-another-react-lightbox/plugins/download";
 import "yet-another-react-lightbox/styles.css";
 import { Input } from "@/components/ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { DeleteConfirmDialog } from "@/components/ui/delete-confirm-dialog";
 import {
   Tooltip,
@@ -220,339 +206,337 @@ export default function ProductsPage() {
       </Breadcrumb>
 
       <Card className="mb-4">
-        <CardContent className="p-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
-            <div className="relative flex-1">
-              <Icon
-                path={mdiMagnify}
-                size={0.8}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
-              />
-              <Input
-                type="text"
-                placeholder="Tìm kiếm theo tên sản phẩm..."
-                className="pl-10 w-full"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Link to="/admin/products/create">
-              <Button>
-                <Icon path={mdiPlus} size={0.8} />
-                Thêm sản phẩm mới
-              </Button>
-            </Link>
+        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+          <div className="relative flex-1">
+            <Icon
+              path={mdiMagnify}
+              size={0.8}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+            />
+            <Input
+              type="text"
+              placeholder="Tìm kiếm theo tên sản phẩm..."
+              className="pl-10 w-full"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+          <Link to="/admin/products/create">
+            <Button>
+              <Icon path={mdiPlus} size={0.8} />
+              Thêm sản phẩm mới
+            </Button>
+          </Link>
+        </div>
 
-          <div className="my-4 pt-4 border-t">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-sm text-maintext mb-2 font-semibold">
-                  Thương hiệu
-                </label>
-                <Select
-                  value={filters.brand || "all"}
-                  onValueChange={(value) =>
-                    handleFilterChange(
-                      "brand",
-                      value === "all" ? undefined : value
-                    )
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tất cả thương hiệu">
-                      {filters.brand
-                        ? (brandsData?.data || []).find(
-                          (brand) =>
-                            brand.id.toString() === filters.brand?.toString()
-                        )?.name || "Tất cả thương hiệu"
-                        : "Tất cả thương hiệu"}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tất cả thương hiệu</SelectItem>
-                    {(brandsData?.data || []).map((brand) => (
-                      <SelectItem key={brand.id} value={brand.id.toString()}>
-                        {brand.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="block text-sm text-maintext mb-2 font-semibold">
-                  Danh mục
-                </label>
-                <Select
-                  value={filters.category || "all"}
-                  onValueChange={(value) =>
-                    handleFilterChange(
-                      "category",
-                      value === "all" ? undefined : value
-                    )
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tất cả danh mục">
-                      {filters.category
-                        ? (categoriesData?.data || []).find(
-                          (category) =>
-                            category.id.toString() ===
-                            filters.category?.toString()
-                        )?.name || "Tất cả danh mục"
-                        : "Tất cả danh mục"}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tất cả danh mục</SelectItem>
-                    {(categoriesData?.data || []).map((category) => (
-                      <SelectItem
-                        key={category.id}
-                        value={category.id.toString()}
-                      >
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="block text-sm text-maintext mb-2 font-semibold">
-                  Trạng thái
-                </label>
-                <Select
-                  value={filters.status || "all"}
-                  onValueChange={(value) =>
-                    handleFilterChange(
-                      "status",
-                      value === "all" ? undefined : value
-                    )
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Tất cả trạng thái">
-                      {filters.status === "ACTIVE"
-                        ? "Hoạt động"
-                        : filters.status === "INACTIVE"
-                          ? "Không hoạt động"
-                          : "Tất cả trạng thái"}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                    <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                    <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-          </div>
-          {isLoading ? (
-            <div className="bg-white rounded-xl shadow-sm p-4 space-y-4">
-              {[...Array(5)].map((_, index) => (
-                <div key={index} className="flex items-center space-x-4">
-                  <Skeleton className="h-12 w-12 rounded-xl" />
-                  <div className="space-y-2">
-                    <Skeleton className="h-4 w-[250px]" />
-                    <Skeleton className="h-4 w-[200px]" />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : isError ? (
-            <div className="bg-white rounded-xl shadow-sm p-4 text-center">
-              <p className="text-red-500">
-                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-              </p>
-              <Button
-                variant="outline"
-                className="mt-4"
-                onClick={() =>
-                  queryClient.invalidateQueries({ queryKey: ["products"] })
+        <div className="my-4 pt-4 border-t">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm text-maintext mb-2 font-semibold">
+                Thương hiệu
+              </label>
+              <Select
+                value={filters.brand || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange(
+                    "brand",
+                    value === "all" ? undefined : value
+                  )
                 }
               >
-                Thử lại
-              </Button>
+                <SelectTrigger>
+                  <SelectValue placeholder="Tất cả thương hiệu">
+                    {filters.brand
+                      ? (brandsData?.data || []).find(
+                        (brand) =>
+                          brand.id.toString() === filters.brand?.toString()
+                      )?.name || "Tất cả thương hiệu"
+                      : "Tất cả thương hiệu"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tất cả thương hiệu</SelectItem>
+                  {(brandsData?.data || []).map((brand) => (
+                    <SelectItem key={brand.id} value={brand.id.toString()}>
+                      {brand.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          ) : (
-            <div className="bg-white rounded-xl overflow-hidden">
-              <Table className="min-w-[1000px]">
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>STT</TableHead>
-                    <TableHead>Hình ảnh</TableHead>
-                    <TableHead>Sản phẩm</TableHead>
-                    <TableHead>Thương hiệu</TableHead>
-                    <TableHead>Danh mục</TableHead>
-                    <TableHead>Giá</TableHead>
-                    <TableHead>Trạng thái</TableHead>
-                    <TableHead>Ngày cập nhật</TableHead>
-                    <TableHead>Thao tác</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.data &&
-                    Array.isArray(data.data) &&
-                    data.data.length > 0 ? (
-                    data.data.map((product, index) => (
-                      <TableRow key={product.id} className="hover:bg-gray-50">
-                        <TableCell className="text-center font-medium">
-                          {(filters.page! - 1) * filters.limit! + index + 1}
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap">
-                          <TooltipProvider>
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <div
-                                  className="relative w-full aspect-square rounded-md overflow-hidden bg-gray-100 cursor-pointer group"
-                                  onClick={() =>
-                                    handleOpenLightbox(product, 0, 0)
-                                  }
-                                >
-                                  <img
-                                    src={checkImageUrl(
-                                      product.variants[0]?.images?.[0]?.imageUrl
-                                    )}
-                                    alt={product.name}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-                                  />
-                                </div>
-                              </TooltipTrigger>
-                              <TooltipContent>
-                                <p>Click để phóng to ảnh</p>
-                              </TooltipContent>
-                            </Tooltip>
-                          </TooltipProvider>
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-maintext">
-                            {product.name}
-                          </div>
-                          <div className="text-sm text-maintext">
-                            {product.variants.length} biến thể
-                          </div>
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                          {typeof product.brand === "string"
-                            ? product.brand
-                            : product.brand.name}
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                          {typeof product.category === "string"
-                            ? product.category
-                            : product.category.name}
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm">
-                          {(() => {
-                            const basePrice = product.variants[0]?.price || 0;
-                            const discount = promotionsData?.data?.promotions
-                              ? calculateProductDiscount(
-                                product.id,
-                                basePrice,
-                                promotionsData.data.promotions
-                              )
-                              : {
-                                originalPrice: basePrice,
-                                discountedPrice: basePrice,
-                                discountPercent: 0,
-                              };
-
-                            return (
-                              <div className="space-y-1">
-                                <div
-                                  className={`font-medium ${discount.discountPercent > 0
-                                    ? "text-primary"
-                                    : "text-maintext"
-                                    }`}
-                                >
-                                  {formatCurrency(discount.discountedPrice)}
-                                </div>
-                                {discount.discountPercent > 0 && (
-                                  <div className="text-sm text-maintext line-through">
-                                    {formatCurrency(discount.originalPrice)}
-                                  </div>
-                                )}
-                                {discount.discountPercent > 0 && (
-                                  <Badge variant="success" showIcon={false}>
-                                    -{discount.discountPercent}% KM
-                                  </Badge>
-                                )}
-                              </div>
-                            );
-                          })()}
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap">
-                          <Badge
-                            variant={
-                              product.status === "ACTIVE"
-                                ? "success"
-                                : "destructive"
-                            }
-                          >
-                            {product.status === "ACTIVE"
-                              ? "Hoạt động"
-                              : "Không hoạt động"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
-                          {formatDate(product.updatedAt)}
-                        </TableCell>
-                        <TableCell className="px-4 py-4 whitespace-nowrap text-right">
-                          <div className="flex items-center justify-end space-x-2">
-                            <Link to={`/admin/products/edit/${product.id}`}>
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                title="Sửa"
+            <div>
+              <label className="block text-sm text-maintext mb-2 font-semibold">
+                Danh mục
+              </label>
+              <Select
+                value={filters.category || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange(
+                    "category",
+                    value === "all" ? undefined : value
+                  )
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Tất cả danh mục">
+                    {filters.category
+                      ? (categoriesData?.data || []).find(
+                        (category) =>
+                          category.id.toString() ===
+                          filters.category?.toString()
+                      )?.name || "Tất cả danh mục"
+                      : "Tất cả danh mục"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tất cả danh mục</SelectItem>
+                  {(categoriesData?.data || []).map((category) => (
+                    <SelectItem
+                      key={category.id}
+                      value={category.id.toString()}
+                    >
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div>
+              <label className="block text-sm text-maintext mb-2 font-semibold">
+                Trạng thái
+              </label>
+              <Select
+                value={filters.status || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange(
+                    "status",
+                    value === "all" ? undefined : value
+                  )
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Tất cả trạng thái">
+                    {filters.status === "ACTIVE"
+                      ? "Hoạt động"
+                      : filters.status === "INACTIVE"
+                        ? "Không hoạt động"
+                        : "Tất cả trạng thái"}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                  <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                  <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+        {isLoading ? (
+          <div className="bg-white rounded-xl shadow-sm p-4 space-y-4">
+            {[...Array(5)].map((_, index) => (
+              <div key={index} className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-xl" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px]" />
+                  <Skeleton className="h-4 w-[200px]" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : isError ? (
+          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+            <p className="text-red-500">
+              Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() =>
+                queryClient.invalidateQueries({ queryKey: ["products"] })
+              }
+            >
+              Thử lại
+            </Button>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl overflow-hidden">
+            <Table className="min-w-[1000px]">
+              <TableHeader>
+                <TableRow>
+                  <TableHead>STT</TableHead>
+                  <TableHead>Hình ảnh</TableHead>
+                  <TableHead>Sản phẩm</TableHead>
+                  <TableHead>Thương hiệu</TableHead>
+                  <TableHead>Danh mục</TableHead>
+                  <TableHead>Giá</TableHead>
+                  <TableHead>Trạng thái</TableHead>
+                  <TableHead>Ngày cập nhật</TableHead>
+                  <TableHead>Thao tác</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data?.data &&
+                  Array.isArray(data.data) &&
+                  data.data.length > 0 ? (
+                  data.data.map((product, index) => (
+                    <TableRow key={product.id} className="hover:bg-gray-50">
+                      <TableCell className="text-center font-medium">
+                        {(filters.page! - 1) * filters.limit! + index + 1}
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap">
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <div
+                                className="relative w-full aspect-square rounded-md overflow-hidden bg-gray-100 cursor-pointer group"
+                                onClick={() =>
+                                  handleOpenLightbox(product, 0, 0)
+                                }
                               >
-                                <Icon path={mdiPencilCircle} size={0.8} />
-                              </Button>
-                            </Link>
+                                <img
+                                  src={checkImageUrl(
+                                    product.variants[0]?.images?.[0]?.imageUrl
+                                  )}
+                                  alt={product.name}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                                />
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Click để phóng to ảnh</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-maintext">
+                          {product.name}
+                        </div>
+                        <div className="text-sm text-maintext">
+                          {product.variants.length} biến thể
+                        </div>
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                        {typeof product.brand === "string"
+                          ? product.brand
+                          : product.brand.name}
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                        {typeof product.category === "string"
+                          ? product.category
+                          : product.category.name}
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm">
+                        {(() => {
+                          const basePrice = product.variants[0]?.price || 0;
+                          const discount = promotionsData?.data?.promotions
+                            ? calculateProductDiscount(
+                              product.id,
+                              basePrice,
+                              promotionsData.data.promotions
+                            )
+                            : {
+                              originalPrice: basePrice,
+                              discountedPrice: basePrice,
+                              discountPercent: 0,
+                            };
+
+                          return (
+                            <div className="space-y-1">
+                              <div
+                                className={`font-medium ${discount.discountPercent > 0
+                                  ? "text-primary"
+                                  : "text-maintext"
+                                  }`}
+                              >
+                                {formatCurrency(discount.discountedPrice)}
+                              </div>
+                              {discount.discountPercent > 0 && (
+                                <div className="text-sm text-maintext line-through">
+                                  {formatCurrency(discount.originalPrice)}
+                                </div>
+                              )}
+                              {discount.discountPercent > 0 && (
+                                <Badge variant="success" showIcon={false}>
+                                  -{discount.discountPercent}% KM
+                                </Badge>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap">
+                        <Badge
+                          variant={
+                            product.status === "ACTIVE"
+                              ? "success"
+                              : "destructive"
+                          }
+                        >
+                          {product.status === "ACTIVE"
+                            ? "Hoạt động"
+                            : "Không hoạt động"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                        {formatDate(product.updatedAt)}
+                      </TableCell>
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-right">
+                        <div className="flex items-center justify-end space-x-2">
+                          <Link to={`/admin/products/edit/${product.id}`}>
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() => {
-                                setProductToDelete(product);
-                                setIsDeleteDialogOpen(true);
-                              }}
-                              title="Xóa"
+                              title="Sửa"
                             >
-                              <Icon path={mdiDeleteCircle} size={0.8} />
+                              <Icon path={mdiPencilCircle} size={0.8} />
                             </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={8}
-                        className="px-4 py-8 text-center text-maintext"
-                      >
-                        Không tìm thấy sản phẩm nào
+                          </Link>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => {
+                              setProductToDelete(product);
+                              setIsDeleteDialogOpen(true);
+                            }}
+                            title="Xóa"
+                          >
+                            <Icon path={mdiDeleteCircle} size={0.8} />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={8}
+                      className="px-4 py-8 text-center text-maintext"
+                    >
+                      Không tìm thấy sản phẩm nào
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
 
-              {data?.pagination && data.pagination.totalPages > 1 && (
-                <CommonPagination
-                  pagination={{
-                    total: data.pagination.total,
-                    count: data.data.length,
-                    perPage: data.pagination.perPage,
-                    currentPage: data.pagination.currentPage,
-                    totalPages: data.pagination.totalPages,
-                  }}
-                  onPageChange={handleChangePage}
-                  itemLabel="sản phẩm"
-                  className="mt-6"
-                />
-              )}
-            </div>
-          )}
-        </CardContent>
+            {data?.pagination && data.pagination.totalPages > 1 && (
+              <CommonPagination
+                pagination={{
+                  total: data.pagination.total,
+                  count: data.data.length,
+                  perPage: data.pagination.perPage,
+                  currentPage: data.pagination.currentPage,
+                  totalPages: data.pagination.totalPages,
+                }}
+                onPageChange={handleChangePage}
+                itemLabel="sản phẩm"
+                className="mt-6"
+              />
+            )}
+          </div>
+        )}
       </Card>
 
       {lightboxOpen && (

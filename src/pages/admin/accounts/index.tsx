@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
@@ -229,251 +229,249 @@ export default function AccountsPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <Card className="mb-4">
-        <CardContent className="p-4 space-y-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
-            <div className="relative flex-1 max-w-4xl">
-              <Icon
-                path={mdiMagnify}
-                size={0.8}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
-              />
-              <Input
-                type="text"
-                placeholder="Tìm kiếm theo tên, email, số điện thoại..."
-                className="pl-10 w-full"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="flex space-x-2">
-              <Button
-                variant="outline"
-                className="flex items-center"
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <Icon path={mdiFilterOutline} size={0.8} />
-                {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
-              </Button>
-              <Link to="/admin/accounts/create">
-                <Button className="flex items-center gap-2">
-                  <Icon path={mdiPlus} size={0.8} />
-                  Thêm tài khoản mới
-                </Button>
-              </Link>
-            </div>
+      <Card className="mb-4 space-y-4">
+        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+          <div className="relative flex-1 max-w-4xl">
+            <Icon
+              path={mdiMagnify}
+              size={0.8}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+            />
+            <Input
+              type="text"
+              placeholder="Tìm kiếm theo tên, email, số điện thoại..."
+              className="pl-10 w-full"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+          <div className="flex space-x-2">
+            <Button
+              variant="outline"
+              className="flex items-center"
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <Icon path={mdiFilterOutline} size={0.8} />
+              {showFilters ? "Ẩn bộ lọc" : "Hiện bộ lọc"}
+            </Button>
+            <Link to="/admin/accounts/create">
+              <Button className="flex items-center gap-2">
+                <Icon path={mdiPlus} size={0.8} />
+                Thêm tài khoản mới
+              </Button>
+            </Link>
+          </div>
+        </div>
 
-          <AnimatePresence>
-            {showFilters && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-4 pt-4 border-t"
-              >
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Vai trò
-                    </label>
-                    <Select
-                      value={filters.role || ""}
-                      onValueChange={(value) =>
-                        handleFilterChange(
-                          "role",
-                          value === "all" ? undefined : value
-                        )
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Tất cả vai trò" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Tất cả vai trò</SelectItem>
-                        <SelectItem value="ADMIN">Quản trị viên</SelectItem>
-                        <SelectItem value="CUSTOMER">Khách hàng</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block text-sm text-maintext mb-2 font-semibold">
-                      Trạng thái
-                    </label>
-                    <Select
-                      value={filters.status || ""}
-                      onValueChange={(value) =>
-                        handleFilterChange(
-                          "status",
-                          value === "all" ? undefined : value
-                        )
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Tất cả trạng thái" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                        <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                        <SelectItem value="INACTIVE">
-                          Không hoạt động
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+        <AnimatePresence>
+          {showFilters && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 pt-4 border-t"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                    Vai trò
+                  </label>
+                  <Select
+                    value={filters.role || ""}
+                    onValueChange={(value) =>
+                      handleFilterChange(
+                        "role",
+                        value === "all" ? undefined : value
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Tất cả vai trò" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tất cả vai trò</SelectItem>
+                      <SelectItem value="ADMIN">Quản trị viên</SelectItem>
+                      <SelectItem value="CUSTOMER">Khách hàng</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                <div>
+                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                    Trạng thái
+                  </label>
+                  <Select
+                    value={filters.status || ""}
+                    onValueChange={(value) =>
+                      handleFilterChange(
+                        "status",
+                        value === "all" ? undefined : value
+                      )
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Tất cả trạng thái" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">Tất cả trạng thái</SelectItem>
+                      <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+                      <SelectItem value="INACTIVE">
+                        Không hoạt động
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          {isLoading ? (
-            <div className="flex items-center justify-center h-64">
-              <Icon
-                path={mdiLoading}
-                size={2}
-                className="animate-spin text-primary"
-              />
-            </div>
-          ) : error ? (
-            <div className="flex flex-col items-center justify-center h-64">
-              <h2 className="text-xl font-semibold text-red-500">
-                Đã xảy ra lỗi
-              </h2>
-              <p className="text-maintext">
-                {error.message || "Không thể tải dữ liệu tài khoản"}
-              </p>
-            </div>
-          ) : (
-            <>
-              <Table>
-                <TableHeader>
+        {isLoading ? (
+          <div className="flex items-center justify-center h-64">
+            <Icon
+              path={mdiLoading}
+              size={2}
+              className="animate-spin text-primary"
+            />
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center h-64">
+            <h2 className="text-xl font-semibold text-red-500">
+              Đã xảy ra lỗi
+            </h2>
+            <p className="text-maintext">
+              {error.message || "Không thể tải dữ liệu tài khoản"}
+            </p>
+          </div>
+        ) : (
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>STT</TableHead>
+                  <TableHead>Tài khoản</TableHead>
+                  <TableHead>Liên hệ</TableHead>
+                  <TableHead>Vai trò</TableHead>
+                  <TableHead>Trạng thái</TableHead>
+                  <TableHead>Ngày tạo</TableHead>
+                  <TableHead>Thao tác</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data?.data.content.length === 0 ? (
                   <TableRow>
-                    <TableHead>STT</TableHead>
-                    <TableHead>Tài khoản</TableHead>
-                    <TableHead>Liên hệ</TableHead>
-                    <TableHead>Vai trò</TableHead>
-                    <TableHead>Trạng thái</TableHead>
-                    <TableHead>Ngày tạo</TableHead>
-                    <TableHead>Thao tác</TableHead>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center py-8 text-maintext"
+                    >
+                      Không có tài khoản nào được tìm thấy
+                    </TableCell>
                   </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.data.content.length === 0 ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={7}
-                        className="text-center py-8 text-maintext"
-                      >
-                        Không có tài khoản nào được tìm thấy
+                ) : (
+                  data?.data.content.map((account, index) => (
+                    <TableRow key={account.id} className="hover:bg-gray-50">
+                      <TableCell className="text-center">
+                        {(filters.page! - 1) * filters.limit! + index + 1}
                       </TableCell>
-                    </TableRow>
-                  ) : (
-                    data?.data.content.map((account, index) => (
-                      <TableRow key={account.id} className="hover:bg-gray-50">
-                        <TableCell className="text-center">
-                          {(filters.page! - 1) * filters.limit! + index + 1}
-                        </TableCell>
-                        <TableCell className="py-3 px-4">
-                          <div className="flex items-center space-x-4">
-                            <div className="p-0.5 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">
-                              <Avatar className="w-10 h-10 border-2 border-white rounded-full">
-                                <AvatarImage
-                                  src={getAvatarUrl(account.id.toString())}
-                                  alt={`${account.fullName} avatar`}
-                                />
-                              </Avatar>
+                      <TableCell className="py-3 px-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="p-0.5 rounded-full bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600">
+                            <Avatar className="w-10 h-10 border-2 border-white rounded-full">
+                              <AvatarImage
+                                src={getAvatarUrl(account.id.toString())}
+                                alt={`${account.fullName} avatar`}
+                              />
+                            </Avatar>
+                          </div>
+                          <div>
+                            <div className="font-medium text-maintext">
+                              {account.fullName}
                             </div>
-                            <div>
-                              <div className="font-medium text-maintext">
-                                {account.fullName}
-                              </div>
-                              <div className="text-sm text-maintext">
-                                {account.email}
-                              </div>
+                            <div className="text-sm text-maintext">
+                              {account.email}
                             </div>
                           </div>
-                        </TableCell>
-                        <TableCell className="py-3 px-4 text-sm text-maintext">
-                          {account.phoneNumber && (
-                            <div className="flex items-center">
-                              <Icon
-                                path={mdiPhone}
-                                size={0.8}
-                                className="mr-2 text-maintext"
-                              />
-                              {account.phoneNumber}
-                            </div>
-                          )}
-                        </TableCell>
-                        <TableCell className="py-3 px-4">
-                          {getRoleBadge(account.role)}
-                        </TableCell>
-                        <TableCell className="py-3 px-4">
-                          {getStatusBadge(account.status)}
-                        </TableCell>
-                        <TableCell className="py-3 px-4 text-sm text-maintext">
-                          {account.createdAt ? formatDateTime(account.createdAt) : "Chưa xác định"}
-                        </TableCell>
-                        <TableCell className="py-3 px-4 text-right">
-                          <div className="flex justify-end gap-2">
-                            <Link to={`/admin/accounts/edit/${account.id}`}>
-                              <Button variant="outline" size="icon" title="Chỉnh sửa">
-                                <Icon path={mdiPencil} size={0.8} />
-                              </Button>
-                            </Link>
+                        </div>
+                      </TableCell>
+                      <TableCell className="py-3 px-4 text-sm text-maintext">
+                        {account.phoneNumber && (
+                          <div className="flex items-center">
+                            <Icon
+                              path={mdiPhone}
+                              size={0.8}
+                              className="mr-2 text-maintext"
+                            />
+                            {account.phoneNumber}
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        {getRoleBadge(account.role)}
+                      </TableCell>
+                      <TableCell className="py-3 px-4">
+                        {getStatusBadge(account.status)}
+                      </TableCell>
+                      <TableCell className="py-3 px-4 text-sm text-maintext">
+                        {account.createdAt ? formatDateTime(account.createdAt) : "Chưa xác định"}
+                      </TableCell>
+                      <TableCell className="py-3 px-4 text-right">
+                        <div className="flex justify-end gap-2">
+                          <Link to={`/admin/accounts/edit/${account.id}`}>
+                            <Button variant="outline" size="icon" title="Chỉnh sửa">
+                              <Icon path={mdiPencil} size={0.8} />
+                            </Button>
+                          </Link>
 
-                            {account.status === "ACTIVE" ? (
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => handleUpdateStatus(account, "INACTIVE")}
-                                title="Vô hiệu hóa"
-                              >
-                                <Icon path={mdiLock} size={0.8} />
-                              </Button>
-                            ) : (
-                              <Button
-                                variant="outline"
-                                size="icon"
-                                onClick={() => handleUpdateStatus(account, "ACTIVE")}
-                                title="Kích hoạt"
-                              >
-                                <Icon path={mdiLockReset} size={0.8} />
-                              </Button>
-                            )}
-
+                          {account.status === "ACTIVE" ? (
                             <Button
                               variant="outline"
                               size="icon"
-                              onClick={() => handleDeleteAccount(account)}
-                              title="Xóa tài khoản"
+                              onClick={() => handleUpdateStatus(account, "INACTIVE")}
+                              title="Vô hiệu hóa"
                             >
-                              <Icon path={mdiDelete} size={0.8} />
+                              <Icon path={mdiLock} size={0.8} />
                             </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  )}
-                </TableBody>
-              </Table>
+                          ) : (
+                            <Button
+                              variant="outline"
+                              size="icon"
+                              onClick={() => handleUpdateStatus(account, "ACTIVE")}
+                              title="Kích hoạt"
+                            >
+                              <Icon path={mdiLockReset} size={0.8} />
+                            </Button>
+                          )}
 
-              <CommonPagination
-                pagination={{
-                  total: data.data.totalElements,
-                  count: data.data.content.length,
-                  perPage: filters.limit || 5,
-                  currentPage: data.data.number + 1,
-                  totalPages: data.data.totalPages,
-                }}
-                onPageChange={handleChangePage}
-                itemLabel="tài khoản"
-                className="mt-6"
-              />
-            </>
-          )}
-        </CardContent>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => handleDeleteAccount(account)}
+                            title="Xóa tài khoản"
+                          >
+                            <Icon path={mdiDelete} size={0.8} />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+
+            <CommonPagination
+              pagination={{
+                total: data.data.totalElements,
+                count: data.data.content.length,
+                perPage: filters.limit || 5,
+                currentPage: data.data.number + 1,
+                totalPages: data.data.totalPages,
+              }}
+              onPageChange={handleChangePage}
+              itemLabel="tài khoản"
+              className="mt-6"
+            />
+          </>
+        )}
       </Card>
 
       <DeleteConfirmDialog

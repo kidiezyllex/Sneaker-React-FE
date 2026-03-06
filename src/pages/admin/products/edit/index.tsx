@@ -56,6 +56,11 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { formatCurrency } from "@/utils/formatters";
+import {
+    useBrands,
+    useCategories,
+    useMaterials
+} from "@/hooks/attributes";
 
 export default function EditProductPage() {
     const navigate = useNavigate();
@@ -73,6 +78,9 @@ export default function EditProductPage() {
     const updateProductStock = useUpdateProductStock();
     const updateProductImages = useUpdateProductImages();
     const uploadImage = useUploadImage();
+    const { data: brandsData } = useBrands();
+    const { data: categoriesData } = useCategories();
+    const { data: materialsData } = useMaterials();
 
     const [productUpdate, setProductUpdate] = useState<IProductUpdate>({});
 
@@ -82,18 +90,18 @@ export default function EditProductPage() {
 
             setProductUpdate({
                 name: product.name,
-                brand:
+                brandId:
                     typeof product.brand === "string"
                         ? product.brand
-                        : product.brand.name,
-                category:
+                        : product.brand.id.toString(),
+                categoryId:
                     typeof product.category === "string"
                         ? product.category
-                        : product.category.name,
-                material:
+                        : product.category.id.toString(),
+                materialId:
                     typeof product.material === "string"
                         ? product.material
-                        : product.material.name,
+                        : product.material.id.toString(),
                 description: product.description,
                 weight: product.weight,
                 status: product.status,
@@ -370,22 +378,20 @@ export default function EditProductPage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="brand">Thương hiệu</Label>
                                         <Select
-                                            value={productUpdate.brand || ""}
+                                            value={productUpdate.brandId || ""}
                                             onValueChange={(value) =>
-                                                setProductUpdate({ ...productUpdate, brand: value })
+                                                setProductUpdate({ ...productUpdate, brandId: value })
                                             }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Chọn thương hiệu" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {["Nike", "Adidas", "Puma", "Converse", "Vans"].map(
-                                                    (brand) => (
-                                                        <SelectItem key={brand} value={brand}>
-                                                            {brand}
-                                                        </SelectItem>
-                                                    )
-                                                )}
+                                                {(brandsData?.data || []).map((brand) => (
+                                                    <SelectItem key={brand.id} value={brand.id.toString()}>
+                                                        {brand.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -393,23 +399,18 @@ export default function EditProductPage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="category">Danh mục</Label>
                                         <Select
-                                            value={productUpdate.category || ""}
+                                            value={productUpdate.categoryId || ""}
                                             onValueChange={(value) =>
-                                                setProductUpdate({ ...productUpdate, category: value })
+                                                setProductUpdate({ ...productUpdate, categoryId: value })
                                             }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Chọn danh mục" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {[
-                                                    "Giày thể thao",
-                                                    "Giày chạy bộ",
-                                                    "Giày đá bóng",
-                                                    "Giày thời trang",
-                                                ].map((category) => (
-                                                    <SelectItem key={category} value={category}>
-                                                        {category}
+                                                {(categoriesData?.data || []).map((category) => (
+                                                    <SelectItem key={category.id} value={category.id.toString()}>
+                                                        {category.name}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
@@ -419,22 +420,20 @@ export default function EditProductPage() {
                                     <div className="space-y-2">
                                         <Label htmlFor="material">Chất liệu</Label>
                                         <Select
-                                            value={productUpdate.material || ""}
+                                            value={productUpdate.materialId || ""}
                                             onValueChange={(value) =>
-                                                setProductUpdate({ ...productUpdate, material: value })
+                                                setProductUpdate({ ...productUpdate, materialId: value })
                                             }
                                         >
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Chọn chất liệu" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {["Canvas", "Da", "Vải", "Nhựa", "Cao su"].map(
-                                                    (material) => (
-                                                        <SelectItem key={material} value={material}>
-                                                            {material}
-                                                        </SelectItem>
-                                                    )
-                                                )}
+                                                {(materialsData?.data || []).map((material) => (
+                                                    <SelectItem key={material.id} value={material.id.toString()}>
+                                                        {material.name}
+                                                    </SelectItem>
+                                                ))}
                                             </SelectContent>
                                         </Select>
                                     </div>

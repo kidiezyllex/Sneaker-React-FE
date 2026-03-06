@@ -26,9 +26,9 @@ export interface IProductVariant {
 
 export interface IProductCreate {
   name: string;
-  brand: string;
-  category: string;
-  material: string;
+  brandId: string;
+  categoryId: string;
+  materialId: string;
   description: string;
   weight?: number;
   variants: IProductVariant[];
@@ -36,9 +36,9 @@ export interface IProductCreate {
 
 export interface IProductUpdate {
   name?: string;
-  brand?: string;
-  category?: string;
-  material?: string;
+  brandId?: string;
+  categoryId?: string;
+  materialId?: string;
   description?: string;
   weight?: number;
   variants?: IProductVariant[];

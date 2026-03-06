@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
 import {
@@ -137,261 +137,259 @@ export default function ColorsPage() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className="mb-4">
-        <CardContent className="p-4 space-y-4">
-          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
-            <div className="relative flex-1">
-              <Icon
-                path={mdiMagnify}
-                size={0.8}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
-              />
-              <Input
-                type="text"
-                placeholder="Tìm kiếm theo tên hoặc mã màu sắc..."
-                className="pl-10 w-full"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Select
-              value={filters.status || "all"}
-              onValueChange={(value) => handleFilterChange("status", value)}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Tất cả trạng thái" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">Tất cả trạng thái</SelectItem>
-                <SelectItem value="ACTIVE">Hoạt động</SelectItem>
-                <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
-              </SelectContent>
-            </Select>
-            <Dialog
-              open={isCreateDialogOpen}
-              onOpenChange={setIsCreateDialogOpen}
-            >
-              <DialogTrigger asChild>
-                <Button onClick={() => setIsCreateDialogOpen(true)}>
-                  <Icon path={mdiPlus} size={0.8} />
-                  Thêm màu sắc mới
-                </Button>
-              </DialogTrigger>
-              <CreateColorDialog
-                isOpen={isCreateDialogOpen}
-                onClose={() => setIsCreateDialogOpen(false)}
-              />
-            </Dialog>
+      <Card className="mb-4 space-y-4">
+        <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
+          <div className="relative flex-1">
+            <Icon
+              path={mdiMagnify}
+              size={0.8}
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+            />
+            <Input
+              type="text"
+              placeholder="Tìm kiếm theo tên hoặc mã màu sắc..."
+              className="pl-10 w-full"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
+          <Select
+            value={filters.status || "all"}
+            onValueChange={(value) => handleFilterChange("status", value)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Tất cả trạng thái" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tất cả trạng thái</SelectItem>
+              <SelectItem value="ACTIVE">Hoạt động</SelectItem>
+              <SelectItem value="INACTIVE">Không hoạt động</SelectItem>
+            </SelectContent>
+          </Select>
+          <Dialog
+            open={isCreateDialogOpen}
+            onOpenChange={setIsCreateDialogOpen}
+          >
+            <DialogTrigger asChild>
+              <Button onClick={() => setIsCreateDialogOpen(true)}>
+                <Icon path={mdiPlus} size={0.8} />
+                Thêm màu sắc mới
+              </Button>
+            </DialogTrigger>
+            <CreateColorDialog
+              isOpen={isCreateDialogOpen}
+              onClose={() => setIsCreateDialogOpen(false)}
+            />
+          </Dialog>
+        </div>
 
-          {isLoading ? (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>STT</TableHead>
-                      <TableHead>Màu sắc</TableHead>
-                      <TableHead>Mã màu</TableHead>
-                      <TableHead>Trạng thái</TableHead>
-                      <TableHead>Ngày cập nhật</TableHead>
-                      <TableHead>Thao tác</TableHead>
+        {isLoading ? (
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>STT</TableHead>
+                    <TableHead>Màu sắc</TableHead>
+                    <TableHead>Mã màu</TableHead>
+                    <TableHead>Trạng thái</TableHead>
+                    <TableHead>Ngày cập nhật</TableHead>
+                    <TableHead>Thao tác</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {[...Array(5)].map((_, index) => (
+                    <TableRow key={index}>
+                      <TableCell>
+                        <Skeleton className="h-4 w-8 mx-auto" />
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center">
+                          <Skeleton className="h-6 w-6 rounded-full mr-2" />
+                          <Skeleton className="h-4 w-[100px]" />
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-[80px]" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-6 w-[100px] rounded-full" />
+                      </TableCell>
+                      <TableCell>
+                        <Skeleton className="h-4 w-[100px]" />
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end space-x-2">
+                          <Skeleton className="h-8 w-8 rounded-xl" />
+                          <Skeleton className="h-8 w-8 rounded-xl" />
+                        </div>
+                      </TableCell>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {[...Array(5)].map((_, index) => (
-                      <TableRow key={index}>
-                        <TableCell>
-                          <Skeleton className="h-4 w-8 mx-auto" />
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        ) : isError ? (
+          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+            <p className="text-red-500">
+              Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+            </p>
+            <Button
+              variant="outline"
+              className="mt-4"
+              onClick={() =>
+                queryClient.invalidateQueries({ queryKey: ["colors"] })
+              }
+            >
+              Thử lại
+            </Button>
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[50px] text-center">STT</TableHead>
+                    <TableHead>Màu sắc</TableHead>
+                    <TableHead>Mã màu</TableHead>
+                    <TableHead>Trạng thái</TableHead>
+                    <TableHead>Ngày cập nhật</TableHead>
+                    <TableHead className="text-right">Thao tác</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {data?.data?.length ? (
+                    data.data.map((color, index) => (
+                      <TableRow
+                        key={(color as any)?.id || `color-${index}`}
+                        className="hover:bg-gray-50"
+                      >
+                        <TableCell className="text-center text-sm font-medium text-maintext">
+                          {(data.pagination.currentPage - 1) *
+                            data.pagination.perPage +
+                            index +
+                            1}
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center">
-                            <Skeleton className="h-6 w-6 rounded-full mr-2" />
-                            <Skeleton className="h-4 w-[100px]" />
+                            <div
+                              className="w-6 h-6 rounded-full mr-2 border border-gray-200"
+                              style={{ backgroundColor: color.code }}
+                            />
+                            <div className="text-sm font-medium text-maintext">
+                              {color.name}
+                            </div>
                           </div>
                         </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-4 w-[80px]" />
+                        <TableCell className="text-sm text-maintext">
+                          {color.code}
                         </TableCell>
                         <TableCell>
-                          <Skeleton className="h-6 w-[100px] rounded-full" />
+                          <Badge
+                            variant={
+                              color.status === "ACTIVE"
+                                ? "success"
+                                : "destructive"
+                            }
+                          >
+                            {color.status === "ACTIVE"
+                              ? "Hoạt động"
+                              : "Không hoạt động"}
+                          </Badge>
                         </TableCell>
-                        <TableCell>
-                          <Skeleton className="h-4 w-[100px]" />
+                        <TableCell className="text-sm text-maintext">
+                          {formatDate(color.updatedAt)}
                         </TableCell>
                         <TableCell className="text-right">
                           <div className="flex items-center justify-end space-x-2">
-                            <Skeleton className="h-8 w-8 rounded-xl" />
-                            <Skeleton className="h-8 w-8 rounded-xl" />
+                            <Dialog
+                              open={
+                                isEditDialogOpen &&
+                                colorToEdit === (color as any)?.id
+                              }
+                              onOpenChange={(open) => {
+                                setIsEditDialogOpen(open);
+                                if (!open) setColorToEdit(null);
+                              }}
+                            >
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  title="Sửa"
+                                  onClick={() => {
+                                    setColorToEdit((color as any)?.id);
+                                    setIsEditDialogOpen(true);
+                                  }}
+                                >
+                                  <Icon path={mdiPencilCircle} size={0.8} />
+                                </Button>
+                              </DialogTrigger>
+                              {colorToEdit === (color as any)?.id && (
+                                <EditColorDialog
+                                  colorId={(color as any)?.id}
+                                  isOpen={isEditDialogOpen}
+                                  onClose={() => {
+                                    setIsEditDialogOpen(false);
+                                    setColorToEdit(null);
+                                  }}
+                                />
+                              )}
+                            </Dialog>
+                            <Dialog
+                              open={
+                                isDeleteDialogOpen &&
+                                colorToDelete === (color as any)?.id
+                              }
+                              onOpenChange={(open) => {
+                                setIsDeleteDialogOpen(open);
+                                if (!open) setColorToDelete(null);
+                              }}
+                            >
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  onClick={() => {
+                                    setColorToDelete(color);
+                                    setIsDeleteDialogOpen(true);
+                                  }}
+                                  title="Xóa"
+                                >
+                                  <Icon path={mdiDeleteCircle} size={0.8} />
+                                </Button>
+                              </DialogTrigger>
+                            </Dialog>
                           </div>
                         </TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
-          ) : isError ? (
-            <div className="bg-white rounded-xl shadow-sm p-4 text-center">
-              <p className="text-red-500">
-                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-              </p>
-              <Button
-                variant="outline"
-                className="mt-4"
-                onClick={() =>
-                  queryClient.invalidateQueries({ queryKey: ["colors"] })
-                }
-              >
-                Thử lại
-              </Button>
-            </div>
-          ) : (
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
+                    ))
+                  ) : (
                     <TableRow>
-                      <TableHead className="w-[50px] text-center">STT</TableHead>
-                      <TableHead>Màu sắc</TableHead>
-                      <TableHead>Mã màu</TableHead>
-                      <TableHead>Trạng thái</TableHead>
-                      <TableHead>Ngày cập nhật</TableHead>
-                      <TableHead className="text-right">Thao tác</TableHead>
+                      <TableCell
+                        colSpan={6}
+                        className="px-4 py-8 text-center text-maintext"
+                      >
+                        Không tìm thấy màu sắc nào
+                      </TableCell>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data?.data?.length ? (
-                      data.data.map((color, index) => (
-                        <TableRow
-                          key={(color as any)?.id || `color-${index}`}
-                          className="hover:bg-gray-50"
-                        >
-                          <TableCell className="text-center text-sm font-medium text-maintext">
-                            {(data.pagination.currentPage - 1) *
-                              data.pagination.perPage +
-                              index +
-                              1}
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center">
-                              <div
-                                className="w-6 h-6 rounded-full mr-2 border border-gray-200"
-                                style={{ backgroundColor: color.code }}
-                              />
-                              <div className="text-sm font-medium text-maintext">
-                                {color.name}
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-sm text-maintext">
-                            {color.code}
-                          </TableCell>
-                          <TableCell>
-                            <Badge
-                              variant={
-                                color.status === "ACTIVE"
-                                  ? "success"
-                                  : "destructive"
-                              }
-                            >
-                              {color.status === "ACTIVE"
-                                ? "Hoạt động"
-                                : "Không hoạt động"}
-                            </Badge>
-                          </TableCell>
-                          <TableCell className="text-sm text-maintext">
-                            {formatDate(color.updatedAt)}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex items-center justify-end space-x-2">
-                              <Dialog
-                                open={
-                                  isEditDialogOpen &&
-                                  colorToEdit === (color as any)?.id
-                                }
-                                onOpenChange={(open) => {
-                                  setIsEditDialogOpen(open);
-                                  if (!open) setColorToEdit(null);
-                                }}
-                              >
-                                <DialogTrigger asChild>
-                                  <Button
-                                    variant="outline"
-                                    size="icon"
-                                    title="Sửa"
-                                    onClick={() => {
-                                      setColorToEdit((color as any)?.id);
-                                      setIsEditDialogOpen(true);
-                                    }}
-                                  >
-                                    <Icon path={mdiPencilCircle} size={0.8} />
-                                  </Button>
-                                </DialogTrigger>
-                                {colorToEdit === (color as any)?.id && (
-                                  <EditColorDialog
-                                    colorId={(color as any)?.id}
-                                    isOpen={isEditDialogOpen}
-                                    onClose={() => {
-                                      setIsEditDialogOpen(false);
-                                      setColorToEdit(null);
-                                    }}
-                                  />
-                                )}
-                              </Dialog>
-                              <Dialog
-                                open={
-                                  isDeleteDialogOpen &&
-                                  colorToDelete === (color as any)?.id
-                                }
-                                onOpenChange={(open) => {
-                                  setIsDeleteDialogOpen(open);
-                                  if (!open) setColorToDelete(null);
-                                }}
-                              >
-                                <DialogTrigger asChild>
-                                  <Button
-                                    variant="outline"
-                                    size="icon"
-                                    onClick={() => {
-                                      setColorToDelete(color);
-                                      setIsDeleteDialogOpen(true);
-                                    }}
-                                    title="Xóa"
-                                  >
-                                    <Icon path={mdiDeleteCircle} size={0.8} />
-                                  </Button>
-                                </DialogTrigger>
-                              </Dialog>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ) : (
-                      <TableRow>
-                        <TableCell
-                          colSpan={6}
-                          className="px-4 py-8 text-center text-maintext"
-                        >
-                          Không tìm thấy màu sắc nào
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
+                  )}
+                </TableBody>
+              </Table>
             </div>
-          )}
+          </div>
+        )}
 
-          {data?.pagination && data.pagination.totalPages > 1 && (
-            <CommonPagination
-              pagination={data.pagination}
-              onPageChange={handlePageChange}
-              itemLabel="màu sắc"
-              className="mt-6"
-            />
-          )}
-        </CardContent>
+        {data?.pagination && data.pagination.totalPages > 1 && (
+          <CommonPagination
+            pagination={data.pagination}
+            onPageChange={handlePageChange}
+            itemLabel="màu sắc"
+            className="mt-6"
+          />
+        )}
       </Card>
 
       <DeleteConfirmDialog
