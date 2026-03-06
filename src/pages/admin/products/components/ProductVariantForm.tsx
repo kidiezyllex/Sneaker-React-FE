@@ -42,8 +42,8 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
   uploading,
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { data: colorsData } = useColors();
-  const { data: sizesData } = useSizes();
+  const { data: colorsData } = useColors({ limit: 1000, status: "ACTIVE" });
+  const { data: sizesData } = useSizes({ limit: 1000, status: "ACTIVE" });
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 

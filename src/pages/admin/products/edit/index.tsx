@@ -82,9 +82,9 @@ export default function EditProductPage() {
     const updateProductStock = useUpdateProductStock();
     const updateProductImages = useUpdateProductImages();
     const uploadImage = useUploadImage();
-    const { data: brandsData } = useBrands();
-    const { data: categoriesData } = useCategories();
-    const { data: materialsData } = useMaterials();
+    const { data: brandsData } = useBrands({ limit: 1000, status: "ACTIVE" });
+    const { data: categoriesData } = useCategories({ limit: 1000, status: "ACTIVE" });
+    const { data: materialsData } = useMaterials({ limit: 1000, status: "ACTIVE" });
 
     const [productUpdate, setProductUpdate] = useState<IProductUpdate>({});
 

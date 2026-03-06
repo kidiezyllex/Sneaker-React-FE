@@ -34,8 +34,8 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
   onGenerate,
   onClose,
 }) => {
-  const { data: colorsData } = useColors();
-  const { data: sizesData } = useSizes();
+  const { data: colorsData } = useColors({ limit: 1000, status: "ACTIVE" });
+  const { data: sizesData } = useSizes({ limit: 1000, status: "ACTIVE" });
   const [generatedVariants, setGeneratedVariants] = useState<
     GeneratedVariant[]
   >([]);

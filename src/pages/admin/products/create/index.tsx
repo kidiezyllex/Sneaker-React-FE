@@ -83,10 +83,10 @@ export default function CreateProductPage() {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
-  const { data: brandsData } = useBrands();
-  const { data: categoriesData } = useCategories();
+  const { data: brandsData } = useBrands({ limit: 1000, status: "ACTIVE" });
+  const { data: categoriesData } = useCategories({ limit: 1000, status: "ACTIVE" });
 
-  const { data: materialsData } = useMaterials();
+  const { data: materialsData } = useMaterials({ limit: 1000, status: "ACTIVE" });
   const handleAddVariant = () => {
     setProduct({
       ...product,

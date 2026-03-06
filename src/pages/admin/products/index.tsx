@@ -76,8 +76,8 @@ export default function ProductsPage() {
   const [lightboxSlides, setLightboxSlides] = useState<any[]>([]);
   const [lightboxIndex, setLightboxIndex] = useState(0);
 
-  const { data: brandsData } = useBrands();
-  const { data: categoriesData } = useCategories();
+  const { data: brandsData } = useBrands({ limit: 1000 });
+  const { data: categoriesData } = useCategories({ limit: 1000 });
 
   const data = useMemo(() => {
     if (!rawData || !rawData.data) return rawData;
