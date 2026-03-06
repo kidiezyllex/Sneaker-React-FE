@@ -74,7 +74,7 @@ function Badge({
   return (
     <div className={cn(badgeVariants({ variant }), className)} {...props}>
       {showIcon && iconToRender && (
-        <Icon path={iconToRender} size={0.5} className="flex-shrink-0" />
+        <Icon path={iconToRender} size={0.6} className="flex-shrink-0" />
       )}
       {children}
     </div>

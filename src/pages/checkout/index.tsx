@@ -106,17 +106,7 @@ export default function ShippingPage() {
 
   const selectedPaymentMethod = form.watch("paymentMethod");
 
-  useEffect(() => {
-    if (selectedPaymentMethod === "BANK_TRANSFER" && !showVNPayModal) {
-      setVnpayOrderData({
-        orderId: `DEMO_${Date.now()}`,
-        amount: total,
-        orderInfo: `Thanh toán đơn hàng`,
-        orderCode: `ORD${Date.now()}`,
-      });
-      setShowVNPayModal(true);
-    }
-  }, [selectedPaymentMethod, total, showVNPayModal]);
+
 
   const sendOrderConfirmationEmail = async (
     orderId: string,
@@ -140,13 +130,13 @@ export default function ShippingPage() {
           <h2 style="color: #333; text-align: center;">Xác nhận đơn hàng</h2>
           <p>Xin chào <strong>${orderData.shippingAddress.name}</strong>,</p>
           <p>Cảm ơn bạn đã đặt hàng tại Sneaker Store. Dưới đây là chi tiết đơn hàng của bạn:</p>
-          
+
           <div style="background-color: #f9f9f9; padding: 15px; margin: 20px 0;">
             <p><strong>Mã đơn hàng:</strong> ${orderData.code || orderId}</p>
             <p><strong>Ngày đặt hàng:</strong> ${new Date().toLocaleDateString("vi-VN")}</p>
             <p><strong>Phương thức thanh toán:</strong> ${orderData.paymentMethod === "COD" ? "Thanh toán khi nhận hàng" : "Thanh toán qua VNPay"}</p>
           </div>
-          
+
           <h3 style="color: #333;">Chi tiết sản phẩm</h3>
           <table style="width: 100%; border-collapse: collapse;">
             <thead>
@@ -181,14 +171,14 @@ export default function ShippingPage() {
               </tr>
             </tfoot>
           </table>
-          
+
           <div style="margin-top: 20px;">
             <h3 style="color: #333;">Thông tin giao hàng</h3>
             <p><strong>Người nhận:</strong> ${orderData.shippingAddress.name}</p>
             <p><strong>Số điện thoại:</strong> ${orderData.shippingAddress.phoneNumber}</p>
             <p><strong>Địa chỉ:</strong> ${orderData.shippingAddress.specificAddress}</p>
           </div>
-          
+
           <div style="margin-top: 30px; text-align: center; color: #777;">
             <p>© 2023 Sneaker Store. Tất cả các quyền được bảo lưu.</p>
           </div>

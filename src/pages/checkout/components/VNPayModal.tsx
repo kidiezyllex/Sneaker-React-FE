@@ -24,9 +24,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
-  DialogFooter,
-  DialogClose,
+  DialogTitle
 } from "@/components/ui/dialog";
 interface Bank {
   id: number;
@@ -724,9 +722,9 @@ export default function VNPayModal({
 
         <div className="w-full flex justify-end">
           {currentStep === "bank-selection" && (
-            <Button variant="default" onClick={handleClose}>
+            <Button variant="outline" onClick={handleClose}>
               <Icon path={mdiClose} size={0.8} />
-              Hủy
+              Đóng
             </Button>
           )}
         </div>
@@ -757,7 +755,7 @@ export default function VNPayModal({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent size="4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center space-x-2">
@@ -769,7 +767,6 @@ export default function VNPayModal({
           {renderStepContent()}
           {renderActionButtons()}
         </div>
-
       </DialogContent>
     </Dialog>
   );

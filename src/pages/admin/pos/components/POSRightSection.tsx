@@ -307,7 +307,7 @@ export default function POSRightSection({
                   onClick={onRemoveVoucher}
                   className="hover:text-red-400 text-sm text-red-500 p-1.5 rounded-full bg-red-50 border border-red-100"
                 >
-                  <Icon path={mdiClose} size={0.7} />
+                  <Icon path={mdiClose} size={0.8} />
                 </button>
               </motion.div>
             ) : (
@@ -349,7 +349,7 @@ export default function POSRightSection({
                   className="text-sm text-primary p-0 h-auto flex items-center gap-1 opacity-80 hover:opacity-100"
                   onClick={() => setShowVouchersDialog(true)}
                 >
-                  <Icon path={mdiTicketPercentOutline} size={0.7} />
+                  <Icon path={mdiTicketPercentOutline} size={0.8} />
                   Xem danh sách mã giảm giá
                 </Button>
               </motion.div>

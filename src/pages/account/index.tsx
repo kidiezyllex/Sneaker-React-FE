@@ -209,7 +209,7 @@ export default function GeneralManagementPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <Tabs value={activeTab} className="w-full">
+            <Tabs value={activeTab} className="w-full rounded-xl bg-card text-card-foreground shadow-md overflow-hidden border">
               <TabsContent value="profile">
                 <ProfileTab />
               </TabsContent>

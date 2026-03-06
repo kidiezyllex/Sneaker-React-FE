@@ -68,7 +68,7 @@ function ChatRating({ chatId }: { chatId: number }) {
                 >
                     <Icon
                         path={mdiStar}
-                        size={0.5}
+                        size={0.6}
                         className={`${star <= (hover || rating)
                             ? 'fill-yellow-400 text-yellow-400'
                             : 'text-gray-300'

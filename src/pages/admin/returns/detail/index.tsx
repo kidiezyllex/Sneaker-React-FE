@@ -446,7 +446,7 @@ export default function AdminReturnDetailPage() {
                                                                     onClick={() => handleQuantityChange(index, item.quantity - 1)}
                                                                     disabled={item.quantity <= 1}
                                                                 >
-                                                                    <Icon path={mdiMinus} size={0.5} />
+                                                                    <Icon path={mdiMinus} size={0.6} />
                                                                 </Button>
                                                                 <Input
                                                                     type="number"
@@ -461,7 +461,7 @@ export default function AdminReturnDetailPage() {
                                                                     onClick={() => handleQuantityChange(index, item.quantity + 1)}
                                                                     disabled={item.quantity >= item.maxQuantity}
                                                                 >
-                                                                    <Icon path={mdiPlus} size={0.5} />
+                                                                    <Icon path={mdiPlus} size={0.6} />
                                                                 </Button>
                                                             </div>
                                                         </div>

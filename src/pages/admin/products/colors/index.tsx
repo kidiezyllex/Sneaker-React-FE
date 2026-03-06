@@ -120,15 +120,11 @@ export default function ColorsPage() {
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <Link to="/admin/statistics">
-              Dashboard
-            </Link>
+            <Link to="/admin/statistics">Dashboard</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link to="/admin/products">
-              Quản lý sản phẩm
-            </Link>
+            <Link to="/admin/products">Quản lý sản phẩm</Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -136,7 +132,6 @@ export default function ColorsPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
       <Card className="mb-4 space-y-4">
         <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4">
           <div className="relative flex-1">
@@ -147,7 +142,7 @@ export default function ColorsPage() {
             />
             <Input
               type="text"
-              placeholder="Tìm kiếm theo tên hoặc mã màu sắc..."
+              placeholder="Tìm kiếm theo tên hoặc mã màu..."
               className="pl-10 w-full"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -184,201 +179,160 @@ export default function ColorsPage() {
         </div>
 
         {isLoading ? (
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>STT</TableHead>
-                    <TableHead>Màu sắc</TableHead>
-                    <TableHead>Mã màu</TableHead>
-                    <TableHead>Trạng thái</TableHead>
-                    <TableHead>Ngày cập nhật</TableHead>
-                    <TableHead>Thao tác</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {[...Array(5)].map((_, index) => (
-                    <TableRow key={index}>
-                      <TableCell>
-                        <Skeleton className="h-4 w-8 mx-auto" />
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex items-center">
-                          <Skeleton className="h-6 w-6 rounded-full mr-2" />
-                          <Skeleton className="h-4 w-[100px]" />
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-4 w-[80px]" />
-                      </TableCell>
-                      <TableCell>
-                        <Skeleton className="h-6 w-[100px] rounded-full" />
-                      </TableCell>
-                      <TableCell>
+          <div className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px] text-center">STT</TableHead>
+                  <TableHead>Màu sắc</TableHead>
+                  <TableHead>Mã màu</TableHead>
+                  <TableHead>Trạng thái</TableHead>
+                  <TableHead>Ngày cập nhật</TableHead>
+                  <TableHead className="text-right">Thao tác</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {[...Array(5)].map((_, index) => (
+                  <TableRow key={index}>
+                    <TableCell><Skeleton className="h-4 w-8 mx-auto" /></TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <Skeleton className="h-6 w-6 rounded-full" />
                         <Skeleton className="h-4 w-[100px]" />
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end space-x-2">
-                          <Skeleton className="h-8 w-8 rounded-xl" />
-                          <Skeleton className="h-8 w-8 rounded-xl" />
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+                      </div>
+                    </TableCell>
+                    <TableCell><Skeleton className="h-4 w-[60px]" /></TableCell>
+                    <TableCell><Skeleton className="h-6 w-[100px] rounded-full" /></TableCell>
+                    <TableCell><Skeleton className="h-4 w-[100px]" /></TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <Skeleton className="h-8 w-8 rounded-md" />
+                        <Skeleton className="h-8 w-8 rounded-md" />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </div>
         ) : isError ? (
-          <div className="bg-white rounded-xl shadow-sm p-4 text-center">
-            <p className="text-red-500">
-              Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-            </p>
+          <div className="py-20 text-center">
+            <div className="inline-flex p-4 rounded-full bg-red-50 mb-4">
+              <Icon path={mdiDeleteCircle} size={1.5} className="text-red-500" />
+            </div>
+            <p className="text-red-600 font-medium">Đã xảy ra lỗi khi tải dữ liệu</p>
             <Button
               variant="outline"
-              className="mt-4"
-              onClick={() =>
-                queryClient.invalidateQueries({ queryKey: ["colors"] })
-              }
+              className="mt-4 border-red-200 text-red-600 hover:bg-red-50"
+              onClick={() => queryClient.invalidateQueries({ queryKey: ["colors"] })}
             >
               Thử lại
             </Button>
           </div>
         ) : (
-          <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[50px] text-center">STT</TableHead>
-                    <TableHead>Màu sắc</TableHead>
-                    <TableHead>Mã màu</TableHead>
-                    <TableHead>Trạng thái</TableHead>
-                    <TableHead>Ngày cập nhật</TableHead>
-                    <TableHead className="text-right">Thao tác</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {data?.data?.length ? (
-                    data.data.map((color, index) => (
-                      <TableRow
-                        key={(color as any)?.id || `color-${index}`}
-                        className="hover:bg-gray-50"
-                      >
-                        <TableCell className="text-center text-sm font-medium text-maintext">
-                          {(data.pagination.currentPage - 1) *
-                            data.pagination.perPage +
-                            index +
-                            1}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center">
-                            <div
-                              className="w-6 h-6 rounded-full mr-2 border border-gray-200"
-                              style={{ backgroundColor: color.code }}
-                            />
-                            <div className="text-sm font-medium text-maintext">
-                              {color.name}
-                            </div>
-                          </div>
-                        </TableCell>
-                        <TableCell className="text-sm text-maintext">
-                          {color.code}
-                        </TableCell>
-                        <TableCell>
-                          <Badge
-                            variant={
-                              color.status === "ACTIVE"
-                                ? "success"
-                                : "destructive"
-                            }
+          <div className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px] text-center">STT</TableHead>
+                  <TableHead>Màu sắc</TableHead>
+                  <TableHead>Mã màu</TableHead>
+                  <TableHead>Trạng thái</TableHead>
+                  <TableHead>Ngày cập nhật</TableHead>
+                  <TableHead className="text-right">Thao tác</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {data?.data?.length ? (
+                  data.data.map((color: any, index: number) => (
+                    <TableRow
+                      key={color.id}
+                      className="group transition-colors duration-200"
+                    >
+                      <TableCell className="text-center text-sm font-medium text-maintext/60">
+                        {(data.pagination.currentPage - 1) * data.pagination.perPage + index + 1}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center gap-3">
+                          <div
+                            className="w-8 h-8 rounded-full border border-gray-100 shadow-sm"
+                            style={{ backgroundColor: color.code }}
+                          />
+                          <span className="text-sm font-semibold text-maintext">{color.name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-sm font-mono text-maintext/70 bg-gray-50/50 px-2 py-1 rounded inline-block my-3">
+                        {color.code}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={color.status === "ACTIVE" ? "success" : "destructive"}
+                          className="px-3 py-1 font-medium"
+                        >
+                          {color.status === "ACTIVE" ? "Hoạt động" : "Không hoạt động"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-sm text-maintext/60">
+                        {formatDate(color.updatedAt)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <Dialog
+                            open={isEditDialogOpen && colorToEdit === color.id}
+                            onOpenChange={(open) => {
+                              setIsEditDialogOpen(open);
+                              if (!open) setColorToEdit(null);
+                            }}
                           >
-                            {color.status === "ACTIVE"
-                              ? "Hoạt động"
-                              : "Không hoạt động"}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-sm text-maintext">
-                          {formatDate(color.updatedAt)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex items-center justify-end space-x-2">
-                            <Dialog
-                              open={
-                                isEditDialogOpen &&
-                                colorToEdit === (color as any)?.id
-                              }
-                              onOpenChange={(open) => {
-                                setIsEditDialogOpen(open);
-                                if (!open) setColorToEdit(null);
-                              }}
-                            >
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  title="Sửa"
-                                  onClick={() => {
-                                    setColorToEdit((color as any)?.id);
-                                    setIsEditDialogOpen(true);
-                                  }}
-                                >
-                                  <Icon path={mdiPencilCircle} size={0.8} />
-                                </Button>
-                              </DialogTrigger>
-                              {colorToEdit === (color as any)?.id && (
-                                <EditColorDialog
-                                  colorId={(color as any)?.id}
-                                  isOpen={isEditDialogOpen}
-                                  onClose={() => {
-                                    setIsEditDialogOpen(false);
-                                    setColorToEdit(null);
-                                  }}
-                                />
-                              )}
-                            </Dialog>
-                            <Dialog
-                              open={
-                                isDeleteDialogOpen &&
-                                colorToDelete === (color as any)?.id
-                              }
-                              onOpenChange={(open) => {
-                                setIsDeleteDialogOpen(open);
-                                if (!open) setColorToDelete(null);
-                              }}
-                            >
-                              <DialogTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  size="icon"
-                                  onClick={() => {
-                                    setColorToDelete(color);
-                                    setIsDeleteDialogOpen(true);
-                                  }}
-                                  title="Xóa"
-                                >
-                                  <Icon path={mdiDeleteCircle} size={0.8} />
-                                </Button>
-                              </DialogTrigger>
-                            </Dialog>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell
-                        colSpan={6}
-                        className="px-4 py-8 text-center text-maintext"
-                      >
-                        Không tìm thấy màu sắc nào
+                            <DialogTrigger asChild>
+                              <Button
+                                variant="outline"
+                                size="icon"
+                                onClick={() => {
+                                  setColorToEdit(color.id);
+                                  setIsEditDialogOpen(true);
+                                }}
+                              >
+                                <Icon path={mdiPencilCircle} size={0.8} />
+                              </Button>
+                            </DialogTrigger>
+                            {colorToEdit === color.id && (
+                              <EditColorDialog
+                                colorId={color.id}
+                                isOpen={isEditDialogOpen}
+                                onClose={() => {
+                                  setIsEditDialogOpen(false);
+                                  setColorToEdit(null);
+                                }}
+                              />
+                            )}
+                          </Dialog>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            onClick={() => {
+                              setColorToDelete(color);
+                              setIsDeleteDialogOpen(true);
+                            }}
+                          >
+                            <Icon path={mdiDeleteCircle} size={0.8} />
+                          </Button>
+                        </div>
                       </TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </div>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={6} className="h-40 text-center">
+                      <div className="flex flex-col items-center justify-center text-maintext/40">
+                        <Icon path={mdiMagnify} size={1.5} className="mb-2" />
+                        <p>Không tìm thấy màu sắc nào</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
           </div>
         )}
 
@@ -398,20 +352,16 @@ export default function ColorsPage() {
           setIsDeleteDialogOpen(false);
           setColorToDelete(null);
         }}
-        onConfirm={() => {
-          if (colorToDelete) {
-            handleDeleteColor((colorToDelete as any).id);
-          }
-        }}
+        onConfirm={() => colorToDelete && handleDeleteColor(colorToDelete.id)}
         isLoading={deleteColor.isPending}
         title="Xác nhận xóa màu sắc"
         description={
-          colorToDelete ? (
+          colorToDelete && (
             <>
-              Bạn có chắc chắn muốn xóa màu sắc{" "}
-              <strong>{colorToDelete.name}</strong> không?
+              Bạn có chắc chắn muốn xóa màu sắc <strong>{colorToDelete.name}</strong>?
+              Thao tác này không thể hoàn tác.
             </>
-          ) : null
+          )
         }
       />
     </div>
