@@ -390,6 +390,12 @@ export default function POSRightSection({
                 {formatCurrency(total)}
               </span>
             </div>
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-gray-700 font-medium text-xs">Trạng thái thanh toán</span>
+              <Badge variant="success" className="bg-green-100 text-green-700 hover:bg-green-100 border-none text-[10px] h-5 px-1.5 uppercase font-bold">
+                Đã thanh toán
+              </Badge>
+            </div>
           </div>
           {paymentMethod === "cash" && (
             <div className="space-y-3 bg-gray-50 p-3 rounded-md border border-border/50">

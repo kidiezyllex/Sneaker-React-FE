@@ -367,6 +367,7 @@ export default function POSPage() {
       discount: discount,
       voucher: appliedVoucher?.code,
       paymentMethod: paymentMethod.toUpperCase(),
+      paymentStatus: "PAID",
       orderStatus: "HOAN_THANH",
       shippingAddress: {
         name: customerName || "Tại quầy",

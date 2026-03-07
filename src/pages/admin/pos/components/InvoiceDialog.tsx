@@ -166,8 +166,8 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
                   <span className="bg-primary/10 text-primary px-2 py-0.5 rounded text-[10px] uppercase font-bold">
                     HĐ: {orderStatus}
                   </span>
-                  <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[10px] uppercase font-bold">
-                    TT: {paymentStatus}
+                  <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded text-[10px] uppercase font-bold">
+                    TT: {getPaymentStatusName(order.paymentStatus || "PAID")}
                   </span>
                 </div>
               </div>
