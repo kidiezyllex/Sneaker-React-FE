@@ -55,6 +55,7 @@ const OrdersTab = () => {
   const [createReturnOrderId, setCreateReturnOrderId] = useState<string | null>(
     null
   );
+  const [createReturnOrder, setCreateReturnOrder] = useState<IOrder | null>(null);
   const [createReturnOpen, setCreateReturnOpen] = useState(false);
 
   const getPaymentStatusVariant = (status: string): "success" | "warning" | "secondary" => {
@@ -82,16 +83,17 @@ const OrdersTab = () => {
   };
 
   const isOrderReturnable = (order: IOrder): boolean => {
-    const returnableStatuses = ["DA_GIAO_HANG", "HOAN_THANH"];
-    if (!returnableStatuses.includes(order.orderStatus)) return false;
+    // Chỉ đơn HOAN_THANH mới được trả (theo API spec)
+    if (order.orderStatus !== "HOAN_THANH") return false;
     if (order.paymentStatus !== "PAID") return false;
 
+    // Trong vòng 30 ngày (theo API spec)
     const orderDate = new Date(order.createdAt);
     const now = new Date();
     const daysSinceOrder = Math.floor(
       (now.getTime() - orderDate.getTime()) / (1000 * 60 * 60 * 24)
     );
-    return daysSinceOrder <= 7;
+    return daysSinceOrder <= 30;
   };
 
   const handleViewOrderDetails = (orderId: string | number) => {
@@ -99,8 +101,9 @@ const OrdersTab = () => {
     setOrderDetailOpen(true);
   };
 
-  const handleCreateReturn = (orderId: string | number) => {
-    setCreateReturnOrderId(orderId.toString());
+  const handleCreateReturn = (order: IOrder) => {
+    setCreateReturnOrderId(order.id.toString());
+    setCreateReturnOrder(order);
     setCreateReturnOpen(true);
   };
 
@@ -290,7 +293,7 @@ const OrdersTab = () => {
                               <Button
                                 variant="outline"
                                 size="icon"
-                                onClick={() => handleCreateReturn(order.id)}
+                                onClick={() => handleCreateReturn(order)}
                                 title="Yêu cầu trả hàng"
                               >
                                 <Icon path={mdiKeyboardReturn} size={0.8} />
@@ -349,9 +352,9 @@ const OrdersTab = () => {
         onOpenChange={setOrderDetailOpen}
       />
 
-      {/* Dialog tạo yêu cầu trả hàng */}
       <CreateReturnDialog
         orderId={createReturnOrderId}
+        order={createReturnOrder}
         open={createReturnOpen}
         onOpenChange={setCreateReturnOpen}
         onSuccess={() => {

@@ -556,9 +556,9 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                             <h4 className="text-sm font-semibold text-maintext">
                               {step.title}
                             </h4>
-                            <span className="text-sm text-gray-600 bg-gray-50 px-2 py-1 rounded-full">
+                            <Badge variant="outline">
                               {step.time}
-                            </span>
+                            </Badge>
                           </div>
                           <p className="text-sm text-maintext leading-relaxed">
                             {step.message}

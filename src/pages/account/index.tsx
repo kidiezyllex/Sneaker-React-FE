@@ -123,8 +123,8 @@ export default function GeneralManagementPage() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <Card className="sticky">
-              <CardHeader>
+            <Card className="sticky p-0">
+              <CardHeader className="px-4 pt-4">
                 <CardTitle className="flex items-center gap-2">
                   <div className="p-2 rounded-full bg-primary/10">
                     <Icon

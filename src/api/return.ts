@@ -92,6 +92,6 @@ export const getMyReturnDetail = async (
 export const cancelMyReturn = async (
   returnId: string
 ): Promise<IActionResponse> => {
-  const res = await sendPut(`/returns/my/${returnId}/cancel`);
+  const res = await sendPut(`/returns/my/${returnId}/cancel`, {});
   return res as IActionResponse;
 };

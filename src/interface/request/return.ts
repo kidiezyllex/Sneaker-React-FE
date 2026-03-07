@@ -49,20 +49,20 @@ export interface IReturnableOrdersParams {
   limit?: number;
 }
 
+export interface ICustomerReturnItem {
+  productId?: number;
+  productVariantId: number;
+  quantity: number;
+}
+
 export interface ICustomerReturnRequest {
-  originalOrder: string;
-  items: {
-    product: string;
-    variant: {
-      colorId: string;
-      sizeId: string;
-    };
-    quantity: number;
-  }[];
+  originalOrderId: number;
   reason: string;
+  items: ICustomerReturnItem[];
 }
 
 export interface IMyReturnsParams {
+  status?: 'CHO_XU_LY' | 'DA_HOAN_TIEN' | 'DA_HUY';
   page?: number;
   limit?: number;
 }

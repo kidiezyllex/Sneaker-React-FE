@@ -1,21 +1,36 @@
 import React from "react";
 import { Icon } from "@mdi/react";
-import { mdiCancel, mdiCash, mdiOrderBoolAscending, mdiPackageVariant, mdiClose } from "@mdi/js";
+import {
+  mdiCancel,
+  mdiCash,
+  mdiOrderBoolAscending,
+  mdiPackageVariant,
+  mdiClose,
+} from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 import { toast } from "react-toastify";
 import { useMyReturnDetail, useCancelMyReturn } from "@/hooks/return";
 import {
   Dialog,
-  DialogContent, DialogHeader,
+  DialogContent,
+  DialogHeader,
   DialogTitle,
-  DialogFooter
+  DialogFooter,
 } from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/utils/formatters";
 import { ReturnStatusBadge } from "../components/Badges";
-import { Badge } from "@/components/ui/badge";
 
 interface ReturnDetailDialogProps {
   returnId: string | null;
@@ -23,6 +38,30 @@ interface ReturnDetailDialogProps {
   onOpenChange: (open: boolean) => void;
   onCancel?: () => void;
 }
+
+// Parse items JSON string → mảng
+const parseReturnItems = (items: any): any[] => {
+  if (!items) return [];
+  if (Array.isArray(items)) return items;
+  if (typeof items === "string") {
+    try {
+      const parsed = JSON.parse(items);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  }
+  return [];
+};
+
+// Tìm variant từ originalOrder.items theo variantId
+const findVariantFromOrder = (orderItems: any[], variantId: number | string): any | null => {
+  if (!orderItems || !variantId) return null;
+  const found = orderItems.find(
+    (oi: any) => String(oi.variant?.id) === String(variantId)
+  );
+  return found?.variant || null;
+};
 
 const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
   returnId,
@@ -39,14 +78,13 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
 
   const handleCancelReturn = () => {
     if (!returnId) return;
-
     cancelReturnMutation.mutate(returnId, {
       onSuccess: () => {
         toast.success("Đã hủy yêu cầu trả hàng");
         onCancel?.();
         onOpenChange(false);
       },
-      onError: (error) => {
+      onError: () => {
         toast.error("Đã xảy ra lỗi khi hủy yêu cầu");
       },
     });
@@ -63,233 +101,306 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
           </div>
         ) : isError ? (
           <div className="p-8 text-center">
-            <p className="text-red-500">
-              Đã xảy ra lỗi khi tải thông tin trả hàng.
-            </p>
+            <p className="text-red-500">Đã xảy ra lỗi khi tải thông tin trả hàng.</p>
           </div>
         ) : returnData && returnData.data ? (
-          <>
-            <DialogHeader className="border-b">
-              <DialogTitle className="flex items-center gap-2">
-                Chi tiết trả hàng #{returnData.data.code}
-                <ReturnStatusBadge status={returnData.data.status} />
-              </DialogTitle>
-            </DialogHeader>
+          (() => {
+            const ret = returnData.data;
+            const originalOrder =
+              typeof ret.originalOrder === "object"
+                ? ret.originalOrder
+                : null;
+            const orderItems: any[] = originalOrder?.items || [];
+            const returnItems = parseReturnItems(ret.items);
 
-            <div className="space-y-4 p-4 bg-gray-100">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Thông tin đơn hàng gốc */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <div className="p-2 rounded-full bg-primary/10">
-                        <Icon path={mdiOrderBoolAscending} size={0.8} className="text-primary" />
+            return (
+              <>
+                <DialogHeader className="border-b pb-4">
+                  <DialogTitle className="flex items-center gap-2">
+                    Chi tiết trả hàng #{ret.code}
+                    <ReturnStatusBadge status={ret.status} />
+                  </DialogTitle>
+                </DialogHeader>
+
+                <div className="p-4 space-y-4 bg-gray-100">
+                  {/* Grid: Thông tin đơn gốc + Lý do & Ghi chú */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Thông tin đơn gốc */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <div className="p-2 rounded-full bg-primary/10">
+                            <Icon
+                              path={mdiOrderBoolAscending}
+                              size={0.8}
+                              className="text-primary"
+                            />
+                          </div>
+                          <span>Thông tin đơn gốc</span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3 text-sm">
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600 font-semibold">Mã đơn hàng:</span>
+                          <span className="font-medium">
+                            {originalOrder?.code || (ret.originalOrder as any)}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600 font-semibold">Ngày tạo đơn:</span>
+                          <span className="font-medium">
+                            {originalOrder?.createdAt
+                              ? format(
+                                new Date(originalOrder.createdAt),
+                                "dd/MM/yyyy HH:mm",
+                                { locale: vi }
+                              )
+                              : "N/A"}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-gray-600 font-semibold">Ngày yêu cầu:</span>
+                          <span className="font-medium">
+                            {format(
+                              new Date(ret.createdAt),
+                              "dd/MM/yyyy HH:mm",
+                              { locale: vi }
+                            )}
+                          </span>
+                        </div>
+                        {ret.staff && (
+                          <div className="flex items-center justify-between">
+                            <span className="text-gray-600 font-semibold">
+                              Nhân viên xử lý:
+                            </span>
+                            <span className="font-medium">
+                              {ret.staff.fullName}
+                            </span>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+
+                    {/* Lý do & Ghi chú */}
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <div className="p-2 rounded-full bg-primary/10">
+                            <Icon
+                              path={mdiPackageVariant}
+                              size={0.8}
+                              className="text-primary"
+                            />
+                          </div>
+                          <span>Lý do & Ghi chú</span>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3 text-sm">
+                        <div className="flex items-start justify-between gap-3">
+                          <span className="text-gray-600 font-semibold shrink-0">
+                            Lý do trả:
+                          </span>
+                          <Badge variant="outline" className="font-medium text-right">
+                            {ret.reason || "—"}
+                          </Badge>
+                        </div>
+                        <div className="flex items-start justify-between gap-3">
+                          <span className="text-gray-600 font-semibold shrink-0 w-16">
+                            Ghi chú:
+                          </span>
+                          <span className="text-right italic text-gray-500">
+                            {ret.note || "Không có ghi chú"}
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  {/* Sản phẩm trả hàng */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <div className="p-2 rounded-full bg-primary/10">
+                          <Icon
+                            path={mdiPackageVariant}
+                            size={0.8}
+                            className="text-primary"
+                          />
+                        </div>
+                        <span>Sản phẩm trả hàng</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      {returnItems.length === 0 ? (
+                        <p className="text-sm text-gray-500 text-center py-4">
+                          Không có dữ liệu sản phẩm.
+                        </p>
+                      ) : (
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead className="w-[80px]">Hình ảnh</TableHead>
+                              <TableHead>Phân loại</TableHead>
+                              <TableHead className="text-center">Số lượng</TableHead>
+                              <TableHead className="text-right">Đơn giá</TableHead>
+                              <TableHead className="text-right">Thành tiền</TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            {returnItems.map((ri: any, index: number) => {
+                              // Lấy variantId từ items: ưu tiên variantId, rồi productVariantId
+                              const variantId =
+                                ri.variantId ?? ri.productVariantId;
+                              const variant = findVariantFromOrder(
+                                orderItems,
+                                variantId
+                              );
+                              const imageUrl =
+                                variant?.images?.[0]?.imageUrl;
+                              const colorName = variant?.color?.name || "";
+                              const sizeValue = variant?.size?.value;
+                              const variantLabel = [
+                                colorName,
+                                sizeValue ? `Size ${sizeValue}` : "",
+                              ]
+                                .filter(Boolean)
+                                .join(" / ");
+
+                              const qty = ri.quantity || 0;
+                              const price = ri.price || 0;
+
+                              return (
+                                <TableRow key={index}>
+                                  <TableCell>
+                                    <div className="relative w-fit">
+                                      <img
+                                        src={
+                                          imageUrl || "/images/white-image.png"
+                                        }
+                                        alt={`Sản phẩm ${index + 1}`}
+                                        className="w-16 h-16 object-contain rounded border bg-white"
+                                      />
+                                      <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                                        {qty}
+                                      </span>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>
+                                    {variantLabel ? (
+                                      <div>
+                                        {colorName && (
+                                          <div className="text-sm text-gray-700">
+                                            Màu:{" "}
+                                            <span className="font-medium">
+                                              {colorName}
+                                            </span>
+                                          </div>
+                                        )}
+                                        {sizeValue && (
+                                          <div className="text-sm text-gray-700">
+                                            Size:{" "}
+                                            <span className="font-medium">
+                                              {sizeValue}
+                                            </span>
+                                          </div>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <span className="text-sm text-gray-400 italic">
+                                        Variant #{variantId ?? "N/A"}
+                                      </span>
+                                    )}
+                                  </TableCell>
+                                  <TableCell className="text-center font-semibold">
+                                    {qty}
+                                  </TableCell>
+                                  <TableCell className="text-right">
+                                    {formatPrice(price)}
+                                  </TableCell>
+                                  <TableCell className="text-right font-bold text-primary">
+                                    {formatPrice(price * qty)}
+                                  </TableCell>
+                                </TableRow>
+                              );
+                            })}
+                          </TableBody>
+                        </Table>
+                      )}
+                    </CardContent>
+                  </Card>
+
+                  {/* Thông tin hoàn tiền */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="flex items-center gap-2">
+                        <div className="p-2 rounded-full bg-primary/10">
+                          <Icon
+                            path={mdiCash}
+                            size={0.8}
+                            className="text-primary"
+                          />
+                        </div>
+                        <span>Thông tin hoàn tiền</span>
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-3 text-sm">
+                      <div className="flex justify-between items-center">
+                        <span className="text-gray-600 font-semibold">
+                          Tiền hàng trả:
+                        </span>
+                        <span className="font-medium text-gray-700">
+                          {formatPrice(
+                            returnItems.reduce(
+                              (sum: number, ri: any) =>
+                                sum + (ri.price || 0) * (ri.quantity || 0),
+                              0
+                            )
+                          )}
+                        </span>
                       </div>
-                      <span>Thông tin đơn gốc</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4 text-sm">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 font-semibold text-sm">Mã đơn hàng:</span>
-                      <span className="font-medium">
-                        {typeof returnData.data.originalOrder === "string"
-                          ? returnData.data.originalOrder
-                          : returnData.data.originalOrder.code}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 font-semibold text-sm">Ngày tạo đơn:</span>
-                      <span className="font-medium">
-                        {typeof returnData.data.originalOrder !== "string" && returnData.data.originalOrder.createdAt
-                          ? format(new Date(returnData.data.originalOrder.createdAt), "dd/MM/yyyy HH:mm", { locale: vi })
-                          : "N/A"}
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 font-semibold text-sm">Ngày yêu cầu:</span>
-                      <span className="font-medium">
-                        {format(new Date(returnData.data.createdAt), "dd/MM/yyyy HH:mm", { locale: vi })}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Lý do & Ghi chú */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <div className="p-2 rounded-full bg-primary/10">
-                        <Icon path={mdiPackageVariant} size={0.8} className="text-primary" />
+                      <div className="flex justify-between items-center font-bold border-t pt-3">
+                        <span className="text-gray-600 text-sm">
+                          Tổng tiền hoàn:
+                        </span>
+                        <span className="text-primary text-xl">
+                          {formatPrice(ret.totalRefund)}
+                        </span>
                       </div>
-                      <span>Lý do & Ghi chú</span>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4 text-sm">
-                    <div className="flex items-center justify-between">
-                      <span className="text-gray-600 font-semibold text-sm">Lý do trả:</span>
-                      <Badge variant="outline" className="font-medium">
-                        {returnData.data.reason}
-                      </Badge>
-                    </div>
-                    <div className="flex items-start justify-between">
-                      <span className="text-gray-600 font-semibold text-sm w-20">Ghi chú:</span>
-                      <span className="text-right italic text-gray-500">
-                        {returnData.data.note || "Không có ghi chú"}
-                      </span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
+                    </CardContent>
+                  </Card>
+                </div>
 
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-primary/10">
-                      <Icon path={mdiPackageVariant} size={0.8} className="text-primary" />
-                    </div>
-                    <span>Sản phẩm trả hàng</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {(() => {
-                      try {
-                        const items = typeof returnData.data.items === 'string'
-                          ? JSON.parse(returnData.data.items)
-                          : returnData.data.items;
-
-                        if (!Array.isArray(items)) return null;
-
-                        return items.map((item: any, index: number) => {
-                          const orderItems = typeof returnData.data.originalOrder !== 'string'
-                            ? returnData.data.originalOrder.items
-                            : [];
-
-                          const orderItem = orderItems?.find(
-                            (oi: any) => oi.variant?.id === item.variantId
-                          );
-
-                          const variant = item.variant || orderItem?.variant;
-                          const product = variant?.product || item.product;
-                          const imageUrl =
-                            variant?.images?.[0]?.imageUrl ||
-                            product?.variants?.[0]?.images?.[0];
-                          const color = variant?.color;
-                          const size = variant?.size;
-
-                          return (
-                            <div
-                              key={index}
-                              className="flex items-center space-x-3 p-3 border rounded-md bg-gray-50/50"
-                            >
-                              <div className="relative">
-                                <img
-                                  src={imageUrl || "/images/white-image.png"}
-                                  alt={product?.name || "Sản phẩm"}
-                                  className="w-16 h-16 object-contain rounded border bg-white"
-                                />
-                                <span className="absolute -top-2 -right-2 bg-primary text-white text-sm rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                                  {item.quantity}
-                                </span>
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <p className="font-semibold text-maintext truncate">
-                                  {product?.name || "Sản phẩm không xác định"}
-                                </p>
-                                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
-                                  {color && (
-                                    <span className="text-sm text-gray-500 flex items-center">
-                                      Màu: <span className="font-medium text-gray-700 ml-1">{color.name}</span>
-                                    </span>
-                                  )}
-                                  {size && (
-                                    <span className="text-sm text-gray-500 flex items-center">
-                                      Size: <span className="font-medium text-gray-700 ml-1">{size.value}</span>
-                                    </span>
-                                  )}
-                                  <span className="text-sm text-gray-500 flex items-center">
-                                    Đơn giá: <span className="font-medium text-gray-700 ml-1">{formatPrice(item.price)}</span>
-                                  </span>
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <p className="font-bold text-primary">
-                                  {formatPrice(item.price * item.quantity)}
-                                </p>
-                              </div>
-                            </div>
-                          );
-                        });
-                      } catch (e) {
-                        console.error("Error parsing return items:", e);
-                        return <p className="text-sm text-red-500">Lỗi hiển thị danh sách sản phẩm</p>;
-                      }
-                    })()}
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Tổng tiền hoàn */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <div className="p-2 rounded-full bg-primary/10">
-                      <Icon path={mdiCash} size={0.8} className="text-primary" />
-                    </div>
-                    <span>Thông tin hoàn tiền</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-600 font-semibold">Tiền hàng trả:</span>
-                    <span className="font-medium text-gray-700">
-                      {(() => {
-                        try {
-                          const items = typeof returnData.data.items === 'string'
-                            ? JSON.parse(returnData.data.items)
-                            : returnData.data.items;
-                          const subtotal = items.reduce((acc: number, item: any) => acc + (item.price * item.quantity), 0);
-                          return formatPrice(subtotal);
-                        } catch { return "0đ"; }
-                      })()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center text-sm font-bold border-t pt-3">
-                    <span className="text-gray-600 text-sm">Tổng tiền hoàn:</span>
-                    <span className="text-primary text-xl">
-                      {formatPrice(returnData.data.totalRefund)}
-                    </span>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            <DialogFooter className="bg-gray-100 flex gap-2">
-              {returnData.data.status === "CHO_XU_LY" && (
-                <Button
-                  variant="destructive"
-                  onClick={handleCancelReturn}
-                  disabled={cancelReturnMutation.isPending}
-                >
-                  {cancelReturnMutation.isPending ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
-                  ) : (
-                    <Icon path={mdiCancel} size={0.8} />
+                <DialogFooter className="bg-gray-100 flex gap-2">
+                  {ret.status === "CHO_XU_LY" && (
+                    <Button
+                      variant="destructive"
+                      onClick={handleCancelReturn}
+                      disabled={cancelReturnMutation.isPending}
+                      className="gap-2"
+                    >
+                      {cancelReturnMutation.isPending ? (
+                        <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
+                      ) : (
+                        <Icon path={mdiCancel} size={0.8} />
+                      )}
+                      Hủy yêu cầu
+                    </Button>
                   )}
-                  Hủy yêu cầu
-                </Button>
-              )}
-              <Button variant="outline" onClick={() => onOpenChange(false)}>
-                <Icon path={mdiClose} size={0.8} />
-                Đóng
-              </Button>
-            </DialogFooter>
-          </>
+                  <Button
+                    variant="outline"
+                    onClick={() => onOpenChange(false)}
+                    className="gap-2"
+                  >
+                    <Icon path={mdiClose} size={0.8} />
+                    Đóng
+                  </Button>
+                </DialogFooter>
+              </>
+            );
+          })()
         ) : (
           <div className="p-8 text-center">
-            <p className="text-gray-600">
-              Không tìm thấy thông tin trả hàng.
-            </p>
+            <p className="text-gray-600">Không tìm thấy thông tin trả hàng.</p>
           </div>
         )}
       </DialogContent>
