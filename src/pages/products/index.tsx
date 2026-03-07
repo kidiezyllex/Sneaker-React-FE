@@ -72,6 +72,12 @@ export default function ProductsPage() {
     page: pagination.page,
     limit: pagination.limit,
     status: "ACTIVE",
+    ...filters,
+    sortBy: sortOption === "price-asc" || sortOption === "price-desc" ? "price" :
+      sortOption === "newest" ? "createdAt" :
+        sortOption === "popularity" ? "popularity" : undefined,
+    sortOrder: sortOption === "price-asc" ? "asc" :
+      sortOption === "price-desc" || sortOption === "newest" || sortOption === "popularity" ? "desc" : undefined,
   };
 
   const productsQuery = useProducts(paginationParams);
@@ -86,134 +92,18 @@ export default function ProductsPage() {
   const { data: promotionsData } = usePromotions({ status: "ACTIVE" });
   const data = useMemo(() => {
     if (!rawData || !rawData.data) return rawData;
-    let filteredProducts = [...rawData.data];
+    let products = [...rawData.data];
     if (promotionsData?.data?.promotions) {
-      filteredProducts = applyPromotionsToProducts(
-        filteredProducts,
+      products = applyPromotionsToProducts(
+        products,
         promotionsData.data.promotions
       );
     }
-
-    if (filters.brands && filters.brands.length > 0) {
-      const brandsArray = Array.isArray(filters.brands)
-        ? filters.brands
-        : [filters.brands];
-      filteredProducts = filteredProducts.filter((product) => {
-        const brandId = product.brand.id;
-        return brandsArray.includes(String(brandId));
-      });
-    }
-
-    if (filters.categories && filters.categories.length > 0) {
-      const categoriesArray = Array.isArray(filters.categories)
-        ? filters.categories
-        : [filters.categories];
-      filteredProducts = filteredProducts.filter((product) => {
-        const categoryId = product.category.id;
-        return categoriesArray.includes(String(categoryId));
-      });
-    }
-
-    if (filters.color) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.variants.some((variant: any) => {
-          const colorId = variant.color?.id;
-          return String(colorId) === filters.color;
-        })
-      );
-    }
-
-    if (filters.size) {
-      filteredProducts = filteredProducts.filter((product) =>
-        product.variants.some((variant: any) => {
-          const sizeId = variant.size?.id;
-          return String(sizeId) === filters.size;
-        })
-      );
-    }
-
-    if (filters.minPrice !== undefined || filters.maxPrice !== undefined) {
-      const minPrice = filters.minPrice !== undefined ? filters.minPrice : 0;
-      const maxPrice =
-        filters.maxPrice !== undefined
-          ? filters.maxPrice
-          : Number.POSITIVE_INFINITY;
-
-      filteredProducts = filteredProducts.filter((product: any) => {
-        let price = product.variants[0]?.price || 0;
-
-        if (promotionsData?.data?.promotions) {
-          const discount = calculateProductDiscount(
-            product.id,
-            price,
-            promotionsData.data.promotions
-          );
-
-          if (discount.discountPercent > 0) {
-            price = discount.discountedPrice;
-          }
-        }
-
-        return price >= minPrice && price <= maxPrice;
-      });
-    }
-
-    if (sortOption !== "default") {
-      filteredProducts.sort((a: any, b: any) => {
-        let priceA = a.variants[0]?.price || 0;
-        let priceB = b.variants[0]?.price || 0;
-
-        if (promotionsData?.data?.promotions) {
-          const discountA = calculateProductDiscount(
-            a.id,
-            priceA,
-            promotionsData.data.promotions
-          );
-          const discountB = calculateProductDiscount(
-            b.id,
-            priceB,
-            promotionsData.data.promotions
-          );
-
-          if (discountA.discountPercent > 0) {
-            priceA = discountA.discountedPrice;
-          }
-          if (discountB.discountPercent > 0) {
-            priceB = discountB.discountedPrice;
-          }
-        }
-
-        const dateA = new Date(a.createdAt).getTime();
-        const dateB = new Date(b.createdAt).getTime();
-
-        switch (sortOption) {
-          case "price-asc":
-            return priceA - priceB;
-          case "price-desc":
-            return priceB - priceA;
-          case "newest":
-            return dateB - dateA;
-          case "popularity":
-            const stockA = a.variants.reduce(
-              (total: number, variant: any) => total + variant.stock,
-              0
-            );
-            const stockB = b.variants.reduce(
-              (total: number, variant: any) => total + variant.stock,
-              0
-            );
-            return stockB - stockA;
-          default:
-            return 0;
-        }
-      });
-    }
-
     return {
       ...rawData,
-      data: filteredProducts,
+      data: products,
     };
-  }, [rawData, filters, sortOption, pagination, promotionsData]);
+  }, [rawData, promotionsData]);
 
   const handleFilterChange = (updatedFilters: Partial<IProductFilter>) => {
     setFilters((prev) => ({

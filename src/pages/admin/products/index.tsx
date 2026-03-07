@@ -9,13 +9,15 @@ import { Icon } from "@mdi/react";
 import {
   mdiMagnify,
   mdiPlus, mdiPencilCircle,
-  mdiDeleteCircle
+  mdiDeleteCircle,
+  mdiDatabaseSync
 } from "@mdi/js";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useProducts, useDeleteProduct } from "@/hooks/product";
 import { useBrands, useCategories } from "@/hooks/attributes";
 import { usePromotions } from "@/hooks/promotion";
+import { useSyncChatbotProducts } from "@/hooks/chatbot";
 import {
   applyPromotionsToProducts,
   calculateProductDiscount,
@@ -69,6 +71,7 @@ export default function ProductsPage() {
   const { data: promotionsData } = usePromotions();
   const { data: rawData, isLoading, isError } = useProducts(filters);
   const deleteProduct = useDeleteProduct();
+  const syncChatbot = useSyncChatbotProducts();
   const queryClient = useQueryClient();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState<any>(null);
@@ -156,6 +159,23 @@ export default function ProductsPage() {
     setFilters({ ...filters, page: newPage });
   };
 
+  const handleSyncChatbot = async () => {
+    try {
+      await syncChatbot.mutateAsync(undefined, {
+        onSuccess: (res) => {
+          toast.success(res.message || "Đồng bộ dữ liệu chatbot thành công");
+        },
+        onError: (error: any) => {
+          toast.error(
+            `Đồng bộ thất bại: ${error?.response?.data?.message || error.message || "Đã có lỗi xảy ra"}`
+          );
+        },
+      });
+    } catch (error: any) {
+      // Error handled in mutateAsync
+    }
+  };
+
 
 
   const handleOpenLightbox = (
@@ -221,12 +241,26 @@ export default function ProductsPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Link to="/admin/products/create">
-            <Button>
-              <Icon path={mdiPlus} size={0.8} />
-              Thêm sản phẩm mới
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              onClick={handleSyncChatbot}
+              disabled={syncChatbot.isPending}
+            >
+              <Icon
+                path={mdiDatabaseSync}
+                size={0.8}
+                className={syncChatbot.isPending ? "animate-spin" : ""}
+              />
+              {syncChatbot.isPending ? "Đang đồng bộ..." : "Train data"}
             </Button>
-          </Link>
+            <Link to="/admin/products/create">
+              <Button className="flex items-center gap-2">
+                <Icon path={mdiPlus} size={0.8} />
+                Thêm sản phẩm mới
+              </Button>
+            </Link>
+          </div>
         </div>
 
         <div className="my-4 pt-4 border-t">

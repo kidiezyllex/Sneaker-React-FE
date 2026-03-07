@@ -94,4 +94,9 @@ export const chatbotApi = {
             feedback,
         });
     },
+
+    // Sync products for chatbot training
+    syncProducts: async (): Promise<{ success: boolean; message: string }> => {
+        return sendPost('chatbot/training/sync-products');
+    },
 };
