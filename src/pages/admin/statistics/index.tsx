@@ -3,12 +3,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Icon } from "@mdi/react";
 import {
   mdiCashMultiple,
   mdiPackageVariantClosed,
   mdiAccountGroup,
-  mdiTrendingUp, mdiEye
+  mdiTrendingUp
 } from "@mdi/js";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -22,7 +21,6 @@ import {
   IRevenueReportFilter,
   ITopProductsFilter,
 } from "@/interface/request/statistics";
-import { Button } from "@/components/ui/button";
 import {
   Breadcrumb,
   BreadcrumbItem, BreadcrumbList,
@@ -140,12 +138,6 @@ export default function StatisticsPage() {
     setTopProductsFilters({ ...topProductsFilters, [key]: value });
   };
 
-  const handleViewDetail = (statisticsId: string) => {
-    setSelectedStatisticsId(statisticsId);
-    setIsDetailModalOpen(true);
-  };
-
-
   const currentMonthData = statisticsData?.data || {
     totalOrders: 0,
     totalRevenue: 0,
@@ -190,7 +182,6 @@ export default function StatisticsPage() {
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="revenue">Doanh thu</TabsTrigger>
           <TabsTrigger value="products">Sản phẩm</TabsTrigger>
-          <TabsTrigger value="statistics">Lịch sử</TabsTrigger>
         </TabsList>
 
         {/* Tổng quan */}
@@ -649,102 +640,6 @@ export default function StatisticsPage() {
                   </TableBody>
                 </Table>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Tab Lịch sử thống kê */}
-        <TabsContent value="statistics" className="space-y-4 text-maintext">
-          <Card className="mb-4">
-            <CardHeader>
-              <CardTitle>Lịch sử thống kê</CardTitle>
-            </CardHeader>
-            <CardContent className="p-4">
-
-
-              {statisticsLoading ? (
-                <Skeleton className="h-80 w-full" />
-              ) : statisticsError ? (
-                <p className="text-red-600">Lỗi khi tải dữ liệu thống kê</p>
-              ) : !statisticsData?.data ? (
-                <div className="flex items-center justify-center h-80 text-maintext">
-                  <p>Không có dữ liệu thống kê</p>
-                </div>
-              ) : (
-                <>
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Ngày thống kê</TableHead>
-                          <TableHead>Loại</TableHead>
-                          <TableHead className="text-right">
-                            Số đơn hàng
-                          </TableHead>
-                          <TableHead className="text-right">
-                            Doanh thu
-                          </TableHead>
-                          <TableHead className="text-right">
-                            Lợi nhuận
-                          </TableHead>
-                          <TableHead className="text-center">
-                            Hành động
-                          </TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {statisticsData?.data &&
-                          (Array.isArray(statisticsData.data)
-                            ? statisticsData.data
-                            : [statisticsData.data]
-                          ).map((item, idx) => (
-                            <TableRow key={idx}>
-                              <TableCell className="font-medium text-maintext">
-                                {formatDate(item.date)}
-                              </TableCell>
-                              <TableCell className="text-maintext">
-                                <Badge variant="outline">
-                                  {item.type === "DAILY"
-                                    ? "Ngày"
-                                    : item.type === "WEEKLY"
-                                      ? "Tuần"
-                                      : item.type === "MONTHLY"
-                                        ? "Tháng"
-                                        : "Năm"}
-                                </Badge>
-                              </TableCell>
-                              <TableCell className="text-right text-maintext">
-                                {item.totalOrders}
-                              </TableCell>
-                              <TableCell className="text-right text-maintext">
-                                {formatCurrency(item.totalRevenue)}
-                              </TableCell>
-                              <TableCell className="text-right text-maintext">
-                                {formatCurrency(item.totalProfit)}
-                              </TableCell>
-                              <TableCell className="text-center">
-                                <Button
-                                  variant="outline"
-                                  size="sm"
-                                  onClick={() =>
-                                    handleViewDetail(item.id || item.date)
-                                  }
-                                >
-                                  <Icon
-                                    path={mdiEye}
-                                    size={0.8}
-                                    className="mr-1"
-                                  />
-                                  Chi tiết
-                                </Button>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                </>
-              )}
             </CardContent>
           </Card>
         </TabsContent>
