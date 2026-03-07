@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Icon } from "@mdi/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -265,294 +265,292 @@ export default function ReturnsPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <Card className="mb-4">
-        <CardContent className="p-4">
-          <Tabs defaultValue="all" onValueChange={setSelectedTab}>
-            <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4 mb-4">
-              <TabsList className="h-9">
-                <TabsTrigger value="all" className="px-4 text-maintext">
-                  Tất cả
-                </TabsTrigger>
-                <TabsTrigger value="pending" className="px-4 text-maintext">
-                  Chờ xử lý
-                </TabsTrigger>
-                <TabsTrigger value="refunded" className="px-4 text-maintext">
-                  Đã hoàn tiền
-                </TabsTrigger>
-                <TabsTrigger value="cancelled" className="px-4 text-maintext">
-                  Đã hủy
-                </TabsTrigger>
-              </TabsList>
+        <Tabs defaultValue="all" onValueChange={setSelectedTab}>
+          <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4 mb-4">
+            <TabsList className="h-9">
+              <TabsTrigger value="all" className="px-4 text-maintext">
+                Tất cả
+              </TabsTrigger>
+              <TabsTrigger value="pending" className="px-4 text-maintext">
+                Chờ xử lý
+              </TabsTrigger>
+              <TabsTrigger value="refunded" className="px-4 text-maintext">
+                Đã hoàn tiền
+              </TabsTrigger>
+              <TabsTrigger value="cancelled" className="px-4 text-maintext">
+                Đã hủy
+              </TabsTrigger>
+            </TabsList>
 
-              <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2 items-center">
-                <div className="relative w-full sm:w-80">
-                  <Icon
-                    path={mdiMagnify}
-                    size={0.8}
-                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
-                  />
-                  <Input
-                    placeholder="Tìm theo mã, tên KH, SĐT..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 w-full"
-                  />
-                </div>
+            <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2 items-center">
+              <div className="relative w-full sm:w-80">
+                <Icon
+                  path={mdiMagnify}
+                  size={0.8}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                />
+                <Input
+                  placeholder="Tìm theo mã, tên KH, SĐT..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 w-full"
+                />
+              </div>
 
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={() => setShowFilters(!showFilters)}
-                    className="flex items-center"
-                  >
-                    <Icon path={mdiFilterOutline} size={0.8} />
-                    Bộ lọc
-                    {(filters.customer ||
-                      filters.startDate ||
-                      filters.endDate) && (
-                        <Badge className="ml-1">
-                          {
-                            [
-                              filters.customer,
-                              filters.startDate,
-                              filters.endDate,
-                            ].filter(Boolean).length
-                          }
-                        </Badge>
-                      )}
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => setShowFilters(!showFilters)}
+                  className="flex items-center"
+                >
+                  <Icon path={mdiFilterOutline} size={0.8} />
+                  Bộ lọc
+                  {(filters.customer ||
+                    filters.startDate ||
+                    filters.endDate) && (
+                      <Badge className="ml-1">
+                        {
+                          [
+                            filters.customer,
+                            filters.startDate,
+                            filters.endDate,
+                          ].filter(Boolean).length
+                        }
+                      </Badge>
+                    )}
+                </Button>
+                <Button variant="outline" size="icon" onClick={exportToCSV} title="Xuất CSV">
+                  <Icon path={mdiDownload} size={0.8} />
+                </Button>
+                <Link to={location.pathname.startsWith('/staff') ? '/staff/returns/create' : '/admin/returns/create'}>
+                  <Button className="flex items-center gap-2">
+                    <Icon path={mdiPlus} size={0.8} />
+                    Tạo yêu cầu
                   </Button>
-                  <Button variant="outline" size="icon" onClick={exportToCSV} title="Xuất CSV">
-                    <Icon path={mdiDownload} size={0.8} />
-                  </Button>
-                  <Link to={location.pathname.startsWith('/staff') ? '/staff/returns/create' : '/admin/returns/create'}>
-                    <Button className="flex items-center gap-2">
-                      <Icon path={mdiPlus} size={0.8} />
-                      Tạo yêu cầu
-                    </Button>
-                  </Link>
-                </div>
+                </Link>
               </div>
             </div>
+          </div>
 
-            <AnimatePresence>
-              {showFilters && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-slate-50 p-4 rounded-xl mb-4"
-                >
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                      <label className="text-sm font-medium mb-1 block">
-                        Khách hàng
-                      </label>
-                      <Input
-                        placeholder="Tìm theo tên khách hàng"
-                        value={filters.customer || ""}
-                        onChange={(e) =>
-                          handleFilterChange("customer", e.target.value)
-                        }
-                      />
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium mb-1 block">
-                        Từ ngày
-                      </label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start text-left font-normal"
-                          >
-                            <Icon
-                              path={mdiCalendar}
-                              size={0.8}
-                              className="mr-2"
-                            />
-                            {dateRange.from
-                              ? format(dateRange.from, "dd/MM/yyyy")
-                              : "Chọn ngày"}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={dateRange.from}
-                            onSelect={(date) =>
-                              handleDateRangeChange({
-                                ...dateRange,
-                                from: date,
-                              })
-                            }
-                            initialFocus
+          <AnimatePresence>
+            {showFilters && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="bg-slate-50 p-4 rounded-xl mb-4"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      Khách hàng
+                    </label>
+                    <Input
+                      placeholder="Tìm theo tên khách hàng"
+                      value={filters.customer || ""}
+                      onChange={(e) =>
+                        handleFilterChange("customer", e.target.value)
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      Từ ngày
+                    </label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start text-left font-normal"
+                        >
+                          <Icon
+                            path={mdiCalendar}
+                            size={0.8}
+                            className="mr-2"
                           />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
-                    <div>
-                      <label className="text-sm font-medium mb-1 block">
-                        Đến ngày
-                      </label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button
-                            variant="outline"
-                            className="w-full justify-start text-left font-normal"
-                          >
-                            <Icon
-                              path={mdiCalendar}
-                              size={0.8}
-                              className="mr-2"
-                            />
-                            {dateRange.to
-                              ? format(dateRange.to, "dd/MM/yyyy")
-                              : "Chọn ngày"}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={dateRange.to}
-                            onSelect={(date) =>
-                              handleDateRangeChange({ ...dateRange, to: date })
-                            }
-                            initialFocus
+                          {dateRange.from
+                            ? format(dateRange.from, "dd/MM/yyyy")
+                            : "Chọn ngày"}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={dateRange.from}
+                          onSelect={(date) =>
+                            handleDateRangeChange({
+                              ...dateRange,
+                              from: date,
+                            })
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-1 block">
+                      Đến ngày
+                    </label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start text-left font-normal"
+                        >
+                          <Icon
+                            path={mdiCalendar}
+                            size={0.8}
+                            className="mr-2"
                           />
-                        </PopoverContent>
-                      </Popover>
-                    </div>
+                          {dateRange.to
+                            ? format(dateRange.to, "dd/MM/yyyy")
+                            : "Chọn ngày"}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={dateRange.to}
+                          onSelect={(date) =>
+                            handleDateRangeChange({ ...dateRange, to: date })
+                          }
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
                   </div>
-                  <div className="flex gap-2 mt-4">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        setDateRange({});
-                        setFilters({ page: 1, limit: 5 });
-                      }}
-                    >
-                      Xóa bộ lọc
-                    </Button>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+                </div>
+                <div className="flex gap-2 mt-4">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setDateRange({});
+                      setFilters({ page: 1, limit: 5 });
+                    }}
+                  >
+                    Xóa bộ lọc
+                  </Button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-            {isLoading ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, index) => (
-                  <div key={index} className="flex items-center space-x-4">
-                    <Skeleton className="h-12 w-12 rounded-xl" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
+          {isLoading ? (
+            <div className="space-y-4">
+              {[...Array(5)].map((_, index) => (
+                <div key={index} className="flex items-center space-x-4">
+                  <Skeleton className="h-12 w-12 rounded-xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
                   </div>
-                ))}
-              </div>
-            ) : isError ? (
-              <div className="text-center py-10">
-                <p className="text-red-500">
-                  Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
-                </p>
-              </div>
-            ) : data?.data.content.length === 0 ? (
-              <div className="text-center py-10">
-                <p className="text-maintext">Không có yêu cầu trả hàng nào</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Mã yêu cầu</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Khách hàng</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Đơn hàng gốc</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Ngày tạo</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Số tiền hoàn trả</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
-                      <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {data?.data.content.map((returnItem, index) => (
-                      <TableRow key={returnItem.id} className="hover:bg-slate-50/50 transition-colors">
-                        <TableCell className="text-center font-medium">
-                          {data.data.number * data.data.size + index + 1}
-                        </TableCell>
-                        <TableCell className="font-semibold text-sm text-primary">
-                          {returnItem.code}
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex flex-col">
-                            <span className="font-medium text-slate-700">{returnItem.customer.fullName}</span>
-                            <span className="text-sm text-maintext">{returnItem.customer.phoneNumber}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="font-mono">
-                            {returnItem.originalOrder.code}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-sm text-slate-600">
-                          {formatDateTime(returnItem.createdAt)}
-                        </TableCell>
-                        <TableCell className="font-bold text-slate-900">
-                          {formatCurrency(returnItem.totalRefund)}
-                        </TableCell>
-                        <TableCell>
-                          {getReturnStatusBadge(returnItem.status)}
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <div className="flex justify-end gap-2">
-                            <Link to={location.pathname.startsWith('/staff') ? `/staff/returns/${returnItem.id}` : `/admin/returns/${returnItem.id}`}>
-                              <Button
-                                size="icon"
-                                variant="outline"
-                                title="Xem chi tiết"
-                              >
-                                <Icon path={mdiEye} size={0.8} />
-                              </Button>
-                            </Link>
-
+                </div>
+              ))}
+            </div>
+          ) : isError ? (
+            <div className="text-center py-10">
+              <p className="text-red-500">
+                Đã xảy ra lỗi khi tải dữ liệu. Vui lòng thử lại sau.
+              </p>
+            </div>
+          ) : data?.data.content.length === 0 ? (
+            <div className="text-center py-10">
+              <p className="text-maintext">Không có yêu cầu trả hàng nào</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Mã yêu cầu</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Khách hàng</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Đơn hàng gốc</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Ngày tạo</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Số tiền hoàn trả</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
+                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {data?.data.content.map((returnItem, index) => (
+                    <TableRow key={returnItem.id} className="hover:bg-slate-50/50 transition-colors">
+                      <TableCell className="text-center font-medium">
+                        {data.data.number * data.data.size + index + 1}
+                      </TableCell>
+                      <TableCell className="font-semibold text-sm text-primary">
+                        {returnItem.code}
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="font-medium text-slate-700">{returnItem.customer.fullName}</span>
+                          <span className="text-sm text-maintext">{returnItem.customer.phoneNumber}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="outline" className="font-mono">
+                          {returnItem.originalOrder.code}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-sm text-slate-600">
+                        {formatDateTime(returnItem.createdAt)}
+                      </TableCell>
+                      <TableCell className="font-bold text-slate-900">
+                        {formatCurrency(returnItem.totalRefund)}
+                      </TableCell>
+                      <TableCell>
+                        {getReturnStatusBadge(returnItem.status)}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Link to={location.pathname.startsWith('/staff') ? `/staff/returns/${returnItem.id}` : `/admin/returns/${returnItem.id}`}>
                             <Button
                               size="icon"
                               variant="outline"
-                              onClick={() => {
-                                setReturnToDelete(returnItem);
-                                setIsDeleteDialogOpen(true);
-                              }}
-                              title="Xóa yêu cầu"
+                              title="Xem chi tiết"
                             >
-                              <Icon path={mdiDeleteCircle} size={0.8} />
+                              <Icon path={mdiEye} size={0.8} />
                             </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            )}
+                          </Link>
 
-            {data?.data && data.data.totalPages > 1 && (
-              <CommonPagination
-                pagination={{
-                  total: data.data.totalElements,
-                  count: data.data.content.length,
-                  perPage: data.data.size,
-                  currentPage: data.data.number + 1,
-                  totalPages: data.data.totalPages,
-                }}
-                onPageChange={handleChangePage}
-                itemLabel="đơn trả hàng"
-                className="mt-6"
-              />
-            )}
-          </Tabs>
-        </CardContent>
+                          <Button
+                            size="icon"
+                            variant="outline"
+                            onClick={() => {
+                              setReturnToDelete(returnItem);
+                              setIsDeleteDialogOpen(true);
+                            }}
+                            title="Xóa yêu cầu"
+                          >
+                            <Icon path={mdiDeleteCircle} size={0.8} />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+
+          {data?.data && data.data.totalPages > 1 && (
+            <CommonPagination
+              pagination={{
+                total: data.data.totalElements,
+                count: data.data.content.length,
+                perPage: data.data.size,
+                currentPage: data.data.number + 1,
+                totalPages: data.data.totalPages,
+              }}
+              onPageChange={handleChangePage}
+              itemLabel="đơn trả hàng"
+              className="mt-6"
+            />
+          )}
+        </Tabs>
       </Card>
 
       <DeleteConfirmDialog

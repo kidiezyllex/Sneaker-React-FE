@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Icon } from "@mdi/react";
 import { mdiTrendingUp } from "@mdi/js";
 
@@ -36,37 +36,33 @@ const StatCard = ({
     };
 
     return (
-        <Card className={`h-full border ${getBorderColor(bgColor)} ${bgColor} ${getShadowColor(bgColor)} transition-all duration-300 hover:-translate-y-1`}>
-            <CardContent className="p-4">
-                <div className="flex justify-between items-start">
-                    <div>
-                        <p className="text-sm font-medium opacity-80 text-maintext">{title}</p>
-                        <h3 className="text-2xl font-bold mt-1 text-maintext">
-                            {value}
-                        </h3>
-                        {typeof change === "number" && change !== 0 && (
-                            <div className="flex items-center mt-2 bg-white/50 w-fit px-2 py-0.5 rounded-full">
-                                <Icon
-                                    path={mdiTrendingUp}
-                                    size={0.6}
-                                    className={change >= 0 ? "text-green-600" : "text-red-600"}
-                                />
-                                <span
-                                    className={`text-sm ml-1 font-semibold ${change >= 0 ? "text-green-600" : "text-red-600"
-                                        }`}
-                                >
-                                    {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}
-                                </span>
-                            </div>
-                        )}
+        <Card className={`h-full w-full flex justify-between items-center border ${getBorderColor(bgColor)} ${bgColor} ${getShadowColor(bgColor)} transition-all duration-300 hover:-translate-y-1`}>
+            <div>
+                <p className="text-sm font-medium opacity-80 text-maintext">{title}</p>
+                <h3 className="text-2xl font-bold mt-1 text-maintext">
+                    {value}
+                </h3>
+                {typeof change === "number" && change !== 0 && (
+                    <div className="flex items-center mt-2 bg-white/50 w-fit px-2 py-0.5 rounded-full">
+                        <Icon
+                            path={mdiTrendingUp}
+                            size={0.6}
+                            className={change >= 0 ? "text-green-600" : "text-red-600"}
+                        />
+                        <span
+                            className={`text-sm ml-1 font-semibold ${change >= 0 ? "text-green-600" : "text-red-600"
+                                }`}
+                        >
+                            {Math.abs(change).toFixed(1)}% {change >= 0 ? "tăng" : "giảm"}
+                        </span>
                     </div>
-                    <div
-                        className="bg-white/60 w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
-                    >
-                        <Icon path={icon} size={1} className={iconColor} />
-                    </div>
-                </div>
-            </CardContent>
+                )}
+            </div>
+            <div
+                className="bg-white/60 w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm backdrop-blur-sm"
+            >
+                <Icon path={icon} size={1} className={iconColor} />
+            </div>
         </Card>
     );
 };

@@ -2,8 +2,7 @@ import { useState } from "react";
 import { Icon } from "@mdi/react";
 import {
   mdiKeyboardReturn,
-  mdiEye,
-  mdiFilterOutline,
+  mdiEye
 } from "@mdi/js";
 import { format } from "date-fns";
 import { vi } from "date-fns/locale";
@@ -19,13 +18,6 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { formatPrice } from "@/utils/formatters";
 import { IReturn } from "@/interface/response/return";
 import { ReturnStatusBadge } from "../components/Badges";
@@ -118,39 +110,16 @@ const ReturnsTab = () => {
     <>
       <Card>
         <CardHeader>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <div className="p-2 rounded-full bg-primary/10">
-                <Icon
-                  path={mdiKeyboardReturn}
-                  size={0.8}
-                  className="text-primary"
-                />
-              </div>
-              <span>Đơn trả hàng của bạn</span>
-            </CardTitle>
-
-            {/* Filter theo trạng thái */}
-            <div className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2">
+            <div className="p-2 rounded-full bg-primary/10">
               <Icon
-                path={mdiFilterOutline}
-                size={0.7}
-                className="text-gray-400 shrink-0"
+                path={mdiKeyboardReturn}
+                size={0.8}
+                className="text-primary"
               />
-              <Select value={statusFilter} onValueChange={handleStatusChange}>
-                <SelectTrigger className="w-44">
-                  <SelectValue placeholder="Lọc trạng thái" />
-                </SelectTrigger>
-                <SelectContent>
-                  {STATUS_OPTIONS.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
             </div>
-          </div>
+            <span>Đơn trả hàng của bạn</span>
+          </CardTitle>
         </CardHeader>
 
         <CardContent>

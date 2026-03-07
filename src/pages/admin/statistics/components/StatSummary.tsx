@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Icon } from "@mdi/react";
 import {
@@ -30,44 +29,37 @@ const StatCard = ({
   increasing,
 }: StatCardProps) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="h-full"
-    >
-      <Card className="p-4 h-full">
-        <div className="flex justify-between items-start">
-          <div>
-            <p className="text-sm text-maintext">{title}</p>
-            <h3 className={`text-xl font-semibold mt-2 ${iconColor}`}>
-              {value}
-            </h3>
-            <div className="flex items-center mt-2">
-              <Icon
-                path={increasing ? mdiTrendingUp : mdiTrendingUp}
-                size={0.8}
-                className={increasing ? "text-green-medium" : "text-red-medium"}
-              />
-              <span
-                className={`text-sm ml-1 ${increasing ? "text-green-medium" : "text-red-medium"
-                  }`}
-              >
-                {percentage} {increasing ? "tăng" : "giảm"}
-              </span>
-              <span className="text-sm text-maintext ml-1">
-                so với tháng trước
-              </span>
-            </div>
-          </div>
-          <div
-            className={`${bgColor} w-10 h-10  rounded-full flex items-center justify-center flex-shrink-0`}
-          >
-            <Icon path={icon} size={0.8} className={iconColor} />
+    <Card className="h-full">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-sm text-maintext">{title}</p>
+          <h3 className={`text-xl font-semibold mt-2 ${iconColor}`}>
+            {value}
+          </h3>
+          <div className="flex items-center mt-2">
+            <Icon
+              path={increasing ? mdiTrendingUp : mdiTrendingUp}
+              size={0.8}
+              className={increasing ? "text-green-medium" : "text-red-medium"}
+            />
+            <span
+              className={`text-sm ml-1 ${increasing ? "text-green-medium" : "text-red-medium"
+                }`}
+            >
+              {percentage} {increasing ? "tăng" : "giảm"}
+            </span>
+            <span className="text-sm text-maintext ml-1">
+              so với tháng trước
+            </span>
           </div>
         </div>
-      </Card>
-    </motion.div>
+        <div
+          className={`${bgColor} w-10 h-10  rounded-full flex items-center justify-center flex-shrink-0`}
+        >
+          <Icon path={icon} size={0.8} className={iconColor} />
+        </div>
+      </div>
+    </Card>
   );
 };
 

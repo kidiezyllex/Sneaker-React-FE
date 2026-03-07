@@ -150,7 +150,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                             <button
                                                 onClick={() => toggleSubMenu(menu.id)}
                                                 className={cn(
-                                                    "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-[15px] transition-colors",
+                                                    "flex items-center font-medium justify-between w-full rounded-md p-2 text-left text-[15px] transition-colors text-gray-600",
                                                     isMenuActive(menu)
                                                         ? "bg-primary/10 text-primary"
                                                         : "hover:bg-gray-100"

@@ -178,7 +178,7 @@ export default function StatisticsPage() {
         onValueChange={setActiveTab}
         className="space-y-4 rounded-xl p-4 pt-2 bg-white"
       >
-        <TabsList className="grid grid-cols-4 w-full max-w-6xl">
+        <TabsList className="grid grid-cols-3 w-full max-w-6xl">
           <TabsTrigger value="overview">Tổng quan</TabsTrigger>
           <TabsTrigger value="revenue">Doanh thu</TabsTrigger>
           <TabsTrigger value="products">Sản phẩm</TabsTrigger>
