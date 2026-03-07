@@ -280,7 +280,6 @@ export default function ProductsPage() {
                 <SelectItem value="price-asc">Giá: Thấp đến cao</SelectItem>
                 <SelectItem value="price-desc">Giá: Cao đến thấp</SelectItem>
                 <SelectItem value="newest">Mới nhất</SelectItem>
-                <SelectItem value="popularity">Phổ biến nhất</SelectItem>
               </SelectContent>
             </Select>
           </div>

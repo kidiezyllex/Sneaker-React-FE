@@ -1,10 +1,7 @@
 import { Icon } from "@mdi/react";
 import {
   mdiAccount,
-  mdiDelete,
-  mdiCashMultiple,
-  mdiBankTransfer,
-  mdiTag,
+  mdiDelete, mdiTag,
   mdiContentCopy,
   mdiMinus,
   mdiPlus,
@@ -16,7 +13,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
@@ -395,28 +391,6 @@ export default function POSRightSection({
               </span>
             </div>
           </div>
-
-          <Tabs
-            value={paymentMethod}
-            onValueChange={setPaymentMethod}
-            className="w-full"
-          >
-            <TabsList className="grid w-full grid-cols-2 h-10">
-              <TabsTrigger
-                value="cash"
-                className="flex gap-2 items-center text-sm"
-              >
-                <Icon path={mdiCashMultiple} size={0.8} /> Tiền mặt
-              </TabsTrigger>
-              <TabsTrigger
-                value="banking"
-                className="flex gap-2 items-center text-sm"
-              >
-                <Icon path={mdiBankTransfer} size={0.8} /> Chuyển khoản
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-
           {paymentMethod === "cash" && (
             <div className="space-y-3 bg-gray-50 p-3 rounded-md border border-border/50">
               <div className="space-y-2">

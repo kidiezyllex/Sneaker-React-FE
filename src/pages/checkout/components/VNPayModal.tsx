@@ -467,21 +467,19 @@ export default function VNPayModal({
 
       {selectedBank && (
         <Card>
-          <CardContent className="pt-4">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 relative">
-                <img
-                  src={selectedBank.logo}
-                  alt={selectedBank.shortName}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div>
-                <div className="font-medium">{selectedBank.shortName}</div>
-                <div className="text-sm text-gray-700">{selectedBank.name}</div>
-              </div>
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 relative">
+              <img
+                src={selectedBank.logo}
+                alt={selectedBank.shortName}
+                className="w-full h-full object-contain"
+              />
             </div>
-          </CardContent>
+            <div>
+              <div className="font-medium">{selectedBank.shortName}</div>
+              <div className="text-sm text-gray-700">{selectedBank.name}</div>
+            </div>
+          </div>
         </Card>
       )}
 
@@ -620,38 +618,36 @@ export default function VNPayModal({
       </p>
       {paymentResult && (
         <Card>
-          <CardContent className="pt-4">
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span>Mã giao dịch:</span>
-                <span className="font-medium">
-                  {paymentResult.transactionId}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Ngân hàng:</span>
-                <span className="font-medium">{paymentResult.bankName}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Số tài khoản:</span>
-                <span className="font-medium">
-                  ***{paymentResult.accountNumber.slice(-4)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Số tiền:</span>
-                <span className="font-medium">
-                  {formatPrice(paymentResult.amount)}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span>Thời gian:</span>
-                <span className="font-medium">
-                  {new Date(paymentResult.paymentTime).toLocaleString("vi-VN")}
-                </span>
-              </div>
+          <div className="space-y-2 text-sm">
+            <div className="flex justify-between">
+              <span>Mã giao dịch:</span>
+              <span className="font-medium">
+                {paymentResult.transactionId}
+              </span>
             </div>
-          </CardContent>
+            <div className="flex justify-between">
+              <span>Ngân hàng:</span>
+              <span className="font-medium">{paymentResult.bankName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Số tài khoản:</span>
+              <span className="font-medium">
+                ***{paymentResult.accountNumber.slice(-4)}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Số tiền:</span>
+              <span className="font-medium">
+                {formatPrice(paymentResult.amount)}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Thời gian:</span>
+              <span className="font-medium">
+                {new Date(paymentResult.paymentTime).toLocaleString("vi-VN")}
+              </span>
+            </div>
+          </div>
         </Card>
       )}
     </div>

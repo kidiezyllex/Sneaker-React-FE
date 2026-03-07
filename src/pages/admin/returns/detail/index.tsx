@@ -276,14 +276,12 @@ export default function AdminReturnDetailPage() {
 
             {!canEdit && (
                 <Card className="border-orange-200 bg-orange-50 shadow-sm">
-                    <CardContent className="p-4">
-                        <div className="flex items-center gap-2 text-orange-700">
-                            <Icon path={mdiCancel} size={0.8} />
-                            <p className="font-medium text-sm">
-                                Yêu cầu trả hàng này đã được xử lý và không thể chỉnh sửa thêm.
-                            </p>
-                        </div>
-                    </CardContent>
+                    <div className="flex items-center gap-2 text-orange-700">
+                        <Icon path={mdiCancel} size={0.8} />
+                        <p className="font-medium text-sm">
+                            Yêu cầu trả hàng này đã được xử lý và không thể chỉnh sửa thêm.
+                        </p>
+                    </div>
                 </Card>
             )}
 

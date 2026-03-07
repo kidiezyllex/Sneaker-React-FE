@@ -116,8 +116,8 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
           icon={mdiFileDocument}
         />
         <CustomScrollArea className="flex-1 min-h-0 p-4">
-          <div ref={invoiceRef} className="p-8 bg-white" id="invoice-content">
-            <div className="w-full justify-center mb-6">
+          <div ref={invoiceRef} className="bg-white" id="invoice-content">
+            <div className="w-full justify-center mb-4">
               <img
                 draggable="false"
                 src="/images/logo.png"
