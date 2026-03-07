@@ -235,7 +235,7 @@ export default function AccountsPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               type="text"
@@ -274,7 +274,7 @@ export default function AccountsPage() {
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Vai trò
                   </label>
                   <Select
@@ -297,7 +297,7 @@ export default function AccountsPage() {
                   </Select>
                 </div>
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Trạng thái
                   </label>
                   <Select
@@ -339,7 +339,7 @@ export default function AccountsPage() {
             <h2 className="text-xl font-semibold text-red-500">
               Đã xảy ra lỗi
             </h2>
-            <p className="text-maintext">
+            <p className="text-gray-700">
               {error.message || "Không thể tải dữ liệu tài khoản"}
             </p>
           </div>
@@ -362,7 +362,7 @@ export default function AccountsPage() {
                   <TableRow>
                     <TableCell
                       colSpan={7}
-                      className="text-center py-8 text-maintext"
+                      className="text-center py-8 text-gray-700"
                     >
                       Không có tài khoản nào được tìm thấy
                     </TableCell>
@@ -384,22 +384,22 @@ export default function AccountsPage() {
                             </Avatar>
                           </div>
                           <div>
-                            <div className="font-medium text-maintext">
+                            <div className="font-medium text-gray-700">
                               {account.fullName}
                             </div>
-                            <div className="text-sm text-maintext">
+                            <div className="text-sm text-gray-700">
                               {account.email}
                             </div>
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell className="py-3 px-4 text-sm text-maintext">
+                      <TableCell className="py-3 px-4 text-sm text-gray-700">
                         {account.phoneNumber && (
                           <div className="flex items-center">
                             <Icon
                               path={mdiPhone}
                               size={0.8}
-                              className="mr-2 text-maintext"
+                              className="mr-2 text-gray-700"
                             />
                             {account.phoneNumber}
                           </div>
@@ -411,7 +411,7 @@ export default function AccountsPage() {
                       <TableCell className="py-3 px-4">
                         {getStatusBadge(account.status)}
                       </TableCell>
-                      <TableCell className="py-3 px-4 text-sm text-maintext">
+                      <TableCell className="py-3 px-4 text-sm text-gray-700">
                         {account.createdAt ? formatDateTime(account.createdAt) : "Chưa xác định"}
                       </TableCell>
                       <TableCell className="py-3 px-4 text-right">

@@ -301,22 +301,22 @@ export default function EditVoucherPage() {
                             Chỉnh sửa mã giảm giá - {originalVoucher.code}
                         </CardTitle>
                     </CardHeader>
-                    <CardContent className="space-y-4 text-maintext">
+                    <CardContent className="space-y-4 text-gray-700">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <Label htmlFor="code" className="text-maintext">
+                                <Label htmlFor="code" className="text-gray-700">
                                     Mã voucher
                                 </Label>
                                 <div className="p-2.5 border rounded-[6px] bg-gray-50 mt-1">
                                     {originalVoucher.code}
                                 </div>
-                                <p className="text-sm text-maintext mt-1">
+                                <p className="text-sm text-gray-700 mt-1">
                                     Mã voucher không thể thay đổi sau khi tạo
                                 </p>
                             </div>
 
                             <div>
-                                <Label htmlFor="type" className="text-maintext">
+                                <Label htmlFor="type" className="text-gray-700">
                                     Loại voucher
                                 </Label>
                                 <div className="p-2.5 border rounded-[6px] bg-gray-50 mt-1">
@@ -324,13 +324,13 @@ export default function EditVoucherPage() {
                                         ? "Phần trăm (%)"
                                         : "Số tiền cố định (VNĐ)"}
                                 </div>
-                                <p className="text-sm text-maintext mt-1">
+                                <p className="text-sm text-gray-700 mt-1">
                                     Loại voucher không thể thay đổi sau khi tạo
                                 </p>
                             </div>
 
                             <div>
-                                <Label htmlFor="value" className="text-maintext">
+                                <Label htmlFor="value" className="text-gray-700">
                                     Giá trị
                                 </Label>
                                 <div className="p-2.5 border rounded-[6px] bg-gray-50 mt-1 flex">
@@ -339,7 +339,7 @@ export default function EditVoucherPage() {
                                         {originalVoucher.type === "PERCENTAGE" ? "%" : "VNĐ"}
                                     </span>
                                 </div>
-                                <p className="text-sm text-maintext mt-1">
+                                <p className="text-sm text-gray-700 mt-1">
                                     Giá trị không thể thay đổi sau khi tạo
                                 </p>
                             </div>
@@ -378,7 +378,7 @@ export default function EditVoucherPage() {
                                 {errors.quantity && (
                                     <p className="text-red-500 text-sm">{errors.quantity}</p>
                                 )}
-                                <p className="text-sm text-maintext">
+                                <p className="text-sm text-gray-700">
                                     Đã sử dụng: {originalVoucher.usedCount}/{voucher.quantity}{" "}
                                     voucher
                                 </p>
@@ -409,7 +409,7 @@ export default function EditVoucherPage() {
                                     {errors.maxDiscount && (
                                         <p className="text-red-500 text-sm">{errors.maxDiscount}</p>
                                     )}
-                                    <p className="text-sm text-maintext">
+                                    <p className="text-sm text-gray-700">
                                         Giới hạn số tiền giảm tối đa (để trống nếu không giới hạn)
                                     </p>
                                 </div>
@@ -439,7 +439,7 @@ export default function EditVoucherPage() {
                                 {errors.minOrderValue && (
                                     <p className="text-red-500 text-sm">{errors.minOrderValue}</p>
                                 )}
-                                <p className="text-sm text-maintext">
+                                <p className="text-sm text-gray-700">
                                     Giá trị đơn hàng tối thiểu để áp dụng voucher (0 = không giới
                                     hạn)
                                 </p>
@@ -513,7 +513,7 @@ export default function EditVoucherPage() {
                                 {errors.status && (
                                     <p className="text-red-500 text-sm">{errors.status}</p>
                                 )}
-                                <p className="text-sm text-maintext">
+                                <p className="text-sm text-gray-700">
                                     Trạng thái của voucher (người dùng chỉ có thể sử dụng voucher
                                     đang hoạt động)
                                 </p>

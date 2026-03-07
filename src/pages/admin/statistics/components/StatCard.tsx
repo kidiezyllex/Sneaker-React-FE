@@ -38,8 +38,8 @@ const StatCard = ({
     return (
         <Card className={`h-full w-full flex justify-between items-center border ${getBorderColor(bgColor)} ${bgColor} ${getShadowColor(bgColor)} transition-all duration-300 hover:-translate-y-1`}>
             <div>
-                <p className="text-sm font-medium opacity-80 text-maintext">{title}</p>
-                <h3 className="text-2xl font-bold mt-1 text-maintext">
+                <p className="text-sm font-medium opacity-80 text-gray-700">{title}</p>
+                <h3 className="text-2xl font-bold mt-1 text-gray-700">
                     {value}
                 </h3>
                 {typeof change === "number" && change !== 0 && (

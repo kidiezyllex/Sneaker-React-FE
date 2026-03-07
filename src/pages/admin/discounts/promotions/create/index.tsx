@@ -312,7 +312,7 @@ export default function CreatePromotionPage() {
                               >
                                 {product.name}
                               </Label>
-                              <div className="text-sm text-maintext">
+                              <div className="text-sm text-gray-700">
                                 Mã: {product.code} | Thương hiệu:{" "}
                                 {typeof product.brand === "string"
                                   ? product.brand

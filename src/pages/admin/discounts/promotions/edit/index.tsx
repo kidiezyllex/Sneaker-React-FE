@@ -435,7 +435,7 @@ export default function EditPromotionPage() {
                                                             >
                                                                 {product.name}
                                                             </Label>
-                                                            <div className="text-sm text-maintext">
+                                                            <div className="text-sm text-gray-700">
                                                                 Mã: {product.code} | Thương hiệu:{" "}
                                                                 {product.brand.name}
                                                             </div>

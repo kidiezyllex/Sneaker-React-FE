@@ -220,17 +220,17 @@ const ReturnsTab = () => {
                     return (
                       <TableRow key={returnItem.id}>
                         {/* STT */}
-                        <TableCell className="px-3 py-2 whitespace-nowrap text-center text-maintext font-semibold">
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-center text-gray-700 font-semibold">
                           {globalIndex + 1}
                         </TableCell>
 
                         {/* Mã trả hàng */}
-                        <TableCell className="font-medium px-3 py-2 text-maintext whitespace-nowrap">
+                        <TableCell className="font-medium px-3 py-2 text-gray-700 whitespace-nowrap">
                           {returnItem.code}
                         </TableCell>
 
                         {/* Ngày tạo */}
-                        <TableCell className="px-3 py-2 text-maintext whitespace-nowrap">
+                        <TableCell className="px-3 py-2 text-gray-700 whitespace-nowrap">
                           {returnItem.createdAt
                             ? format(
                               new Date(returnItem.createdAt),
@@ -241,7 +241,7 @@ const ReturnsTab = () => {
                         </TableCell>
 
                         {/* Đơn hàng gốc */}
-                        <TableCell className="px-3 py-2 font-medium text-maintext whitespace-nowrap">
+                        <TableCell className="px-3 py-2 font-medium text-gray-700 whitespace-nowrap">
                           {typeof returnItem.originalOrder === "object"
                             ? returnItem.originalOrder.code
                             : returnItem.originalOrder}
@@ -306,7 +306,7 @@ const ReturnsTab = () => {
                         {/* Lý do */}
                         <TableCell className="px-3 py-2 max-w-[160px]">
                           <p
-                            className="text-sm text-maintext line-clamp-2"
+                            className="text-sm text-gray-700 line-clamp-2"
                             title={returnItem.reason}
                           >
                             {returnItem.reason || "—"}

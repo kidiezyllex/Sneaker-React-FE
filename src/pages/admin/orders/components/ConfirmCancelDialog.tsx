@@ -29,7 +29,7 @@ export const ConfirmCancelDialog: React.FC<ConfirmCancelDialogProps> = ({
                     icon={mdiAlertCircleOutline}
                 />
                 <div className="py-4 px-4">
-                    <p className="text-maintext">
+                    <p className="text-gray-700">
                         Bạn có chắc chắn muốn hủy đơn hàng này không? Hành động này không
                         thể hoàn tác.
                     </p>

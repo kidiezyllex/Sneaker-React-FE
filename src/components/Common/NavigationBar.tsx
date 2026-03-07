@@ -33,7 +33,7 @@ const Tab = React.memo(({ text, selected, setSelected }: TabProps) => {
       onClick={() => setSelected(text)}
       className={`${selected
         ? "text-white"
-        : "text-maintext hover:text-maintext dark:hover:text-gray-100"
+        : "text-gray-700 hover:text-gray-700 dark:hover:text-gray-100"
         } relative rounded-xl px-3 py-1.5 text-sm font-medium transition-colors`}
     >
       <span className="relative z-10">{text}</span>
@@ -102,7 +102,7 @@ export const NavigationBar = () => {
             </div>
           ) : (
             <div className="hidden md:flex items-center gap-2">
-              <div className="text-sm font-medium text-maintext flex flex-col">
+              <div className="text-sm font-medium text-gray-700 flex flex-col">
                 <span>Xin chào 👋, khách hàng</span>
                 <span className="text-primary font-semibold">
                   {user?.fullName || "Khách hàng"}

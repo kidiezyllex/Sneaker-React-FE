@@ -32,14 +32,14 @@ export const OutOfStockProducts = () => {
     >
       <Card className="h-full">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg font-medium text-maintext mb-2">
+          <CardTitle className="text-lg font-medium text-gray-700 mb-2">
             Sản phẩm hết hàng
           </CardTitle>
         </CardHeader>
         <CardContent>
           {outOfStockProducts.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-4 text-center">
-              <p className="text-maintext">Không có sản phẩm nào hết hàng</p>
+              <p className="text-gray-700">Không có sản phẩm nào hết hàng</p>
             </div>
           ) : (
             <div className="space-y-4">

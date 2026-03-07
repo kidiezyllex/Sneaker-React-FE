@@ -362,7 +362,7 @@ export const Categories = () => {
                 </Button>
               </motion.div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 dark:text-white">
               SNEAKER <span className="text-extra">HOT TREND 2026</span>
             </h2>
           </motion.div>

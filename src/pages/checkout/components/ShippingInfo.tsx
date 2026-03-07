@@ -101,7 +101,7 @@ export const ShippingInfo = ({
                         name="fullName"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Họ tên
                                 </FormLabel>
                                 <FormControl>
@@ -121,7 +121,7 @@ export const ShippingInfo = ({
                         name="phoneNumber"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Số điện thoại
                                 </FormLabel>
                                 <FormControl>
@@ -140,7 +140,7 @@ export const ShippingInfo = ({
                         name="email"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Email
                                 </FormLabel>
                                 <FormControl>
@@ -160,7 +160,7 @@ export const ShippingInfo = ({
                         name="province"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Tỉnh/Thành phố
                                 </FormLabel>
                                 <FormControl>
@@ -202,7 +202,7 @@ export const ShippingInfo = ({
                         name="district"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Quận/Huyện
                                 </FormLabel>
                                 <FormControl>
@@ -248,7 +248,7 @@ export const ShippingInfo = ({
                         name="ward"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Phường/Xã
                                 </FormLabel>
                                 <FormControl>
@@ -294,7 +294,7 @@ export const ShippingInfo = ({
                         name="address"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Địa chỉ cụ thể
                                 </FormLabel>
                                 <FormControl>
@@ -313,7 +313,7 @@ export const ShippingInfo = ({
                         name="paymentMethod"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel className="text-maintext font-semibold">
+                                <FormLabel className="text-gray-700 font-semibold">
                                     Phương thức thanh toán
                                 </FormLabel>
                                 <FormControl>

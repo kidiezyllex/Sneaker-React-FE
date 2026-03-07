@@ -33,7 +33,7 @@ import { Switch } from "@/components/ui/switch";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiLoading } from "@mdi/js";
+import { mdiLoading } from "@mdi/js";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
@@ -166,7 +166,7 @@ export default function AdminAccountEditPage() {
         return (
             <div className="flex flex-col items-center justify-center p-20 h-full">
                 <h2 className="text-xl font-bold">Không thể tải thông tin tài khoản</h2>
-                <p className="text-maintext">
+                <p className="text-gray-700">
                     Có lỗi xảy ra: {error?.message || "Không tìm thấy tài khoản"}
                 </p>
                 <Button variant="outline" onClick={() => navigate(-1)} className="mt-4">
@@ -204,7 +204,7 @@ export default function AdminAccountEditPage() {
                 </Avatar>
                 <div className="space-y-1">
                     <h2 className="text-3xl font-bold">{formData.fullName}</h2>
-                    <p className="text-maintext text-lg">
+                    <p className="text-gray-700 text-lg">
                         {accountData.data.role === "ADMIN"
                             ? "Quản trị viên"
                             : accountData.data.role === "STAFF"
@@ -237,10 +237,10 @@ export default function AdminAccountEditPage() {
                     className="space-y-4 bg-white"
                 >
                     <TabsList className="grid w-full md:w-[400px] grid-cols-2">
-                        <TabsTrigger value="info" className="text-maintext">
+                        <TabsTrigger value="info" className="text-gray-700">
                             Thông tin cơ bản
                         </TabsTrigger>
-                        <TabsTrigger value="advanced" className="text-maintext">
+                        <TabsTrigger value="advanced" className="text-gray-700">
                             Thông tin bổ sung
                         </TabsTrigger>
                     </TabsList>

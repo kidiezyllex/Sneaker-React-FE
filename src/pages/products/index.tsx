@@ -257,7 +257,7 @@ export default function ProductsPage() {
                 <Icon
                   path={mdiMagnify}
                   size={0.8}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
                 />
                 <Input
                   placeholder="Tìm kiếm sản phẩm..."
@@ -329,7 +329,7 @@ export default function ProductsPage() {
           ) : filteredProducts.length > 0 ? (
             <>
               <div className="flex justify-between items-center mb-4">
-                <p className="text-sm text-maintext font-semibold">
+                <p className="text-sm text-gray-700 font-semibold">
                   Tìm thấy{" "}
                   <span className="text-primary text-lg">
                     {filteredProducts.length}
@@ -373,7 +373,7 @@ export default function ProductsPage() {
             </>
           ) : (
             <div className="text-center py-12">
-              <p className="text-maintext mb-4">Không tìm thấy sản phẩm nào</p>
+              <p className="text-gray-700 mb-4">Không tìm thấy sản phẩm nào</p>
               {(searchQuery || Object.keys(filters).length > 0) && (
                 <Button
                   onClick={() => {

@@ -7,11 +7,9 @@ import { useCreateVoucher } from "@/hooks/voucher";
 import { IVoucherCreate } from "@/interface/request/voucher";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +24,7 @@ import { Label } from "@/components/ui/label";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Icon } from "@mdi/react";
-import { mdiArrowLeft, mdiLoading, mdiRefresh } from "@mdi/js";
+import { mdiLoading, mdiRefresh } from "@mdi/js";
 import {
   Select,
   SelectContent,
@@ -213,7 +211,7 @@ export default function CreateVoucherPage() {
           <CardHeader>
             <CardTitle>Thông tin mã giảm giá</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-maintext">
+          <CardContent className="space-y-4 text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="code">
@@ -262,7 +260,7 @@ export default function CreateVoucherPage() {
                 {errors.code && (
                   <p className="text-red-500 text-sm">{errors.code}</p>
                 )}
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   Mã voucher chỉ bao gồm chữ hoa, số, gạch dưới và gạch ngang
                 </p>
               </div>
@@ -339,7 +337,7 @@ export default function CreateVoucherPage() {
                 {errors.value && (
                   <p className="text-red-500 text-sm">{errors.value}</p>
                 )}
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   {voucher.type === "PERCENTAGE"
                     ? "Phần trăm giảm giá (0-100%)"
                     : "Số tiền giảm giá cố định"}
@@ -362,7 +360,7 @@ export default function CreateVoucherPage() {
                 {errors.quantity && (
                   <p className="text-red-500 text-sm">{errors.quantity}</p>
                 )}
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   Tổng số voucher có thể sử dụng
                 </p>
               </div>
@@ -392,7 +390,7 @@ export default function CreateVoucherPage() {
                   {errors.maxDiscount && (
                     <p className="text-red-500 text-sm">{errors.maxDiscount}</p>
                   )}
-                  <p className="text-sm text-maintext">
+                  <p className="text-sm text-gray-700">
                     Giới hạn số tiền giảm tối đa (để trống nếu không giới hạn)
                   </p>
                 </div>
@@ -420,7 +418,7 @@ export default function CreateVoucherPage() {
                 {errors.minOrderValue && (
                   <p className="text-red-500 text-sm">{errors.minOrderValue}</p>
                 )}
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   Giá trị đơn hàng tối thiểu để áp dụng voucher (0 = không giới
                   hạn)
                 </p>
@@ -490,7 +488,7 @@ export default function CreateVoucherPage() {
                 {errors.status && (
                   <p className="text-red-500 text-sm">{errors.status}</p>
                 )}
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   Trạng thái của voucher (người dùng chỉ có thể sử dụng voucher
                   đang hoạt động)
                 </p>

@@ -46,15 +46,15 @@ export const OrderSummary = () => {
                             />
                         </div>
                         <div className="flex-1">
-                            <h4 className="font-medium text-maintext">{item.name}</h4>
+                            <h4 className="font-medium text-gray-700">{item.name}</h4>
                             <p className="text-sm text-gray-700">
                                 {item.brand}
                                 {item.size &&
                                     ` • Size ${getSizeLabel(Number(item.size))}`}
                             </p>
-                            <div className="flex justify-between mt-2 text-maintext">
+                            <div className="flex justify-between mt-2 text-gray-700">
                                 <span>x{item.quantity}</span>
-                                <span className="text-maintext">
+                                <span className="text-gray-700">
                                     {formatPrice(item.price)}
                                 </span>
                             </div>
@@ -67,7 +67,7 @@ export const OrderSummary = () => {
                     <span className="text-gray-700 font-semibold text-sm">
                         Tạm tính
                     </span>
-                    <span className="text-maintext">
+                    <span className="text-gray-700">
                         {formatPrice(subtotal + voucherDiscount)}
                     </span>
                 </div>
@@ -85,15 +85,15 @@ export const OrderSummary = () => {
                     <span className="text-gray-700 font-semibold text-sm">
                         Thuế
                     </span>
-                    <span className="text-maintext">{formatPrice(tax)}</span>
+                    <span className="text-gray-700">{formatPrice(tax)}</span>
                 </div>
                 <div className="flex justify-between w-full">
                     <span className="text-gray-700 font-semibold text-sm">
                         Phí vận chuyển
                     </span>
-                    <span className="text-maintext">{formatPrice(shipping)}</span>
+                    <span className="text-gray-700">{formatPrice(shipping)}</span>
                 </div>
-                <div className="flex justify-between w-full text-sm font-semibold text-maintext pt-2 border-t">
+                <div className="flex justify-between w-full text-sm font-semibold text-gray-700 pt-2 border-t">
                     <span>Tổng cộng</span>
                     <span className="text-lg text-primary font-semibold">
                         {formatPrice(total)}

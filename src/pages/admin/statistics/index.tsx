@@ -397,7 +397,7 @@ export default function StatisticsPage() {
               <div className="p-4 bg-slate-50 rounded-xl mb-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="text-center">
-                    <h3 className="text-lg font-semibold text-maintext">
+                    <h3 className="text-lg font-semibold text-gray-700">
                       Tổng doanh thu
                     </h3>
                     <p className="text-2xl font-semibold text-green-500 mt-2">
@@ -405,7 +405,7 @@ export default function StatisticsPage() {
                     </p>
                   </div>
                   <div className="text-center">
-                    <h3 className="text-lg font-semibold text-maintext">
+                    <h3 className="text-lg font-semibold text-gray-700">
                       Số đơn hàng
                     </h3>
                     <p className="text-2xl font-semibold mt-2 text-blue-500">
@@ -469,7 +469,7 @@ export default function StatisticsPage() {
         </TabsContent>
 
         {/* Tab Sản phẩm bán chạy */}
-        <TabsContent value="products" className="space-y-4 text-maintext">
+        <TabsContent value="products" className="space-y-4 text-gray-700">
           <Card className="mb-4">
             <CardHeader>
               <CardTitle>Sản phẩm bán chạy</CardTitle>
@@ -623,16 +623,16 @@ export default function StatisticsPage() {
                   <TableBody>
                     {topProducts.map((item, index) => (
                       <TableRow key={index}>
-                        <TableCell className="font-medium text-maintext">
+                        <TableCell className="font-medium text-gray-700">
                           {item.productName || "N/A"}
                         </TableCell>
-                        <TableCell className="text-maintext">
+                        <TableCell className="text-gray-700">
                           {item.productCode}
                         </TableCell>
-                        <TableCell className="text-right text-maintext">
+                        <TableCell className="text-right text-gray-700">
                           {item.totalSold}
                         </TableCell>
-                        <TableCell className="text-right text-maintext">
+                        <TableCell className="text-right text-gray-700">
                           {formatCurrency(item.totalRevenue)}
                         </TableCell>
                       </TableRow>
@@ -750,7 +750,7 @@ export default function StatisticsPage() {
                 </div>
               </div>
             ) : (
-              <div className="text-center py-8 text-maintext">
+              <div className="text-center py-8 text-gray-700">
                 <p>Không thể tải chi tiết thống kê</p>
               </div>
             )}

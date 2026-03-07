@@ -991,7 +991,7 @@ export default function POSPage() {
                   "relative flex items-center gap-2 p-2 rounded-md border-2 transition-all duration-200 min-w-[140px] group",
                   activeCartId === cart.id
                     ? "border-primary bg-primary/5 text-primary shadow-md"
-                    : "border-border bg-white text-maintext hover:border-primary/50 hover:bg-primary/5"
+                    : "border-border bg-white text-gray-700 hover:border-primary/50 hover:bg-primary/5"
                 )}
                 onClick={() => handleSwitchCart(cart.id)}
               >
@@ -1008,12 +1008,12 @@ export default function POSPage() {
                     className={cn(
                       activeCartId === cart.id
                         ? "text-primary"
-                        : "text-maintext/50"
+                        : "text-gray-700/50"
                     )}
                   />
                   <span className="text-sm font-medium truncate">
                     {cart.name}{" "}
-                    <span className="text-sm text-maintext/70 font-semibold">
+                    <span className="text-sm text-gray-700/70 font-semibold">
                       (
                       {cart.items.reduce((sum, item) => sum + item.quantity, 0)}
                       )
@@ -1094,7 +1094,7 @@ export default function POSPage() {
                 <Icon
                   path={mdiMagnify}
                   size={0.8}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
                 />
                 <Input
                   id="product-search"
@@ -1134,21 +1134,21 @@ export default function POSPage() {
                 <TabsList>
                   <TabsTrigger
                     value="grid"
-                    className="flex items-center gap-1 text-maintext/70"
+                    className="flex items-center gap-1 text-gray-700/70"
                   >
                     <Icon path={mdiViewGridOutline} size={0.8} />
                     Lưới
                   </TabsTrigger>
                   <TabsTrigger
                     value="table"
-                    className="flex items-center gap-1 text-maintext/70"
+                    className="flex items-center gap-1 text-gray-700/70"
                   >
                     <Icon path={mdiTableLarge} size={0.8} />
                     Bảng
                   </TabsTrigger>
                 </TabsList>
 
-                <div className="text-sm text-maintext">
+                <div className="text-sm text-gray-700">
                   Hiển thị{" "}
                   {apiIsLoading ? (
                     <Skeleton className="h-4 w-5 inline-block" />
@@ -1170,7 +1170,7 @@ export default function POSPage() {
                   Lỗi khi tải sản phẩm. Vui lòng thử lại.
                 </div>
               ) : processedProducts.length === 0 ? (
-                <div className="text-center py-10 text-maintext">
+                <div className="text-center py-10 text-gray-700">
                   Không tìm thấy sản phẩm nào.
                 </div>
               ) : (

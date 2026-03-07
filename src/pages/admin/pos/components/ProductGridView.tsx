@@ -68,7 +68,7 @@ const ProductGridView = ({
                         </div>
                         <div className="p-4">
                             <h3
-                                className="font-semibold text-maintext group-hover:text-primary transition-colors line-clamp-1 cursor-pointer mb-1"
+                                className="font-semibold text-gray-700 group-hover:text-primary transition-colors line-clamp-1 cursor-pointer mb-1"
                                 onClick={() => handleProductSelect(product)}
                                 title={product.name}
                             >
@@ -89,7 +89,7 @@ const ProductGridView = ({
                                             : "N/A"}
                                     </p>
                                     {(product as any).hasDiscount && (
-                                        <p className="text-sm text-maintext line-through">
+                                        <p className="text-sm text-gray-700 line-through">
                                             {formatCurrency(
                                                 (product as any).originalPrice
                                             )}
@@ -111,7 +111,7 @@ const ProductGridView = ({
                                                 />
                                             ))}
                                         {productColors.length > 3 && (
-                                            <div className="h-5 w-5 rounded-full bg-gray-100 border border-slate-200 flex items-center justify-center text-sm font-bold text-maintext shadow-sm">
+                                            <div className="h-5 w-5 rounded-full bg-gray-100 border border-slate-200 flex items-center justify-center text-sm font-bold text-gray-700 shadow-sm">
                                                 +{productColors.length - 3}
                                             </div>
                                         )}

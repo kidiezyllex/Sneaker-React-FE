@@ -105,8 +105,8 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                         <div className="flex justify-between items-start">
                             <div>
                                 <h3 className="font-bold text-xl mb-2">STREET SNEAKER</h3>
-                                <p className="text-sm text-maintext">Hóa đơn bán hàng</p>
-                                <p className="text-sm text-maintext">
+                                <p className="text-sm text-gray-700">Hóa đơn bán hàng</p>
+                                <p className="text-sm text-gray-700">
                                     Ngày: {formatDateTime(order.createdAt)}
                                 </p>
                             </div>
@@ -170,7 +170,7 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                                                     <div className="font-medium text-sm">
                                                         {item.product?.name || "Sản phẩm không rõ"}
                                                     </div>
-                                                    <div className="text-sm text-maintext/70 mt-0.5">
+                                                    <div className="text-sm text-gray-700/70 mt-0.5">
                                                         {item.variant?.color?.name} /{" "}
                                                         {item.variant?.size?.value}
                                                     </div>
@@ -215,7 +215,7 @@ export const OrderInvoiceDialog: React.FC<OrderInvoiceDialogProps> = ({
                         </div>
                     </div>
 
-                    <div className="mt-8 text-center text-sm text-maintext">
+                    <div className="mt-8 text-center text-sm text-gray-700">
                         <p>Cảm ơn quý khách đã mua hàng tại STREET SNEAKER</p>
                         <p>Hotline: 1900 1234</p>
                     </div>

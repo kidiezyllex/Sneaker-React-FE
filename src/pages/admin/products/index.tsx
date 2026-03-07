@@ -231,7 +231,7 @@ export default function ProductsPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               type="text"
@@ -266,7 +266,7 @@ export default function ProductsPage() {
         <div className="my-4 pt-4 border-t">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-sm text-maintext mb-2 font-semibold">
+              <label className="block text-sm text-gray-700 mb-2 font-semibold">
                 Thương hiệu
               </label>
               <Select
@@ -299,7 +299,7 @@ export default function ProductsPage() {
               </Select>
             </div>
             <div>
-              <label className="block text-sm text-maintext mb-2 font-semibold">
+              <label className="block text-sm text-gray-700 mb-2 font-semibold">
                 Danh mục
               </label>
               <Select
@@ -336,7 +336,7 @@ export default function ProductsPage() {
               </Select>
             </div>
             <div>
-              <label className="block text-sm text-maintext mb-2 font-semibold">
+              <label className="block text-sm text-gray-700 mb-2 font-semibold">
                 Trạng thái
               </label>
               <Select
@@ -444,19 +444,19 @@ export default function ProductsPage() {
                         </TooltipProvider>
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-maintext">
+                        <div className="text-sm font-medium text-gray-700">
                           {product.name}
                         </div>
-                        <div className="text-sm text-maintext">
+                        <div className="text-sm text-gray-700">
                           {product.variants.length} biến thể
                         </div>
                       </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                         {typeof product.brand === "string"
                           ? product.brand
                           : product.brand.name}
                       </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                         {typeof product.category === "string"
                           ? product.category
                           : product.category.name}
@@ -481,13 +481,13 @@ export default function ProductsPage() {
                               <div
                                 className={`font-medium ${discount.discountPercent > 0
                                   ? "text-primary"
-                                  : "text-maintext"
+                                  : "text-gray-700"
                                   }`}
                               >
                                 {formatCurrency(discount.discountedPrice)}
                               </div>
                               {discount.discountPercent > 0 && (
-                                <div className="text-sm text-maintext line-through">
+                                <div className="text-sm text-gray-700 line-through">
                                   {formatCurrency(discount.originalPrice)}
                                 </div>
                               )}
@@ -513,7 +513,7 @@ export default function ProductsPage() {
                             : "Không hoạt động"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-maintext">
+                      <TableCell className="px-4 py-4 whitespace-nowrap text-sm text-gray-700">
                         {formatDate(product.updatedAt)}
                       </TableCell>
                       <TableCell className="px-4 py-4 whitespace-nowrap text-right">
@@ -546,7 +546,7 @@ export default function ProductsPage() {
                   <TableRow>
                     <TableCell
                       colSpan={8}
-                      className="px-4 py-8 text-center text-maintext"
+                      className="px-4 py-8 text-center text-gray-700"
                     >
                       Không tìm thấy sản phẩm nào
                     </TableCell>

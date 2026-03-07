@@ -181,10 +181,10 @@ export default function GeneralManagementPage() {
                           <Icon
                             path={tab.icon}
                             size={0.8}
-                            className={`mr-2 text-maintext -mt-1 ${activeTab === tab.value ? "text-primary" : ""
+                            className={`mr-2 text-gray-700 -mt-1 ${activeTab === tab.value ? "text-primary" : ""
                               }`}
                           />
-                          <span className={`${activeTab === tab.value ? "text-primary font-semibold" : "text-maintext"}`}>
+                          <span className={`${activeTab === tab.value ? "text-primary font-semibold" : "text-gray-700"}`}>
                             {tab.title}
                           </span>
                         </div>

@@ -97,7 +97,7 @@ const ProductTableView = ({
                                         </div>
                                         <div className="flex flex-col min-w-0">
                                             <span
-                                                className="font-semibold text-maintext truncate group-hover:text-primary transition-colors max-w-[200px] block"
+                                                className="font-semibold text-gray-700 truncate group-hover:text-primary transition-colors max-w-[200px] block"
                                                 title={product.name}
                                             >
                                                 {product.name}
@@ -114,12 +114,12 @@ const ProductTableView = ({
                                     </Badge>
                                 </TableCell>
                                 <TableCell>
-                                    <span className="text-sm text-maintext/70">
+                                    <span className="text-sm text-gray-700/70">
                                         {typeof product.category === 'object' ? product.category.name : (product.category || "N/A")}
                                     </span>
                                 </TableCell>
                                 <TableCell>
-                                    <span className="text-sm font-medium text-maintext/80">
+                                    <span className="text-sm font-medium text-gray-700/80">
                                         {getBrandName(product.brand)}
                                     </span>
                                 </TableCell>
@@ -156,7 +156,7 @@ const ProductTableView = ({
                                                 />
                                             ))}
                                             {productColors.length > 3 && (
-                                                <div className="h-4 w-4 rounded-full bg-gray-100 border border-slate-200 flex items-center justify-center text-[8px] font-bold text-maintext shadow-sm">
+                                                <div className="h-4 w-4 rounded-full bg-gray-100 border border-slate-200 flex items-center justify-center text-[8px] font-bold text-gray-700 shadow-sm">
                                                     +{productColors.length - 3}
                                                 </div>
                                             )}

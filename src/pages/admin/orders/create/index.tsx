@@ -220,7 +220,7 @@ export default function CreateOrderPage() {
               <CardContent>
                 {selectedProducts.length === 0 ? (
                   <div className="text-center py-4 border rounded-xl">
-                    <p className="text-maintext">
+                    <p className="text-gray-700">
                       Chưa có sản phẩm nào. Vui lòng thêm sản phẩm vào đơn hàng.
                     </p>
                   </div>
@@ -525,13 +525,13 @@ export default function CreateOrderPage() {
 
                 <div className="space-y-4">
                   <div className="flex justify-between">
-                    <span className="text-sm text-maintext">
+                    <span className="text-sm text-gray-700">
                       Tổng tiền sản phẩm:
                     </span>
                     <span>{formatCurrency(subTotal)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-sm text-maintext">Giảm giá:</span>
+                    <span className="text-sm text-gray-700">Giảm giá:</span>
                     <span>{formatCurrency(discount)}</span>
                   </div>
                   <div className="flex justify-between font-medium pt-3 border-t">
@@ -572,7 +572,7 @@ export default function CreateOrderPage() {
 
             {!productsData || productsData.data.length === 0 ? (
               <div className="text-center py-4">
-                <p className="text-maintext">
+                <p className="text-gray-700">
                   Không tìm thấy sản phẩm phù hợp.
                 </p>
               </div>
@@ -600,7 +600,7 @@ export default function CreateOrderPage() {
                             )}
                             <div>
                               <div className="font-medium">{product.name}</div>
-                              <div className="text-sm text-maintext">
+                              <div className="text-sm text-gray-700">
                                 {product.code}
                               </div>
                             </div>

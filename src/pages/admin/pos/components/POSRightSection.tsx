@@ -369,7 +369,7 @@ export default function POSRightSection({
           <div className="space-y-2 text-sm">
             <div className="flex justify-between text-gray-700">
               <span className="font-semibold text-sm">Tạm tính</span>
-              <span className="font-semibold text-maintext text-sm">
+              <span className="font-semibold text-gray-700 text-sm">
                 {formatCurrency(subtotal)}
               </span>
             </div>
@@ -389,7 +389,7 @@ export default function POSRightSection({
             )}
 
             <div className="flex justify-between items-center text-lg font-semibold">
-              <span className="text-maintext">Tổng tiền</span>
+              <span className="text-gray-700">Tổng tiền</span>
               <span className="text-primary text-xl">
                 {formatCurrency(total)}
               </span>

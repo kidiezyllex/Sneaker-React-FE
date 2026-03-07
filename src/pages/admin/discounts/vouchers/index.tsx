@@ -198,7 +198,7 @@ export default function VouchersPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               type="text"
@@ -257,7 +257,7 @@ export default function VouchersPage() {
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Mã voucher
                   </label>
                   <Input
@@ -271,7 +271,7 @@ export default function VouchersPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Trạng thái
                   </label>
                   <Select
@@ -296,7 +296,7 @@ export default function VouchersPage() {
                   </Select>
                 </div>
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Thời gian
                   </label>
                   <div className="grid grid-cols-2 gap-2">
@@ -403,7 +403,7 @@ export default function VouchersPage() {
                                 {voucher.type === "PERCENTAGE" ? "Phần trăm" : "Cố định"}
                               </Badge>
                             </div>
-                            <div className="text-sm text-maintext flex flex-col">
+                            <div className="text-sm text-gray-700 flex flex-col">
                               {voucher.minOrderValue > 0 && (
                                 <span>Tối thiểu: {formatCurrency(voucher.minOrderValue)}</span>
                               )}
@@ -491,7 +491,7 @@ export default function VouchersPage() {
                     <TableRow>
                       <TableCell
                         colSpan={7}
-                        className="px-4 py-8 text-center text-maintext"
+                        className="px-4 py-8 text-center text-gray-700"
                       >
                         Không tìm thấy phiếu giảm giá nào
                       </TableCell>
@@ -620,19 +620,19 @@ export default function VouchersPage() {
                 </h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-maintext">Mã giảm giá:</span>
+                    <span className="text-gray-700">Mã giảm giá:</span>
                     <span className="font-medium">
                       {validationResult.data.voucher.code}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-maintext">Tên:</span>
+                    <span className="text-gray-700">Tên:</span>
                     <span className="font-medium">
                       {validationResult.data.voucher.name}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-maintext">Loại:</span>
+                    <span className="text-gray-700">Loại:</span>
                     <span className="font-medium">
                       {validationResult.data.voucher.type === "PERCENTAGE"
                         ? "Phần trăm"
@@ -640,13 +640,13 @@ export default function VouchersPage() {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-maintext">Giá trị giảm:</span>
+                    <span className="text-gray-700">Giá trị giảm:</span>
                     <span className="font-medium text-primary">
                       {formatCurrency(validationResult.data.discountAmount)}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-maintext">Thời hạn:</span>
+                    <span className="text-gray-700">Thời hạn:</span>
                     <span className="font-medium">
                       {formatDate(validationResult.data.voucher.startDate)} -{" "}
                       {formatDate(validationResult.data.voucher.endDate)}

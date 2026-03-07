@@ -113,7 +113,7 @@ export function CommonPagination({
   return (
     <div className={cn("flex w-full items-center justify-between", className)}>
       <div className="hidden sm:block">
-        <p className="text-sm text-maintext">
+        <p className="text-sm text-gray-700">
           Hiển thị <span className="font-medium">{startIdx}</span> đến{" "}
           <span className="font-medium">{endIdx}</span> của{" "}
           <span className="font-medium">{total}</span> {itemLabel}

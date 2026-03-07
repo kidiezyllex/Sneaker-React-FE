@@ -397,7 +397,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                             />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-maintext truncate">
+                            <p className="font-semibold text-gray-700 truncate">
                               {item.productName}
                             </p>
                             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">

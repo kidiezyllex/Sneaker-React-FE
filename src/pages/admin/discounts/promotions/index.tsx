@@ -172,7 +172,7 @@ export default function PromotionsPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               type="text"
@@ -229,7 +229,7 @@ export default function PromotionsPage() {
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Trạng thái
                   </label>
                   <Select
@@ -254,7 +254,7 @@ export default function PromotionsPage() {
                   </Select>
                 </div>
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Thời gian bắt đầu
                   </label>
                   <Input
@@ -268,7 +268,7 @@ export default function PromotionsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-maintext mb-2 font-semibold">
+                  <label className="block text-sm text-gray-700 mb-2 font-semibold">
                     Thời gian kết thúc
                   </label>
                   <Input
@@ -343,7 +343,7 @@ export default function PromotionsPage() {
                               {promotion.name}
                             </span>
                             {promotion.description && (
-                              <span className="text-sm text-maintext mt-1 line-clamp-2 max-w-[400px]">
+                              <span className="text-sm text-gray-700 mt-1 line-clamp-2 max-w-[400px]">
                                 {promotion.description}
                               </span>
                             )}
@@ -405,7 +405,7 @@ export default function PromotionsPage() {
                     <TableRow>
                       <TableCell
                         colSpan={6}
-                        className="px-4 py-8 text-center text-maintext"
+                        className="px-4 py-8 text-center text-gray-700"
                       >
                         Không tìm thấy chiến dịch khuyến mãi nào
                       </TableCell>

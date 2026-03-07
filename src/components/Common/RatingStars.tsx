@@ -1,4 +1,3 @@
-import React from "react";
 import { Icon } from "@mdi/react";
 import { mdiStar } from "@mdi/js";
 
@@ -17,7 +16,7 @@ export const RatingStars = ({ rating }: RatingStarsProps) => {
           className={i < rating ? "text-yellow-600" : "text-gray-300"}
         />
       ))}
-      <span className="text-sm text-maintext ml-1">({rating}.0)</span>
+      <span className="text-sm text-gray-700 ml-1">({rating}.0)</span>
     </div>
   );
 };

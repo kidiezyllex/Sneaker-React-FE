@@ -291,8 +291,8 @@ export default function CreateProductPage() {
           className="space-y-4 rounded-xl p-4 pt-2 bg-white"
         >
           <TabsList className="grid w-full md:w-[400px] grid-cols-2">
-            <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>
-            <TabsTrigger value="variants" className="px-4 text-maintext/70">Biến thể sản phẩm</TabsTrigger>
+            <TabsTrigger value="info" className="px-4 text-gray-700/70">Thông tin cơ bản</TabsTrigger>
+            <TabsTrigger value="variants" className="px-4 text-gray-700/70">Biến thể sản phẩm</TabsTrigger>
           </TabsList>
 
           <TabsContent value="info" className="space-y-4">

@@ -26,11 +26,9 @@ import {
 } from "@/components/ui/table";
 import {
   Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
+  BreadcrumbItem, BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
+  BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { formatCurrency, formatDate } from "@/utils/formatters";
 import { useCreateReturn } from "@/hooks/return";
@@ -38,11 +36,10 @@ import { IReturnCreate } from "@/interface/request/return";
 import { toast } from "react-toastify";
 import { Icon } from "@mdi/react";
 import {
-  mdiArrowLeft,
   mdiPlus,
   mdiMinus,
   mdiAccountSearch,
-  mdiPackageVariant,
+  mdiPackageVariant
 } from "@mdi/js";
 interface Customer {
   id: string;
@@ -320,10 +317,10 @@ export default function CreateReturnPage() {
             <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-md">
               <div>
                 <h3 className="font-semibold">{selectedCustomer.fullName}</h3>
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   {selectedCustomer.email}
                 </p>
-                <p className="text-sm text-maintext">
+                <p className="text-sm text-gray-700">
                   {selectedCustomer.phoneNumber}
                 </p>
               </div>
@@ -353,8 +350,8 @@ export default function CreateReturnPage() {
                       onClick={() => handleCustomerSelect(customer)}
                     >
                       <h4 className="font-medium">{customer.fullName}</h4>
-                      <p className="text-sm text-maintext">{customer.email}</p>
-                      <p className="text-sm text-maintext">
+                      <p className="text-sm text-gray-700">{customer.email}</p>
+                      <p className="text-sm text-gray-700">
                         {customer.phoneNumber}
                       </p>
                     </div>
@@ -380,10 +377,10 @@ export default function CreateReturnPage() {
               <div className="flex items-center justify-between p-4 bg-blue-50 border border-blue-200 rounded-md">
                 <div>
                   <h3 className="font-semibold">#{selectedOrder.code}</h3>
-                  <p className="text-sm text-maintext">
+                  <p className="text-sm text-gray-700">
                     Ngày đặt: {formatDate(selectedOrder.createdAt)}
                   </p>
-                  <p className="text-sm text-maintext">
+                  <p className="text-sm text-gray-700">
                     Tổng tiền: {formatCurrency(selectedOrder.totalAmount)}
                   </p>
                   <Badge
@@ -411,7 +408,7 @@ export default function CreateReturnPage() {
                       <SelectItem key={order.id} value={order.id}>
                         <div className="flex flex-col">
                           <span>#{order.code}</span>
-                          <span className="text-sm text-maintext">
+                          <span className="text-sm text-gray-700">
                             {formatDate(order.createdAt)} -{" "}
                             {formatCurrency(order.totalAmount)}
                           </span>
@@ -452,13 +449,13 @@ export default function CreateReturnPage() {
                     />
                     <div className="flex-1">
                       <h4 className="font-medium">{item.product.name}</h4>
-                      <p className="text-sm text-maintext">
+                      <p className="text-sm text-gray-700">
                         SKU: {item.product.code}
                       </p>
-                      <p className="text-sm text-maintext">
+                      <p className="text-sm text-gray-700">
                         {item.variant.color?.name} - {item.variant.size?.name}
                       </p>
-                      <p className="text-sm text-maintext">
+                      <p className="text-sm text-gray-700">
                         Đã mua: {item.quantity} | Giá:{" "}
                         {formatCurrency(item.price)}
                       </p>
@@ -624,7 +621,7 @@ export default function CreateReturnPage() {
                           <p className="font-medium">
                             {orderItem?.product.name}
                           </p>
-                          <p className="text-sm text-maintext">
+                          <p className="text-sm text-gray-700">
                             {orderItem?.variant.color?.name} -{" "}
                             {orderItem?.variant.size?.name}
                           </p>

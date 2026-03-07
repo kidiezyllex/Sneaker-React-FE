@@ -138,7 +138,7 @@ export default function ColorsPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               type="text"
@@ -249,7 +249,7 @@ export default function ColorsPage() {
                       key={color.id}
                       className="group transition-colors duration-200"
                     >
-                      <TableCell className="text-center text-sm font-medium text-maintext/60">
+                      <TableCell className="text-center text-sm font-medium text-gray-700/60">
                         {(data.pagination.currentPage - 1) * data.pagination.perPage + index + 1}
                       </TableCell>
                       <TableCell>
@@ -258,10 +258,10 @@ export default function ColorsPage() {
                             className="w-8 h-8 rounded-full border border-gray-100 shadow-sm"
                             style={{ backgroundColor: color.code }}
                           />
-                          <span className="text-sm font-semibold text-maintext">{color.name}</span>
+                          <span className="text-sm font-semibold text-gray-700">{color.name}</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-sm font-mono text-maintext/70 bg-gray-50/50 px-2 py-1 rounded inline-block my-3">
+                      <TableCell className="text-sm font-mono text-gray-700/70 bg-gray-50/50 px-2 py-1 rounded inline-block my-3">
                         {color.code}
                       </TableCell>
                       <TableCell>
@@ -272,7 +272,7 @@ export default function ColorsPage() {
                           {color.status === "ACTIVE" ? "Hoạt động" : "Không hoạt động"}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-sm text-maintext/60">
+                      <TableCell className="text-sm text-gray-700/60">
                         {formatDate(color.updatedAt)}
                       </TableCell>
                       <TableCell className="text-right">
@@ -324,7 +324,7 @@ export default function ColorsPage() {
                 ) : (
                   <TableRow>
                     <TableCell colSpan={6} className="h-40 text-center">
-                      <div className="flex flex-col items-center justify-center text-maintext/40">
+                      <div className="flex flex-col items-center justify-center text-gray-700/40">
                         <Icon path={mdiMagnify} size={1.5} className="mb-2" />
                         <p>Không tìm thấy màu sắc nào</p>
                       </div>

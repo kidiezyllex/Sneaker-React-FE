@@ -55,13 +55,13 @@ export const HeroBanner = () => {
                   <span>Sneaker mới nhất 2026</span>
                 </motion.div>
 
-                <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-maintext text-nowrap">
+                <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-gray-700 text-nowrap">
                   <span className="block text-primary uppercase font-extrabold">
-                    Sneaker <span className="text-maintext">Sale</span>
+                    Sneaker <span className="text-gray-700">Sale</span>
                   </span>
                 </h2>
 
-                <p className="text-lg text-maintext max-w-4xl">
+                <p className="text-lg text-gray-700 max-w-4xl">
                   Khám phá sneaker với ưu đãi lên đến 20% cho đơn hàng đầu tiên!
                 </p>
                 <motion.div
@@ -78,7 +78,7 @@ export const HeroBanner = () => {
                         className="text-primary"
                       />
                     </div>
-                    <span className="text-maintext font-medium">
+                    <span className="text-gray-700 font-medium">
                       Đánh giá 4.8/5 từ hơn 10,000 khách hàng
                     </span>
                   </div>
@@ -90,7 +90,7 @@ export const HeroBanner = () => {
                         className="text-primary"
                       />
                     </div>
-                    <span className="text-maintext font-medium">
+                    <span className="text-gray-700 font-medium">
                       Cam kết chất lượng & bảo hành chính hãng
                     </span>
                   </div>
@@ -156,7 +156,7 @@ export const HeroBanner = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.5, delay: 0.8 }}
-                  className="inline-flex items-center gap-2 text-sm text-maintext font-medium"
+                  className="inline-flex items-center gap-2 text-sm text-gray-700 font-medium"
                 >
                   <div className="w-2 h-2 bg-secondary rounded-full animate-pulse"></div>
                   <span>Ưu đãi có thời hạn - Còn lại 2 ngày!</span>

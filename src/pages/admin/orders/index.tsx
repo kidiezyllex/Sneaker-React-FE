@@ -308,25 +308,25 @@ export default function OrdersPage() {
             <TabsList className="h-9">
               <TabsTrigger
                 value="all"
-                className="px-4 text-maintext/70"
+                className="px-4 text-gray-700/70"
               >
                 Tất cả
               </TabsTrigger>
               <TabsTrigger
                 value="today"
-                className="px-4 text-maintext/70"
+                className="px-4 text-gray-700/70"
               >
                 Hôm nay
               </TabsTrigger>
               <TabsTrigger
                 value="week"
-                className="px-4 text-maintext/70"
+                className="px-4 text-gray-700/70"
               >
                 Tuần này
               </TabsTrigger>
               <TabsTrigger
                 value="month"
-                className="px-4 text-maintext/70"
+                className="px-4 text-gray-700/70"
               >
                 Tháng này
               </TabsTrigger>
@@ -338,7 +338,7 @@ export default function OrdersPage() {
               <Icon
                 path={mdiMagnify}
                 size={0.8}
-                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
               />
               <Input
                 type="text"
@@ -525,7 +525,7 @@ export default function OrdersPage() {
     if (!data?.data.orders || data.data.orders.length === 0) {
       return (
         <div className="text-center py-10">
-          <p className="text-maintext">Không tìm thấy đơn hàng nào.</p>
+          <p className="text-gray-700">Không tìm thấy đơn hàng nào.</p>
         </div>
       );
     }
@@ -571,7 +571,7 @@ export default function OrdersPage() {
                       <div className="font-medium">
                         {order.customer?.fullName || order.shippingName}
                       </div>
-                      <div className="text-sm text-maintext italic">
+                      <div className="text-sm text-gray-700 italic">
                         {order.customer?.phoneNumber === "0000000000"
                           ? "Chưa có SĐT"
                           : order.customer?.phoneNumber}

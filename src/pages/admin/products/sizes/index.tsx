@@ -154,7 +154,7 @@ export default function SizesPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               placeholder="Tìm kiếm theo giá trị kích cỡ (ví dụ: 38, 40.5)..."
@@ -273,7 +273,7 @@ export default function SizesPage() {
                         key={(size as any)?.id || `size-${index}`}
                         className="hover:bg-gray-50"
                       >
-                        <TableCell className="text-center text-sm font-medium text-maintext">
+                        <TableCell className="text-center text-sm font-medium text-gray-700">
                           {(data.pagination.currentPage - 1) *
                             data.pagination.perPage +
                             index +
@@ -286,7 +286,7 @@ export default function SizesPage() {
                             </Badge>
                           </div>
                         </TableCell>
-                        <TableCell className="text-sm text-maintext">
+                        <TableCell className="text-sm text-gray-700">
                           {size.value}
                         </TableCell>
                         <TableCell>
@@ -302,7 +302,7 @@ export default function SizesPage() {
                               : "Không hoạt động"}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm text-maintext">
+                        <TableCell className="text-sm text-gray-700">
                           {formatDate(size.updatedAt)}
                         </TableCell>
                         <TableCell className="text-right">
@@ -326,7 +326,7 @@ export default function SizesPage() {
                     <TableRow>
                       <TableCell
                         colSpan={6}
-                        className="text-center py-8 text-maintext"
+                        className="text-center py-8 text-gray-700"
                       >
                         Không có kích cỡ nào được tìm thấy.
                       </TableCell>

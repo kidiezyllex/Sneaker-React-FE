@@ -219,13 +219,13 @@ const OrdersTab = () => {
                     const globalIndex = startIndex + index;
                     return (
                       <TableRow key={order.id}>
-                        <TableCell className="px-3 py-2 whitespace-nowrap text-center text-maintext font-semibold">
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-center text-gray-700 font-semibold">
                           {globalIndex + 1}
                         </TableCell>
-                        <TableCell className="font-medium px-3 py-2 whitespace-nowrap text-maintext">
+                        <TableCell className="font-medium px-3 py-2 whitespace-nowrap text-gray-700">
                           {order.code}
                         </TableCell>
-                        <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-gray-700">
                           {format(new Date(order.createdAt), "dd/MM/yyyy HH:mm", {
                             locale: vi,
                           })}
@@ -260,13 +260,13 @@ const OrdersTab = () => {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="text-right font-medium px-3 py-2 whitespace-nowrap text-maintext">
+                        <TableCell className="text-right font-medium px-3 py-2 whitespace-nowrap text-gray-700">
                           {formatPrice(parseFloat(order.total.toString()))}
                         </TableCell>
                         <TableCell className="px-3 py-2 ">
                           <OrderStatusBadge status={order.orderStatus} />
                         </TableCell>
-                        <TableCell className="px-3 py-2 whitespace-nowrap text-maintext">
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-gray-700">
                           <Badge variant={getPaymentMethodVariant(order.paymentMethod)}>
                             {getPaymentMethodName(order.paymentMethod)}
                           </Badge>

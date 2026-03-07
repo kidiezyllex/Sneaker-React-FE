@@ -164,7 +164,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                             "mr-2",
                                                             isMenuActive(menu)
                                                                 ? "text-primary !font-medium"
-                                                                : "text-maintext"
+                                                                : "text-gray-700"
                                                         )}
                                                     />
                                                     <span
@@ -183,7 +183,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                         openMenus[menu.id] ? mdiChevronUp : mdiChevronDown
                                                     }
                                                     size={0.8}
-                                                    className="text-maintext"
+                                                    className="text-gray-700"
                                                 />
                                             </button>
                                             <AnimatePresence>
@@ -208,7 +208,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                                             "flex items-center ml-2 rounded-md p-2 pl-4 text-[15px] transition-colors font-medium group/sub",
                                                                             isSubMenuActive(subItem.path, menu.subMenu)
                                                                                 ? "bg-primary/10 text-primary !font-medium"
-                                                                                : "text-maintext hover:bg-gray-100"
+                                                                                : "text-gray-700 hover:bg-gray-100"
                                                                         )}
                                                                     >
                                                                         {subItem.icon && (
@@ -219,7 +219,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                                                     "mr-2",
                                                                                     isSubMenuActive(subItem.path, menu.subMenu)
                                                                                         ? "text-primary"
-                                                                                        : "text-maintext/70"
+                                                                                        : "text-gray-700/70"
                                                                                 )}
                                                                             />
                                                                         )}
@@ -264,7 +264,7 @@ const SidebarLayout = memo(function SidebarLayout({
                                                             isOpen ? "mr-2" : "mr-0",
                                                             isMenuActive(menu)
                                                                 ? "text-primary !font-medium"
-                                                                : "text-maintext"
+                                                                : "text-gray-700"
                                                         )}
                                                     />
                                                     {isOpen && <span>{menu.name}</span>}
@@ -303,7 +303,7 @@ const SidebarLayout = memo(function SidebarLayout({
                             <Icon
                                 path={mdiMenu}
                                 size={0.8}
-                                className="text-maintext"
+                                className="text-gray-700"
                             />
                         </button>
                     </div>

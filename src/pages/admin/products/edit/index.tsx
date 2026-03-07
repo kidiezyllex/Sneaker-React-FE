@@ -351,11 +351,11 @@ export default function EditProductPage() {
             <form onSubmit={handleUpdateInfo} className="border bg-white rounded-xl overflow-hidden">
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4 rounded-xl p-4 pt-2 bg-white">
                     <TabsList className="grid w-full md:w-[400px] grid-cols-2">
-                        <TabsTrigger value="info" className="px-4 text-maintext/70">Thông tin cơ bản</TabsTrigger>
-                        <TabsTrigger value="variants" className="px-4 text-maintext/70">Biến thể sản phẩm</TabsTrigger>
+                        <TabsTrigger value="info" className="px-4 text-gray-700/70">Thông tin cơ bản</TabsTrigger>
+                        <TabsTrigger value="variants" className="px-4 text-gray-700/70">Biến thể sản phẩm</TabsTrigger>
                     </TabsList>
                     <div>
-                        <TabsContent value="info" className="space-y-4 text-maintext mt-0">
+                        <TabsContent value="info" className="space-y-4 text-gray-700 mt-0">
                             <Card>
                                 <CardHeader className="px-0 pt-0">
                                     <CardTitle className="flex items-center gap-2">
@@ -369,7 +369,7 @@ export default function EditProductPage() {
                                         <span>Thông tin cơ bản</span>
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="space-y-6 text-maintext px-0">
+                                <CardContent className="space-y-6 text-gray-700 px-0">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <Label htmlFor="name">Tên sản phẩm <span className="text-red-500">*</span></Label>
@@ -541,7 +541,7 @@ export default function EditProductPage() {
                             </Card>
                         </TabsContent>
 
-                        <TabsContent value="variants" className="space-y-4 text-maintext mt-0">
+                        <TabsContent value="variants" className="space-y-4 text-gray-700 mt-0">
                             <Card>
                                 <CardHeader className="px-0 pt-0">
                                     <CardTitle className="flex items-center gap-2">
@@ -578,7 +578,7 @@ export default function EditProductPage() {
                                                     <div className="space-y-2">
                                                         <Label
                                                             htmlFor={`stock-${variant.id}`}
-                                                            className="text-maintext font-medium"
+                                                            className="text-gray-700 font-medium"
                                                         >
                                                             Số lượng tồn kho
                                                         </Label>
@@ -626,7 +626,7 @@ export default function EditProductPage() {
                                                 </div>
 
                                                 <div className="space-y-3">
-                                                    <Label className="text-maintext font-medium">Hình ảnh sản phẩm</Label>
+                                                    <Label className="text-gray-700 font-medium">Hình ảnh sản phẩm</Label>
                                                     <div className="flex flex-col gap-4">
                                                         <div className="flex items-center gap-2">
                                                             <Input
@@ -721,7 +721,7 @@ export default function EditProductPage() {
                                                                 </AnimatePresence>
                                                             ) : (
                                                                 <div
-                                                                    className="flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-maintext bg-white"
+                                                                    className="flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-gray-700 bg-white"
                                                                     style={{ aspectRatio: "1/1" }}
                                                                 >
                                                                     <div className="flex flex-col items-center p-4">

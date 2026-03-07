@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Icon } from "@mdi/react";
 import { mdiAlertCircleOutline } from "@mdi/js";
 import {
   DialogContent,
@@ -28,7 +27,7 @@ export default function ConfirmCancelModal({
       />
 
       <div className="py-4">
-        <p className="text-maintext">
+        <p className="text-gray-700">
           Bạn có chắc chắn muốn hủy yêu cầu trả hàng này không? Hành động này
           không thể hoàn tác.
         </p>

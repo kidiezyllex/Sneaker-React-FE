@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { useLatestProducts } from "@/hooks/product";
@@ -119,7 +119,7 @@ export const NewArrivals = () => {
               <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-primary to-secondary rounded-full"></div>
             </span>
           </h2>
-          <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Khám phá bộ sưu tập Sneaker mới nhất với thiết kế hiện đại
           </p>
         </motion.div>

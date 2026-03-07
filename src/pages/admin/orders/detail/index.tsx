@@ -147,9 +147,9 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
                         const isActive = index <= currentStepIdx;
 
                         let circleClasses =
-                            "bg-gray-100 dark:bg-gray-700 text-maintext dark:text-maintext border-gray-300 dark:border-gray-600";
+                            "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-700 border-gray-300 dark:border-gray-600";
                         let iconToShow;
-                        let labelClasses = "text-maintext dark:text-maintext font-medium";
+                        let labelClasses = "text-gray-700 dark:text-gray-700 font-medium";
 
                         if (isActive) {
                             circleClasses = `${step.colors.bgClass} ${step.colors.textClass} ${step.colors.borderClass} border-2 shadow-sm`;
@@ -172,7 +172,7 @@ const OrderStepper = ({ currentStatus }: { currentStatus: string }) => {
                                 <Icon
                                     path={step.icon}
                                     size={1}
-                                    className="text-maintext/50 dark:text-maintext"
+                                    className="text-gray-700/50 dark:text-gray-700"
                                 />
                             );
                         }
@@ -544,7 +544,7 @@ export default function OrderDetailPage() {
     }
     const order = orderDetail.data;
     return (
-        <div className="space-y-4 text-maintext">
+        <div className="space-y-4 text-gray-700">
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                 <div className="mb-0 md:mb-0">
                     <Breadcrumb>
@@ -615,28 +615,28 @@ export default function OrderDetailPage() {
                         <CardContent>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Mã đơn hàng:</span>
-                                    <span className="font-medium text-maintext">
+                                    <span className="text-gray-700">Mã đơn hàng:</span>
+                                    <span className="font-medium text-gray-700">
                                         {order.code}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Ngày tạo:</span>
-                                    <span className="text-maintext">
+                                    <span className="text-gray-700">Ngày tạo:</span>
+                                    <span className="text-gray-700">
                                         {formatDateTime(order.createdAt)}
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Trạng thái đơn hàng:</span>
+                                    <span className="text-gray-700">Trạng thái đơn hàng:</span>
                                     <OrderStatusBadge status={order.orderStatus} />
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Trạng thái thanh toán:</span>
+                                    <span className="text-gray-700">Trạng thái thanh toán:</span>
                                     <PaymentStatusBadge status={order.paymentStatus} />
                                 </div>
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Phương thức thanh toán:</span>
-                                    <span className="text-maintext">
+                                    <span className="text-gray-700">Phương thức thanh toán:</span>
+                                    <span className="text-gray-700">
                                         {getPaymentMethodName(order.paymentMethod)}
                                     </span>
                                 </div>
@@ -656,22 +656,22 @@ export default function OrderDetailPage() {
                         <CardContent>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Tên khách hàng:</span>
-                                    <span className="font-medium text-maintext">
+                                    <span className="text-gray-700">Tên khách hàng:</span>
+                                    <span className="font-medium text-gray-700">
                                         {order.customer?.fullName || order.shippingName}
                                     </span>
                                 </div>
                                 {(order.customer?.email || order.shippingEmail) && (
                                     <div className="flex justify-between items-center">
-                                        <span className="text-maintext">Email:</span>
-                                        <span className="text-maintext">
+                                        <span className="text-gray-700">Email:</span>
+                                        <span className="text-gray-700">
                                             {order.customer?.email || order.shippingEmail}
                                         </span>
                                     </div>
                                 )}
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Số điện thoại:</span>
-                                    <span className="text-maintext">
+                                    <span className="text-gray-700">Số điện thoại:</span>
+                                    <span className="text-gray-700">
                                         {order.customer?.phoneNumber || order.shippingPhoneNumber}
                                     </span>
                                 </div>
@@ -693,8 +693,8 @@ export default function OrderDetailPage() {
                             <CardContent>
                                 <div className="space-y-4">
                                     <div className="flex justify-between items-center">
-                                        <span className="text-maintext">Tên nhân viên:</span>
-                                        <span className="font-medium text-maintext">
+                                        <span className="text-gray-700">Tên nhân viên:</span>
+                                        <span className="font-medium text-gray-700">
                                             {order.staff.fullName}
                                         </span>
                                     </div>
@@ -716,17 +716,17 @@ export default function OrderDetailPage() {
                         <CardContent>
                             {order.shippingAddress || order.shippingSpecificAddress ? (
                                 <div className="space-y-2">
-                                    <p className="text-maintext font-medium">
+                                    <p className="text-gray-700 font-medium">
                                         {order.shippingName}
                                     </p>
-                                    <p className="text-maintext">{order.shippingPhoneNumber}</p>
-                                    <p className="text-maintext">
+                                    <p className="text-gray-700">{order.shippingPhoneNumber}</p>
+                                    <p className="text-gray-700">
                                         {order.shippingSpecificAddress ||
                                             order.shippingAddress?.specificAddress}
                                     </p>
                                 </div>
                             ) : (
-                                <p className="text-maintext">
+                                <p className="text-gray-700">
                                     Không có thông tin địa chỉ giao hàng
                                 </p>
                             )}
@@ -774,10 +774,10 @@ export default function OrderDetailPage() {
                                                             </div>
                                                         )}
                                                         <div className="min-w-0 flex-1">
-                                                            <div className="font-medium text-sm text-maintext line-clamp-2">
+                                                            <div className="font-medium text-sm text-gray-700 line-clamp-2">
                                                                 {item.product?.name || "Sản phẩm không rõ"}
                                                             </div>
-                                                            <div className="text-sm text-maintext/70 mt-0.5">
+                                                            <div className="text-sm text-gray-700/70 mt-0.5">
                                                                 {item.variant?.color?.name} /{" "}
                                                                 {item.variant?.size?.value}
                                                             </div>
@@ -814,14 +814,14 @@ export default function OrderDetailPage() {
                         <CardContent>
                             <div className="space-y-4">
                                 <div className="flex justify-between items-center">
-                                    <span className="text-maintext">Tổng tiền hàng:</span>
-                                    <span className="text-maintext">
+                                    <span className="text-gray-700">Tổng tiền hàng:</span>
+                                    <span className="text-gray-700">
                                         {formatCurrency(order.subTotal)}
                                     </span>
                                 </div>
                                 {order.voucher && (
                                     <div className="flex justify-between items-center">
-                                        <span className="text-maintext">
+                                        <span className="text-gray-700">
                                             Mã giảm giá ({order.voucher.code}):
                                         </span>
                                         <span className="text-red-500">
@@ -830,7 +830,7 @@ export default function OrderDetailPage() {
                                     </div>
                                 )}
                                 <div className="flex justify-between items-center pt-3 border-t">
-                                    <span className="font-bold text-maintext">
+                                    <span className="font-bold text-gray-700">
                                         Tổng thanh toán:
                                     </span>
                                     <span className="text-lg font-bold text-primary">

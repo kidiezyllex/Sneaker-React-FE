@@ -203,7 +203,7 @@ export const ProductCard = ({
               .replace(/\s+/g, "-")}-${product.id}`}
             className="hover:text-primary transition-colors flex-1"
           >
-            <h3 className="font-semibold text-base mb-3 line-clamp-1 leading-tight text-maintext hover:text-primary transition-colors">
+            <h3 className="font-semibold text-base mb-3 line-clamp-1 leading-tight text-gray-700 hover:text-primary transition-colors">
               {product.name}
             </h3>
           </Link>

@@ -277,7 +277,7 @@ const ProductVariantForm: React.FC<ProductVariantFormProps> = ({
               </AnimatePresence>
             ) : (
               <div
-                className="flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-maintext"
+                className="flex items-center justify-center border border-dashed border-gray-300 rounded-xl text-gray-700"
                 style={{ aspectRatio: "1/1" }}
               >
                 <div className="flex flex-col items-center p-4">

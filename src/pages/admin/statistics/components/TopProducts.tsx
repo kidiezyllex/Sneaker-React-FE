@@ -34,7 +34,7 @@ export const TopProducts = () => {
     >
       <Card className="h-full">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg font-medium text-maintext mb-2">
+          <CardTitle className="text-lg font-medium text-gray-700 mb-2">
             Sản phẩm bán chạy
           </CardTitle>
         </CardHeader>
@@ -66,7 +66,7 @@ export const TopProducts = () => {
                       {formatCurrency(product.revenue)}
                     </span>
                   </div>
-                  <div className="flex items-center text-sm text-maintext">
+                  <div className="flex items-center text-sm text-gray-700">
                     <span>{product.sold} đã bán</span>
                     <div className="mx-2 h-1 w-1 rounded-full bg-gray-300"></div>
                     <span>

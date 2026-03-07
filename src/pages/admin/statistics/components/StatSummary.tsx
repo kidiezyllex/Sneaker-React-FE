@@ -32,7 +32,7 @@ const StatCard = ({
     <Card className="h-full">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm text-maintext">{title}</p>
+          <p className="text-sm text-gray-700">{title}</p>
           <h3 className={`text-xl font-semibold mt-2 ${iconColor}`}>
             {value}
           </h3>
@@ -48,7 +48,7 @@ const StatCard = ({
             >
               {percentage} {increasing ? "tăng" : "giảm"}
             </span>
-            <span className="text-sm text-maintext ml-1">
+            <span className="text-sm text-gray-700 ml-1">
               so với tháng trước
             </span>
           </div>

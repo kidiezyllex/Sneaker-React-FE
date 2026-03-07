@@ -509,7 +509,7 @@ export default function ProductDetail() {
                 </>
               ) : (
                 <div className="flex items-center justify-center h-full">
-                  <p className="text-maintext">Không có hình ảnh</p>
+                  <p className="text-gray-700">Không có hình ảnh</p>
                 </div>
               )}
             </div>
@@ -565,7 +565,7 @@ export default function ProductDetail() {
                 </div>
                 {/* Rating placeholder */}
                 <div className="flex items-center gap-2">
-                  <span className="text-sm !text-maintext">
+                  <span className="text-sm !text-gray-700">
                     128 đánh giá •
                   </span>
                   <div className="flex items-center">
@@ -606,7 +606,7 @@ export default function ProductDetail() {
                     : selectedVariant && formatPrice(selectedVariant.price)}
                 </div>
                 {productDiscount && productDiscount.discountPercent > 0 && (
-                  <div className="text-xl text-maintext line-through font-medium bg-gray-100 px-3 py-2 rounded-md">
+                  <div className="text-xl text-gray-700 line-through font-medium bg-gray-100 px-3 py-2 rounded-md">
                     {formatPrice(productDiscount.originalPrice)}
                   </div>
                 )}
@@ -619,7 +619,7 @@ export default function ProductDetail() {
                     🎉 Áp dụng khuyến mãi:{" "}
                     {productDiscount.appliedPromotion?.name}
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-maintext">
+                  <div className="flex items-center gap-2 text-sm text-gray-700">
                     <span>
                       Giá gốc:{" "}
                       <span className="line-through">
@@ -637,7 +637,7 @@ export default function ProductDetail() {
 
               {(!productDiscount || productDiscount.discountPercent === 0) &&
                 selectedVariant && (
-                  <div className="text-sm text-maintext">
+                  <div className="text-sm text-gray-700">
                     <strong>Giá bán:</strong>{" "}
                     {formatPrice(selectedVariant.price)}
                   </div>
@@ -764,7 +764,7 @@ export default function ProductDetail() {
                           className={`
                           ${String(selectedSize) === sizeId
                               ? "border-primary text-primary bg-primary/5 shadow-sm scale-110"
-                              : "border-gray-200 text-maintext hover:border-primary hover:text-primary hover:scale-105 bg-white"
+                              : "border-gray-200 text-gray-700 hover:border-primary hover:text-primary hover:scale-105 bg-white"
                             }
                           ${!isAvailable
                               ? "opacity-30 cursor-not-allowed bg-gray-50/50 border-gray-100"
@@ -882,10 +882,10 @@ export default function ProductDetail() {
                       />
                     </div>
                     <div>
-                      <p className="font-semibold text-maintext">
+                      <p className="font-semibold text-gray-700">
                         {feature.title}
                       </p>
-                      <p className="text-sm !text-maintext">
+                      <p className="text-sm !text-gray-700">
                         {feature.description}
                       </p>
                     </div>
@@ -906,34 +906,34 @@ export default function ProductDetail() {
               <Table>
                 <TableBody>
                   <TableRow>
-                    <TableCell className="font-medium !text-maintext py-3">
+                    <TableCell className="font-medium !text-gray-700 py-3">
                       Thương hiệu
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-maintext py-3">
+                    <TableCell className="text-right font-semibold text-gray-700 py-3">
                       {brandName}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium !text-maintext py-3">
+                    <TableCell className="font-medium !text-gray-700 py-3">
                       Danh mục
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-maintext py-3">
+                    <TableCell className="text-right font-semibold text-gray-700 py-3">
                       {categoryName}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium !text-maintext py-3">
+                    <TableCell className="font-medium !text-gray-700 py-3">
                       Chất liệu
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-maintext py-3">
+                    <TableCell className="text-right font-semibold text-gray-700 py-3">
                       {materialName}
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium !text-maintext py-3">
+                    <TableCell className="font-medium !text-gray-700 py-3">
                       Trọng lượng
                     </TableCell>
-                    <TableCell className="text-right font-semibold text-maintext py-3">
+                    <TableCell className="text-right font-semibold text-gray-700 py-3">
                       {product.weight}g
                     </TableCell>
                   </TableRow>

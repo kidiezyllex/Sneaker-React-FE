@@ -270,7 +270,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
         <>
             <Sheet open={open} onOpenChange={onOpenChange}>
                 <SheetContent
-                    className="w-full sm:max-w-2xl flex flex-col text-maintext p-4 pr-3"
+                    className="w-full sm:max-w-2xl flex flex-col text-gray-700 p-4 pr-3"
                     side="right"
                 >
                     <SheetHeader className="border-b pb-4">

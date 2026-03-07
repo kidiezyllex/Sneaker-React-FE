@@ -324,20 +324,20 @@ export default function VNPayModal({
       </CardHeader>
       <CardContent className="space-y-2">
         <div className="flex justify-between">
-          <span className="text-maintext">Mã đơn hàng:</span>
-          <span className="font-medium text-maintext">
+          <span className="text-gray-700">Mã đơn hàng:</span>
+          <span className="font-medium text-gray-700">
             {orderData.orderCode || orderData.orderId}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-maintext">Số tiền:</span>
+          <span className="text-gray-700">Số tiền:</span>
           <span className="font-semibold text-lg text-red-600">
             {formatPrice(orderData.amount)}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-maintext">Nội dung:</span>
-          <span className="font-medium text-right max-w-[200px] truncate text-maintext">
+          <span className="text-gray-700">Nội dung:</span>
+          <span className="font-medium text-right max-w-[200px] truncate text-gray-700">
             {orderData.orderInfo}
           </span>
         </div>
@@ -359,7 +359,7 @@ export default function VNPayModal({
           />
         </div>
         <h3 className="text-lg font-semibold mb-2">Thanh toán qua VNPay</h3>
-        <p className="text-maintext">Chọn ngân hàng để thực hiện thanh toán</p>
+        <p className="text-gray-700">Chọn ngân hàng để thực hiện thanh toán</p>
       </div>
 
       {renderOrderInfo()}
@@ -375,7 +375,7 @@ export default function VNPayModal({
           <Icon
             path={mdiMagnify}
             size={0.8}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
           />
           <Input
             id="bank-search"
@@ -403,7 +403,7 @@ export default function VNPayModal({
         ) : (
           <div className="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto border rounded-md p-2">
             {filteredBanks.length === 0 ? (
-              <div className="text-center py-8 text-maintext">
+              <div className="text-center py-8 text-gray-700">
                 Không tìm thấy ngân hàng nào
               </div>
             ) : (
@@ -425,7 +425,7 @@ export default function VNPayModal({
                       <div className="font-medium text-sm">
                         {bank.shortName}
                       </div>
-                      <div className="text-sm text-maintext truncate">
+                      <div className="text-sm text-gray-700 truncate">
                         {bank.name}
                       </div>
                       <div className="text-sm text-blue-600">
@@ -440,7 +440,7 @@ export default function VNPayModal({
         )}
       </div>
 
-      <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
+      <div className="flex items-center justify-center space-x-2 text-sm text-gray-700">
         <Icon path={mdiShield} size={0.8} />
         <span>Giao dịch được bảo mật bởi VNPay</span>
       </div>
@@ -460,7 +460,7 @@ export default function VNPayModal({
           />
         </div>
         <h3 className="text-lg font-semibold mb-2">Thông tin tài khoản</h3>
-        <p className="text-maintext">Nhập thông tin tài khoản ngân hàng</p>
+        <p className="text-gray-700">Nhập thông tin tài khoản ngân hàng</p>
       </div>
 
       {renderOrderInfo()}
@@ -478,7 +478,7 @@ export default function VNPayModal({
               </div>
               <div>
                 <div className="font-medium">{selectedBank.shortName}</div>
-                <div className="text-sm text-maintext">{selectedBank.name}</div>
+                <div className="text-sm text-gray-700">{selectedBank.name}</div>
               </div>
             </div>
           </CardContent>
@@ -513,7 +513,7 @@ export default function VNPayModal({
         )}
       </div>
 
-      <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
+      <div className="flex items-center justify-center space-x-2 text-sm text-gray-700">
         <Icon path={mdiLock} size={0.8} />
         <span>Thông tin được mã hóa và bảo mật</span>
       </div>
@@ -529,7 +529,7 @@ export default function VNPayModal({
           </div>
         </div>
         <h3 className="text-lg font-semibold mb-2">Xác thực OTP</h3>
-        <p className="text-maintext">
+        <p className="text-gray-700">
           Nhập mã OTP được gửi đến số điện thoại của bạn
         </p>
       </div>
@@ -541,7 +541,7 @@ export default function VNPayModal({
           <Icon path={mdiCellphone} size={0.8} className="text-blue-600" />
           <div>
             <p className="text-sm font-medium">Mã OTP đã được gửi đến</p>
-            <p className="text-sm text-maintext">*******890</p>
+            <p className="text-sm text-gray-700">*******890</p>
           </div>
         </div>
       </div>
@@ -564,7 +564,7 @@ export default function VNPayModal({
 
       <div className="text-center">
         {otpTimer > 0 ? (
-          <p className="text-sm text-maintext">Gửi lại mã sau {otpTimer}s</p>
+          <p className="text-sm text-gray-700">Gửi lại mã sau {otpTimer}s</p>
         ) : (
           <Button
             variant="link"
@@ -577,7 +577,7 @@ export default function VNPayModal({
         )}
       </div>
 
-      <div className="flex items-center justify-center space-x-2 text-sm text-maintext">
+      <div className="flex items-center justify-center space-x-2 text-sm text-gray-700">
         <Icon path={mdiShield} size={0.8} />
         <span>Mã OTP có hiệu lực trong 5 phút</span>
       </div>
@@ -596,7 +596,7 @@ export default function VNPayModal({
         </div>
       </div>
       <h3 className="text-lg font-semibold mb-2">Đang xử lý thanh toán</h3>
-      <p className="text-maintext mb-4">Vui lòng không đóng cửa sổ này</p>
+      <p className="text-gray-700 mb-4">Vui lòng không đóng cửa sổ này</p>
       <div className="bg-yellow-50 border border-yellow-200 rounded-md p-3">
         <p className="text-sm text-yellow-800">
           Đang kết nối với ngân hàng {selectedBank?.shortName}...
@@ -615,7 +615,7 @@ export default function VNPayModal({
       <h3 className="text-lg font-semibold mb-2 text-primary">
         Thanh toán thành công!
       </h3>
-      <p className="text-maintext mb-4">
+      <p className="text-gray-700 mb-4">
         Đơn hàng của bạn đã được thanh toán thành công
       </p>
       {paymentResult && (
@@ -667,7 +667,7 @@ export default function VNPayModal({
       <h3 className="text-lg font-semibold mb-2 text-red-600">
         Thanh toán thất bại
       </h3>
-      <p className="text-maintext mb-4">
+      <p className="text-gray-700 mb-4">
         Giao dịch không thể hoàn tất. Vui lòng thử lại.
       </p>
       <Button onClick={goBack} variant="outline">

@@ -135,7 +135,7 @@ export default function BrandsPage() {
             <Icon
               path={mdiMagnify}
               size={0.8}
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
             />
             <Input
               type="text"
@@ -250,14 +250,14 @@ export default function BrandsPage() {
                         key={(brand as any)?.id || `brand-${index}`}
                         className="hover:bg-gray-50"
                       >
-                        <TableCell className="text-center text-sm font-medium text-maintext">
+                        <TableCell className="text-center text-sm font-medium text-gray-700">
                           {(data.pagination.currentPage - 1) *
                             data.pagination.perPage +
                             index +
                             1}
                         </TableCell>
                         <TableCell>
-                          <div className="text-sm font-medium text-maintext">
+                          <div className="text-sm font-medium text-gray-700">
                             {brand.name}
                           </div>
                         </TableCell>
@@ -274,7 +274,7 @@ export default function BrandsPage() {
                               : "Không hoạt động"}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-sm text-maintext">
+                        <TableCell className="text-sm text-gray-700">
                           {formatDate(brand.updatedAt)}
                         </TableCell>
                         <TableCell className="text-right">
@@ -332,7 +332,7 @@ export default function BrandsPage() {
                     <TableRow>
                       <TableCell
                         colSpan={5}
-                        className="px-4 py-8 text-center text-maintext"
+                        className="px-4 py-8 text-center text-gray-700"
                       >
                         Không tìm thấy thương hiệu nào
                       </TableCell>

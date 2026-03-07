@@ -268,16 +268,16 @@ export default function ReturnsPage() {
         <Tabs defaultValue="all" onValueChange={setSelectedTab}>
           <div className="flex flex-col space-y-4 md:space-y-0 md:flex-row md:justify-between md:items-center gap-4 mb-4">
             <TabsList className="h-9">
-              <TabsTrigger value="all" className="px-4 text-maintext">
+              <TabsTrigger value="all" className="px-4 text-gray-700">
                 Tất cả
               </TabsTrigger>
-              <TabsTrigger value="pending" className="px-4 text-maintext">
+              <TabsTrigger value="pending" className="px-4 text-gray-700">
                 Chờ xử lý
               </TabsTrigger>
-              <TabsTrigger value="refunded" className="px-4 text-maintext">
+              <TabsTrigger value="refunded" className="px-4 text-gray-700">
                 Đã hoàn tiền
               </TabsTrigger>
-              <TabsTrigger value="cancelled" className="px-4 text-maintext">
+              <TabsTrigger value="cancelled" className="px-4 text-gray-700">
                 Đã hủy
               </TabsTrigger>
             </TabsList>
@@ -287,7 +287,7 @@ export default function ReturnsPage() {
                 <Icon
                   path={mdiMagnify}
                   size={0.8}
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-700"
                 />
                 <Input
                   placeholder="Tìm theo mã, tên KH, SĐT..."
@@ -458,7 +458,7 @@ export default function ReturnsPage() {
             </div>
           ) : data?.data.content.length === 0 ? (
             <div className="text-center py-10">
-              <p className="text-maintext">Không có yêu cầu trả hàng nào</p>
+              <p className="text-gray-700">Không có yêu cầu trả hàng nào</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -486,7 +486,7 @@ export default function ReturnsPage() {
                       <TableCell>
                         <div className="flex flex-col">
                           <span className="font-medium text-gray-700">{returnItem.customer.fullName}</span>
-                          <span className="text-sm text-maintext">{returnItem.customer.phoneNumber}</span>
+                          <span className="text-sm text-gray-700">{returnItem.customer.phoneNumber}</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-sm text-gray-700">

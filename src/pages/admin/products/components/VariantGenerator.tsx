@@ -167,7 +167,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
                     Chọn tất cả ({selectedCount}/{totalCount})
                   </Label>
                 </div>
-                <div className="text-sm text-maintext">
+                <div className="text-sm text-gray-700">
                   Giá được tính tự động theo size (size lớn hơn = giá cao hơn)
                 </div>
               </div>
@@ -216,13 +216,13 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
                               </span>
                             </div>
 
-                            <div className="text-maintext">•</div>
+                            <div className="text-gray-700">•</div>
 
                             <div className="font-medium">
                               Size {variant.sizeValue}
                             </div>
 
-                            <div className="text-maintext">•</div>
+                            <div className="text-gray-700">•</div>
 
                             <div className="font-semibold text-primary">
                               {formatCurrency(variant.price)}
@@ -261,7 +261,7 @@ const VariantGenerator: React.FC<VariantGeneratorProps> = ({
           </CardContent>
 
           <div className="border-t p-4 flex justify-between items-center">
-            <div className="text-sm text-maintext">
+            <div className="text-sm text-gray-700">
               Đã chọn {selectedCount} biến thể
             </div>
             <div className="flex gap-4">

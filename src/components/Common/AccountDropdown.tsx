@@ -58,9 +58,9 @@ const AccountDropdown = () => {
                 <Icon
                   path={mdiAccount}
                   size={0.8}
-                  className="mr-2 text-maintext"
+                  className="mr-2 text-gray-700"
                 />
-                <span className="!text-maintext font-semibold">Quản lý tài khoản</span>
+                <span className="!text-gray-700 font-semibold">Quản lý tài khoản</span>
               </Link>
             </DropdownMenuItem>
           </motion.div>
@@ -75,9 +75,9 @@ const AccountDropdown = () => {
                   <Icon
                     path={mdiViewDashboard}
                     size={0.8}
-                    className="mr-2 text-maintext"
+                    className="mr-2 text-gray-700"
                   />
-                  <span className="!text-maintext">Dashboard</span>
+                  <span className="!text-gray-700">Dashboard</span>
                 </Link>
               </DropdownMenuItem>
             </motion.div>

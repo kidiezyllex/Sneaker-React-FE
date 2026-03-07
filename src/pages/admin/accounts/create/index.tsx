@@ -160,7 +160,7 @@ export default function CreateAccountPage() {
           <CardHeader>
             <CardTitle>Thông tin tài khoản</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-maintext">
+          <CardContent className="space-y-4 text-gray-700">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="fullName">
@@ -209,7 +209,7 @@ export default function CreateAccountPage() {
                   <button
                     type="button"
                     onClick={togglePasswordVisibility}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-maintext hover:text-maintext focus:outline-none"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700 hover:text-gray-700 focus:outline-none"
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -234,7 +234,7 @@ export default function CreateAccountPage() {
                   <button
                     type="button"
                     onClick={toggleConfirmPasswordVisibility}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-maintext hover:text-maintext focus:outline-none"
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700 hover:text-gray-700 focus:outline-none"
                   >
                     {showConfirmPassword ? (
                       <EyeOff size={16} />

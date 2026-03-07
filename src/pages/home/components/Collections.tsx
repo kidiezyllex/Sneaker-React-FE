@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
@@ -169,7 +169,7 @@ export const Collections = () => {
                 </Button>
               </motion.div>
             </div>
-            <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white">
+            <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 dark:text-white">
               BỘ SƯU TẬP <span className="text-extra">THỜI TRANG</span>
             </h2>
           </motion.div>

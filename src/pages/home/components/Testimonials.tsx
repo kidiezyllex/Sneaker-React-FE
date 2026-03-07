@@ -1,4 +1,3 @@
-import React from "react";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Icon } from "@mdi/react";
@@ -103,10 +102,10 @@ const TestimonialCard = ({
           />
         </div>
         <div>
-          <h4 className="font-semibold text-maintext dark:text-white text-lg">
+          <h4 className="font-semibold text-gray-700 dark:text-white text-lg">
             {testimonial.name}
           </h4>
-          <p className="text-sm text-maintext dark:text-maintext">
+          <p className="text-sm text-gray-700 dark:text-gray-700">
             {testimonial.role}
           </p>
         </div>
@@ -120,7 +119,7 @@ const TestimonialCard = ({
         <div className="absolute -top-2 -left-2 text-4xl text-primary/10 dark:text-primary/20">
           "
         </div>
-        <p className="text-maintext dark:text-gray-300 relative z-10">
+        <p className="text-gray-700 dark:text-gray-300 relative z-10">
           {testimonial.content}
         </p>
         <div className="absolute -bottom-2 -right-2 text-4xl text-primary/10 dark:text-primary/20">
@@ -145,10 +144,10 @@ export const Testimonials = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl md:text-4xl font-semibold text-maintext dark:text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-semibold text-gray-700 dark:text-white mb-4">
             Khách hàng nói gì về chúng tôi
           </h2>
-          <p className="text-maintext dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Chúng tôi luôn lắng nghe và cải thiện dịch vụ dựa trên phản hồi của
             khách hàng
           </p>

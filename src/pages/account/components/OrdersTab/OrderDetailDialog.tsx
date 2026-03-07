@@ -553,14 +553,14 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                         {/* Content */}
                         <div className="flex-1 min-w-0 bg-white rounded-md border border-gray-100 p-4 shadow-sm hover:shadow-md transition-shadow duration-200">
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="text-sm font-semibold text-maintext">
+                            <h4 className="text-sm font-semibold text-gray-700">
                               {step.title}
                             </h4>
                             <Badge variant="outline">
                               {step.time}
                             </Badge>
                           </div>
-                          <p className="text-sm text-maintext leading-relaxed">
+                          <p className="text-sm text-gray-700 leading-relaxed">
                             {step.message}
                           </p>
                           {step.completed && (

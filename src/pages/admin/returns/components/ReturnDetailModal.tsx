@@ -17,8 +17,7 @@ import {
   DialogTrigger,
   DialogContent,
   DialogHeader,
-  DialogFooter,
-  DialogClose,
+  DialogFooter
 } from "@/components/ui/dialog";
 import { useMyReturnDetail, useCancelMyReturn } from "@/hooks/return";
 import { IReturn } from "@/interface/response/return";
@@ -111,7 +110,7 @@ export default function ReturnDetailModal({
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${isCompleted
                   ? "bg-primary text-white"
-                  : "bg-gray-200 text-maintext"
+                  : "bg-gray-200 text-gray-700"
                   }`}
               >
                 {isCompleted ? (
@@ -122,13 +121,13 @@ export default function ReturnDetailModal({
               </div>
               <div className="flex-1">
                 <p
-                  className={`font-medium ${isCompleted ? "text-gray-900" : "text-maintext"
+                  className={`font-medium ${isCompleted ? "text-gray-900" : "text-gray-700"
                     }`}
                 >
                   {step.label}
                 </p>
                 {step.date && (
-                  <p className="text-sm text-maintext">
+                  <p className="text-sm text-gray-700">
                     {formatDateTime(step.date)}
                   </p>
                 )}
@@ -190,11 +189,11 @@ export default function ReturnDetailModal({
             <CardContent>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
-                  <span className="text-maintext">Mã yêu cầu:</span>
+                  <span className="text-gray-700">Mã yêu cầu:</span>
                   <span className="ml-2 font-medium">#{returnData.code}</span>
                 </div>
                 <div>
-                  <span className="text-maintext">Đơn hàng gốc:</span>
+                  <span className="text-gray-700">Đơn hàng gốc:</span>
                   <span className="ml-2 font-medium">
                     #
                     {typeof returnData.originalOrder === "string"
@@ -203,13 +202,13 @@ export default function ReturnDetailModal({
                   </span>
                 </div>
                 <div>
-                  <span className="text-maintext">Ngày tạo:</span>
+                  <span className="text-gray-700">Ngày tạo:</span>
                   <span className="ml-2 font-medium">
                     {formatDateTime(returnData.createdAt)}
                   </span>
                 </div>
                 <div>
-                  <span className="text-maintext">Tổng tiền hoàn trả:</span>
+                  <span className="text-gray-700">Tổng tiền hoàn trả:</span>
                   <span className="ml-2 font-medium text-primary">
                     {formatCurrency(returnData.totalRefund)}
                   </span>
@@ -268,7 +267,7 @@ export default function ReturnDetailModal({
                                 ? item.product.name
                                 : "Sản phẩm"}
                             </p>
-                            <p className="text-sm text-maintext">
+                            <p className="text-sm text-gray-700">
                               {typeof item === "object" &&
                                 "product" in item &&
                                 typeof item.product === "object"

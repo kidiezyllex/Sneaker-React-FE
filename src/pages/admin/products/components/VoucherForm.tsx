@@ -88,7 +88,7 @@ const VoucherForm = ({
               <Icon path={mdiTicket} size={0.8} className="text-primary" />
               <div>
                 <div className="font-medium text-sm">{appliedVoucher.code}</div>
-                <div className="text-sm text-maintext">
+                <div className="text-sm text-gray-700">
                   Giảm{" "}
                   {formatCurrency(appliedVoucher.discount)}
                 </div>
@@ -98,7 +98,7 @@ const VoucherForm = ({
               size="sm"
               variant="ghost"
               onClick={onRemoveVoucher}
-              className="h-8 w-8 p-0 rounded-full text-maintext hover:bg-red-50 hover:text-red-600"
+              className="h-8 w-8 p-0 rounded-full text-gray-700 hover:bg-red-50 hover:text-red-600"
             >
               <Icon path={mdiClose} size={0.8} />
             </Button>
@@ -121,7 +121,7 @@ const VoucherForm = ({
               <Icon
                 path={mdiTicket}
                 size={0.8}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-maintext"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700"
               />
             </div>
             <Button

@@ -346,7 +346,7 @@ export default function ShippingPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-maintext">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <ShippingInfo

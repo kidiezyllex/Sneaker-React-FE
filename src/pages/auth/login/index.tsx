@@ -81,7 +81,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4 h-full">
       <div>
-        <label className="text-maintext dark:text-gray-300 block mb-2 font-semibold text-sm">
+        <label className="text-gray-700 dark:text-gray-300 block mb-2 font-semibold text-sm">
           Email
         </label>
         <Input
@@ -95,7 +95,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
         />
       </div>
       <div>
-        <label className="text-maintext dark:text-gray-300 block mb-2 font-semibold text-sm">
+        <label className="text-gray-700 dark:text-gray-300 block mb-2 font-semibold text-sm">
           Mật khẩu
         </label>
         <div className="relative">
@@ -111,7 +111,7 @@ function LoginForm({ onSuccess }: { onSuccess: () => void }) {
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-maintext hover:text-maintext focus:outline-none"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-700 hover:text-gray-700 focus:outline-none"
           >
             {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
           </button>

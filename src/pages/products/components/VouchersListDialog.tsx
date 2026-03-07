@@ -215,13 +215,13 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                                 <div className="flex justify-between text-sm text-gray-700 pt-1 border-t border-dashed">
                                                     <div className="flex flex-col">
                                                         <span className="font-semibold">Hết hạn:</span>
-                                                        <span className="font-medium text-maintext italic">
+                                                        <span className="font-medium text-gray-700 italic">
                                                             {formatDate(item.endDate)}
                                                         </span>
                                                     </div>
                                                     <div className="flex flex-col text-right">
                                                         <span className="font-semibold">Phạm vi:</span>
-                                                        <span className="font-medium text-maintext italic">
+                                                        <span className="font-medium text-gray-700 italic">
                                                             {isVoucher ? "Toàn bộ" : "Sản phẩm chọn lọc"}
                                                         </span>
                                                     </div>

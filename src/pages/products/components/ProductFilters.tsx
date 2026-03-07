@@ -119,13 +119,13 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
   return (
     <div className="bg-white rounded-xl shadow-md w-60 max-w-60 sticky top-4 overflow-hidden">
       <div className="flex items-center gap-2 py-3 border-b px-4">
-        <h3 className="font-bold text-sm uppercase tracking-wider text-gray-800">Bộ lọc sản phẩm</h3>
+        <h3 className="text-sm text-gray-800 font-semibold">Bộ lọc sản phẩm</h3>
       </div>
 
       <div className="p-4 flex flex-col gap-4 overflow-y-auto max-h-[calc(100vh-100px)] custom-scrollbar">
         {/* Price Slider */}
         <section>
-          <h3 className="text-sm font-semibold mb-4 text-gray-700">Khoảng giá</h3>
+          <h3 className="text-sm font-semibold mb-4 text-primary">Khoảng giá</h3>
           <div className="px-2">
             <Slider
               value={selectedPriceRange}
@@ -145,7 +145,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         {/* Brands */}
         {brands?.length > 0 && (
           <section>
-            <h3 className="text-sm font-semibold mb-3 text-gray-700">Thương hiệu</h3>
+            <h3 className="text-sm font-semibold mb-3 text-primary">Thương hiệu</h3>
             <div className="pr-1 thin-scrollbar grid grid-cols-2 gap-2">
               {brands.map((brand) => (
                 <div key={brand.id} className="flex items-center gap-3 group">
@@ -169,7 +169,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         {/* Categories */}
         {categories?.length > 0 && (
           <section>
-            <h3 className="text-sm font-semibold mb-3 text-gray-700">Danh mục</h3>
+            <h3 className="text-sm font-semibold mb-3 text-primary">Danh mục</h3>
             <div className="pr-1 thin-scrollbar grid grid-cols-2 gap-2 overflow-hidden">
               {categories.map((cat) => (
                 <div key={cat.id} className="flex items-center gap-3 group">
@@ -193,7 +193,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         {/* Materials */}
         {materials?.length > 0 && (
           <section>
-            <h3 className="text-sm font-semibold mb-3 text-gray-700">Chất liệu</h3>
+            <h3 className="text-sm font-semibold mb-3 text-primary">Chất liệu</h3>
             <div className="space-y-2.5 max-h-40 overflow-y-auto pr-1 thin-scrollbar">
               {materials.map((mat) => (
                 <div key={mat.id} className="flex items-center gap-3 group">
@@ -217,7 +217,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         {/* Colors */}
         {colors?.length > 0 && (
           <section>
-            <h3 className="text-sm font-semibold mb-3 text-gray-700">Màu sắc</h3>
+            <h3 className="text-sm font-semibold mb-3 text-primary">Màu sắc</h3>
             <div className="flex flex-wrap gap-2.5">
               {colors.map((color) => (
                 <button
@@ -238,7 +238,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
         {/* Sizes */}
         {sizes?.length > 0 && (
           <section>
-            <h3 className="text-sm font-semibold mb-3 text-gray-700">Kích cỡ</h3>
+            <h3 className="text-sm font-semibold mb-3 text-primary">Kích cỡ</h3>
             <div className="flex flex-wrap gap-1.5">
               {sizes.map((size) => (
                 <button
