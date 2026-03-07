@@ -969,7 +969,7 @@ export default function POSPage() {
               <span>Hoá đơn chờ</span>
               <div className="bg-green-50 px-3 py-0.5 rounded-full text-sm text-primary">({pendingCarts.length}/5)</div>
             </h3>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-700">
               Lưu trữ tạm thời các đơn hàng đang phục vụ để luân chuyển nhanh chóng (Tối đa 5 hoá đơn chờ cùng lúc)
             </p>
           </div>

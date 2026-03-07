@@ -319,12 +319,12 @@ export default function PromotionsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Tên chiến dịch</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Giảm giá</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Thời gian</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                    <TableHead className="w-[80px] text-center">STT</TableHead>
+                    <TableHead>Tên chiến dịch</TableHead>
+                    <TableHead>Giảm giá</TableHead>
+                    <TableHead>Thời gian</TableHead>
+                    <TableHead>Trạng thái</TableHead>
+                    <TableHead className="text-right">Thao tác</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -364,7 +364,7 @@ export default function PromotionsPage() {
                           </div>
                         </TableCell>
                         <TableCell className="px-4 py-4 text-sm">
-                          <div className="flex flex-col gap-1 text-slate-600">
+                          <div className="flex flex-col gap-1 text-gray-700">
                             <div className="flex items-center gap-1.5">
                               <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                               <span>{formatDateTime(promotion.startDate)}</span>

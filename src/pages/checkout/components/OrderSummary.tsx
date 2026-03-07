@@ -47,7 +47,7 @@ export const OrderSummary = () => {
                         </div>
                         <div className="flex-1">
                             <h4 className="font-medium text-maintext">{item.name}</h4>
-                            <p className="text-sm text-gray-600">
+                            <p className="text-sm text-gray-700">
                                 {item.brand}
                                 {item.size &&
                                     ` • Size ${getSizeLabel(Number(item.size))}`}
@@ -64,7 +64,7 @@ export const OrderSummary = () => {
             </div>
             <CardFooter className="flex flex-col space-y-2">
                 <div className="flex justify-between w-full">
-                    <span className="text-gray-600 font-semibold text-sm">
+                    <span className="text-gray-700 font-semibold text-sm">
                         Tạm tính
                     </span>
                     <span className="text-maintext">
@@ -82,13 +82,13 @@ export const OrderSummary = () => {
                 )}
 
                 <div className="flex justify-between w-full">
-                    <span className="text-gray-600 font-semibold text-sm">
+                    <span className="text-gray-700 font-semibold text-sm">
                         Thuế
                     </span>
                     <span className="text-maintext">{formatPrice(tax)}</span>
                 </div>
                 <div className="flex justify-between w-full">
-                    <span className="text-gray-600 font-semibold text-sm">
+                    <span className="text-gray-700 font-semibold text-sm">
                         Phí vận chuyển
                     </span>
                     <span className="text-maintext">{formatPrice(shipping)}</span>

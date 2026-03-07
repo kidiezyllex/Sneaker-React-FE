@@ -172,7 +172,7 @@ const ReturnsTab = () => {
                   className="text-gray-400"
                 />
               </div>
-              <p className="text-gray-600 font-medium mb-1">
+              <p className="text-gray-700 font-medium mb-1">
                 {statusFilter === "ALL"
                   ? "Bạn chưa có đơn trả hàng nào."
                   : `Không có đơn trả hàng ở trạng thái "${STATUS_OPTIONS.find((o) => o.value === statusFilter)?.label}".`}
@@ -291,7 +291,7 @@ const ReturnsTab = () => {
                               }
                             )}
                             {returnItems.length > 3 && (
-                              <div className="w-12 h-12 bg-muted rounded-lg border flex items-center justify-center text-xs text-gray-600 font-medium">
+                              <div className="w-12 h-12 bg-muted rounded-lg border flex items-center justify-center text-xs text-gray-700 font-medium">
                                 +{returnItems.length - 3}
                               </div>
                             )}

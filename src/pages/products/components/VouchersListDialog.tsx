@@ -104,9 +104,9 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                             <Icon
                                 path={mdiTicketPercentOutline}
                                 size={2}
-                                className="text-gray-600/20 mb-2"
+                                className="text-gray-700/20 mb-2"
                             />
-                            <p className="text-gray-600">
+                            <p className="text-gray-700">
                                 Hiện không có mã giảm giá hoặc chương trình khuyến mãi nào khả dụng.
                             </p>
                         </div>
@@ -165,7 +165,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                                     {name}
                                                 </h4>
                                                 {isVoucher ? (
-                                                    <p className="text-sm text-gray-600">
+                                                    <p className="text-sm text-gray-700">
                                                         <span className="font-semibold">Mã:</span>{" "}
                                                         <span className="font-mono bg-primary/10 px-1 rounded">
                                                             {code}
@@ -180,7 +180,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
 
                                             <div className="space-y-2 text-sm mt-auto">
                                                 <div className="flex justify-between items-center">
-                                                    <span className="text-gray-600 font-semibold">Ưu đãi:</span>
+                                                    <span className="text-gray-700 font-semibold">Ưu đãi:</span>
                                                     <span className="font-bold text-primary text-2xl">
                                                         {isVoucher
                                                             ? (item.type === "PERCENTAGE" ? `Giảm ${item.value}%` : `Giảm ${formatPrice(item.value)}`)
@@ -192,14 +192,14 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                                 {isVoucher && item.type === "PERCENTAGE" &&
                                                     item.maxDiscount && (
                                                         <div className="flex justify-between text-sm">
-                                                            <span className="text-gray-600 font-semibold">Tối đa:</span>
+                                                            <span className="text-gray-700 font-semibold">Tối đa:</span>
                                                             <span>{formatPrice(item.maxDiscount)}</span>
                                                         </div>
                                                     )}
 
                                                 {isVoucher && (
                                                     <div className="flex justify-between text-sm">
-                                                        <span className="text-gray-600 font-semibold">
+                                                        <span className="text-gray-700 font-semibold">
                                                             Đơn tối thiểu:
                                                         </span>
                                                         <span>{formatPrice(item.minOrderValue)}</span>
@@ -207,12 +207,12 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                                 )}
 
                                                 {!isVoucher && (
-                                                    <div className="text-xs text-gray-600 line-clamp-2">
+                                                    <div className="text-xs text-gray-700 line-clamp-2">
                                                         {item.description}
                                                     </div>
                                                 )}
 
-                                                <div className="flex justify-between text-sm text-gray-600 pt-1 border-t border-dashed">
+                                                <div className="flex justify-between text-sm text-gray-700 pt-1 border-t border-dashed">
                                                     <div className="flex flex-col">
                                                         <span className="font-semibold">Hết hạn:</span>
                                                         <span className="font-medium text-maintext italic">

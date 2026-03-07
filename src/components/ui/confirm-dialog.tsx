@@ -40,7 +40,7 @@ export function ConfirmDialog({
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent size="md">
                 <DialogHeader title={title} icon={icon} />
-                <div className="p-4 text-sm text-slate-600">{description}</div>
+                <div className="p-4 text-sm text-gray-700">{description}</div>
                 <DialogFooter>
                     <Button
                         variant="outline"

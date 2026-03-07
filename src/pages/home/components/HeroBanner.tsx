@@ -120,7 +120,7 @@ export const HeroBanner = () => {
                       className="w-10 h-10  rounded-full border-2 border-white object-cover"
                       loading="lazy"
                     />
-                    <div className="w-10 h-10  rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold text-sm border-2 border-white">
+                    <div className="w-10 h-10  rounded-full bg-gray-200 flex items-center justify-center text-gray-700 font-semibold text-sm border-2 border-white">
                       +
                     </div>
                   </div>
@@ -135,7 +135,7 @@ export const HeroBanner = () => {
                         />
                       ))}
                     </div>
-                    <p className="text-sm text-gray-600 mt-1 italic">
+                    <p className="text-sm text-gray-700 mt-1 italic">
                       "Laptop chất lượng, giá tốt, hỗ trợ tận tình!"
                     </p>
                   </div>

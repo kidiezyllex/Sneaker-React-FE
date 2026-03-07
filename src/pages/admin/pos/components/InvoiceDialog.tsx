@@ -129,8 +129,8 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
               <h2 className="text-2xl font-bold uppercase text-primary">
                 {SHOP_INFO.name}
               </h2>
-              <p className="text-sm text-gray-600">{SHOP_INFO.address}</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-700">{SHOP_INFO.address}</p>
+              <p className="text-sm text-gray-700">
                 ĐT: {SHOP_INFO.phone} - Email: {SHOP_INFO.email}
               </p>
             </div>
@@ -174,14 +174,14 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
             </div>
 
             <Table className="mb-8 border">
-              <TableHeader className="bg-slate-50">
+              <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[50px] text-center font-bold text-black border">STT</TableHead>
-                  <TableHead className="w-[80px] text-center font-bold text-black border">Ảnh</TableHead>
-                  <TableHead className="font-bold text-black border">Sản phẩm</TableHead>
-                  <TableHead className="text-right w-[60px] font-bold text-black border">SL</TableHead>
-                  <TableHead className="text-right w-[120px] font-bold text-black border">Đơn giá</TableHead>
-                  <TableHead className="text-right w-[130px] font-bold text-black border">Thành tiền</TableHead>
+                  <TableHead className="w-[50px] text-center border">STT</TableHead>
+                  <TableHead className="w-[80px] text-center border">Ảnh</TableHead>
+                  <TableHead className="border">Sản phẩm</TableHead>
+                  <TableHead className="text-right w-[60px] border">SL</TableHead>
+                  <TableHead className="text-right w-[120px] border">Đơn giá</TableHead>
+                  <TableHead className="text-right w-[130px] border">Thành tiền</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -212,7 +212,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
                       <TableCell className="border">
                         <div className="flex flex-col">
                           <span className="font-semibold text-primary">{name}</span>
-                          <span className="text-[11px] text-gray-600">
+                          <span className="text-[11px] text-gray-700">
                             Phân loại: {color} / {size}
                           </span>
                         </div>
@@ -233,7 +233,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
             <div className="flex justify-end mb-8">
               <div className="w-full max-w-sm space-y-2 text-sm">
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Tổng tiền hàng:</span>
+                  <span className="text-gray-700">Tổng tiền hàng:</span>
                   <span className="font-medium">{formatCurrency(subTotal)}</span>
                 </div>
                 {discountAmount > 0 && (
@@ -252,7 +252,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
                   </span>
                 </div>
                 <Separator />
-                <div className="space-y-1 pt-2 text-gray-600">
+                <div className="space-y-1 pt-2 text-gray-700">
                   <div className="flex justify-between">
                     <span>Hình thức thanh toán:</span>
                     <span className="text-black font-medium">{paymentMethodName}</span>
@@ -271,7 +271,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
 
             <div className="text-center space-y-2 mt-12">
               <p className="font-bold text-lg italic">Cảm ơn Quý khách và hẹn gặp lại!</p>
-              <p className="text-sm text-gray-600 underline">www.sneakerstore.vn</p>
+              <p className="text-sm text-gray-700 underline">www.sneakerstore.vn</p>
             </div>
           </div>
         </CustomScrollArea>

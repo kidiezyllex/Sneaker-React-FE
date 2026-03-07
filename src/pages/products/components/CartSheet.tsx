@@ -279,7 +279,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
                     {items.length === 0 ? (
                         <div className="flex-1 flex flex-col items-center justify-center">
-                            <p className="text-gray-600">
+                            <p className="text-gray-700">
                                 Giỏ hàng của bạn đang trống
                             </p>
                             <Button
@@ -315,7 +315,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                                         <Icon path={mdiDelete} size={0.8} />
                                                     </button>
                                                 </div>
-                                                <div className="text-sm text-gray-600 flex items-center justify-between mb-2">
+                                                <div className="text-sm text-gray-700 flex items-center justify-between mb-2">
                                                     <span>Thương hiệu: {item.brand}</span>
                                                     {item.stock !== undefined && (
                                                         <span
@@ -373,7 +373,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                                     <div>
                                                         {item.hasDiscount && item.originalPrice && (
                                                             <div className="text-right">
-                                                                <span className="text-sm line-through text-gray-600 block">
+                                                                <span className="text-sm line-through text-gray-700 block">
                                                                     {formatPrice(item.originalPrice)}
                                                                 </span>
                                                                 <span className="font-medium text-green-600">
@@ -489,7 +489,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
 
                                     <div className="space-y-2">
                                         <div className="flex justify-between">
-                                            <span className="text-gray-600 text-sm font-semibold">
+                                            <span className="text-gray-700 text-sm font-semibold">
                                                 Tạm tính
                                             </span>
                                             <span>{formatPrice(finalSubtotal)}</span>
@@ -531,13 +531,13 @@ export const CartSheet: React.FC<CartSheetProps> = ({ open, onOpenChange }) => {
                                         )}
 
                                         <div className="flex justify-between">
-                                            <span className="text-gray-600 text-sm font-semibold">
+                                            <span className="text-gray-700 text-sm font-semibold">
                                                 Thuế VAT (5%)
                                             </span>
                                             <span>{formatPrice(finalTax)}</span>
                                         </div>
                                         <div className="flex justify-between">
-                                            <span className="text-gray-600 text-sm font-semibold">
+                                            <span className="text-gray-700 text-sm font-semibold">
                                                 Phí vận chuyển
                                                 {finalShipping === 0 && (
                                                     <span className="text-green-600 ml-1">

@@ -96,7 +96,7 @@ export const Newsletter = () => {
             </motion.h2>
 
             <motion.p
-              className="text-lg text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
+              className="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -137,7 +137,7 @@ export const Newsletter = () => {
                     size={1.2}
                     className="text-primary"
                   />
-                  <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                     {benefit.text}
                   </span>
                 </motion.div>
@@ -206,7 +206,7 @@ export const Newsletter = () => {
             </motion.div>
 
             <motion.p
-              className="text-sm text-gray-600 dark:text-gray-400 mt-6 max-w-xl mx-auto"
+              className="text-sm text-gray-700 dark:text-gray-400 mt-6 max-w-xl mx-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}

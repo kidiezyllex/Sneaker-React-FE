@@ -53,12 +53,12 @@ export const CustomToast = ({
         <span className={getIconColor()}>
           <Icon path={getIcon()} size={0.8} />
         </span>
-        <p className="text-gray-600">{title}</p>
+        <p className="text-gray-700">{title}</p>
       </div>
       {description && (
-        <p className="text-sm text-gray-600 pl-7">{description}</p>
+        <p className="text-sm text-gray-700 pl-7">{description}</p>
       )}
-      {subText && <p className="text-sm text-gray-600 pl-7">{subText}</p>}
+      {subText && <p className="text-sm text-gray-700 pl-7">{subText}</p>}
     </div>
   );
 };

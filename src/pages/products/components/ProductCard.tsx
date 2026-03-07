@@ -189,7 +189,7 @@ export const ProductCard = ({
         <div className="p-3 flex flex-col flex-grow bg-gray-50">
           {/* Brand */}
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-semibold text-gray-600 uppercase tracking-wide">
+            <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
               {typeof product.brand === "string"
                 ? product.brand
                 : product.brand.name}
@@ -292,7 +292,7 @@ export const ProductCard = ({
                     )
                   )
                 ).length > 3 && (
-                    <span className="text-sm text-gray-600 font-medium">
+                    <span className="text-sm text-gray-700 font-medium">
                       +
                       {Array.from(
                         new Set(
@@ -306,7 +306,7 @@ export const ProductCard = ({
               </div>
 
               {/* Sizes */}
-              <div className="text-xs text-gray-600 font-medium">
+              <div className="text-xs text-gray-700 font-medium">
                 <span className="font-semibold">Size: </span>
                 {Array.from(
                   new Set(

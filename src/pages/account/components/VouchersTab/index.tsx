@@ -185,7 +185,7 @@ const VouchersTab = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-gray-600">
+          <p className="text-gray-700">
             Bạn không có mã giảm giá nào hiện có.
           </p>
         </CardContent>
@@ -391,7 +391,7 @@ const VouchersTab = () => {
                         <Icon path={mdiTrophyOutline} size={0.8} className="text-blue-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 font-medium">Giảm tối đa</p>
+                        <p className="text-sm text-gray-700 font-medium">Giảm tối đa</p>
                         <p className="font-bold text-gray-900">
                           {selectedVoucher.type === "PERCENTAGE" && selectedVoucher.maxDiscount
                             ? formatPrice(selectedVoucher.maxDiscount)
@@ -405,7 +405,7 @@ const VouchersTab = () => {
                         <Icon path={mdiCartOutline} size={0.8} className="text-orange-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 font-medium">Lượt sử dụng còn</p>
+                        <p className="text-sm text-gray-700 font-medium">Lượt sử dụng còn</p>
                         <p className="font-bold text-gray-900">
                           {selectedVoucher.quantity - (selectedVoucher.usedCount || 0)} / {selectedVoucher.quantity}
                         </p>
@@ -417,7 +417,7 @@ const VouchersTab = () => {
                         <Icon path={mdiCalendar} size={0.8} className="text-green-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 font-medium">Hạn sử dụng</p>
+                        <p className="text-sm text-gray-700 font-medium">Hạn sử dụng</p>
                         <p className="font-bold text-gray-900">
                           {formatDate(selectedVoucher.endDate)}
                         </p>
@@ -429,7 +429,7 @@ const VouchersTab = () => {
                         <Icon path={mdiClockOutline} size={0.8} className="text-purple-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-600 font-medium">Ngày bắt đầu</p>
+                        <p className="text-sm text-gray-700 font-medium">Ngày bắt đầu</p>
                         <p className="font-bold text-gray-900">
                           {formatDate(selectedVoucher.startDate)}
                         </p>

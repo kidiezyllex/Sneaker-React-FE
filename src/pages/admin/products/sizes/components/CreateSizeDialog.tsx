@@ -143,7 +143,7 @@ export function CreateSizeDialog({ isOpen, onClose }: CreateSizeDialogProps) {
                                     </SelectItem>
                                 ))
                             ) : (
-                                <div className="p-2 text-center text-sm text-gray-600">
+                                <div className="p-2 text-center text-sm text-gray-700">
                                     Tất cả kích cỡ đã được thêm
                                 </div>
                             )}

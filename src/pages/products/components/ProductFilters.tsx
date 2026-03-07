@@ -156,7 +156,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
                   />
                   <label
                     htmlFor={`brand-${brand.id}`}
-                    className="text-sm text-gray-600 group-hover:text-primary transition-colors cursor-pointer select-none"
+                    className="text-sm text-gray-700 group-hover:text-primary transition-colors cursor-pointer select-none"
                   >
                     {brand.name}
                   </label>
@@ -180,7 +180,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
                   />
                   <label
                     htmlFor={`cat-${cat.id}`}
-                    className="text-sm text-gray-600 group-hover:text-primary transition-colors cursor-pointer select-none"
+                    className="text-sm text-gray-700 group-hover:text-primary transition-colors cursor-pointer select-none"
                   >
                     {cat.name}
                   </label>
@@ -204,7 +204,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
                   />
                   <label
                     htmlFor={`mat-${mat.id}`}
-                    className="text-sm text-gray-600 group-hover:text-primary transition-colors cursor-pointer select-none"
+                    className="text-sm text-gray-700 group-hover:text-primary transition-colors cursor-pointer select-none"
                   >
                     {mat.name}
                   </label>
@@ -245,7 +245,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
                   key={size.id}
                   className={`min-w-[40px] h-9 px-2 border rounded text-sm font-bold transition-all duration-200 ${filters.size === String(size.id)
                     ? "bg-primary text-white border-primary shadow-lg -translate-y-0.5"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-primary hover:text-primary"
+                    : "bg-white text-gray-700 border-gray-200 hover:border-primary hover:text-primary"
                     }`}
                   onClick={() => onChange({ size: filters.size === String(size.id) ? undefined : String(size.id) })}
                 >

@@ -40,7 +40,7 @@ const FeatureCard = ({
                 <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                     {title}
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm">
+                <p className="text-gray-700 dark:text-slate-400 leading-relaxed text-sm">
                     {description}
                 </p>
             </div>
@@ -83,7 +83,7 @@ const TestimonialCard = ({
         <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
             {title}
         </h3>
-        <p className="text-slate-600 dark:text-slate-400 mb-8 text-lg leading-relaxed flex-grow italic">
+        <p className="text-gray-700 dark:text-slate-400 mb-8 text-lg leading-relaxed flex-grow italic">
             "{description}"
         </p>
         <div className="flex items-center gap-4 pt-6 border-t border-slate-50 dark:border-slate-700">
@@ -251,7 +251,7 @@ const AboutUsPage = () => {
                                 </h3>
                             </div>
 
-                            <p className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
+                            <p className="text-lg text-gray-700 dark:text-slate-400 leading-relaxed">
                                 StreetSneaker ra đời từ khao khát kết nối những người yêu giày với những sản phẩm tốt nhất. Chúng tôi không chỉ cung cấp giày dép, chúng tôi cung cấp phương tiện để bạn thể hiện bản thân.
                             </p>
 
@@ -307,7 +307,7 @@ const AboutUsPage = () => {
                         <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tighter">
                             Tại sao chọn chúng tôi?
                         </h3>
-                        <p className="text-slate-600 dark:text-slate-400 text-lg">
+                        <p className="text-gray-700 dark:text-slate-400 text-lg">
                             Mỗi đôi giày tại StreetSneaker đều mang trong mình sự tận tâm và cam kết tuyệt đối về trải nghiệm người dùng.
                         </p>
                     </motion.div>

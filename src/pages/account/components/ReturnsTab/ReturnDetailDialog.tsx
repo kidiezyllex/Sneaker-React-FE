@@ -139,13 +139,13 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                       </CardHeader>
                       <CardContent className="space-y-3 text-sm">
                         <div className="flex items-center justify-between">
-                          <span className="text-gray-600 font-semibold">Mã đơn hàng:</span>
+                          <span className="text-gray-700 font-semibold">Mã đơn hàng:</span>
                           <span className="font-medium">
                             {originalOrder?.code || (ret.originalOrder as any)}
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-gray-600 font-semibold">Ngày tạo đơn:</span>
+                          <span className="text-gray-700 font-semibold">Ngày tạo đơn:</span>
                           <span className="font-medium">
                             {originalOrder?.createdAt
                               ? format(
@@ -157,7 +157,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-gray-600 font-semibold">Ngày yêu cầu:</span>
+                          <span className="text-gray-700 font-semibold">Ngày yêu cầu:</span>
                           <span className="font-medium">
                             {format(
                               new Date(ret.createdAt),
@@ -168,7 +168,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                         </div>
                         {ret.staff && (
                           <div className="flex items-center justify-between">
-                            <span className="text-gray-600 font-semibold">
+                            <span className="text-gray-700 font-semibold">
                               Nhân viên xử lý:
                             </span>
                             <span className="font-medium">
@@ -195,18 +195,18 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                       </CardHeader>
                       <CardContent className="space-y-3 text-sm">
                         <div className="flex items-start justify-between gap-3">
-                          <span className="text-gray-600 font-semibold shrink-0">
+                          <span className="text-gray-700 font-semibold shrink-0">
                             Lý do trả:
                           </span>
-                          <span className="text-right italic text-gray-600">
+                          <span className="text-right italic text-gray-700">
                             {ret.reason || "—"}
                           </span>
                         </div>
                         <div className="flex items-start justify-between gap-3">
-                          <span className="text-gray-600 font-semibold shrink-0 w-16">
+                          <span className="text-gray-700 font-semibold shrink-0 w-16">
                             Ghi chú:
                           </span>
-                          <span className="text-right italic text-gray-600">
+                          <span className="text-right italic text-gray-700">
                             {ret.note || "Không có ghi chú"}
                           </span>
                         </div>
@@ -230,7 +230,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                     </CardHeader>
                     <CardContent>
                       {returnItems.length === 0 ? (
-                        <p className="text-sm text-gray-600 text-center py-4">
+                        <p className="text-sm text-gray-700 text-center py-4">
                           Không có dữ liệu sản phẩm.
                         </p>
                       ) : (
@@ -340,7 +340,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                     </CardHeader>
                     <CardContent className="space-y-3 text-sm">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-600 font-semibold">
+                        <span className="text-gray-700 font-semibold">
                           Tiền hàng trả:
                         </span>
                         <span className="font-medium text-gray-700">
@@ -356,7 +356,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                         </span>
                       </div>
                       <div className="flex justify-between items-center font-bold border-t pt-3">
-                        <span className="text-gray-600 text-sm">
+                        <span className="text-gray-700 text-sm">
                           Tổng tiền hoàn:
                         </span>
                         <span className="text-primary text-xl">
@@ -395,7 +395,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
           })()
         ) : (
           <div className="p-8 text-center">
-            <p className="text-gray-600">Không tìm thấy thông tin trả hàng.</p>
+            <p className="text-gray-700">Không tìm thấy thông tin trả hàng.</p>
           </div>
         )}
       </DialogContent>

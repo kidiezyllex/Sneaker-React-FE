@@ -214,7 +214,7 @@ const ProductDetailDialog = ({
                                                     ? "bg-primary text-white border-primary shadow-md transform -translate-y-0.5"
                                                     : isOutOfStock
                                                         ? "bg-slate-50 text-slate-300 border-slate-100 cursor-not-allowed"
-                                                        : "bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary"
+                                                        : "bg-white text-gray-700 border-slate-200 hover:border-primary hover:text-primary"
                                                     }`}
                                             >
                                                 {size.value || size.name}

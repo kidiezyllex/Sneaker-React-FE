@@ -164,7 +164,7 @@ export default function POSRightSection({
                           <Icon path={mdiDelete} size={0.8} />
                         </button>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
+                      <div className="flex items-center gap-2 text-sm text-gray-700 mt-1">
                         <Badge variant="outline">Size: {item.sizeName}</Badge>
                         <Badge variant="outline">
                           <span
@@ -180,7 +180,7 @@ export default function POSRightSection({
                         <span className="font-semibold text-sm">Số lượng: </span>
                         <div className="flex items-center gap-2 border rounded-md bg-gray-50 h-8">
                           <button
-                            className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-l-md transition-colors text-gray-600"
+                            className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-l-md transition-colors text-gray-700"
                             onClick={() => onUpdateQuantity(item.id, -1)}
                           >
                             <Icon path={mdiMinus} size={0.8} />
@@ -189,7 +189,7 @@ export default function POSRightSection({
                             {item.quantity}
                           </span>
                           <button
-                            className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-r-md transition-colors text-gray-600"
+                            className="h-full w-8 flex items-center justify-center hover:bg-gray-200 rounded-r-md transition-colors text-gray-700"
                             onClick={() => onUpdateQuantity(item.id, 1)}
                             disabled={item.quantity >= item.stock}
                           >
@@ -367,7 +367,7 @@ export default function POSRightSection({
         {/* Thanh toán */}
         <div className="space-y-4">
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-gray-700">
               <span className="font-semibold text-sm">Tạm tính</span>
               <span className="font-semibold text-maintext text-sm">
                 {formatCurrency(subtotal)}

@@ -232,7 +232,7 @@ const ProfileTab = () => {
                         <h3 className="text-lg font-semibold">
                           {userData?.fullName}
                         </h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-700">
                           {userData?.email}
                         </p>
                       </div>
@@ -255,7 +255,7 @@ const ProfileTab = () => {
                       </Button>
                     </div>
 
-                    <div className="mt-8 pt-4 border-t space-y-4  text-gray-600">
+                    <div className="mt-8 pt-4 border-t space-y-4  text-gray-700">
                       <div className="flex justify-between items-center text-sm">
                         <span className="font-semibold flex items-center gap-2">
                           <Icon path={mdiInformationOutline} size={0.8} />
@@ -289,7 +289,7 @@ const ProfileTab = () => {
                       Thông tin cơ bản
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4 text-gray-600">
+                  <CardContent className="space-y-4 text-gray-700">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -353,8 +353,8 @@ const ProfileTab = () => {
                       Chi tiết cá nhân
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="space-y-4 text-gray-600">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-600">
+                  <CardContent className="space-y-4 text-gray-700">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
                       <FormField
                         control={form.control}
                         name="gender"

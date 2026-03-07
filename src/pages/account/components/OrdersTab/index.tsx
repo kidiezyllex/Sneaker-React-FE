@@ -173,7 +173,7 @@ const OrdersTab = () => {
             </div>
           ) : orders.length === 0 ? (
             <div className="py-8 text-center">
-              <p className="text-gray-600 mb-4">
+              <p className="text-gray-700 mb-4">
                 Bạn chưa có đơn hàng nào.
               </p>
               <Button variant="outline" asChild>
@@ -254,7 +254,7 @@ const OrdersTab = () => {
                               );
                             })}
                             {order.items.length > 3 && (
-                              <div className="w-12 h-12 bg-muted rounded border flex items-center justify-center text-sm text-gray-600">
+                              <div className="w-12 h-12 bg-muted rounded border flex items-center justify-center text-sm text-gray-700">
                                 +{order.items.length - 3}
                               </div>
                             )}

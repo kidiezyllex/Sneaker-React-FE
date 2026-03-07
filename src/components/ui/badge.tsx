@@ -21,9 +21,9 @@ const badgeVariants = cva(
         default:
           "border-primary bg-primary text-white shadow-sm hover:bg-primary/90",
         secondary:
-          "border-slate-400 bg-slate-50 text-slate-600 hover:bg-slate-100",
+          "border-slate-400 bg-slate-50 text-gray-700 hover:bg-slate-100",
         destructive: "border-red-500 bg-red-50 text-red-600 hover:bg-red-100",
-        outline: "border-slate-400 text-slate-600 bg-white hover:bg-slate-50",
+        outline: "border-slate-400 text-gray-700 bg-white hover:bg-slate-50",
         success:
           "border-emerald-500 bg-emerald-50 text-emerald-600 hover:bg-emerald-100",
         warning:

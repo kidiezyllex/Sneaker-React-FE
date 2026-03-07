@@ -465,14 +465,13 @@ export default function ReturnsPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Mã yêu cầu</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Khách hàng</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Đơn hàng gốc</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Ngày tạo</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Số tiền hoàn trả</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                    <TableHead className="w-[80px] text-center">STT</TableHead>
+                    <TableHead>Mã yêu cầu</TableHead>
+                    <TableHead>Khách hàng</TableHead>
+                    <TableHead>Ngày tạo</TableHead>
+                    <TableHead>Số tiền hoàn trả</TableHead>
+                    <TableHead>Trạng thái</TableHead>
+                    <TableHead className="text-right">Thao tác</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -486,19 +485,14 @@ export default function ReturnsPage() {
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col">
-                          <span className="font-medium text-slate-700">{returnItem.customer.fullName}</span>
+                          <span className="font-medium text-gray-700">{returnItem.customer.fullName}</span>
                           <span className="text-sm text-maintext">{returnItem.customer.phoneNumber}</span>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <Badge variant="outline" className="font-mono">
-                          {returnItem.originalOrder.code}
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-gray-700">
                         {formatDateTime(returnItem.createdAt)}
                       </TableCell>
-                      <TableCell className="font-bold text-slate-900">
+                      <TableCell className="text-sm text-gray-700">
                         {formatCurrency(returnItem.totalRefund)}
                       </TableCell>
                       <TableCell>

@@ -265,7 +265,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                 <CardContent>
                   {!order?.items || order.items.length === 0 ? (
                     <div className="py-6 text-center">
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-700">
                         Không có sản phẩm trong đơn hàng này.
                       </p>
                     </div>
@@ -327,12 +327,12 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                                     {productName}
                                   </div>
                                   {product?.code && (
-                                    <div className="text-sm text-gray-600">
+                                    <div className="text-sm text-gray-700">
                                       Mã: {product.code}
                                     </div>
                                   )}
                                   {variantLabel && (
-                                    <div className="text-sm text-gray-600">
+                                    <div className="text-sm text-gray-700">
                                       {variantLabel}
                                     </div>
                                   )}
@@ -402,11 +402,11 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                             </p>
                             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
                               {item.variantLabel && (
-                                <span className="text-sm text-gray-600">
+                                <span className="text-sm text-gray-700">
                                   {item.variantLabel}
                                 </span>
                               )}
-                              <span className="text-sm text-gray-600">
+                              <span className="text-sm text-gray-700">
                                 Đơn giá:{" "}
                                 <span className="font-medium text-gray-700">
                                   {formatPrice(item.price)}
@@ -458,7 +458,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                     {/* Tổng tiền hoàn dự kiến */}
                     <div className="mt-4 border-t pt-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-600 text-sm font-semibold">
+                        <span className="text-gray-700 text-sm font-semibold">
                           Tổng tiền hoàn dự kiến:
                         </span>
                         <span className="text-primary text-lg font-bold">

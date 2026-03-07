@@ -362,13 +362,13 @@ export default function VouchersPage() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext w-[80px] text-center">STT</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Phiếu giảm giá</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Giá trị & Điều kiện</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Sử dụng</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Thời gian</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext">Trạng thái</TableHead>
-                    <TableHead className="bg-slate-50 font-semibold text-maintext text-right">Thao tác</TableHead>
+                    <TableHead className="w-[80px] text-center">STT</TableHead>
+                    <TableHead>Phiếu giảm giá</TableHead>
+                    <TableHead>Giá trị & Điều kiện</TableHead>
+                    <TableHead>Sử dụng</TableHead>
+                    <TableHead>Thời gian</TableHead>
+                    <TableHead>Trạng thái</TableHead>
+                    <TableHead className="text-right">Thao tác</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -386,7 +386,7 @@ export default function VouchersPage() {
                             <span className="font-mono font-bold text-primary text-sm">
                               {voucher.code}
                             </span>
-                            <span className="text-sm font-medium text-slate-700 mt-0.5">
+                            <span className="text-sm font-medium text-gray-700 mt-0.5">
                               {voucher.name}
                             </span>
                           </div>
@@ -416,7 +416,7 @@ export default function VouchersPage() {
                         <TableCell className="px-4 py-4">
                           <div className="flex flex-col gap-1 w-32">
                             <div className="flex justify-between text-sm font-medium">
-                              <span className="text-slate-600">Đã dùng: {voucher.usedCount}</span>
+                              <span className="text-gray-700">Đã dùng: {voucher.usedCount}</span>
                               <span className="text-slate-400">{Math.round((voucher.usedCount / voucher.quantity) * 100)}%</span>
                             </div>
                             <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -429,7 +429,7 @@ export default function VouchersPage() {
                           </div>
                         </TableCell>
                         <TableCell className="px-4 py-4">
-                          <div className="flex flex-col gap-1 text-slate-600 text-sm">
+                          <div className="flex flex-col gap-1 text-gray-700 text-sm">
                             <div className="flex items-center gap-1.5">
                               <div className="w-1.5 h-1.5 rounded-full bg-green-500" />
                               <span>{formatDate(voucher.startDate)}</span>

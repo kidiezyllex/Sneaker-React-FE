@@ -298,7 +298,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600 w-32 font-semibold">
+                      <span className="text-gray-700 w-32 font-semibold">
                         Người nhận:
                       </span>
                       <span className="font-medium">
@@ -308,7 +308,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600 w-32 font-semibold">
+                      <span className="text-gray-700 w-32 font-semibold">
                         Số điện thoại:
                       </span>
                       <span>
@@ -318,7 +318,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600 w-32 font-semibold">
+                      <span className="text-gray-700 w-32 font-semibold">
                         Địa chỉ:
                       </span>
                       <span className="text-end">
@@ -344,7 +344,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                   </CardHeader>
                   <CardContent className="space-y-4 text-sm">
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600 w-32 font-semibold">
+                      <span className="text-gray-700 w-32 font-semibold">
                         Phương thức:
                       </span>
                       <div className="flex items-center">
@@ -361,7 +361,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </div>
                     </div>
                     <div className="flex items-center justify-between">
-                      <span className="text-gray-600 w-32 font-semibold">
+                      <span className="text-gray-700 w-32 font-semibold">
                         Trạng thái:
                       </span>
                       <span>
@@ -426,21 +426,21 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                                 <div className="font-medium">
                                   {product?.name || "Sản phẩm không xác định"}
                                 </div>
-                                <div className="text-sm text-gray-600">
+                                <div className="text-sm text-gray-700">
                                   Mã: {product?.code || "N/A"}
                                 </div>
                                 {product?.brand && (
-                                  <div className="text-sm text-gray-600">
+                                  <div className="text-sm text-gray-700">
                                     Thương hiệu: {product.brand.name}
                                   </div>
                                 )}
                                 {color && (
-                                  <div className="text-sm text-gray-600">
+                                  <div className="text-sm text-gray-700">
                                     Màu: {color.name}
                                   </div>
                                 )}
                                 {size && (
-                                  <div className="text-sm text-gray-600">
+                                  <div className="text-sm text-gray-700">
                                     Size: {size.value}
                                   </div>
                                 )}
@@ -466,7 +466,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
 
                   <div className="mt-6 space-y-4 border-t pt-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600 font-semibold text-sm">Tạm tính:</span>
+                      <span className="text-gray-700 font-semibold text-sm">Tạm tính:</span>
                       <span>
                         {formatPrice(
                           parseFloat(orderData.data.subTotal.toString())
@@ -485,7 +485,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </div>
                     )}
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-600 font-semibold text-sm">
+                      <span className="text-gray-700 font-semibold text-sm">
                         Phí vận chuyển:
                       </span>
                       <span>
@@ -497,7 +497,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
                       </span>
                     </div>
                     <div className="flex justify-between items-center text-sm font-semibold border-t pt-3">
-                      <span className="text-gray-600 text-sm">Tổng tiền:</span>
+                      <span className="text-gray-700 text-sm">Tổng tiền:</span>
                       <span className="text-primary">
                         {formatPrice(
                           parseFloat(orderData.data.total.toString())
@@ -590,7 +590,7 @@ const OrderDetailDialog: React.FC<OrderDetailDialogProps> = ({
           </>
         ) : (
           <div className="p-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-700">
               Không tìm thấy thông tin đơn hàng.
             </p>
           </div>
