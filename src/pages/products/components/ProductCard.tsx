@@ -34,7 +34,7 @@ export const ProductCard = ({
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <Card className="group overflow-hidden rounded-xl hover:shadow-xl shadow-md transition-all duration-300 border-2 border-white h-full flex flex-col bg-white">
+      <Card className="p-0">
         {/* Image Section */}
         <div className="relative bg-white rounded-t-2xl overflow-hidden border-b border-b-slate-100 group">
           <Link
@@ -302,7 +302,7 @@ export const ProductCard = ({
           {product.variants && product.variants.length > 0 && (
             <div className="flex items-center justify-between px-2 py-1 rounded-full border bg-[#eee]">
               {/* Colors */}
-              <div className="flex items-center gap-1">
+              <div className="flex items-center">
                 {Array.from(
                   new Set(
                     (product.variants || []).map(
@@ -351,7 +351,7 @@ export const ProductCard = ({
               </div>
 
               {/* Sizes */}
-              <div className="text-sm text-gray-600 font-medium">
+              <div className="text-xs text-gray-600 font-medium">
                 <span className="font-semibold">Size: </span>
                 {Array.from(
                   new Set(
