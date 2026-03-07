@@ -9,7 +9,7 @@ const NotFoundPage: React.FC = () => {
         <h2 className="text-2xl font-semibold text-gray-600 mb-4">
           Trang không tìm thấy
         </h2>
-        <p className="text-gray-500 mb-8">
+        <p className="text-gray-600 mb-8">
           Xin lỗi, trang bạn đang tìm kiếm không tồn tại.
         </p>
         <Link

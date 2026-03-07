@@ -142,7 +142,7 @@ const PasswordTab = () => {
                       <button
                         type="button"
                         onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-700"
                       >
                         <Icon
                           path={showCurrentPassword ? mdiEyeOff : mdiEye}
@@ -172,7 +172,7 @@ const PasswordTab = () => {
                       <button
                         type="button"
                         onClick={() => setShowNewPassword(!showNewPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-700"
                       >
                         <Icon
                           path={showNewPassword ? mdiEyeOff : mdiEye}
@@ -205,7 +205,7 @@ const PasswordTab = () => {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-gray-700"
                       >
                         <Icon
                           path={showConfirmPassword ? mdiEyeOff : mdiEye}

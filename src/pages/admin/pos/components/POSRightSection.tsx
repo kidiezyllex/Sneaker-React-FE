@@ -164,7 +164,7 @@ export default function POSRightSection({
                           <Icon path={mdiDelete} size={0.8} />
                         </button>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 mt-1">
+                      <div className="flex items-center gap-2 text-sm text-gray-600 mt-1">
                         <Badge variant="outline">Size: {item.sizeName}</Badge>
                         <Badge variant="outline">
                           <span
@@ -367,7 +367,7 @@ export default function POSRightSection({
         {/* Thanh toán */}
         <div className="space-y-4">
           <div className="space-y-2 text-sm">
-            <div className="flex justify-between text-gray-500">
+            <div className="flex justify-between text-gray-600">
               <span className="font-semibold text-sm">Tạm tính</span>
               <span className="font-semibold text-maintext text-sm">
                 {formatCurrency(subtotal)}

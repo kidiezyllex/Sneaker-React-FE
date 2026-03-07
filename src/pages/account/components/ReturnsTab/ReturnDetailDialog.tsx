@@ -28,7 +28,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/utils/formatters";
 import { ReturnStatusBadge } from "../components/Badges";
 
@@ -54,13 +53,11 @@ const parseReturnItems = (items: any): any[] => {
   return [];
 };
 
-// Tìm variant từ originalOrder.items theo variantId
-const findVariantFromOrder = (orderItems: any[], variantId: number | string): any | null => {
+const findOrderItemFromOrder = (orderItems: any[], variantId: number | string): any | null => {
   if (!orderItems || !variantId) return null;
-  const found = orderItems.find(
+  return orderItems.find(
     (oi: any) => String(oi.variant?.id) === String(variantId)
   );
-  return found?.variant || null;
 };
 
 const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
@@ -74,6 +71,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
     isLoading,
     isError,
   } = useMyReturnDetail(returnId || "");
+
   const cancelReturnMutation = useCancelMyReturn();
 
   const handleCancelReturn = () => {
@@ -90,7 +88,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
     });
   };
 
-  if (!open || !returnId) return null;
+  if (!returnId) return null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -200,15 +198,15 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                           <span className="text-gray-600 font-semibold shrink-0">
                             Lý do trả:
                           </span>
-                          <Badge variant="outline" className="font-medium text-right">
+                          <span className="text-right italic text-gray-600">
                             {ret.reason || "—"}
-                          </Badge>
+                          </span>
                         </div>
                         <div className="flex items-start justify-between gap-3">
                           <span className="text-gray-600 font-semibold shrink-0 w-16">
                             Ghi chú:
                           </span>
-                          <span className="text-right italic text-gray-500">
+                          <span className="text-right italic text-gray-600">
                             {ret.note || "Không có ghi chú"}
                           </span>
                         </div>
@@ -232,7 +230,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                     </CardHeader>
                     <CardContent>
                       {returnItems.length === 0 ? (
-                        <p className="text-sm text-gray-500 text-center py-4">
+                        <p className="text-sm text-gray-600 text-center py-4">
                           Không có dữ liệu sản phẩm.
                         </p>
                       ) : (
@@ -249,14 +247,11 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                           <TableBody>
                             {returnItems.map((ri: any, index: number) => {
                               // Lấy variantId từ items: ưu tiên variantId, rồi productVariantId
-                              const variantId =
-                                ri.variantId ?? ri.productVariantId;
-                              const variant = findVariantFromOrder(
-                                orderItems,
-                                variantId
-                              );
-                              const imageUrl =
-                                variant?.images?.[0]?.imageUrl;
+                              const variantId = ri.variantId ?? ri.productVariantId;
+                              const orderItem = findOrderItemFromOrder(orderItems, variantId);
+                              const variant = orderItem?.variant;
+
+                              const imageUrl = variant?.images?.[0]?.imageUrl;
                               const colorName = variant?.color?.name || "";
                               const sizeValue = variant?.size?.value;
                               const variantLabel = [
@@ -267,7 +262,7 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                                 .join(" / ");
 
                               const qty = ri.quantity || 0;
-                              const price = ri.price || 0;
+                              const price = orderItem?.price || 0;
 
                               return (
                                 <TableRow key={index}>
@@ -350,11 +345,13 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                         </span>
                         <span className="font-medium text-gray-700">
                           {formatPrice(
-                            returnItems.reduce(
-                              (sum: number, ri: any) =>
-                                sum + (ri.price || 0) * (ri.quantity || 0),
-                              0
-                            )
+                            returnItems.reduce((sum: number, ri: any) => {
+                              const oi = findOrderItemFromOrder(
+                                orderItems,
+                                ri.variantId ?? ri.productVariantId
+                              );
+                              return sum + (oi?.price || 0) * (ri.quantity || 0);
+                            }, 0)
                           )}
                         </span>
                       </div>
@@ -370,13 +367,12 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                   </Card>
                 </div>
 
-                <DialogFooter className="bg-gray-100 flex gap-2">
+                <DialogFooter className="bg-gray-100 flex">
                   {ret.status === "CHO_XU_LY" && (
                     <Button
                       variant="destructive"
                       onClick={handleCancelReturn}
                       disabled={cancelReturnMutation.isPending}
-                      className="gap-2"
                     >
                       {cancelReturnMutation.isPending ? (
                         <div className="animate-spin rounded-full h-4 w-4 border-2 border-t-transparent border-white" />
@@ -389,7 +385,6 @@ const ReturnDetailDialog: React.FC<ReturnDetailDialogProps> = ({
                   <Button
                     variant="outline"
                     onClick={() => onOpenChange(false)}
-                    className="gap-2"
                   >
                     <Icon path={mdiClose} size={0.8} />
                     Đóng

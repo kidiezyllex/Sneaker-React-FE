@@ -1,6 +1,7 @@
 import {
   useQuery,
   useMutation,
+  useQueryClient,
   UseQueryResult,
   UseMutationResult,
 } from "@tanstack/react-query";
@@ -130,7 +131,12 @@ export const useMyReturnDetail = (returnId: string): UseQueryResult<IReturnRespo
 };
 
 export const useCancelMyReturn = (): UseMutationResult<IActionResponse, Error, string> => {
+  const queryClient = useQueryClient();
   return useMutation<IActionResponse, Error, string>({
     mutationFn: (returnId) => cancelMyReturn(returnId),
+    onSuccess: (_, returnId) => {
+      queryClient.invalidateQueries({ queryKey: ["myReturn", returnId] });
+      queryClient.invalidateQueries({ queryKey: ["myReturns"] });
+    },
   });
 };

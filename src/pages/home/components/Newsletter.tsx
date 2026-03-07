@@ -4,11 +4,10 @@ import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
 import {
-  mdiEmailOutline,
   mdiEmailFast,
   mdiCheckCircle,
   mdiGift,
-  mdiSale,
+  mdiSale
 } from "@mdi/js";
 import { Input } from "@/components/ui/input";
 
@@ -207,7 +206,7 @@ export const Newsletter = () => {
             </motion.div>
 
             <motion.p
-              className="text-sm text-gray-500 dark:text-gray-400 mt-6 max-w-xl mx-auto"
+              className="text-sm text-gray-600 dark:text-gray-400 mt-6 max-w-xl mx-auto"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}

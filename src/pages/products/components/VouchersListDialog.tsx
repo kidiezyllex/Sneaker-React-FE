@@ -207,7 +207,7 @@ export const VouchersListDialog: React.FC<VouchersListDialogProps> = ({
                                                 )}
 
                                                 {!isVoucher && (
-                                                    <div className="text-xs text-gray-500 line-clamp-2">
+                                                    <div className="text-xs text-gray-600 line-clamp-2">
                                                         {item.description}
                                                     </div>
                                                 )}

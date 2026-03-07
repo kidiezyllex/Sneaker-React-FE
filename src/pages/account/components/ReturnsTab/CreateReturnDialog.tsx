@@ -265,7 +265,7 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                 <CardContent>
                   {!order?.items || order.items.length === 0 ? (
                     <div className="py-6 text-center">
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-600">
                         Không có sản phẩm trong đơn hàng này.
                       </p>
                     </div>
@@ -402,11 +402,11 @@ const CreateReturnDialog: React.FC<CreateReturnDialogProps> = ({
                             </p>
                             <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
                               {item.variantLabel && (
-                                <span className="text-sm text-gray-500">
+                                <span className="text-sm text-gray-600">
                                   {item.variantLabel}
                                 </span>
                               )}
-                              <span className="text-sm text-gray-500">
+                              <span className="text-sm text-gray-600">
                                 Đơn giá:{" "}
                                 <span className="font-medium text-gray-700">
                                   {formatPrice(item.price)}

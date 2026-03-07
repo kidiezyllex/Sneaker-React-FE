@@ -212,7 +212,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
                       <TableCell className="border">
                         <div className="flex flex-col">
                           <span className="font-semibold text-primary">{name}</span>
-                          <span className="text-[11px] text-gray-500">
+                          <span className="text-[11px] text-gray-600">
                             Phân loại: {color} / {size}
                           </span>
                         </div>
@@ -271,7 +271,7 @@ const InvoiceDialog: React.FC<InvoiceDialogProps> = ({
 
             <div className="text-center space-y-2 mt-12">
               <p className="font-bold text-lg italic">Cảm ơn Quý khách và hẹn gặp lại!</p>
-              <p className="text-sm text-gray-500 underline">www.sneakerstore.vn</p>
+              <p className="text-sm text-gray-600 underline">www.sneakerstore.vn</p>
             </div>
           </div>
         </CustomScrollArea>

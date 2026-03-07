@@ -159,10 +159,10 @@ const ReturnsTab = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    {["Mã trả hàng", "Ngày tạo", "Đơn gốc", "Sản phẩm", "Hoàn tiền", "Trạng thái", ""].map(
+                    {["STT", "Mã trả hàng", "Ngày tạo", "Đơn gốc", "Sản phẩm", "Hoàn tiền", "Trạng thái", ""].map(
                       (h, i) => (
-                        <TableHead key={i}>
-                          <Skeleton className="h-4 w-20" />
+                        <TableHead key={i} className={i === 0 ? "w-[60px] text-center" : ""}>
+                          <Skeleton className="h-4 w-16 mx-auto" />
                         </TableHead>
                       )
                     )}
@@ -171,7 +171,7 @@ const ReturnsTab = () => {
                 <TableBody>
                   {[...Array(4)].map((_, i) => (
                     <TableRow key={i}>
-                      {[...Array(7)].map((_, j) => (
+                      {[...Array(8)].map((_, j) => (
                         <TableCell key={j}>
                           <Skeleton className="h-10 w-full" />
                         </TableCell>
@@ -224,6 +224,9 @@ const ReturnsTab = () => {
               <Table className="min-w-[900px]">
                 <TableHeader>
                   <TableRow>
+                    <TableHead className="w-[60px] px-3 py-2 whitespace-nowrap text-center">
+                      STT
+                    </TableHead>
                     <TableHead className="px-3 py-2">Mã trả hàng</TableHead>
                     <TableHead className="px-3 py-2">Ngày tạo</TableHead>
                     <TableHead className="px-3 py-2">Đơn hàng gốc</TableHead>
@@ -239,13 +242,19 @@ const ReturnsTab = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {returns.map((returnItem: IReturn) => {
+                  {returns.map((returnItem: IReturn, index: number) => {
                     // Parse items JSON string
                     const returnItems = parseReturnItems(returnItem.items);
                     const orderItems = returnItem.originalOrder?.items || [];
+                    const globalIndex = (currentPage - 1) * ITEMS_PER_PAGE + index;
 
                     return (
                       <TableRow key={returnItem.id}>
+                        {/* STT */}
+                        <TableCell className="px-3 py-2 whitespace-nowrap text-center text-maintext font-semibold">
+                          {globalIndex + 1}
+                        </TableCell>
+
                         {/* Mã trả hàng */}
                         <TableCell className="font-medium px-3 py-2 text-maintext whitespace-nowrap">
                           {returnItem.code}
