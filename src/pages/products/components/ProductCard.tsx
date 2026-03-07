@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@mdi/react";
-import { mdiCartOutline, mdiHeartOutline, mdiEye } from "@mdi/js";
+import { mdiCartOutline, mdiHeartOutline, mdiEye, mdiTag } from "@mdi/js";
 import { checkImageUrl } from "@/lib/utils";
 import { formatPrice } from "@/utils/formatters";
 import { calculateProductDiscount } from "@/lib/promotions";
@@ -124,56 +124,11 @@ export const ProductCard = ({
                 if (discount.discountPercent > 0) {
                   return (
                     <div className="bg-[#00B207] text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path d="M12.76 3.76a6 6 0 0 1 8.48 8.48l-8.53 8.54a2 2 0 0 1-2.83 0l-8.53-8.54a6 6 0 0 1 8.48-8.48l.76.75.76-.75z" />
-                      </svg>
+                      <Icon path={mdiTag} size={0.6} />
                       <span>-{discount.discountPercent}%</span>
                     </div>
                   );
                 }
-              }
-              return null;
-            })()}
-
-            {/* Stock badge */}
-            {(() => {
-              const totalStock = (product.variants || []).reduce(
-                (sum: number, variant: any) => sum + (variant.stock || 0),
-                0
-              );
-              if (totalStock === 0) {
-                return (
-                  <div className="bg-red-500 text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.59-13L12 10.59 8.41 7 7 8.41 10.59 12 7 15.59 8.41 17 12 13.41 15.59 17 17 15.59 13.41 12 17 8.41z" />
-                    </svg>
-                    <span>Hết hàng</span>
-                  </div>
-                );
-              } else if (totalStock <= 5) {
-                return (
-                  <div className="bg-[#FF8A00] text-white text-sm font-semibold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-md">
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                    </svg>
-                    <span>Low Stock</span>
-                  </div>
-                );
               }
               return null;
             })()}
@@ -248,7 +203,7 @@ export const ProductCard = ({
               .replace(/\s+/g, "-")}-${product.id}`}
             className="hover:text-primary transition-colors flex-1"
           >
-            <h3 className="font-semibold text-sm mb-3 line-clamp-2 leading-tight text-maintext hover:text-primary transition-colors">
+            <h3 className="font-semibold text-base mb-3 line-clamp-1 leading-tight text-maintext hover:text-primary transition-colors">
               {product.name}
             </h3>
           </Link>
