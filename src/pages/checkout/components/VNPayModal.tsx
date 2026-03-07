@@ -558,7 +558,7 @@ export default function VNPayModal({
             setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 4))
           }
           maxLength={4}
-          className="text-center text-lg tracking-widest"
+          className="text-center text-lg"
         />
       </div>
 

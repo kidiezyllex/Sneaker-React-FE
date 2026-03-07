@@ -105,7 +105,7 @@ export const BestSeller = () => {
           animate={isHeaderInView ? "visible" : "hidden"}
           className="text-center mb-12"
         >
-          <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
+          <span className="inline-block px-4 py-1.5 mb-4 text-sm font-semibold text-[#2C8B3D] uppercase bg-[#E9F5E2] rounded-full">
             Bán chạy nhất
           </span>
           <h2 className="text-3xl font-semibold text-center mb-4 relative">

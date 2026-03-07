@@ -80,10 +80,13 @@ export default function AdminReturnDetailPage() {
 
             const items = rawItems.map((item: any) => {
                 // Find corresponding item in original order to get names, images, etc.
+                const itemVariantId = item.productVariantId || item.variantId;
                 const originalItem = order.items?.find((oItem: any) =>
-                    (oItem.variant?.id === item.variantId) ||
-                    (oItem.variant?.id?.toString() === item.variantId?.toString())
+                    (oItem.variant?.id === itemVariantId) ||
+                    (oItem.variant?.id?.toString() === itemVariantId?.toString())
                 );
+
+                const price = item.price || originalItem?.price || 0;
 
                 return {
                     product: item.productId || (originalItem?.product?.id?.toString() || ""),
@@ -92,7 +95,7 @@ export default function AdminReturnDetailPage() {
                         sizeId: item.sizeId || (originalItem?.variant?.size?.id?.toString() || ""),
                     },
                     quantity: item.quantity,
-                    price: item.price,
+                    price: price,
                     reason: item.reason || "",
                     maxQuantity: originalItem ? originalItem.quantity : item.quantity + 5,
                     productName: originalItem?.product?.name || "Sản phẩm",
@@ -287,7 +290,7 @@ export default function AdminReturnDetailPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="lg:col-span-2 space-y-4">
                     {/* Return Information */}
-                    <Card className="shadow-sm border border-slate-200 bg-white">
+                    <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <div className="p-2 rounded-full bg-primary/10">
@@ -300,26 +303,26 @@ export default function AdminReturnDetailPage() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="p-0">
-                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100">
-                                <div className="p-4 space-y-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200">
+                                <div className="p-4 space-y-4 pl-0">
                                     <div className="space-y-4">
                                         <div className="flex justify-between items-center py-1">
-                                            <span className="text-sm text-gray-700">Ngày tạo hệ thống</span>
+                                            <span className="text-sm text-gray-700">Ngày tạo đơn</span>
                                             <span className="text-sm font-semibold text-gray-700">{formatDateTime(returnInfo.createdAt)}</span>
                                         </div>
                                         <div className="flex justify-between items-center py-1">
                                             <span className="text-sm text-gray-700">Mã đơn hàng gốc</span>
-                                            <Badge variant="outline" className="font-mono">#{order.code}</Badge>
+                                            <span className="text-sm text-primary font-semibold">#{order.code}</span>
                                         </div>
                                         <div className="flex justify-between items-center py-1 pt-3 border-t border-slate-50">
-                                            <span className="text-sm font-bold text-gray-700">Giá trị đơn hàng</span>
-                                            <span className="text-sm font-bold text-gray-700">{formatCurrency(order.total)}</span>
+                                            <span className="text-sm font-semibold text-gray-700">Giá trị đơn hàng</span>
+                                            <span className="text-sm font-semibold text-gray-700">{formatCurrency(order.total)}</span>
                                         </div>
                                     </div>
 
                                     <div className="space-y-4 pt-2">
                                         <div className="space-y-2">
-                                            <p className="text-sm font-bold uppercase text-gray-700 tracking-widest">Lý do hoàn trả</p>
+                                            <p className="text-sm font-semibold uppercase text-gray-700">Lý do hoàn trả</p>
                                             <div className="bg-slate-50 border border-slate-100 p-4 rounded-xl text-sm text-gray-700 leading-relaxed italic">
                                                 "{returnInfo.reason || "Không có lý do chi tiết"}"
                                             </div>
@@ -327,7 +330,7 @@ export default function AdminReturnDetailPage() {
 
                                         {returnInfo.note && (
                                             <div className="space-y-2">
-                                                <p className="text-sm font-bold uppercase text-gray-700 tracking-widest">Ghi chú bổ sung</p>
+                                                <p className="text-sm font-semibold uppercase text-gray-700">Ghi chú bổ sung</p>
                                                 <div className="bg-blue-50/30 border border-blue-100/50 p-4 rounded-xl text-sm text-gray-700">
                                                     {returnInfo.note}
                                                 </div>
@@ -336,9 +339,9 @@ export default function AdminReturnDetailPage() {
                                     </div>
                                 </div>
 
-                                <div className="p-4 space-y-8">
+                                <div className="p-4 space-y-4 pr-0">
                                     <div className="space-y-4">
-                                        <p className="text-sm font-bold uppercase text-gray-700 tracking-widest">Thông tin khách hàng</p>
+                                        <p className="text-sm font-semibold uppercase text-gray-700">Thông tin khách hàng</p>
                                         <div className="flex items-center gap-4">
                                             <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-slate-100 bg-slate-50 shadow-sm">
                                                 <img
@@ -348,7 +351,7 @@ export default function AdminReturnDetailPage() {
                                                 />
                                             </div>
                                             <div className="space-y-0.5">
-                                                <p className="font-bold text-slate-900 text-sm">{customer.fullName}</p>
+                                                <p className="font-semibold text-slate-900 text-sm">{customer.fullName}</p>
                                                 <p className="text-gray-700 text-sm flex items-center gap-1">
                                                     {customer.email}
                                                 </p>
@@ -359,9 +362,9 @@ export default function AdminReturnDetailPage() {
 
                                     {order.shippingName && (
                                         <div className="space-y-3 pt-4 border-t border-slate-50">
-                                            <p className="text-sm font-bold uppercase text-gray-700 tracking-widest">Địa chỉ đơn hàng gốc</p>
+                                            <p className="text-sm font-semibold uppercase text-gray-700">Địa chỉ đơn hàng gốc</p>
                                             <div className="space-y-1.5 bg-slate-50/50 p-4 rounded-xl border border-slate-100">
-                                                <p className="text-sm font-bold text-slate-800">{order.shippingName} <span className="text-slate-400 font-normal mx-1">|</span> {order.shippingPhoneNumber}</p>
+                                                <p className="text-sm font-semibold text-slate-800">{order.shippingName} <span className="text-slate-400 font-normal mx-1">|</span> {order.shippingPhoneNumber}</p>
                                                 <p className="text-sm text-gray-700 leading-relaxed">{order.shippingSpecificAddress}</p>
                                             </div>
                                         </div>
@@ -369,7 +372,7 @@ export default function AdminReturnDetailPage() {
 
                                     {returnInfo.staff && (
                                         <div className="space-y-3 pt-4 border-t border-slate-50">
-                                            <p className="text-sm font-bold uppercase text-gray-700 tracking-widest">Nhân viên phụ trách</p>
+                                            <p className="text-sm font-semibold uppercase text-gray-700">Nhân viên phụ trách</p>
                                             <div className="flex items-center gap-3 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
                                                 <div className="w-10 h-10 rounded-full overflow-hidden border border-slate-200 bg-white">
                                                     <img
@@ -379,8 +382,8 @@ export default function AdminReturnDetailPage() {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <p className="font-bold text-slate-900 text-sm leading-tight">{returnInfo.staff.fullName}</p>
-                                                    <p className="text-gray-700 text-sm font-medium uppercase tracking-tighter mt-0.5">{returnInfo.staff.role || "Quản trị viên"}</p>
+                                                    <p className="font-semibold text-slate-900 text-sm leading-tight">{returnInfo.staff.fullName}</p>
+                                                    <p className="text-gray-700 text-sm font-medium uppercaseer mt-0.5">{returnInfo.staff.role || "Quản trị viên"}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -391,7 +394,7 @@ export default function AdminReturnDetailPage() {
                     </Card>
 
                     {/* Editable Items */}
-                    <Card className="shadow-sm border-none bg-white">
+                    <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <div className="p-2 rounded-full bg-primary/10">
@@ -400,106 +403,95 @@ export default function AdminReturnDetailPage() {
                                 <span>Sản phẩm hoàn trả</span>
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="pt-4">
-                            <div className="space-y-4">
-                                {editableItems.map((item, index) => (
-                                    <div key={index} className="group border rounded-2xl p-5 hover:border-primary/30 transition-all duration-300 bg-white shadow-sm overflow-hidden relative">
-                                        {canEdit && (
-                                            <div className="absolute top-0 right-0 w-1 h-full bg-primary/0 group-hover:bg-primary/40 transition-all" />
-                                        )}
-                                        <div className="flex flex-col sm:flex-row items-start gap-4">
-                                            <div className="relative">
-                                                <img
-                                                    src={item.productImage}
-                                                    alt={item.productName}
-                                                    className="w-24 h-24 rounded-xl object-cover border shadow-sm"
-                                                />
-                                                <Badge className="absolute -top-2 -right-2">
-                                                    x{item.quantity}
-                                                </Badge>
-                                            </div>
-
-                                            <div className="flex-1 space-y-1">
-                                                <div className="flex justify-between items-start">
-                                                    <div>
-                                                        <h4 className="font-bold text-slate-900">{item.productName}</h4>
-                                                        <p className="text-sm font-mono text-gray-700">SKU: {item.productCode}</p>
-                                                    </div>
-                                                    <p className="font-bold text-slate-900">{formatCurrency(item.price)}</p>
-                                                </div>
-
-                                                <div className="flex flex-wrap gap-2 mt-2">
-                                                    <Badge variant="secondary">
-                                                        {item.variantInfo}
-                                                    </Badge>
-                                                </div>
-
-                                                {canEdit && (
-                                                    <div className="flex items-center gap-4 pt-4">
-                                                        <div className="space-y-1.5">
-                                                            <p className="text-sm font-bold uppercase text-gray-700 tracking-wider">Số lượng trả</p>
-                                                            <div className="flex items-center bg-slate-100 rounded-md p-1 border">
-                                                                <Button
-                                                                    variant="ghost"
-                                                                    size="icon"
-                                                                    className="h-7 w-7 rounded-md hover:bg-white transition-colors"
-                                                                    onClick={() => handleQuantityChange(index, item.quantity - 1)}
-                                                                    disabled={item.quantity <= 1}
-                                                                >
-                                                                    <Icon path={mdiMinus} size={0.6} />
-                                                                </Button>
-                                                                <Input
-                                                                    type="number"
-                                                                    className="w-12 h-7 bg-transparent border-none text-center font-bold text-sm focus-visible:ring-0 p-0"
-                                                                    value={item.quantity}
-                                                                    onChange={(e) => handleQuantityChange(index, parseInt(e.target.value) || 1)}
-                                                                />
-                                                                <Button
-                                                                    variant="ghost"
-                                                                    size="icon"
-                                                                    className="h-7 w-7 rounded-md hover:bg-white transition-colors"
-                                                                    onClick={() => handleQuantityChange(index, item.quantity + 1)}
-                                                                    disabled={item.quantity >= item.maxQuantity}
-                                                                >
-                                                                    <Icon path={mdiPlus} size={0.6} />
-                                                                </Button>
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="flex-1 space-y-1.5">
-                                                            <p className="text-sm font-bold uppercase text-gray-700 tracking-wider">Lý do cụ thể</p>
-                                                            <Input
-                                                                placeholder="Nhập lý do riêng cho sp này..."
-                                                                className="h-9 text-sm rounded-md"
-                                                                value={item.reason || ""}
-                                                                onChange={(e) => handleReasonChange(index, e.target.value)}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {!canEdit && item.reason && (
-                                                    <div className="mt-3 bg-slate-50 p-2.5 rounded-md border border-slate-100">
-                                                        <p className="text-sm font-bold uppercase text-gray-700 tracking-wider mb-1">Lý do trả hàng</p>
-                                                        <p className="text-sm text-gray-700 italic">"{item.reason}"</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div className="mt-4 pt-3 border-t border-dashed flex justify-between items-center bg-slate-50/30 -mx-5 px-5">
-                                            <span className="text-sm text-gray-700 font-medium uppercase tracking-wider">Thành tiền hoàn</span>
-                                            <span className="font-bold text-slate-900">{formatCurrency(item.price * item.quantity)}</span>
-                                        </div>
+                        <div className="space-y-4 pt-4">
+                            {editableItems.map((item, index) => (
+                                <div className="flex flex-col sm:flex-row items-start gap-4">
+                                    <div className="relative">
+                                        <img
+                                            src={item.productImage}
+                                            alt={item.productName}
+                                            className="w-24 h-24 rounded-xl object-cover border shadow-sm"
+                                        />
+                                        <Badge className="absolute -top-2 -right-2">
+                                            x{item.quantity}
+                                        </Badge>
                                     </div>
-                                ))}
-                            </div>
-                        </CardContent>
+
+                                    <div className="flex-1 space-y-1">
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h4 className="font-semibold text-slate-900">{item.productName}</h4>
+                                                <p className="text-sm font-mono text-gray-700">SKU: {item.productCode}</p>
+                                            </div>
+                                            <p className="font-semibold text-slate-900">{formatCurrency(item.price)}</p>
+                                        </div>
+
+                                        <div className="flex flex-wrap gap-2 mt-2">
+                                            <Badge variant="secondary">
+                                                {item.variantInfo}
+                                            </Badge>
+                                        </div>
+
+                                        {canEdit && (
+                                            <div className="flex items-center gap-4 pt-4">
+                                                <div className="space-y-1.5">
+                                                    <p className="text-sm font-semibold uppercase text-gray-700">Số lượng trả</p>
+                                                    <div className="flex items-center bg-slate-100 rounded-md p-1 border">
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7 rounded-md hover:bg-white transition-colors"
+                                                            onClick={() => handleQuantityChange(index, item.quantity - 1)}
+                                                            disabled={item.quantity <= 1}
+                                                        >
+                                                            <Icon path={mdiMinus} size={0.6} />
+                                                        </Button>
+                                                        <Input
+                                                            type="number"
+                                                            className="w-12 h-7 bg-transparent border-none text-center font-semibold text-sm focus-visible:ring-0 p-0"
+                                                            value={item.quantity}
+                                                            onChange={(e) => handleQuantityChange(index, parseInt(e.target.value) || 1)}
+                                                        />
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7 rounded-md hover:bg-white transition-colors"
+                                                            onClick={() => handleQuantityChange(index, item.quantity + 1)}
+                                                            disabled={item.quantity >= item.maxQuantity}
+                                                        >
+                                                            <Icon path={mdiPlus} size={0.6} />
+                                                        </Button>
+                                                    </div>
+                                                </div>
+
+                                                <div className="flex-1 space-y-1.5">
+                                                    <p className="text-sm font-semibold uppercase text-gray-700">Lý do cụ thể</p>
+                                                    <Input
+                                                        placeholder="Nhập lý do riêng cho sp này..."
+                                                        className="h-9 text-sm rounded-md"
+                                                        value={item.reason || ""}
+                                                        onChange={(e) => handleReasonChange(index, e.target.value)}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {!canEdit && item.reason && (
+                                            <div className="mt-3 bg-slate-50 p-2.5 rounded-md border border-slate-100">
+                                                <p className="text-sm font-semibold uppercase text-gray-700 mb-1">Lý do trả hàng</p>
+                                                <p className="text-sm text-gray-700 italic">"{item.reason}"</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </Card>
                 </div>
 
                 <div className="space-y-4">
                     {/* Summary Card */}
-                    <Card className="shadow-sm border border-slate-200 bg-white overflow-hidden">
+                    <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <div className="p-2 rounded-full bg-primary/10">
@@ -508,42 +500,40 @@ export default function AdminReturnDetailPage() {
                                 <span>Tổng kết hoàn trả</span>
                             </CardTitle>
                         </CardHeader>
-                        <CardContent className="p-4">
-                            <div className="space-y-4">
-                                <div className="space-y-3 pb-4 border-b border-slate-100 border-dashed">
-                                    <div className="flex justify-between text-sm items-center">
-                                        <span className="text-gray-700">Số loại sản phẩm:</span>
-                                        <span className="font-semibold text-slate-900">{editableItems.length} sản phẩm</span>
-                                    </div>
-                                    <div className="flex justify-between text-sm items-center">
-                                        <span className="text-gray-700">Tổng số lượng trả:</span>
-                                        <span className="font-semibold text-slate-900">{editableItems.reduce((acc, curr) => acc + curr.quantity, 0)} cái</span>
-                                    </div>
+                        <div className="space-y-4 pt-4">
+                            <div className="space-y-3 pb-4 border-b border-slate-100 border-dashed">
+                                <div className="flex justify-between text-sm items-center">
+                                    <span className="text-gray-700">Số loại sản phẩm:</span>
+                                    <span className="font-semibold text-slate-900">{editableItems.length} sản phẩm</span>
                                 </div>
-
-                                <div className="pt-2 space-y-2">
-                                    <p className="text-sm font-bold uppercase text-gray-700 tracking-widest">Số tiền hoàn (Dự kiến)</p>
-                                    <div className="bg-green-50/50 border border-green-200 p-4 rounded-xl text-center">
-                                        <p className="text-3xl font-black text-primary">{formatCurrency(getTotalRefund())}</p>
-                                    </div>
+                                <div className="flex justify-between text-sm items-center">
+                                    <span className="text-gray-700">Tổng số lượng trả:</span>
+                                    <span className="font-semibold text-slate-900">{editableItems.reduce((acc, curr) => acc + curr.quantity, 0)} cái</span>
                                 </div>
-
-                                {getTotalRefund() !== returnInfo.totalRefund && (
-                                    <div className="pt-2">
-                                        <div className="bg-slate-50 border border-slate-100 p-3 rounded-md flex justify-between items-center text-sm">
-                                            <span className="text-gray-700 font-medium">Tiền hoàn gốc:</span>
-                                            <span className="font-semibold text-gray-700 line-through opacity-60">{formatCurrency(returnInfo.totalRefund)}</span>
-                                        </div>
-                                        <p className="text-sm text-slate-400 mt-2 text-right italic">* Số tiền thay đổi sau khi điều chỉnh số lượng</p>
-                                    </div>
-                                )}
                             </div>
-                        </CardContent>
+
+                            <div className="pt-2 space-y-2">
+                                <p className="text-sm font-semibold uppercase text-gray-700">Số tiền hoàn (Dự kiến)</p>
+                                <div className="bg-green-50/50 border border-green-200 p-4 rounded-xl text-center">
+                                    <p className="text-3xl font-bold text-primary">{formatCurrency(getTotalRefund())}</p>
+                                </div>
+                            </div>
+
+                            {getTotalRefund() !== returnInfo.totalRefund && (
+                                <div className="pt-2">
+                                    <div className="bg-slate-50 border border-slate-100 p-3 rounded-md flex justify-between items-center text-sm">
+                                        <span className="text-gray-700 font-medium">Tiền hoàn gốc:</span>
+                                        <span className="font-semibold text-gray-700 line-through opacity-60">{formatCurrency(returnInfo.totalRefund)}</span>
+                                    </div>
+                                    <p className="text-sm text-slate-400 mt-2 text-right italic">* Số tiền thay đổi sau khi điều chỉnh số lượng</p>
+                                </div>
+                            )}
+                        </div>
                     </Card>
 
                     {/* Quick Actions (only if pending) */}
                     {canEdit && (
-                        <Card className="shadow-sm border-none bg-white">
+                        <Card>
                             <CardHeader>
                                 <CardTitle className="flex items-center gap-2">
                                     <div className="p-2 rounded-full bg-primary/10">
@@ -552,7 +542,7 @@ export default function AdminReturnDetailPage() {
                                     <span>Xử lý yêu cầu</span>
                                 </CardTitle>
                             </CardHeader>
-                            <CardContent className="pt-4 space-y-3">
+                            <CardContent className="pt-4 space-y-2">
                                 <Button
                                     className="w-full"
                                     onClick={() => setIsApproveOpen(true)}
@@ -570,16 +560,6 @@ export default function AdminReturnDetailPage() {
                                     <Icon path={mdiCancel} size={0.8} />
                                     Từ chối yêu cầu
                                 </Button>
-                                <div className="pt-4 border-t mt-4 flex gap-3">
-                                    <Button
-                                        className="flex-1"
-                                        onClick={() => setIsSaveOpen(true)}
-                                        disabled={isSubmitting || editableItems.length === 0}
-                                    >
-                                        <Icon path={mdiContentSave} size={0.8} />
-                                        Lưu thay đổi
-                                    </Button>
-                                </div>
                             </CardContent>
                         </Card>
                     )}

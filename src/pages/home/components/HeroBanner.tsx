@@ -55,7 +55,7 @@ export const HeroBanner = () => {
                   <span>Sneaker mới nhất 2026</span>
                 </motion.div>
 
-                <h2 className="text-4xl lg:text-5xl font-semibold tracking-tight text-gray-700 text-nowrap">
+                <h2 className="text-4xl lg:text-5xl font-semibold text-gray-700 text-nowrap">
                   <span className="block text-primary uppercase font-extrabold">
                     Sneaker <span className="text-gray-700">Sale</span>
                   </span>

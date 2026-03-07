@@ -37,7 +37,7 @@ const FeatureCard = ({
                 <Icon path={icon} size={1.5} className="text-primary" />
             </div>
             <div className="space-y-3">
-                <h3 className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">
                     {title}
                 </h3>
                 <p className="text-gray-700 dark:text-slate-400 leading-relaxed text-sm">
@@ -80,7 +80,7 @@ const TestimonialCard = ({
                 />
             ))}
         </div>
-        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
+        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
             {title}
         </h3>
         <p className="text-gray-700 dark:text-slate-400 mb-8 text-lg leading-relaxed flex-grow italic">
@@ -157,13 +157,13 @@ const AboutUsPage = () => {
                             transition={{ delay: 0.2, duration: 0.8 }}
                             className="inline-block px-4 py-1.5 mb-6 rounded-full bg-primary/20 border border-primary/30 backdrop-blur-md"
                         >
-                            <span className="text-sm font-bold text-primary uppercase tracking-[0.2em]">
+                            <span className="text-sm font-bold text-primary uppercase">
                                 Về chúng tôi
                             </span>
                         </motion.div>
 
                         <motion.h1
-                            className="text-4xl md:text-7xl font-thin text-white mb-8 tracking-wider leading-[0.9]"
+                            className="text-4xl md:text-7xl font-thin text-white mb-8 leading-[0.9]"
                             initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ delay: 0.4, duration: 0.8 }}
@@ -219,10 +219,10 @@ const AboutUsPage = () => {
                                 transition={{ delay: i * 0.1 }}
                                 className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none text-center"
                             >
-                                <p className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-1 tracking-tight">
+                                <p className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-1">
                                     {stat.value}
                                 </p>
-                                <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
+                                <p className="text-sm font-bold text-slate-500 uppercase">
                                     {stat.label}
                                 </p>
                             </motion.div>
@@ -243,10 +243,10 @@ const AboutUsPage = () => {
                             className="space-y-8"
                         >
                             <div className="space-y-4">
-                                <h2 className="text-sm font-bold text-primary uppercase tracking-[0.3em]">
+                                <h2 className="text-sm font-bold text-primary uppercase">
                                     Sứ mệnh
                                 </h2>
-                                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tighter leading-tight">
+                                <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-whiteer leading-tight">
                                     Kiến tạo phong cách từ nền tảng chất lượng
                                 </h3>
                             </div>
@@ -301,10 +301,10 @@ const AboutUsPage = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2 className="text-sm font-bold text-primary uppercase tracking-[0.3em]">
+                        <h2 className="text-sm font-bold text-primary uppercase">
                             Giá trị cốt lõi
                         </h2>
-                        <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white tracking-tighter">
+                        <h3 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-whiteer">
                             Tại sao chọn chúng tôi?
                         </h3>
                         <p className="text-gray-700 dark:text-slate-400 text-lg">
@@ -350,10 +350,10 @@ const AboutUsPage = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                     >
-                        <h2 className="text-sm font-bold text-white/70 uppercase tracking-[0.3em]">
+                        <h2 className="text-sm font-bold text-white/70 uppercase">
                             Đánh giá
                         </h2>
-                        <h3 className="text-4xl md:text-5xl font-bold text-white tracking-tighter">
+                        <h3 className="text-4xl md:text-5xl font-bold text-whiteer">
                             Cảm nhận khách hàng
                         </h3>
                     </motion.div>

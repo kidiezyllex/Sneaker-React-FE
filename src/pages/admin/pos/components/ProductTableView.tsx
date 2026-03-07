@@ -102,7 +102,7 @@ const ProductTableView = ({
                                             >
                                                 {product.name}
                                             </span>
-                                            <span className="text-sm text-muted-foreground uppercase tracking-widest font-bold">
+                                            <span className="text-sm text-muted-foreground uppercase font-bold">
                                                 ID: {product.id}
                                             </span>
                                         </div>

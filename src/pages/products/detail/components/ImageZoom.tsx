@@ -144,7 +144,7 @@ export const ImageZoom: React.FC<ImageZoomProps> = ({
             <g transform="translate(200, 20)">
               <path d="M-60 0 H60" stroke="url(#goldGradient)" strokeWidth="0.5" opacity="0.3" />
               <rect x="-45" y="-12" width="90" height="24" rx="12" fill="white" stroke="url(#goldGradient)" strokeWidth="1.5" />
-              <text y="4" textAnchor="middle" fill="#15803D" fontSize="8" fontWeight="900" className="uppercase tracking-[0.2em]">AUTHENTIC</text>
+              <text y="4" textAnchor="middle" fill="#15803D" fontSize="8" fontWeight="900" className="uppercase">AUTHENTIC</text>
               <circle cx="-38" cy="0" r="2" fill="url(#goldGradient)" />
               <circle cx="38" cy="0" r="2" fill="url(#goldGradient)" />
             </g>
@@ -153,15 +153,15 @@ export const ImageZoom: React.FC<ImageZoomProps> = ({
             <g transform="translate(200, 380)">
               <path d="M-100 0 H100" stroke="url(#goldGradient)" strokeWidth="0.5" opacity="0.3" />
               <rect x="-70" y="-10" width="140" height="20" rx="4" fill="#15803D" />
-              <text y="3" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" className="uppercase tracking-[0.15em]">PREMIUM QUALITY SNEAKER</text>
+              <text y="3" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" className="uppercase">PREMIUM QUALITY SNEAKER</text>
             </g>
 
             {/* Side Labels - Rotated */}
             <g transform="rotate(-90, 15, 200)">
-              <text x="15" y="200" fill="#15803D" fontSize="5" fontWeight="bold" opacity="0.4" className="uppercase tracking-[0.3em]">ESTABLISHED 2024</text>
+              <text x="15" y="200" fill="#15803D" fontSize="5" fontWeight="bold" opacity="0.4" className="uppercase">ESTABLISHED 2024</text>
             </g>
             <g transform="rotate(90, 385, 200)">
-              <text x="385" y="200" fill="#15803D" fontSize="5" fontWeight="bold" opacity="0.4" className="uppercase tracking-[0.3em]">SNEAKER GENZ SERVICE</text>
+              <text x="385" y="200" fill="#15803D" fontSize="5" fontWeight="bold" opacity="0.4" className="uppercase">SNEAKER GENZ SERVICE</text>
             </g>
 
             {/* Floating Dust/Sparkle elements */}

@@ -339,8 +339,8 @@ const VouchersTab = () => {
                   <Icon path={mdiTicketPercentOutline} size={3} />
                 </div>
                 <div className="text-center space-y-1">
-                  <span className="text-sm font-medium opacity-80 uppercase tracking-wider">Mã giảm giá</span>
-                  <div className="text-3xl font-black">
+                  <span className="text-sm font-medium opacity-80 uppercase">Mã giảm giá</span>
+                  <div className="text-3xl font-bold">
                     {formatDiscountValue(selectedVoucher.type, selectedVoucher.value)}
                   </div>
                   <p className="text-sm opacity-70 italic">Chi tiêu tối thiểu {formatPrice(selectedVoucher.minOrderValue || 0)}</p>
@@ -369,7 +369,7 @@ const VouchersTab = () => {
                       </div>
                       <div className="flex items-center gap-2 mt-3">
                         <div className="bg-gray-100 flex items-center px-4 h-10 rounded-md border border-dashed border-gray-300">
-                          <span className="font-mono text-lg font-bold text-gray-700 tracking-wider">
+                          <span className="font-mono text-lg font-bold text-gray-700">
                             {selectedVoucher.code}
                           </span>
                         </div>

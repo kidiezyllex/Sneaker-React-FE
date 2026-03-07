@@ -189,7 +189,7 @@ export const ProductCard = ({
         <div className="p-3 flex flex-col flex-grow bg-gray-50">
           {/* Brand */}
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-sm font-semibold text-gray-700 uppercase tracking-wide">
+            <span className="text-sm font-semibold text-gray-700 uppercase">
               {typeof product.brand === "string"
                 ? product.brand
                 : product.brand.name}
