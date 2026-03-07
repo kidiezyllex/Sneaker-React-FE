@@ -77,8 +77,14 @@ export const PaymentStatusBadge = ({ status }: { status: string }) => {
     return <Badge variant={config.variant}>{config.label}</Badge>;
 };
 
-export const OrderTypeBadge = ({ orderCode }: { orderCode: string }) => {
-    const getOrderType = (code: string) => {
+export const OrderTypeBadge = ({ orderCode, address }: { orderCode: string; address?: string }) => {
+    const getOrderType = (code: string, addr?: string) => {
+        if (addr === "Bán tại quầy") {
+            return {
+                label: "Bán hàng tại quầy",
+                variant: "purple" as const,
+            };
+        }
         if (code && code.includes("POS")) {
             return {
                 label: "Tại quầy",
@@ -97,7 +103,7 @@ export const OrderTypeBadge = ({ orderCode }: { orderCode: string }) => {
         }
     };
 
-    const config = getOrderType(orderCode);
+    const config = getOrderType(orderCode, address);
 
     return <Badge variant={config.variant}>{config.label}</Badge>;
 };

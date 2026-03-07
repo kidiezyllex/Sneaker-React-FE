@@ -199,7 +199,7 @@ export default function AdminAccountEditPage() {
             </Breadcrumb>
 
             <div className="flex items-center space-x-4 bg-white p-8 rounded-[6px] shadow-md">
-                <Avatar className="w-24 h-24 border-2 border-primary">
+                <Avatar className="w-24 h-24 border-2 border-primary/50">
                     <AvatarImage src={formData.avatar || getAvatarUrl()} />
                 </Avatar>
                 <div className="space-y-1">

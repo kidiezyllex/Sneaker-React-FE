@@ -160,13 +160,21 @@ function ChatInput() {
 
 export function ChatWindow() {
     const { isOpen, setOpen, messages, isLoading, activeTab, setActiveTab } = useChatStore();
-    const scrollRef = useRef<HTMLDivElement>(null);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    const scrollToBottom = () => {
+        if (messagesEndRef.current) {
+            setTimeout(() => {
+                messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+            }, 100);
+        }
+    };
 
     useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        if (activeTab === 'chat' && isOpen) {
+            scrollToBottom();
         }
-    }, [messages]);
+    }, [messages, isLoading, activeTab, isOpen]);
 
     return (
         <Sheet open={isOpen} onOpenChange={setOpen}>
@@ -204,7 +212,7 @@ export function ChatWindow() {
                         </TabsList>
 
                         <TabsContent value="chat" className="flex-1 flex flex-col mt-0 overflow-hidden bg-background">
-                            <ScrollArea className="flex-1 p-4" ref={scrollRef}>
+                            <ScrollArea className="flex-1 p-4">
                                 {messages.length === 0 ? (
                                     <div className="flex flex-col items-center justify-center h-[400px] text-center text-muted-foreground">
                                         <Icon path={mdiMessageTextFastOutline} size={2} className="mb-4 opacity-50" />
@@ -216,6 +224,7 @@ export function ChatWindow() {
                                             <ChatMessage key={message.id} message={message} />
                                         ))}
                                         {isLoading && <TypingIndicator />}
+                                        <div ref={messagesEndRef} />
                                     </div>
                                 )}
                             </ScrollArea>

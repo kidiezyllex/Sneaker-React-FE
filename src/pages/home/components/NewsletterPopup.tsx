@@ -103,7 +103,7 @@ export const NewsletterPopup = () => {
                         <Input
                           type="email"
                           placeholder="Email của bạn"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           required

@@ -30,6 +30,7 @@ import { OrderInvoiceDialog } from "../components/OrderInvoiceDialog";
 import {
     OrderStatusBadge,
     PaymentStatusBadge,
+    OrderTypeBadge,
 } from "../components/OrderBadges";
 import {
     Table,
@@ -627,12 +628,16 @@ export default function OrderDetailPage() {
                                     </span>
                                 </div>
                                 <div className="flex justify-between items-center">
+                                    <span className="text-gray-700">Loại đơn hàng:</span>
+                                    <OrderTypeBadge orderCode={order.code} address={order.shippingSpecificAddress} />
+                                </div>
+                                <div className="flex justify-between items-center">
                                     <span className="text-gray-700">Trạng thái đơn hàng:</span>
                                     <OrderStatusBadge status={order.orderStatus} />
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-gray-700">Trạng thái thanh toán:</span>
-                                    <PaymentStatusBadge status={order.paymentStatus} />
+                                    <PaymentStatusBadge status={order.shippingSpecificAddress === "Bán tại quầy" ? "PAID" : order.paymentStatus} />
                                 </div>
                                 <div className="flex justify-between items-center">
                                     <span className="text-gray-700">Phương thức thanh toán:</span>

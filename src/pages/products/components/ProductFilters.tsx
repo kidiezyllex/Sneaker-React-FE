@@ -224,7 +224,7 @@ export const ProductFilters = ({ filters, onChange }: ProductFiltersProps) => {
                   key={color.id}
                   className={`w-7 h-7 rounded-full border shadow-sm relative transition-all duration-200 ${filters.color === String(color.id)
                     ? "ring-2 ring-primary ring-offset-2 scale-110"
-                    : "border-gray-200 hover:border-primary"
+                    : "border-gray-200 hover:border-primary/50"
                     }`}
                   style={{ backgroundColor: color.code }}
                   title={color.name}

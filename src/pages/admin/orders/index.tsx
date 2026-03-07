@@ -196,8 +196,9 @@ export default function OrdersPage() {
         order.customer?.phoneNumber || order.shippingPhoneNumber || "N/A",
       "Ngày tạo": formatDateTime(order.createdAt),
       "Tổng tiền": formatCurrency(order.total),
-      "Trạng thái đơn hàng": order.orderStatus, // Consider mapping to readable status like in Badge
-      "Trạng thái thanh toán": order.paymentStatus, // Consider mapping to readable status
+      "Trạng thái đơn hàng": getOrderStatusName(order.orderStatus),
+      "Loại đơn hàng": order.shippingSpecificAddress === "Bán tại quầy" ? "Bán hàng tại quầy" : (order.code.includes("POS") ? "Tại quầy" : "Online"),
+      "Trạng thái thanh toán": order.shippingSpecificAddress === "Bán tại quầy" ? "Đã thanh toán" : getPaymentStatusName(order.paymentStatus),
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(formattedOrders);
@@ -249,7 +250,7 @@ export default function OrdersPage() {
       formatDateTime(order.createdAt),
       formatCurrency(order.total),
       getOrderStatusName(order.orderStatus),
-      getPaymentStatusName(order.paymentStatus),
+      getPaymentStatusName(order.shippingSpecificAddress === "Bán tại quầy" ? "PAID" : order.paymentStatus),
     ]);
 
     autoTable(doc, {
@@ -582,7 +583,7 @@ export default function OrdersPage() {
                     {formatDateTime(order.createdAt)}
                   </TableCell>
                   <TableCell className="hidden lg:table-cell">
-                    <OrderTypeBadge orderCode={order.code} />
+                    <OrderTypeBadge orderCode={order.code} address={order.shippingSpecificAddress} />
                   </TableCell>
                   <TableCell className="text-right font-medium">
                     {formatCurrency(order.total)}
@@ -591,7 +592,7 @@ export default function OrdersPage() {
                     <OrderStatusBadge status={order.orderStatus} />
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    <PaymentStatusBadge status={order.paymentStatus} />
+                    <PaymentStatusBadge status={order.shippingSpecificAddress === "Bán tại quầy" ? "PAID" : order.paymentStatus} />
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end space-x-2">

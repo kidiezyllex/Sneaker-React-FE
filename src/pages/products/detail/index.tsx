@@ -557,7 +557,7 @@ export default function ProductDetail() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             {/* Product Header */}
-            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary">
+            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <Badge variant="success">{brandName}</Badge>
@@ -643,7 +643,7 @@ export default function ProductDetail() {
                   </div>
                 )}
             </div>
-            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary">
+            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary/50">
               <div className="grid grid-cols-2 gap-4">
                 {/* Enhanced Color Selection */}
                 <div className="space-y-2">
@@ -849,7 +849,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Enhanced Product Features */}
-            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary">
+            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary/50">
               <div className="grid grid-cols-2 gap-4">
                 {[
                   {
@@ -895,7 +895,7 @@ export default function ProductDetail() {
             </div>
 
             {/* Enhanced Product Information */}
-            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary">
+            <div className="space-y-2 bg-white rounded-2xl p-4 border border-primary/50">
               <h3 className="font-semibold text-primary mb-2 flex items-center gap-2">
                 <Icon
                   path={mdiInformation}
